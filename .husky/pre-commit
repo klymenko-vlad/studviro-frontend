@@ -1,1 +1,5 @@
+# Type-aware ESLint rules need Next's generated route types (`PageProps`,
+# `LayoutProps`, …). Without them those types resolve to `error` and the rules
+# either pass silently here or fail in CI — see the `typegen` script.
+pnpm typegen
 pnpm exec lint-staged
