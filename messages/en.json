@@ -1,0 +1,56 @@
+{
+  "common": {
+    "appName": "Studviro",
+    "loading": "Loading…",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "save": "Save",
+    "appDescription": "The student platform for coursework, schedules and collaboration."
+  },
+  "home": {
+    "title": "Studviro",
+    "subtitle": "The platform foundation is in place.",
+    "getStarted": "Get started",
+    "learnMore": "Learn more"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. The team has been notified.",
+    "notFoundTitle": "Page not found",
+    "notFoundDescription": "The page you are looking for does not exist or has moved.",
+    "backHome": "Back to home"
+  },
+  "createUser": {
+    "email": "Email",
+    "displayName": "Display name",
+    "password": "Password",
+    "passwordHint": "At least 12 characters.",
+    "confirmPassword": "Confirm password",
+    "passwordMismatch": "Passwords do not match",
+    "submit": "Create user",
+    "submitting": "Creating…",
+    "created": "User created"
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "locale": {
+    "label": "Language",
+    "en": "English",
+    "uk": "Українська"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "signOut": "Sign out",
+    "signUp": "Sign up",
+    "invalidCredentials": "That email and password do not match an account.",
+    "signInTitle": "Sign in",
+    "signInSubtitle": "Welcome back."
+  }
+}

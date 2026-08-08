@@ -1,0 +1,91 @@
+import { describe, expect, it } from 'vitest';
+
+import { buildContentSecurityPolicy, createNonce, THEME_INIT_SCRIPT } from './csp';
+
+/** Parses a policy string into directive → value, so tests assert on meaning. */
+function parse(csp: string): Record<string, string> {
+  return Object.fromEntries(
+    csp.split('; ').map(directive => {
+      const [name, ...rest] = directive.split(' ');
+      return [name ?? '', rest.join(' ')];
+    }),
+  );
+}
+
+describe('THEME_INIT_SCRIPT', () => {
+  it('reads the same storage key the Zustand store persists to', async () => {
+    const [{ THEME_STORAGE_KEY }, { useThemeStore }] = await Promise.all([
+      import('./app'),
+      import('@/shared/model'),
+    ]);
+
+    expect(THEME_INIT_SCRIPT).toContain(JSON.stringify(THEME_STORAGE_KEY));
+    // Asserts the store actually persists under that key, not just that both
+    // modules reference the same constant.
+    expect(useThemeStore.persist.getOptions().name).toBe(THEME_STORAGE_KEY);
+  });
+});
+
+describe('buildContentSecurityPolicy', () => {
+  const production = buildContentSecurityPolicy({
+    isProduction: true,
+    nonce: 'test-nonce',
+  });
+
+  it('allows inline script only by nonce', () => {
+    const { 'script-src': scriptSrc } = parse(production);
+
+    expect(scriptSrc).toContain(`'nonce-test-nonce'`);
+    expect(scriptSrc).not.toContain('unsafe-inline');
+    expect(scriptSrc).not.toContain('unsafe-eval');
+  });
+
+  it('never emits a hash, which would make browsers ignore the nonce path', () => {
+    // With any hash present the spec requires `'unsafe-inline'` to be ignored,
+    // and Next's per-render RSC bootstrap scripts — which no committed hash can
+    // cover — stop executing. The page then never hydrates.
+    expect(production).not.toContain('sha256-');
+  });
+
+  it('allows no cross-origin fetch destination at all', () => {
+    // Browser-side API calls go through the same-origin BFF at /api/proxy, so
+    // an injected script has nowhere off-origin to send what it steals.
+    expect(parse(production)['connect-src']).toBe(`'self'`);
+  });
+
+  it.each(['frame-ancestors', 'object-src'])('locks down %s', directive => {
+    expect(parse(production)[directive]).toBe(`'none'`);
+  });
+
+  it('upgrades insecure requests only in production', () => {
+    expect(production).toContain('upgrade-insecure-requests');
+
+    const development = buildContentSecurityPolicy({
+      isProduction: false,
+      nonce: 'test-nonce',
+    });
+    expect(development).not.toContain('upgrade-insecure-requests');
+  });
+
+  it('grants Turbopack the eval it needs in development only', () => {
+    const development = buildContentSecurityPolicy({
+      isProduction: false,
+      nonce: 'test-nonce',
+    });
+
+    expect(parse(development)['script-src']).toContain('unsafe-eval');
+  });
+});
+
+describe('createNonce', () => {
+  it('never repeats', () => {
+    const nonces = new Set(Array.from({ length: 500 }, createNonce));
+
+    // A predictable or reused nonce is worth no more than 'unsafe-inline'.
+    expect(nonces.size).toBe(500);
+  });
+
+  it('carries at least 128 bits of entropy', () => {
+    expect(Buffer.from(createNonce(), 'base64')).toHaveLength(16);
+  });
+});
