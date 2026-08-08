@@ -6,6 +6,7 @@ import { env } from '@/env';
 
 import { getAccessToken } from '@/shared/auth';
 import {
+  IS_SECURE_ORIGIN,
   isAppLocale,
   LOCALE_COOKIE,
   LOCALE_COOKIE_MAX_AGE,
@@ -34,7 +35,7 @@ export async function switchLocale(locale: AppLocale): Promise<void> {
     maxAge: LOCALE_COOKIE_MAX_AGE,
     sameSite: 'lax',
     httpOnly: false,
-    secure: process.env.NODE_ENV === 'production',
+    secure: IS_SECURE_ORIGIN,
   });
 
   await persistToAccount(locale);

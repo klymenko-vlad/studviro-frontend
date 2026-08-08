@@ -43,9 +43,6 @@ const nextConfig: NextConfig = {
   // Lint runs as its own CI job; the build should only ever fail on type errors.
   typescript: { ignoreBuildErrors: false },
 
-  // Emits a minimal server bundle for the Docker image.
-  output: process.env['NEXT_OUTPUT_STANDALONE'] === 'true' ? 'standalone' : undefined,
-
   poweredByHeader: false,
 
   images: {

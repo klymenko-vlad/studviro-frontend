@@ -6,6 +6,7 @@ import { env } from '@/env';
 import type { AuthTokensDto, ErrorResponseDto } from '@/shared/api';
 import {
   ACCESS_TOKEN_COOKIE,
+  IS_SECURE_ORIGIN,
   isAppLocale,
   LOCALE_COOKIE,
   LOCALE_COOKIE_MAX_AGE,
@@ -96,7 +97,7 @@ export function respondWithSession(tokens: AuthTokensDto): NextResponse {
       maxAge: LOCALE_COOKIE_MAX_AGE,
       sameSite: 'lax',
       httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
+      secure: IS_SECURE_ORIGIN,
     });
   }
 

@@ -27,7 +27,11 @@ vi.mock('next/headers', () => ({
  * environment the code never sees rather than a behaviour worth asserting.
  */
 vi.mock('@/env', () => ({
-  env: { API_INTERNAL_URL: undefined, NEXT_PUBLIC_API_URL: 'http://localhost:3000' },
+  env: {
+    API_INTERNAL_URL: undefined,
+    NEXT_PUBLIC_API_URL: 'http://localhost:3000',
+    NEXT_PUBLIC_APP_URL: 'http://localhost:3001',
+  },
 }));
 
 // React's `cache` memoises per request; there is no request here, so identity

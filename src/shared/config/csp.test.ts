@@ -29,6 +29,7 @@ describe('THEME_INIT_SCRIPT', () => {
 describe('buildContentSecurityPolicy', () => {
   const production = buildContentSecurityPolicy({
     isProduction: true,
+    isSecureOrigin: true,
     nonce: 'test-nonce',
   });
 
@@ -62,14 +63,30 @@ describe('buildContentSecurityPolicy', () => {
 
     const development = buildContentSecurityPolicy({
       isProduction: false,
+      isSecureOrigin: false,
       nonce: 'test-nonce',
     });
     expect(development).not.toContain('upgrade-insecure-requests');
   });
 
+  it('never upgrades on a plain-http origin, even in production', () => {
+    // A production build served over http — CI's e2e run, a bare `next start` —
+    // would otherwise have every script rewritten to an https URL that nothing
+    // answers. WebKit enforces this on localhost where Chromium does not, so it
+    // fails on one browser only and reads as flake.
+    const httpProduction = buildContentSecurityPolicy({
+      isProduction: true,
+      isSecureOrigin: false,
+      nonce: 'test-nonce',
+    });
+
+    expect(httpProduction).not.toContain('upgrade-insecure-requests');
+  });
+
   it('grants Turbopack the eval it needs in development only', () => {
     const development = buildContentSecurityPolicy({
       isProduction: false,
+      isSecureOrigin: false,
       nonce: 'test-nonce',
     });
 

@@ -14,7 +14,11 @@ vi.mock('next/cache', () => ({ revalidatePath }));
 vi.mock('@/shared/auth', () => ({ getAccessToken }));
 // See `shared/auth/session.test.ts` — the env guard assumes a client under jsdom.
 vi.mock('@/env', () => ({
-  env: { API_INTERNAL_URL: undefined, NEXT_PUBLIC_API_URL: 'http://localhost:3000' },
+  env: {
+    API_INTERNAL_URL: undefined,
+    NEXT_PUBLIC_API_URL: 'http://localhost:3000',
+    NEXT_PUBLIC_APP_URL: 'http://localhost:3001',
+  },
 }));
 
 describe('switchLocale', () => {

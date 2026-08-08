@@ -1,3 +1,5 @@
+import { IS_SECURE_ORIGIN } from './app';
+
 /**
  * Cookie names and flags for the BFF session.
  *
@@ -48,7 +50,7 @@ export function sessionCookieOptions(
      * cross-site POST that CSRF depends on.
      */
     sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    secure: IS_SECURE_ORIGIN,
     path,
     ...(maxAge === undefined ? {} : { maxAge }),
   };

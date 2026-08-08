@@ -15,5 +15,4 @@
 
 # Supply chain and deployment.
 /.github/                   @klymenvlad
-/Dockerfile                 @klymenvlad
 /pnpm-lock.yaml             @klymenvlad

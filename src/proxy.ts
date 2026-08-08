@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
-import { ROUTES } from '@/shared/config/app';
+import { IS_SECURE_ORIGIN, ROUTES } from '@/shared/config/app';
 import {
   buildContentSecurityPolicy,
   createNonce,
@@ -44,7 +44,11 @@ export function proxy(request: NextRequest) {
 
   response.headers.set(
     'content-security-policy',
-    buildContentSecurityPolicy({ isProduction: IS_PRODUCTION, nonce }),
+    buildContentSecurityPolicy({
+      isProduction: IS_PRODUCTION,
+      isSecureOrigin: IS_SECURE_ORIGIN,
+      nonce,
+    }),
   );
 
   ensureLocaleCookie(request, response);
@@ -113,7 +117,7 @@ function ensureLocaleCookie(request: NextRequest, response: NextResponse): void 
       // Readable by JS on purpose: it carries no authority, and analytics or a
       // client-side widget knowing the display language is useful.
       httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
+      secure: IS_SECURE_ORIGIN,
     },
   );
 }

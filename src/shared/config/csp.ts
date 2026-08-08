@@ -40,9 +40,10 @@ export const NONCE_HEADER = 'x-nonce';
  */
 export function buildContentSecurityPolicy(options: {
   isProduction: boolean;
+  isSecureOrigin: boolean;
   nonce: string;
 }): string {
-  const { isProduction, nonce } = options;
+  const { isProduction, isSecureOrigin, nonce } = options;
 
   const directives = [
     `default-src 'self'`,
@@ -65,8 +66,15 @@ export function buildContentSecurityPolicy(options: {
     `form-action 'self'`,
   ];
 
-  // Blocks passive mixed content in production without breaking plain-http dev.
-  if (isProduction) directives.push('upgrade-insecure-requests');
+  /**
+   * Blocks passive mixed content — but only where the page itself arrived over
+   * https. On a plain-http origin the directive rewrites every subresource to
+   * https, and nothing answers there: Chromium exempts localhost, WebKit does
+   * not, so a production build served over http (CI's e2e run, a bare
+   * `next start`) loads no JS at all and never hydrates. `NODE_ENV` alone
+   * cannot tell those apart.
+   */
+  if (isProduction && isSecureOrigin) directives.push('upgrade-insecure-requests');
 
   return directives.join('; ');
 }
