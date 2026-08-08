@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Studviro — frontend
 
-## Getting Started
+Next.js 16 (App Router, Turbopack, React Compiler) · React 19 · TypeScript ·
+Tailwind 4 · TanStack Query · next-intl · Feature-Sliced Design.
 
-First, run the development server:
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+nvm use                      # Node 22
+pnpm install
+cp .env.example .env         # defaults assume the backend on :3000
+pnpm dev                     # http://localhost:3001
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The backend runs on `:3000`, so this app takes `:3001`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To talk to a real API, start the backend (`cd ../backend && pnpm docker:up && pnpm start:dev`)
+and generate the client:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cd ../backend && pnpm openapi:generate
+cd ../frontend && pnpm api:generate
+```
 
-## Learn More
+## Commands
 
-To learn more about Next.js, take a look at the following resources:
+|                                         |                                                 |
+| --------------------------------------- | ----------------------------------------------- |
+| `pnpm dev` / `build` / `start`          | Run, build, serve                               |
+| `pnpm verify`                           | Everything CI runs, in one command              |
+| `pnpm lint` / `lint:fix`                | ESLint (type-aware, a11y, FSD boundaries)       |
+| `pnpm format` / `format:check`          | Prettier                                        |
+| `pnpm typecheck`                        | `tsc --noEmit`                                  |
+| `pnpm test` / `test:watch` / `test:cov` | Vitest                                          |
+| `pnpm test:e2e` / `test:e2e:ui`         | Playwright (run `test:e2e:install` once)        |
+| `pnpm arch`                             | Steiger — FSD structure                         |
+| `pnpm cycles`                           | madge — import cycles                           |
+| `pnpm deadcode`                         | Knip — unused files, exports, deps              |
+| `pnpm size`                             | Bundle budget                                   |
+| `pnpm analyze`                          | Bundle treemap                                  |
+| `pnpm api:generate` / `api:check`       | Regenerate the API client from the backend spec |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+  app/        Next.js routes, providers, global styles
+  views/      page composition
+  widgets/    composite UI blocks
+  features/   user actions
+  entities/   domain models
+  shared/     ui, lib, config, api, test
+messages/     translation catalogues
+e2e/          Playwright specs
+docs/         architecture.md, api-contract.md, platform-plan.md
+```
 
-## Deploy on Vercel
+Layers depend downward only, and slices are imported through their `index.ts`.
+Both rules are enforced in CI — see [docs/architecture.md](docs/architecture.md).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## The API layer is generated
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Types, SDK, Zod schemas and TanStack Query hooks all come from the backend's
+`openapi.json`. Do not edit `src/shared/api/generated/`, and import through
+`@/shared/api`. See [docs/api-contract.md](docs/api-contract.md).
+
+## Conventions
+
+- **Server Components by default.** Push `'use client'` to the interactive leaf.
+- **No hard-coded user-facing strings.** Everything goes through `messages/*.json`.
+- **Semantic design tokens only** — `bg-surface`, not `bg-white`.
+- **Navigate via `@/shared/config`**, not bare `next/link` — the barrel is the
+  seam a routing change goes through.
+- **Conventional Commits**, enforced by commitlint on `commit-msg`.
+
+## Before you push
+
+`pre-commit` runs lint-staged; `pre-push` runs typecheck and unit tests. The full
+gate is `pnpm verify`, which is what CI runs.

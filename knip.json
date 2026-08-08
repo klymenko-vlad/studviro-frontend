@@ -1,0 +1,35 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "next": {
+    "entry": [
+      "src/app/**/{page,layout,template,loading,error,not-found,global-error,default,route,sitemap,robots,opengraph-image,icon,apple-icon}.{ts,tsx}",
+      "src/proxy.ts",
+      "src/instrumentation.ts",
+      "src/app/sitemap.ts",
+      "src/app/robots.ts"
+    ]
+  },
+  "vitest": {
+    "config": ["vitest.config.mts"],
+    "entry": ["src/**/*.{test,spec}.{ts,tsx}", "src/shared/test/setup.ts"]
+  },
+  "playwright": {
+    "config": ["playwright.config.ts"],
+    "entry": ["e2e/**/*.{spec,setup}.ts"]
+  },
+  "entry": [
+    "src/env.ts",
+    "e2e/fixtures/**/*.ts",
+    "scripts/**/*.mts",
+    "src/shared/config/i18n/request.ts",
+    "src/**/index.ts"
+  ],
+  "project": ["src/**/*.{ts,tsx}", "e2e/**/*.ts", "scripts/**/*.mts"],
+  "ignore": ["src/shared/api/generated/**", "src/shared/ui/*.tsx"],
+  "ignoreDependencies": [
+    "@feature-sliced/steiger-plugin",
+    "tailwindcss",
+    "tw-animate-css"
+  ],
+  "ignoreBinaries": []
+}

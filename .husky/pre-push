@@ -1,0 +1,3 @@
+# Cheap gate only — the full suite belongs in CI, not in your push latency.
+# Mirrors ../backend/.husky/pre-push.
+pnpm typecheck && pnpm test --silent

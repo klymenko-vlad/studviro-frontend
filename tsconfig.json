@@ -1,23 +1,45 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "ES2022",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    /* next-intl emits `messages/en.d.json.ts` to type the catalogue; importing
+       the JSON in tests resolves to that declaration. */
+    "allowArbitraryExtensions": true,
     "isolatedModules": true,
+    /* The generated API client imports its runtime config with an explicit .ts
+       extension; we do not emit, so this is safe and beats patching codegen. */
+    "allowImportingTsExtensions": true,
     "jsx": "react-jsx",
     "incremental": true,
+    /* Strictness. Turned all the way up now, while there is no code to migrate —
+       every one of these is painful to retrofit into a large codebase later. */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "useUnknownInCatchVariables": true,
+    "forceConsistentCasingInFileNames": true,
+    /* `import type` must be written explicitly — keeps type-only imports from
+       surviving into the emitted bundle. */
+    "verbatimModuleSyntax": true,
+    /* `exactOptionalPropertyTypes` is intentionally NOT enabled: the generated
+       API client and Playwright's config types both model optional fields as
+       `T | undefined`, and neither is ours to change. */
     "plugins": [
       {
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
@@ -26,9 +48,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "**/*.mts",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".next", "out", "coverage", "playwright-report"]
 }

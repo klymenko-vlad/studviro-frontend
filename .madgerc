@@ -1,0 +1,9 @@
+{
+  "detectiveOptions": {
+    "ts": { "skipTypeImports": true },
+    "tsx": { "skipTypeImports": true }
+  },
+  "tsConfig": "tsconfig.json",
+  "fileExtensions": ["ts", "tsx"],
+  "excludeRegExp": ["src/shared/api/generated/.*"]
+}

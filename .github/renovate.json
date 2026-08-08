@@ -1,0 +1,43 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":semanticCommits"],
+  "timezone": "Europe/Kyiv",
+  "schedule": ["before 6am on monday"],
+  "labels": ["dependencies"],
+  "prConcurrentLimit": 5,
+  "packageRules": [
+    {
+      "description": "Batch low-risk dev tooling into one PR — individually they are noise.",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "dev tooling",
+      "automerge": true
+    },
+    {
+      "description": "Next and React move together; splitting them produces PRs that cannot pass CI.",
+      "matchPackageNames": [
+        "next",
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom",
+        "eslint-config-next"
+      ],
+      "groupName": "next + react"
+    },
+    {
+      "description": "Major upgrades always get a human.",
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "addLabels": ["major"]
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "automerge": true
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on the first day of the month"]
+  }
+}
