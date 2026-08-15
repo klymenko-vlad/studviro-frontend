@@ -103,6 +103,12 @@ export type GrantRoleDto = {
     validUntil?: string;
 };
 
+export type MyPermissionsResponseDto = {
+    institutionId: string;
+    roles: Array<'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin'>;
+    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage'>;
+};
+
 export type ExternalIdentityResponseDto = {
     id: string;
     institutionId: string;
@@ -110,6 +116,14 @@ export type ExternalIdentityResponseDto = {
     issuer: string;
     externalUsername?: string | null;
     lastAuthenticatedAt?: string | null;
+};
+
+export type InstitutionResponseDto = {
+    id: string;
+    code: string;
+    name: string;
+    defaultLocale: string;
+    timezone: string;
 };
 
 export type CreateUserDtoWritable = {
@@ -635,6 +649,38 @@ export type ListMyRolesResponses = {
 
 export type ListMyRolesResponse = ListMyRolesResponses[keyof ListMyRolesResponses];
 
+export type ListMyPermissionsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/permissions';
+};
+
+export type ListMyPermissionsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyPermissionsError = ListMyPermissionsErrors[keyof ListMyPermissionsErrors];
+
+export type ListMyPermissionsResponses = {
+    200: MyPermissionsResponseDto;
+};
+
+export type ListMyPermissionsResponse = ListMyPermissionsResponses[keyof ListMyPermissionsResponses];
+
 export type ListMyIdentitiesData = {
     body?: never;
     path?: never;
@@ -664,3 +710,69 @@ export type ListMyIdentitiesResponses = {
 };
 
 export type ListMyIdentitiesResponse = ListMyIdentitiesResponses[keyof ListMyIdentitiesResponses];
+
+export type ListMyInstitutionsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/institutions';
+};
+
+export type ListMyInstitutionsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyInstitutionsError = ListMyInstitutionsErrors[keyof ListMyInstitutionsErrors];
+
+export type ListMyInstitutionsResponses = {
+    200: Array<InstitutionResponseDto>;
+};
+
+export type ListMyInstitutionsResponse = ListMyInstitutionsResponses[keyof ListMyInstitutionsResponses];
+
+export type GetInstitutionData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}';
+};
+
+export type GetInstitutionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetInstitutionError = GetInstitutionErrors[keyof GetInstitutionErrors];
+
+export type GetInstitutionResponses = {
+    200: InstitutionResponseDto;
+};
+
+export type GetInstitutionResponse = GetInstitutionResponses[keyof GetInstitutionResponses];

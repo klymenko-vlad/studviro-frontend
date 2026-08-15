@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 
 import { LinkedAccounts } from '@/widgets/linked-accounts';
+import { MyInstitutions } from '@/widgets/my-institutions';
 import { MyRoles } from '@/widgets/my-roles';
 
 export function AccountView() {
@@ -13,6 +14,7 @@ export function AccountView() {
         <p className="text-muted-foreground text-pretty">{t('subtitle')}</p>
       </header>
 
+      <MyInstitutions />
       <MyRoles />
       <LinkedAccounts />
     </main>

@@ -29,6 +29,8 @@ export {
 } from './form';
 export { Input } from './input';
 export { Label } from './label';
+export { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
 export { Separator } from './separator';
 export { Skeleton } from './skeleton';
 export { Toaster } from './sonner';
+export { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './table';

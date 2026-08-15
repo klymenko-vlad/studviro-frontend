@@ -74,12 +74,19 @@
       "neverUsed": "Not used yet"
     },
     "validUntil": "Until {date}",
-    "scope": {
-      "institution": "Whole institution",
-      "org_unit": "Faculty or department",
-      "program": "Study programme",
-      "course_offering": "Course offering"
+    "source": {
+      "platform": "Studviro",
+      "sis": "Student information system",
+      "lms": "Learning management system"
     },
+    "institutions": {
+      "title": "Institutions",
+      "description": "Where you hold a role.",
+      "empty": "You do not belong to any institution yet.",
+      "manageRoles": "Manage roles"
+    }
+  },
+  "roles": {
     "role": {
       "student": "Student",
       "teacher": "Teacher",
@@ -90,10 +97,39 @@
       "org_unit_manager": "Unit manager",
       "institution_admin": "Institution administrator"
     },
-    "source": {
-      "platform": "Studviro",
-      "sis": "Student information system",
-      "lms": "Learning management system"
+    "scope": {
+      "institution": "Whole institution",
+      "org_unit": "Faculty or department",
+      "program": "Study programme",
+      "course_offering": "Course offering"
     }
+  },
+  "roleAdmin": {
+    "title": "Roles and access",
+    "subtitle": "Manage who may do what in this institution.",
+    "assigned": "Assigned roles",
+    "assignedDescription": "Every active role in this institution.",
+    "grantTitle": "Grant a role",
+    "grantDescription": "Give a person a role, either institution-wide or inside one scope.",
+    "userId": "Person",
+    "userIdHint": "The identifier of the platform account receiving the role.",
+    "role": "Role",
+    "scopeType": "Scope",
+    "scopeId": "Scope identifier",
+    "scopeIdHint": "The faculty, programme or course offering the role applies to.",
+    "scopeIdRequired": "Name the scope this role applies to",
+    "scopeIdNotAllowed": "An institution-wide role cannot name a scope",
+    "grant": "Grant role",
+    "granting": "Granting…",
+    "granted": "Role granted",
+    "revoke": "Revoke",
+    "revoked": "Role revoked",
+    "actions": "Actions",
+    "empty": "No roles have been assigned in this institution yet.",
+    "errorTitle": "Roles could not be loaded",
+    "errorDescription": "Try again in a moment.",
+    "revokeLabel": "Revoke {role}",
+    "deniedTitle": "Read-only",
+    "deniedDescription": "You may see roles here but not change them."
   }
 }

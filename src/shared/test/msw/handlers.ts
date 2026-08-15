@@ -4,6 +4,8 @@ import type {
   AuthTokensDto,
   ErrorResponseDto,
   ExternalIdentityResponseDto,
+  InstitutionResponseDto,
+  MyPermissionsResponseDto,
   RoleAssignmentResponseDto,
   UserResponseDto,
 } from '@/shared/api';
@@ -73,6 +75,22 @@ export const roleAssignments: RoleAssignmentResponseDto[] = [
     validUntil: '2027-01-31T00:00:00.000Z',
   },
 ];
+
+export const institutions: InstitutionResponseDto[] = [
+  {
+    id: '55555555-5555-4555-8555-555555555555',
+    code: 'upjs',
+    name: 'Pavol Jozef Šafárik University',
+    defaultLocale: 'en',
+    timezone: 'Europe/Bratislava',
+  },
+];
+
+export const permissions: MyPermissionsResponseDto = {
+  institutionId: '55555555-5555-4555-8555-555555555555',
+  roles: ['institution_admin'],
+  permissions: ['institution:read', 'role:read', 'role:assign'],
+};
 
 export const linkedAccounts: ExternalIdentityResponseDto[] = [
   {
@@ -164,4 +182,57 @@ export const handlers = [
 
   http.get(`${PROXY}/users/me/roles`, () => HttpResponse.json(roleAssignments)),
   http.get(`${PROXY}/users/me/identities`, () => HttpResponse.json(linkedAccounts)),
+
+  http.get(`${PROXY}/institutions`, () => HttpResponse.json(institutions)),
+
+  http.get(`${PROXY}/institutions/:institutionId`, ({ params }) => {
+    const institution = institutions.find(
+      candidate => candidate.id === params['institutionId'],
+    );
+    if (!institution) {
+      return HttpResponse.json(errorResponse(404, 'Institution not found', 'Not Found'), {
+        status: 404,
+      });
+    }
+
+    return HttpResponse.json(institution);
+  }),
+
+  http.get(`${PROXY}/institutions/:institutionId/me/permissions`, ({ params }) =>
+    HttpResponse.json({
+      ...permissions,
+      institutionId: params['institutionId'] as string,
+    } satisfies MyPermissionsResponseDto),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/role-assignments`, () =>
+    HttpResponse.json(roleAssignments),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/role-assignments`,
+    async ({ request }) => {
+      const body = (await request.json()) as Omit<
+        RoleAssignmentResponseDto,
+        'id' | 'institutionId' | 'validFrom' | 'validUntil'
+      >;
+
+      return HttpResponse.json(
+        {
+          id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+          institutionId: institutions[0]!.id,
+          validFrom: null,
+          validUntil: null,
+          scopeId: null,
+          ...body,
+        } satisfies RoleAssignmentResponseDto,
+        { status: 201 },
+      );
+    },
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/role-assignments/:id`,
+    () => new HttpResponse(null, { status: 204 }),
+  ),
 ];

@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
+import { institutionName, institutionQueries } from '@/entities/institution';
 import { byWidestScope, roleAssignmentQueries } from '@/entities/role-assignment';
 import {
   Alert,
@@ -21,6 +22,7 @@ import { RoleAssignmentItem } from './role-assignment-item';
 export function MyRoles() {
   const t = useTranslations('account');
   const { data, isPending, isError } = useQuery(roleAssignmentQueries.mine());
+  const { data: institutions } = useQuery(institutionQueries.mine());
 
   const assignments = [...(data ?? [])].sort(byWidestScope);
 
@@ -50,7 +52,14 @@ export function MyRoles() {
         {assignments.length > 0 ? (
           <ul className="divide-border divide-y">
             {assignments.map(assignment => (
-              <RoleAssignmentItem key={assignment.id} assignment={assignment} />
+              <RoleAssignmentItem
+                key={assignment.id}
+                assignment={assignment}
+                institutionName={institutionName(
+                  institutions ?? [],
+                  assignment.institutionId,
+                )}
+              />
             ))}
           </ul>
         ) : null}

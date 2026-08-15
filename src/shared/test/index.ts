@@ -6,6 +6,8 @@ export { renderWithProviders, screen, userEvent, waitFor, within } from './rende
 export {
   errorResponse,
   handlers,
+  institutions,
+  permissions,
   linkedAccounts,
   roleAssignments,
   session,

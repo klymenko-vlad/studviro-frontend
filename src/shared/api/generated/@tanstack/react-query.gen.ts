@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { Auth, Identities, type Options, RoleAssignments, Users } from '../sdk.gen';
-import type { CreateData, CreateError, CreateResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
+import { Auth, Identities, Institutions, type Options, RoleAssignments, Users } from '../sdk.gen';
+import type { CreateData, CreateError, CreateResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
 
 /**
  * Create an account and start a session
@@ -376,6 +376,24 @@ export const listMyRolesOptions = (options?: Options<ListMyRolesData>) => queryO
     queryKey: listMyRolesQueryKey(options)
 });
 
+export const listMyPermissionsQueryKey = (options: Options<ListMyPermissionsData>) => createQueryKey('listMyPermissions', options);
+
+/**
+ * List what the current user may do in an institution
+ */
+export const listMyPermissionsOptions = (options: Options<ListMyPermissionsData>) => queryOptions<ListMyPermissionsResponse, ListMyPermissionsError, ListMyPermissionsResponse, ReturnType<typeof listMyPermissionsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await RoleAssignments.listMyPermissions({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyPermissionsQueryKey(options)
+});
+
 export const listMyIdentitiesQueryKey = (options?: Options<ListMyIdentitiesData>) => createQueryKey('listMyIdentities', options);
 
 /**
@@ -392,4 +410,40 @@ export const listMyIdentitiesOptions = (options?: Options<ListMyIdentitiesData>)
         return data;
     },
     queryKey: listMyIdentitiesQueryKey(options)
+});
+
+export const listMyInstitutionsQueryKey = (options?: Options<ListMyInstitutionsData>) => createQueryKey('listMyInstitutions', options);
+
+/**
+ * List the institutions the current user belongs to
+ */
+export const listMyInstitutionsOptions = (options?: Options<ListMyInstitutionsData>) => queryOptions<ListMyInstitutionsResponse, ListMyInstitutionsError, ListMyInstitutionsResponse, ReturnType<typeof listMyInstitutionsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Institutions.listMyInstitutions({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyInstitutionsQueryKey(options)
+});
+
+export const getInstitutionQueryKey = (options: Options<GetInstitutionData>) => createQueryKey('getInstitution', options);
+
+/**
+ * Get an institution
+ */
+export const getInstitutionOptions = (options: Options<GetInstitutionData>) => queryOptions<GetInstitutionResponse, GetInstitutionError, GetInstitutionResponse, ReturnType<typeof getInstitutionQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Institutions.getInstitution({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getInstitutionQueryKey(options)
 });

@@ -113,6 +113,39 @@ export const zGrantRoleDto = z.object({
     validUntil: z.iso.datetime().optional()
 });
 
+export const zMyPermissionsResponseDto = z.object({
+    institutionId: z.uuid(),
+    roles: z.array(z.enum([
+        'student',
+        'teacher',
+        'teaching_assistant',
+        'course_coordinator',
+        'program_coordinator',
+        'registrar',
+        'org_unit_manager',
+        'institution_admin'
+    ])),
+    permissions: z.array(z.enum([
+        'program:read',
+        'program:manage',
+        'course:read',
+        'course:manage',
+        'offering:read',
+        'offering:manage',
+        'enrollment:read',
+        'enrollment:manage',
+        'grade:read',
+        'grade:propose',
+        'grade:publish',
+        'schedule:read',
+        'schedule:manage',
+        'role:read',
+        'role:assign',
+        'institution:read',
+        'institution:manage'
+    ]))
+});
+
 export const zExternalIdentityResponseDto = z.object({
     id: z.uuid(),
     institutionId: z.uuid(),
@@ -124,6 +157,14 @@ export const zExternalIdentityResponseDto = z.object({
     issuer: z.string(),
     externalUsername: z.string().nullish(),
     lastAuthenticatedAt: z.iso.datetime().nullish()
+});
+
+export const zInstitutionResponseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string(),
+    defaultLocale: z.string(),
+    timezone: z.string()
 });
 
 export const zCreateUserDtoWritable = z.object({
@@ -227,4 +268,18 @@ export const zRevokeRoleResponse = z.void();
 
 export const zListMyRolesResponse = z.array(zRoleAssignmentResponseDto);
 
+export const zListMyPermissionsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyPermissionsResponse = zMyPermissionsResponseDto;
+
 export const zListMyIdentitiesResponse = z.array(zExternalIdentityResponseDto);
+
+export const zListMyInstitutionsResponse = z.array(zInstitutionResponseDto);
+
+export const zGetInstitutionPath = z.object({
+    institutionId: z.string()
+});
+
+export const zGetInstitutionResponse = zInstitutionResponseDto;
