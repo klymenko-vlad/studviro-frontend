@@ -4,8 +4,8 @@ import * as z from 'zod';
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreateData, CreateErrors, CreateResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GetInstitutionData, GetInstitutionErrors, GetInstitutionResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyInstitutionsData, ListMyInstitutionsErrors, ListMyInstitutionsResponses, ListMyPermissionsData, ListMyPermissionsErrors, ListMyPermissionsResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MeData, MeErrors, MeResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterResponses, RemoveData, RemoveErrors, RemoveResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses } from './types.gen';
-import { zCreateBody, zCreateResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGetInstitutionPath, zGetInstitutionResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zListMyIdentitiesResponse, zListMyInstitutionsResponse, zListMyPermissionsPath, zListMyPermissionsResponse, zListMyRolesResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMeResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterResponse, zRemovePath, zRemoveResponse, zRevokeRolePath, zRevokeRoleResponse, zUpdateMeBody, zUpdateMeResponse } from './zod.gen';
+import type { CreateData, CreateErrors, CreateResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GetInstitutionConfigurationData, GetInstitutionConfigurationErrors, GetInstitutionConfigurationResponses, GetInstitutionData, GetInstitutionErrors, GetInstitutionResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, ListInstitutionConnectorsData, ListInstitutionConnectorsErrors, ListInstitutionConnectorsResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyInstitutionsData, ListMyInstitutionsErrors, ListMyInstitutionsResponses, ListMyPermissionsData, ListMyPermissionsErrors, ListMyPermissionsResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MeData, MeErrors, MeResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterResponses, RemoveData, RemoveErrors, RemoveResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationErrors, UpdateInstitutionConfigurationResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses } from './types.gen';
+import { zCreateBody, zCreateResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGetInstitutionConfigurationPath, zGetInstitutionConfigurationResponse, zGetInstitutionPath, zGetInstitutionResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zListInstitutionConnectorsPath, zListInstitutionConnectorsResponse, zListMyIdentitiesResponse, zListMyInstitutionsResponse, zListMyPermissionsPath, zListMyPermissionsResponse, zListMyRolesResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMeResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterResponse, zRemovePath, zRemoveResponse, zRevokeRolePath, zRevokeRoleResponse, zUpdateInstitutionConfigurationBody, zUpdateInstitutionConfigurationPath, zUpdateInstitutionConfigurationResponse, zUpdateMeBody, zUpdateMeResponse } from './zod.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -340,20 +340,20 @@ export class RoleAssignments {
     }
 }
 
-export class Identities {
+export class Connectors {
     /**
-     * List the accounts linked to the current user
+     * Report the health and capabilities of an institution’s connectors
      */
-    public static listMyIdentities<ThrowOnError extends boolean = false>(options?: Options<ListMyIdentitiesData, ThrowOnError>): RequestResult<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError> {
-        return (options?.client ?? client).get<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError>({
+    public static listInstitutionConnectors<ThrowOnError extends boolean = false>(options: Options<ListInstitutionConnectorsData, ThrowOnError>): RequestResult<ListInstitutionConnectorsResponses, ListInstitutionConnectorsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListInstitutionConnectorsResponses, ListInstitutionConnectorsErrors, ThrowOnError>({
             requestValidator: async (data) => await z.object({
                 body: z.never().optional(),
-                path: z.never().optional(),
+                path: zListInstitutionConnectorsPath,
                 query: z.never().optional()
             }).parseAsync(data),
-            responseValidator: async (data) => await zListMyIdentitiesResponse.parseAsync(data),
+            responseValidator: async (data) => await zListInstitutionConnectorsResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users/me/identities',
+            url: '/api/v1/institutions/{institutionId}/connectors',
             ...options
         });
     }
@@ -390,6 +390,65 @@ export class Institutions {
             responseValidator: async (data) => await zGetInstitutionResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
             url: '/api/v1/institutions/{institutionId}',
+            ...options
+        });
+    }
+}
+
+export class InstitutionConfiguration {
+    /**
+     * Read an institution’s terminology, locale and feature flags
+     */
+    public static getInstitutionConfiguration<ThrowOnError extends boolean = false>(options: Options<GetInstitutionConfigurationData, ThrowOnError>): RequestResult<GetInstitutionConfigurationResponses, GetInstitutionConfigurationErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetInstitutionConfigurationResponses, GetInstitutionConfigurationErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetInstitutionConfigurationPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetInstitutionConfigurationResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/configuration',
+            ...options
+        });
+    }
+    
+    /**
+     * Change an institution’s terminology, locale and feature flags
+     */
+    public static updateInstitutionConfiguration<ThrowOnError extends boolean = false>(options: Options<UpdateInstitutionConfigurationData, ThrowOnError>): RequestResult<UpdateInstitutionConfigurationResponses, UpdateInstitutionConfigurationErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateInstitutionConfigurationResponses, UpdateInstitutionConfigurationErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateInstitutionConfigurationBody,
+                path: zUpdateInstitutionConfigurationPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateInstitutionConfigurationResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/configuration',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class Identities {
+    /**
+     * List the accounts linked to the current user
+     */
+    public static listMyIdentities<ThrowOnError extends boolean = false>(options?: Options<ListMyIdentitiesData, ThrowOnError>): RequestResult<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError> {
+        return (options?.client ?? client).get<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyIdentitiesResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/identities',
             ...options
         });
     }

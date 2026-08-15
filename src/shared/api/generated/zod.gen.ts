@@ -146,6 +146,50 @@ export const zMyPermissionsResponseDto = z.object({
     ]))
 });
 
+export const zConnectorStatusResponseDto = z.object({
+    kind: z.enum(['academic', 'learning']),
+    name: z.string().nullable(),
+    installed: z.boolean(),
+    healthy: z.boolean(),
+    checkedAt: z.iso.datetime().nullable(),
+    detail: z.string().nullable(),
+    capabilities: z.array(z.string()),
+    alternatives: z.array(z.string())
+});
+
+export const zInstitutionResponseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string(),
+    defaultLocale: z.string(),
+    timezone: z.string()
+});
+
+export const zInstitutionConnectorsDto = z.object({
+    academicSystem: z.string().nullable(),
+    learningSystem: z.string().nullable()
+});
+
+export const zInstitutionConfigurationResponseDto = z.object({
+    institutionId: z.uuid(),
+    code: z.string(),
+    name: z.string(),
+    defaultLocale: z.string(),
+    timezone: z.string(),
+    terminology: z.record(z.string(), z.string().nullable()),
+    features: z.record(z.string(), z.boolean()),
+    connectors: zInstitutionConnectorsDto
+});
+
+export const zUpdateInstitutionConfigurationDto = z.object({
+    defaultLocale: z.enum(['en', 'uk']).optional(),
+    timezone: z.string().optional(),
+    terminology: z.record(z.string(), z.string().nullable()).optional(),
+    features: z.record(z.string(), z.boolean()).optional(),
+    academicSystemConnector: z.string().max(64).nullish(),
+    learningSystemConnector: z.string().max(64).nullish()
+});
+
 export const zExternalIdentityResponseDto = z.object({
     id: z.uuid(),
     institutionId: z.uuid(),
@@ -157,14 +201,6 @@ export const zExternalIdentityResponseDto = z.object({
     issuer: z.string(),
     externalUsername: z.string().nullish(),
     lastAuthenticatedAt: z.iso.datetime().nullish()
-});
-
-export const zInstitutionResponseDto = z.object({
-    id: z.uuid(),
-    code: z.string(),
-    name: z.string(),
-    defaultLocale: z.string(),
-    timezone: z.string()
 });
 
 export const zCreateUserDtoWritable = z.object({
@@ -274,7 +310,11 @@ export const zListMyPermissionsPath = z.object({
 
 export const zListMyPermissionsResponse = zMyPermissionsResponseDto;
 
-export const zListMyIdentitiesResponse = z.array(zExternalIdentityResponseDto);
+export const zListInstitutionConnectorsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListInstitutionConnectorsResponse = z.array(zConnectorStatusResponseDto);
 
 export const zListMyInstitutionsResponse = z.array(zInstitutionResponseDto);
 
@@ -283,3 +323,19 @@ export const zGetInstitutionPath = z.object({
 });
 
 export const zGetInstitutionResponse = zInstitutionResponseDto;
+
+export const zGetInstitutionConfigurationPath = z.object({
+    institutionId: z.string()
+});
+
+export const zGetInstitutionConfigurationResponse = zInstitutionConfigurationResponseDto;
+
+export const zUpdateInstitutionConfigurationBody = zUpdateInstitutionConfigurationDto;
+
+export const zUpdateInstitutionConfigurationPath = z.object({
+    institutionId: z.string()
+});
+
+export const zUpdateInstitutionConfigurationResponse = zInstitutionConfigurationResponseDto;
+
+export const zListMyIdentitiesResponse = z.array(zExternalIdentityResponseDto);

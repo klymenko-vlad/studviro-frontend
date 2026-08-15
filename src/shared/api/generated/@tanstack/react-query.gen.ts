@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { Auth, Identities, Institutions, type Options, RoleAssignments, Users } from '../sdk.gen';
-import type { CreateData, CreateError, CreateResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
+import { Auth, Connectors, Identities, InstitutionConfiguration, Institutions, type Options, RoleAssignments, Users } from '../sdk.gen';
+import type { CreateData, CreateError, CreateResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListInstitutionConnectorsData, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
 
 /**
  * Create an account and start a session
@@ -394,14 +394,14 @@ export const listMyPermissionsOptions = (options: Options<ListMyPermissionsData>
     queryKey: listMyPermissionsQueryKey(options)
 });
 
-export const listMyIdentitiesQueryKey = (options?: Options<ListMyIdentitiesData>) => createQueryKey('listMyIdentities', options);
+export const listInstitutionConnectorsQueryKey = (options: Options<ListInstitutionConnectorsData>) => createQueryKey('listInstitutionConnectors', options);
 
 /**
- * List the accounts linked to the current user
+ * Report the health and capabilities of an institution’s connectors
  */
-export const listMyIdentitiesOptions = (options?: Options<ListMyIdentitiesData>) => queryOptions<ListMyIdentitiesResponse, ListMyIdentitiesError, ListMyIdentitiesResponse, ReturnType<typeof listMyIdentitiesQueryKey>>({
+export const listInstitutionConnectorsOptions = (options: Options<ListInstitutionConnectorsData>) => queryOptions<ListInstitutionConnectorsResponse, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ReturnType<typeof listInstitutionConnectorsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Identities.listMyIdentities({
+        const { data } = await Connectors.listInstitutionConnectors({
             ...options,
             ...queryKey[0],
             signal,
@@ -409,7 +409,7 @@ export const listMyIdentitiesOptions = (options?: Options<ListMyIdentitiesData>)
         });
         return data;
     },
-    queryKey: listMyIdentitiesQueryKey(options)
+    queryKey: listInstitutionConnectorsQueryKey(options)
 });
 
 export const listMyInstitutionsQueryKey = (options?: Options<ListMyInstitutionsData>) => createQueryKey('listMyInstitutions', options);
@@ -446,4 +446,57 @@ export const getInstitutionOptions = (options: Options<GetInstitutionData>) => q
         return data;
     },
     queryKey: getInstitutionQueryKey(options)
+});
+
+export const getInstitutionConfigurationQueryKey = (options: Options<GetInstitutionConfigurationData>) => createQueryKey('getInstitutionConfiguration', options);
+
+/**
+ * Read an institution’s terminology, locale and feature flags
+ */
+export const getInstitutionConfigurationOptions = (options: Options<GetInstitutionConfigurationData>) => queryOptions<GetInstitutionConfigurationResponse, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, ReturnType<typeof getInstitutionConfigurationQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await InstitutionConfiguration.getInstitutionConfiguration({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getInstitutionConfigurationQueryKey(options)
+});
+
+/**
+ * Change an institution’s terminology, locale and feature flags
+ */
+export const updateInstitutionConfigurationMutation = (options?: Partial<Options<UpdateInstitutionConfigurationData>>): UseMutationOptions<UpdateInstitutionConfigurationResponse, UpdateInstitutionConfigurationError, Options<UpdateInstitutionConfigurationData>> => {
+    const mutationOptions: UseMutationOptions<UpdateInstitutionConfigurationResponse, UpdateInstitutionConfigurationError, Options<UpdateInstitutionConfigurationData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await InstitutionConfiguration.updateInstitutionConfiguration({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listMyIdentitiesQueryKey = (options?: Options<ListMyIdentitiesData>) => createQueryKey('listMyIdentities', options);
+
+/**
+ * List the accounts linked to the current user
+ */
+export const listMyIdentitiesOptions = (options?: Options<ListMyIdentitiesData>) => queryOptions<ListMyIdentitiesResponse, ListMyIdentitiesError, ListMyIdentitiesResponse, ReturnType<typeof listMyIdentitiesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Identities.listMyIdentities({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyIdentitiesQueryKey(options)
 });

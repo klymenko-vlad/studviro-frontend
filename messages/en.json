@@ -83,7 +83,8 @@
       "title": "Institutions",
       "description": "Where you hold a role.",
       "empty": "You do not belong to any institution yet.",
-      "manageRoles": "Manage roles"
+      "manageRoles": "Manage roles",
+      "manageSettings": "Settings"
     }
   },
   "roles": {
@@ -131,5 +132,70 @@
     "revokeLabel": "Revoke {role}",
     "deniedTitle": "Read-only",
     "deniedDescription": "You may see roles here but not change them."
+  },
+  "institutionSettings": {
+    "title": "Institution settings",
+    "subtitle": "Wording, language, features and connectors for this institution.",
+    "configurationTitle": "Configuration",
+    "configurationDescription": "Everything here is data, so a second university needs no code change.",
+    "regionalTitle": "Language and time",
+    "defaultLocale": "Default language",
+    "defaultLocaleHint": "The language new members start in.",
+    "timezone": "Time zone",
+    "timezoneHint": "An IANA name, for example Europe/Bratislava.",
+    "terminologyTitle": "Terminology",
+    "terminologyDescription": "Override the wording this institution uses. Leave a field empty to keep the platform's own word.",
+    "terminologyPlaceholder": "Platform default",
+    "terminologyLabel": {
+      "academicTerm": "Academic term",
+      "course": "Course",
+      "courseOffering": "Course offering",
+      "credits": "Credits",
+      "department": "Department",
+      "faculty": "Faculty",
+      "institution": "Institution",
+      "program": "Study programme",
+      "student": "Student",
+      "studentIdentifier": "Student identifier",
+      "teacher": "Teacher"
+    },
+    "featuresTitle": "Features",
+    "featuresDescription": "Turn a module on or off for this institution.",
+    "featureLabel": {
+      "accommodation": "Accommodation",
+      "courseRegistration": "Course registration",
+      "examRegistration": "Exam registration",
+      "fees": "Fees",
+      "grades": "Grades",
+      "thesis": "Theses",
+      "timetable": "Timetable"
+    },
+    "connectorsTitle": "Connectors",
+    "connectorsDescription": "Which external systems this institution reads from.",
+    "connectorStatusDescription": "Whether each connector answers, and what it supports.",
+    "connector": {
+      "academic": "Student information system",
+      "learning": "Learning management system"
+    },
+    "connectorHint": {
+      "academic": "The system of record for people, courses and results.",
+      "learning": "The system that holds coursework and activity."
+    },
+    "connectorNone": "Not connected",
+    "connectorState": {
+      "healthy": "Reachable",
+      "unhealthy": "Unreachable",
+      "none": "Not connected"
+    },
+    "capabilityCount": " · {count} operations",
+    "connectorsErrorTitle": "Connector status could not be loaded",
+    "connectorsErrorDescription": "Try again in a moment.",
+    "save": "Save settings",
+    "saving": "Saving…",
+    "saved": "Settings saved",
+    "errorTitle": "Settings could not be loaded",
+    "errorDescription": "Try again in a moment.",
+    "deniedTitle": "Read-only",
+    "deniedDescription": "You need permission to manage this institution to change its settings."
   }
 }

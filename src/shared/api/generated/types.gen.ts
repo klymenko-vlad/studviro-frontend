@@ -109,13 +109,18 @@ export type MyPermissionsResponseDto = {
     permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage'>;
 };
 
-export type ExternalIdentityResponseDto = {
-    id: string;
-    institutionId: string;
-    sourceSystem: 'platform' | 'sis' | 'lms';
-    issuer: string;
-    externalUsername?: string | null;
-    lastAuthenticatedAt?: string | null;
+export type ConnectorStatusResponseDto = {
+    kind: 'academic' | 'learning';
+    name: string | null;
+    installed: boolean;
+    healthy: boolean;
+    checkedAt: string | null;
+    detail: string | null;
+    capabilities: Array<string>;
+    /**
+     * Connector names of this kind the deployment can be pointed at.
+     */
+    alternatives: Array<string>;
 };
 
 export type InstitutionResponseDto = {
@@ -124,6 +129,60 @@ export type InstitutionResponseDto = {
     name: string;
     defaultLocale: string;
     timezone: string;
+};
+
+export type InstitutionConnectorsDto = {
+    academicSystem: string | null;
+    learningSystem: string | null;
+};
+
+export type InstitutionConfigurationResponseDto = {
+    institutionId: string;
+    code: string;
+    name: string;
+    defaultLocale: string;
+    timezone: string;
+    /**
+     * Institution label overrides; null means the client uses its own wording.
+     */
+    terminology: {
+        [key: string]: string | null;
+    };
+    /**
+     * Every feature flag, resolved against the platform defaults.
+     */
+    features: {
+        [key: string]: boolean;
+    };
+    connectors: InstitutionConnectorsDto;
+};
+
+export type UpdateInstitutionConfigurationDto = {
+    defaultLocale?: 'en' | 'uk';
+    timezone?: string;
+    /**
+     * Label overrides to merge in; null clears one.
+     */
+    terminology?: {
+        [key: string]: string | null;
+    };
+    /**
+     * Feature flags to merge in.
+     */
+    features?: {
+        [key: string]: boolean;
+    };
+    academicSystemConnector?: string | null;
+    learningSystemConnector?: string | null;
+};
+
+export type ExternalIdentityResponseDto = {
+    id: string;
+    institutionId: string;
+    sourceSystem: 'platform' | 'sis' | 'lms';
+    issuer: string;
+    externalUsername?: string | null;
+    lastAuthenticatedAt?: string | null;
 };
 
 export type CreateUserDtoWritable = {
@@ -681,18 +740,24 @@ export type ListMyPermissionsResponses = {
 
 export type ListMyPermissionsResponse = ListMyPermissionsResponses[keyof ListMyPermissionsResponses];
 
-export type ListMyIdentitiesData = {
+export type ListInstitutionConnectorsData = {
     body?: never;
-    path?: never;
+    path: {
+        institutionId: string;
+    };
     query?: never;
-    url: '/api/v1/users/me/identities';
+    url: '/api/v1/institutions/{institutionId}/connectors';
 };
 
-export type ListMyIdentitiesErrors = {
+export type ListInstitutionConnectorsErrors = {
     /**
      * Validation failed or the payload was malformed.
      */
     400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
     /**
      * Rate limit exceeded.
      */
@@ -703,13 +768,13 @@ export type ListMyIdentitiesErrors = {
     500: ErrorResponseDto;
 };
 
-export type ListMyIdentitiesError = ListMyIdentitiesErrors[keyof ListMyIdentitiesErrors];
+export type ListInstitutionConnectorsError = ListInstitutionConnectorsErrors[keyof ListInstitutionConnectorsErrors];
 
-export type ListMyIdentitiesResponses = {
-    200: Array<ExternalIdentityResponseDto>;
+export type ListInstitutionConnectorsResponses = {
+    200: Array<ConnectorStatusResponseDto>;
 };
 
-export type ListMyIdentitiesResponse = ListMyIdentitiesResponses[keyof ListMyIdentitiesResponses];
+export type ListInstitutionConnectorsResponse = ListInstitutionConnectorsResponses[keyof ListInstitutionConnectorsResponses];
 
 export type ListMyInstitutionsData = {
     body?: never;
@@ -776,3 +841,105 @@ export type GetInstitutionResponses = {
 };
 
 export type GetInstitutionResponse = GetInstitutionResponses[keyof GetInstitutionResponses];
+
+export type GetInstitutionConfigurationData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/configuration';
+};
+
+export type GetInstitutionConfigurationErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetInstitutionConfigurationError = GetInstitutionConfigurationErrors[keyof GetInstitutionConfigurationErrors];
+
+export type GetInstitutionConfigurationResponses = {
+    200: InstitutionConfigurationResponseDto;
+};
+
+export type GetInstitutionConfigurationResponse = GetInstitutionConfigurationResponses[keyof GetInstitutionConfigurationResponses];
+
+export type UpdateInstitutionConfigurationData = {
+    body: UpdateInstitutionConfigurationDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/configuration';
+};
+
+export type UpdateInstitutionConfigurationErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateInstitutionConfigurationError = UpdateInstitutionConfigurationErrors[keyof UpdateInstitutionConfigurationErrors];
+
+export type UpdateInstitutionConfigurationResponses = {
+    200: InstitutionConfigurationResponseDto;
+};
+
+export type UpdateInstitutionConfigurationResponse = UpdateInstitutionConfigurationResponses[keyof UpdateInstitutionConfigurationResponses];
+
+export type ListMyIdentitiesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/identities';
+};
+
+export type ListMyIdentitiesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyIdentitiesError = ListMyIdentitiesErrors[keyof ListMyIdentitiesErrors];
+
+export type ListMyIdentitiesResponses = {
+    200: Array<ExternalIdentityResponseDto>;
+};
+
+export type ListMyIdentitiesResponse = ListMyIdentitiesResponses[keyof ListMyIdentitiesResponses];

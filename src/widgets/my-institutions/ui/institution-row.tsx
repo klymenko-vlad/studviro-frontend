@@ -18,13 +18,23 @@ export function InstitutionRow({ institution }: { institution: Institution }) {
         <span className="text-muted-foreground text-sm">{institution.code}</span>
       </div>
 
-      {can('role:assign') ? (
-        <Button asChild variant="outline" size="sm">
-          <Link href={`/institutions/${institution.id}/roles`}>
-            {t('institutions.manageRoles')}
-          </Link>
-        </Button>
-      ) : null}
+      <div className="flex flex-wrap items-center gap-2">
+        {can('role:assign') ? (
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/institutions/${institution.id}/roles`}>
+              {t('institutions.manageRoles')}
+            </Link>
+          </Button>
+        ) : null}
+
+        {can('institution:manage') ? (
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/institutions/${institution.id}/settings`}>
+              {t('institutions.manageSettings')}
+            </Link>
+          </Button>
+        ) : null}
+      </div>
     </li>
   );
 }

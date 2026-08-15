@@ -2,8 +2,10 @@ import { http, HttpResponse } from 'msw';
 
 import type {
   AuthTokensDto,
+  ConnectorStatusResponseDto,
   ErrorResponseDto,
   ExternalIdentityResponseDto,
+  InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
   MyPermissionsResponseDto,
   RoleAssignmentResponseDto,
@@ -86,10 +88,64 @@ export const institutions: InstitutionResponseDto[] = [
   },
 ];
 
+export const institutionConfiguration: InstitutionConfigurationResponseDto = {
+  institutionId: '55555555-5555-4555-8555-555555555555',
+  code: 'upjs',
+  name: 'Pavol Jozef \u0160af\u00e1rik University',
+  defaultLocale: 'en',
+  timezone: 'Europe/Bratislava',
+  terminology: {
+    institution: null,
+    faculty: 'School',
+    department: null,
+    program: null,
+    course: null,
+    courseOffering: null,
+    academicTerm: null,
+    student: null,
+    teacher: null,
+    studentIdentifier: null,
+    credits: null,
+  },
+  features: {
+    courseRegistration: true,
+    examRegistration: true,
+    timetable: true,
+    grades: true,
+    thesis: false,
+    accommodation: false,
+    fees: false,
+  },
+  connectors: { academicSystem: 'mock-sis', learningSystem: null },
+};
+
+export const connectorStatuses: ConnectorStatusResponseDto[] = [
+  {
+    kind: 'academic',
+    name: 'mock-sis',
+    installed: true,
+    healthy: true,
+    checkedAt: '2026-08-15T09:00:00.000Z',
+    detail: null,
+    capabilities: ['courses.read', 'enrollments.read'],
+    alternatives: ['mock-sis'],
+  },
+  {
+    kind: 'learning',
+    name: null,
+    installed: false,
+    healthy: false,
+    checkedAt: null,
+    detail: null,
+    capabilities: [],
+    alternatives: [],
+  },
+];
+
 export const permissions: MyPermissionsResponseDto = {
   institutionId: '55555555-5555-4555-8555-555555555555',
   roles: ['institution_admin'],
-  permissions: ['institution:read', 'role:read', 'role:assign'],
+  permissions: ['institution:read', 'institution:manage', 'role:read', 'role:assign'],
 };
 
 export const linkedAccounts: ExternalIdentityResponseDto[] = [
@@ -203,6 +259,31 @@ export const handlers = [
       ...permissions,
       institutionId: params['institutionId'] as string,
     } satisfies MyPermissionsResponseDto),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/configuration`, ({ params }) =>
+    HttpResponse.json({
+      ...institutionConfiguration,
+      institutionId: params['institutionId'] as string,
+    } satisfies InstitutionConfigurationResponseDto),
+  ),
+
+  http.patch(
+    `${PROXY}/institutions/:institutionId/configuration`,
+    async ({ request }) => {
+      const body = (await request.json()) as Partial<InstitutionConfigurationResponseDto>;
+
+      return HttpResponse.json({
+        ...institutionConfiguration,
+        ...body,
+        terminology: { ...institutionConfiguration.terminology, ...body.terminology },
+        features: { ...institutionConfiguration.features, ...body.features },
+      } satisfies InstitutionConfigurationResponseDto);
+    },
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/connectors`, () =>
+    HttpResponse.json(connectorStatuses),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/role-assignments`, () =>

@@ -4,8 +4,10 @@
  */
 export { renderWithProviders, screen, userEvent, waitFor, within } from './render';
 export {
+  connectorStatuses,
   errorResponse,
   handlers,
+  institutionConfiguration,
   institutions,
   permissions,
   linkedAccounts,

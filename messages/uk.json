@@ -83,7 +83,8 @@
       "title": "Заклади",
       "description": "Де ви маєте роль.",
       "empty": "Ви ще не належите до жодного закладу.",
-      "manageRoles": "Керувати ролями"
+      "manageRoles": "Керувати ролями",
+      "manageSettings": "Налаштування"
     }
   },
   "roles": {
@@ -131,5 +132,70 @@
     "revokeLabel": "Відкликати {role}",
     "deniedTitle": "Лише перегляд",
     "deniedDescription": "Ви можете бачити ролі, але не змінювати їх."
+  },
+  "institutionSettings": {
+    "title": "Налаштування закладу",
+    "subtitle": "Термінологія, мова, функції та конектори цього закладу.",
+    "configurationTitle": "Конфігурація",
+    "configurationDescription": "Усе тут — це дані, тож другий університет не потребує змін у коді.",
+    "regionalTitle": "Мова і час",
+    "defaultLocale": "Мова за замовчуванням",
+    "defaultLocaleHint": "Мова, з якої починають нові учасники.",
+    "timezone": "Часовий пояс",
+    "timezoneHint": "Назва за IANA, наприклад Europe/Bratislava.",
+    "terminologyTitle": "Термінологія",
+    "terminologyDescription": "Замініть слова, якими послуговується заклад. Порожнє поле означає слово платформи.",
+    "terminologyPlaceholder": "Значення платформи",
+    "terminologyLabel": {
+      "academicTerm": "Семестр",
+      "course": "Курс",
+      "courseOffering": "Проведення курсу",
+      "credits": "Кредити",
+      "department": "Кафедра",
+      "faculty": "Факультет",
+      "institution": "Заклад",
+      "program": "Освітня програма",
+      "student": "Студент",
+      "studentIdentifier": "Номер студента",
+      "teacher": "Викладач"
+    },
+    "featuresTitle": "Функції",
+    "featuresDescription": "Увімкніть або вимкніть модуль для цього закладу.",
+    "featureLabel": {
+      "accommodation": "Гуртожиток",
+      "courseRegistration": "Запис на курси",
+      "examRegistration": "Запис на іспити",
+      "fees": "Оплати",
+      "grades": "Оцінки",
+      "thesis": "Кваліфікаційні роботи",
+      "timetable": "Розклад"
+    },
+    "connectorsTitle": "Конектори",
+    "connectorsDescription": "З яких зовнішніх систем читає цей заклад.",
+    "connectorStatusDescription": "Чи відповідає кожен конектор і що він підтримує.",
+    "connector": {
+      "academic": "Інформаційна система студента",
+      "learning": "Система керування навчанням"
+    },
+    "connectorHint": {
+      "academic": "Джерело істини про людей, курси та результати.",
+      "learning": "Система з навчальними завданнями та активністю."
+    },
+    "connectorNone": "Не під'єднано",
+    "connectorState": {
+      "healthy": "Доступний",
+      "unhealthy": "Недоступний",
+      "none": "Не під'єднано"
+    },
+    "capabilityCount": " · {count} операцій",
+    "connectorsErrorTitle": "Не вдалося завантажити стан конекторів",
+    "connectorsErrorDescription": "Спробуйте за мить.",
+    "save": "Зберегти налаштування",
+    "saving": "Збереження…",
+    "saved": "Налаштування збережено",
+    "errorTitle": "Не вдалося завантажити налаштування",
+    "errorDescription": "Спробуйте за мить.",
+    "deniedTitle": "Лише перегляд",
+    "deniedDescription": "Щоб змінювати налаштування, потрібен дозвіл на керування закладом."
   }
 }

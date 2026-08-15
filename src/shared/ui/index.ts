@@ -33,4 +33,5 @@ export { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 export { Separator } from './separator';
 export { Skeleton } from './skeleton';
 export { Toaster } from './sonner';
+export { Switch } from './switch';
 export { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './table';

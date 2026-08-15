@@ -29,11 +29,13 @@ export * as apiSchemas from './generated/zod.gen';
 
 export type {
   AuthTokensDto,
+  ConnectorStatusResponseDto,
   CreateUserDto,
   CreateUserDtoWritable,
   ErrorResponseDto,
   ExternalIdentityResponseDto,
   GrantRoleDto,
+  InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
   LoginDto,
   MyPermissionsResponseDto,
@@ -41,6 +43,7 @@ export type {
   PageMetaDto,
   RefreshTokenDto,
   RoleAssignmentResponseDto,
+  UpdateInstitutionConfigurationDto,
   UpdateMeDto,
   UserResponseDto,
   UserResponseDtoPage,
