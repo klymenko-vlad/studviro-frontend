@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { Auth, type Options, Users } from '../sdk.gen';
-import type { CreateData, CreateError, CreateResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterResponse, RemoveData, RemoveError, RemoveResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
+import { Auth, Identities, type Options, RoleAssignments, Users } from '../sdk.gen';
+import type { CreateData, CreateError, CreateResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
 
 /**
  * Create an account and start a session
@@ -304,4 +304,92 @@ export const findOneOptions = (options: Options<FindOneData>) => queryOptions<Fi
         return data;
     },
     queryKey: findOneQueryKey(options)
+});
+
+export const listRoleAssignmentsQueryKey = (options: Options<ListRoleAssignmentsData>) => createQueryKey('listRoleAssignments', options);
+
+/**
+ * List role assignments in an institution
+ */
+export const listRoleAssignmentsOptions = (options: Options<ListRoleAssignmentsData>) => queryOptions<ListRoleAssignmentsResponse, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ReturnType<typeof listRoleAssignmentsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await RoleAssignments.listRoleAssignments({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listRoleAssignmentsQueryKey(options)
+});
+
+/**
+ * Grant a role in a scope
+ */
+export const grantRoleMutation = (options?: Partial<Options<GrantRoleData>>): UseMutationOptions<GrantRoleResponse, GrantRoleError, Options<GrantRoleData>> => {
+    const mutationOptions: UseMutationOptions<GrantRoleResponse, GrantRoleError, Options<GrantRoleData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await RoleAssignments.grantRole({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Revoke a role assignment
+ */
+export const revokeRoleMutation = (options?: Partial<Options<RevokeRoleData>>): UseMutationOptions<RevokeRoleResponse, RevokeRoleError, Options<RevokeRoleData>> => {
+    const mutationOptions: UseMutationOptions<RevokeRoleResponse, RevokeRoleError, Options<RevokeRoleData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await RoleAssignments.revokeRole({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listMyRolesQueryKey = (options?: Options<ListMyRolesData>) => createQueryKey('listMyRoles', options);
+
+/**
+ * List the current user roles in every institution
+ */
+export const listMyRolesOptions = (options?: Options<ListMyRolesData>) => queryOptions<ListMyRolesResponse, ListMyRolesError, ListMyRolesResponse, ReturnType<typeof listMyRolesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await RoleAssignments.listMyRoles({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyRolesQueryKey(options)
+});
+
+export const listMyIdentitiesQueryKey = (options?: Options<ListMyIdentitiesData>) => createQueryKey('listMyIdentities', options);
+
+/**
+ * List the accounts linked to the current user
+ */
+export const listMyIdentitiesOptions = (options?: Options<ListMyIdentitiesData>) => queryOptions<ListMyIdentitiesResponse, ListMyIdentitiesError, ListMyIdentitiesResponse, ReturnType<typeof listMyIdentitiesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Identities.listMyIdentities({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyIdentitiesQueryKey(options)
 });

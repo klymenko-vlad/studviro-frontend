@@ -65,6 +65,67 @@ export const zUserResponseDtoPage = z.object({
 
 export const zSortOrder = z.enum(['asc', 'desc']);
 
+export const zRoleAssignmentResponseDto = z.object({
+    id: z.uuid(),
+    institutionId: z.uuid(),
+    userId: z.uuid(),
+    role: z.enum([
+        'student',
+        'teacher',
+        'teaching_assistant',
+        'course_coordinator',
+        'program_coordinator',
+        'registrar',
+        'org_unit_manager',
+        'institution_admin'
+    ]),
+    scopeType: z.enum([
+        'institution',
+        'org_unit',
+        'program',
+        'course_offering'
+    ]),
+    scopeId: z.uuid().nullish(),
+    validFrom: z.iso.datetime().nullish(),
+    validUntil: z.iso.datetime().nullish()
+});
+
+export const zGrantRoleDto = z.object({
+    userId: z.uuid(),
+    role: z.enum([
+        'student',
+        'teacher',
+        'teaching_assistant',
+        'course_coordinator',
+        'program_coordinator',
+        'registrar',
+        'org_unit_manager',
+        'institution_admin'
+    ]),
+    scopeType: z.enum([
+        'institution',
+        'org_unit',
+        'program',
+        'course_offering'
+    ]),
+    scopeId: z.uuid().optional(),
+    validFrom: z.iso.datetime().optional(),
+    validUntil: z.iso.datetime().optional()
+});
+
+export const zExternalIdentityResponseDto = z.object({
+    id: z.uuid(),
+    institutionId: z.uuid(),
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ]),
+    issuer: z.string(),
+    externalUsername: z.string().nullish(),
+    lastAuthenticatedAt: z.iso.datetime().nullish()
+});
+
 export const zCreateUserDtoWritable = z.object({
     email: z.email(),
     displayName: z.string().min(1).max(120),
@@ -135,3 +196,35 @@ export const zFindOnePath = z.object({
  * The requested user.
  */
 export const zFindOneResponse = zUserResponseDto;
+
+export const zListRoleAssignmentsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListRoleAssignmentsQuery = z.object({
+    userId: z.uuid().optional()
+});
+
+export const zListRoleAssignmentsResponse = z.array(zRoleAssignmentResponseDto);
+
+export const zGrantRoleBody = zGrantRoleDto;
+
+export const zGrantRolePath = z.object({
+    institutionId: z.string()
+});
+
+export const zGrantRoleResponse = zRoleAssignmentResponseDto;
+
+export const zRevokeRolePath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+/**
+ * The assignment was revoked.
+ */
+export const zRevokeRoleResponse = z.void();
+
+export const zListMyRolesResponse = z.array(zRoleAssignmentResponseDto);
+
+export const zListMyIdentitiesResponse = z.array(zExternalIdentityResponseDto);

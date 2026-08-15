@@ -80,6 +80,38 @@ export const SortOrder = { ASC: 'asc', DESC: 'desc' } as const;
 
 export type SortOrder = typeof SortOrder[keyof typeof SortOrder];
 
+export type RoleAssignmentResponseDto = {
+    id: string;
+    institutionId: string;
+    userId: string;
+    role: 'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
+    scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
+    scopeId?: string | null;
+    validFrom?: string | null;
+    validUntil?: string | null;
+};
+
+export type GrantRoleDto = {
+    userId: string;
+    role: 'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
+    scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
+    /**
+     * The org unit, program or course offering the role applies to.
+     */
+    scopeId?: string;
+    validFrom?: string;
+    validUntil?: string;
+};
+
+export type ExternalIdentityResponseDto = {
+    id: string;
+    institutionId: string;
+    sourceSystem: 'platform' | 'sis' | 'lms';
+    issuer: string;
+    externalUsername?: string | null;
+    lastAuthenticatedAt?: string | null;
+};
+
 export type CreateUserDtoWritable = {
     email: string;
     displayName: string;
@@ -458,3 +490,177 @@ export type FindOneResponses = {
 };
 
 export type FindOneResponse = FindOneResponses[keyof FindOneResponses];
+
+export type ListRoleAssignmentsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        userId?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/role-assignments';
+};
+
+export type ListRoleAssignmentsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListRoleAssignmentsError = ListRoleAssignmentsErrors[keyof ListRoleAssignmentsErrors];
+
+export type ListRoleAssignmentsResponses = {
+    200: Array<RoleAssignmentResponseDto>;
+};
+
+export type ListRoleAssignmentsResponse = ListRoleAssignmentsResponses[keyof ListRoleAssignmentsResponses];
+
+export type GrantRoleData = {
+    body: GrantRoleDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/role-assignments';
+};
+
+export type GrantRoleErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GrantRoleError = GrantRoleErrors[keyof GrantRoleErrors];
+
+export type GrantRoleResponses = {
+    201: RoleAssignmentResponseDto;
+};
+
+export type GrantRoleResponse = GrantRoleResponses[keyof GrantRoleResponses];
+
+export type RevokeRoleData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/role-assignments/{id}';
+};
+
+export type RevokeRoleErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RevokeRoleError = RevokeRoleErrors[keyof RevokeRoleErrors];
+
+export type RevokeRoleResponses = {
+    /**
+     * The assignment was revoked.
+     */
+    204: void;
+};
+
+export type RevokeRoleResponse = RevokeRoleResponses[keyof RevokeRoleResponses];
+
+export type ListMyRolesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/roles';
+};
+
+export type ListMyRolesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyRolesError = ListMyRolesErrors[keyof ListMyRolesErrors];
+
+export type ListMyRolesResponses = {
+    200: Array<RoleAssignmentResponseDto>;
+};
+
+export type ListMyRolesResponse = ListMyRolesResponses[keyof ListMyRolesResponses];
+
+export type ListMyIdentitiesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/identities';
+};
+
+export type ListMyIdentitiesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyIdentitiesError = ListMyIdentitiesErrors[keyof ListMyIdentitiesErrors];
+
+export type ListMyIdentitiesResponses = {
+    200: Array<ExternalIdentityResponseDto>;
+};
+
+export type ListMyIdentitiesResponse = ListMyIdentitiesResponses[keyof ListMyIdentitiesResponses];

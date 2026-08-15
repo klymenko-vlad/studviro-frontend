@@ -1,6 +1,12 @@
 import { http, HttpResponse } from 'msw';
 
-import type { AuthTokensDto, ErrorResponseDto, UserResponseDto } from '@/shared/api';
+import type {
+  AuthTokensDto,
+  ErrorResponseDto,
+  ExternalIdentityResponseDto,
+  RoleAssignmentResponseDto,
+  UserResponseDto,
+} from '@/shared/api';
 
 /**
  * The browser talks to the same-origin BFF, not to the API — so that is what
@@ -44,6 +50,40 @@ export const session: AuthTokensDto = {
   tokenType: 'Bearer',
   user: users[0]!,
 };
+
+export const roleAssignments: RoleAssignmentResponseDto[] = [
+  {
+    id: '44444444-4444-4444-8444-444444444444',
+    institutionId: '55555555-5555-4555-8555-555555555555',
+    userId: users[0]!.id,
+    role: 'student',
+    scopeType: 'institution',
+    scopeId: null,
+    validFrom: null,
+    validUntil: null,
+  },
+  {
+    id: '66666666-6666-4666-8666-666666666666',
+    institutionId: '55555555-5555-4555-8555-555555555555',
+    userId: users[0]!.id,
+    role: 'teaching_assistant',
+    scopeType: 'course_offering',
+    scopeId: '77777777-7777-4777-8777-777777777777',
+    validFrom: null,
+    validUntil: '2027-01-31T00:00:00.000Z',
+  },
+];
+
+export const linkedAccounts: ExternalIdentityResponseDto[] = [
+  {
+    id: '88888888-8888-4888-8888-888888888888',
+    institutionId: '55555555-5555-4555-8555-555555555555',
+    sourceSystem: 'sis',
+    issuer: 'https://login.upjs.sk',
+    externalUsername: 'ada123',
+    lastAuthenticatedAt: '2026-08-01T09:00:00.000Z',
+  },
+];
 
 export function errorResponse(
   status: number,
@@ -121,4 +161,7 @@ export const handlers = [
   }),
 
   http.delete(`${PROXY}/users/:id`, () => new HttpResponse(null, { status: 204 })),
+
+  http.get(`${PROXY}/users/me/roles`, () => HttpResponse.json(roleAssignments)),
+  http.get(`${PROXY}/users/me/identities`, () => HttpResponse.json(linkedAccounts)),
 ];

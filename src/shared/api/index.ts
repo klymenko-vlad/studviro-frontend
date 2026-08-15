@@ -10,9 +10,8 @@ export { ApiError, toApiError } from './error';
 export { getQueryClient } from './query-client';
 
 export { client } from './generated/client.gen';
-export { Auth, Users } from './generated/sdk.gen';
+export { Auth, Identities, RoleAssignments, Users } from './generated/sdk.gen';
 
-/** Generated TanStack Query options and query keys — see docs/api-contract.md. */
 export * as apiQueries from './generated/@tanstack/react-query.gen';
 
 /**
@@ -27,10 +26,13 @@ export type {
   CreateUserDto,
   CreateUserDtoWritable,
   ErrorResponseDto,
+  ExternalIdentityResponseDto,
+  GrantRoleDto,
   LoginDto,
   LoginDtoWritable,
   PageMetaDto,
   RefreshTokenDto,
+  RoleAssignmentResponseDto,
   UpdateMeDto,
   UserResponseDto,
   UserResponseDtoPage,

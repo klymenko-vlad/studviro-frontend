@@ -4,8 +4,8 @@ import * as z from 'zod';
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreateData, CreateErrors, CreateResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MeData, MeErrors, MeResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterResponses, RemoveData, RemoveErrors, RemoveResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses } from './types.gen';
-import { zCreateBody, zCreateResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMeResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterResponse, zRemovePath, zRemoveResponse, zUpdateMeBody, zUpdateMeResponse } from './zod.gen';
+import type { CreateData, CreateErrors, CreateResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MeData, MeErrors, MeResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterResponses, RemoveData, RemoveErrors, RemoveResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses } from './types.gen';
+import { zCreateBody, zCreateResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zListMyIdentitiesResponse, zListMyRolesResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMeResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterResponse, zRemovePath, zRemoveResponse, zRevokeRolePath, zRevokeRoleResponse, zUpdateMeBody, zUpdateMeResponse } from './zod.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -244,6 +244,99 @@ export class Users {
             responseValidator: async (data) => await zFindOneResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
             url: '/api/v1/users/{id}',
+            ...options
+        });
+    }
+}
+
+export class RoleAssignments {
+    /**
+     * List role assignments in an institution
+     */
+    public static listRoleAssignments<ThrowOnError extends boolean = false>(options: Options<ListRoleAssignmentsData, ThrowOnError>): RequestResult<ListRoleAssignmentsResponses, ListRoleAssignmentsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListRoleAssignmentsResponses, ListRoleAssignmentsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListRoleAssignmentsPath,
+                query: zListRoleAssignmentsQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListRoleAssignmentsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/role-assignments',
+            ...options
+        });
+    }
+    
+    /**
+     * Grant a role in a scope
+     */
+    public static grantRole<ThrowOnError extends boolean = false>(options: Options<GrantRoleData, ThrowOnError>): RequestResult<GrantRoleResponses, GrantRoleErrors, ThrowOnError> {
+        return (options.client ?? client).post<GrantRoleResponses, GrantRoleErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zGrantRoleBody,
+                path: zGrantRolePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGrantRoleResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/role-assignments',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Revoke a role assignment
+     */
+    public static revokeRole<ThrowOnError extends boolean = false>(options: Options<RevokeRoleData, ThrowOnError>): RequestResult<RevokeRoleResponses, RevokeRoleErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RevokeRoleResponses, RevokeRoleErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRevokeRolePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRevokeRoleResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/role-assignments/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * List the current user roles in every institution
+     */
+    public static listMyRoles<ThrowOnError extends boolean = false>(options?: Options<ListMyRolesData, ThrowOnError>): RequestResult<ListMyRolesResponses, ListMyRolesErrors, ThrowOnError> {
+        return (options?.client ?? client).get<ListMyRolesResponses, ListMyRolesErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyRolesResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/roles',
+            ...options
+        });
+    }
+}
+
+export class Identities {
+    /**
+     * List the accounts linked to the current user
+     */
+    public static listMyIdentities<ThrowOnError extends boolean = false>(options?: Options<ListMyIdentitiesData, ThrowOnError>): RequestResult<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError> {
+        return (options?.client ?? client).get<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyIdentitiesResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/identities',
             ...options
         });
     }
