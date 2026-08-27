@@ -6,6 +6,7 @@ export { renderWithProviders, screen, userEvent, waitFor, within } from './rende
 export {
   connectorStatuses,
   courseOffering,
+  courseResults,
   enrolledCourses,
   errorResponse,
   handlers,

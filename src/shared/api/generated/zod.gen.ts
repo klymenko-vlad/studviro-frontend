@@ -458,6 +458,125 @@ export const zCourseOfferingResponseDto = z.object({
     ])
 });
 
+export const zEffectiveCourseGradeDto = z.object({
+    kind: z.enum([
+        'calculated',
+        'proposed',
+        'official'
+    ]),
+    grade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ])
+});
+
+export const zCalculatedCourseResultDto = z.object({
+    grade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    points: z.number().nullable()
+});
+
+export const zProposedCourseResultDto = z.object({
+    grade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    at: z.iso.datetime().nullable()
+});
+
+export const zOfficialCourseResultDto = z.object({
+    grade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    recordedAt: z.iso.datetime().nullable()
+});
+
+export const zCourseResultProvenanceDto = z.object({
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ]),
+    externalId: z.string().nullable(),
+    sourceUpdatedAt: z.iso.datetime().nullable(),
+    lastSynchronizedAt: z.iso.datetime().nullable(),
+    synchronizationStatus: z.enum([
+        'in_sync',
+        'pending',
+        'conflict',
+        'failed'
+    ])
+});
+
+export const zMyCourseResultOfferingDto = z.object({
+    id: z.uuid()
+});
+
+export const zMyCourseResultCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string(),
+    credits: z.number().nullable()
+});
+
+export const zMyCourseResultTermDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string(),
+    academicYear: z.string(),
+    startsAt: z.iso.datetime()
+});
+
+export const zMyCourseResultResponseDto = z.object({
+    id: z.uuid(),
+    status: z.enum([
+        'calculated',
+        'proposed',
+        'official',
+        'corrected',
+        'annulled',
+        'disputed'
+    ]),
+    attempt: z.number(),
+    conflictNote: z.string().nullable(),
+    effective: zEffectiveCourseGradeDto.nullable(),
+    calculated: zCalculatedCourseResultDto,
+    proposed: zProposedCourseResultDto,
+    official: zOfficialCourseResultDto,
+    provenance: zCourseResultProvenanceDto,
+    enrollmentId: z.uuid(),
+    offering: zMyCourseResultOfferingDto,
+    course: zMyCourseResultCourseDto,
+    term: zMyCourseResultTermDto
+});
+
 export const zCreateUserDtoWritable = z.object({
     email: z.email(),
     displayName: z.string().min(1).max(120),
@@ -650,3 +769,22 @@ export const zGetCourseOfferingPath = z.object({
 });
 
 export const zGetCourseOfferingResponse = zCourseOfferingResponseDto;
+
+export const zListMyCourseResultsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyCourseResultsQuery = z.object({
+    termId: z.uuid().optional(),
+    offeringId: z.uuid().optional(),
+    status: z.enum([
+        'calculated',
+        'proposed',
+        'official',
+        'corrected',
+        'annulled',
+        'disputed'
+    ]).optional()
+});
+
+export const zListMyCourseResultsResponse = z.array(zMyCourseResultResponseDto);

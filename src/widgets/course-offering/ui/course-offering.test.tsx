@@ -14,6 +14,7 @@ import { CourseOffering } from './course-offering';
 
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const OFFERING = 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1';
+const RESULTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/course-results`;
 const OFFERING_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/course-offerings/${OFFERING}`;
 
 const render = () =>
@@ -100,5 +101,27 @@ describe('CourseOffering', () => {
     render();
 
     expect(await screen.findByText('Course not found')).toBeInTheDocument();
+  });
+
+  it('shows the caller’s result for this offering with where it came from', async () => {
+    renderWithProviders(
+      <CourseOffering institutionId={INSTITUTION} offeringId={OFFERING} />,
+    );
+
+    expect(await screen.findByText('My result')).toBeInTheDocument();
+    expect(await screen.findByText('B · 87.5 points')).toBeInTheDocument();
+    expect(screen.getByText('Student information system')).toBeInTheDocument();
+  });
+
+  it('says so when no result has been recorded for the offering', async () => {
+    server.use(http.get(RESULTS_URL, () => HttpResponse.json([])));
+
+    renderWithProviders(
+      <CourseOffering institutionId={INSTITUTION} offeringId={OFFERING} />,
+    );
+
+    expect(
+      await screen.findByText('No result has been recorded for this course yet.'),
+    ).toBeInTheDocument();
   });
 });

@@ -37,11 +37,16 @@ const budgets = [
     // Zod namespace re-export in `shared/api` to only the schemas actually used
     // recovered 2.2 kB, so the generated SDK is already being shaken.
     //
+    // Raised again from 420 kB for the grades screen and the result panel on the
+    // course page. Measured at 424.19 kB, up 13.15 kB. No new dependency: the
+    // whole increase is the new route, the `course-result` entity and its card,
+    // which renders every grade kind and its provenance rather than one mark.
+    //
     // The headroom is small on purpose — this is the number that should hurt to
     // raise. The next honest reduction is a lighter Select, not a bigger limit.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '420 kB',
+    limit: '435 kB',
     gzip: true,
   },
 ];

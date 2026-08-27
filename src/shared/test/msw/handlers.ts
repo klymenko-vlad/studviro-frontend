@@ -9,6 +9,7 @@ import type {
   InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
   MyCourseResponseDto,
+  MyCourseResultResponseDto,
   MyPermissionsResponseDto,
   RoleAssignmentResponseDto,
   UserResponseDto,
@@ -154,6 +155,7 @@ export const permissions: MyPermissionsResponseDto = {
     'role:assign',
     'enrollment:read',
     'offering:read',
+    'grade:read',
   ],
 };
 
@@ -233,6 +235,73 @@ export const enrolledCourses: MyCourseResponseDto[] = [
       endsAt: '2026-01-31T00:00:00.000Z',
     },
     teachers: [],
+  },
+];
+
+export const courseResults: MyCourseResultResponseDto[] = [
+  {
+    id: 'ddddddd1-dddd-4ddd-8ddd-ddddddddddd1',
+    status: 'official',
+    attempt: 1,
+    conflictNote: null,
+    effective: { kind: 'official', grade: 'A' },
+    calculated: { grade: 'B', points: 87.5 },
+    proposed: { grade: 'B', at: '2026-06-01T00:00:00.000Z' },
+    official: { grade: 'A', recordedAt: '2026-06-10T00:00:00.000Z' },
+    provenance: {
+      sourceSystem: 'sis',
+      externalId: 'sis-result-1',
+      sourceUpdatedAt: '2026-06-11T00:00:00.000Z',
+      lastSynchronizedAt: '2026-06-12T00:00:00.000Z',
+      synchronizationStatus: 'in_sync',
+    },
+    enrollmentId: '99999999-9999-4999-8999-999999999991',
+    offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1' },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+      code: 'INF/ALG/22',
+      title: 'Algorithms',
+      credits: 6,
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
+      code: '2026-SS',
+      name: 'Summer 2026',
+      academicYear: '2025/2026',
+      startsAt: '2026-02-01T00:00:00.000Z',
+    },
+  },
+  {
+    id: 'ddddddd1-dddd-4ddd-8ddd-ddddddddddd2',
+    status: 'proposed',
+    attempt: 2,
+    conflictNote: 'The source system reports a different mark.',
+    effective: { kind: 'proposed', grade: 'C' },
+    calculated: { grade: 'D', points: 61 },
+    proposed: { grade: 'C', at: '2026-01-20T00:00:00.000Z' },
+    official: { grade: null, recordedAt: null },
+    provenance: {
+      sourceSystem: 'platform',
+      externalId: null,
+      sourceUpdatedAt: null,
+      lastSynchronizedAt: null,
+      synchronizationStatus: 'conflict',
+    },
+    enrollmentId: '99999999-9999-4999-8999-999999999992',
+    offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa2' },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb2',
+      code: 'INF/DB/22',
+      title: 'Databases',
+      credits: 5,
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc2',
+      code: '2025-WS',
+      name: 'Winter 2025',
+      academicYear: '2025/2026',
+      startsAt: '2025-09-01T00:00:00.000Z',
+    },
   },
 ];
 
@@ -396,6 +465,18 @@ export const handlers = [
   http.get(`${PROXY}/institutions/:institutionId/me/courses`, () =>
     HttpResponse.json(enrolledCourses),
   ),
+
+  http.get(`${PROXY}/institutions/:institutionId/me/course-results`, ({ request }) => {
+    const offeringId = new URL(request.url, location.origin).searchParams.get(
+      'offeringId',
+    );
+
+    return HttpResponse.json(
+      offeringId === null
+        ? courseResults
+        : courseResults.filter(result => result.offering.id === offeringId),
+    );
+  }),
 
   http.get(`${PROXY}/institutions/:institutionId/course-offerings/:offeringId`, () =>
     HttpResponse.json(courseOffering),

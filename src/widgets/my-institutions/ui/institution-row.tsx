@@ -27,6 +27,14 @@ export function InstitutionRow({ institution }: { institution: Institution }) {
           </Button>
         ) : null}
 
+        {can('grade:read') ? (
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/institutions/${institution.id}/grades`}>
+              {t('institutions.myGrades')}
+            </Link>
+          </Button>
+        ) : null}
+
         {can('role:assign') ? (
           <Button asChild variant="outline" size="sm">
             <Link href={`/institutions/${institution.id}/roles`}>

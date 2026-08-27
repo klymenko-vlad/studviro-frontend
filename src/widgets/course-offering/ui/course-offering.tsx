@@ -9,6 +9,7 @@ import { Alert, AlertDescription, AlertTitle, Skeleton } from '@/shared/ui';
 
 import { OfferingEnrollment } from './offering-enrollment';
 import { OfferingHeader } from './offering-header';
+import { OfferingResults } from './offering-results';
 import { OfferingStaff } from './offering-staff';
 
 export function CourseOffering({
@@ -46,6 +47,8 @@ export function CourseOffering({
         <OfferingStaff offering={data} />
         <OfferingEnrollment offering={data} />
       </div>
+
+      <OfferingResults institutionId={institutionId} offeringId={offeringId} />
     </div>
   );
 }

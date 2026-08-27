@@ -85,7 +85,8 @@
       "empty": "You do not belong to any institution yet.",
       "manageRoles": "Manage roles",
       "manageSettings": "Settings",
-      "myCourses": "My courses"
+      "myCourses": "My courses",
+      "myGrades": "My grades"
     }
   },
   "roles": {
@@ -270,6 +271,63 @@
       "exercise": "Exercise",
       "project": "Project",
       "other": "Other"
+    }
+  },
+  "grades": {
+    "title": "My grades",
+    "subtitle": "Every result recorded for you, with the grade that counts and where it came from.",
+    "overview": "{credits} credits earned · weighted average {average}",
+    "overviewWithoutAverage": "{credits} credits earned",
+    "termSummary": "{results, plural, one {# result} other {# results}} · {credits} credits earned · from {starts}",
+    "empty": "No result has been recorded for you yet.",
+    "credits": "{count} credits",
+    "attempt": "Attempt {attempt}",
+    "noGrade": "Not graded",
+    "none": "—",
+    "effectiveGrade": "{grade}, {kind}",
+    "calculatedValue": "{grade} · {points} points",
+    "gradeOn": "{grade} on {on}",
+    "source": "Source",
+    "syncedAt": "synchronized {at}",
+    "offeringPanel": "My result",
+    "noOfferingResult": "No result has been recorded for this course yet.",
+    "deniedTitle": "Grades are not yours to see",
+    "deniedDescription": "You need permission to read grades in this institution.",
+    "errorTitle": "Grades could not be loaded",
+    "errorDescription": "Your results are unavailable right now. Try again in a moment.",
+    "kind": {
+      "calculated": "Calculated",
+      "proposed": "Proposed",
+      "official": "Official"
+    },
+    "grade": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D",
+      "E": "E",
+      "FX": "FX",
+      "passed": "Passed",
+      "failed": "Failed"
+    },
+    "status": {
+      "calculated": "Calculated",
+      "proposed": "Proposed",
+      "official": "Official",
+      "corrected": "Corrected",
+      "annulled": "Annulled",
+      "disputed": "Disputed"
+    },
+    "sourceSystem": {
+      "platform": "This platform",
+      "sis": "Student information system",
+      "lms": "Learning management system"
+    },
+    "syncStatus": {
+      "in_sync": "In sync",
+      "pending": "Pending",
+      "conflict": "Conflict",
+      "failed": "Failed"
     }
   }
 }
