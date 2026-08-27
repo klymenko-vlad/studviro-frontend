@@ -5,6 +5,7 @@
 export { renderWithProviders, screen, userEvent, waitFor, within } from './render';
 export {
   connectorStatuses,
+  enrolledCourses,
   errorResponse,
   handlers,
   institutionConfiguration,

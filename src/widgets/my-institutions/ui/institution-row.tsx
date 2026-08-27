@@ -19,6 +19,14 @@ export function InstitutionRow({ institution }: { institution: Institution }) {
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
+        {can('enrollment:read') ? (
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/institutions/${institution.id}/courses`}>
+              {t('institutions.myCourses')}
+            </Link>
+          </Button>
+        ) : null}
+
         {can('role:assign') ? (
           <Button asChild variant="outline" size="sm">
             <Link href={`/institutions/${institution.id}/roles`}>

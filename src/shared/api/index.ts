@@ -38,6 +38,7 @@ export type {
   InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
   LoginDto,
+  MyCourseResponseDto,
   MyPermissionsResponseDto,
   LoginDtoWritable,
   PageMetaDto,

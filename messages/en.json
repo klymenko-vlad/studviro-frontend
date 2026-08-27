@@ -84,7 +84,8 @@
       "description": "Where you hold a role.",
       "empty": "You do not belong to any institution yet.",
       "manageRoles": "Manage roles",
-      "manageSettings": "Settings"
+      "manageSettings": "Settings",
+      "myCourses": "My courses"
     }
   },
   "roles": {
@@ -197,5 +198,31 @@
     "errorDescription": "Try again in a moment.",
     "deniedTitle": "Read-only",
     "deniedDescription": "You need permission to manage this institution to change its settings."
+  },
+  "myCourses": {
+    "title": "My courses",
+    "subtitle": "Every course you are enrolled in, newest term first.",
+    "empty": "You are not enrolled in any course yet.",
+    "noTeacher": "No teacher recorded",
+    "errorTitle": "Courses could not be loaded",
+    "errorDescription": "The course list is unavailable right now. Try again in a moment.",
+    "deniedTitle": "Not available to you",
+    "deniedDescription": "You need permission to read enrolments in this institution.",
+    "termSummary": "{courses, plural, one {# course} other {# courses}} · {credits} credits · from {starts}",
+    "credits": "{count} credits",
+    "attempt": "Attempt {attempt}",
+    "status": {
+      "requested": "Requested",
+      "provisioning": "Provisioning",
+      "active": "Active",
+      "completed": "Completed",
+      "withdrawn": "Withdrawn",
+      "rejected": "Rejected"
+    },
+    "requirement": {
+      "compulsory": "Compulsory",
+      "optional": "Optional",
+      "elective": "Elective"
+    }
   }
 }

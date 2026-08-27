@@ -7,6 +7,7 @@ import type {
   ExternalIdentityResponseDto,
   InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
+  MyCourseResponseDto,
   MyPermissionsResponseDto,
   RoleAssignmentResponseDto,
   UserResponseDto,
@@ -145,7 +146,13 @@ export const connectorStatuses: ConnectorStatusResponseDto[] = [
 export const permissions: MyPermissionsResponseDto = {
   institutionId: '55555555-5555-4555-8555-555555555555',
   roles: ['institution_admin'],
-  permissions: ['institution:read', 'institution:manage', 'role:read', 'role:assign'],
+  permissions: [
+    'institution:read',
+    'institution:manage',
+    'role:read',
+    'role:assign',
+    'enrollment:read',
+  ],
 };
 
 export const linkedAccounts: ExternalIdentityResponseDto[] = [
@@ -156,6 +163,74 @@ export const linkedAccounts: ExternalIdentityResponseDto[] = [
     issuer: 'https://login.upjs.sk',
     externalUsername: 'ada123',
     lastAuthenticatedAt: '2026-08-01T09:00:00.000Z',
+  },
+];
+
+export const enrolledCourses: MyCourseResponseDto[] = [
+  {
+    enrollmentId: '99999999-9999-4999-8999-999999999991',
+    status: 'active',
+    requirementType: 'compulsory',
+    attempt: 1,
+    enrolledAt: '2026-02-10T00:00:00.000Z',
+    offering: {
+      id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1',
+      status: 'running',
+      language: 'sk',
+      capacity: 120,
+    },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+      code: 'INF/ALG/22',
+      title: 'Algorithms',
+      description: null,
+      credits: 6,
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
+      code: '2026-SS',
+      name: 'Summer 2026',
+      academicYear: '2025/2026',
+      startsAt: '2026-02-01T00:00:00.000Z',
+      endsAt: '2026-06-30T00:00:00.000Z',
+    },
+    teachers: [
+      {
+        userId: '11111111-1111-4111-8111-111111111111',
+        displayName: 'Ada Lovelace',
+        role: 'lecturer',
+        isPrimary: true,
+      },
+    ],
+  },
+  {
+    enrollmentId: '99999999-9999-4999-8999-999999999992',
+    status: 'completed',
+    requirementType: 'elective',
+    attempt: 2,
+    enrolledAt: '2025-09-15T00:00:00.000Z',
+    offering: {
+      id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa2',
+      status: 'closed',
+      language: null,
+      capacity: null,
+    },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb2',
+      code: 'INF/DB/22',
+      title: 'Databases',
+      description: null,
+      credits: 5,
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc2',
+      code: '2025-WS',
+      name: 'Winter 2025',
+      academicYear: '2025/2026',
+      startsAt: '2025-09-01T00:00:00.000Z',
+      endsAt: '2026-01-31T00:00:00.000Z',
+    },
+    teachers: [],
   },
 ];
 
@@ -259,6 +334,10 @@ export const handlers = [
       ...permissions,
       institutionId: params['institutionId'] as string,
     } satisfies MyPermissionsResponseDto),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/me/courses`, () =>
+    HttpResponse.json(enrolledCourses),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/configuration`, ({ params }) =>

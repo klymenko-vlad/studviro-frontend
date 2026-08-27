@@ -41,6 +41,15 @@ describe('MyInstitutions', () => {
     expect(screen.queryByRole('link', { name: 'Manage roles' })).not.toBeInTheDocument();
   });
 
+  it('offers the course list to someone who may read enrolments', async () => {
+    renderWithProviders(<MyInstitutions />);
+
+    expect(await screen.findByRole('link', { name: 'My courses' })).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}/courses`,
+    );
+  });
+
   it('explains belonging to no institution at all', async () => {
     server.use(http.get('/api/proxy/api/v1/institutions', () => HttpResponse.json([])));
 
