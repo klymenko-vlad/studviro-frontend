@@ -10,9 +10,14 @@ export { ApiError, toApiError } from './error';
 export { getQueryClient } from './query-client';
 
 export { client } from './generated/client.gen';
-export { Auth, Users } from './generated/sdk.gen';
+export {
+  Auth,
+  Identities,
+  Institutions,
+  RoleAssignments,
+  Users,
+} from './generated/sdk.gen';
 
-/** Generated TanStack Query options and query keys — see docs/api-contract.md. */
 export * as apiQueries from './generated/@tanstack/react-query.gen';
 
 /**
@@ -24,13 +29,22 @@ export * as apiSchemas from './generated/zod.gen';
 
 export type {
   AuthTokensDto,
+  ConnectorStatusResponseDto,
   CreateUserDto,
   CreateUserDtoWritable,
   ErrorResponseDto,
+  ExternalIdentityResponseDto,
+  GrantRoleDto,
+  InstitutionConfigurationResponseDto,
+  InstitutionResponseDto,
   LoginDto,
+  MyCourseResponseDto,
+  MyPermissionsResponseDto,
   LoginDtoWritable,
   PageMetaDto,
   RefreshTokenDto,
+  RoleAssignmentResponseDto,
+  UpdateInstitutionConfigurationDto,
   UpdateMeDto,
   UserResponseDto,
   UserResponseDtoPage,

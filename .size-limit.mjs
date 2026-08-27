@@ -17,14 +17,31 @@ const budgets = [
   {
     // The aggregate ceiling for everything the browser can be asked to load.
     //
+    // Note this globs every chunk, not a per-route entry: it is total app JS, so
+    // code-splitting a route behind `dynamic()` does not move this number. Only
+    // shipping less code does.
+    //
     // Raised from 310 kB when the sign-in flow landed: `/sign-in` is the first
     // route to ship a form, so react-hook-form, the Zod resolver and the shadcn
     // `Form` primitives entered the client bundle for the first time. Measured
-    // at 319.89 kB with that in place. The headroom is small on purpose — this
-    // is the number that should hurt to raise.
+    // at 319.89 kB with that in place.
+    //
+    // Raised again from 330 kB for the role administration, institution settings
+    // and account screens. Measured at 401.37 kB. The shared chunk accounts for
+    // +32.7 kB of that on its own, and it is almost entirely `@radix-ui/react-select`
+    // and `react-switch` — Select drags in floating-ui, focus-scope, dismissable-layer
+    // and the collection helpers, and this is the first release to use it. The
+    // remainder is the new route code itself. No new dependency was added.
+    //
+    // Verified this is not barrel bloat before raising: narrowing the generated
+    // Zod namespace re-export in `shared/api` to only the schemas actually used
+    // recovered 2.2 kB, so the generated SDK is already being shaken.
+    //
+    // The headroom is small on purpose — this is the number that should hurt to
+    // raise. The next honest reduction is a lighter Select, not a bigger limit.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '330 kB',
+    limit: '420 kB',
     gzip: true,
   },
 ];

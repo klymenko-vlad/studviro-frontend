@@ -53,3 +53,18 @@ if (typeof window.matchMedia !== 'function') {
     }),
   });
 }
+
+/**
+ * Radix builds its listbox interactions on the Pointer Events capture API, which
+ * jsdom does not implement at all. Without these a select opens in a browser and
+ * throws in a test, so every component built on one becomes untestable.
+ */
+if (typeof Element.prototype.hasPointerCapture !== 'function') {
+  Element.prototype.hasPointerCapture = () => false;
+  Element.prototype.setPointerCapture = noop;
+  Element.prototype.releasePointerCapture = noop;
+}
+
+if (typeof Element.prototype.scrollIntoView !== 'function') {
+  Element.prototype.scrollIntoView = noop;
+}

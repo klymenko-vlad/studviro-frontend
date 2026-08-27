@@ -6,7 +6,7 @@ import { IS_SECURE_ORIGIN } from './app';
  * Tokens are issued by the API in a JSON body and re-housed here as httpOnly
  * cookies on *this* origin. Nothing in the browser can read them, and because
  * they are first-party there is no `SameSite=None` and no cross-site credential
- * surface — see `docs/adr/0008-bff-token-cookies.md`.
+ * surface.
  *
  * Dependency-free on purpose: `src/proxy.ts` imports this, and anything it
  * reaches is bundled into the Edge runtime.

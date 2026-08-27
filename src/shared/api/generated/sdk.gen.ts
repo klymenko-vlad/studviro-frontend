@@ -4,8 +4,8 @@ import * as z from 'zod';
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreateData, CreateErrors, CreateResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MeData, MeErrors, MeResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterResponses, RemoveData, RemoveErrors, RemoveResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses } from './types.gen';
-import { zCreateBody, zCreateResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMeResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterResponse, zRemovePath, zRemoveResponse, zUpdateMeBody, zUpdateMeResponse } from './zod.gen';
+import type { CreateData, CreateErrors, CreateResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GetInstitutionConfigurationData, GetInstitutionConfigurationErrors, GetInstitutionConfigurationResponses, GetInstitutionData, GetInstitutionErrors, GetInstitutionResponses, GetSynchronizationRunData, GetSynchronizationRunErrors, GetSynchronizationRunResponses, GetSynchronizationStateData, GetSynchronizationStateErrors, GetSynchronizationStateResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, ListInstitutionConnectorsData, ListInstitutionConnectorsErrors, ListInstitutionConnectorsResponses, ListMyCoursesData, ListMyCoursesErrors, ListMyCoursesResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyInstitutionsData, ListMyInstitutionsErrors, ListMyInstitutionsResponses, ListMyPermissionsData, ListMyPermissionsErrors, ListMyPermissionsResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, ListSynchronizationRunsData, ListSynchronizationRunsErrors, ListSynchronizationRunsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MeData, MeErrors, MeResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterResponses, RemoveData, RemoveErrors, RemoveResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, StartSynchronizationRunData, StartSynchronizationRunErrors, StartSynchronizationRunResponses, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationErrors, UpdateInstitutionConfigurationResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses } from './types.gen';
+import { zCreateBody, zCreateResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGetInstitutionConfigurationPath, zGetInstitutionConfigurationResponse, zGetInstitutionPath, zGetInstitutionResponse, zGetSynchronizationRunPath, zGetSynchronizationRunResponse, zGetSynchronizationStatePath, zGetSynchronizationStateResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zListInstitutionConnectorsPath, zListInstitutionConnectorsResponse, zListMyCoursesPath, zListMyCoursesQuery, zListMyCoursesResponse, zListMyIdentitiesResponse, zListMyInstitutionsResponse, zListMyPermissionsPath, zListMyPermissionsResponse, zListMyRolesResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zListSynchronizationRunsPath, zListSynchronizationRunsQuery, zListSynchronizationRunsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMeResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterResponse, zRemovePath, zRemoveResponse, zRevokeRolePath, zRevokeRoleResponse, zStartSynchronizationRunBody, zStartSynchronizationRunPath, zStartSynchronizationRunResponse, zUpdateInstitutionConfigurationBody, zUpdateInstitutionConfigurationPath, zUpdateInstitutionConfigurationResponse, zUpdateMeBody, zUpdateMeResponse } from './zod.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -20,6 +20,308 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
      */
     meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
+
+export class Synchronization {
+    /**
+     * List the most recent synchronization runs
+     */
+    public static listSynchronizationRuns<ThrowOnError extends boolean = false>(options: Options<ListSynchronizationRunsData, ThrowOnError>): RequestResult<ListSynchronizationRunsResponses, ListSynchronizationRunsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListSynchronizationRunsResponses, ListSynchronizationRunsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListSynchronizationRunsPath,
+                query: zListSynchronizationRunsQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListSynchronizationRunsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/synchronization/runs',
+            ...options
+        });
+    }
+    
+    /**
+     * Queue a synchronization run against the institution’s academic connector
+     *
+     * Returns the run already in flight instead of queueing a second one, so a repeated request cannot double-import.
+     */
+    public static startSynchronizationRun<ThrowOnError extends boolean = false>(options: Options<StartSynchronizationRunData, ThrowOnError>): RequestResult<StartSynchronizationRunResponses, StartSynchronizationRunErrors, ThrowOnError> {
+        return (options.client ?? client).post<StartSynchronizationRunResponses, StartSynchronizationRunErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zStartSynchronizationRunBody,
+                path: zStartSynchronizationRunPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zStartSynchronizationRunResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/synchronization/runs',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Read one synchronization run and its per-domain results
+     */
+    public static getSynchronizationRun<ThrowOnError extends boolean = false>(options: Options<GetSynchronizationRunData, ThrowOnError>): RequestResult<GetSynchronizationRunResponses, GetSynchronizationRunErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetSynchronizationRunResponses, GetSynchronizationRunErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetSynchronizationRunPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetSynchronizationRunResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/synchronization/runs/{runId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Report how fresh each synchronized domain is
+     */
+    public static getSynchronizationState<ThrowOnError extends boolean = false>(options: Options<GetSynchronizationStateData, ThrowOnError>): RequestResult<GetSynchronizationStateResponses, GetSynchronizationStateErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetSynchronizationStateResponses, GetSynchronizationStateErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetSynchronizationStatePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetSynchronizationStateResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/synchronization/state',
+            ...options
+        });
+    }
+}
+
+export class Connectors {
+    /**
+     * Report the health and capabilities of an institution’s connectors
+     */
+    public static listInstitutionConnectors<ThrowOnError extends boolean = false>(options: Options<ListInstitutionConnectorsData, ThrowOnError>): RequestResult<ListInstitutionConnectorsResponses, ListInstitutionConnectorsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListInstitutionConnectorsResponses, ListInstitutionConnectorsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListInstitutionConnectorsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListInstitutionConnectorsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/connectors',
+            ...options
+        });
+    }
+}
+
+export class Institutions {
+    /**
+     * List the institutions the current user belongs to
+     */
+    public static listMyInstitutions<ThrowOnError extends boolean = false>(options?: Options<ListMyInstitutionsData, ThrowOnError>): RequestResult<ListMyInstitutionsResponses, ListMyInstitutionsErrors, ThrowOnError> {
+        return (options?.client ?? client).get<ListMyInstitutionsResponses, ListMyInstitutionsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyInstitutionsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions',
+            ...options
+        });
+    }
+    
+    /**
+     * Get an institution
+     */
+    public static getInstitution<ThrowOnError extends boolean = false>(options: Options<GetInstitutionData, ThrowOnError>): RequestResult<GetInstitutionResponses, GetInstitutionErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetInstitutionResponses, GetInstitutionErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetInstitutionPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetInstitutionResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}',
+            ...options
+        });
+    }
+}
+
+export class InstitutionConfiguration {
+    /**
+     * Read an institution’s terminology, locale and feature flags
+     */
+    public static getInstitutionConfiguration<ThrowOnError extends boolean = false>(options: Options<GetInstitutionConfigurationData, ThrowOnError>): RequestResult<GetInstitutionConfigurationResponses, GetInstitutionConfigurationErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetInstitutionConfigurationResponses, GetInstitutionConfigurationErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetInstitutionConfigurationPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetInstitutionConfigurationResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/configuration',
+            ...options
+        });
+    }
+    
+    /**
+     * Change an institution’s terminology, locale and feature flags
+     */
+    public static updateInstitutionConfiguration<ThrowOnError extends boolean = false>(options: Options<UpdateInstitutionConfigurationData, ThrowOnError>): RequestResult<UpdateInstitutionConfigurationResponses, UpdateInstitutionConfigurationErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateInstitutionConfigurationResponses, UpdateInstitutionConfigurationErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateInstitutionConfigurationBody,
+                path: zUpdateInstitutionConfigurationPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateInstitutionConfigurationResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/configuration',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class Identities {
+    /**
+     * List the accounts linked to the current user
+     */
+    public static listMyIdentities<ThrowOnError extends boolean = false>(options?: Options<ListMyIdentitiesData, ThrowOnError>): RequestResult<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError> {
+        return (options?.client ?? client).get<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyIdentitiesResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/identities',
+            ...options
+        });
+    }
+}
+
+export class Users {
+    /**
+     * Get the current user
+     */
+    public static findMe<ThrowOnError extends boolean = false>(options?: Options<FindMeData, ThrowOnError>): RequestResult<FindMeResponses, FindMeErrors, ThrowOnError> {
+        return (options?.client ?? client).get<FindMeResponses, FindMeErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zFindMeResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me',
+            ...options
+        });
+    }
+    
+    /**
+     * Update the current user
+     */
+    public static updateMe<ThrowOnError extends boolean = false>(options: Options<UpdateMeData, ThrowOnError>): RequestResult<UpdateMeResponses, UpdateMeErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateMeResponses, UpdateMeErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateMeBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateMeResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * List users
+     */
+    public static findAll<ThrowOnError extends boolean = false>(options?: Options<FindAllData, ThrowOnError>): RequestResult<FindAllResponses, FindAllErrors, ThrowOnError> {
+        return (options?.client ?? client).get<FindAllResponses, FindAllErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: zFindAllQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zFindAllResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users',
+            ...options
+        });
+    }
+    
+    /**
+     * Create a user
+     */
+    public static create<ThrowOnError extends boolean = false>(options: Options<CreateData, ThrowOnError>): RequestResult<CreateResponses, CreateErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateResponses, CreateErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Soft-delete a user
+     */
+    public static remove<ThrowOnError extends boolean = false>(options: Options<RemoveData, ThrowOnError>): RequestResult<RemoveResponses, RemoveErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveResponses, RemoveErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemovePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Get a user by id
+     */
+    public static findOne<ThrowOnError extends boolean = false>(options: Options<FindOneData, ThrowOnError>): RequestResult<FindOneResponses, FindOneErrors, ThrowOnError> {
+        return (options.client ?? client).get<FindOneResponses, FindOneErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zFindOnePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zFindOneResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/{id}',
+            ...options
+        });
+    }
+}
 
 export class Auth {
     /**
@@ -137,37 +439,37 @@ export class Auth {
     }
 }
 
-export class Users {
+export class RoleAssignments {
     /**
-     * Get the current user
+     * List role assignments in an institution
      */
-    public static findMe<ThrowOnError extends boolean = false>(options?: Options<FindMeData, ThrowOnError>): RequestResult<FindMeResponses, FindMeErrors, ThrowOnError> {
-        return (options?.client ?? client).get<FindMeResponses, FindMeErrors, ThrowOnError>({
+    public static listRoleAssignments<ThrowOnError extends boolean = false>(options: Options<ListRoleAssignmentsData, ThrowOnError>): RequestResult<ListRoleAssignmentsResponses, ListRoleAssignmentsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListRoleAssignmentsResponses, ListRoleAssignmentsErrors, ThrowOnError>({
             requestValidator: async (data) => await z.object({
                 body: z.never().optional(),
-                path: z.never().optional(),
-                query: z.never().optional()
+                path: zListRoleAssignmentsPath,
+                query: zListRoleAssignmentsQuery.optional()
             }).parseAsync(data),
-            responseValidator: async (data) => await zFindMeResponse.parseAsync(data),
+            responseValidator: async (data) => await zListRoleAssignmentsResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users/me',
+            url: '/api/v1/institutions/{institutionId}/role-assignments',
             ...options
         });
     }
     
     /**
-     * Update the current user
+     * Grant a role in a scope
      */
-    public static updateMe<ThrowOnError extends boolean = false>(options: Options<UpdateMeData, ThrowOnError>): RequestResult<UpdateMeResponses, UpdateMeErrors, ThrowOnError> {
-        return (options.client ?? client).patch<UpdateMeResponses, UpdateMeErrors, ThrowOnError>({
+    public static grantRole<ThrowOnError extends boolean = false>(options: Options<GrantRoleData, ThrowOnError>): RequestResult<GrantRoleResponses, GrantRoleErrors, ThrowOnError> {
+        return (options.client ?? client).post<GrantRoleResponses, GrantRoleErrors, ThrowOnError>({
             requestValidator: async (data) => await z.object({
-                body: zUpdateMeBody,
-                path: z.never().optional(),
+                body: zGrantRoleBody,
+                path: zGrantRolePath,
                 query: z.never().optional()
             }).parseAsync(data),
-            responseValidator: async (data) => await zUpdateMeResponse.parseAsync(data),
+            responseValidator: async (data) => await zGrantRoleResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users/me',
+            url: '/api/v1/institutions/{institutionId}/role-assignments',
             ...options,
             headers: {
                 'Content-Type': 'application/json',
@@ -177,73 +479,71 @@ export class Users {
     }
     
     /**
-     * List users
+     * Revoke a role assignment
      */
-    public static findAll<ThrowOnError extends boolean = false>(options?: Options<FindAllData, ThrowOnError>): RequestResult<FindAllResponses, FindAllErrors, ThrowOnError> {
-        return (options?.client ?? client).get<FindAllResponses, FindAllErrors, ThrowOnError>({
+    public static revokeRole<ThrowOnError extends boolean = false>(options: Options<RevokeRoleData, ThrowOnError>): RequestResult<RevokeRoleResponses, RevokeRoleErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RevokeRoleResponses, RevokeRoleErrors, ThrowOnError>({
             requestValidator: async (data) => await z.object({
                 body: z.never().optional(),
-                path: z.never().optional(),
-                query: zFindAllQuery.optional()
+                path: zRevokeRolePath,
+                query: z.never().optional()
             }).parseAsync(data),
-            responseValidator: async (data) => await zFindAllResponse.parseAsync(data),
+            responseValidator: async (data) => await zRevokeRoleResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users',
+            url: '/api/v1/institutions/{institutionId}/role-assignments/{id}',
             ...options
         });
     }
     
     /**
-     * Create a user
+     * List the current user roles in every institution
      */
-    public static create<ThrowOnError extends boolean = false>(options: Options<CreateData, ThrowOnError>): RequestResult<CreateResponses, CreateErrors, ThrowOnError> {
-        return (options.client ?? client).post<CreateResponses, CreateErrors, ThrowOnError>({
+    public static listMyRoles<ThrowOnError extends boolean = false>(options?: Options<ListMyRolesData, ThrowOnError>): RequestResult<ListMyRolesResponses, ListMyRolesErrors, ThrowOnError> {
+        return (options?.client ?? client).get<ListMyRolesResponses, ListMyRolesErrors, ThrowOnError>({
             requestValidator: async (data) => await z.object({
-                body: zCreateBody,
+                body: z.never().optional(),
                 path: z.never().optional(),
                 query: z.never().optional()
             }).parseAsync(data),
-            responseValidator: async (data) => await zCreateResponse.parseAsync(data),
+            responseValidator: async (data) => await zListMyRolesResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users',
-            ...options,
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers
-            }
-        });
-    }
-    
-    /**
-     * Soft-delete a user
-     */
-    public static remove<ThrowOnError extends boolean = false>(options: Options<RemoveData, ThrowOnError>): RequestResult<RemoveResponses, RemoveErrors, ThrowOnError> {
-        return (options.client ?? client).delete<RemoveResponses, RemoveErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: zRemovePath,
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zRemoveResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users/{id}',
+            url: '/api/v1/users/me/roles',
             ...options
         });
     }
     
     /**
-     * Get a user by id
+     * List what the current user may do in an institution
      */
-    public static findOne<ThrowOnError extends boolean = false>(options: Options<FindOneData, ThrowOnError>): RequestResult<FindOneResponses, FindOneErrors, ThrowOnError> {
-        return (options.client ?? client).get<FindOneResponses, FindOneErrors, ThrowOnError>({
+    public static listMyPermissions<ThrowOnError extends boolean = false>(options: Options<ListMyPermissionsData, ThrowOnError>): RequestResult<ListMyPermissionsResponses, ListMyPermissionsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListMyPermissionsResponses, ListMyPermissionsErrors, ThrowOnError>({
             requestValidator: async (data) => await z.object({
                 body: z.never().optional(),
-                path: zFindOnePath,
+                path: zListMyPermissionsPath,
                 query: z.never().optional()
             }).parseAsync(data),
-            responseValidator: async (data) => await zFindOneResponse.parseAsync(data),
+            responseValidator: async (data) => await zListMyPermissionsResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users/{id}',
+            url: '/api/v1/institutions/{institutionId}/me/permissions',
+            ...options
+        });
+    }
+}
+
+export class Courses {
+    /**
+     * List the current user’s enrolled courses in an institution
+     */
+    public static listMyCourses<ThrowOnError extends boolean = false>(options: Options<ListMyCoursesData, ThrowOnError>): RequestResult<ListMyCoursesResponses, ListMyCoursesErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListMyCoursesResponses, ListMyCoursesErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListMyCoursesPath,
+                query: zListMyCoursesQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyCoursesResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/courses',
             ...options
         });
     }

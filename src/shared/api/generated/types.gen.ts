@@ -4,34 +4,31 @@ export type ClientOptions = {
     baseUrl: string;
 };
 
-export type CreateUserDto = {
-    email: string;
-    displayName: string;
+export type StartSyncRunDto = {
+    /**
+     * A full run ignores the stored watermarks and re-reads every record the connector offers.
+     */
+    mode?: 'incremental' | 'full';
 };
 
-export type UserResponseDto = {
+export type SyncRunResponseDto = {
     id: string;
-    email: string;
-    displayName: string;
-    /**
-     * The interface language this account is served in. It is part of the user
-     * rather than a client-side preference so it follows them across devices —
-     * the browser cookie is a cache of this value, not the source of truth.
-     */
-    locale: 'en' | 'uk';
-    role: 'user' | 'admin';
-    createdAt: string;
-};
-
-export type AuthTokensDto = {
-    accessToken: string;
-    refreshToken: string;
-    /**
-     * Access-token lifetime in seconds.
-     */
-    expiresIn: number;
-    tokenType: string;
-    user: UserResponseDto;
+    institutionId: string;
+    connectorName: string;
+    mode: 'incremental' | 'full';
+    trigger: 'manual' | 'scheduled';
+    status: 'queued' | 'running' | 'succeeded' | 'partial' | 'failed';
+    queuedAt: string;
+    startedAt: string | null;
+    finishedAt: string | null;
+    fetched: number;
+    created: number;
+    updated: number;
+    deleted: number;
+    skipped: number;
+    failed: number;
+    errorCode: string | null;
+    errorMessage: string | null;
 };
 
 export type ErrorResponseDto = {
@@ -49,17 +46,136 @@ export type ErrorResponseDto = {
     timestamp: string;
 };
 
-export type LoginDto = {
-    email: string;
+export type SyncDomainResultResponseDto = {
+    domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults';
+    status: 'succeeded' | 'partial' | 'failed' | 'skipped';
+    fetched: number;
+    created: number;
+    updated: number;
+    deleted: number;
+    skipped: number;
+    failed: number;
+    durationMs: number;
+    watermark: string | null;
+    errorMessage: string | null;
 };
 
-export type RefreshTokenDto = {
-    refreshToken: string;
+export type SyncRunDetailResponseDto = {
+    run: SyncRunResponseDto;
+    domains: Array<SyncDomainResultResponseDto>;
+};
+
+export type SyncWatermarkResponseDto = {
+    domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults';
+    connectorName: string;
+    /**
+     * The newest source change this domain has taken in.
+     */
+    sourceUpdatedAt: string | null;
+    lastStatus: 'succeeded' | 'partial' | 'failed' | 'skipped';
+    lastAttemptedAt: string | null;
+    lastSucceededAt: string | null;
+    lastErrorMessage: string | null;
+};
+
+export type ConnectorStatusResponseDto = {
+    kind: 'academic' | 'learning';
+    name: string | null;
+    installed: boolean;
+    healthy: boolean;
+    checkedAt: string | null;
+    detail: string | null;
+    capabilities: Array<string>;
+    /**
+     * Connector names of this kind the deployment can be pointed at.
+     */
+    alternatives: Array<string>;
+};
+
+export type InstitutionResponseDto = {
+    id: string;
+    code: string;
+    name: string;
+    defaultLocale: string;
+    timezone: string;
+};
+
+export type InstitutionConnectorsDto = {
+    academicSystem: string | null;
+    learningSystem: string | null;
+};
+
+export type InstitutionConfigurationResponseDto = {
+    institutionId: string;
+    code: string;
+    name: string;
+    defaultLocale: string;
+    timezone: string;
+    /**
+     * Institution label overrides; null means the client uses its own wording.
+     */
+    terminology: {
+        [key: string]: string | null;
+    };
+    /**
+     * Every feature flag, resolved against the platform defaults.
+     */
+    features: {
+        [key: string]: boolean;
+    };
+    connectors: InstitutionConnectorsDto;
+};
+
+export type UpdateInstitutionConfigurationDto = {
+    defaultLocale?: 'en' | 'uk';
+    timezone?: string;
+    /**
+     * Label overrides to merge in; null clears one.
+     */
+    terminology?: {
+        [key: string]: string | null;
+    };
+    /**
+     * Feature flags to merge in.
+     */
+    features?: {
+        [key: string]: boolean;
+    };
+    academicSystemConnector?: string | null;
+    learningSystemConnector?: string | null;
+};
+
+export type ExternalIdentityResponseDto = {
+    id: string;
+    institutionId: string;
+    sourceSystem: 'platform' | 'sis' | 'lms';
+    issuer: string;
+    externalUsername?: string | null;
+    lastAuthenticatedAt?: string | null;
+};
+
+export type UserResponseDto = {
+    id: string;
+    email: string;
+    displayName: string;
+    /**
+     * The interface language this account is served in. It is part of the user
+     * rather than a client-side preference so it follows them across devices —
+     * the browser cookie is a cache of this value, not the source of truth.
+     */
+    locale: 'en' | 'uk';
+    role: 'user' | 'admin';
+    createdAt: string;
 };
 
 export type UpdateMeDto = {
     displayName?: string;
     locale?: 'en' | 'uk';
+};
+
+export type CreateUserDto = {
+    email: string;
+    displayName: string;
 };
 
 export type PageMetaDto = {
@@ -80,6 +196,97 @@ export const SortOrder = { ASC: 'asc', DESC: 'desc' } as const;
 
 export type SortOrder = typeof SortOrder[keyof typeof SortOrder];
 
+export type AuthTokensDto = {
+    accessToken: string;
+    refreshToken: string;
+    /**
+     * Access-token lifetime in seconds.
+     */
+    expiresIn: number;
+    tokenType: string;
+    user: UserResponseDto;
+};
+
+export type LoginDto = {
+    email: string;
+};
+
+export type RefreshTokenDto = {
+    refreshToken: string;
+};
+
+export type RoleAssignmentResponseDto = {
+    id: string;
+    institutionId: string;
+    userId: string;
+    role: 'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
+    scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
+    scopeId?: string | null;
+    validFrom?: string | null;
+    validUntil?: string | null;
+};
+
+export type GrantRoleDto = {
+    userId: string;
+    role: 'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
+    scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
+    /**
+     * The org unit, program or course offering the role applies to.
+     */
+    scopeId?: string;
+    validFrom?: string;
+    validUntil?: string;
+};
+
+export type MyPermissionsResponseDto = {
+    institutionId: string;
+    roles: Array<'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin'>;
+    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage' | 'sync:read' | 'sync:run'>;
+};
+
+export type MyCourseOfferingDto = {
+    id: string;
+    status: 'planned' | 'open' | 'running' | 'closed' | 'cancelled';
+    language: string | null;
+    capacity: number | null;
+};
+
+export type MyCourseCourseDto = {
+    id: string;
+    code: string;
+    title: string;
+    description: string | null;
+    credits: number | null;
+};
+
+export type MyCourseTermDto = {
+    id: string;
+    code: string;
+    name: string;
+    academicYear: string;
+    startsAt: string;
+    endsAt: string;
+};
+
+export type MyCourseTeacherDto = {
+    userId: string;
+    displayName: string;
+    role: 'lecturer' | 'seminar_leader' | 'lab_supervisor' | 'examiner' | 'assistant';
+    isPrimary: boolean;
+};
+
+export type MyCourseResponseDto = {
+    enrollmentId: string;
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    requirementType: 'compulsory' | 'optional' | 'elective';
+    attempt: number;
+    enrolledAt: string | null;
+    offering: MyCourseOfferingDto;
+    course: MyCourseCourseDto;
+    term: MyCourseTermDto;
+    teachers: Array<MyCourseTeacherDto>;
+};
+
 export type CreateUserDtoWritable = {
     email: string;
     displayName: string;
@@ -96,22 +303,26 @@ export type LoginDtoWritable = {
     password: string;
 };
 
-export type RegisterData = {
-    body: CreateUserDtoWritable;
-    path?: never;
-    query?: never;
-    url: '/api/v1/auth/register';
+export type ListSynchronizationRunsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        limit?: number;
+    };
+    url: '/api/v1/institutions/{institutionId}/synchronization/runs';
 };
 
-export type RegisterErrors = {
+export type ListSynchronizationRunsErrors = {
     /**
      * Validation failed or the payload was malformed.
      */
     400: ErrorResponseDto;
     /**
-     * Conflicts with an existing record.
+     * Not found.
      */
-    409: ErrorResponseDto;
+    404: ErrorResponseDto;
     /**
      * Rate limit exceeded.
      */
@@ -122,26 +333,32 @@ export type RegisterErrors = {
     500: ErrorResponseDto;
 };
 
-export type RegisterError = RegisterErrors[keyof RegisterErrors];
+export type ListSynchronizationRunsError = ListSynchronizationRunsErrors[keyof ListSynchronizationRunsErrors];
 
-export type RegisterResponses = {
-    201: AuthTokensDto;
+export type ListSynchronizationRunsResponses = {
+    200: Array<SyncRunResponseDto>;
 };
 
-export type RegisterResponse = RegisterResponses[keyof RegisterResponses];
+export type ListSynchronizationRunsResponse = ListSynchronizationRunsResponses[keyof ListSynchronizationRunsResponses];
 
-export type LoginData = {
-    body: LoginDtoWritable;
-    path?: never;
+export type StartSynchronizationRunData = {
+    body: StartSyncRunDto;
+    path: {
+        institutionId: string;
+    };
     query?: never;
-    url: '/api/v1/auth/login';
+    url: '/api/v1/institutions/{institutionId}/synchronization/runs';
 };
 
-export type LoginErrors = {
+export type StartSynchronizationRunErrors = {
     /**
      * Validation failed or the payload was malformed.
      */
     400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
     /**
      * Rate limit exceeded.
      */
@@ -152,26 +369,33 @@ export type LoginErrors = {
     500: ErrorResponseDto;
 };
 
-export type LoginError = LoginErrors[keyof LoginErrors];
+export type StartSynchronizationRunError = StartSynchronizationRunErrors[keyof StartSynchronizationRunErrors];
 
-export type LoginResponses = {
-    200: AuthTokensDto;
+export type StartSynchronizationRunResponses = {
+    202: SyncRunResponseDto;
 };
 
-export type LoginResponse = LoginResponses[keyof LoginResponses];
+export type StartSynchronizationRunResponse = StartSynchronizationRunResponses[keyof StartSynchronizationRunResponses];
 
-export type RefreshData = {
-    body: RefreshTokenDto;
-    path?: never;
+export type GetSynchronizationRunData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        runId: string;
+    };
     query?: never;
-    url: '/api/v1/auth/refresh';
+    url: '/api/v1/institutions/{institutionId}/synchronization/runs/{runId}';
 };
 
-export type RefreshErrors = {
+export type GetSynchronizationRunErrors = {
     /**
      * Validation failed or the payload was malformed.
      */
     400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
     /**
      * Rate limit exceeded.
      */
@@ -182,48 +406,94 @@ export type RefreshErrors = {
     500: ErrorResponseDto;
 };
 
-export type RefreshError = RefreshErrors[keyof RefreshErrors];
+export type GetSynchronizationRunError = GetSynchronizationRunErrors[keyof GetSynchronizationRunErrors];
 
-export type RefreshResponses = {
-    200: AuthTokensDto;
+export type GetSynchronizationRunResponses = {
+    200: SyncRunDetailResponseDto;
 };
 
-export type RefreshResponse = RefreshResponses[keyof RefreshResponses];
+export type GetSynchronizationRunResponse = GetSynchronizationRunResponses[keyof GetSynchronizationRunResponses];
 
-export type LogoutData = {
-    body: RefreshTokenDto;
-    path?: never;
+export type GetSynchronizationStateData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
     query?: never;
-    url: '/api/v1/auth/logout';
+    url: '/api/v1/institutions/{institutionId}/synchronization/state';
 };
 
-export type LogoutResponses = {
-    204: void;
+export type GetSynchronizationStateErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
 };
 
-export type LogoutResponse = LogoutResponses[keyof LogoutResponses];
+export type GetSynchronizationStateError = GetSynchronizationStateErrors[keyof GetSynchronizationStateErrors];
 
-export type LogoutAllData = {
+export type GetSynchronizationStateResponses = {
+    200: Array<SyncWatermarkResponseDto>;
+};
+
+export type GetSynchronizationStateResponse = GetSynchronizationStateResponses[keyof GetSynchronizationStateResponses];
+
+export type ListInstitutionConnectorsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/connectors';
+};
+
+export type ListInstitutionConnectorsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListInstitutionConnectorsError = ListInstitutionConnectorsErrors[keyof ListInstitutionConnectorsErrors];
+
+export type ListInstitutionConnectorsResponses = {
+    200: Array<ConnectorStatusResponseDto>;
+};
+
+export type ListInstitutionConnectorsResponse = ListInstitutionConnectorsResponses[keyof ListInstitutionConnectorsResponses];
+
+export type ListMyInstitutionsData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/api/v1/auth/logout-all';
+    url: '/api/v1/institutions';
 };
 
-export type LogoutAllResponses = {
-    204: void;
-};
-
-export type LogoutAllResponse = LogoutAllResponses[keyof LogoutAllResponses];
-
-export type MeData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/api/v1/auth/me';
-};
-
-export type MeErrors = {
+export type ListMyInstitutionsErrors = {
     /**
      * Validation failed or the payload was malformed.
      */
@@ -238,13 +508,151 @@ export type MeErrors = {
     500: ErrorResponseDto;
 };
 
-export type MeError = MeErrors[keyof MeErrors];
+export type ListMyInstitutionsError = ListMyInstitutionsErrors[keyof ListMyInstitutionsErrors];
 
-export type MeResponses = {
-    200: UserResponseDto;
+export type ListMyInstitutionsResponses = {
+    200: Array<InstitutionResponseDto>;
 };
 
-export type MeResponse = MeResponses[keyof MeResponses];
+export type ListMyInstitutionsResponse = ListMyInstitutionsResponses[keyof ListMyInstitutionsResponses];
+
+export type GetInstitutionData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}';
+};
+
+export type GetInstitutionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetInstitutionError = GetInstitutionErrors[keyof GetInstitutionErrors];
+
+export type GetInstitutionResponses = {
+    200: InstitutionResponseDto;
+};
+
+export type GetInstitutionResponse = GetInstitutionResponses[keyof GetInstitutionResponses];
+
+export type GetInstitutionConfigurationData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/configuration';
+};
+
+export type GetInstitutionConfigurationErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetInstitutionConfigurationError = GetInstitutionConfigurationErrors[keyof GetInstitutionConfigurationErrors];
+
+export type GetInstitutionConfigurationResponses = {
+    200: InstitutionConfigurationResponseDto;
+};
+
+export type GetInstitutionConfigurationResponse = GetInstitutionConfigurationResponses[keyof GetInstitutionConfigurationResponses];
+
+export type UpdateInstitutionConfigurationData = {
+    body: UpdateInstitutionConfigurationDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/configuration';
+};
+
+export type UpdateInstitutionConfigurationErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateInstitutionConfigurationError = UpdateInstitutionConfigurationErrors[keyof UpdateInstitutionConfigurationErrors];
+
+export type UpdateInstitutionConfigurationResponses = {
+    200: InstitutionConfigurationResponseDto;
+};
+
+export type UpdateInstitutionConfigurationResponse = UpdateInstitutionConfigurationResponses[keyof UpdateInstitutionConfigurationResponses];
+
+export type ListMyIdentitiesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/identities';
+};
+
+export type ListMyIdentitiesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyIdentitiesError = ListMyIdentitiesErrors[keyof ListMyIdentitiesErrors];
+
+export type ListMyIdentitiesResponses = {
+    200: Array<ExternalIdentityResponseDto>;
+};
+
+export type ListMyIdentitiesResponse = ListMyIdentitiesResponses[keyof ListMyIdentitiesResponses];
 
 export type FindMeData = {
     body?: never;
@@ -458,3 +866,364 @@ export type FindOneResponses = {
 };
 
 export type FindOneResponse = FindOneResponses[keyof FindOneResponses];
+
+export type RegisterData = {
+    body: CreateUserDtoWritable;
+    path?: never;
+    query?: never;
+    url: '/api/v1/auth/register';
+};
+
+export type RegisterErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RegisterError = RegisterErrors[keyof RegisterErrors];
+
+export type RegisterResponses = {
+    201: AuthTokensDto;
+};
+
+export type RegisterResponse = RegisterResponses[keyof RegisterResponses];
+
+export type LoginData = {
+    body: LoginDtoWritable;
+    path?: never;
+    query?: never;
+    url: '/api/v1/auth/login';
+};
+
+export type LoginErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type LoginError = LoginErrors[keyof LoginErrors];
+
+export type LoginResponses = {
+    200: AuthTokensDto;
+};
+
+export type LoginResponse = LoginResponses[keyof LoginResponses];
+
+export type RefreshData = {
+    body: RefreshTokenDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/auth/refresh';
+};
+
+export type RefreshErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RefreshError = RefreshErrors[keyof RefreshErrors];
+
+export type RefreshResponses = {
+    200: AuthTokensDto;
+};
+
+export type RefreshResponse = RefreshResponses[keyof RefreshResponses];
+
+export type LogoutData = {
+    body: RefreshTokenDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/auth/logout';
+};
+
+export type LogoutResponses = {
+    204: void;
+};
+
+export type LogoutResponse = LogoutResponses[keyof LogoutResponses];
+
+export type LogoutAllData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/auth/logout-all';
+};
+
+export type LogoutAllResponses = {
+    204: void;
+};
+
+export type LogoutAllResponse = LogoutAllResponses[keyof LogoutAllResponses];
+
+export type MeData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/auth/me';
+};
+
+export type MeErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type MeError = MeErrors[keyof MeErrors];
+
+export type MeResponses = {
+    200: UserResponseDto;
+};
+
+export type MeResponse = MeResponses[keyof MeResponses];
+
+export type ListRoleAssignmentsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        userId?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/role-assignments';
+};
+
+export type ListRoleAssignmentsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListRoleAssignmentsError = ListRoleAssignmentsErrors[keyof ListRoleAssignmentsErrors];
+
+export type ListRoleAssignmentsResponses = {
+    200: Array<RoleAssignmentResponseDto>;
+};
+
+export type ListRoleAssignmentsResponse = ListRoleAssignmentsResponses[keyof ListRoleAssignmentsResponses];
+
+export type GrantRoleData = {
+    body: GrantRoleDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/role-assignments';
+};
+
+export type GrantRoleErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GrantRoleError = GrantRoleErrors[keyof GrantRoleErrors];
+
+export type GrantRoleResponses = {
+    201: RoleAssignmentResponseDto;
+};
+
+export type GrantRoleResponse = GrantRoleResponses[keyof GrantRoleResponses];
+
+export type RevokeRoleData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/role-assignments/{id}';
+};
+
+export type RevokeRoleErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RevokeRoleError = RevokeRoleErrors[keyof RevokeRoleErrors];
+
+export type RevokeRoleResponses = {
+    /**
+     * The assignment was revoked.
+     */
+    204: void;
+};
+
+export type RevokeRoleResponse = RevokeRoleResponses[keyof RevokeRoleResponses];
+
+export type ListMyRolesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/roles';
+};
+
+export type ListMyRolesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyRolesError = ListMyRolesErrors[keyof ListMyRolesErrors];
+
+export type ListMyRolesResponses = {
+    200: Array<RoleAssignmentResponseDto>;
+};
+
+export type ListMyRolesResponse = ListMyRolesResponses[keyof ListMyRolesResponses];
+
+export type ListMyPermissionsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/permissions';
+};
+
+export type ListMyPermissionsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyPermissionsError = ListMyPermissionsErrors[keyof ListMyPermissionsErrors];
+
+export type ListMyPermissionsResponses = {
+    200: MyPermissionsResponseDto;
+};
+
+export type ListMyPermissionsResponse = ListMyPermissionsResponses[keyof ListMyPermissionsResponses];
+
+export type ListMyCoursesData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        termId?: string;
+        status?: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    };
+    url: '/api/v1/institutions/{institutionId}/me/courses';
+};
+
+export type ListMyCoursesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyCoursesError = ListMyCoursesErrors[keyof ListMyCoursesErrors];
+
+export type ListMyCoursesResponses = {
+    200: Array<MyCourseResponseDto>;
+};
+
+export type ListMyCoursesResponse = ListMyCoursesResponses[keyof ListMyCoursesResponses];

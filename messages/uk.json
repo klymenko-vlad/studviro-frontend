@@ -11,7 +11,8 @@
     "title": "Studviro",
     "subtitle": "Основа платформи готова.",
     "getStarted": "Почати",
-    "learnMore": "Дізнатися більше"
+    "learnMore": "Дізнатися більше",
+    "account": "Обліковий запис"
   },
   "error": {
     "title": "Щось пішло не так",
@@ -52,5 +53,176 @@
     "invalidCredentials": "Ця електронна пошта та пароль не відповідають жодному обліковому запису.",
     "signInTitle": "Вхід",
     "signInSubtitle": "Раді бачити вас знову."
+  },
+  "account": {
+    "title": "Обліковий запис",
+    "subtitle": "Ваші ролі в закладах і облікові записи, пов'язані з цим профілем.",
+    "roles": {
+      "title": "Ролі",
+      "description": "Що вам дозволено робити і де саме.",
+      "empty": "Вам ще не призначено жодної ролі.",
+      "errorTitle": "Не вдалося завантажити ролі",
+      "errorDescription": "Спробуйте ще раз за мить."
+    },
+    "linkedAccounts": {
+      "title": "Пов'язані облікові записи",
+      "description": "Університетські облікові записи, якими можна увійти до цього профілю.",
+      "empty": "Жодного університетського облікового запису ще не пов'язано.",
+      "errorTitle": "Не вдалося завантажити пов'язані записи",
+      "errorDescription": "Спробуйте ще раз за мить.",
+      "lastAuthenticated": "Востаннє використано {date}",
+      "neverUsed": "Ще не використовувався"
+    },
+    "validUntil": "До {date}",
+    "source": {
+      "platform": "Studviro",
+      "sis": "Інформаційна система закладу",
+      "lms": "Система керування навчанням"
+    },
+    "institutions": {
+      "title": "Заклади",
+      "description": "Де ви маєте роль.",
+      "empty": "Ви ще не належите до жодного закладу.",
+      "manageRoles": "Керувати ролями",
+      "manageSettings": "Налаштування",
+      "myCourses": "My courses"
+    }
+  },
+  "roles": {
+    "role": {
+      "student": "Студент",
+      "teacher": "Викладач",
+      "teaching_assistant": "Асистент викладача",
+      "course_coordinator": "Координатор курсу",
+      "program_coordinator": "Координатор програми",
+      "registrar": "Навчальний відділ",
+      "org_unit_manager": "Керівник підрозділу",
+      "institution_admin": "Адміністратор закладу"
+    },
+    "scope": {
+      "institution": "Увесь заклад",
+      "org_unit": "Факультет або кафедра",
+      "program": "Освітня програма",
+      "course_offering": "Реалізація курсу"
+    }
+  },
+  "roleAdmin": {
+    "title": "Ролі та доступ",
+    "subtitle": "Керуйте тим, хто і що може робити в цьому закладі.",
+    "assigned": "Призначені ролі",
+    "assignedDescription": "Усі активні ролі в цьому закладі.",
+    "grantTitle": "Надати роль",
+    "grantDescription": "Надайте особі роль на рівні закладу або в межах однієї області.",
+    "userId": "Особа",
+    "userIdHint": "Ідентифікатор облікового запису, який отримує роль.",
+    "role": "Роль",
+    "scopeType": "Область",
+    "scopeId": "Ідентифікатор області",
+    "scopeIdHint": "Факультет, програма або реалізація курсу, до якої належить роль.",
+    "scopeIdRequired": "Укажіть область, до якої належить ця роль",
+    "scopeIdNotAllowed": "Роль на рівні закладу не може вказувати область",
+    "grant": "Надати роль",
+    "granting": "Надаємо…",
+    "granted": "Роль надано",
+    "revoke": "Відкликати",
+    "revoked": "Роль відкликано",
+    "actions": "Дії",
+    "empty": "У цьому закладі ще не призначено жодної ролі.",
+    "errorTitle": "Не вдалося завантажити ролі",
+    "errorDescription": "Спробуйте ще раз за мить.",
+    "revokeLabel": "Відкликати {role}",
+    "deniedTitle": "Лише перегляд",
+    "deniedDescription": "Ви можете бачити ролі, але не змінювати їх."
+  },
+  "institutionSettings": {
+    "title": "Налаштування закладу",
+    "subtitle": "Термінологія, мова, функції та конектори цього закладу.",
+    "configurationTitle": "Конфігурація",
+    "configurationDescription": "Усе тут — це дані, тож другий університет не потребує змін у коді.",
+    "regionalTitle": "Мова і час",
+    "defaultLocale": "Мова за замовчуванням",
+    "defaultLocaleHint": "Мова, з якої починають нові учасники.",
+    "timezone": "Часовий пояс",
+    "timezoneHint": "Назва за IANA, наприклад Europe/Bratislava.",
+    "terminologyTitle": "Термінологія",
+    "terminologyDescription": "Замініть слова, якими послуговується заклад. Порожнє поле означає слово платформи.",
+    "terminologyPlaceholder": "Значення платформи",
+    "terminologyLabel": {
+      "academicTerm": "Семестр",
+      "course": "Курс",
+      "courseOffering": "Проведення курсу",
+      "credits": "Кредити",
+      "department": "Кафедра",
+      "faculty": "Факультет",
+      "institution": "Заклад",
+      "program": "Освітня програма",
+      "student": "Студент",
+      "studentIdentifier": "Номер студента",
+      "teacher": "Викладач"
+    },
+    "featuresTitle": "Функції",
+    "featuresDescription": "Увімкніть або вимкніть модуль для цього закладу.",
+    "featureLabel": {
+      "accommodation": "Гуртожиток",
+      "courseRegistration": "Запис на курси",
+      "examRegistration": "Запис на іспити",
+      "fees": "Оплати",
+      "grades": "Оцінки",
+      "thesis": "Кваліфікаційні роботи",
+      "timetable": "Розклад"
+    },
+    "connectorsTitle": "Конектори",
+    "connectorsDescription": "З яких зовнішніх систем читає цей заклад.",
+    "connectorStatusDescription": "Чи відповідає кожен конектор і що він підтримує.",
+    "connector": {
+      "academic": "Інформаційна система студента",
+      "learning": "Система керування навчанням"
+    },
+    "connectorHint": {
+      "academic": "Джерело істини про людей, курси та результати.",
+      "learning": "Система з навчальними завданнями та активністю."
+    },
+    "connectorNone": "Не під'єднано",
+    "connectorState": {
+      "healthy": "Доступний",
+      "unhealthy": "Недоступний",
+      "none": "Не під'єднано"
+    },
+    "capabilityCount": " · {count} операцій",
+    "connectorsErrorTitle": "Не вдалося завантажити стан конекторів",
+    "connectorsErrorDescription": "Спробуйте за мить.",
+    "save": "Зберегти налаштування",
+    "saving": "Збереження…",
+    "saved": "Налаштування збережено",
+    "errorTitle": "Не вдалося завантажити налаштування",
+    "errorDescription": "Спробуйте за мить.",
+    "deniedTitle": "Лише перегляд",
+    "deniedDescription": "Щоб змінювати налаштування, потрібен дозвіл на керування закладом."
+  },
+  "myCourses": {
+    "title": "My courses",
+    "subtitle": "Every course you are enrolled in, newest term first.",
+    "empty": "You are not enrolled in any course yet.",
+    "noTeacher": "No teacher recorded",
+    "errorTitle": "Courses could not be loaded",
+    "errorDescription": "The course list is unavailable right now. Try again in a moment.",
+    "deniedTitle": "Not available to you",
+    "deniedDescription": "You need permission to read enrolments in this institution.",
+    "termSummary": "{courses, plural, one {# course} other {# courses}} · {credits} credits · from {starts}",
+    "credits": "{count} credits",
+    "attempt": "Attempt {attempt}",
+    "status": {
+      "requested": "Requested",
+      "provisioning": "Provisioning",
+      "active": "Active",
+      "completed": "Completed",
+      "withdrawn": "Withdrawn",
+      "rejected": "Rejected"
+    },
+    "requirement": {
+      "compulsory": "Compulsory",
+      "optional": "Optional",
+      "elective": "Elective"
+    }
   }
 }

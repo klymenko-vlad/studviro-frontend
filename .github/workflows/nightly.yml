@@ -1,9 +1,10 @@
 name: Nightly
 
 on:
-  schedule:
-    # 02:00 Europe/Kyiv, comfortably after the working day.
-    - cron: '0 23 * * *'
+  # Nightly schedule temporarily disabled — trigger manually via workflow_dispatch.
+  # schedule:
+  #   # 02:00 Europe/Kyiv, comfortably after the working day.
+  #   - cron: '0 23 * * *'
   workflow_dispatch:
 
 env:

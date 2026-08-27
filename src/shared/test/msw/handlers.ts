@@ -1,6 +1,17 @@
 import { http, HttpResponse } from 'msw';
 
-import type { AuthTokensDto, ErrorResponseDto, UserResponseDto } from '@/shared/api';
+import type {
+  AuthTokensDto,
+  ConnectorStatusResponseDto,
+  ErrorResponseDto,
+  ExternalIdentityResponseDto,
+  InstitutionConfigurationResponseDto,
+  InstitutionResponseDto,
+  MyCourseResponseDto,
+  MyPermissionsResponseDto,
+  RoleAssignmentResponseDto,
+  UserResponseDto,
+} from '@/shared/api';
 
 /**
  * The browser talks to the same-origin BFF, not to the API — so that is what
@@ -44,6 +55,184 @@ export const session: AuthTokensDto = {
   tokenType: 'Bearer',
   user: users[0]!,
 };
+
+export const roleAssignments: RoleAssignmentResponseDto[] = [
+  {
+    id: '44444444-4444-4444-8444-444444444444',
+    institutionId: '55555555-5555-4555-8555-555555555555',
+    userId: users[0]!.id,
+    role: 'student',
+    scopeType: 'institution',
+    scopeId: null,
+    validFrom: null,
+    validUntil: null,
+  },
+  {
+    id: '66666666-6666-4666-8666-666666666666',
+    institutionId: '55555555-5555-4555-8555-555555555555',
+    userId: users[0]!.id,
+    role: 'teaching_assistant',
+    scopeType: 'course_offering',
+    scopeId: '77777777-7777-4777-8777-777777777777',
+    validFrom: null,
+    validUntil: '2027-01-31T00:00:00.000Z',
+  },
+];
+
+export const institutions: InstitutionResponseDto[] = [
+  {
+    id: '55555555-5555-4555-8555-555555555555',
+    code: 'upjs',
+    name: 'Pavol Jozef Šafárik University',
+    defaultLocale: 'en',
+    timezone: 'Europe/Bratislava',
+  },
+];
+
+export const institutionConfiguration: InstitutionConfigurationResponseDto = {
+  institutionId: '55555555-5555-4555-8555-555555555555',
+  code: 'upjs',
+  name: 'Pavol Jozef \u0160af\u00e1rik University',
+  defaultLocale: 'en',
+  timezone: 'Europe/Bratislava',
+  terminology: {
+    institution: null,
+    faculty: 'School',
+    department: null,
+    program: null,
+    course: null,
+    courseOffering: null,
+    academicTerm: null,
+    student: null,
+    teacher: null,
+    studentIdentifier: null,
+    credits: null,
+  },
+  features: {
+    courseRegistration: true,
+    examRegistration: true,
+    timetable: true,
+    grades: true,
+    thesis: false,
+    accommodation: false,
+    fees: false,
+  },
+  connectors: { academicSystem: 'mock-sis', learningSystem: null },
+};
+
+export const connectorStatuses: ConnectorStatusResponseDto[] = [
+  {
+    kind: 'academic',
+    name: 'mock-sis',
+    installed: true,
+    healthy: true,
+    checkedAt: '2026-08-15T09:00:00.000Z',
+    detail: null,
+    capabilities: ['courses.read', 'enrollments.read'],
+    alternatives: ['mock-sis'],
+  },
+  {
+    kind: 'learning',
+    name: null,
+    installed: false,
+    healthy: false,
+    checkedAt: null,
+    detail: null,
+    capabilities: [],
+    alternatives: [],
+  },
+];
+
+export const permissions: MyPermissionsResponseDto = {
+  institutionId: '55555555-5555-4555-8555-555555555555',
+  roles: ['institution_admin'],
+  permissions: [
+    'institution:read',
+    'institution:manage',
+    'role:read',
+    'role:assign',
+    'enrollment:read',
+  ],
+};
+
+export const linkedAccounts: ExternalIdentityResponseDto[] = [
+  {
+    id: '88888888-8888-4888-8888-888888888888',
+    institutionId: '55555555-5555-4555-8555-555555555555',
+    sourceSystem: 'sis',
+    issuer: 'https://login.upjs.sk',
+    externalUsername: 'ada123',
+    lastAuthenticatedAt: '2026-08-01T09:00:00.000Z',
+  },
+];
+
+export const enrolledCourses: MyCourseResponseDto[] = [
+  {
+    enrollmentId: '99999999-9999-4999-8999-999999999991',
+    status: 'active',
+    requirementType: 'compulsory',
+    attempt: 1,
+    enrolledAt: '2026-02-10T00:00:00.000Z',
+    offering: {
+      id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1',
+      status: 'running',
+      language: 'sk',
+      capacity: 120,
+    },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+      code: 'INF/ALG/22',
+      title: 'Algorithms',
+      description: null,
+      credits: 6,
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
+      code: '2026-SS',
+      name: 'Summer 2026',
+      academicYear: '2025/2026',
+      startsAt: '2026-02-01T00:00:00.000Z',
+      endsAt: '2026-06-30T00:00:00.000Z',
+    },
+    teachers: [
+      {
+        userId: '11111111-1111-4111-8111-111111111111',
+        displayName: 'Ada Lovelace',
+        role: 'lecturer',
+        isPrimary: true,
+      },
+    ],
+  },
+  {
+    enrollmentId: '99999999-9999-4999-8999-999999999992',
+    status: 'completed',
+    requirementType: 'elective',
+    attempt: 2,
+    enrolledAt: '2025-09-15T00:00:00.000Z',
+    offering: {
+      id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa2',
+      status: 'closed',
+      language: null,
+      capacity: null,
+    },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb2',
+      code: 'INF/DB/22',
+      title: 'Databases',
+      description: null,
+      credits: 5,
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc2',
+      code: '2025-WS',
+      name: 'Winter 2025',
+      academicYear: '2025/2026',
+      startsAt: '2025-09-01T00:00:00.000Z',
+      endsAt: '2026-01-31T00:00:00.000Z',
+    },
+    teachers: [],
+  },
+];
 
 export function errorResponse(
   status: number,
@@ -121,4 +310,89 @@ export const handlers = [
   }),
 
   http.delete(`${PROXY}/users/:id`, () => new HttpResponse(null, { status: 204 })),
+
+  http.get(`${PROXY}/users/me/roles`, () => HttpResponse.json(roleAssignments)),
+  http.get(`${PROXY}/users/me/identities`, () => HttpResponse.json(linkedAccounts)),
+
+  http.get(`${PROXY}/institutions`, () => HttpResponse.json(institutions)),
+
+  http.get(`${PROXY}/institutions/:institutionId`, ({ params }) => {
+    const institution = institutions.find(
+      candidate => candidate.id === params['institutionId'],
+    );
+    if (!institution) {
+      return HttpResponse.json(errorResponse(404, 'Institution not found', 'Not Found'), {
+        status: 404,
+      });
+    }
+
+    return HttpResponse.json(institution);
+  }),
+
+  http.get(`${PROXY}/institutions/:institutionId/me/permissions`, ({ params }) =>
+    HttpResponse.json({
+      ...permissions,
+      institutionId: params['institutionId'] as string,
+    } satisfies MyPermissionsResponseDto),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/me/courses`, () =>
+    HttpResponse.json(enrolledCourses),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/configuration`, ({ params }) =>
+    HttpResponse.json({
+      ...institutionConfiguration,
+      institutionId: params['institutionId'] as string,
+    } satisfies InstitutionConfigurationResponseDto),
+  ),
+
+  http.patch(
+    `${PROXY}/institutions/:institutionId/configuration`,
+    async ({ request }) => {
+      const body = (await request.json()) as Partial<InstitutionConfigurationResponseDto>;
+
+      return HttpResponse.json({
+        ...institutionConfiguration,
+        ...body,
+        terminology: { ...institutionConfiguration.terminology, ...body.terminology },
+        features: { ...institutionConfiguration.features, ...body.features },
+      } satisfies InstitutionConfigurationResponseDto);
+    },
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/connectors`, () =>
+    HttpResponse.json(connectorStatuses),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/role-assignments`, () =>
+    HttpResponse.json(roleAssignments),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/role-assignments`,
+    async ({ request }) => {
+      const body = (await request.json()) as Omit<
+        RoleAssignmentResponseDto,
+        'id' | 'institutionId' | 'validFrom' | 'validUntil'
+      >;
+
+      return HttpResponse.json(
+        {
+          id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+          institutionId: institutions[0]!.id,
+          validFrom: null,
+          validUntil: null,
+          scopeId: null,
+          ...body,
+        } satisfies RoleAssignmentResponseDto,
+        { status: 201 },
+      );
+    },
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/role-assignments/:id`,
+    () => new HttpResponse(null, { status: 204 }),
+  ),
 ];

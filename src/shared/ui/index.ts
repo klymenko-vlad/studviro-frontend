@@ -13,7 +13,10 @@
  * Adding a component: `shadcn add <name>`, use it, then add the export here.
  * Removing the last call site: remove the export too.
  */
+export { Alert, AlertDescription, AlertTitle } from './alert';
+export { Badge, badgeVariants } from './badge';
 export { Button, buttonVariants } from './button';
+export { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card';
 export {
   Form,
   FormControl,
@@ -26,5 +29,9 @@ export {
 } from './form';
 export { Input } from './input';
 export { Label } from './label';
+export { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
 export { Separator } from './separator';
+export { Skeleton } from './skeleton';
 export { Toaster } from './sonner';
+export { Switch } from './switch';
+export { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './table';

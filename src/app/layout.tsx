@@ -39,7 +39,7 @@ export async function generateMetadata(): Promise<Metadata> {
      * No `alternates.languages` and no `x-default`: with the locale in a cookie
      * there is exactly one URL per page, so there is no sibling URL to point a
      * crawler at. Declaring hreflang here would advertise URLs that do not
-     * exist. See `docs/adr/0007-locale-in-cookie.md`.
+     * exist.
      */
     openGraph: {
       type: 'website',

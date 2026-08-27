@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl';
 
 import { SwitchLocale } from '@/features/switch-locale';
 import { ThemeToggle } from '@/features/theme-toggle';
+import { Link } from '@/shared/config';
 import { Button, Separator } from '@/shared/ui';
 
 /**
@@ -16,6 +17,9 @@ export function HomeView() {
   return (
     <main className="flex flex-1 flex-col">
       <header className="flex items-center justify-end gap-2 p-4">
+        <Button asChild variant="ghost">
+          <Link href="/account">{t('account')}</Link>
+        </Button>
         <SwitchLocale />
         <ThemeToggle />
       </header>

@@ -13,6 +13,15 @@ describe('HomeView', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Studviro');
   });
 
+  it('offers a way through to the account page', () => {
+    renderWithProviders(<HomeView />);
+
+    expect(screen.getByRole('link', { name: 'Account' })).toHaveAttribute(
+      'href',
+      '/account',
+    );
+  });
+
   it('renders the localised subtitle rather than a raw message key', () => {
     renderWithProviders(<HomeView />);
 

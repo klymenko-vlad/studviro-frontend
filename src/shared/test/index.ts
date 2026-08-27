@@ -3,5 +3,17 @@
  * `@/shared/test` rather than reaching into individual modules.
  */
 export { renderWithProviders, screen, userEvent, waitFor, within } from './render';
-export { errorResponse, handlers, session, users } from './msw/handlers';
+export {
+  connectorStatuses,
+  enrolledCourses,
+  errorResponse,
+  handlers,
+  institutionConfiguration,
+  institutions,
+  permissions,
+  linkedAccounts,
+  roleAssignments,
+  session,
+  users,
+} from './msw/handlers';
 export { server } from './msw/server';
