@@ -8,7 +8,7 @@ import { apiOrigin, forbidden, getAccessToken, isSameOrigin } from '@/shared/aut
  * The bearer token is attached here, on the server, so the browser never holds
  * a credential it could leak through XSS — and because every call is
  * same-origin, `connect-src` in the CSP stays `'self'` with no exception for
- * the API host. See `docs/adr/0008-bff-token-cookies.md`.
+ * the API host.
  */
 
 /** Hop-by-hop and identity headers that must not be forwarded verbatim. */

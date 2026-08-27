@@ -8,7 +8,7 @@
  *
  * (2) is the default on purpose: the spec is generated from the backend's
  * controllers and committed, so codegen never needs a server, a database, or a
- * deployed environment. See docs/api-contract.md.
+ * deployed environment.
  */
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';

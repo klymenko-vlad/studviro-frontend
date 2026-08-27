@@ -31,7 +31,7 @@ export const NONCE_HEADER = 'x-nonce';
  * moment any hash appears in `script-src`, the spec requires browsers to ignore
  * `'unsafe-inline'`, which blocks those bootstrap scripts and leaves the page
  * unhydrated. Next injects the nonce into its own script tags automatically once
- * it sees one in the header. See `docs/adr/0009-nonce-based-csp.md`.
+ * it sees one in the header.
  *
  * `style-src` keeps `'unsafe-inline'` deliberately: Next's font optimisation and
  * React's inline `style` props emit style attributes that no nonce can reach.

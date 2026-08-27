@@ -16,7 +16,6 @@ export async function register(): Promise<void> {
    * import site keeps the edge bundle from pulling the Node build in at all.
    */
   if (process.env['NEXT_RUNTIME'] === 'nodejs') {
-    // Wire a server-side sink here once an APM is chosen — see docs/adr/0004.
     logger.info('server instrumentation registered', {
       runtime: 'nodejs',
       env: process.env['NEXT_PUBLIC_ENV'] ?? 'unknown',

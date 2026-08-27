@@ -4,9 +4,8 @@
  *
  * They used to be next-intl's locale-aware wrappers, which rewrote every href
  * to carry a `/uk` prefix. The locale now lives in a cookie, so there is no
- * prefix to add and the plain Next primitives are correct — see
- * `docs/adr/0007-locale-in-cookie.md`. Keeping the barrel means switching
- * strategies again touches this file and nothing else.
+ * prefix to add and the plain Next primitives are correct. Keeping the barrel
+ * means switching strategies again touches this file and nothing else.
  */
 export { default as Link } from 'next/link';
 export { redirect, usePathname, useRouter } from 'next/navigation';

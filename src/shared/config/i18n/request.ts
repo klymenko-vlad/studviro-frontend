@@ -13,8 +13,7 @@ import { isAppLocale, LOCALE_COOKIE, negotiateLocale } from './routing';
  * has chosen anything.
  *
  * Reading either one opts the render into dynamic rendering. That is the
- * deliberate trade for URLs without a locale segment — see
- * `docs/adr/0007-locale-in-cookie.md`.
+ * deliberate trade for URLs without a locale segment.
  */
 export default getRequestConfig(async () => {
   const stored = (await cookies()).get(LOCALE_COOKIE)?.value;
