@@ -287,6 +287,63 @@ export type MyCourseResponseDto = {
     teachers: Array<MyCourseTeacherDto>;
 };
 
+export type CourseOfferingSummaryDto = {
+    id: string;
+    status: 'planned' | 'open' | 'running' | 'closed' | 'cancelled';
+    language: string | null;
+    capacity: number | null;
+};
+
+export type CourseOfferingCourseDto = {
+    id: string;
+    code: string;
+    title: string;
+    description: string | null;
+    credits: number | null;
+};
+
+export type CourseOfferingTermDto = {
+    id: string;
+    code: string;
+    name: string;
+    academicYear: string;
+    startsAt: string;
+    endsAt: string;
+};
+
+export type CourseOfferingTeacherDto = {
+    userId: string;
+    displayName: string;
+    role: 'lecturer' | 'seminar_leader' | 'lab_supervisor' | 'examiner' | 'assistant';
+    isPrimary: boolean;
+};
+
+export type CourseOfferingEnrollmentDto = {
+    enrollmentId: string;
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    requirementType: 'compulsory' | 'optional' | 'elective';
+    attempt: number;
+    enrolledAt: string | null;
+};
+
+export type CourseOfferingStudyGroupDto = {
+    id: string;
+    kind: 'seminar' | 'lab' | 'exercise' | 'project' | 'other';
+    code: string;
+    name: string | null;
+    capacity: number | null;
+};
+
+export type CourseOfferingResponseDto = {
+    offering: CourseOfferingSummaryDto;
+    course: CourseOfferingCourseDto;
+    term: CourseOfferingTermDto;
+    teachers: Array<CourseOfferingTeacherDto>;
+    enrollment: CourseOfferingEnrollmentDto | null;
+    studyGroups: Array<CourseOfferingStudyGroupDto>;
+    viewerRole: 'student' | 'teacher' | 'administrator';
+};
+
 export type CreateUserDtoWritable = {
     email: string;
     displayName: string;
@@ -1227,3 +1284,36 @@ export type ListMyCoursesResponses = {
 };
 
 export type ListMyCoursesResponse = ListMyCoursesResponses[keyof ListMyCoursesResponses];
+
+export type GetCourseOfferingData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}';
+};
+
+export type GetCourseOfferingErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetCourseOfferingError = GetCourseOfferingErrors[keyof GetCourseOfferingErrors];
+
+export type GetCourseOfferingResponses = {
+    200: CourseOfferingResponseDto;
+};
+
+export type GetCourseOfferingResponse = GetCourseOfferingResponses[keyof GetCourseOfferingResponses];

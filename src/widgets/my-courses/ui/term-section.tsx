@@ -1,12 +1,19 @@
 import { useFormatter, useTranslations } from 'next-intl';
 
+import { courseOfferingHref } from '@/entities/course-offering';
 import {
   EnrolledCourseCard,
   totalCredits,
   type TermCourses,
 } from '@/entities/enrolled-course';
 
-export function TermSection({ group }: { group: TermCourses }) {
+export function TermSection({
+  group,
+  institutionId,
+}: {
+  group: TermCourses;
+  institutionId: string;
+}) {
   const t = useTranslations('myCourses');
   const format = useFormatter();
 
@@ -30,7 +37,10 @@ export function TermSection({ group }: { group: TermCourses }) {
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {group.courses.map(course => (
           <li key={course.enrollmentId}>
-            <EnrolledCourseCard course={course} />
+            <EnrolledCourseCard
+              course={course}
+              href={courseOfferingHref(institutionId, course.offering.id)}
+            />
           </li>
         ))}
       </ul>

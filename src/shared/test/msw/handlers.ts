@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw';
 import type {
   AuthTokensDto,
   ConnectorStatusResponseDto,
+  CourseOfferingResponseDto,
   ErrorResponseDto,
   ExternalIdentityResponseDto,
   InstitutionConfigurationResponseDto,
@@ -152,6 +153,7 @@ export const permissions: MyPermissionsResponseDto = {
     'role:read',
     'role:assign',
     'enrollment:read',
+    'offering:read',
   ],
 };
 
@@ -233,6 +235,61 @@ export const enrolledCourses: MyCourseResponseDto[] = [
     teachers: [],
   },
 ];
+
+export const courseOffering: CourseOfferingResponseDto = {
+  offering: {
+    id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1',
+    status: 'running',
+    language: 'sk',
+    capacity: 120,
+  },
+  course: {
+    id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+    code: 'INF/ALG/22',
+    title: 'Algorithms',
+    description: 'Complexity, design techniques and their analysis.',
+    credits: 6,
+  },
+  term: {
+    id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
+    code: '2026-SS',
+    name: 'Summer 2026',
+    academicYear: '2025/2026',
+    startsAt: '2026-02-01T00:00:00.000Z',
+    endsAt: '2026-06-30T00:00:00.000Z',
+  },
+  teachers: [
+    {
+      userId: '11111111-1111-4111-8111-111111111111',
+      displayName: 'Ada Lovelace',
+      role: 'lecturer',
+      isPrimary: true,
+    },
+    {
+      userId: '11111111-1111-4111-8111-111111111112',
+      displayName: 'Grace Hopper',
+      role: 'assistant',
+      isPrimary: false,
+    },
+  ],
+  enrollment: {
+    enrollmentId: '99999999-9999-4999-8999-999999999991',
+    status: 'active',
+    requirementType: 'compulsory',
+    attempt: 1,
+    enrolledAt: '2026-02-10T00:00:00.000Z',
+  },
+  studyGroups: [
+    {
+      id: 'ddddddd1-dddd-4ddd-8ddd-ddddddddddd1',
+      kind: 'seminar',
+      code: 'S1',
+      name: 'Monday seminar',
+      capacity: 20,
+    },
+  ],
+  viewerRole: 'student',
+};
 
 export function errorResponse(
   status: number,
@@ -338,6 +395,10 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/me/courses`, () =>
     HttpResponse.json(enrolledCourses),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/course-offerings/:offeringId`, () =>
+    HttpResponse.json(courseOffering),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/configuration`, ({ params }) =>

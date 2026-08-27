@@ -224,5 +224,52 @@
       "optional": "Optional",
       "elective": "Elective"
     }
+  },
+  "courseOffering": {
+    "title": "Course",
+    "backToCourses": "Back to my courses",
+    "staff": "Teaching staff",
+    "noStaff": "No teaching staff recorded.",
+    "lead": "Course lead",
+    "enrollment": "My enrolment",
+    "noEnrollment": "You are not enrolled in this course.",
+    "studyGroups": "My study groups",
+    "noStudyGroups": "No study group of your own.",
+    "credits": "{count} credits",
+    "language": "Taught in {language}",
+    "capacity": "Capacity {capacity}",
+    "termRange": "{starts} — {ends}",
+    "deniedTitle": "This course is not yours to see",
+    "deniedDescription": "You can open a course only if you take it, teach it or administer this institution.",
+    "notFoundTitle": "Course not found",
+    "notFoundDescription": "This course offering does not exist in this institution.",
+    "errorTitle": "Course could not be loaded",
+    "errorDescription": "The course is unavailable right now. Try again in a moment.",
+    "viewerRole": {
+      "student": "Enrolled",
+      "teacher": "Teaching",
+      "administrator": "Administrator"
+    },
+    "offeringStatus": {
+      "planned": "Planned",
+      "open": "Open",
+      "running": "Running",
+      "closed": "Closed",
+      "cancelled": "Cancelled"
+    },
+    "teachingRole": {
+      "lecturer": "Lecturer",
+      "seminar_leader": "Seminar leader",
+      "lab_supervisor": "Lab supervisor",
+      "examiner": "Examiner",
+      "assistant": "Assistant"
+    },
+    "studyGroupKind": {
+      "seminar": "Seminar",
+      "lab": "Lab",
+      "exercise": "Exercise",
+      "project": "Project",
+      "other": "Other"
+    }
   }
 }

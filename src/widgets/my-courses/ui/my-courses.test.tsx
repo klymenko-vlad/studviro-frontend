@@ -43,6 +43,15 @@ describe('MyCourses', () => {
     expect(screen.queryByText('Attempt 1')).not.toBeInTheDocument();
   });
 
+  it('links every course title to its course page', async () => {
+    renderWithProviders(<MyCourses institutionId={INSTITUTION} />);
+
+    expect(await screen.findByRole('link', { name: 'Algorithms' })).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}/courses/aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1`,
+    );
+  });
+
   it('explains an empty enrolment list instead of rendering a bare page', async () => {
     server.use(http.get(COURSES_URL, () => HttpResponse.json([])));
 

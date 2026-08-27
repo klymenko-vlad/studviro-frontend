@@ -30,6 +30,7 @@ export * as apiSchemas from './generated/zod.gen';
 export type {
   AuthTokensDto,
   ConnectorStatusResponseDto,
+  CourseOfferingResponseDto,
   CreateUserDto,
   CreateUserDtoWritable,
   ErrorResponseDto,
