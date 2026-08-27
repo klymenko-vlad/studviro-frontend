@@ -37,7 +37,15 @@ test before fixing them.
   it with `pnpm api:generate` and import through `@/shared/api`.
 - Derive form validation from `apiSchemas.*` and wrap generated query options;
   do not duplicate schemas or query keys.
-- Put user-facing text in both `messages/en.json` and `messages/uk.json`.
+- Put user-facing text in both `messages/en.json` and `messages/uk.json`. Never
+  hard-code a string in a component; everything a user reads goes through a key.
+- **Do not translate.** Write the real copy in `en.json` and mirror the key into
+  `uk.json` with the English string copied verbatim. Extraction and wiring are
+  the job; translation is a later pass done deliberately, not a side effect of
+  building a feature. `pnpm i18n:check` demands the key exists and is non-empty,
+  which a verbatim copy satisfies, and the keys still awaiting translation are
+  exactly those whose `uk` value equals its `en` value. Leave the Ukrainian text
+  that is already translated alone.
 - Use Server Components by default and keep `'use client'` at the smallest
   interactive boundary.
 - Navigate with `Link` and `useRouter` from `@/shared/config`.
