@@ -19,6 +19,7 @@ export {
   syncRunDetail,
   syncRuns,
   syncState,
+  timetableEvents,
   users,
 } from './msw/handlers';
 export { server } from './msw/server';

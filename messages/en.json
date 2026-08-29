@@ -422,6 +422,15 @@
       "error": "Your courses are unavailable right now.",
       "link": "All my courses"
     },
+    "calendar": {
+      "title": "This week",
+      "description": "What is scheduled for you next.",
+      "summary": "{events, plural, one {# event} other {# events}} left this week",
+      "empty": "Nothing is scheduled for the rest of this week.",
+      "error": "Your schedule is unavailable right now.",
+      "link": "Full calendar",
+      "cancelled": "Cancelled"
+    },
     "grades": {
       "title": "Results",
       "description": "Everything recorded for you so far.",
@@ -442,6 +451,40 @@
       "FX": "FX",
       "passed": "Passed",
       "failed": "Failed"
+    }
+  },
+  "calendar": {
+    "title": "Calendar",
+    "subtitle": "Your classes for the week, as the source systems report them.",
+    "empty": "Nothing is scheduled for this week.",
+    "errorTitle": "The calendar could not be loaded",
+    "errorDescription": "Your schedule is unavailable right now. Try again in a moment.",
+    "deniedTitle": "Not available to you",
+    "deniedDescription": "You need permission to read the timetable in this institution.",
+    "week": "{from} – {to}",
+    "weekSummary": "{events, plural, one {# event} other {# events}} this week",
+    "previousWeek": "Previous week",
+    "nextWeek": "Next week",
+    "thisWeek": "This week",
+    "time": "{from} – {to}",
+    "duration": "{minutes} min",
+    "room": "Room {room}",
+    "roomIn": "Room {room}, {building}",
+    "noRoom": "No room recorded",
+    "group": "Group {group}",
+    "cancelled": "Cancelled",
+    "today": "Today",
+    "type": {
+      "lecture": "Lecture",
+      "seminar": "Seminar",
+      "lab": "Lab",
+      "consultation": "Consultation",
+      "exam": "Exam",
+      "other": "Other"
+    },
+    "attendance": {
+      "enrolled": "Enrolled",
+      "teaching": "You teach this"
     }
   }
 }

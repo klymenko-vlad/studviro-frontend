@@ -1,0 +1,33 @@
+import { http, HttpResponse } from 'msw';
+import { describe, expect, it } from 'vitest';
+
+import { permissions, renderWithProviders, screen, server } from '@/shared/test';
+
+import { MyCalendarView } from './my-calendar-view';
+
+const INSTITUTION = '55555555-5555-4555-8555-555555555555';
+const PERMISSIONS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/permissions`;
+
+describe('MyCalendarView', () => {
+  it('heads the screen and shows the week the server returned', async () => {
+    renderWithProviders(<MyCalendarView institutionId={INSTITUTION} />);
+
+    expect(
+      screen.getByRole('heading', { name: 'Calendar', level: 1 }),
+    ).toBeInTheDocument();
+    expect(await screen.findByTestId('calendar-week')).toBeInTheDocument();
+  });
+
+  it('refuses a caller the server does not grant schedule:read', async () => {
+    server.use(
+      http.get(PERMISSIONS_URL, () =>
+        HttpResponse.json({ ...permissions, permissions: ['grade:read'] }),
+      ),
+    );
+
+    renderWithProviders(<MyCalendarView institutionId={INSTITUTION} />);
+
+    expect(await screen.findByText('Not available to you')).toBeInTheDocument();
+    expect(screen.queryByTestId('calendar-week')).not.toBeInTheDocument();
+  });
+});

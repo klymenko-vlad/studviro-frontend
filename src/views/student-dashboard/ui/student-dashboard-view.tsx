@@ -26,6 +26,7 @@ export function StudentDashboardView({ institutionId }: { institutionId: string 
           institutionId={institutionId}
           canReadCourses={can('enrollment:read')}
           canReadGrades={can('grade:read')}
+          canReadSchedule={can('schedule:read')}
         />
       )}
     </main>

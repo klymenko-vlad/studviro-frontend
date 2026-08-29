@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { Auth, Connectors, Courses, Grades, Identities, InstitutionConfiguration, Institutions, type Options, RoleAssignments, Synchronization, Users } from '../sdk.gen';
-import type { CreateData, CreateError, CreateResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetSynchronizationRunData, GetSynchronizationRunError, GetSynchronizationRunResponse, GetSynchronizationStateData, GetSynchronizationStateError, GetSynchronizationStateResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListInstitutionConnectorsData, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListSynchronizationRunsData, ListSynchronizationRunsError, ListSynchronizationRunsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, StartSynchronizationRunData, StartSynchronizationRunError, StartSynchronizationRunResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
+import { Auth, Connectors, Courses, Grades, Identities, InstitutionConfiguration, Institutions, type Options, RoleAssignments, Schedule, Synchronization, Users } from '../sdk.gen';
+import type { CreateData, CreateError, CreateResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetSynchronizationRunData, GetSynchronizationRunError, GetSynchronizationRunResponse, GetSynchronizationStateData, GetSynchronizationStateError, GetSynchronizationStateResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListInstitutionConnectorsData, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListSynchronizationRunsData, ListSynchronizationRunsError, ListSynchronizationRunsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, StartSynchronizationRunData, StartSynchronizationRunError, StartSynchronizationRunResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -626,4 +626,22 @@ export const listMyCourseResultsOptions = (options: Options<ListMyCourseResultsD
         return data;
     },
     queryKey: listMyCourseResultsQueryKey(options)
+});
+
+export const listMyTimetableEventsQueryKey = (options: Options<ListMyTimetableEventsData>) => createQueryKey('listMyTimetableEvents', options);
+
+/**
+ * List the current user’s timetable events overlapping a date range
+ */
+export const listMyTimetableEventsOptions = (options: Options<ListMyTimetableEventsData>) => queryOptions<ListMyTimetableEventsResponse, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ReturnType<typeof listMyTimetableEventsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Schedule.listMyTimetableEvents({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyTimetableEventsQueryKey(options)
 });
