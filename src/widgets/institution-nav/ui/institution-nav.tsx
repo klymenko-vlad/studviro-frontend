@@ -14,6 +14,7 @@ type NavKey =
   | 'grades'
   | 'calendar'
   | 'exams'
+  | 'notifications'
   | 'sync'
   | 'roles'
   | 'settings';
@@ -32,6 +33,7 @@ const GATES: Record<NavKey, Permission | null> = {
   grades: 'grade:read',
   calendar: 'schedule:read',
   exams: 'schedule:read',
+  notifications: 'notification:read',
   sync: 'sync:read',
   roles: 'role:assign',
   settings: 'institution:manage',
@@ -44,6 +46,7 @@ const ORDER: NavKey[] = [
   'grades',
   'calendar',
   'exams',
+  'notifications',
   'sync',
   'roles',
   'settings',

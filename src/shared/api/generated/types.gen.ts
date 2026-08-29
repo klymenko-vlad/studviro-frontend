@@ -196,6 +196,25 @@ export const SortOrder = { ASC: 'asc', DESC: 'desc' } as const;
 
 export type SortOrder = typeof SortOrder[keyof typeof SortOrder];
 
+export type NotificationResponseDto = {
+    id: string;
+    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled';
+    occurredAt: string;
+    occurrenceCount: number;
+    readAt: string | null;
+    examTermId: string | null;
+    courseOfferingId: string | null;
+    courseCode: string | null;
+    courseTitle: string | null;
+    startsAt: string | null;
+    previousStartsAt: string | null;
+    sourceSystem: 'platform' | 'sis' | 'lms';
+};
+
+export type UnreadNotificationsResponseDto = {
+    unreadCount: number;
+};
+
 export type AuthTokensDto = {
     accessToken: string;
     refreshToken: string;
@@ -241,7 +260,7 @@ export type GrantRoleDto = {
 export type MyPermissionsResponseDto = {
     institutionId: string;
     roles: Array<'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin'>;
-    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'exam:register' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage' | 'sync:read' | 'sync:run'>;
+    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'notification:read' | 'exam:register' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage' | 'sync:read' | 'sync:run'>;
 };
 
 export type MyCourseOfferingDto = {
@@ -1192,6 +1211,142 @@ export type FindOneResponses = {
 };
 
 export type FindOneResponse = FindOneResponses[keyof FindOneResponses];
+
+export type ListMyNotificationsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        unreadOnly?: boolean;
+        limit?: number;
+    };
+    url: '/api/v1/institutions/{institutionId}/me/notifications';
+};
+
+export type ListMyNotificationsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyNotificationsError = ListMyNotificationsErrors[keyof ListMyNotificationsErrors];
+
+export type ListMyNotificationsResponses = {
+    200: Array<NotificationResponseDto>;
+};
+
+export type ListMyNotificationsResponse = ListMyNotificationsResponses[keyof ListMyNotificationsResponses];
+
+export type CountMyUnreadNotificationsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/notifications/unread-count';
+};
+
+export type CountMyUnreadNotificationsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CountMyUnreadNotificationsError = CountMyUnreadNotificationsErrors[keyof CountMyUnreadNotificationsErrors];
+
+export type CountMyUnreadNotificationsResponses = {
+    200: UnreadNotificationsResponseDto;
+};
+
+export type CountMyUnreadNotificationsResponse = CountMyUnreadNotificationsResponses[keyof CountMyUnreadNotificationsResponses];
+
+export type MarkAllMyNotificationsReadData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/notifications/read-all';
+};
+
+export type MarkAllMyNotificationsReadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type MarkAllMyNotificationsReadError = MarkAllMyNotificationsReadErrors[keyof MarkAllMyNotificationsReadErrors];
+
+export type MarkAllMyNotificationsReadResponses = {
+    200: UnreadNotificationsResponseDto;
+};
+
+export type MarkAllMyNotificationsReadResponse = MarkAllMyNotificationsReadResponses[keyof MarkAllMyNotificationsReadResponses];
+
+export type MarkMyNotificationReadData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/notifications/{id}/read';
+};
+
+export type MarkMyNotificationReadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type MarkMyNotificationReadError = MarkMyNotificationReadErrors[keyof MarkMyNotificationReadErrors];
+
+export type MarkMyNotificationReadResponses = {
+    200: NotificationResponseDto;
+};
+
+export type MarkMyNotificationReadResponse = MarkMyNotificationReadResponses[keyof MarkMyNotificationReadResponses];
 
 export type RegisterData = {
     body: CreateUserDtoWritable;

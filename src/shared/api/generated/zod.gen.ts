@@ -203,6 +203,33 @@ export const zUserResponseDtoPage = z.object({
 
 export const zSortOrder = z.enum(['asc', 'desc']);
 
+export const zNotificationResponseDto = z.object({
+    id: z.uuid(),
+    type: z.enum([
+        'exam_term_published',
+        'exam_term_rescheduled',
+        'exam_term_cancelled'
+    ]),
+    occurredAt: z.iso.datetime(),
+    occurrenceCount: z.number(),
+    readAt: z.iso.datetime().nullable(),
+    examTermId: z.uuid().nullable(),
+    courseOfferingId: z.uuid().nullable(),
+    courseCode: z.string().nullable(),
+    courseTitle: z.string().nullable(),
+    startsAt: z.iso.datetime().nullable(),
+    previousStartsAt: z.iso.datetime().nullable(),
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ])
+});
+
+export const zUnreadNotificationsResponseDto = z.object({
+    unreadCount: z.number()
+});
+
 export const zAuthTokensDto = z.object({
     accessToken: z.string(),
     refreshToken: z.string(),
@@ -293,6 +320,7 @@ export const zMyPermissionsResponseDto = z.object({
         'grade:publish',
         'schedule:read',
         'schedule:manage',
+        'notification:read',
         'exam:register',
         'role:read',
         'role:assign',
@@ -976,6 +1004,36 @@ export const zFindOnePath = z.object({
  * The requested user.
  */
 export const zFindOneResponse = zUserResponseDto;
+
+export const zListMyNotificationsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyNotificationsQuery = z.object({
+    unreadOnly: z.boolean().optional(),
+    limit: z.number().gte(1).lte(100).optional()
+});
+
+export const zListMyNotificationsResponse = z.array(zNotificationResponseDto);
+
+export const zCountMyUnreadNotificationsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCountMyUnreadNotificationsResponse = zUnreadNotificationsResponseDto;
+
+export const zMarkAllMyNotificationsReadPath = z.object({
+    institutionId: z.string()
+});
+
+export const zMarkAllMyNotificationsReadResponse = zUnreadNotificationsResponseDto;
+
+export const zMarkMyNotificationReadPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zMarkMyNotificationReadResponse = zNotificationResponseDto;
 
 export const zRegisterBody = zCreateUserDtoWritable;
 

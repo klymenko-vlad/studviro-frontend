@@ -14,6 +14,7 @@ import type {
   MyExamTermResponseDto,
   MyPermissionsResponseDto,
   MyTimetableEventResponseDto,
+  NotificationResponseDto,
   RoleAssignmentResponseDto,
   SyncRunDetailResponseDto,
   SyncRunResponseDto,
@@ -165,6 +166,7 @@ export const permissions: MyPermissionsResponseDto = {
     'grade:read',
     'grade:propose',
     'schedule:read',
+    'notification:read',
     'sync:read',
     'sync:run',
   ],
@@ -323,6 +325,37 @@ export const courseResults: MyCourseResultResponseDto[] = [
  */
 const localIso = (year: number, month: number, day: number, hour: number): string =>
   new Date(year, month - 1, day, hour).toISOString();
+
+export const notifications: NotificationResponseDto[] = [
+  {
+    id: 'eeeeeee1-eeee-4eee-8eee-eeeeeeeeeee1',
+    type: 'exam_term_rescheduled',
+    occurredAt: localIso(2026, 5, 18, 9),
+    occurrenceCount: 2,
+    readAt: null,
+    examTermId: 'ddddddd1-dddd-4ddd-8ddd-ddddddddddd1',
+    courseOfferingId: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1',
+    courseCode: 'INF/ALG/22',
+    courseTitle: 'Algorithms',
+    startsAt: localIso(2026, 6, 4, 9),
+    previousStartsAt: localIso(2026, 6, 2, 9),
+    sourceSystem: 'sis',
+  },
+  {
+    id: 'eeeeeee2-eeee-4eee-8eee-eeeeeeeeeee2',
+    type: 'exam_term_published',
+    occurredAt: localIso(2026, 5, 17, 9),
+    occurrenceCount: 1,
+    readAt: localIso(2026, 5, 17, 12),
+    examTermId: 'ddddddd2-dddd-4ddd-8ddd-ddddddddddd2',
+    courseOfferingId: 'aaaaaaa2-aaaa-4aaa-8aaa-aaaaaaaaaaa2',
+    courseCode: 'INF/DB/22',
+    courseTitle: 'Databases',
+    startsAt: localIso(2026, 6, 10, 9),
+    previousStartsAt: null,
+    sourceSystem: 'sis',
+  },
+];
 
 export const examTerms: MyExamTermResponseDto[] = [
   {
@@ -901,6 +934,30 @@ export const handlers = [
         : examTerms.filter(term => term.offering.id === offeringId),
     );
   }),
+
+  http.get(`${PROXY}/institutions/:institutionId/me/notifications/unread-count`, () =>
+    HttpResponse.json({
+      unreadCount: notifications.filter(n => n.readAt === null).length,
+    }),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/me/notifications`, () =>
+    HttpResponse.json(notifications),
+  ),
+
+  http.post(`${PROXY}/institutions/:institutionId/me/notifications/read-all`, () =>
+    HttpResponse.json({ unreadCount: 0 }),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/me/notifications/:id/read`,
+    ({ params }) =>
+      HttpResponse.json({
+        ...notifications[0],
+        id: params['id'] as string,
+        readAt: new Date().toISOString(),
+      }),
+  ),
 
   http.get(`${PROXY}/institutions/:institutionId/me/timetable-events`, () =>
     HttpResponse.json(timetableEvents),

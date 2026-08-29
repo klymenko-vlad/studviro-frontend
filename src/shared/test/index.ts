@@ -16,6 +16,7 @@ export {
   institutions,
   permissions,
   linkedAccounts,
+  notifications,
   roleAssignments,
   session,
   syncRunDetail,
