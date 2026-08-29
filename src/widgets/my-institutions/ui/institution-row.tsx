@@ -19,6 +19,12 @@ export function InstitutionRow({ institution }: { institution: Institution }) {
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
+        <Button asChild variant="outline" size="sm">
+          <Link href={`/institutions/${institution.id}`}>
+            {t('institutions.dashboard')}
+          </Link>
+        </Button>
+
         {can('enrollment:read') ? (
           <Button asChild variant="outline" size="sm">
             <Link href={`/institutions/${institution.id}/courses`}>

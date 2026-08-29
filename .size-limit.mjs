@@ -55,13 +55,23 @@ const budgets = [
     //   - The `sdk.gen` class re-exports dropped; nothing imported them.
     // Together those recovered 1.25 kB from the step's own footprint.
     //
-    // The headroom is small on purpose — this is the number that should hurt to
-    // raise. The next honest reduction is still a lighter Select: it remains the
-    // single largest thing in the shared chunk, and narrowing the barrel cannot
-    // touch it while the role screens use it.
+    // Raised again from 440 kB for the student dashboard, step 38. Measured at
+    // 448.86 kB. The dashboard composes the existing `enrolled-course` and
+    // `course-result` entities into two tiles on a new route; it added no
+    // dependency and no new `shared/ui` primitive, so the increase is the route
+    // chunk itself.
+    //
+    // This is the second raise in one session and it is one too many. The
+    // barrel-narrowing lever is spent — what is left is `@radix-ui/react-select`,
+    // still the single largest thing in the shared chunk, reachable only by
+    // replacing the primitive with a native `<select>` across its four call
+    // sites (role granting, the two institution-settings field groups, and the
+    // sync mode picker). That is a UI change to three already-shipped screens
+    // and their tests, which is why it is its own backlog step rather than a
+    // rider on this one. Take it before raising this number again.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '440 kB',
+    limit: '455 kB',
     gzip: true,
   },
 ];

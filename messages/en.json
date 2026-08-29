@@ -87,7 +87,8 @@
       "manageSettings": "Settings",
       "myCourses": "My courses",
       "myGrades": "My grades",
-      "monitorSync": "Synchronization"
+      "monitorSync": "Synchronization",
+      "dashboard": "Dashboard"
     }
   },
   "roles": {
@@ -404,6 +405,43 @@
       "timetableEvents": "Timetable events",
       "examTerms": "Exam terms",
       "officialResults": "Official results"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Where your studies stand in this institution today.",
+    "deniedTitle": "Nothing to show yet",
+    "deniedDescription": "You hold a role here, but not one that lets you read courses or grades.",
+    "courses": {
+      "title": "Current courses",
+      "description": "The term you are enrolled in.",
+      "term": "{term} · from {starts}",
+      "summary": "{courses, plural, one {# course} other {# courses}} · {credits} credits",
+      "more": "and {count, plural, one {# more} other {# more}}",
+      "empty": "You are not enrolled in any course yet.",
+      "error": "Your courses are unavailable right now.",
+      "link": "All my courses"
+    },
+    "grades": {
+      "title": "Results",
+      "description": "Everything recorded for you so far.",
+      "summary": "{credits} credits earned · weighted average {average}",
+      "summaryWithoutAverage": "{credits} credits earned",
+      "published": "{published} of {total} results are official.",
+      "pending": "Not graded",
+      "empty": "No result has been recorded for you yet.",
+      "error": "Your results are unavailable right now.",
+      "link": "All my grades"
+    },
+    "grade": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D",
+      "E": "E",
+      "FX": "FX",
+      "passed": "Passed",
+      "failed": "Failed"
     }
   }
 }
