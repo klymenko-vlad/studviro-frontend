@@ -1,4 +1,5 @@
 import {
+  cancelExamRegistrationMutation,
   createMutation,
   findAllInfiniteOptions,
   findAllOptions,
@@ -38,6 +39,7 @@ import {
   listRoleAssignmentsQueryKey,
   listSynchronizationRunsOptions,
   listSynchronizationRunsQueryKey,
+  registerForExamTermMutation,
   removeMutation,
   revokeRoleMutation,
   startSynchronizationRunMutation,
@@ -78,6 +80,7 @@ export {
  * when a slice needs one.
  */
 export const apiQueries = {
+  cancelExamRegistrationMutation,
   createMutation,
   findAllInfiniteOptions,
   findAllOptions,
@@ -117,6 +120,7 @@ export const apiQueries = {
   listRoleAssignmentsQueryKey,
   listSynchronizationRunsOptions,
   listSynchronizationRunsQueryKey,
+  registerForExamTermMutation,
   removeMutation,
   revokeRoleMutation,
   startSynchronizationRunMutation,

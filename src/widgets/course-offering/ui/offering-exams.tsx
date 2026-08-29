@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
+import { ExamRegistrationButton } from '@/features/exam-registration';
 import { ExamTermCard, examTermQueries } from '@/entities/exam-term';
 import { usePermissions } from '@/entities/permission';
 import { institutionRoutes, Link } from '@/shared/config';
@@ -45,7 +46,12 @@ export function OfferingExams({
           <ul className="flex flex-col gap-4">
             {data.map(term => (
               <li key={term.id}>
-                <ExamTermCard term={term} />
+                <ExamTermCard
+                  term={term}
+                  action={
+                    <ExamRegistrationButton institutionId={institutionId} term={term} />
+                  }
+                />
               </li>
             ))}
           </ul>

@@ -1,4 +1,4 @@
-export { examTermQueries } from './api/exam-term-queries';
+export { examRegistrationMutations, examTermQueries } from './api/exam-term-queries';
 export {
   examRegistrationLabel,
   examSeatsLabelKey,

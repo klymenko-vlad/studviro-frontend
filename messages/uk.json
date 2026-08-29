@@ -551,6 +551,11 @@
       "closesOn": "Registration closes {date}",
       "openUntilFurtherNotice": "Registration is open",
       "closedNow": "Registration is closed"
-    }
+    },
+    "register": "Register",
+    "cancelRegistration": "Cancel registration",
+    "full": "No seats left",
+    "registerSucceeded": "You are registered for this exam term.",
+    "cancelSucceeded": "Your registration has been cancelled."
   }
 }

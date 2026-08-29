@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 
 import { Link } from '@/shared/config';
@@ -10,7 +11,15 @@ import {
   type ExamTerm,
 } from '../model/exam-term';
 
-export function ExamTermCard({ term, href }: { term: ExamTerm; href?: string }) {
+export function ExamTermCard({
+  term,
+  href,
+  action,
+}: {
+  term: ExamTerm;
+  href?: string;
+  action?: ReactNode;
+}) {
   const t = useTranslations('exams');
   const format = useFormatter();
 
@@ -86,6 +95,8 @@ export function ExamTermCard({ term, href }: { term: ExamTerm; href?: string }) 
           </p>
           <ExamRegistrationNote term={term} />
         </div>
+
+        {action === undefined ? null : <div className="flex justify-end">{action}</div>}
       </CardContent>
     </Card>
   );

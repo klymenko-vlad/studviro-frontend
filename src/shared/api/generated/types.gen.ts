@@ -241,7 +241,7 @@ export type GrantRoleDto = {
 export type MyPermissionsResponseDto = {
     institutionId: string;
     roles: Array<'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin'>;
-    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage' | 'sync:read' | 'sync:run'>;
+    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'exam:register' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage' | 'sync:read' | 'sync:run'>;
 };
 
 export type MyCourseOfferingDto = {
@@ -527,6 +527,18 @@ export type MyExamTermResponseDto = {
     course: ExamCourseDto;
     term: ExamTermDto;
     provenance: ExamTermProvenanceDto;
+};
+
+export type RegisterForExamTermDto = {
+    examTermId: string;
+};
+
+export type ExamRegistrationResponseDto = {
+    id: string;
+    examTermId: string;
+    status: 'registered' | 'cancelled' | 'attended' | 'no_show' | 'excused';
+    registeredAt: string | null;
+    cancelledAt: string | null;
 };
 
 export type CreateUserDtoWritable = {
@@ -1612,3 +1624,80 @@ export type ListMyExamTermsResponses = {
 };
 
 export type ListMyExamTermsResponse = ListMyExamTermsResponses[keyof ListMyExamTermsResponses];
+
+export type RegisterForExamTermData = {
+    body: RegisterForExamTermDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/exam-registrations';
+};
+
+export type RegisterForExamTermErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RegisterForExamTermError = RegisterForExamTermErrors[keyof RegisterForExamTermErrors];
+
+export type RegisterForExamTermResponses = {
+    201: ExamRegistrationResponseDto;
+};
+
+export type RegisterForExamTermResponse = RegisterForExamTermResponses[keyof RegisterForExamTermResponses];
+
+export type CancelExamRegistrationData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/exam-registrations/{id}';
+};
+
+export type CancelExamRegistrationErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CancelExamRegistrationError = CancelExamRegistrationErrors[keyof CancelExamRegistrationErrors];
+
+export type CancelExamRegistrationResponses = {
+    200: ExamRegistrationResponseDto;
+};
+
+export type CancelExamRegistrationResponse = CancelExamRegistrationResponses[keyof CancelExamRegistrationResponses];

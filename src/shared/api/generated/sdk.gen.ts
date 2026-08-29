@@ -4,8 +4,8 @@ import * as z from 'zod';
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreateData, CreateErrors, CreateResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GetCourseOfferingData, GetCourseOfferingErrors, GetCourseOfferingResponses, GetInstitutionConfigurationData, GetInstitutionConfigurationErrors, GetInstitutionConfigurationResponses, GetInstitutionData, GetInstitutionErrors, GetInstitutionResponses, GetSynchronizationRunData, GetSynchronizationRunErrors, GetSynchronizationRunResponses, GetSynchronizationStateData, GetSynchronizationStateErrors, GetSynchronizationStateResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, ListInstitutionConnectorsData, ListInstitutionConnectorsErrors, ListInstitutionConnectorsResponses, ListMyCourseResultsData, ListMyCourseResultsErrors, ListMyCourseResultsResponses, ListMyCoursesData, ListMyCoursesErrors, ListMyCoursesResponses, ListMyExamTermsData, ListMyExamTermsErrors, ListMyExamTermsResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyInstitutionsData, ListMyInstitutionsErrors, ListMyInstitutionsResponses, ListMyPermissionsData, ListMyPermissionsErrors, ListMyPermissionsResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListMyTimetableEventsData, ListMyTimetableEventsErrors, ListMyTimetableEventsResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, ListSynchronizationRunsData, ListSynchronizationRunsErrors, ListSynchronizationRunsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MeData, MeErrors, MeResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterResponses, RemoveData, RemoveErrors, RemoveResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, StartSynchronizationRunData, StartSynchronizationRunErrors, StartSynchronizationRunResponses, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationErrors, UpdateInstitutionConfigurationResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses } from './types.gen';
-import { zCreateBody, zCreateResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGetCourseOfferingPath, zGetCourseOfferingResponse, zGetInstitutionConfigurationPath, zGetInstitutionConfigurationResponse, zGetInstitutionPath, zGetInstitutionResponse, zGetSynchronizationRunPath, zGetSynchronizationRunResponse, zGetSynchronizationStatePath, zGetSynchronizationStateResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zListInstitutionConnectorsPath, zListInstitutionConnectorsResponse, zListMyCourseResultsPath, zListMyCourseResultsQuery, zListMyCourseResultsResponse, zListMyCoursesPath, zListMyCoursesQuery, zListMyCoursesResponse, zListMyExamTermsPath, zListMyExamTermsQuery, zListMyExamTermsResponse, zListMyIdentitiesResponse, zListMyInstitutionsResponse, zListMyPermissionsPath, zListMyPermissionsResponse, zListMyRolesResponse, zListMyTimetableEventsPath, zListMyTimetableEventsQuery, zListMyTimetableEventsResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zListSynchronizationRunsPath, zListSynchronizationRunsQuery, zListSynchronizationRunsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMeResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterResponse, zRemovePath, zRemoveResponse, zRevokeRolePath, zRevokeRoleResponse, zStartSynchronizationRunBody, zStartSynchronizationRunPath, zStartSynchronizationRunResponse, zUpdateInstitutionConfigurationBody, zUpdateInstitutionConfigurationPath, zUpdateInstitutionConfigurationResponse, zUpdateMeBody, zUpdateMeResponse } from './zod.gen';
+import type { CancelExamRegistrationData, CancelExamRegistrationErrors, CancelExamRegistrationResponses, CreateData, CreateErrors, CreateResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GetCourseOfferingData, GetCourseOfferingErrors, GetCourseOfferingResponses, GetInstitutionConfigurationData, GetInstitutionConfigurationErrors, GetInstitutionConfigurationResponses, GetInstitutionData, GetInstitutionErrors, GetInstitutionResponses, GetSynchronizationRunData, GetSynchronizationRunErrors, GetSynchronizationRunResponses, GetSynchronizationStateData, GetSynchronizationStateErrors, GetSynchronizationStateResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, ListInstitutionConnectorsData, ListInstitutionConnectorsErrors, ListInstitutionConnectorsResponses, ListMyCourseResultsData, ListMyCourseResultsErrors, ListMyCourseResultsResponses, ListMyCoursesData, ListMyCoursesErrors, ListMyCoursesResponses, ListMyExamTermsData, ListMyExamTermsErrors, ListMyExamTermsResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyInstitutionsData, ListMyInstitutionsErrors, ListMyInstitutionsResponses, ListMyPermissionsData, ListMyPermissionsErrors, ListMyPermissionsResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListMyTimetableEventsData, ListMyTimetableEventsErrors, ListMyTimetableEventsResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, ListSynchronizationRunsData, ListSynchronizationRunsErrors, ListSynchronizationRunsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MeData, MeErrors, MeResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterForExamTermData, RegisterForExamTermErrors, RegisterForExamTermResponses, RegisterResponses, RemoveData, RemoveErrors, RemoveResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, StartSynchronizationRunData, StartSynchronizationRunErrors, StartSynchronizationRunResponses, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationErrors, UpdateInstitutionConfigurationResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses } from './types.gen';
+import { zCancelExamRegistrationPath, zCancelExamRegistrationResponse, zCreateBody, zCreateResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGetCourseOfferingPath, zGetCourseOfferingResponse, zGetInstitutionConfigurationPath, zGetInstitutionConfigurationResponse, zGetInstitutionPath, zGetInstitutionResponse, zGetSynchronizationRunPath, zGetSynchronizationRunResponse, zGetSynchronizationStatePath, zGetSynchronizationStateResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zListInstitutionConnectorsPath, zListInstitutionConnectorsResponse, zListMyCourseResultsPath, zListMyCourseResultsQuery, zListMyCourseResultsResponse, zListMyCoursesPath, zListMyCoursesQuery, zListMyCoursesResponse, zListMyExamTermsPath, zListMyExamTermsQuery, zListMyExamTermsResponse, zListMyIdentitiesResponse, zListMyInstitutionsResponse, zListMyPermissionsPath, zListMyPermissionsResponse, zListMyRolesResponse, zListMyTimetableEventsPath, zListMyTimetableEventsQuery, zListMyTimetableEventsResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zListSynchronizationRunsPath, zListSynchronizationRunsQuery, zListSynchronizationRunsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMeResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterForExamTermBody, zRegisterForExamTermPath, zRegisterForExamTermResponse, zRegisterResponse, zRemovePath, zRemoveResponse, zRevokeRolePath, zRevokeRoleResponse, zStartSynchronizationRunBody, zStartSynchronizationRunPath, zStartSynchronizationRunResponse, zUpdateInstitutionConfigurationBody, zUpdateInstitutionConfigurationPath, zUpdateInstitutionConfigurationResponse, zUpdateMeBody, zUpdateMeResponse } from './zod.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -616,6 +616,44 @@ export class Schedule {
             responseValidator: async (data) => await zListMyExamTermsResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
             url: '/api/v1/institutions/{institutionId}/me/exam-terms',
+            ...options
+        });
+    }
+    
+    /**
+     * Register the current user for an exam term
+     */
+    public static registerForExamTerm<ThrowOnError extends boolean = false>(options: Options<RegisterForExamTermData, ThrowOnError>): RequestResult<RegisterForExamTermResponses, RegisterForExamTermErrors, ThrowOnError> {
+        return (options.client ?? client).post<RegisterForExamTermResponses, RegisterForExamTermErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zRegisterForExamTermBody,
+                path: zRegisterForExamTermPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRegisterForExamTermResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/exam-registrations',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Cancel the current user’s registration for an exam term
+     */
+    public static cancelExamRegistration<ThrowOnError extends boolean = false>(options: Options<CancelExamRegistrationData, ThrowOnError>): RequestResult<CancelExamRegistrationResponses, CancelExamRegistrationErrors, ThrowOnError> {
+        return (options.client ?? client).delete<CancelExamRegistrationResponses, CancelExamRegistrationErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zCancelExamRegistrationPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCancelExamRegistrationResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/exam-registrations/{id}',
             ...options
         });
     }

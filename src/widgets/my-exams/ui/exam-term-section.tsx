@@ -1,3 +1,4 @@
+import { ExamRegistrationButton } from '@/features/exam-registration';
 import { courseOfferingHref } from '@/entities/course-offering';
 import { ExamTermCard, type ExamTerm } from '@/entities/exam-term';
 
@@ -24,6 +25,9 @@ export function ExamTermSection({
             <ExamTermCard
               term={term}
               href={courseOfferingHref(institutionId, term.offering.id)}
+              action={
+                <ExamRegistrationButton institutionId={institutionId} term={term} />
+              }
             />
           </li>
         ))}

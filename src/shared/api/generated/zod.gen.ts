@@ -293,6 +293,7 @@ export const zMyPermissionsResponseDto = z.object({
         'grade:publish',
         'schedule:read',
         'schedule:manage',
+        'exam:register',
         'role:read',
         'role:assign',
         'institution:read',
@@ -745,6 +746,24 @@ export const zMyExamTermResponseDto = z.object({
     provenance: zExamTermProvenanceDto
 });
 
+export const zRegisterForExamTermDto = z.object({
+    examTermId: z.uuid()
+});
+
+export const zExamRegistrationResponseDto = z.object({
+    id: z.uuid(),
+    examTermId: z.uuid(),
+    status: z.enum([
+        'registered',
+        'cancelled',
+        'attended',
+        'no_show',
+        'excused'
+    ]),
+    registeredAt: z.iso.datetime().nullable(),
+    cancelledAt: z.iso.datetime().nullable()
+});
+
 export const zCreateUserDtoWritable = z.object({
     email: z.email(),
     displayName: z.string().min(1).max(120),
@@ -994,3 +1013,18 @@ export const zListMyExamTermsQuery = z.object({
 });
 
 export const zListMyExamTermsResponse = z.array(zMyExamTermResponseDto);
+
+export const zRegisterForExamTermBody = zRegisterForExamTermDto;
+
+export const zRegisterForExamTermPath = z.object({
+    institutionId: z.string()
+});
+
+export const zRegisterForExamTermResponse = zExamRegistrationResponseDto;
+
+export const zCancelExamRegistrationPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zCancelExamRegistrationResponse = zExamRegistrationResponseDto;
