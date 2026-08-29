@@ -4,6 +4,7 @@ import type {
   AuthTokensDto,
   ConnectorStatusResponseDto,
   CourseOfferingResponseDto,
+  CourseRosterResponseDto,
   ErrorResponseDto,
   ExternalIdentityResponseDto,
   InstitutionConfigurationResponseDto,
@@ -17,6 +18,7 @@ import type {
   SyncRunDetailResponseDto,
   SyncRunResponseDto,
   SyncWatermarkResponseDto,
+  TeachingOfferingResponseDto,
   UserResponseDto,
 } from '@/shared/api';
 
@@ -161,6 +163,7 @@ export const permissions: MyPermissionsResponseDto = {
     'enrollment:read',
     'offering:read',
     'grade:read',
+    'grade:propose',
     'schedule:read',
     'sync:read',
     'sync:run',
@@ -576,6 +579,105 @@ export const courseOffering: CourseOfferingResponseDto = {
   viewerRole: 'student',
 };
 
+export const teachingOfferings: TeachingOfferingResponseDto[] = [
+  {
+    assignmentId: 'eeeeeee1-eeee-4eee-8eee-eeeeeeeeeee1',
+    role: 'lecturer',
+    isPrimary: true,
+    enrolledCount: 42,
+    offering: {
+      id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1',
+      status: 'running',
+      language: 'sk',
+      capacity: 120,
+    },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+      code: 'INF/ALG/22',
+      title: 'Algorithms',
+      description: null,
+      credits: 6,
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
+      code: '2026-SS',
+      name: 'Summer 2026',
+      academicYear: '2025/2026',
+      startsAt: '2026-02-01T00:00:00.000Z',
+      endsAt: '2026-06-30T00:00:00.000Z',
+    },
+  },
+  {
+    assignmentId: 'eeeeeee1-eeee-4eee-8eee-eeeeeeeeeee2',
+    role: 'assistant',
+    isPrimary: false,
+    enrolledCount: 0,
+    offering: {
+      id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa2',
+      status: 'closed',
+      language: null,
+      capacity: null,
+    },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb2',
+      code: 'INF/DB/22',
+      title: 'Databases',
+      description: null,
+      credits: 5,
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc2',
+      code: '2025-WS',
+      name: 'Winter 2025',
+      academicYear: '2025/2026',
+      startsAt: '2025-09-01T00:00:00.000Z',
+      endsAt: '2026-01-31T00:00:00.000Z',
+    },
+  },
+];
+
+export const courseRoster: CourseRosterResponseDto = {
+  offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1', capacity: 120 },
+  course: {
+    id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+    code: 'INF/ALG/22',
+    title: 'Algorithms',
+    credits: 6,
+  },
+  viewerRole: 'teacher',
+  students: [
+    {
+      enrollmentId: '99999999-9999-4999-8999-999999999991',
+      userId: '11111111-1111-4111-8111-111111111111',
+      displayName: 'Ada Lovelace',
+      email: 'ada@example.com',
+      status: 'active',
+      requirementType: 'compulsory',
+      attempt: 1,
+      enrolledAt: '2026-02-10T00:00:00.000Z',
+      studyGroups: [
+        {
+          id: 'ddddddd1-dddd-4ddd-8ddd-ddddddddddd1',
+          kind: 'seminar',
+          code: 'S1',
+          name: 'Monday seminar',
+        },
+      ],
+    },
+    {
+      enrollmentId: '99999999-9999-4999-8999-999999999993',
+      userId: '11111111-1111-4111-8111-111111111112',
+      displayName: 'Grace Hopper',
+      email: 'grace@example.com',
+      status: 'withdrawn',
+      requirementType: 'elective',
+      attempt: 2,
+      enrolledAt: '2026-02-11T00:00:00.000Z',
+      studyGroups: [],
+    },
+  ],
+};
+
 export function errorResponse(
   status: number,
   message: string | string[],
@@ -802,6 +904,15 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/me/timetable-events`, () =>
     HttpResponse.json(timetableEvents),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/me/teaching-offerings`, () =>
+    HttpResponse.json(teachingOfferings),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/roster`,
+    () => HttpResponse.json(courseRoster),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/course-offerings/:offeringId`, () =>

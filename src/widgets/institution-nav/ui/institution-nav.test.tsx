@@ -79,6 +79,26 @@ describe('InstitutionNav', () => {
     expect(screen.queryByRole('link', { name: 'Exams' })).not.toBeInTheDocument();
   });
 
+  it('links the teaching screen for staff who may propose grades', async () => {
+    grant(['grade:propose']);
+
+    renderWithProviders(<InstitutionNav institutionId={INSTITUTION} />);
+
+    expect(await screen.findByRole('link', { name: 'Teaching' })).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}/teaching`,
+    );
+  });
+
+  it('hides the teaching screen from a student, who also holds offering:read', async () => {
+    grant(['offering:read', 'enrollment:read']);
+
+    renderWithProviders(<InstitutionNav institutionId={INSTITUTION} />);
+
+    expect(await screen.findByRole('link', { name: 'Courses' })).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Teaching' })).not.toBeInTheDocument();
+  });
+
   it('always keeps the dashboard reachable, permissions or not', async () => {
     grant([]);
 

@@ -152,4 +152,26 @@ describe('CourseOffering', () => {
     ).toBeInTheDocument();
     expect(screen.queryByText('Exam terms')).not.toBeInTheDocument();
   });
+
+  it('shows the roster to a teacher of the offering', async () => {
+    server.use(
+      http.get(OFFERING_URL, () =>
+        HttpResponse.json({ ...courseOffering, viewerRole: 'teacher' }),
+      ),
+    );
+
+    render();
+
+    expect(await screen.findByText('Roster')).toBeInTheDocument();
+    expect(await screen.findByText('Ada Lovelace')).toBeInTheDocument();
+  });
+
+  it('hides the roster from a student, who may not see their classmates', async () => {
+    render();
+
+    expect(
+      await screen.findByRole('heading', { name: 'Algorithms', level: 1 }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText('Roster')).not.toBeInTheDocument();
+  });
 });

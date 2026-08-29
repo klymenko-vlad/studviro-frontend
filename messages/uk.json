@@ -19,7 +19,8 @@
     "sync": "Synchronization",
     "roles": "Roles",
     "settings": "Settings",
-    "exams": "Exams"
+    "exams": "Exams",
+    "teaching": "Teaching"
   },
   "home": {
     "title": "Studviro",
@@ -557,5 +558,58 @@
     "full": "No seats left",
     "registerSucceeded": "You are registered for this exam term.",
     "cancelSucceeded": "Your registration has been cancelled."
+  },
+  "myTeaching": {
+    "title": "My teaching",
+    "subtitle": "Every course offering you teach, newest term first.",
+    "empty": "You are not assigned to teach any course offering yet.",
+    "errorTitle": "Teaching could not be loaded",
+    "errorDescription": "Your teaching list is unavailable right now. Try again in a moment.",
+    "deniedTitle": "Not available to you",
+    "deniedDescription": "Only teaching staff of this institution can see a teaching list.",
+    "termSummary": "{offerings, plural, one {# offering} other {# offerings}} · {students, plural, one {# student} other {# students}} · from {starts}",
+    "enrolled": "{count, plural, one {# student enrolled} other {# students enrolled}}",
+    "ofCapacity": "of {capacity} places",
+    "credits": "{count} credits",
+    "primary": "Primary",
+    "role": {
+      "lecturer": "Lecturer",
+      "seminar_leader": "Seminar leader",
+      "lab_supervisor": "Lab supervisor",
+      "examiner": "Examiner",
+      "assistant": "Assistant"
+    },
+    "offeringStatus": {
+      "planned": "Planned",
+      "open": "Open",
+      "running": "Running",
+      "closed": "Closed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "roster": {
+    "panelTitle": "Roster",
+    "tableCaption": "Students enrolled in this course offering",
+    "empty": "Nobody is enrolled in this offering yet.",
+    "errorDescription": "The roster is unavailable right now. Try again in a moment.",
+    "summary": "{enrolled} enrolled of {total} listed",
+    "summaryWithCapacity": "{enrolled} enrolled of {total} listed · {capacity} places",
+    "noStudyGroups": "None",
+    "notEnrolledYet": "Not yet",
+    "attempt": "Attempt {attempt}",
+    "column": {
+      "student": "Student",
+      "status": "Status",
+      "studyGroups": "Study groups",
+      "enrolledAt": "Enrolled"
+    },
+    "status": {
+      "requested": "Requested",
+      "provisioning": "Provisioning",
+      "active": "Active",
+      "completed": "Completed",
+      "withdrawn": "Withdrawn",
+      "rejected": "Rejected"
+    }
   }
 }

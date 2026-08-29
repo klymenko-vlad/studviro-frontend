@@ -10,6 +10,7 @@ import { Skeleton } from '@/shared/ui';
 type NavKey =
   | 'dashboard'
   | 'courses'
+  | 'teaching'
   | 'grades'
   | 'calendar'
   | 'exams'
@@ -25,6 +26,9 @@ type NavKey =
 const GATES: Record<NavKey, Permission | null> = {
   dashboard: null,
   courses: 'enrollment:read',
+  // `offering:read` gates the endpoint but every student holds it, so the tab
+  // keys off the weakest permission only teaching staff are granted.
+  teaching: 'grade:propose',
   grades: 'grade:read',
   calendar: 'schedule:read',
   exams: 'schedule:read',
@@ -36,6 +40,7 @@ const GATES: Record<NavKey, Permission | null> = {
 const ORDER: NavKey[] = [
   'dashboard',
   'courses',
+  'teaching',
   'grades',
   'calendar',
   'exams',

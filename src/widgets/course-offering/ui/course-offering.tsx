@@ -11,6 +11,7 @@ import { OfferingEnrollment } from './offering-enrollment';
 import { OfferingExams } from './offering-exams';
 import { OfferingHeader } from './offering-header';
 import { OfferingResults } from './offering-results';
+import { OfferingRoster } from './offering-roster';
 import { OfferingStaff } from './offering-staff';
 
 export function CourseOffering({
@@ -48,6 +49,10 @@ export function CourseOffering({
         <OfferingStaff offering={data} />
         <OfferingEnrollment offering={data} />
       </div>
+
+      {data.viewerRole === 'student' ? null : (
+        <OfferingRoster institutionId={institutionId} offeringId={offeringId} />
+      )}
 
       <OfferingResults institutionId={institutionId} offeringId={offeringId} />
 

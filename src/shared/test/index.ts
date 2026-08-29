@@ -6,6 +6,7 @@ export { renderWithProviders, screen, userEvent, waitFor, within } from './rende
 export {
   connectorStatuses,
   courseOffering,
+  courseRoster,
   courseResults,
   enrolledCourses,
   errorResponse,
@@ -20,6 +21,7 @@ export {
   syncRunDetail,
   syncRuns,
   syncState,
+  teachingOfferings,
   timetableEvents,
   users,
 } from './msw/handlers';

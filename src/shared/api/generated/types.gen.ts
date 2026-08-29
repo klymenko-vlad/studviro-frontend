@@ -287,6 +287,40 @@ export type MyCourseResponseDto = {
     teachers: Array<MyCourseTeacherDto>;
 };
 
+export type TeachingOfferingOfferingDto = {
+    id: string;
+    status: 'planned' | 'open' | 'running' | 'closed' | 'cancelled';
+    language: string | null;
+    capacity: number | null;
+};
+
+export type TeachingOfferingCourseDto = {
+    id: string;
+    code: string;
+    title: string;
+    description: string | null;
+    credits: number | null;
+};
+
+export type TeachingOfferingTermDto = {
+    id: string;
+    code: string;
+    name: string;
+    academicYear: string;
+    startsAt: string;
+    endsAt: string;
+};
+
+export type TeachingOfferingResponseDto = {
+    assignmentId: string;
+    role: 'lecturer' | 'seminar_leader' | 'lab_supervisor' | 'examiner' | 'assistant';
+    isPrimary: boolean;
+    enrolledCount: number;
+    offering: TeachingOfferingOfferingDto;
+    course: TeachingOfferingCourseDto;
+    term: TeachingOfferingTermDto;
+};
+
 export type CourseOfferingSummaryDto = {
     id: string;
     status: 'planned' | 'open' | 'running' | 'closed' | 'cancelled';
@@ -342,6 +376,44 @@ export type CourseOfferingResponseDto = {
     enrollment: CourseOfferingEnrollmentDto | null;
     studyGroups: Array<CourseOfferingStudyGroupDto>;
     viewerRole: 'student' | 'teacher' | 'administrator';
+};
+
+export type CourseRosterOfferingDto = {
+    id: string;
+    capacity: number | null;
+};
+
+export type CourseRosterCourseDto = {
+    id: string;
+    code: string;
+    title: string;
+    credits: number | null;
+};
+
+export type RosterStudyGroupDto = {
+    id: string;
+    kind: 'seminar' | 'lab' | 'exercise' | 'project' | 'other';
+    code: string;
+    name: string | null;
+};
+
+export type RosterStudentDto = {
+    enrollmentId: string;
+    userId: string;
+    displayName: string;
+    email: string;
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    requirementType: 'compulsory' | 'optional' | 'elective';
+    attempt: number;
+    enrolledAt: string | null;
+    studyGroups: Array<RosterStudyGroupDto>;
+};
+
+export type CourseRosterResponseDto = {
+    offering: CourseRosterOfferingDto;
+    course: CourseRosterCourseDto;
+    viewerRole: 'teacher' | 'administrator';
+    students: Array<RosterStudentDto>;
 };
 
 export type EffectiveCourseGradeDto = {
@@ -1482,6 +1554,40 @@ export type ListMyCoursesResponses = {
 
 export type ListMyCoursesResponse = ListMyCoursesResponses[keyof ListMyCoursesResponses];
 
+export type ListMyTeachingOfferingsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        termId?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/me/teaching-offerings';
+};
+
+export type ListMyTeachingOfferingsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyTeachingOfferingsError = ListMyTeachingOfferingsErrors[keyof ListMyTeachingOfferingsErrors];
+
+export type ListMyTeachingOfferingsResponses = {
+    200: Array<TeachingOfferingResponseDto>;
+};
+
+export type ListMyTeachingOfferingsResponse = ListMyTeachingOfferingsResponses[keyof ListMyTeachingOfferingsResponses];
+
 export type GetCourseOfferingData = {
     body?: never;
     path: {
@@ -1514,6 +1620,39 @@ export type GetCourseOfferingResponses = {
 };
 
 export type GetCourseOfferingResponse = GetCourseOfferingResponses[keyof GetCourseOfferingResponses];
+
+export type GetCourseRosterData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/roster';
+};
+
+export type GetCourseRosterErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetCourseRosterError = GetCourseRosterErrors[keyof GetCourseRosterErrors];
+
+export type GetCourseRosterResponses = {
+    200: CourseRosterResponseDto;
+};
+
+export type GetCourseRosterResponse = GetCourseRosterResponses[keyof GetCourseRosterResponses];
 
 export type ListMyCourseResultsData = {
     body?: never;

@@ -369,6 +369,52 @@ export const zMyCourseResponseDto = z.object({
     teachers: z.array(zMyCourseTeacherDto)
 });
 
+export const zTeachingOfferingOfferingDto = z.object({
+    id: z.uuid(),
+    status: z.enum([
+        'planned',
+        'open',
+        'running',
+        'closed',
+        'cancelled'
+    ]),
+    language: z.string().nullable(),
+    capacity: z.number().nullable()
+});
+
+export const zTeachingOfferingCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string(),
+    description: z.string().nullable(),
+    credits: z.number().nullable()
+});
+
+export const zTeachingOfferingTermDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string(),
+    academicYear: z.string(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime()
+});
+
+export const zTeachingOfferingResponseDto = z.object({
+    assignmentId: z.uuid(),
+    role: z.enum([
+        'lecturer',
+        'seminar_leader',
+        'lab_supervisor',
+        'examiner',
+        'assistant'
+    ]),
+    isPrimary: z.boolean(),
+    enrolledCount: z.number(),
+    offering: zTeachingOfferingOfferingDto,
+    course: zTeachingOfferingCourseDto,
+    term: zTeachingOfferingTermDto
+});
+
 export const zCourseOfferingSummaryDto = z.object({
     id: z.uuid(),
     status: z.enum([
@@ -457,6 +503,61 @@ export const zCourseOfferingResponseDto = z.object({
         'teacher',
         'administrator'
     ])
+});
+
+export const zCourseRosterOfferingDto = z.object({
+    id: z.uuid(),
+    capacity: z.number().nullable()
+});
+
+export const zCourseRosterCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string(),
+    credits: z.number().nullable()
+});
+
+export const zRosterStudyGroupDto = z.object({
+    id: z.uuid(),
+    kind: z.enum([
+        'seminar',
+        'lab',
+        'exercise',
+        'project',
+        'other'
+    ]),
+    code: z.string(),
+    name: z.string().nullable()
+});
+
+export const zRosterStudentDto = z.object({
+    enrollmentId: z.uuid(),
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string(),
+    status: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected'
+    ]),
+    requirementType: z.enum([
+        'compulsory',
+        'optional',
+        'elective'
+    ]),
+    attempt: z.number(),
+    enrolledAt: z.iso.datetime().nullable(),
+    studyGroups: z.array(zRosterStudyGroupDto)
+});
+
+export const zCourseRosterResponseDto = z.object({
+    offering: zCourseRosterOfferingDto,
+    course: zCourseRosterCourseDto,
+    viewerRole: z.enum(['teacher', 'administrator']),
+    students: z.array(zRosterStudentDto)
 });
 
 export const zEffectiveCourseGradeDto = z.object({
@@ -950,12 +1051,29 @@ export const zListMyCoursesQuery = z.object({
 
 export const zListMyCoursesResponse = z.array(zMyCourseResponseDto);
 
+export const zListMyTeachingOfferingsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyTeachingOfferingsQuery = z.object({
+    termId: z.uuid().optional()
+});
+
+export const zListMyTeachingOfferingsResponse = z.array(zTeachingOfferingResponseDto);
+
 export const zGetCourseOfferingPath = z.object({
     institutionId: z.string(),
     offeringId: z.string()
 });
 
 export const zGetCourseOfferingResponse = zCourseOfferingResponseDto;
+
+export const zGetCourseRosterPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zGetCourseRosterResponse = zCourseRosterResponseDto;
 
 export const zListMyCourseResultsPath = z.object({
     institutionId: z.string()
