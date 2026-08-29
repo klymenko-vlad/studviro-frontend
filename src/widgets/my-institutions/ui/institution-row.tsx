@@ -43,6 +43,14 @@ export function InstitutionRow({ institution }: { institution: Institution }) {
           </Button>
         ) : null}
 
+        {can('sync:read') ? (
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/institutions/${institution.id}/sync`}>
+              {t('institutions.monitorSync')}
+            </Link>
+          </Button>
+        ) : null}
+
         {can('institution:manage') ? (
           <Button asChild variant="outline" size="sm">
             <Link href={`/institutions/${institution.id}/settings`}>

@@ -86,7 +86,8 @@
       "manageRoles": "Керувати ролями",
       "manageSettings": "Налаштування",
       "myCourses": "My courses",
-      "myGrades": "My grades"
+      "myGrades": "My grades",
+      "monitorSync": "Synchronization"
     }
   },
   "roles": {
@@ -328,6 +329,81 @@
       "pending": "Pending",
       "conflict": "Conflict",
       "failed": "Failed"
+    }
+  },
+  "sync": {
+    "title": "Synchronization",
+    "subtitle": "How fresh this institution's imported data is, what the last runs did, and how to run one again.",
+    "overviewTitle": "Current state",
+    "deniedTitle": "Synchronization is not yours to see",
+    "deniedDescription": "You need permission to read synchronization in this institution.",
+    "errorTitle": "Synchronization could not be loaded",
+    "errorDescription": "The synchronization state is unavailable right now. Try again in a moment.",
+    "freshness": "Every domain has succeeded at least once, the oldest at {at}.",
+    "freshnessUnknown": "At least one domain has never synchronized successfully.",
+    "freshnessTitle": "Freshness by domain",
+    "freshnessDescription": "What each domain last took in, and when it last succeeded.",
+    "latestTitle": "Latest run",
+    "latestDescription": "What the most recent run did to each domain.",
+    "historyTitle": "Run history",
+    "historyDescription": "The most recent runs, newest first.",
+    "activeTitle": "A run is in flight",
+    "activeDescription": "A synchronization run ({mode}) is queued or running. This page refreshes itself until it finishes.",
+    "failingTitle": "Some domains are failing",
+    "failingDescription": "{count, plural, one {# domain} other {# domains}} last ended in failure. Run synchronization again to retry.",
+    "runNow": "Run synchronization",
+    "starting": "Starting…",
+    "started": "Synchronization run queued",
+    "runDenied": "You may read synchronization here, but not start a run.",
+    "modeLabel": "Mode",
+    "noRuns": "No synchronization run has been recorded yet.",
+    "noState": "No domain has been synchronized yet.",
+    "noDomainResults": "This run recorded no per-domain result.",
+    "never": "Never",
+    "none": "—",
+    "records": "{fetched} fetched · {touched} changed",
+    "recordsFailed": "{failed} failed",
+    "seconds": "{seconds}s",
+    "column": {
+      "domain": "Domain",
+      "status": "Status",
+      "lastSucceeded": "Last succeeded",
+      "sourceUpdated": "Source updated",
+      "queued": "Queued",
+      "mode": "Mode",
+      "records": "Records",
+      "duration": "Duration"
+    },
+    "mode": {
+      "incremental": "Incremental",
+      "full": "Full"
+    },
+    "trigger": {
+      "manual": "Manual",
+      "scheduled": "Scheduled"
+    },
+    "status": {
+      "queued": "Queued",
+      "running": "Running",
+      "succeeded": "Succeeded",
+      "partial": "Partial",
+      "failed": "Failed",
+      "skipped": "Skipped"
+    },
+    "domain": {
+      "orgUnits": "Organizational units",
+      "persons": "People",
+      "academicTerms": "Academic terms",
+      "rooms": "Rooms",
+      "programs": "Study programmes",
+      "courses": "Courses",
+      "courseOfferings": "Course offerings",
+      "programMemberships": "Programme memberships",
+      "studyGroups": "Study groups",
+      "enrollments": "Enrolments",
+      "timetableEvents": "Timetable events",
+      "examTerms": "Exam terms",
+      "officialResults": "Official results"
     }
   }
 }

@@ -42,11 +42,26 @@ const budgets = [
     // whole increase is the new route, the `course-result` entity and its card,
     // which renders every grade kind and its provenance rather than one mark.
     //
+    // Raised again from 435 kB for the synchronization monitoring screen.
+    // Measured at 436.83 kB. The screen adds a route, the `sync-run` entity, a
+    // start-run action and three tables (freshness, per-domain run results, run
+    // history); it introduced no dependency and no new `shared/ui` primitive.
+    //
+    // Three reductions were taken before raising this, not after:
+    //   - `apiSchemas` narrowed from `export * as` to the three schemas forms
+    //     actually use, so the other 105 generated Zod schemas stop being pinned.
+    //   - `apiQueries` narrowed the same way, from the whole generated query
+    //     namespace to the 39 operations slices call.
+    //   - The `sdk.gen` class re-exports dropped; nothing imported them.
+    // Together those recovered 1.25 kB from the step's own footprint.
+    //
     // The headroom is small on purpose — this is the number that should hurt to
-    // raise. The next honest reduction is a lighter Select, not a bigger limit.
+    // raise. The next honest reduction is still a lighter Select: it remains the
+    // single largest thing in the shared chunk, and narrowing the barrel cannot
+    // touch it while the role screens use it.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '435 kB',
+    limit: '440 kB',
     gzip: true,
   },
 ];

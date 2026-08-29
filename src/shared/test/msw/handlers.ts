@@ -12,6 +12,9 @@ import type {
   MyCourseResultResponseDto,
   MyPermissionsResponseDto,
   RoleAssignmentResponseDto,
+  SyncRunDetailResponseDto,
+  SyncRunResponseDto,
+  SyncWatermarkResponseDto,
   UserResponseDto,
 } from '@/shared/api';
 
@@ -156,6 +159,8 @@ export const permissions: MyPermissionsResponseDto = {
     'enrollment:read',
     'offering:read',
     'grade:read',
+    'sync:read',
+    'sync:run',
   ],
 };
 
@@ -375,6 +380,100 @@ export function errorResponse(
   };
 }
 
+export const syncRuns: SyncRunResponseDto[] = [
+  {
+    id: '77777777-7777-4777-8777-777777777777',
+    institutionId: '55555555-5555-4555-8555-555555555555',
+    connectorName: 'mock-sis',
+    mode: 'incremental',
+    trigger: 'manual',
+    status: 'partial',
+    queuedAt: '2026-06-01T09:00:00.000Z',
+    startedAt: '2026-06-01T09:00:01.000Z',
+    finishedAt: '2026-06-01T09:00:04.000Z',
+    fetched: 120,
+    created: 10,
+    updated: 5,
+    deleted: 1,
+    skipped: 100,
+    failed: 4,
+    errorCode: null,
+    errorMessage: 'Enrolments could not be read in full',
+  },
+  {
+    id: '88888888-8888-4888-8888-888888888888',
+    institutionId: '55555555-5555-4555-8555-555555555555',
+    connectorName: 'mock-sis',
+    mode: 'full',
+    trigger: 'scheduled',
+    status: 'succeeded',
+    queuedAt: '2026-05-31T09:00:00.000Z',
+    startedAt: '2026-05-31T09:00:01.000Z',
+    finishedAt: '2026-05-31T09:00:11.000Z',
+    fetched: 500,
+    created: 500,
+    updated: 0,
+    deleted: 0,
+    skipped: 0,
+    failed: 0,
+    errorCode: null,
+    errorMessage: null,
+  },
+];
+
+export const syncRunDetail: SyncRunDetailResponseDto = {
+  run: syncRuns[0]!,
+  domains: [
+    {
+      domain: 'courses',
+      status: 'succeeded',
+      fetched: 60,
+      created: 8,
+      updated: 2,
+      deleted: 0,
+      skipped: 50,
+      failed: 0,
+      durationMs: 1200,
+      watermark: '2026-06-01T08:59:00.000Z',
+      errorMessage: null,
+    },
+    {
+      domain: 'enrollments',
+      status: 'failed',
+      fetched: 60,
+      created: 2,
+      updated: 3,
+      deleted: 1,
+      skipped: 50,
+      failed: 4,
+      durationMs: 1800,
+      watermark: null,
+      errorMessage: 'Enrolments could not be read in full',
+    },
+  ],
+};
+
+export const syncState: SyncWatermarkResponseDto[] = [
+  {
+    domain: 'courses',
+    connectorName: 'mock-sis',
+    sourceUpdatedAt: '2026-06-01T08:59:00.000Z',
+    lastStatus: 'succeeded',
+    lastAttemptedAt: '2026-06-01T09:00:02.000Z',
+    lastSucceededAt: '2026-06-01T09:00:02.000Z',
+    lastErrorMessage: null,
+  },
+  {
+    domain: 'enrollments',
+    connectorName: 'mock-sis',
+    sourceUpdatedAt: null,
+    lastStatus: 'failed',
+    lastAttemptedAt: '2026-06-01T09:00:04.000Z',
+    lastSucceededAt: null,
+    lastErrorMessage: 'Enrolments could not be read in full',
+  },
+];
+
 export const handlers = [
   /**
    * The BFF returns only the user; the tokens stay in httpOnly cookies the test
@@ -536,5 +635,26 @@ export const handlers = [
   http.delete(
     `${PROXY}/institutions/:institutionId/role-assignments/:id`,
     () => new HttpResponse(null, { status: 204 }),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/synchronization/runs`, () =>
+    HttpResponse.json(syncRuns),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/synchronization/runs/:runId`, () =>
+    HttpResponse.json(syncRunDetail),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/synchronization/state`, () =>
+    HttpResponse.json(syncState),
+  ),
+
+  http.post(`${PROXY}/institutions/:institutionId/synchronization/runs`, () =>
+    HttpResponse.json(
+      { ...syncRuns[0]!, status: 'queued' } satisfies SyncRunResponseDto,
+      {
+        status: 202,
+      },
+    ),
   ),
 ];
