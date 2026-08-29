@@ -146,7 +146,12 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - run: pnpm test:e2e:install
+      # The cache holds the browser binaries, never the apt packages they link
+      # against, so the system libraries have to be installed on every run — a
+      # cache hit that skipped this left WebKit unable to find libevent.
+      - run: pnpm exec playwright install-deps chromium webkit
+
+      - run: pnpm exec playwright install chromium webkit
         if: steps.playwright-cache.outputs.cache-hit != 'true'
 
       - run: pnpm test:e2e --shard=${{ matrix.shard }}/2
