@@ -118,3 +118,14 @@ export function clearSession(response: NextResponse): NextResponse {
 
   return response;
 }
+
+/**
+ * `next` arrives from the query string and is handed to `router.push`, so it is
+ * an open-redirect sink. Only a same-site absolute path is accepted: `//evil.com`
+ * is protocol-relative and would navigate off-site despite starting with a slash.
+ */
+export function safeNext(next: string | string[] | undefined): string | undefined {
+  if (typeof next !== 'string') return undefined;
+
+  return next.startsWith('/') && !next.startsWith('//') ? next : undefined;
+}

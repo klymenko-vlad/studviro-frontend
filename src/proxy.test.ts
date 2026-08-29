@@ -113,26 +113,27 @@ describe('locale cookie', () => {
 
 describe('protected routes', () => {
   it('redirects a signed-out visitor to sign-in', () => {
-    const response = proxy(request('/dashboard'));
+    const response = proxy(request('/account'));
 
     expect(response.status).toBe(307);
     expect(response.headers.get('location')).toContain('/sign-in');
   });
 
   it('remembers where they were headed', () => {
-    const location = proxy(request('/dashboard/courses')).headers.get('location') ?? '';
+    const location =
+      proxy(request('/institutions/abc/grades')).headers.get('location') ?? '';
 
-    expect(new URL(location).searchParams.get('next')).toBe('/dashboard/courses');
+    expect(new URL(location).searchParams.get('next')).toBe('/institutions/abc/grades');
   });
 
   it('lets a visitor holding an access token through', () => {
-    const response = proxy(request('/dashboard', { cookies: { sv_at: 'token' } }));
+    const response = proxy(request('/account', { cookies: { sv_at: 'token' } }));
 
     expect(response.status).toBe(200);
   });
 
   it('forwards the nonce on a protected route too', () => {
-    const response = proxy(request('/dashboard', { cookies: { sv_at: 'token' } }));
+    const response = proxy(request('/account', { cookies: { sv_at: 'token' } }));
 
     // A protected page renders the same inline theme script as a public one.
     // Letting it through without the nonce means the CSP blocks that script and
@@ -142,7 +143,7 @@ describe('protected routes', () => {
   });
 
   it('lets a visitor holding only a refresh token through', () => {
-    const response = proxy(request('/dashboard', { cookies: { sv_rt: 'token' } }));
+    const response = proxy(request('/account', { cookies: { sv_rt: 'token' } }));
 
     // The page's own data fetch refreshes server-side; bouncing them to sign-in
     // would sign out every user whose access token merely expired.
@@ -154,9 +155,14 @@ describe('protected routes', () => {
     expect(proxy(request('/sign-in')).status).toBe(200);
   });
 
+  it('guards every signed-in section, not just the first one listed', () => {
+    expect(proxy(request('/institutions')).status).toBe(307);
+    expect(proxy(request('/institutions/abc/settings')).status).toBe(307);
+  });
+
   it('does not treat a lookalike path as protected', () => {
-    // `/dashboards-public` starts with the same characters but is a different
+    // `/accounts-public` starts with the same characters but is a different
     // route; prefix matching without the boundary check would guard it.
-    expect(proxy(request('/dashboard-public')).status).toBe(200);
+    expect(proxy(request('/account-public')).status).toBe(200);
   });
 });

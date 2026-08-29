@@ -55,9 +55,9 @@ describe('SignIn', () => {
     await vi.waitFor(() => {
       expect(refresh).toHaveBeenCalled();
     });
-    // Home, not the dashboard: that route has no page yet, and pushing to it
-    // would land a freshly signed-in user on a 404.
-    expect(push).toHaveBeenCalledWith('/');
+    // The account page, not home: a signed-in user landing back on the
+    // marketing page has to work out where to go next by themselves.
+    expect(push).toHaveBeenCalledWith('/account');
   });
 
   it('honours an explicit destination', async () => {

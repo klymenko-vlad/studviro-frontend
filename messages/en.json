@@ -7,12 +7,25 @@
     "save": "Save",
     "appDescription": "The student platform for coursework, schedules and collaboration."
   },
+  "nav": {
+    "account": "Account",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "institutionLabel": "Institution sections",
+    "dashboard": "Dashboard",
+    "courses": "Courses",
+    "grades": "Grades",
+    "calendar": "Calendar",
+    "sync": "Synchronization",
+    "roles": "Roles",
+    "settings": "Settings"
+  },
   "home": {
     "title": "Studviro",
-    "subtitle": "The platform foundation is in place.",
-    "getStarted": "Get started",
-    "learnMore": "Learn more",
-    "account": "Account"
+    "subtitle": "Your courses, grades and timetable from every university system, in one place.",
+    "getStarted": "Create an account",
+    "signIn": "Sign in",
+    "continue": "Go to your account"
   },
   "error": {
     "title": "Something went wrong",
@@ -52,7 +65,17 @@
     "signUp": "Sign up",
     "invalidCredentials": "That email and password do not match an account.",
     "signInTitle": "Sign in",
-    "signInSubtitle": "Welcome back."
+    "signInSubtitle": "Welcome back.",
+    "signUpTitle": "Create your account",
+    "signUpSubtitle": "One account for every institution you belong to.",
+    "signingUp": "Creating your account…",
+    "displayName": "Display name",
+    "confirmPassword": "Confirm password",
+    "passwordHint": "At least 12 characters.",
+    "passwordMismatch": "Passwords do not match",
+    "emailTaken": "An account with this email already exists.",
+    "noAccount": "No account yet?",
+    "haveAccount": "Already have an account?"
   },
   "account": {
     "title": "Account",
