@@ -8,7 +8,14 @@ export {
   type AppLocale,
 } from './i18n';
 export { Link, redirect, usePathname, useRouter } from './i18n';
-export { IS_SECURE_ORIGIN, QUERY_STALE_TIME, ROUTES, THEME_STORAGE_KEY } from './app';
+export {
+  institutionRoutes,
+  IS_SECURE_ORIGIN,
+  LANDING_ROUTE,
+  QUERY_STALE_TIME,
+  ROUTES,
+  THEME_STORAGE_KEY,
+} from './app';
 export {
   buildContentSecurityPolicy,
   createNonce,

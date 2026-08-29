@@ -24,8 +24,11 @@ export function SignOut({ className }: SignOutProps) {
      * way and staying on an authenticated-looking page would be a lie.
      */
     onSettled: () => {
-      router.refresh();
+      // `push` before `refresh`, for the same reason as signing in: the cached
+      // tree still holds the signed-in header until the destination itself is
+      // invalidated.
       router.push(ROUTES.home);
+      router.refresh();
     },
   });
 

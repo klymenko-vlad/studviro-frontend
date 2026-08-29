@@ -26,6 +26,7 @@ describe('StudentDashboardView', () => {
 
     expect(await screen.findByText('Current courses')).toBeInTheDocument();
     expect(screen.getByText('Results')).toBeInTheDocument();
+    expect(screen.getByText('This week')).toBeInTheDocument();
   });
 
   it('drops the grades tile when the server withholds grade:read', async () => {
@@ -34,7 +35,7 @@ describe('StudentDashboardView', () => {
         HttpResponse.json({
           ...permissions,
           roles: ['student'],
-          permissions: ['enrollment:read'],
+          permissions: ['enrollment:read', 'schedule:read'],
         }),
       ),
     );

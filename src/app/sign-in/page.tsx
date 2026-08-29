@@ -3,8 +3,8 @@ import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import { SignIn } from '@/features/sign-in';
-import { getCurrentUser } from '@/shared/auth';
-import { ROUTES } from '@/shared/config';
+import { getCurrentUser, safeNext } from '@/shared/auth';
+import { LANDING_ROUTE, Link, ROUTES } from '@/shared/config';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('auth');
@@ -15,8 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function SignInPage({ searchParams }: PageProps<'/sign-in'>) {
   // Someone already signed in has no business on this form; sending them on is
   // better than showing a form that would sign them in as themselves again.
-  // `home`, not `dashboard`, for as long as there is no dashboard to land on.
-  if (await getCurrentUser()) redirect(ROUTES.home);
+  if (await getCurrentUser()) redirect(LANDING_ROUTE);
 
   const { next } = await searchParams;
   const t = await getTranslations('auth');
@@ -29,17 +28,16 @@ export default async function SignInPage({ searchParams }: PageProps<'/sign-in'>
       </div>
 
       <SignIn next={safeNext(next)} />
+
+      <p className="text-muted-foreground text-sm">
+        {t('noAccount')}{' '}
+        <Link
+          href={ROUTES.signUp}
+          className="text-foreground underline underline-offset-4"
+        >
+          {t('signUp')}
+        </Link>
+      </p>
     </main>
   );
-}
-
-/**
- * `next` arrives from the query string and is handed to `router.push`, so it is
- * an open-redirect sink. Only a same-site absolute path is accepted: `//evil.com`
- * is protocol-relative and would navigate off-site despite starting with a slash.
- */
-function safeNext(next: string | string[] | undefined): string | undefined {
-  if (typeof next !== 'string') return undefined;
-
-  return next.startsWith('/') && !next.startsWith('//') ? next : undefined;
 }

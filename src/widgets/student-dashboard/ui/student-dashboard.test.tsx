@@ -8,13 +8,19 @@ import { StudentDashboard } from './student-dashboard';
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const COURSES_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/courses`;
 const RESULTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/course-results`;
+const EVENTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/timetable-events`;
 
-function renderDashboard(props?: { canReadCourses?: boolean; canReadGrades?: boolean }) {
+function renderDashboard(props?: {
+  canReadCourses?: boolean;
+  canReadGrades?: boolean;
+  canReadSchedule?: boolean;
+}) {
   return renderWithProviders(
     <StudentDashboard
       institutionId={INSTITUTION}
       canReadCourses={props?.canReadCourses ?? true}
       canReadGrades={props?.canReadGrades ?? true}
+      canReadSchedule={props?.canReadSchedule ?? true}
     />,
   );
 }
@@ -43,7 +49,15 @@ describe('StudentDashboard', () => {
     expect(await screen.findByText(/of .* results are official\./)).toBeInTheDocument();
   });
 
-  it('links through to the full courses and grades screens', async () => {
+  it('counts what is left of the reader’s week', async () => {
+    renderDashboard();
+
+    expect(await screen.findByTestId('dashboard-calendar-summary')).toHaveTextContent(
+      '2 events left this week',
+    );
+  });
+
+  it('links through to the full courses, grades and calendar screens', async () => {
     renderDashboard();
 
     expect(await screen.findByRole('link', { name: 'All my courses' })).toHaveAttribute(
@@ -54,17 +68,26 @@ describe('StudentDashboard', () => {
       'href',
       `/institutions/${INSTITUTION}/grades`,
     );
+    expect(screen.getByRole('link', { name: 'Full calendar' })).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}/calendar`,
+    );
   });
 
   it('shows only the tiles the caller is allowed to read', async () => {
-    renderDashboard({ canReadGrades: false });
+    renderDashboard({ canReadGrades: false, canReadSchedule: false });
 
     expect(await screen.findByText('Current courses')).toBeInTheDocument();
     expect(screen.queryByText('Results')).not.toBeInTheDocument();
+    expect(screen.queryByText('This week')).not.toBeInTheDocument();
   });
 
-  it('explains a member who may read neither courses nor grades', () => {
-    renderDashboard({ canReadCourses: false, canReadGrades: false });
+  it('explains a member who may read nothing the dashboard shows', () => {
+    renderDashboard({
+      canReadCourses: false,
+      canReadGrades: false,
+      canReadSchedule: false,
+    });
 
     expect(screen.getByText('Nothing to show yet')).toBeInTheDocument();
     expect(screen.queryByText('Current courses')).not.toBeInTheDocument();
@@ -74,6 +97,7 @@ describe('StudentDashboard', () => {
     server.use(
       http.get(COURSES_URL, () => HttpResponse.json([])),
       http.get(RESULTS_URL, () => HttpResponse.json([])),
+      http.get(EVENTS_URL, () => HttpResponse.json([])),
     );
 
     renderDashboard();
@@ -83,6 +107,9 @@ describe('StudentDashboard', () => {
     ).toBeInTheDocument();
     expect(
       screen.getByText('No result has been recorded for you yet.'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Nothing is scheduled for the rest of this week.'),
     ).toBeInTheDocument();
   });
 

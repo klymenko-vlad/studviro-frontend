@@ -16,8 +16,14 @@ import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from '@/shared/config/sessi
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
-/** Prefixes that require a session. Everything else is public. */
-const PROTECTED_PREFIXES = [ROUTES.dashboard];
+/**
+ * Prefixes that require a session. Everything else is public.
+ *
+ * Every signed-in screen has to be listed: a page left off renders its whole
+ * shell to a signed-out visitor and only fails once its own data fetch does,
+ * which reads as a broken page rather than as "you are not signed in".
+ */
+const PROTECTED_PREFIXES = [ROUTES.account, ROUTES.institutions];
 
 /**
  * Next.js 16 renamed Middleware to Proxy; the contract is unchanged.

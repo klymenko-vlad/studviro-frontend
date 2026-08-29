@@ -11,6 +11,7 @@ import type {
   MyCourseResponseDto,
   MyCourseResultResponseDto,
   MyPermissionsResponseDto,
+  MyTimetableEventResponseDto,
   RoleAssignmentResponseDto,
   SyncRunDetailResponseDto,
   SyncRunResponseDto,
@@ -159,6 +160,7 @@ export const permissions: MyPermissionsResponseDto = {
     'enrollment:read',
     'offering:read',
     'grade:read',
+    'schedule:read',
     'sync:read',
     'sync:run',
   ],
@@ -306,6 +308,87 @@ export const courseResults: MyCourseResultResponseDto[] = [
       name: 'Winter 2025',
       academicYear: '2025/2026',
       startsAt: '2025-09-01T00:00:00.000Z',
+    },
+  },
+];
+
+/**
+ * Built from local components rather than fixed UTC instants: the calendar
+ * groups events by the day they fall on in the reader's own timezone, and a
+ * `Z` literal would land on a different day in half of them.
+ */
+const localIso = (year: number, month: number, day: number, hour: number): string =>
+  new Date(year, month - 1, day, hour).toISOString();
+
+export const timetableEvents: MyTimetableEventResponseDto[] = [
+  {
+    id: 'eeeeeee1-eeee-4eee-8eee-eeeeeeeeeee1',
+    type: 'lecture',
+    title: null,
+    startsAt: localIso(2026, 3, 2, 8),
+    endsAt: localIso(2026, 3, 2, 10),
+    cancelledAt: null,
+    isCancelled: false,
+    attendance: 'enrolled',
+    room: {
+      id: 'fffffff1-ffff-4fff-8fff-fffffffffff1',
+      code: 'P1',
+      name: 'Lecture hall',
+      building: 'Jesenn\u00e1 5',
+    },
+    studyGroup: null,
+    offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1' },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+      code: 'INF/ALG/22',
+      title: 'Algorithms',
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
+      code: '2026-SS',
+      name: 'Summer 2026',
+    },
+    provenance: {
+      sourceSystem: 'sis',
+      externalId: 'TTE-ALG-L1',
+      sourceUpdatedAt: '2026-02-20T00:00:00.000Z',
+      lastSynchronizedAt: '2026-02-21T00:00:00.000Z',
+      synchronizationStatus: 'in_sync',
+    },
+  },
+  {
+    id: 'eeeeeee1-eeee-4eee-8eee-eeeeeeeeeee2',
+    type: 'seminar',
+    title: 'Algorithms seminar',
+    startsAt: localIso(2026, 3, 4, 13),
+    endsAt: localIso(2026, 3, 4, 15),
+    cancelledAt: localIso(2026, 3, 1, 9),
+    isCancelled: true,
+    attendance: 'teaching',
+    room: null,
+    studyGroup: {
+      id: 'ddddddd1-dddd-4ddd-8ddd-ddddddddddd1',
+      code: 'S1',
+      name: 'Monday seminar',
+      kind: 'seminar',
+    },
+    offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1' },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+      code: 'INF/ALG/22',
+      title: 'Algorithms',
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
+      code: '2026-SS',
+      name: 'Summer 2026',
+    },
+    provenance: {
+      sourceSystem: 'sis',
+      externalId: 'TTE-ALG-S1',
+      sourceUpdatedAt: null,
+      lastSynchronizedAt: null,
+      synchronizationStatus: 'pending',
     },
   },
 ];
@@ -576,6 +659,10 @@ export const handlers = [
         : courseResults.filter(result => result.offering.id === offeringId),
     );
   }),
+
+  http.get(`${PROXY}/institutions/:institutionId/me/timetable-events`, () =>
+    HttpResponse.json(timetableEvents),
+  ),
 
   http.get(`${PROXY}/institutions/:institutionId/course-offerings/:offeringId`, () =>
     HttpResponse.json(courseOffering),

@@ -22,8 +22,26 @@ export const ROUTES = {
   home: '/',
   signIn: '/sign-in',
   signUp: '/sign-up',
-  dashboard: '/dashboard',
+  account: '/account',
+  institutions: '/institutions',
 } as const;
+
+/** Where a visitor lands once they hold a session. */
+export const LANDING_ROUTE = ROUTES.account;
+
+export const institutionRoutes = (institutionId: string) => {
+  const base = `${ROUTES.institutions}/${institutionId}`;
+
+  return {
+    dashboard: base,
+    courses: `${base}/courses`,
+    grades: `${base}/grades`,
+    calendar: `${base}/calendar`,
+    sync: `${base}/sync`,
+    roles: `${base}/roles`,
+    settings: `${base}/settings`,
+  } as const;
+};
 
 /** Default freshness window for queries that have no stronger opinion. */
 export const QUERY_STALE_TIME = 60_000;

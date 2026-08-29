@@ -10,6 +10,7 @@ import './globals.css';
 
 import { env } from '@/env';
 
+import { AppHeader } from '@/widgets/app-header';
 import {
   isAppLocale,
   NONCE_HEADER,
@@ -80,7 +81,10 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
       </head>
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider>
-          <AppProviders>{children}</AppProviders>
+          <AppProviders>
+            <AppHeader />
+            {children}
+          </AppProviders>
         </NextIntlClientProvider>
       </body>
     </html>

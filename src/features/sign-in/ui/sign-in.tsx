@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 
 import { sessionApi } from '@/entities/session';
 import { toApiError } from '@/shared/api';
-import { ROUTES, useRouter } from '@/shared/config';
+import { LANDING_ROUTE, useRouter } from '@/shared/config';
 import {
   Button,
   Form,
@@ -24,7 +24,7 @@ import {
 import { signInSchema, type SignInFormValues } from '../model/sign-in';
 
 interface SignInProps {
-  /** Where to land after signing in. Defaults to the dashboard. */
+  /** Where to land after signing in. Defaults to the account page. */
   next?: string | undefined;
 }
 
@@ -41,14 +41,15 @@ export function SignIn({ next }: SignInProps) {
     mutationFn: sessionApi.signIn,
     onSuccess: () => {
       /**
-       * `refresh` before `push`: the session cookies were set by the response we
-       * just received, and without discarding the cached RSC payload the next
-       * page would render from a tree produced while signed out.
+       * `push` before `refresh`, and both are needed. The session cookies were
+       * set by the response we just received, so every cached RSC payload —
+       * including the root layout that renders the header — was produced while
+       * signed out. Refreshing first only invalidates the route being left;
+       * the destination still renders from the stale cache and shows a
+       * signed-out header to someone who has just signed in.
        */
+      router.push(next ?? LANDING_ROUTE);
       router.refresh();
-      // `home` until the dashboard exists — pushing to `ROUTES.dashboard` today
-      // lands a freshly signed-in user on a 404.
-      router.push(next ?? ROUTES.home);
     },
     onError: error => {
       const apiError = toApiError(error);

@@ -20,5 +20,6 @@ export {
   isSameOrigin,
   relayFailure,
   respondWithSession,
+  safeNext,
 } from './auth-route';
 export { getAccessToken, getCurrentUser, type SessionUser } from './session';

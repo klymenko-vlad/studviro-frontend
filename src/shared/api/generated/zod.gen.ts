@@ -577,6 +577,83 @@ export const zMyCourseResultResponseDto = z.object({
     term: zMyCourseResultTermDto
 });
 
+export const zTimetableRoomDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string().nullable(),
+    building: z.string().nullable()
+});
+
+export const zTimetableStudyGroupDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string().nullable(),
+    kind: z.enum([
+        'seminar',
+        'lab',
+        'exercise',
+        'project',
+        'other'
+    ])
+});
+
+export const zTimetableOfferingDto = z.object({
+    id: z.uuid()
+});
+
+export const zTimetableCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string()
+});
+
+export const zTimetableTermDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string()
+});
+
+export const zTimetableEventProvenanceDto = z.object({
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ]),
+    externalId: z.string().nullable(),
+    sourceUpdatedAt: z.iso.datetime().nullable(),
+    lastSynchronizedAt: z.iso.datetime().nullable(),
+    synchronizationStatus: z.enum([
+        'in_sync',
+        'pending',
+        'conflict',
+        'failed'
+    ])
+});
+
+export const zMyTimetableEventResponseDto = z.object({
+    id: z.uuid(),
+    type: z.enum([
+        'lecture',
+        'seminar',
+        'lab',
+        'consultation',
+        'exam',
+        'other'
+    ]),
+    title: z.string().nullable(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+    cancelledAt: z.iso.datetime().nullable(),
+    isCancelled: z.boolean(),
+    attendance: z.enum(['enrolled', 'teaching']),
+    room: zTimetableRoomDto.nullable(),
+    studyGroup: zTimetableStudyGroupDto.nullable(),
+    offering: zTimetableOfferingDto,
+    course: zTimetableCourseDto,
+    term: zTimetableTermDto,
+    provenance: zTimetableEventProvenanceDto
+});
+
 export const zCreateUserDtoWritable = z.object({
     email: z.email(),
     displayName: z.string().min(1).max(120),
@@ -788,3 +865,23 @@ export const zListMyCourseResultsQuery = z.object({
 });
 
 export const zListMyCourseResultsResponse = z.array(zMyCourseResultResponseDto);
+
+export const zListMyTimetableEventsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyTimetableEventsQuery = z.object({
+    from: z.iso.datetime(),
+    to: z.iso.datetime(),
+    offeringId: z.uuid().optional(),
+    type: z.enum([
+        'lecture',
+        'seminar',
+        'lab',
+        'consultation',
+        'exam',
+        'other'
+    ]).optional()
+});
+
+export const zListMyTimetableEventsResponse = z.array(zMyTimetableEventResponseDto);

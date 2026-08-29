@@ -7,12 +7,25 @@
     "save": "Зберегти",
     "appDescription": "Студентська платформа для навчання, розкладу та співпраці."
   },
+  "nav": {
+    "account": "Account",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "institutionLabel": "Institution sections",
+    "dashboard": "Dashboard",
+    "courses": "Courses",
+    "grades": "Grades",
+    "calendar": "Calendar",
+    "sync": "Synchronization",
+    "roles": "Roles",
+    "settings": "Settings"
+  },
   "home": {
     "title": "Studviro",
-    "subtitle": "Основа платформи готова.",
-    "getStarted": "Почати",
-    "learnMore": "Дізнатися більше",
-    "account": "Обліковий запис"
+    "subtitle": "Your courses, grades and timetable from every university system, in one place.",
+    "getStarted": "Create an account",
+    "signIn": "Sign in",
+    "continue": "Go to your account"
   },
   "error": {
     "title": "Щось пішло не так",
@@ -52,7 +65,17 @@
     "signUp": "Зареєструватися",
     "invalidCredentials": "Ця електронна пошта та пароль не відповідають жодному обліковому запису.",
     "signInTitle": "Вхід",
-    "signInSubtitle": "Раді бачити вас знову."
+    "signInSubtitle": "Раді бачити вас знову.",
+    "signUpTitle": "Create your account",
+    "signUpSubtitle": "One account for every institution you belong to.",
+    "signingUp": "Creating your account…",
+    "displayName": "Display name",
+    "confirmPassword": "Confirm password",
+    "passwordHint": "At least 12 characters.",
+    "passwordMismatch": "Passwords do not match",
+    "emailTaken": "An account with this email already exists.",
+    "noAccount": "No account yet?",
+    "haveAccount": "Already have an account?"
   },
   "account": {
     "title": "Обліковий запис",
@@ -422,6 +445,15 @@
       "error": "Your courses are unavailable right now.",
       "link": "All my courses"
     },
+    "calendar": {
+      "title": "This week",
+      "description": "What is scheduled for you next.",
+      "summary": "{events, plural, one {# event} other {# events}} left this week",
+      "empty": "Nothing is scheduled for the rest of this week.",
+      "error": "Your schedule is unavailable right now.",
+      "link": "Full calendar",
+      "cancelled": "Cancelled"
+    },
     "grades": {
       "title": "Results",
       "description": "Everything recorded for you so far.",
@@ -442,6 +474,40 @@
       "FX": "FX",
       "passed": "Passed",
       "failed": "Failed"
+    }
+  },
+  "calendar": {
+    "title": "Calendar",
+    "subtitle": "Your classes for the week, as the source systems report them.",
+    "empty": "Nothing is scheduled for this week.",
+    "errorTitle": "The calendar could not be loaded",
+    "errorDescription": "Your schedule is unavailable right now. Try again in a moment.",
+    "deniedTitle": "Not available to you",
+    "deniedDescription": "You need permission to read the timetable in this institution.",
+    "week": "{from} – {to}",
+    "weekSummary": "{events, plural, one {# event} other {# events}} this week",
+    "previousWeek": "Previous week",
+    "nextWeek": "Next week",
+    "thisWeek": "This week",
+    "time": "{from} – {to}",
+    "duration": "{minutes} min",
+    "room": "Room {room}",
+    "roomIn": "Room {room}, {building}",
+    "noRoom": "No room recorded",
+    "group": "Group {group}",
+    "cancelled": "Cancelled",
+    "today": "Today",
+    "type": {
+      "lecture": "Lecture",
+      "seminar": "Seminar",
+      "lab": "Lab",
+      "consultation": "Consultation",
+      "exam": "Exam",
+      "other": "Other"
+    },
+    "attendance": {
+      "enrolled": "Enrolled",
+      "teaching": "You teach this"
     }
   }
 }

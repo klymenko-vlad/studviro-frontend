@@ -407,6 +407,61 @@ export type MyCourseResultResponseDto = {
     term: MyCourseResultTermDto;
 };
 
+export type TimetableRoomDto = {
+    id: string;
+    code: string;
+    name: string | null;
+    building: string | null;
+};
+
+export type TimetableStudyGroupDto = {
+    id: string;
+    code: string;
+    name: string | null;
+    kind: 'seminar' | 'lab' | 'exercise' | 'project' | 'other';
+};
+
+export type TimetableOfferingDto = {
+    id: string;
+};
+
+export type TimetableCourseDto = {
+    id: string;
+    code: string;
+    title: string;
+};
+
+export type TimetableTermDto = {
+    id: string;
+    code: string;
+    name: string;
+};
+
+export type TimetableEventProvenanceDto = {
+    sourceSystem: 'platform' | 'sis' | 'lms';
+    externalId: string | null;
+    sourceUpdatedAt: string | null;
+    lastSynchronizedAt: string | null;
+    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
+};
+
+export type MyTimetableEventResponseDto = {
+    id: string;
+    type: 'lecture' | 'seminar' | 'lab' | 'consultation' | 'exam' | 'other';
+    title: string | null;
+    startsAt: string;
+    endsAt: string;
+    cancelledAt: string | null;
+    isCancelled: boolean;
+    attendance: 'enrolled' | 'teaching';
+    room: TimetableRoomDto | null;
+    studyGroup: TimetableStudyGroupDto | null;
+    offering: TimetableOfferingDto;
+    course: TimetableCourseDto;
+    term: TimetableTermDto;
+    provenance: TimetableEventProvenanceDto;
+};
+
 export type CreateUserDtoWritable = {
     email: string;
     displayName: string;
@@ -1416,3 +1471,40 @@ export type ListMyCourseResultsResponses = {
 };
 
 export type ListMyCourseResultsResponse = ListMyCourseResultsResponses[keyof ListMyCourseResultsResponses];
+
+export type ListMyTimetableEventsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query: {
+        from: string;
+        to: string;
+        offeringId?: string;
+        type?: 'lecture' | 'seminar' | 'lab' | 'consultation' | 'exam' | 'other';
+    };
+    url: '/api/v1/institutions/{institutionId}/me/timetable-events';
+};
+
+export type ListMyTimetableEventsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyTimetableEventsError = ListMyTimetableEventsErrors[keyof ListMyTimetableEventsErrors];
+
+export type ListMyTimetableEventsResponses = {
+    200: Array<MyTimetableEventResponseDto>;
+};
+
+export type ListMyTimetableEventsResponse = ListMyTimetableEventsResponses[keyof ListMyTimetableEventsResponses];
