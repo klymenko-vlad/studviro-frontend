@@ -528,7 +528,7 @@
     "noRoom": "No room recorded",
     "examiner": "Examiner: {examiner}",
     "noExaminer": "No examiner recorded",
-    "seats": "{seats} of {taken} seats free",
+    "seats": "{seats} of {capacity} seats free",
     "seatsFull": "Full",
     "seatsUnknown": "No seat limit recorded",
     "registered": "You are registered",

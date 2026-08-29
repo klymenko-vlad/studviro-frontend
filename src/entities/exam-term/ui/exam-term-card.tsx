@@ -23,6 +23,7 @@ export function ExamTermCard({ term, href }: { term: ExamTerm; href?: string }) 
               weekday: 'short',
               day: 'numeric',
               month: 'long',
+              year: 'numeric',
               hour: 'numeric',
               minute: 'numeric',
             })}
@@ -80,7 +81,7 @@ export function ExamTermCard({ term, href }: { term: ExamTerm; href?: string }) 
           <p className="text-muted-foreground">
             {t(examSeatsLabelKey(term), {
               seats: term.seatsRemaining ?? 0,
-              taken: term.registeredCount,
+              capacity: term.capacity ?? 0,
             })}
           </p>
           <ExamRegistrationNote term={term} />

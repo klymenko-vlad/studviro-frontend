@@ -41,7 +41,7 @@ describe('MyExams', () => {
   it('shows the seats left, and says full instead of none left', async () => {
     renderExams();
 
-    expect(await screen.findByText('18 of 12 seats free')).toBeInTheDocument();
+    expect(await screen.findByText('18 of 30 seats free')).toBeInTheDocument();
     expect(screen.getByText('Full')).toBeInTheDocument();
     expect(screen.getByText('No seat limit recorded')).toBeInTheDocument();
   });
@@ -101,5 +101,11 @@ describe('MyExams', () => {
     renderExams();
 
     expect(await screen.findByText('The exams could not be loaded')).toBeInTheDocument();
+  });
+
+  it('dates an exam with its year, so a term a year out is not read as past', async () => {
+    renderExams();
+
+    expect(await screen.findByText(/June 2, 2026/)).toBeInTheDocument();
   });
 });
