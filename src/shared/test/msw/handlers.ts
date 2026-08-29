@@ -3,13 +3,18 @@ import { http, HttpResponse } from 'msw';
 import type {
   AuthTokensDto,
   ConnectorStatusResponseDto,
+  CourseOfferingResponseDto,
   ErrorResponseDto,
   ExternalIdentityResponseDto,
   InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
   MyCourseResponseDto,
+  MyCourseResultResponseDto,
   MyPermissionsResponseDto,
   RoleAssignmentResponseDto,
+  SyncRunDetailResponseDto,
+  SyncRunResponseDto,
+  SyncWatermarkResponseDto,
   UserResponseDto,
 } from '@/shared/api';
 
@@ -152,6 +157,10 @@ export const permissions: MyPermissionsResponseDto = {
     'role:read',
     'role:assign',
     'enrollment:read',
+    'offering:read',
+    'grade:read',
+    'sync:read',
+    'sync:run',
   ],
 };
 
@@ -234,6 +243,128 @@ export const enrolledCourses: MyCourseResponseDto[] = [
   },
 ];
 
+export const courseResults: MyCourseResultResponseDto[] = [
+  {
+    id: 'ddddddd1-dddd-4ddd-8ddd-ddddddddddd1',
+    status: 'official',
+    attempt: 1,
+    conflictNote: null,
+    effective: { kind: 'official', grade: 'A' },
+    calculated: { grade: 'B', points: 87.5 },
+    proposed: { grade: 'B', at: '2026-06-01T00:00:00.000Z' },
+    official: { grade: 'A', recordedAt: '2026-06-10T00:00:00.000Z' },
+    provenance: {
+      sourceSystem: 'sis',
+      externalId: 'sis-result-1',
+      sourceUpdatedAt: '2026-06-11T00:00:00.000Z',
+      lastSynchronizedAt: '2026-06-12T00:00:00.000Z',
+      synchronizationStatus: 'in_sync',
+    },
+    enrollmentId: '99999999-9999-4999-8999-999999999991',
+    offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1' },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+      code: 'INF/ALG/22',
+      title: 'Algorithms',
+      credits: 6,
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
+      code: '2026-SS',
+      name: 'Summer 2026',
+      academicYear: '2025/2026',
+      startsAt: '2026-02-01T00:00:00.000Z',
+    },
+  },
+  {
+    id: 'ddddddd1-dddd-4ddd-8ddd-ddddddddddd2',
+    status: 'proposed',
+    attempt: 2,
+    conflictNote: 'The source system reports a different mark.',
+    effective: { kind: 'proposed', grade: 'C' },
+    calculated: { grade: 'D', points: 61 },
+    proposed: { grade: 'C', at: '2026-01-20T00:00:00.000Z' },
+    official: { grade: null, recordedAt: null },
+    provenance: {
+      sourceSystem: 'platform',
+      externalId: null,
+      sourceUpdatedAt: null,
+      lastSynchronizedAt: null,
+      synchronizationStatus: 'conflict',
+    },
+    enrollmentId: '99999999-9999-4999-8999-999999999992',
+    offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa2' },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb2',
+      code: 'INF/DB/22',
+      title: 'Databases',
+      credits: 5,
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc2',
+      code: '2025-WS',
+      name: 'Winter 2025',
+      academicYear: '2025/2026',
+      startsAt: '2025-09-01T00:00:00.000Z',
+    },
+  },
+];
+
+export const courseOffering: CourseOfferingResponseDto = {
+  offering: {
+    id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1',
+    status: 'running',
+    language: 'sk',
+    capacity: 120,
+  },
+  course: {
+    id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+    code: 'INF/ALG/22',
+    title: 'Algorithms',
+    description: 'Complexity, design techniques and their analysis.',
+    credits: 6,
+  },
+  term: {
+    id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
+    code: '2026-SS',
+    name: 'Summer 2026',
+    academicYear: '2025/2026',
+    startsAt: '2026-02-01T00:00:00.000Z',
+    endsAt: '2026-06-30T00:00:00.000Z',
+  },
+  teachers: [
+    {
+      userId: '11111111-1111-4111-8111-111111111111',
+      displayName: 'Ada Lovelace',
+      role: 'lecturer',
+      isPrimary: true,
+    },
+    {
+      userId: '11111111-1111-4111-8111-111111111112',
+      displayName: 'Grace Hopper',
+      role: 'assistant',
+      isPrimary: false,
+    },
+  ],
+  enrollment: {
+    enrollmentId: '99999999-9999-4999-8999-999999999991',
+    status: 'active',
+    requirementType: 'compulsory',
+    attempt: 1,
+    enrolledAt: '2026-02-10T00:00:00.000Z',
+  },
+  studyGroups: [
+    {
+      id: 'ddddddd1-dddd-4ddd-8ddd-ddddddddddd1',
+      kind: 'seminar',
+      code: 'S1',
+      name: 'Monday seminar',
+      capacity: 20,
+    },
+  ],
+  viewerRole: 'student',
+};
+
 export function errorResponse(
   status: number,
   message: string | string[],
@@ -248,6 +379,100 @@ export function errorResponse(
     timestamp: '2026-01-01T00:00:00.000Z',
   };
 }
+
+export const syncRuns: SyncRunResponseDto[] = [
+  {
+    id: '77777777-7777-4777-8777-777777777777',
+    institutionId: '55555555-5555-4555-8555-555555555555',
+    connectorName: 'mock-sis',
+    mode: 'incremental',
+    trigger: 'manual',
+    status: 'partial',
+    queuedAt: '2026-06-01T09:00:00.000Z',
+    startedAt: '2026-06-01T09:00:01.000Z',
+    finishedAt: '2026-06-01T09:00:04.000Z',
+    fetched: 120,
+    created: 10,
+    updated: 5,
+    deleted: 1,
+    skipped: 100,
+    failed: 4,
+    errorCode: null,
+    errorMessage: 'Enrolments could not be read in full',
+  },
+  {
+    id: '88888888-8888-4888-8888-888888888888',
+    institutionId: '55555555-5555-4555-8555-555555555555',
+    connectorName: 'mock-sis',
+    mode: 'full',
+    trigger: 'scheduled',
+    status: 'succeeded',
+    queuedAt: '2026-05-31T09:00:00.000Z',
+    startedAt: '2026-05-31T09:00:01.000Z',
+    finishedAt: '2026-05-31T09:00:11.000Z',
+    fetched: 500,
+    created: 500,
+    updated: 0,
+    deleted: 0,
+    skipped: 0,
+    failed: 0,
+    errorCode: null,
+    errorMessage: null,
+  },
+];
+
+export const syncRunDetail: SyncRunDetailResponseDto = {
+  run: syncRuns[0]!,
+  domains: [
+    {
+      domain: 'courses',
+      status: 'succeeded',
+      fetched: 60,
+      created: 8,
+      updated: 2,
+      deleted: 0,
+      skipped: 50,
+      failed: 0,
+      durationMs: 1200,
+      watermark: '2026-06-01T08:59:00.000Z',
+      errorMessage: null,
+    },
+    {
+      domain: 'enrollments',
+      status: 'failed',
+      fetched: 60,
+      created: 2,
+      updated: 3,
+      deleted: 1,
+      skipped: 50,
+      failed: 4,
+      durationMs: 1800,
+      watermark: null,
+      errorMessage: 'Enrolments could not be read in full',
+    },
+  ],
+};
+
+export const syncState: SyncWatermarkResponseDto[] = [
+  {
+    domain: 'courses',
+    connectorName: 'mock-sis',
+    sourceUpdatedAt: '2026-06-01T08:59:00.000Z',
+    lastStatus: 'succeeded',
+    lastAttemptedAt: '2026-06-01T09:00:02.000Z',
+    lastSucceededAt: '2026-06-01T09:00:02.000Z',
+    lastErrorMessage: null,
+  },
+  {
+    domain: 'enrollments',
+    connectorName: 'mock-sis',
+    sourceUpdatedAt: null,
+    lastStatus: 'failed',
+    lastAttemptedAt: '2026-06-01T09:00:04.000Z',
+    lastSucceededAt: null,
+    lastErrorMessage: 'Enrolments could not be read in full',
+  },
+];
 
 export const handlers = [
   /**
@@ -340,6 +565,22 @@ export const handlers = [
     HttpResponse.json(enrolledCourses),
   ),
 
+  http.get(`${PROXY}/institutions/:institutionId/me/course-results`, ({ request }) => {
+    const offeringId = new URL(request.url, location.origin).searchParams.get(
+      'offeringId',
+    );
+
+    return HttpResponse.json(
+      offeringId === null
+        ? courseResults
+        : courseResults.filter(result => result.offering.id === offeringId),
+    );
+  }),
+
+  http.get(`${PROXY}/institutions/:institutionId/course-offerings/:offeringId`, () =>
+    HttpResponse.json(courseOffering),
+  ),
+
   http.get(`${PROXY}/institutions/:institutionId/configuration`, ({ params }) =>
     HttpResponse.json({
       ...institutionConfiguration,
@@ -394,5 +635,26 @@ export const handlers = [
   http.delete(
     `${PROXY}/institutions/:institutionId/role-assignments/:id`,
     () => new HttpResponse(null, { status: 204 }),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/synchronization/runs`, () =>
+    HttpResponse.json(syncRuns),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/synchronization/runs/:runId`, () =>
+    HttpResponse.json(syncRunDetail),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/synchronization/state`, () =>
+    HttpResponse.json(syncState),
+  ),
+
+  http.post(`${PROXY}/institutions/:institutionId/synchronization/runs`, () =>
+    HttpResponse.json(
+      { ...syncRuns[0]!, status: 'queued' } satisfies SyncRunResponseDto,
+      {
+        status: 202,
+      },
+    ),
   ),
 ];

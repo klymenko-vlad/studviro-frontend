@@ -1,5 +1,6 @@
 import { useTranslations } from 'next-intl';
 
+import { Link } from '@/shared/config';
 import { Badge, Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
 
 import { primaryTeacher, type EnrolledCourse } from '../model/enrolled-course';
@@ -13,7 +14,13 @@ const STATUS_VARIANT = {
   rejected: 'destructive',
 } as const;
 
-export function EnrolledCourseCard({ course }: { course: EnrolledCourse }) {
+export function EnrolledCourseCard({
+  course,
+  href,
+}: {
+  course: EnrolledCourse;
+  href?: string;
+}) {
   const t = useTranslations('myCourses');
   const teacher = primaryTeacher(course);
 
@@ -21,7 +28,15 @@ export function EnrolledCourseCard({ course }: { course: EnrolledCourse }) {
     <Card>
       <CardHeader className="gap-1">
         <div className="flex flex-wrap items-start justify-between gap-2">
-          <CardTitle className="text-base">{course.course.title}</CardTitle>
+          <CardTitle className="text-base">
+            {href === undefined ? (
+              course.course.title
+            ) : (
+              <Link href={href} className="hover:underline focus-visible:underline">
+                {course.course.title}
+              </Link>
+            )}
+          </CardTitle>
           <Badge variant={STATUS_VARIANT[course.status]}>
             {t(`status.${course.status}`)}
           </Badge>

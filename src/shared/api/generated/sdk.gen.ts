@@ -4,8 +4,8 @@ import * as z from 'zod';
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreateData, CreateErrors, CreateResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GetInstitutionConfigurationData, GetInstitutionConfigurationErrors, GetInstitutionConfigurationResponses, GetInstitutionData, GetInstitutionErrors, GetInstitutionResponses, GetSynchronizationRunData, GetSynchronizationRunErrors, GetSynchronizationRunResponses, GetSynchronizationStateData, GetSynchronizationStateErrors, GetSynchronizationStateResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, ListInstitutionConnectorsData, ListInstitutionConnectorsErrors, ListInstitutionConnectorsResponses, ListMyCoursesData, ListMyCoursesErrors, ListMyCoursesResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyInstitutionsData, ListMyInstitutionsErrors, ListMyInstitutionsResponses, ListMyPermissionsData, ListMyPermissionsErrors, ListMyPermissionsResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, ListSynchronizationRunsData, ListSynchronizationRunsErrors, ListSynchronizationRunsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MeData, MeErrors, MeResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterResponses, RemoveData, RemoveErrors, RemoveResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, StartSynchronizationRunData, StartSynchronizationRunErrors, StartSynchronizationRunResponses, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationErrors, UpdateInstitutionConfigurationResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses } from './types.gen';
-import { zCreateBody, zCreateResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGetInstitutionConfigurationPath, zGetInstitutionConfigurationResponse, zGetInstitutionPath, zGetInstitutionResponse, zGetSynchronizationRunPath, zGetSynchronizationRunResponse, zGetSynchronizationStatePath, zGetSynchronizationStateResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zListInstitutionConnectorsPath, zListInstitutionConnectorsResponse, zListMyCoursesPath, zListMyCoursesQuery, zListMyCoursesResponse, zListMyIdentitiesResponse, zListMyInstitutionsResponse, zListMyPermissionsPath, zListMyPermissionsResponse, zListMyRolesResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zListSynchronizationRunsPath, zListSynchronizationRunsQuery, zListSynchronizationRunsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMeResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterResponse, zRemovePath, zRemoveResponse, zRevokeRolePath, zRevokeRoleResponse, zStartSynchronizationRunBody, zStartSynchronizationRunPath, zStartSynchronizationRunResponse, zUpdateInstitutionConfigurationBody, zUpdateInstitutionConfigurationPath, zUpdateInstitutionConfigurationResponse, zUpdateMeBody, zUpdateMeResponse } from './zod.gen';
+import type { CreateData, CreateErrors, CreateResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GetCourseOfferingData, GetCourseOfferingErrors, GetCourseOfferingResponses, GetInstitutionConfigurationData, GetInstitutionConfigurationErrors, GetInstitutionConfigurationResponses, GetInstitutionData, GetInstitutionErrors, GetInstitutionResponses, GetSynchronizationRunData, GetSynchronizationRunErrors, GetSynchronizationRunResponses, GetSynchronizationStateData, GetSynchronizationStateErrors, GetSynchronizationStateResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, ListInstitutionConnectorsData, ListInstitutionConnectorsErrors, ListInstitutionConnectorsResponses, ListMyCourseResultsData, ListMyCourseResultsErrors, ListMyCourseResultsResponses, ListMyCoursesData, ListMyCoursesErrors, ListMyCoursesResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyInstitutionsData, ListMyInstitutionsErrors, ListMyInstitutionsResponses, ListMyPermissionsData, ListMyPermissionsErrors, ListMyPermissionsResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, ListSynchronizationRunsData, ListSynchronizationRunsErrors, ListSynchronizationRunsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MeData, MeErrors, MeResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterResponses, RemoveData, RemoveErrors, RemoveResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, StartSynchronizationRunData, StartSynchronizationRunErrors, StartSynchronizationRunResponses, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationErrors, UpdateInstitutionConfigurationResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses } from './types.gen';
+import { zCreateBody, zCreateResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGetCourseOfferingPath, zGetCourseOfferingResponse, zGetInstitutionConfigurationPath, zGetInstitutionConfigurationResponse, zGetInstitutionPath, zGetInstitutionResponse, zGetSynchronizationRunPath, zGetSynchronizationRunResponse, zGetSynchronizationStatePath, zGetSynchronizationStateResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zListInstitutionConnectorsPath, zListInstitutionConnectorsResponse, zListMyCourseResultsPath, zListMyCourseResultsQuery, zListMyCourseResultsResponse, zListMyCoursesPath, zListMyCoursesQuery, zListMyCoursesResponse, zListMyIdentitiesResponse, zListMyInstitutionsResponse, zListMyPermissionsPath, zListMyPermissionsResponse, zListMyRolesResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zListSynchronizationRunsPath, zListSynchronizationRunsQuery, zListSynchronizationRunsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMeResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterResponse, zRemovePath, zRemoveResponse, zRevokeRolePath, zRevokeRoleResponse, zStartSynchronizationRunBody, zStartSynchronizationRunPath, zStartSynchronizationRunResponse, zUpdateInstitutionConfigurationBody, zUpdateInstitutionConfigurationPath, zUpdateInstitutionConfigurationResponse, zUpdateMeBody, zUpdateMeResponse } from './zod.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -544,6 +544,42 @@ export class Courses {
             responseValidator: async (data) => await zListMyCoursesResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
             url: '/api/v1/institutions/{institutionId}/me/courses',
+            ...options
+        });
+    }
+    
+    /**
+     * Read one course offering the caller takes, teaches or administers
+     */
+    public static getCourseOffering<ThrowOnError extends boolean = false>(options: Options<GetCourseOfferingData, ThrowOnError>): RequestResult<GetCourseOfferingResponses, GetCourseOfferingErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetCourseOfferingResponses, GetCourseOfferingErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetCourseOfferingPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetCourseOfferingResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}',
+            ...options
+        });
+    }
+}
+
+export class Grades {
+    /**
+     * List the current user’s course results with their provenance
+     */
+    public static listMyCourseResults<ThrowOnError extends boolean = false>(options: Options<ListMyCourseResultsData, ThrowOnError>): RequestResult<ListMyCourseResultsResponses, ListMyCourseResultsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListMyCourseResultsResponses, ListMyCourseResultsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListMyCourseResultsPath,
+                query: zListMyCourseResultsQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyCourseResultsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/course-results',
             ...options
         });
     }

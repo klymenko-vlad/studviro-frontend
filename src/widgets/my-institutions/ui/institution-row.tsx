@@ -19,6 +19,12 @@ export function InstitutionRow({ institution }: { institution: Institution }) {
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
+        <Button asChild variant="outline" size="sm">
+          <Link href={`/institutions/${institution.id}`}>
+            {t('institutions.dashboard')}
+          </Link>
+        </Button>
+
         {can('enrollment:read') ? (
           <Button asChild variant="outline" size="sm">
             <Link href={`/institutions/${institution.id}/courses`}>
@@ -27,10 +33,26 @@ export function InstitutionRow({ institution }: { institution: Institution }) {
           </Button>
         ) : null}
 
+        {can('grade:read') ? (
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/institutions/${institution.id}/grades`}>
+              {t('institutions.myGrades')}
+            </Link>
+          </Button>
+        ) : null}
+
         {can('role:assign') ? (
           <Button asChild variant="outline" size="sm">
             <Link href={`/institutions/${institution.id}/roles`}>
               {t('institutions.manageRoles')}
+            </Link>
+          </Button>
+        ) : null}
+
+        {can('sync:read') ? (
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/institutions/${institution.id}/sync`}>
+              {t('institutions.monitorSync')}
             </Link>
           </Button>
         ) : null}

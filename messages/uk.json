@@ -85,7 +85,10 @@
       "empty": "Ви ще не належите до жодного закладу.",
       "manageRoles": "Керувати ролями",
       "manageSettings": "Налаштування",
-      "myCourses": "My courses"
+      "myCourses": "My courses",
+      "myGrades": "My grades",
+      "monitorSync": "Synchronization",
+      "dashboard": "Dashboard"
     }
   },
   "roles": {
@@ -223,6 +226,222 @@
       "compulsory": "Compulsory",
       "optional": "Optional",
       "elective": "Elective"
+    }
+  },
+  "courseOffering": {
+    "title": "Course",
+    "backToCourses": "Back to my courses",
+    "staff": "Teaching staff",
+    "noStaff": "No teaching staff recorded.",
+    "lead": "Course lead",
+    "enrollment": "My enrolment",
+    "noEnrollment": "You are not enrolled in this course.",
+    "studyGroups": "My study groups",
+    "noStudyGroups": "No study group of your own.",
+    "credits": "{count} credits",
+    "language": "Taught in {language}",
+    "capacity": "Capacity {capacity}",
+    "termRange": "{starts} — {ends}",
+    "deniedTitle": "This course is not yours to see",
+    "deniedDescription": "You can open a course only if you take it, teach it or administer this institution.",
+    "notFoundTitle": "Course not found",
+    "notFoundDescription": "This course offering does not exist in this institution.",
+    "errorTitle": "Course could not be loaded",
+    "errorDescription": "The course is unavailable right now. Try again in a moment.",
+    "viewerRole": {
+      "student": "Enrolled",
+      "teacher": "Teaching",
+      "administrator": "Administrator"
+    },
+    "offeringStatus": {
+      "planned": "Planned",
+      "open": "Open",
+      "running": "Running",
+      "closed": "Closed",
+      "cancelled": "Cancelled"
+    },
+    "teachingRole": {
+      "lecturer": "Lecturer",
+      "seminar_leader": "Seminar leader",
+      "lab_supervisor": "Lab supervisor",
+      "examiner": "Examiner",
+      "assistant": "Assistant"
+    },
+    "studyGroupKind": {
+      "seminar": "Seminar",
+      "lab": "Lab",
+      "exercise": "Exercise",
+      "project": "Project",
+      "other": "Other"
+    }
+  },
+  "grades": {
+    "title": "My grades",
+    "subtitle": "Every result recorded for you, with the grade that counts and where it came from.",
+    "overview": "{credits} credits earned · weighted average {average}",
+    "overviewWithoutAverage": "{credits} credits earned",
+    "termSummary": "{results, plural, one {# result} other {# results}} · {credits} credits earned · from {starts}",
+    "empty": "No result has been recorded for you yet.",
+    "credits": "{count} credits",
+    "attempt": "Attempt {attempt}",
+    "noGrade": "Not graded",
+    "none": "—",
+    "effectiveGrade": "{grade}, {kind}",
+    "calculatedValue": "{grade} · {points} points",
+    "gradeOn": "{grade} on {on}",
+    "source": "Source",
+    "syncedAt": "synchronized {at}",
+    "offeringPanel": "My result",
+    "noOfferingResult": "No result has been recorded for this course yet.",
+    "deniedTitle": "Grades are not yours to see",
+    "deniedDescription": "You need permission to read grades in this institution.",
+    "errorTitle": "Grades could not be loaded",
+    "errorDescription": "Your results are unavailable right now. Try again in a moment.",
+    "kind": {
+      "calculated": "Calculated",
+      "proposed": "Proposed",
+      "official": "Official"
+    },
+    "grade": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D",
+      "E": "E",
+      "FX": "FX",
+      "passed": "Passed",
+      "failed": "Failed"
+    },
+    "status": {
+      "calculated": "Calculated",
+      "proposed": "Proposed",
+      "official": "Official",
+      "corrected": "Corrected",
+      "annulled": "Annulled",
+      "disputed": "Disputed"
+    },
+    "sourceSystem": {
+      "platform": "This platform",
+      "sis": "Student information system",
+      "lms": "Learning management system"
+    },
+    "syncStatus": {
+      "in_sync": "In sync",
+      "pending": "Pending",
+      "conflict": "Conflict",
+      "failed": "Failed"
+    }
+  },
+  "sync": {
+    "title": "Synchronization",
+    "subtitle": "How fresh this institution's imported data is, what the last runs did, and how to run one again.",
+    "overviewTitle": "Current state",
+    "deniedTitle": "Synchronization is not yours to see",
+    "deniedDescription": "You need permission to read synchronization in this institution.",
+    "errorTitle": "Synchronization could not be loaded",
+    "errorDescription": "The synchronization state is unavailable right now. Try again in a moment.",
+    "freshness": "Every domain has succeeded at least once, the oldest at {at}.",
+    "freshnessUnknown": "At least one domain has never synchronized successfully.",
+    "freshnessTitle": "Freshness by domain",
+    "freshnessDescription": "What each domain last took in, and when it last succeeded.",
+    "latestTitle": "Latest run",
+    "latestDescription": "What the most recent run did to each domain.",
+    "historyTitle": "Run history",
+    "historyDescription": "The most recent runs, newest first.",
+    "activeTitle": "A run is in flight",
+    "activeDescription": "A synchronization run ({mode}) is queued or running. This page refreshes itself until it finishes.",
+    "failingTitle": "Some domains are failing",
+    "failingDescription": "{count, plural, one {# domain} other {# domains}} last ended in failure. Run synchronization again to retry.",
+    "runNow": "Run synchronization",
+    "starting": "Starting…",
+    "started": "Synchronization run queued",
+    "runDenied": "You may read synchronization here, but not start a run.",
+    "modeLabel": "Mode",
+    "noRuns": "No synchronization run has been recorded yet.",
+    "noState": "No domain has been synchronized yet.",
+    "noDomainResults": "This run recorded no per-domain result.",
+    "never": "Never",
+    "none": "—",
+    "records": "{fetched} fetched · {touched} changed",
+    "recordsFailed": "{failed} failed",
+    "seconds": "{seconds}s",
+    "column": {
+      "domain": "Domain",
+      "status": "Status",
+      "lastSucceeded": "Last succeeded",
+      "sourceUpdated": "Source updated",
+      "queued": "Queued",
+      "mode": "Mode",
+      "records": "Records",
+      "duration": "Duration"
+    },
+    "mode": {
+      "incremental": "Incremental",
+      "full": "Full"
+    },
+    "trigger": {
+      "manual": "Manual",
+      "scheduled": "Scheduled"
+    },
+    "status": {
+      "queued": "Queued",
+      "running": "Running",
+      "succeeded": "Succeeded",
+      "partial": "Partial",
+      "failed": "Failed",
+      "skipped": "Skipped"
+    },
+    "domain": {
+      "orgUnits": "Organizational units",
+      "persons": "People",
+      "academicTerms": "Academic terms",
+      "rooms": "Rooms",
+      "programs": "Study programmes",
+      "courses": "Courses",
+      "courseOfferings": "Course offerings",
+      "programMemberships": "Programme memberships",
+      "studyGroups": "Study groups",
+      "enrollments": "Enrolments",
+      "timetableEvents": "Timetable events",
+      "examTerms": "Exam terms",
+      "officialResults": "Official results"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Where your studies stand in this institution today.",
+    "deniedTitle": "Nothing to show yet",
+    "deniedDescription": "You hold a role here, but not one that lets you read courses or grades.",
+    "courses": {
+      "title": "Current courses",
+      "description": "The term you are enrolled in.",
+      "term": "{term} · from {starts}",
+      "summary": "{courses, plural, one {# course} other {# courses}} · {credits} credits",
+      "more": "and {count, plural, one {# more} other {# more}}",
+      "empty": "You are not enrolled in any course yet.",
+      "error": "Your courses are unavailable right now.",
+      "link": "All my courses"
+    },
+    "grades": {
+      "title": "Results",
+      "description": "Everything recorded for you so far.",
+      "summary": "{credits} credits earned · weighted average {average}",
+      "summaryWithoutAverage": "{credits} credits earned",
+      "published": "{published} of {total} results are official.",
+      "pending": "Not graded",
+      "empty": "No result has been recorded for you yet.",
+      "error": "Your results are unavailable right now.",
+      "link": "All my grades"
+    },
+    "grade": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D",
+      "E": "E",
+      "FX": "FX",
+      "passed": "Passed",
+      "failed": "Failed"
     }
   }
 }

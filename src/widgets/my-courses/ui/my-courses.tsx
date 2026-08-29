@@ -35,7 +35,7 @@ export function MyCourses({ institutionId }: { institutionId: string }) {
   return (
     <div className="flex flex-col gap-10">
       {groups.map(group => (
-        <TermSection key={group.term.id} group={group} />
+        <TermSection key={group.term.id} group={group} institutionId={institutionId} />
       ))}
     </div>
   );
