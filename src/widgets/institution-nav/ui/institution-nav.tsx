@@ -8,7 +8,14 @@ import { cn } from '@/shared/lib';
 import { Skeleton } from '@/shared/ui';
 
 type NavKey =
-  'dashboard' | 'courses' | 'grades' | 'calendar' | 'sync' | 'roles' | 'settings';
+  | 'dashboard'
+  | 'courses'
+  | 'grades'
+  | 'calendar'
+  | 'exams'
+  | 'sync'
+  | 'roles'
+  | 'settings';
 
 /**
  * The dashboard is the institution itself and needs no permission; every other
@@ -20,6 +27,7 @@ const GATES: Record<NavKey, Permission | null> = {
   courses: 'enrollment:read',
   grades: 'grade:read',
   calendar: 'schedule:read',
+  exams: 'schedule:read',
   sync: 'sync:read',
   roles: 'role:assign',
   settings: 'institution:manage',
@@ -30,6 +38,7 @@ const ORDER: NavKey[] = [
   'courses',
   'grades',
   'calendar',
+  'exams',
   'sync',
   'roles',
   'settings',

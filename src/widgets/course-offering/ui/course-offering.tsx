@@ -8,6 +8,7 @@ import { toApiError } from '@/shared/api';
 import { Alert, AlertDescription, AlertTitle, Skeleton } from '@/shared/ui';
 
 import { OfferingEnrollment } from './offering-enrollment';
+import { OfferingExams } from './offering-exams';
 import { OfferingHeader } from './offering-header';
 import { OfferingResults } from './offering-results';
 import { OfferingStaff } from './offering-staff';
@@ -49,6 +50,8 @@ export function CourseOffering({
       </div>
 
       <OfferingResults institutionId={institutionId} offeringId={offeringId} />
+
+      <OfferingExams institutionId={institutionId} offeringId={offeringId} />
     </div>
   );
 }

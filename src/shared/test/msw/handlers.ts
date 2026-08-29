@@ -10,6 +10,7 @@ import type {
   InstitutionResponseDto,
   MyCourseResponseDto,
   MyCourseResultResponseDto,
+  MyExamTermResponseDto,
   MyPermissionsResponseDto,
   MyTimetableEventResponseDto,
   RoleAssignmentResponseDto,
@@ -319,6 +320,133 @@ export const courseResults: MyCourseResultResponseDto[] = [
  */
 const localIso = (year: number, month: number, day: number, hour: number): string =>
   new Date(year, month - 1, day, hour).toISOString();
+
+export const examTerms: MyExamTermResponseDto[] = [
+  {
+    id: 'ddddddd1-dddd-4ddd-8ddd-ddddddddddd1',
+    kind: 'regular',
+    startsAt: localIso(2026, 6, 2, 9),
+    endsAt: localIso(2026, 6, 2, 12),
+    cancelledAt: null,
+    isCancelled: false,
+    attendance: 'enrolled',
+    capacity: 30,
+    registeredCount: 12,
+    seatsRemaining: 18,
+    isFull: false,
+    registrationOpensAt: localIso(2026, 5, 12, 9),
+    registrationClosesAt: localIso(2026, 5, 31, 9),
+    registrationState: 'open',
+    myRegistration: null,
+    room: {
+      id: 'fffffff1-ffff-4fff-8fff-fffffffffff1',
+      code: 'P1',
+      name: 'Lecture hall',
+      building: 'Jesenn\u00e1 5',
+    },
+    examiner: {
+      id: '22222222-2222-4222-8222-222222222222',
+      displayName: 'Alan Turing',
+    },
+    offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1' },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+      code: 'INF/ALG/22',
+      title: 'Algorithms',
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
+      code: '2026-SS',
+      name: 'Summer 2026',
+    },
+    provenance: {
+      sourceSystem: 'sis',
+      externalId: 'EXT-1',
+      sourceUpdatedAt: null,
+      lastSynchronizedAt: null,
+      synchronizationStatus: 'in_sync',
+    },
+  },
+  {
+    id: 'ddddddd2-dddd-4ddd-8ddd-ddddddddddd2',
+    kind: 'first_retake',
+    startsAt: localIso(2026, 6, 23, 9),
+    endsAt: null,
+    cancelledAt: null,
+    isCancelled: false,
+    attendance: 'enrolled',
+    capacity: 20,
+    registeredCount: 20,
+    seatsRemaining: 0,
+    isFull: true,
+    registrationOpensAt: localIso(2026, 6, 10, 9),
+    registrationClosesAt: null,
+    registrationState: 'not_open',
+    myRegistration: {
+      id: 'ddddddd3-dddd-4ddd-8ddd-ddddddddddd3',
+      status: 'registered',
+      registeredAt: localIso(2026, 5, 14, 8),
+      cancelledAt: null,
+    },
+    room: null,
+    examiner: null,
+    offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1' },
+    course: {
+      id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+      code: 'INF/ALG/22',
+      title: 'Algorithms',
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
+      code: '2026-SS',
+      name: 'Summer 2026',
+    },
+    provenance: {
+      sourceSystem: 'sis',
+      externalId: 'EXT-2',
+      sourceUpdatedAt: null,
+      lastSynchronizedAt: null,
+      synchronizationStatus: 'in_sync',
+    },
+  },
+  {
+    id: 'ddddddd4-dddd-4ddd-8ddd-ddddddddddd4',
+    kind: 'regular',
+    startsAt: localIso(2026, 1, 20, 9),
+    endsAt: localIso(2026, 1, 20, 12),
+    cancelledAt: localIso(2026, 1, 10, 9),
+    isCancelled: true,
+    attendance: 'teaching',
+    capacity: null,
+    registeredCount: 0,
+    seatsRemaining: null,
+    isFull: false,
+    registrationOpensAt: null,
+    registrationClosesAt: null,
+    registrationState: 'closed',
+    myRegistration: null,
+    room: null,
+    examiner: null,
+    offering: { id: 'aaaaaaa2-aaaa-4aaa-8aaa-aaaaaaaaaaa2' },
+    course: {
+      id: 'bbbbbbb2-bbbb-4bbb-8bbb-bbbbbbbbbbb2',
+      code: 'INF/DB/22',
+      title: 'Databases',
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
+      code: '2026-SS',
+      name: 'Summer 2026',
+    },
+    provenance: {
+      sourceSystem: 'sis',
+      externalId: 'EXT-3',
+      sourceUpdatedAt: null,
+      lastSynchronizedAt: null,
+      synchronizationStatus: 'in_sync',
+    },
+  },
+];
 
 export const timetableEvents: MyTimetableEventResponseDto[] = [
   {
@@ -657,6 +785,18 @@ export const handlers = [
       offeringId === null
         ? courseResults
         : courseResults.filter(result => result.offering.id === offeringId),
+    );
+  }),
+
+  http.get(`${PROXY}/institutions/:institutionId/me/exam-terms`, ({ request }) => {
+    const offeringId = new URL(request.url, location.origin).searchParams.get(
+      'offeringId',
+    );
+
+    return HttpResponse.json(
+      offeringId === null
+        ? examTerms
+        : examTerms.filter(term => term.offering.id === offeringId),
     );
   }),
 

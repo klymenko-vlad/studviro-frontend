@@ -52,7 +52,7 @@ describe('InstitutionNav', () => {
     );
   });
 
-  it('links the calendar once the schedule permission is granted', async () => {
+  it('links the calendar and the exams once the schedule permission is granted', async () => {
     grant(['schedule:read']);
 
     renderWithProviders(<InstitutionNav institutionId={INSTITUTION} />);
@@ -60,6 +60,10 @@ describe('InstitutionNav', () => {
     expect(await screen.findByRole('link', { name: 'Calendar' })).toHaveAttribute(
       'href',
       `/institutions/${INSTITUTION}/calendar`,
+    );
+    expect(screen.getByRole('link', { name: 'Exams' })).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}/exams`,
     );
   });
 
@@ -72,6 +76,7 @@ describe('InstitutionNav', () => {
     expect(screen.queryByRole('link', { name: 'Settings' })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Roles' })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Calendar' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Exams' })).not.toBeInTheDocument();
   });
 
   it('always keeps the dashboard reachable, permissions or not', async () => {

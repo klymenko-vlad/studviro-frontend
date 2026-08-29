@@ -18,7 +18,8 @@
     "calendar": "Calendar",
     "sync": "Synchronization",
     "roles": "Roles",
-    "settings": "Settings"
+    "settings": "Settings",
+    "exams": "Exams"
   },
   "home": {
     "title": "Studviro",
@@ -508,6 +509,48 @@
     "attendance": {
       "enrolled": "Enrolled",
       "teaching": "You teach this"
+    }
+  },
+  "exams": {
+    "title": "Exams",
+    "subtitle": "Exam terms for the courses you attend, as the source systems report them.",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "empty": "No exam terms have been imported for your courses.",
+    "errorTitle": "The exams could not be loaded",
+    "errorDescription": "Your exam terms are unavailable right now. Try again in a moment.",
+    "deniedTitle": "Not available to you",
+    "deniedDescription": "You need permission to read the schedule in this institution.",
+    "summary": "{terms, plural, one {# exam term} other {# exam terms}} ahead of you",
+    "until": "until {time}",
+    "room": "Room {room}",
+    "roomIn": "Room {room}, {building}",
+    "noRoom": "No room recorded",
+    "examiner": "Examiner: {examiner}",
+    "noExaminer": "No examiner recorded",
+    "seats": "{seats} of {taken} seats free",
+    "seatsFull": "Full",
+    "seatsUnknown": "No seat limit recorded",
+    "registered": "You are registered",
+    "cancelled": "Cancelled",
+    "offeringPanel": "Exam terms",
+    "noOfferingExams": "No exam terms have been imported for this course.",
+    "seeAll": "See all exams",
+    "kind": {
+      "regular": "Regular",
+      "first_retake": "First retake",
+      "second_retake": "Second retake",
+      "state_exam": "State exam"
+    },
+    "attendance": {
+      "enrolled": "Enrolled",
+      "teaching": "You examine this"
+    },
+    "registration": {
+      "opensOn": "Registration opens {date}",
+      "closesOn": "Registration closes {date}",
+      "openUntilFurtherNotice": "Registration is open",
+      "closedNow": "Registration is closed"
     }
   }
 }

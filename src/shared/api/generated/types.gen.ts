@@ -462,6 +462,73 @@ export type MyTimetableEventResponseDto = {
     provenance: TimetableEventProvenanceDto;
 };
 
+export type MyExamRegistrationDto = {
+    id: string;
+    status: 'registered' | 'cancelled' | 'attended' | 'no_show' | 'excused';
+    registeredAt: string | null;
+    cancelledAt: string | null;
+};
+
+export type ExamRoomDto = {
+    id: string;
+    code: string;
+    name: string | null;
+    building: string | null;
+};
+
+export type ExamExaminerDto = {
+    id: string;
+    displayName: string;
+};
+
+export type ExamOfferingDto = {
+    id: string;
+};
+
+export type ExamCourseDto = {
+    id: string;
+    code: string;
+    title: string;
+};
+
+export type ExamTermDto = {
+    id: string;
+    code: string;
+    name: string;
+};
+
+export type ExamTermProvenanceDto = {
+    sourceSystem: 'platform' | 'sis' | 'lms';
+    externalId: string | null;
+    sourceUpdatedAt: string | null;
+    lastSynchronizedAt: string | null;
+    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
+};
+
+export type MyExamTermResponseDto = {
+    id: string;
+    kind: 'regular' | 'first_retake' | 'second_retake' | 'state_exam';
+    startsAt: string;
+    endsAt: string | null;
+    cancelledAt: string | null;
+    isCancelled: boolean;
+    attendance: 'enrolled' | 'teaching';
+    capacity: number | null;
+    registeredCount: number;
+    seatsRemaining: number | null;
+    isFull: boolean;
+    registrationOpensAt: string | null;
+    registrationClosesAt: string | null;
+    registrationState: 'not_open' | 'open' | 'closed';
+    myRegistration: MyExamRegistrationDto | null;
+    room: ExamRoomDto | null;
+    examiner: ExamExaminerDto | null;
+    offering: ExamOfferingDto;
+    course: ExamCourseDto;
+    term: ExamTermDto;
+    provenance: ExamTermProvenanceDto;
+};
+
 export type CreateUserDtoWritable = {
     email: string;
     displayName: string;
@@ -1508,3 +1575,40 @@ export type ListMyTimetableEventsResponses = {
 };
 
 export type ListMyTimetableEventsResponse = ListMyTimetableEventsResponses[keyof ListMyTimetableEventsResponses];
+
+export type ListMyExamTermsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        from?: string;
+        to?: string;
+        offeringId?: string;
+        kind?: 'regular' | 'first_retake' | 'second_retake' | 'state_exam';
+    };
+    url: '/api/v1/institutions/{institutionId}/me/exam-terms';
+};
+
+export type ListMyExamTermsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyExamTermsError = ListMyExamTermsErrors[keyof ListMyExamTermsErrors];
+
+export type ListMyExamTermsResponses = {
+    200: Array<MyExamTermResponseDto>;
+};
+
+export type ListMyExamTermsResponse = ListMyExamTermsResponses[keyof ListMyExamTermsResponses];

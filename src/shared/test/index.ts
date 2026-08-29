@@ -9,6 +9,7 @@ export {
   courseResults,
   enrolledCourses,
   errorResponse,
+  examTerms,
   handlers,
   institutionConfiguration,
   institutions,

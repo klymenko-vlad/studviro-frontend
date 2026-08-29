@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import {
   courseOffering,
   errorResponse,
+  permissions,
   renderWithProviders,
   screen,
   server,
@@ -15,6 +16,7 @@ import { CourseOffering } from './course-offering';
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const OFFERING = 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1';
 const RESULTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/course-results`;
+const PERMISSIONS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/permissions`;
 const OFFERING_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/course-offerings/${OFFERING}`;
 
 const render = () =>
@@ -123,5 +125,31 @@ describe('CourseOffering', () => {
     expect(
       await screen.findByText('No result has been recorded for this course yet.'),
     ).toBeInTheDocument();
+  });
+
+  it('lists the exam terms of this course and links to all of them', async () => {
+    render();
+
+    expect(await screen.findByText('Exam terms')).toBeInTheDocument();
+    expect(await screen.findByText('Examiner: Alan Turing')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'See all exams' })).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}/exams`,
+    );
+  });
+
+  it('hides the exam panel from a reader without schedule:read', async () => {
+    server.use(
+      http.get(PERMISSIONS_URL, () =>
+        HttpResponse.json({ ...permissions, permissions: ['offering:read'] }),
+      ),
+    );
+
+    render();
+
+    expect(
+      await screen.findByRole('heading', { name: 'Algorithms', level: 1 }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText('Exam terms')).not.toBeInTheDocument();
   });
 });
