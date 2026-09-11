@@ -94,7 +94,7 @@ describe('ExamRegistrationButton', () => {
       }),
     );
 
-    const { user } = renderButton({ ...registeredTerm, registrationState: 'open' });
+    const { user } = renderButton(registeredTerm);
     await user.click(await screen.findByRole('button', { name: 'Cancel registration' }));
 
     await waitFor(() => {
@@ -142,16 +142,45 @@ describe('ExamRegistrationButton', () => {
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 
-  it('refuses to register while the window is shut', async () => {
+  it('refuses to register when the server says the caller may not', async () => {
     allowRegistration();
-    renderButton({ ...openTerm, registrationState: 'not_open' });
+    renderButton({
+      ...openTerm,
+      registrationState: 'not_open',
+      registrationAvailability: {
+        canRegister: false,
+        canCancel: false,
+        reason: 'not_open',
+      },
+    });
 
     expect(await screen.findByRole('button', { name: 'Register' })).toBeDisabled();
   });
 
+  it('refuses to cancel a registration the server says is past giving up', async () => {
+    allowRegistration();
+    renderButton({
+      ...registeredTerm,
+      registrationAvailability: {
+        canRegister: false,
+        canCancel: false,
+        reason: 'registered',
+      },
+    });
+
+    expect(
+      await screen.findByRole('button', { name: 'Cancel registration' }),
+    ).toBeDisabled();
+  });
+
   it('says when a term has no seats left', async () => {
     allowRegistration();
-    renderButton({ ...openTerm, isFull: true, seatsRemaining: 0 });
+    renderButton({
+      ...openTerm,
+      isFull: true,
+      seatsRemaining: 0,
+      registrationAvailability: { canRegister: false, canCancel: false, reason: 'full' },
+    });
 
     expect(await screen.findByRole('button', { name: 'No seats left' })).toBeDisabled();
   });

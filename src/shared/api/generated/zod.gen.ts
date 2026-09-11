@@ -784,6 +784,21 @@ export const zMyTimetableEventResponseDto = z.object({
     provenance: zTimetableEventProvenanceDto
 });
 
+export const zExamRegistrationAvailabilityDto = z.object({
+    canRegister: z.boolean(),
+    canCancel: z.boolean(),
+    reason: z.enum([
+        'open',
+        'teaching',
+        'registered',
+        'cancelled',
+        'not_open',
+        'closed',
+        'other_term_registered',
+        'full'
+    ])
+});
+
 export const zMyExamRegistrationDto = z.object({
     id: z.uuid(),
     status: z.enum([
@@ -866,6 +881,7 @@ export const zMyExamTermResponseDto = z.object({
         'open',
         'closed'
     ]),
+    registrationAvailability: zExamRegistrationAvailabilityDto,
     myRegistration: zMyExamRegistrationDto.nullable(),
     room: zExamRoomDto.nullable(),
     examiner: zExamExaminerDto.nullable(),

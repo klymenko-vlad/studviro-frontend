@@ -57,7 +57,7 @@ export function ExamRegistrationButton({
 
   const pending = register.isPending || cancel.isPending;
   const registration = term.myRegistration;
-  const closed = term.registrationState !== 'open';
+  const { canRegister, canCancel } = term.registrationAvailability;
 
   if (isRegistered(term) && registration !== null)
     return (
@@ -65,7 +65,7 @@ export function ExamRegistrationButton({
         type="button"
         variant="outline"
         size="sm"
-        disabled={pending || (closed && !term.isCancelled)}
+        disabled={pending || !canCancel}
         onClick={() => {
           cancel.mutate({ path: { institutionId, id: registration.id } });
         }}
@@ -79,7 +79,7 @@ export function ExamRegistrationButton({
     <Button
       type="button"
       size="sm"
-      disabled={pending || closed || term.isCancelled || term.isFull}
+      disabled={pending || !canRegister}
       onClick={() => {
         register.mutate({ path: { institutionId }, body: { examTermId: term.id } });
       }}

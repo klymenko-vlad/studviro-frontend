@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   errorResponse,
+  examTerms as examTermFixtures,
   renderWithProviders,
   screen,
   server,
@@ -13,6 +14,7 @@ import { MyCalendar } from './my-calendar';
 
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const EVENTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/timetable-events`;
+const EXAMS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/exam-terms`;
 const WEDNESDAY = new Date(2026, 2, 4);
 
 const renderCalendar = () =>
@@ -107,6 +109,64 @@ describe('MyCalendar', () => {
     expect(
       await screen.findByText('Nothing is scheduled for this week.'),
     ).toBeInTheDocument();
+  });
+
+  it('shows an exam term of the week beside the classes, as its own layer', async () => {
+    server.use(http.get(EXAMS_URL, () => HttpResponse.json([examTermFixtures[0]])));
+
+    renderCalendar();
+
+    expect(await screen.findByTestId('calendar-exam')).toBeInTheDocument();
+    expect(screen.getByText('Exam term')).toBeInTheDocument();
+    expect(screen.getByText('18 of 30 seats free')).toBeInTheDocument();
+  });
+
+  it('drops the exam layer when the reader turns it off', async () => {
+    server.use(http.get(EXAMS_URL, () => HttpResponse.json([examTermFixtures[0]])));
+
+    renderCalendar();
+    await screen.findByTestId('calendar-exam');
+    await userEvent.click(screen.getByRole('switch', { name: 'Show exam terms' }));
+
+    expect(screen.queryByTestId('calendar-exam')).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Algorithms' })).toBeInTheDocument();
+  });
+
+  it('asks the server for one type when the reader picks it', async () => {
+    const chosen: (string | null)[] = [];
+    server.events.on('request:start', ({ request }) => {
+      const url = new URL(request.url, location.origin);
+
+      if (url.pathname.endsWith('/me/timetable-events'))
+        chosen.push(url.searchParams.get('type'));
+    });
+
+    renderCalendar();
+    await userEvent.click(await screen.findByRole('combobox', { name: 'Type' }));
+    await userEvent.click(await screen.findByRole('option', { name: 'Seminar' }));
+
+    expect(
+      await screen.findByRole('heading', { name: 'Algorithms seminar' }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Algorithms' })).not.toBeInTheDocument();
+    expect(chosen).toContain('seminar');
+  });
+
+  it('asks the server for one course when the reader picks it', async () => {
+    const chosen: (string | null)[] = [];
+    server.events.on('request:start', ({ request }) => {
+      const url = new URL(request.url, location.origin);
+
+      if (url.pathname.endsWith('/me/timetable-events'))
+        chosen.push(url.searchParams.get('offeringId'));
+    });
+
+    renderCalendar();
+    await userEvent.click(await screen.findByRole('combobox', { name: 'Course' }));
+    await userEvent.click(await screen.findByRole('option', { name: /INF\/ALG\/22/ }));
+
+    await screen.findByRole('heading', { name: 'Algorithms' });
+    expect(chosen).toContain('aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1');
   });
 
   it('reports a failed read rather than an empty week', async () => {

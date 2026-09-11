@@ -18,6 +18,7 @@ const term = (overrides: Partial<ExamTerm> = {}): ExamTerm => ({
   attendance: 'enrolled',
   capacity: 30,
   registeredCount: 12,
+  registrationAvailability: { canRegister: true, canCancel: false, reason: 'open' },
   seatsRemaining: 18,
   isFull: false,
   registrationOpensAt: '2026-05-12T09:00:00.000Z',

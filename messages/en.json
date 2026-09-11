@@ -511,7 +511,14 @@
     "attendance": {
       "enrolled": "Enrolled",
       "teaching": "You teach this"
-    }
+    },
+    "filters": "Filter the calendar",
+    "filterCourse": "Course",
+    "filterType": "Type",
+    "allCourses": "All courses",
+    "allTypes": "All types",
+    "showExams": "Show exam terms",
+    "examLayer": "Exam term"
   },
   "exams": {
     "title": "Exams",
@@ -558,7 +565,20 @@
     "cancelRegistration": "Cancel registration",
     "full": "No seats left",
     "registerSucceeded": "You are registered for this exam term.",
-    "cancelSucceeded": "Your registration has been cancelled."
+    "cancelSucceeded": "Your registration has been cancelled.",
+    "filters": "Filter the exams",
+    "filterCourse": "Course",
+    "filterKind": "Kind",
+    "allCourses": "All courses",
+    "allKinds": "All kinds",
+    "actionableOnly": "Only what I can act on",
+    "emptyForFilters": "No exam term matches these filters.",
+    "blocked": {
+      "teaching": "You examine this term, so there is no seat to take.",
+      "cancelled": "This term was cancelled, so registration is no longer possible.",
+      "full": "Every seat is taken.",
+      "other_term_registered": "You are registered for another term of this course. Cancel that one first."
+    }
   },
   "notifications": {
     "title": "Notifications",

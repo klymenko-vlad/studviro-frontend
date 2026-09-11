@@ -1,7 +1,14 @@
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
-import { errorResponse, renderWithProviders, screen, server } from '@/shared/test';
+import {
+  errorResponse,
+  examTerms as examTermFixtures,
+  renderWithProviders,
+  screen,
+  server,
+  userEvent,
+} from '@/shared/test';
 
 import { MyExams } from './my-exams';
 
@@ -107,5 +114,84 @@ describe('MyExams', () => {
     renderExams();
 
     expect(await screen.findByText(/June 2, 2026/)).toBeInTheDocument();
+  });
+
+  it('asks the server for one course when the reader picks it', async () => {
+    const chosen: (string | null)[] = [];
+    server.events.on('request:start', ({ request }) => {
+      const url = new URL(request.url, location.origin);
+
+      if (url.pathname.endsWith('/me/exam-terms'))
+        chosen.push(url.searchParams.get('offeringId'));
+    });
+
+    renderExams();
+    await userEvent.click(await screen.findByRole('combobox', { name: 'Course' }));
+    await userEvent.click(await screen.findByRole('option', { name: /INF\/DB\/22/ }));
+
+    expect(
+      await screen.findByRole('heading', { name: 'Databases', level: 3 }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Algorithms' })).not.toBeInTheDocument();
+    expect(chosen).toContain('aaaaaaa2-aaaa-4aaa-8aaa-aaaaaaaaaaa2');
+  });
+
+  it('asks the server for one kind when the reader picks it', async () => {
+    renderExams();
+
+    await userEvent.click(await screen.findByRole('combobox', { name: 'Kind' }));
+    await userEvent.click(await screen.findByRole('option', { name: 'First retake' }));
+
+    await screen.findByText('1 exam term ahead of you');
+    expect(screen.queryByText('Room P1, Jesenná 5')).not.toBeInTheDocument();
+  });
+
+  it('narrows to the terms the server says the reader may act on', async () => {
+    renderExams();
+
+    await screen.findByTestId('my-exams');
+    await userEvent.click(screen.getByRole('switch', { name: 'Only what I can act on' }));
+
+    const upcoming = await screen.findByRole('heading', { name: 'Upcoming', level: 2 });
+
+    expect(upcoming).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: 'Past', level: 2 }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('says a filter emptied the list rather than that nothing was imported', async () => {
+    server.use(http.get(EXAMS_URL, () => HttpResponse.json([])));
+
+    renderExams();
+
+    expect(
+      await screen.findByText('No exam terms have been imported for your courses.'),
+    ).toBeInTheDocument();
+  });
+
+  it('explains why a seat is out of reach when the window alone does not', async () => {
+    server.use(
+      http.get(EXAMS_URL, () =>
+        HttpResponse.json([
+          {
+            ...examTermFixtures[0],
+            registrationAvailability: {
+              canRegister: false,
+              canCancel: false,
+              reason: 'other_term_registered',
+            },
+          },
+        ]),
+      ),
+    );
+
+    renderExams();
+
+    expect(
+      await screen.findByText(
+        'You are registered for another term of this course. Cancel that one first.',
+      ),
+    ).toBeInTheDocument();
   });
 });

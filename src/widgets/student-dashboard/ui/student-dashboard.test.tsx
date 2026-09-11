@@ -1,7 +1,13 @@
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
-import { errorResponse, renderWithProviders, screen, server } from '@/shared/test';
+import {
+  errorResponse,
+  renderWithProviders,
+  screen,
+  server,
+  timetableEvents,
+} from '@/shared/test';
 
 import { StudentDashboard } from './student-dashboard';
 
@@ -50,6 +56,10 @@ describe('StudentDashboard', () => {
   });
 
   it('counts what is left of the reader’s week', async () => {
+    server.use(
+      http.get(EVENTS_URL, () => HttpResponse.json(timetableEvents.slice(0, 2))),
+    );
+
     renderDashboard();
 
     expect(await screen.findByTestId('dashboard-calendar-summary')).toHaveTextContent(

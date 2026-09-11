@@ -553,6 +553,12 @@ export type MyTimetableEventResponseDto = {
     provenance: TimetableEventProvenanceDto;
 };
 
+export type ExamRegistrationAvailabilityDto = {
+    canRegister: boolean;
+    canCancel: boolean;
+    reason: 'open' | 'teaching' | 'registered' | 'cancelled' | 'not_open' | 'closed' | 'other_term_registered' | 'full';
+};
+
 export type MyExamRegistrationDto = {
     id: string;
     status: 'registered' | 'cancelled' | 'attended' | 'no_show' | 'excused';
@@ -611,6 +617,7 @@ export type MyExamTermResponseDto = {
     registrationOpensAt: string | null;
     registrationClosesAt: string | null;
     registrationState: 'not_open' | 'open' | 'closed';
+    registrationAvailability: ExamRegistrationAvailabilityDto;
     myRegistration: MyExamRegistrationDto | null;
     room: ExamRoomDto | null;
     examiner: ExamExaminerDto | null;

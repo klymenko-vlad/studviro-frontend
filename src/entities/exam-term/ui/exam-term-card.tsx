@@ -10,6 +10,7 @@ import {
   isRegistered,
   type ExamTerm,
 } from '../model/exam-term';
+import { examTermBlockedNote } from '../model/exam-term-filter';
 
 export function ExamTermCard({
   term,
@@ -96,10 +97,21 @@ export function ExamTermCard({
           <ExamRegistrationNote term={term} />
         </div>
 
+        <ExamBlockedNote term={term} />
+
         {action === undefined ? null : <div className="flex justify-end">{action}</div>}
       </CardContent>
     </Card>
   );
+}
+
+function ExamBlockedNote({ term }: { term: ExamTerm }) {
+  const t = useTranslations('exams');
+  const reason = examTermBlockedNote(term);
+
+  if (reason === null) return null;
+
+  return <p className="text-muted-foreground text-sm">{t(`blocked.${reason}`)}</p>;
 }
 
 function ExamRegistrationNote({ term }: { term: ExamTerm }) {

@@ -357,6 +357,17 @@ export const notifications: NotificationResponseDto[] = [
   },
 ];
 
+function startsInRange(startsAt: string, query: URLSearchParams): boolean {
+  const from = query.get('from');
+  const to = query.get('to');
+
+  const at = Date.parse(startsAt);
+
+  return (
+    (from === null || at >= Date.parse(from)) && (to === null || at < Date.parse(to))
+  );
+}
+
 export const examTerms: MyExamTermResponseDto[] = [
   {
     id: 'ddddddd1-dddd-4ddd-8ddd-ddddddddddd1',
@@ -373,6 +384,11 @@ export const examTerms: MyExamTermResponseDto[] = [
     registrationOpensAt: localIso(2026, 5, 12, 9),
     registrationClosesAt: localIso(2026, 5, 31, 9),
     registrationState: 'open',
+    registrationAvailability: {
+      canRegister: true,
+      canCancel: false,
+      reason: 'open',
+    },
     myRegistration: null,
     room: {
       id: 'fffffff1-ffff-4fff-8fff-fffffffffff1',
@@ -418,6 +434,11 @@ export const examTerms: MyExamTermResponseDto[] = [
     registrationOpensAt: localIso(2026, 6, 10, 9),
     registrationClosesAt: null,
     registrationState: 'not_open',
+    registrationAvailability: {
+      canRegister: false,
+      canCancel: true,
+      reason: 'registered',
+    },
     myRegistration: {
       id: 'ddddddd3-dddd-4ddd-8ddd-ddddddddddd3',
       status: 'registered',
@@ -460,6 +481,11 @@ export const examTerms: MyExamTermResponseDto[] = [
     registrationOpensAt: null,
     registrationClosesAt: null,
     registrationState: 'closed',
+    registrationAvailability: {
+      canRegister: false,
+      canCancel: false,
+      reason: 'teaching',
+    },
     myRegistration: null,
     room: null,
     examiner: null,
@@ -924,14 +950,17 @@ export const handlers = [
   }),
 
   http.get(`${PROXY}/institutions/:institutionId/me/exam-terms`, ({ request }) => {
-    const offeringId = new URL(request.url, location.origin).searchParams.get(
-      'offeringId',
-    );
+    const query = new URL(request.url, location.origin).searchParams;
+    const offeringId = query.get('offeringId');
+    const kind = query.get('kind');
 
     return HttpResponse.json(
-      offeringId === null
-        ? examTerms
-        : examTerms.filter(term => term.offering.id === offeringId),
+      examTerms.filter(
+        term =>
+          (offeringId === null || term.offering.id === offeringId) &&
+          (kind === null || term.kind === kind) &&
+          startsInRange(term.startsAt, query),
+      ),
     );
   }),
 
@@ -959,9 +988,20 @@ export const handlers = [
       }),
   ),
 
-  http.get(`${PROXY}/institutions/:institutionId/me/timetable-events`, () =>
-    HttpResponse.json(timetableEvents),
-  ),
+  http.get(`${PROXY}/institutions/:institutionId/me/timetable-events`, ({ request }) => {
+    const query = new URL(request.url, location.origin).searchParams;
+    const offeringId = query.get('offeringId');
+    const type = query.get('type');
+
+    return HttpResponse.json(
+      timetableEvents.filter(
+        event =>
+          (offeringId === null || event.offering.id === offeringId) &&
+          (type === null || event.type === type) &&
+          startsInRange(event.startsAt, query),
+      ),
+    );
+  }),
 
   http.get(`${PROXY}/institutions/:institutionId/me/teaching-offerings`, () =>
     HttpResponse.json(teachingOfferings),
