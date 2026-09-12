@@ -63,12 +63,18 @@ const budgets = [
     //
     // This is the second raise in one session and it is one too many. The
     // barrel-narrowing lever is spent — what is left is `@radix-ui/react-select`,
-    // still the single largest thing in the shared chunk, reachable only by
-    // replacing the primitive with a native `<select>` across its four call
-    // sites (role granting, the two institution-settings field groups, and the
-    // sync mode picker). That is a UI change to three already-shipped screens
-    // and their tests, which is why it is its own backlog step rather than a
-    // rider on this one. Take it before raising this number again.
+    // still the single largest thing in the shared chunk.
+    //
+    // Taken before the password-reset screens landed, as it had to be: `shared/ui`'s
+    // `Select` is now a native `<select>` (`src/shared/ui/select.tsx`), styled to match
+    // the other form controls, across all six call sites (role granting, invite-person,
+    // the schedule filters, the two institution-settings field groups, and the sync mode
+    // picker). Dropping `@radix-ui/react-select` — and with it floating-ui, focus-scope,
+    // dismissable-layer and the collection helpers it pulled in — took the measured
+    // total from 453.45 kB to 425.84 kB, 27.61 kB back. The password-reset request and
+    // confirm screens then spent some of that recovered room; measured at 431.47 kB with
+    // both in place. Not lowering the limit itself: 455 kB stays the ceiling, now with
+    // headroom again instead of against it.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
     limit: '455 kB',

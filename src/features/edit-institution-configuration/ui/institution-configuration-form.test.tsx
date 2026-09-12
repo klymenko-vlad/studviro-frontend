@@ -8,6 +8,7 @@ import {
   screen,
   server,
   waitFor,
+  within,
 } from '@/shared/test';
 
 import { InstitutionConfigurationForm } from './institution-configuration-form';
@@ -105,14 +106,18 @@ describe('InstitutionConfigurationForm', () => {
   });
 
   it('offers only the connectors the deployment installed, plus none at all', async () => {
-    const { user } = render();
+    render();
 
-    await user.click(
-      screen.getByRole('combobox', { name: 'Student information system' }),
-    );
+    const sis = screen.getByRole('combobox', {
+      name: 'Student information system',
+    });
 
-    expect(await screen.findByRole('option', { name: 'mock-sis' })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: 'Not connected' })).toBeInTheDocument();
+    expect(
+      await within(sis).findByRole('option', { name: 'mock-sis' }),
+    ).toBeInTheDocument();
+    expect(
+      within(sis).getByRole('option', { name: 'Not connected' }),
+    ).toBeInTheDocument();
   });
 
   it('surfaces a rejected time zone on its own field', async () => {

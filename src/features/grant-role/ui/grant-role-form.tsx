@@ -26,10 +26,7 @@ import {
   FormMessage,
   Input,
   Select,
-  SelectContent,
   SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from '@/shared/ui';
 
 import { buildGrantRoleFormSchema, type GrantRoleFormValues } from '../model/schema';
@@ -122,20 +119,15 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>{t('role')}</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
                   {GRANTABLE_ROLES.map(role => (
                     <SelectItem key={role} value={role}>
                       {labels(`role.${role}`)}
                     </SelectItem>
                   ))}
-                </SelectContent>
-              </Select>
+                </Select>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -147,20 +139,15 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>{t('scopeType')}</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
                   {ROLE_SCOPES.map(scope => (
                     <SelectItem key={scope} value={scope}>
                       {labels(`scope.${scope}`)}
                     </SelectItem>
                   ))}
-                </SelectContent>
-              </Select>
+                </Select>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

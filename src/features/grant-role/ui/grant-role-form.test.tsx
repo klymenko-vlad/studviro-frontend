@@ -45,8 +45,10 @@ describe('GrantRoleForm', () => {
 
     expect(screen.queryByLabelText('Scope identifier')).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole('combobox', { name: 'Scope' }));
-    await user.click(screen.getByRole('option', { name: 'Study programme' }));
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'Scope' }),
+      'Study programme',
+    );
 
     expect(await screen.findByLabelText('Scope identifier')).toBeInTheDocument();
   });
@@ -64,8 +66,10 @@ describe('GrantRoleForm', () => {
     const { user } = renderWithProviders(<GrantRoleForm institutionId={INSTITUTION} />);
 
     await user.type(screen.getByLabelText('Person'), SUBJECT);
-    await user.click(screen.getByRole('combobox', { name: 'Scope' }));
-    await user.click(screen.getByRole('option', { name: 'Study programme' }));
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'Scope' }),
+      'Study programme',
+    );
     await user.click(screen.getByRole('button', { name: 'Grant role' }));
 
     expect(

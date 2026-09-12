@@ -2,15 +2,7 @@
 
 import { useId, type ReactNode } from 'react';
 
-import {
-  Label,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  Switch,
-} from '@/shared/ui';
+import { Label, Select, SelectItem, Switch } from '@/shared/ui';
 
 import { ALL_COURSES, type CourseFilterOption } from '../model/course-options';
 
@@ -68,18 +60,19 @@ export function CourseFilter({
   return (
     <Field label={label}>
       {id => (
-        <Select value={value} onValueChange={onChange}>
-          <SelectTrigger id={id} size="sm" className="w-56">
-            <SelectValue placeholder={allLabel} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={ALL_COURSES}>{allLabel}</SelectItem>
-            {options.map(option => (
-              <SelectItem key={option.offeringId} value={option.offeringId}>
-                {option.code} — {option.title}
-              </SelectItem>
-            ))}
-          </SelectContent>
+        <Select
+          id={id}
+          uiSize="sm"
+          className="w-56"
+          value={value}
+          onValueChange={onChange}
+        >
+          <SelectItem value={ALL_COURSES}>{allLabel}</SelectItem>
+          {options.map(option => (
+            <SelectItem key={option.offeringId} value={option.offeringId}>
+              {option.code} — {option.title}
+            </SelectItem>
+          ))}
         </Select>
       )}
     </Field>
@@ -104,18 +97,19 @@ export function ChoiceFilter({
   return (
     <Field label={label}>
       {id => (
-        <Select value={value} onValueChange={onChange}>
-          <SelectTrigger id={id} size="sm" className="w-44">
-            <SelectValue placeholder={allLabel} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={allValue}>{allLabel}</SelectItem>
-            {options.map(option => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
+        <Select
+          id={id}
+          uiSize="sm"
+          className="w-44"
+          value={value}
+          onValueChange={onChange}
+        >
+          <SelectItem value={allValue}>{allLabel}</SelectItem>
+          {options.map(option => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
         </Select>
       )}
     </Field>

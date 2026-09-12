@@ -33,7 +33,7 @@ describe('MyExams', () => {
   it('names the kind, room and examiner of an exam term', async () => {
     renderExams();
 
-    expect((await screen.findAllByText('Regular')).length).toBe(2);
+    expect((await screen.findAllByText('Regular', { ignore: 'option' })).length).toBe(2);
     expect(screen.getByText('Room P1, Jesenná 5')).toBeInTheDocument();
     expect(screen.getByText('Examiner: Alan Turing')).toBeInTheDocument();
   });
@@ -126,8 +126,10 @@ describe('MyExams', () => {
     });
 
     renderExams();
-    await userEvent.click(await screen.findByRole('combobox', { name: 'Course' }));
-    await userEvent.click(await screen.findByRole('option', { name: /INF\/DB\/22/ }));
+    await userEvent.selectOptions(
+      await screen.findByRole('combobox', { name: 'Course' }),
+      await screen.findByRole('option', { name: /INF\/DB\/22/ }),
+    );
 
     expect(
       await screen.findByRole('heading', { name: 'Databases', level: 3 }),
@@ -139,8 +141,10 @@ describe('MyExams', () => {
   it('asks the server for one kind when the reader picks it', async () => {
     renderExams();
 
-    await userEvent.click(await screen.findByRole('combobox', { name: 'Kind' }));
-    await userEvent.click(await screen.findByRole('option', { name: 'First retake' }));
+    await userEvent.selectOptions(
+      await screen.findByRole('combobox', { name: 'Kind' }),
+      await screen.findByRole('option', { name: 'First retake' }),
+    );
 
     await screen.findByText('1 exam term ahead of you');
     expect(screen.queryByText('Room P1, Jesenná 5')).not.toBeInTheDocument();

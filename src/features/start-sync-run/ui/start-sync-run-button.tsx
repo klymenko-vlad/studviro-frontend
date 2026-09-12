@@ -8,15 +8,7 @@ import { toast } from 'sonner';
 
 import { syncRunMutations, syncRunQueries, type SyncRunMode } from '@/entities/sync-run';
 import { toApiError } from '@/shared/api';
-import {
-  Button,
-  Label,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui';
+import { Button, Label, Select, SelectItem } from '@/shared/ui';
 
 const MODES: readonly SyncRunMode[] = ['incremental', 'full'];
 
@@ -56,22 +48,19 @@ export function StartSyncRunButton({
       <div className="flex flex-col gap-2">
         <Label htmlFor="sync-mode">{t('modeLabel')}</Label>
         <Select
+          id="sync-mode"
+          className="w-48"
           value={mode}
           onValueChange={value => {
             setMode(value as SyncRunMode);
           }}
           disabled={pending || disabled}
         >
-          <SelectTrigger id="sync-mode" className="w-48">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {MODES.map(candidate => (
-              <SelectItem key={candidate} value={candidate}>
-                {t(`mode.${candidate}`)}
-              </SelectItem>
-            ))}
-          </SelectContent>
+          {MODES.map(candidate => (
+            <SelectItem key={candidate} value={candidate}>
+              {t(`mode.${candidate}`)}
+            </SelectItem>
+          ))}
         </Select>
       </div>
 

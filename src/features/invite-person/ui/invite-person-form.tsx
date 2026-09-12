@@ -25,10 +25,7 @@ import {
   FormMessage,
   Input,
   Select,
-  SelectContent,
   SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from '@/shared/ui';
 
 /**
@@ -92,20 +89,15 @@ export function InvitePersonForm({ institutionId }: { institutionId: string }) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>{t('role')}</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
                   {GRANTABLE_ROLES.map(role => (
                     <SelectItem key={role} value={role}>
                       {labels(`role.${role}`)}
                     </SelectItem>
                   ))}
-                </SelectContent>
-              </Select>
+                </Select>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

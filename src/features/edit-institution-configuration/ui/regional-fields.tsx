@@ -13,10 +13,7 @@ import {
   FormMessage,
   Input,
   Select,
-  SelectContent,
   SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from '@/shared/ui';
 
 import type { InstitutionConfigurationFormValues } from '../model/schema';
@@ -34,20 +31,15 @@ export function RegionalFields() {
         render={({ field }) => (
           <FormItem>
             <FormLabel>{t('defaultLocale')}</FormLabel>
-            <Select value={field.value} onValueChange={field.onChange}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
+            <FormControl>
+              <Select value={field.value} onValueChange={field.onChange}>
                 {LOCALES.map(locale => (
                   <SelectItem key={locale} value={locale}>
                     {languages(locale)}
                   </SelectItem>
                 ))}
-              </SelectContent>
-            </Select>
+              </Select>
+            </FormControl>
             <FormDescription>{t('defaultLocaleHint')}</FormDescription>
             <FormMessage />
           </FormItem>

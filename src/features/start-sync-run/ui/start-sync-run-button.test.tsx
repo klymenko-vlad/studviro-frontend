@@ -59,8 +59,7 @@ describe('StartSyncRunButton', () => {
       <StartSyncRunButton institutionId={INSTITUTION} />,
     );
 
-    await user.click(screen.getByRole('combobox', { name: 'Mode' }));
-    await user.click(screen.getByRole('option', { name: 'Full' }));
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Mode' }), 'Full');
     await user.click(screen.getByRole('button', { name: 'Run synchronization' }));
 
     await waitFor(() => {

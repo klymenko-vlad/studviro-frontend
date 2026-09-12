@@ -142,8 +142,10 @@ describe('MyCalendar', () => {
     });
 
     renderCalendar();
-    await userEvent.click(await screen.findByRole('combobox', { name: 'Type' }));
-    await userEvent.click(await screen.findByRole('option', { name: 'Seminar' }));
+    await userEvent.selectOptions(
+      await screen.findByRole('combobox', { name: 'Type' }),
+      await screen.findByRole('option', { name: 'Seminar' }),
+    );
 
     expect(
       await screen.findByRole('heading', { name: 'Algorithms seminar' }),
@@ -162,8 +164,10 @@ describe('MyCalendar', () => {
     });
 
     renderCalendar();
-    await userEvent.click(await screen.findByRole('combobox', { name: 'Course' }));
-    await userEvent.click(await screen.findByRole('option', { name: /INF\/ALG\/22/ }));
+    await userEvent.selectOptions(
+      await screen.findByRole('combobox', { name: 'Course' }),
+      await screen.findByRole('option', { name: /INF\/ALG\/22/ }),
+    );
 
     await screen.findByRole('heading', { name: 'Algorithms' });
     expect(chosen).toContain('aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1');

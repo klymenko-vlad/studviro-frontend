@@ -16,10 +16,7 @@ import {
   FormLabel,
   FormMessage,
   Select,
-  SelectContent,
   SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from '@/shared/ui';
 
 import type { InstitutionConfigurationFormValues } from '../model/schema';
@@ -47,26 +44,21 @@ export function ConnectorFields({ statuses }: { statuses: readonly ConnectorStat
           render={({ field }) => (
             <FormItem>
               <FormLabel>{t(`connector.${kind}`)}</FormLabel>
-              <Select
-                value={field.value === '' ? NONE : field.value}
-                onValueChange={value => {
-                  field.onChange(value === NONE ? '' : value);
-                }}
-              >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
+              <FormControl>
+                <Select
+                  value={field.value === '' ? NONE : field.value}
+                  onValueChange={value => {
+                    field.onChange(value === NONE ? '' : value);
+                  }}
+                >
                   <SelectItem value={NONE}>{t('connectorNone')}</SelectItem>
                   {alternativesFor(statuses, kind).map(connector => (
                     <SelectItem key={connector} value={connector}>
                       {connector}
                     </SelectItem>
                   ))}
-                </SelectContent>
-              </Select>
+                </Select>
+              </FormControl>
               <FormDescription>{t(`connectorHint.${kind}`)}</FormDescription>
               <FormMessage />
             </FormItem>

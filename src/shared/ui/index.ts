@@ -30,7 +30,7 @@ export {
 export { Input } from './input';
 export { Label } from './label';
 export { PasswordInput } from './password-input';
-export { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
+export { Select, SelectItem } from './select';
 export { Separator } from './separator';
 export { Skeleton } from './skeleton';
 export { Toaster } from './sonner';
