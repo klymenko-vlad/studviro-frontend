@@ -35,4 +35,5 @@ export { Separator } from './separator';
 export { Skeleton } from './skeleton';
 export { Toaster } from './sonner';
 export { Switch } from './switch';
+export { Textarea } from './textarea';
 export { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './table';

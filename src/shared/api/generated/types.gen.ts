@@ -561,6 +561,18 @@ export type MyCourseResultResponseDto = {
     term: MyCourseResultTermDto;
 };
 
+export type CreateDemoRequestDto = {
+    institutionName: string;
+    contactName: string;
+    email: string;
+    role: string;
+    message?: string;
+};
+
+export type DemoRequestAcceptedDto = {
+    status: 'accepted';
+};
+
 export type TimetableRoomDto = {
     id: string;
     code: string;
@@ -716,6 +728,18 @@ export type LoginDtoWritable = {
      * a caller probe the current policy without an account.
      */
     password: string;
+};
+
+export type CreateDemoRequestDtoWritable = {
+    institutionName: string;
+    contactName: string;
+    email: string;
+    role: string;
+    message?: string;
+    /**
+     * Leave empty.
+     */
+    website?: string;
 };
 
 export type ListSynchronizationRunsData = {
@@ -2062,6 +2086,36 @@ export type ListMyCourseResultsResponses = {
 };
 
 export type ListMyCourseResultsResponse = ListMyCourseResultsResponses[keyof ListMyCourseResultsResponses];
+
+export type CreateDemoRequestData = {
+    body: CreateDemoRequestDtoWritable;
+    path?: never;
+    query?: never;
+    url: '/api/v1/demo-requests';
+};
+
+export type CreateDemoRequestErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateDemoRequestError = CreateDemoRequestErrors[keyof CreateDemoRequestErrors];
+
+export type CreateDemoRequestResponses = {
+    202: DemoRequestAcceptedDto;
+};
+
+export type CreateDemoRequestResponse = CreateDemoRequestResponses[keyof CreateDemoRequestResponses];
 
 export type ListMyTimetableEventsData = {
     body?: never;

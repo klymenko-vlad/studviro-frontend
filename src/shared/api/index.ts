@@ -3,6 +3,7 @@ import {
   clearInstitutionConnectorCredentialMutation,
   countMyUnreadNotificationsOptions,
   countMyUnreadNotificationsQueryKey,
+  createDemoRequestMutation,
   createMutation,
   findAllInfiniteOptions,
   findAllOptions,
@@ -62,6 +63,7 @@ import {
   updateInstitutionConfigurationMutation,
 } from './generated/@tanstack/react-query.gen';
 import {
+  zCreateDemoRequestDtoWritable,
   zCreateUserDtoWritable,
   zGrantRoleDto,
   zLoginDtoWritable,
@@ -100,6 +102,7 @@ export const apiQueries = {
   clearInstitutionConnectorCredentialMutation,
   countMyUnreadNotificationsOptions,
   countMyUnreadNotificationsQueryKey,
+  createDemoRequestMutation,
   createMutation,
   findAllInfiniteOptions,
   findAllOptions,
@@ -169,6 +172,7 @@ export const apiQueries = {
  * into the client bundle. Add an entry here when a form needs it.
  */
 export const apiSchemas = {
+  zCreateDemoRequestDtoWritable,
   zCreateUserDtoWritable,
   zGrantRoleDto,
   zLoginDtoWritable,
@@ -176,6 +180,8 @@ export const apiSchemas = {
 
 export type {
   AuthTokensDto,
+  CreateDemoRequestDto,
+  CreateDemoRequestDtoWritable,
   ConnectorCredentialFieldDto,
   ConnectorCredentialsResponseDto,
   ConnectorStatusResponseDto,

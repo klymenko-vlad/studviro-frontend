@@ -32,6 +32,31 @@ describe('AppHeaderBar', () => {
     expect(screen.queryByRole('button', { name: 'Sign out' })).not.toBeInTheDocument();
   });
 
+  it('points a signed-out visitor at each audience page', () => {
+    renderWithProviders(<AppHeaderBar signedIn={false} />);
+
+    expect(screen.getByRole('link', { name: 'For students' })).toHaveAttribute(
+      'href',
+      '/for-students',
+    );
+    expect(screen.getByRole('link', { name: 'For teachers' })).toHaveAttribute(
+      'href',
+      '/for-teachers',
+    );
+    expect(screen.getByRole('link', { name: 'For institutions' })).toHaveAttribute(
+      'href',
+      '/for-institutions',
+    );
+  });
+
+  it('drops the marketing navigation once there is a session', () => {
+    renderWithProviders(<AppHeaderBar signedIn />);
+
+    // A signed-in header is about the app, not about the product.
+    expect(screen.queryByRole('link', { name: 'For students' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('navigation', { name: 'Product' })).not.toBeInTheDocument();
+  });
+
   it('offers a signed-in visitor their account and a way out', () => {
     renderWithProviders(<AppHeaderBar signedIn />);
 

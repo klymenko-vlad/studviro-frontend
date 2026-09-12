@@ -20,6 +20,10 @@ export const IS_SECURE_ORIGIN = env.NEXT_PUBLIC_APP_URL.startsWith('https:');
  */
 export const ROUTES = {
   home: '/',
+  forStudents: '/for-students',
+  forTeachers: '/for-teachers',
+  forInstitutions: '/for-institutions',
+  contact: '/contact',
   signIn: '/sign-in',
   signUp: '/sign-up',
   account: '/account',

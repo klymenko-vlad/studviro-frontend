@@ -26,11 +26,49 @@
     "notifications": "Notifications"
   },
   "home": {
-    "title": "Studviro",
-    "subtitle": "Your courses, grades and timetable from every university system, in one place.",
-    "getStarted": "Create an account",
-    "signIn": "Sign in",
-    "continue": "Go to your account"
+    "title": "One academic platform over the systems you already run",
+    "subtitle": "StudViro reads your student information system and gives students, teachers and administrators a single dashboard, calendar and course page — without replacing anything.",
+    "signedInCta": "Go to your account",
+    "problem": {
+      "title": "Two systems, two logins, two answers",
+      "body": "A timetable lives in one system and a deadline in another. A grade exists as a calculation, a proposal and an official record, and nothing shows a student which one they are looking at. Every question that spans both systems becomes the student's job to assemble.",
+      "one": {
+        "title": "Nothing is migrated",
+        "body": "Your systems stay authoritative. StudViro imports from them."
+      },
+      "two": {
+        "title": "Nothing is guessed",
+        "body": "Every value on screen names the system it came from and when."
+      },
+      "three": {
+        "title": "Nothing is over-shared",
+        "body": "What a person sees is decided by a scoped permission, on the server."
+      }
+    },
+    "features": {
+      "title": "What it does today",
+      "subtitle": "Shipped and in use, not roadmap.",
+      "dashboard": {
+        "title": "A dashboard that answers \"what now?\"",
+        "body": "This term's courses, the latest results and the rest of this week on one screen, each item linking through to the detail behind it."
+      },
+      "calendar": {
+        "title": "One week, both layers",
+        "body": "Classes and exam terms in a single week view, filterable by course and by type, for courses you attend and courses you teach."
+      },
+      "course": {
+        "title": "A course page with everything on it",
+        "body": "Staff, your own enrolment, study groups and results in one place, instead of four tabs across two systems."
+      },
+      "exams": {
+        "title": "Exam terms you can act on",
+        "body": "Seats, registration window and examiner, filterable by whether you may register — and when you may not, the server says why."
+      },
+      "sync": {
+        "title": "Imports you can watch",
+        "body": "Freshness per domain, per-run results, retries and a history, plus an on-demand report of every record where the source and the platform disagree."
+      }
+    }
   },
   "error": {
     "title": "Something went wrong",
@@ -712,6 +750,295 @@
       "completed": "Completed",
       "withdrawn": "Withdrawn",
       "rejected": "Rejected"
+    }
+  },
+  "marketing": {
+    "nav": {
+      "forStudents": "For students",
+      "forTeachers": "For teachers",
+      "forInstitutions": "For institutions",
+      "contact": "Contact",
+      "sectionLabel": "Product"
+    },
+    "cta": {
+      "requestDemo": "Request a demo",
+      "signIn": "Sign in",
+      "readMore": "Read more"
+    },
+    "audiences": {
+      "title": "Built for the three people who use it",
+      "subtitle": "The same imported record, read three ways.",
+      "students": {
+        "title": "Students",
+        "body": "One timetable, one place to see where a grade came from, and an exam registration that tells you why a seat is out of reach."
+      },
+      "teachers": {
+        "title": "Teachers",
+        "body": "The offerings you lead, who is enrolled in each, and your own teaching week — without opening a second system to assemble it."
+      },
+      "institutions": {
+        "title": "Institutions",
+        "body": "Connect a source system, watch every import, and see exactly where the platform and the source disagree."
+      }
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "subtitle": "Three steps, and no migration.",
+      "connect": {
+        "title": "1. Connect a source system",
+        "body": "An administrator picks a connector and stores its credentials. They are encrypted at rest and never read back, not even by the administrator who entered them."
+      },
+      "import": {
+        "title": "2. Import into one model",
+        "body": "Ordered imports write into 25 canonical tables. Every record keeps its source, its version and when it was last seen, and an external identifier is never used as a primary key."
+      },
+      "use": {
+        "title": "3. Use one surface",
+        "body": "Students and teachers get a dashboard, a calendar and a course page over the imported model. Your existing systems stay exactly where they are."
+      }
+    },
+    "trust": {
+      "title": "What we do with your data",
+      "subtitle": "The parts a registrar asks about first.",
+      "credentials": {
+        "title": "Credentials are write-only",
+        "body": "Connector secrets are encrypted with AES-256-GCM, echoed back to nobody, and reachable only by an institution administrator holding the permission to configure a connector."
+      },
+      "permissions": {
+        "title": "Permissions carry a scope",
+        "body": "Every grant names both what it permits and where. Holding the permission to read enrolments never opens a list of someone's classmates."
+      },
+      "provenance": {
+        "title": "Every record says where it came from",
+        "body": "Source system, external identifier, source version and last-synchronised time travel with each row, so a disputed value can always be traced back."
+      },
+      "readOnly": {
+        "title": "Read-only, for now",
+        "body": "The platform imports from your systems and writes nothing back to them. Write-back is designed and not yet built, so nothing here can corrupt your system of record."
+      }
+    },
+    "faq": {
+      "title": "Questions we are asked",
+      "replace": {
+        "question": "Does this replace AIS2 or Moodle?",
+        "answer": "No. Your systems stay authoritative and unchanged. StudViro reads from them and presents one surface over the result."
+      },
+      "lms": {
+        "question": "Which systems can you connect today?",
+        "answer": "A student information system, through a connector. The Moodle connector and the learning-system data behind it — assignments, submissions and their deadlines — are designed and on the roadmap, not shipped."
+      },
+      "accounts": {
+        "question": "How do people get accounts?",
+        "answer": "An institution onboards with us. Accounts are invited rather than opened from the public internet, and university single sign-on is on the roadmap."
+      },
+      "conflict": {
+        "question": "What happens when two systems disagree?",
+        "answer": "The platform reports it. A reconciliation check names every record that is missing, stale or in conflict, per domain, on demand."
+      },
+      "cost": {
+        "question": "What does it cost?",
+        "answer": "We do not publish a price. Terms depend on your size and which systems you run, so a conversation is the honest answer."
+      }
+    },
+    "closing": {
+      "title": "See it against your own systems",
+      "body": "Bring one department and one term. We will show you what the import produces and what it does not yet cover.",
+      "cta": "Request a demo"
+    },
+    "footer": {
+      "product": "Product",
+      "account": "Account",
+      "settings": "Settings",
+      "tagline": "One academic platform over the systems a university already runs.",
+      "rights": "StudViro"
+    }
+  },
+  "forStudents": {
+    "meta": {
+      "title": "For students",
+      "description": "One timetable, grades that say where they came from, and exam registration that explains itself."
+    },
+    "hero": {
+      "title": "Stop assembling your own timetable",
+      "subtitle": "Your courses, your week and your results in one place — read from your university's systems, not retyped into another one."
+    },
+    "features": {
+      "title": "What you get",
+      "week": {
+        "title": "Your whole week in one view",
+        "body": "Classes and exam terms as two layers of the same week, filterable by course and by type."
+      },
+      "courses": {
+        "title": "Your courses, by term",
+        "body": "Every enrolment with its status, and a course page with the staff, your study groups and your results on it."
+      },
+      "grades": {
+        "title": "A grade that explains itself",
+        "body": "Calculated, proposed and official are shown as what they are, each with the system it came from and when it was last seen."
+      },
+      "exams": {
+        "title": "Registration that gives you a reason",
+        "body": "Register and cancel from any exam term. When you cannot, the server answers why instead of greying out a button."
+      },
+      "notifications": {
+        "title": "Told once, not five times",
+        "body": "When an exam term is published, moved or cancelled you hear about it — deduplicated to one message per term per day."
+      }
+    },
+    "roadmap": {
+      "title": "Not yet",
+      "body": "Assignment deadlines and submissions come with the learning-system connector. Browsing the full course catalogue and enrolling yourself are designed and not built. We would rather say so than show you a screenshot of neither."
+    },
+    "closing": {
+      "title": "Ask your university about it",
+      "body": "StudViro is deployed by an institution, not signed up for individually. If your university is evaluating it, this is the page to send them.",
+      "cta": "Request a demo"
+    }
+  },
+  "forTeachers": {
+    "meta": {
+      "title": "For teachers",
+      "description": "The offerings you lead, who is in them, and your teaching week — in one place."
+    },
+    "hero": {
+      "title": "Your teaching, without the second login",
+      "subtitle": "The offerings you lead, the students in each of them and your own week, read from the same import your students see."
+    },
+    "features": {
+      "title": "What you get",
+      "offerings": {
+        "title": "Everything you lead, by term",
+        "body": "Your teaching assignments with your role on each and how many students are actually enrolled."
+      },
+      "roster": {
+        "title": "A roster that agrees with itself",
+        "body": "The student list and the enrolment count exclude withdrawn and rejected enrolments, and always match."
+      },
+      "calendar": {
+        "title": "One week, teaching included",
+        "body": "The calendar scopes to the offerings you teach as well as the ones you attend."
+      },
+      "course": {
+        "title": "The same course page your students see",
+        "body": "Staff, study groups and exam terms, so a question about a course has one answer rather than two."
+      }
+    },
+    "roadmap": {
+      "title": "Not yet",
+      "body": "Entering or proposing a grade, managing an offering and editing its timetable are permissions the platform grants and no screen yet uses. Grading stays in your existing system until that lands."
+    },
+    "closing": {
+      "title": "See it with your own courses",
+      "body": "A demo runs against a real import, so you can look at an offering you recognise.",
+      "cta": "Request a demo"
+    }
+  },
+  "forInstitutions": {
+    "meta": {
+      "title": "For institutions",
+      "description": "Connect a source system, watch every import, and see where the platform and the source disagree."
+    },
+    "hero": {
+      "title": "One surface over the systems you already run",
+      "subtitle": "No migration, no second system of record. A connector reads your student information system into a canonical model, and everything students and teachers see is built over that."
+    },
+    "features": {
+      "title": "What an administrator gets",
+      "connectors": {
+        "title": "Connectors and their health",
+        "body": "Choose a connector per institution, see what it can do and whether it is reachable, and store its credentials encrypted and unreadable."
+      },
+      "sync": {
+        "title": "Every import, on the record",
+        "body": "Freshness per domain, per-run results, per-record failures, retries and a full run history."
+      },
+      "reconciliation": {
+        "title": "Disagreements, named",
+        "body": "An on-demand report of every record that is missing, stale or in conflict between the source and the platform, per domain."
+      },
+      "roles": {
+        "title": "Scoped role administration",
+        "body": "Grant and revoke permissions against a scope, with the hierarchy enforced on the server rather than hinted at in the interface."
+      },
+      "model": {
+        "title": "A canonical model with provenance",
+        "body": "25 institution-scoped tables. Source system, external identifier, version and last-seen time on every row; external identifiers are never primary keys."
+      }
+    },
+    "deployment": {
+      "title": "How it runs",
+      "containers": {
+        "title": "Containers you host",
+        "body": "A NestJS API on PostgreSQL and Redis, with migrations gated on startup so a replica never serves a schema it is behind."
+      },
+      "contract": {
+        "title": "A generated API contract",
+        "body": "The client is generated from a drift-checked OpenAPI document, so the interface and the API cannot disagree."
+      },
+      "mock": {
+        "title": "Evaluate without access",
+        "body": "A deterministic mock connector produces around five thousand linked records, so a pilot can start before integration credentials do."
+      }
+    },
+    "roadmap": {
+      "title": "On the roadmap, honestly",
+      "subtitle": "Designed, not shipped. Ask about timelines rather than assuming them.",
+      "lms": {
+        "title": "Learning-system integration",
+        "body": "The Moodle connector and the assignments, submissions and deadlines behind it."
+      },
+      "writeback": {
+        "title": "Write-back to source systems",
+        "body": "Today the platform reads. An exam registration made here does not yet reach your system of record."
+      },
+      "sso": {
+        "title": "University single sign-on",
+        "body": "OIDC against your identity provider, blocked on institutional client registration."
+      },
+      "export": {
+        "title": "Data export and audit",
+        "body": "Personal-data export and a readable audit trail are planned and not yet built."
+      }
+    },
+    "closing": {
+      "title": "Bring one department and one term",
+      "body": "The most useful demo runs against a scope you recognise. Tell us which systems you run and we will show you what the import covers — and what it does not.",
+      "cta": "Request a demo"
+    }
+  },
+  "contact": {
+    "meta": {
+      "title": "Request a demo",
+      "description": "Tell us which systems you run and we will show you what StudViro makes of them."
+    },
+    "title": "Request a demo",
+    "subtitle": "Tell us which systems you run. We will show you what the import produces, what it covers today and what is still roadmap.",
+    "form": {
+      "institutionName": "Institution",
+      "institutionNameHint": "The university, faculty or department you are asking on behalf of.",
+      "contactName": "Your name",
+      "email": "Work email",
+      "role": "Your role",
+      "roleHint": "For example: vice-dean for study affairs, registrar, head of IT.",
+      "message": "Anything else",
+      "messageHint": "Which systems you run, how many students, what you want to see. Optional.",
+      "website": "Leave this field empty",
+      "submit": "Request a demo",
+      "submitting": "Sending…"
+    },
+    "success": {
+      "title": "Thank you — your request is in",
+      "body": "We read every one of these ourselves and will reply to the address you gave us."
+    },
+    "errors": {
+      "rateLimited": "That is a few too many requests in a row. Try again in a minute.",
+      "failed": "We could not send that. Try again, or write to us directly."
+    },
+    "aside": {
+      "title": "What happens next",
+      "one": "We reply by email, usually within a couple of working days.",
+      "two": "A demo runs against a real import, not a slide deck.",
+      "three": "We will be explicit about what is shipped and what is still roadmap."
     }
   }
 }

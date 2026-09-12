@@ -1,53 +1,128 @@
-import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { LANDING_ROUTE, Link, ROUTES } from '@/shared/config';
-import { Button } from '@/shared/ui';
+import {
+  AudienceCards,
+  FaqSection,
+  FeatureGrid,
+  HowItWorks,
+  MarketingCta,
+  MarketingFooter,
+  MarketingHero,
+  MarketingSection,
+} from '@/widgets/marketing';
+import { LANDING_ROUTE, ROUTES } from '@/shared/config';
+
+const FEATURES = ['dashboard', 'calendar', 'course', 'exams', 'sync'] as const;
+const PROBLEM_POINTS = ['one', 'two', 'three'] as const;
+const STEPS = ['connect', 'import', 'use'] as const;
+const FAQS = ['replace', 'lms', 'accounts', 'conflict', 'cost'] as const;
+const AUDIENCES = [
+  { key: 'students', href: ROUTES.forStudents },
+  { key: 'teachers', href: ROUTES.forTeachers },
+  { key: 'institutions', href: ROUTES.forInstitutions },
+] as const;
 
 /**
- * Page composition for `/`. Views own layout and which widgets appear; they hold
- * no business logic.
+ * Page composition for `/`. Views own layout and which widgets appear; they
+ * hold no business logic.
  *
- * The call to action depends on whether there is a session, because a landing
- * page that offers "Sign up" to someone already signed in is the fastest way to
- * make an app feel like a set of unconnected screens.
+ * The secondary call to action depends on whether there is a session: offering
+ * "Sign in" to someone already signed in is the fastest way to make an app feel
+ * like a set of unconnected screens.
  */
 export function HomeView({ signedIn }: { signedIn: boolean }) {
   const t = useTranslations('home');
+  const m = useTranslations('marketing');
 
   return (
-    <main className="flex flex-1 flex-col items-center justify-center gap-8 px-6 pb-24 text-center">
-      <div className="flex max-w-2xl flex-col items-center gap-4">
-        <h1 className="text-5xl font-semibold tracking-tight text-balance sm:text-6xl">
-          {t('title')}
-        </h1>
-        <p className="text-muted-foreground max-w-prose text-lg text-pretty">
-          {t('subtitle')}
-        </p>
-      </div>
+    <>
+      <main className="flex flex-1 flex-col">
+        <MarketingHero
+          title={t('title')}
+          subtitle={t('subtitle')}
+          primary={{ href: ROUTES.contact, label: m('cta.requestDemo') }}
+          secondary={
+            signedIn
+              ? { href: LANDING_ROUTE, label: t('signedInCta') }
+              : { href: ROUTES.signIn, label: m('cta.signIn') }
+          }
+        />
 
-      <div className="flex flex-col gap-3 sm:flex-row">
-        {signedIn ? (
-          <Button asChild size="lg">
-            <Link href={LANDING_ROUTE}>
-              {t('continue')}
-              <ArrowRight aria-hidden />
-            </Link>
-          </Button>
-        ) : (
-          <>
-            <Button asChild size="lg">
-              <Link href={ROUTES.signUp}>
-                {t('getStarted')}
-                <ArrowRight aria-hidden />
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link href={ROUTES.signIn}>{t('signIn')}</Link>
-            </Button>
-          </>
-        )}
-      </div>
-    </main>
+        <MarketingSection title={t('problem.title')} subtitle={t('problem.body')} muted>
+          <FeatureGrid
+            items={PROBLEM_POINTS.map(key => ({
+              key,
+              title: t(`problem.${key}.title`),
+              body: t(`problem.${key}.body`),
+            }))}
+          />
+        </MarketingSection>
+
+        <MarketingSection title={t('features.title')} subtitle={t('features.subtitle')}>
+          <FeatureGrid
+            items={FEATURES.map(key => ({
+              key,
+              title: t(`features.${key}.title`),
+              body: t(`features.${key}.body`),
+            }))}
+          />
+        </MarketingSection>
+
+        <MarketingSection
+          title={m('howItWorks.title')}
+          subtitle={m('howItWorks.subtitle')}
+          muted
+        >
+          <HowItWorks
+            steps={STEPS.map(key => ({
+              key,
+              title: m(`howItWorks.${key}.title`),
+              body: m(`howItWorks.${key}.body`),
+            }))}
+          />
+        </MarketingSection>
+
+        <MarketingSection title={m('audiences.title')} subtitle={m('audiences.subtitle')}>
+          <AudienceCards
+            items={AUDIENCES.map(audience => ({
+              key: audience.key,
+              href: audience.href,
+              title: m(`audiences.${audience.key}.title`),
+              body: m(`audiences.${audience.key}.body`),
+            }))}
+          />
+        </MarketingSection>
+
+        <MarketingSection title={m('trust.title')} subtitle={m('trust.subtitle')}>
+          <FeatureGrid
+            columns={2}
+            items={(
+              ['credentials', 'permissions', 'provenance', 'readOnly'] as const
+            ).map(key => ({
+              key,
+              title: m(`trust.${key}.title`),
+              body: m(`trust.${key}.body`),
+            }))}
+          />
+        </MarketingSection>
+
+        <FaqSection
+          title={m('faq.title')}
+          items={FAQS.map(key => ({
+            key,
+            question: m(`faq.${key}.question`),
+            answer: m(`faq.${key}.answer`),
+          }))}
+        />
+
+        <MarketingCta
+          title={m('closing.title')}
+          body={m('closing.body')}
+          action={m('closing.cta')}
+        />
+      </main>
+
+      <MarketingFooter />
+    </>
   );
 }

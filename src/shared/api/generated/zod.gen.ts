@@ -779,6 +779,18 @@ export const zMyCourseResultResponseDto = z.object({
     term: zMyCourseResultTermDto
 });
 
+export const zCreateDemoRequestDto = z.object({
+    institutionName: z.string().min(2).max(200),
+    contactName: z.string().min(1).max(120),
+    email: z.email().max(255),
+    role: z.string().min(1).max(80),
+    message: z.string().max(2000).optional()
+});
+
+export const zDemoRequestAcceptedDto = z.object({
+    status: z.enum(['accepted'])
+});
+
 export const zTimetableRoomDto = z.object({
     id: z.uuid(),
     code: z.string(),
@@ -990,6 +1002,15 @@ export const zCreateUserDtoWritable = z.object({
 export const zLoginDtoWritable = z.object({
     email: z.email(),
     password: z.string().min(1).max(128)
+});
+
+export const zCreateDemoRequestDtoWritable = z.object({
+    institutionName: z.string().min(2).max(200),
+    contactName: z.string().min(1).max(120),
+    email: z.email().max(255),
+    role: z.string().min(1).max(80),
+    message: z.string().max(2000).optional(),
+    website: z.string().max(200).optional()
 });
 
 export const zListSynchronizationRunsPath = z.object({
@@ -1269,6 +1290,10 @@ export const zListMyCourseResultsQuery = z.object({
 });
 
 export const zListMyCourseResultsResponse = z.array(zMyCourseResultResponseDto);
+
+export const zCreateDemoRequestBody = zCreateDemoRequestDtoWritable;
+
+export const zCreateDemoRequestResponse = zDemoRequestAcceptedDto;
 
 export const zListMyTimetableEventsPath = z.object({
     institutionId: z.string()

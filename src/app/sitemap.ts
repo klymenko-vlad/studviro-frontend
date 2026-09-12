@@ -12,10 +12,22 @@ import { env } from '@/env';
  * cookie now, so both languages are served from the same URL and there is no
  * per-locale address to list.
  */
-const PUBLIC_PATHS = ['/'] as const;
+const PUBLIC_PATHS = [
+  '/',
+  '/for-students',
+  '/for-teachers',
+  '/for-institutions',
+  '/contact',
+] as const;
 
 /** Relative importance, highest for the entry point. */
-const PRIORITIES: Record<(typeof PUBLIC_PATHS)[number], number> = { '/': 1 };
+const PRIORITIES: Record<(typeof PUBLIC_PATHS)[number], number> = {
+  '/': 1,
+  '/for-students': 0.8,
+  '/for-teachers': 0.8,
+  '/for-institutions': 0.8,
+  '/contact': 0.6,
+};
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return PUBLIC_PATHS.map(path => ({

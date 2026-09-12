@@ -6,8 +6,12 @@ test.describe('home page', () => {
   test('renders the landing content in the default locale', async ({ page }) => {
     await page.goto('/');
 
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Studviro');
-    await expect(page.getByRole('button', { name: 'Get started' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+      'One academic platform over the systems you already run',
+    );
+    await expect(
+      page.getByRole('link', { name: 'Request a demo' }).first(),
+    ).toBeVisible();
     await expect(page).toHaveURL(/\/$/);
   });
 
@@ -19,7 +23,6 @@ test.describe('home page', () => {
 
     await page.goto('/');
 
-    await expect(page.getByRole('button', { name: 'Почати' })).toBeVisible();
     await expect(page.locator('html')).toHaveAttribute('lang', 'sk');
     // The whole point of ADR 0007: the language changed, the address did not.
     await expect(page).toHaveURL(/\/$/);

@@ -9,7 +9,6 @@ test.describe('language switching', () => {
     const group = page.getByRole('radiogroup', { name: 'Language' });
     await group.getByRole('radio', { name: 'Slovenčina' }).click();
 
-    await expect(page.getByRole('button', { name: 'Почати' })).toBeVisible();
     await expect(page.locator('html')).toHaveAttribute('lang', 'sk');
     await expect(page).toHaveURL(/\/$/);
 

@@ -1,51 +1,64 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { renderWithProviders, screen } from '@/shared/test';
 
 import { HomeView } from './home-view';
 
+// `JsonLd` resolves the CSP nonce from the request, which no test tree has.
+vi.mock('@/shared/seo', () => ({ JsonLd: () => null }));
+
 describe('HomeView', () => {
-  it('renders a single top-level heading from the message catalogue', () => {
+  it('renders a single top-level heading', () => {
     renderWithProviders(<HomeView signedIn={false} />);
 
     // One h1 per page — more than one breaks screen-reader document outline.
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Studviro');
   });
 
-  it('renders the localised subtitle rather than a raw message key', () => {
+  it('leads with what the product does rather than with its own name', () => {
     renderWithProviders(<HomeView signedIn={false} />);
 
-    expect(
-      screen.getByText(
-        'Your courses, grades and timetable from every university system, in one place.',
-      ),
-    ).toBeInTheDocument();
-  });
-
-  it('offers a signed-out visitor both a way in and a way to register', () => {
-    renderWithProviders(<HomeView signedIn={false} />);
-
-    expect(screen.getByRole('link', { name: /Create an account/ })).toHaveAttribute(
-      'href',
-      '/sign-up',
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'One academic platform over the systems you already run',
     );
+  });
+
+  it('makes requesting a demo the primary way in for a signed-out visitor', () => {
+    renderWithProviders(<HomeView signedIn={false} />);
+
+    const [primary] = screen.getAllByRole('link', { name: /Request a demo/ });
+    expect(primary).toHaveAttribute('href', '/contact');
     expect(screen.getByRole('link', { name: 'Sign in' })).toHaveAttribute(
       'href',
       '/sign-in',
     );
   });
 
-  it('sends a signed-in visitor onward instead of offering registration again', () => {
+  it('sends a signed-in visitor onward instead of offering sign-in again', () => {
     renderWithProviders(<HomeView signedIn />);
 
-    expect(screen.getByRole('link', { name: /Go to your account/ })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Go to your account' })).toHaveAttribute(
       'href',
       '/account',
     );
-    expect(
-      screen.queryByRole('link', { name: /Create an account/ }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Sign in' })).not.toBeInTheDocument();
+  });
+
+  it('cross-links every audience page', () => {
+    renderWithProviders(<HomeView signedIn={false} />);
+
+    expect(screen.getAllByRole('link', { name: 'Students' })[0]).toHaveAttribute(
+      'href',
+      '/for-students',
+    );
+    expect(screen.getAllByRole('link', { name: 'Teachers' })[0]).toHaveAttribute(
+      'href',
+      '/for-teachers',
+    );
+    expect(screen.getAllByRole('link', { name: 'Institutions' })[0]).toHaveAttribute(
+      'href',
+      '/for-institutions',
+    );
   });
 
   it('leaves no call to action that goes nowhere', () => {
@@ -53,6 +66,24 @@ describe('HomeView', () => {
 
     // The scaffold shipped two `<Button>`s with neither href nor handler, which
     // is how the landing page spent several steps with no way to sign in.
-    expect(screen.queryAllByRole('button')).toHaveLength(0);
+    for (const link of screen.getAllByRole('link')) {
+      expect(link).toHaveAttribute('href');
+    }
+  });
+
+  it('resolves every string instead of rendering a message key', () => {
+    const { container } = renderWithProviders(<HomeView signedIn={false} />);
+
+    expect(container.textContent).not.toMatch(/marketing\.|home\./);
+  });
+
+  it('describes the learning system as roadmap rather than as shipped', () => {
+    renderWithProviders(<HomeView signedIn={false} />);
+
+    // Moodle import is Planned in Feature Status; claiming it here would make
+    // the landing page the only place in the product that says otherwise.
+    expect(
+      screen.getByText(/Moodle connector and the learning-system data behind it/),
+    ).toBeInTheDocument();
   });
 });
