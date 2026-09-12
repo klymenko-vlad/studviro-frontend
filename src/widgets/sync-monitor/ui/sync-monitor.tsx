@@ -24,6 +24,7 @@ import {
 } from '@/shared/ui';
 
 import { SyncFreshness } from './sync-freshness';
+import { SyncReconciliation } from './sync-reconciliation';
 import { SyncRunDomains } from './sync-run-domains';
 import { SyncRunHistory } from './sync-run-history';
 
@@ -137,6 +138,18 @@ export function SyncMonitor({
           )}
         </CardContent>
       </Card>
+
+      {canRun ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>{t('reconciliation.title')}</CardTitle>
+            <CardDescription>{t('reconciliation.cardDescription')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SyncReconciliation institutionId={institutionId} />
+          </CardContent>
+        </Card>
+      ) : null}
 
       <Card>
         <CardHeader>

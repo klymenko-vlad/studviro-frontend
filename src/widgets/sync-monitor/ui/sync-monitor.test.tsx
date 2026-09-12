@@ -132,5 +132,15 @@ describe('SyncMonitor', () => {
     expect(
       screen.queryByRole('button', { name: 'Run synchronization' }),
     ).not.toBeInTheDocument();
+    expect(screen.queryByText('Reconciliation')).not.toBeInTheDocument();
+  });
+
+  it('offers reconciliation only to a reader who also holds sync:run', async () => {
+    renderWithProviders(<SyncMonitor institutionId={INSTITUTION} canRun />);
+
+    expect(await screen.findByText('Reconciliation')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Check for discrepancies' }),
+    ).toBeInTheDocument();
   });
 });

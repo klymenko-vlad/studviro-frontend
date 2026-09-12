@@ -65,6 +65,43 @@ export type SyncRunDetailResponseDto = {
     domains: Array<SyncDomainResultResponseDto>;
 };
 
+export type DiscrepancyResponseDto = {
+    kind: 'missing_in_platform' | 'missing_in_source' | 'stale' | 'conflict';
+    /**
+     * Null when the platform row carries no external identifier.
+     */
+    externalId: string | null;
+    /**
+     * The canonical row, when one exists.
+     */
+    canonicalId: string | null;
+    sourceUpdatedAt: string | null;
+    platformUpdatedAt: string | null;
+    detail: string;
+};
+
+export type DomainReconciliationResponseDto = {
+    domain: 'orgUnits' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults';
+    status: 'checked' | 'skipped' | 'failed';
+    sourceCount: number;
+    platformCount: number;
+    matched: number;
+    discrepancyCount: number;
+    discrepancies: Array<DiscrepancyResponseDto>;
+    /**
+     * More discrepancies exist than the report lists.
+     */
+    truncated: boolean;
+    errorMessage: string | null;
+};
+
+export type ReconciliationReportResponseDto = {
+    connectorName: string;
+    checkedAt: string;
+    discrepancyCount: number;
+    domains: Array<DomainReconciliationResponseDto>;
+};
+
 export type SyncWatermarkResponseDto = {
     domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults';
     connectorName: string;
@@ -791,6 +828,42 @@ export type GetSynchronizationRunResponses = {
 };
 
 export type GetSynchronizationRunResponse = GetSynchronizationRunResponses[keyof GetSynchronizationRunResponses];
+
+export type GetSynchronizationReconciliationData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/synchronization/reconciliation';
+};
+
+export type GetSynchronizationReconciliationErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetSynchronizationReconciliationError = GetSynchronizationReconciliationErrors[keyof GetSynchronizationReconciliationErrors];
+
+export type GetSynchronizationReconciliationResponses = {
+    200: ReconciliationReportResponseDto;
+};
+
+export type GetSynchronizationReconciliationResponse = GetSynchronizationReconciliationResponses[keyof GetSynchronizationReconciliationResponses];
 
 export type GetSynchronizationStateData = {
     body?: never;

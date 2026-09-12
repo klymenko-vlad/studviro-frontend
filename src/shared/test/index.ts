@@ -20,6 +20,7 @@ export {
   notifications,
   roleAssignments,
   session,
+  reconciliationReport,
   syncRunDetail,
   syncRuns,
   syncState,

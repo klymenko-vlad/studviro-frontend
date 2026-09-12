@@ -449,6 +449,46 @@
       "timetableEvents": "Timetable events",
       "examTerms": "Exam terms",
       "officialResults": "Official results"
+    },
+    "reconciliation": {
+      "title": "Reconciliation",
+      "cardDescription": "Compare what the source offers against what the platform holds.",
+      "description": "This reads both sides live and reports where they disagree. It changes nothing.",
+      "checkNow": "Check for discrepancies",
+      "checking": "Comparing…",
+      "checkedAt": "Compared at {at}.",
+      "cleanTitle": "The two sides agree",
+      "cleanDescription": "Every record the source offers is in the platform, at the version the source holds.",
+      "dirtyTitle": "The two sides disagree",
+      "dirtyDescription": "{count, plural, one {# record} other {# records}} differ between the source and the platform. Run synchronization to take in what is missing or out of date.",
+      "domainHeading": "{domain} — {count, plural, one {# discrepancy} other {# discrepancies}}",
+      "truncated": "Showing {shown} of {total}. Run synchronization and compare again to see the rest.",
+      "noDetail": "This domain reported no detail.",
+      "errorTitle": "The comparison failed",
+      "errorDescription": "The source could not be read just now. Try again in a moment.",
+      "kind": {
+        "missing_in_platform": "Missing here",
+        "missing_in_source": "Gone from source",
+        "stale": "Out of date",
+        "conflict": "Conflict"
+      },
+      "status": {
+        "checked": "Checked",
+        "skipped": "Not offered",
+        "failed": "Failed"
+      },
+      "column": {
+        "domain": "Domain",
+        "source": "In source",
+        "platform": "In platform",
+        "matched": "Matched",
+        "discrepancies": "Discrepancies",
+        "kind": "What differs",
+        "externalId": "Source identifier",
+        "detail": "Detail",
+        "sourceUpdated": "Source updated",
+        "platformUpdated": "Platform updated"
+      }
     }
   },
   "dashboard": {

@@ -16,6 +16,7 @@ import type {
   MyPermissionsResponseDto,
   MyTimetableEventResponseDto,
   NotificationResponseDto,
+  ReconciliationReportResponseDto,
   RoleAssignmentResponseDto,
   SyncRunDetailResponseDto,
   SyncRunResponseDto,
@@ -874,6 +875,53 @@ export const syncState: SyncWatermarkResponseDto[] = [
   },
 ];
 
+export const reconciliationReport: ReconciliationReportResponseDto = {
+  connectorName: 'mock-sis',
+  checkedAt: '2026-06-01T10:00:00.000Z',
+  discrepancyCount: 2,
+  domains: [
+    {
+      domain: 'courses',
+      status: 'checked',
+      sourceCount: 60,
+      platformCount: 59,
+      matched: 59,
+      discrepancyCount: 2,
+      truncated: false,
+      errorMessage: null,
+      discrepancies: [
+        {
+          kind: 'missing_in_platform',
+          externalId: 'course-404',
+          canonicalId: null,
+          sourceUpdatedAt: '2026-06-01T09:30:00.000Z',
+          platformUpdatedAt: null,
+          detail: 'The source holds this record and the platform has no live row for it.',
+        },
+        {
+          kind: 'stale',
+          externalId: 'course-12',
+          canonicalId: '99999999-9999-4999-8999-999999999999',
+          sourceUpdatedAt: '2026-06-01T09:30:00.000Z',
+          platformUpdatedAt: '2026-05-01T09:30:00.000Z',
+          detail: 'The source has changed since the platform last took this row in.',
+        },
+      ],
+    },
+    {
+      domain: 'enrollments',
+      status: 'checked',
+      sourceCount: 120,
+      platformCount: 120,
+      matched: 120,
+      discrepancyCount: 0,
+      truncated: false,
+      errorMessage: null,
+      discrepancies: [],
+    },
+  ],
+};
+
 export const handlers = [
   /**
    * The BFF returns only the user; the tokens stay in httpOnly cookies the test
@@ -1159,6 +1207,10 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/synchronization/state`, () =>
     HttpResponse.json(syncState),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/synchronization/reconciliation`, () =>
+    HttpResponse.json(reconciliationReport),
   ),
 
   http.post(`${PROXY}/institutions/:institutionId/synchronization/runs`, () =>

@@ -82,6 +82,56 @@ export const zSyncRunDetailResponseDto = z.object({
     domains: z.array(zSyncDomainResultResponseDto)
 });
 
+export const zDiscrepancyResponseDto = z.object({
+    kind: z.enum([
+        'missing_in_platform',
+        'missing_in_source',
+        'stale',
+        'conflict'
+    ]),
+    externalId: z.string().nullable(),
+    canonicalId: z.string().nullable(),
+    sourceUpdatedAt: z.iso.datetime().nullable(),
+    platformUpdatedAt: z.iso.datetime().nullable(),
+    detail: z.string()
+});
+
+export const zDomainReconciliationResponseDto = z.object({
+    domain: z.enum([
+        'orgUnits',
+        'academicTerms',
+        'rooms',
+        'programs',
+        'courses',
+        'courseOfferings',
+        'programMemberships',
+        'studyGroups',
+        'enrollments',
+        'timetableEvents',
+        'examTerms',
+        'officialResults'
+    ]),
+    status: z.enum([
+        'checked',
+        'skipped',
+        'failed'
+    ]),
+    sourceCount: z.number(),
+    platformCount: z.number(),
+    matched: z.number(),
+    discrepancyCount: z.number(),
+    discrepancies: z.array(zDiscrepancyResponseDto),
+    truncated: z.boolean(),
+    errorMessage: z.string().nullable()
+});
+
+export const zReconciliationReportResponseDto = z.object({
+    connectorName: z.string(),
+    checkedAt: z.iso.datetime(),
+    discrepancyCount: z.number(),
+    domains: z.array(zDomainReconciliationResponseDto)
+});
+
 export const zSyncWatermarkResponseDto = z.object({
     domain: z.enum([
         'orgUnits',
@@ -966,6 +1016,12 @@ export const zGetSynchronizationRunPath = z.object({
 });
 
 export const zGetSynchronizationRunResponse = zSyncRunDetailResponseDto;
+
+export const zGetSynchronizationReconciliationPath = z.object({
+    institutionId: z.string()
+});
+
+export const zGetSynchronizationReconciliationResponse = zReconciliationReportResponseDto;
 
 export const zGetSynchronizationStatePath = z.object({
     institutionId: z.string()
