@@ -74,14 +74,14 @@ describe('security headers', () => {
 
 describe('locale cookie', () => {
   it('pins the negotiated locale on a first visit', () => {
-    const response = proxy(request('/', { acceptLanguage: 'uk-UA,uk;q=0.9' }));
+    const response = proxy(request('/', { acceptLanguage: 'sk-SK,sk;q=0.9' }));
 
-    expect(response.cookies.get('NEXT_LOCALE')?.value).toBe('uk');
+    expect(response.cookies.get('NEXT_LOCALE')?.value).toBe('sk');
   });
 
   it('leaves an existing choice alone', () => {
     const response = proxy(
-      request('/', { cookies: { NEXT_LOCALE: 'uk' }, acceptLanguage: 'en-GB' }),
+      request('/', { cookies: { NEXT_LOCALE: 'sk' }, acceptLanguage: 'en-GB' }),
     );
 
     // Overwriting here would undo the switcher on the very next navigation.
@@ -90,10 +90,10 @@ describe('locale cookie', () => {
 
   it('replaces a cookie holding an unsupported locale', () => {
     const response = proxy(
-      request('/', { cookies: { NEXT_LOCALE: 'de' }, acceptLanguage: 'uk' }),
+      request('/', { cookies: { NEXT_LOCALE: 'de' }, acceptLanguage: 'sk' }),
     );
 
-    expect(response.cookies.get('NEXT_LOCALE')?.value).toBe('uk');
+    expect(response.cookies.get('NEXT_LOCALE')?.value).toBe('sk');
   });
 
   it('defaults to English when the browser asks for nothing we serve', () => {

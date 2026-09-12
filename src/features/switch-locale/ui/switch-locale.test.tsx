@@ -23,22 +23,22 @@ describe('SwitchLocale', () => {
 
     // `renderWithProviders` supplies the English catalogue.
     expect(screen.getByRole('radio', { name: 'English' })).toBeChecked();
-    expect(screen.getByRole('radio', { name: 'Українська' })).not.toBeChecked();
+    expect(screen.getByRole('radio', { name: 'Slovenčina' })).not.toBeChecked();
   });
 
   it('names each language in that language, not the active one', () => {
     renderWithProviders(<SwitchLocale />);
 
     // Someone stuck in a language they cannot read has to be able to find
-    // their own — "Ukrainian" would be useless to them.
-    expect(screen.getByRole('radio', { name: 'Українська' })).toBeInTheDocument();
+    // their own — "Slovak" would be useless to them.
+    expect(screen.getByRole('radio', { name: 'Slovenčina' })).toBeInTheDocument();
   });
 
   it('switches to the chosen locale', async () => {
     const { user } = renderWithProviders(<SwitchLocale />);
 
-    await user.click(screen.getByRole('radio', { name: 'Українська' }));
+    await user.click(screen.getByRole('radio', { name: 'Slovenčina' }));
 
-    expect(switchLocale).toHaveBeenCalledWith('uk');
+    expect(switchLocale).toHaveBeenCalledWith('sk');
   });
 });

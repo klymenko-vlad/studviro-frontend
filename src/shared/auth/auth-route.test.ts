@@ -19,7 +19,7 @@ const TOKENS: AuthTokensDto = {
     id: '11111111-1111-4111-8111-111111111111',
     email: 'ada@example.com',
     displayName: 'Ada Lovelace',
-    locale: 'uk',
+    locale: 'sk',
     role: 'user',
     createdAt: '2026-01-01T00:00:00.000Z',
   },
@@ -105,7 +105,7 @@ describe('respondWithSession', () => {
 
     // Signing in on a new device brings your language with you rather than
     // adopting that device's browser setting.
-    expect(localeCookie?.value).toBe('uk');
+    expect(localeCookie?.value).toBe('sk');
     expect(localeCookie?.httpOnly).toBe(false);
   });
 

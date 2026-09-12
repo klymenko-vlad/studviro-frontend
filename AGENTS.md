@@ -54,10 +54,10 @@ label. Reproduce every bug with a regression test before fixing it.
 ## Strings
 
 - Every user-facing string goes through a key in both `messages/en.json` and
-  `messages/uk.json`. Never hard-code one in a component.
+  `messages/sk.json`. Never hard-code one in a component.
 - **Do not translate.** Real copy in `en.json`, the same English string copied verbatim
-  into `uk.json`. Translation is a deliberate later pass; the keys awaiting it are those
-  whose `uk` value equals its `en` value. Leave existing Ukrainian text alone.
+  into `sk.json`. Translation is a deliberate later pass; the keys awaiting it are those
+  whose `sk` value equals its `en` value. Leave existing Slovak text alone.
 
 ## Comments
 

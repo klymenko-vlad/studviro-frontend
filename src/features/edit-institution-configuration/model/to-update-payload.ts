@@ -10,7 +10,7 @@ export function toFormValues(
   configuration: InstitutionConfiguration,
 ): InstitutionConfigurationFormValues {
   return {
-    defaultLocale: configuration.defaultLocale === 'uk' ? 'uk' : 'en',
+    defaultLocale: configuration.defaultLocale === 'sk' ? 'sk' : 'en',
     timezone: configuration.timezone,
     terminology: Object.fromEntries(
       Object.entries(configuration.terminology).map(([key, label]) => [key, label ?? '']),

@@ -153,7 +153,7 @@ export type InstitutionConfigurationResponseDto = {
 };
 
 export type UpdateInstitutionConfigurationDto = {
-    defaultLocale?: 'en' | 'uk';
+    defaultLocale?: 'en' | 'sk';
     timezone?: string;
     /**
      * Label overrides to merge in; null clears one.
@@ -189,14 +189,14 @@ export type UserResponseDto = {
      * rather than a client-side preference so it follows them across devices —
      * the browser cookie is a cache of this value, not the source of truth.
      */
-    locale: 'en' | 'uk';
+    locale: 'en' | 'sk';
     role: 'user' | 'admin';
     createdAt: string;
 };
 
 export type UpdateMeDto = {
     displayName?: string;
-    locale?: 'en' | 'uk';
+    locale?: 'en' | 'sk';
 };
 
 export type CreateUserDto = {

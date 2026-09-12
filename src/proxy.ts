@@ -107,7 +107,7 @@ function guardSession(request: NextRequest, nonce: string): NextResponse {
 
 /**
  * Pins the negotiated locale on the first visit, so a visitor whose browser
- * sends `uk` keeps Ukrainian even if a later request arrives without the header
+ * sends `sk` keeps Slovak even if a later request arrives without the header
  * — and so the switcher has an existing value to overwrite rather than a gap.
  */
 function ensureLocaleCookie(request: NextRequest, response: NextResponse): void {

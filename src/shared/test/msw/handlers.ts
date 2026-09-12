@@ -53,7 +53,7 @@ export const users: UserResponseDto[] = [
     id: '22222222-2222-4222-8222-222222222222',
     email: 'alan@example.com',
     displayName: 'Alan Turing',
-    locale: 'uk',
+    locale: 'sk',
     role: 'admin',
     createdAt: '2026-01-02T00:00:00.000Z',
   },

@@ -168,7 +168,7 @@ export const zInstitutionConfigurationResponseDto = z.object({
 });
 
 export const zUpdateInstitutionConfigurationDto = z.object({
-    defaultLocale: z.enum(['en', 'uk']).optional(),
+    defaultLocale: z.enum(['en', 'sk']).optional(),
     timezone: z.string().optional(),
     terminology: z.record(z.string(), z.string().nullable()).optional(),
     features: z.record(z.string(), z.boolean()).optional(),
@@ -193,14 +193,14 @@ export const zUserResponseDto = z.object({
     id: z.uuid(),
     email: z.string(),
     displayName: z.string(),
-    locale: z.enum(['en', 'uk']),
+    locale: z.enum(['en', 'sk']),
     role: z.enum(['user', 'admin']),
     createdAt: z.iso.datetime()
 });
 
 export const zUpdateMeDto = z.object({
     displayName: z.string().min(1).max(120).optional(),
-    locale: z.enum(['en', 'uk']).optional()
+    locale: z.enum(['en', 'sk']).optional()
 });
 
 export const zCreateUserDto = z.object({
