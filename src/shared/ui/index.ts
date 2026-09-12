@@ -29,6 +29,7 @@ export {
 } from './form';
 export { Input } from './input';
 export { Label } from './label';
+export { PasswordInput } from './password-input';
 export { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
 export { Separator } from './separator';
 export { Skeleton } from './skeleton';

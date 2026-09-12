@@ -21,6 +21,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  PasswordInput,
 } from '@/shared/ui';
 
 import { buildSignUpSchema, type SignUpFormValues } from '../model/sign-up';
@@ -120,7 +121,7 @@ export function SignUp({ next }: SignUpProps) {
             <FormItem>
               <FormLabel>{t('password')}</FormLabel>
               <FormControl>
-                <Input type="password" autoComplete="new-password" {...field} />
+                <PasswordInput autoComplete="new-password" {...field} />
               </FormControl>
               <FormDescription>{t('passwordHint')}</FormDescription>
               <FormMessage />
@@ -135,7 +136,7 @@ export function SignUp({ next }: SignUpProps) {
             <FormItem>
               <FormLabel>{t('confirmPassword')}</FormLabel>
               <FormControl>
-                <Input type="password" autoComplete="new-password" {...field} />
+                <PasswordInput autoComplete="new-password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

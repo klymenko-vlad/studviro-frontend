@@ -20,6 +20,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  PasswordInput,
 } from '@/shared/ui';
 
 import { buildCreateUserFormSchema, type CreateUserFormValues } from '../model/schema';
@@ -125,7 +126,7 @@ export function CreateUserForm({ onCreated }: { onCreated?: () => void }) {
             <FormItem>
               <FormLabel>{t('password')}</FormLabel>
               <FormControl>
-                <Input type="password" autoComplete="new-password" {...field} />
+                <PasswordInput autoComplete="new-password" {...field} />
               </FormControl>
               <FormDescription>{t('passwordHint')}</FormDescription>
               <FormMessage />
@@ -140,7 +141,7 @@ export function CreateUserForm({ onCreated }: { onCreated?: () => void }) {
             <FormItem>
               <FormLabel>{t('confirmPassword')}</FormLabel>
               <FormControl>
-                <Input type="password" autoComplete="new-password" {...field} />
+                <PasswordInput autoComplete="new-password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

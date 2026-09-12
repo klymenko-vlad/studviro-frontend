@@ -5,7 +5,9 @@
     "retry": "Try again",
     "cancel": "Cancel",
     "save": "Save",
-    "appDescription": "The student platform for coursework, schedules and collaboration."
+    "appDescription": "The student platform for coursework, schedules and collaboration.",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "nav": {
     "account": "Account",

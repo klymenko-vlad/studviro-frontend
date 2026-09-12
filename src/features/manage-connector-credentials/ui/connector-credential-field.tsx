@@ -14,7 +14,7 @@ import {
   type ConnectorCredentialsKind,
 } from '@/entities/connector-credential';
 import { toApiError } from '@/shared/api';
-import { Badge, Button, Input, Label } from '@/shared/ui';
+import { Badge, Button, Input, Label, PasswordInput } from '@/shared/ui';
 
 import {
   connectorCredentialValueSchema,
@@ -115,14 +115,24 @@ export function ConnectorCredentialField({
       ) : null}
 
       <div className="flex flex-wrap items-center gap-2">
-        <Input
-          id={inputId}
-          type={field.secret ? 'password' : 'text'}
-          key={field.updatedAt ?? 'unset'}
-          autoComplete="off"
-          aria-label={field.label}
-          {...form.register('value')}
-        />
+        {field.secret ? (
+          <PasswordInput
+            id={inputId}
+            key={field.updatedAt ?? 'unset'}
+            autoComplete="off"
+            aria-label={field.label}
+            {...form.register('value')}
+          />
+        ) : (
+          <Input
+            id={inputId}
+            type="text"
+            key={field.updatedAt ?? 'unset'}
+            autoComplete="off"
+            aria-label={field.label}
+            {...form.register('value')}
+          />
+        )}
         <Button type="submit" disabled={pending} size="sm">
           {pending ? <LoaderCircle className="animate-spin" aria-hidden /> : null}
           {t('credentialSave')}

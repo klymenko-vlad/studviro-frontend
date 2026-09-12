@@ -19,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  PasswordInput,
 } from '@/shared/ui';
 
 import { signInSchema, type SignInFormValues } from '../model/sign-in';
@@ -100,7 +101,7 @@ export function SignIn({ next }: SignInProps) {
             <FormItem>
               <FormLabel>{t('password')}</FormLabel>
               <FormControl>
-                <Input type="password" autoComplete="current-password" {...field} />
+                <PasswordInput autoComplete="current-password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
