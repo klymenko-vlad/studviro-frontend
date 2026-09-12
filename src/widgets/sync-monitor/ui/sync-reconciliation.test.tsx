@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import {
   reconciliationReport,
@@ -39,6 +39,50 @@ describe('SyncReconciliation', () => {
     expect(screen.getByText('course-404')).toBeInTheDocument();
     expect(screen.getByText('Missing here')).toBeInTheDocument();
     expect(screen.getByText('Out of date')).toBeInTheDocument();
+  });
+
+  it('lists every discrepancy even when none of them carries an identifier', async () => {
+    const nameless = (detail: string) => ({
+      kind: 'conflict' as const,
+      externalId: null,
+      canonicalId: null,
+      detail,
+      sourceUpdatedAt: null,
+      platformUpdatedAt: null,
+    });
+    server.use(
+      http.get(URL, () =>
+        HttpResponse.json({
+          ...reconciliationReport,
+          discrepancyCount: 2,
+          domains: [
+            {
+              ...reconciliationReport.domains[0],
+              discrepancyCount: 2,
+              discrepancies: [
+                nameless('The first orphan'),
+                nameless('The second orphan'),
+              ],
+            },
+          ],
+        }),
+      ),
+    );
+    // React only warns about a duplicate key, so the rows alone prove nothing.
+    const complaints = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    renderWithProviders(<SyncReconciliation institutionId={INSTITUTION} />);
+
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Check for discrepancies' }),
+    );
+
+    expect(await screen.findByText('The first orphan')).toBeInTheDocument();
+    expect(screen.getByText('The second orphan')).toBeInTheDocument();
+    const duplicateKey = complaints.mock.calls.some(([first]) =>
+      String(first).includes('same key'),
+    );
+    complaints.mockRestore();
+    expect(duplicateKey).toBe(false);
   });
 
   it('says so plainly when the two sides agree', async () => {

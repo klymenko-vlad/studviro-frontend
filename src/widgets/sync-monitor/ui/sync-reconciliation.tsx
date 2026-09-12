@@ -48,8 +48,16 @@ export function SyncReconciliation({ institutionId }: { institutionId: string })
       ? '—'
       : format.dateTime(new Date(value), { dateStyle: 'medium', timeStyle: 'short' });
 
-  const discrepancyRow = (domain: DomainReconciliation, discrepancy: Discrepancy) => (
-    <TableRow key={`${domain.domain}:${discrepancy.kind}:${discrepancy.externalId}`}>
+  // A discrepancy the source cannot identify has no external id, and several of
+  // them can share a kind, so position is the only thing that tells them apart.
+  const discrepancyRow = (
+    domain: DomainReconciliation,
+    discrepancy: Discrepancy,
+    at: number,
+  ) => (
+    <TableRow
+      key={`${domain.domain}:${discrepancy.kind}:${discrepancy.externalId}:${at}`}
+    >
       <TableCell>
         <Badge variant={KIND_VARIANT[discrepancy.kind]}>
           {t(`kind.${discrepancy.kind}`)}
@@ -160,8 +168,8 @@ export function SyncReconciliation({ institutionId }: { institutionId: string })
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {domain.discrepancies.map(discrepancy =>
-                      discrepancyRow(domain, discrepancy),
+                    {domain.discrepancies.map((discrepancy, at) =>
+                      discrepancyRow(domain, discrepancy, at),
                     )}
                   </TableBody>
                 </Table>
