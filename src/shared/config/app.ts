@@ -28,6 +28,7 @@ export const ROUTES = {
   signUp: '/sign-up',
   account: '/account',
   institutions: '/institutions',
+  createInstitution: '/institutions/new',
 } as const;
 
 /** Where a visitor lands once they hold a session. */
@@ -46,6 +47,8 @@ export const institutionRoutes = (institutionId: string) => {
     notifications: `${base}/notifications`,
     sync: `${base}/sync`,
     roles: `${base}/roles`,
+    orgUnits: `${base}/org-units`,
+    people: `${base}/people`,
     settings: `${base}/settings`,
   } as const;
 };

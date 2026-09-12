@@ -155,6 +155,17 @@ export type SetConnectorCredentialsDto = {
     };
 };
 
+export type CreateInstitutionDto = {
+    code: string;
+    name: string;
+    defaultLocale?: 'en' | 'sk';
+    timezone?: string;
+    /**
+     * The existing account that becomes this institution’s first institution_admin.
+     */
+    firstAdminUserId: string;
+};
+
 export type InstitutionResponseDto = {
     id: string;
     code: string;
@@ -208,13 +219,34 @@ export type UpdateInstitutionConfigurationDto = {
     learningSystemConnector?: string | null;
 };
 
-export type ExternalIdentityResponseDto = {
+export type OrgUnitResponseDto = {
     id: string;
     institutionId: string;
-    sourceSystem: 'platform' | 'sis' | 'lms';
-    issuer: string;
-    externalUsername?: string | null;
-    lastAuthenticatedAt?: string | null;
+    parentId?: string | null;
+    type: 'university' | 'faculty' | 'department' | 'institute' | 'other';
+    code: string;
+    name: string;
+};
+
+export type RoleAssignmentResponseDto = {
+    id?: string | null;
+    institutionId: string;
+    userId: string;
+    role: 'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
+    scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
+    scopeId?: string | null;
+    validFrom?: string | null;
+    validUntil?: string | null;
+    source: 'granted' | 'derived';
+    revocable: boolean;
+};
+
+export type PersonDirectoryEntryDto = {
+    userId: string;
+    email: string;
+    displayName: string;
+    status: 'invited' | 'active' | 'suspended';
+    roles: Array<RoleAssignmentResponseDto>;
 };
 
 export type UserResponseDto = {
@@ -259,6 +291,15 @@ export const SortOrder = { ASC: 'asc', DESC: 'desc' } as const;
 
 export type SortOrder = typeof SortOrder[keyof typeof SortOrder];
 
+export type ExternalIdentityResponseDto = {
+    id: string;
+    institutionId: string;
+    sourceSystem: 'platform' | 'sis' | 'lms';
+    issuer: string;
+    externalUsername?: string | null;
+    lastAuthenticatedAt?: string | null;
+};
+
 export type NotificationResponseDto = {
     id: string;
     type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled';
@@ -295,19 +336,6 @@ export type LoginDto = {
 
 export type RefreshTokenDto = {
     refreshToken: string;
-};
-
-export type RoleAssignmentResponseDto = {
-    id?: string | null;
-    institutionId: string;
-    userId: string;
-    role: 'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
-    scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
-    scopeId?: string | null;
-    validFrom?: string | null;
-    validUntil?: string | null;
-    source: 'granted' | 'derived';
-    revocable: boolean;
 };
 
 export type GrantRoleDto = {
@@ -1105,6 +1133,44 @@ export type ListMyInstitutionsResponses = {
 
 export type ListMyInstitutionsResponse = ListMyInstitutionsResponses[keyof ListMyInstitutionsResponses];
 
+export type CreateInstitutionData = {
+    body: CreateInstitutionDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/institutions';
+};
+
+export type CreateInstitutionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateInstitutionError = CreateInstitutionErrors[keyof CreateInstitutionErrors];
+
+export type CreateInstitutionResponses = {
+    201: InstitutionResponseDto;
+};
+
+export type CreateInstitutionResponse = CreateInstitutionResponses[keyof CreateInstitutionResponses];
+
 export type GetInstitutionData = {
     body?: never;
     path: {
@@ -1213,14 +1279,16 @@ export type UpdateInstitutionConfigurationResponses = {
 
 export type UpdateInstitutionConfigurationResponse = UpdateInstitutionConfigurationResponses[keyof UpdateInstitutionConfigurationResponses];
 
-export type ListMyIdentitiesData = {
+export type ListOrgUnitsData = {
     body?: never;
-    path?: never;
+    path: {
+        institutionId: string;
+    };
     query?: never;
-    url: '/api/v1/users/me/identities';
+    url: '/api/v1/institutions/{institutionId}/org-units';
 };
 
-export type ListMyIdentitiesErrors = {
+export type ListOrgUnitsErrors = {
     /**
      * Validation failed or the payload was malformed.
      */
@@ -1235,13 +1303,82 @@ export type ListMyIdentitiesErrors = {
     500: ErrorResponseDto;
 };
 
-export type ListMyIdentitiesError = ListMyIdentitiesErrors[keyof ListMyIdentitiesErrors];
+export type ListOrgUnitsError = ListOrgUnitsErrors[keyof ListOrgUnitsErrors];
 
-export type ListMyIdentitiesResponses = {
-    200: Array<ExternalIdentityResponseDto>;
+export type ListOrgUnitsResponses = {
+    200: Array<OrgUnitResponseDto>;
 };
 
-export type ListMyIdentitiesResponse = ListMyIdentitiesResponses[keyof ListMyIdentitiesResponses];
+export type ListOrgUnitsResponse = ListOrgUnitsResponses[keyof ListOrgUnitsResponses];
+
+export type GetOrgUnitData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/org-units/{id}';
+};
+
+export type GetOrgUnitErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetOrgUnitError = GetOrgUnitErrors[keyof GetOrgUnitErrors];
+
+export type GetOrgUnitResponses = {
+    200: OrgUnitResponseDto;
+};
+
+export type GetOrgUnitResponse = GetOrgUnitResponses[keyof GetOrgUnitResponses];
+
+export type ListPeopleData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/people';
+};
+
+export type ListPeopleErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListPeopleError = ListPeopleErrors[keyof ListPeopleErrors];
+
+export type ListPeopleResponses = {
+    200: Array<PersonDirectoryEntryDto>;
+};
+
+export type ListPeopleResponse = ListPeopleResponses[keyof ListPeopleResponses];
 
 export type FindMeData = {
     body?: never;
@@ -1455,6 +1592,36 @@ export type FindOneResponses = {
 };
 
 export type FindOneResponse = FindOneResponses[keyof FindOneResponses];
+
+export type ListMyIdentitiesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/identities';
+};
+
+export type ListMyIdentitiesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyIdentitiesError = ListMyIdentitiesErrors[keyof ListMyIdentitiesErrors];
+
+export type ListMyIdentitiesResponses = {
+    200: Array<ExternalIdentityResponseDto>;
+};
+
+export type ListMyIdentitiesResponse = ListMyIdentitiesResponses[keyof ListMyIdentitiesResponses];
 
 export type ListMyNotificationsData = {
     body?: never;

@@ -23,7 +23,10 @@
     "settings": "Settings",
     "exams": "Exams",
     "teaching": "Teaching",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "createInstitution": "Create institution",
+    "orgUnits": "Org units",
+    "people": "People"
   },
   "home": {
     "title": "One academic platform over the systems you already run",
@@ -1041,5 +1044,48 @@
       "two": "A demo runs against a real import, not a slide deck.",
       "three": "We will be explicit about what is shipped and what is still roadmap."
     }
+  },
+  "createInstitution": {
+    "pageTitle": "Create an institution",
+    "pageDescription": "Register a new institution and name the account that becomes its first administrator.",
+    "code": "Institution code",
+    "codeDescription": "Lowercase letters, digits and hyphens only.",
+    "name": "Institution name",
+    "firstAdminUserId": "First administrator",
+    "firstAdminUserIdDescription": "The account id of the person who becomes this institution's first administrator.",
+    "submit": "Create institution",
+    "created": "{name} created"
+  },
+  "orgUnits": {
+    "title": "Org units",
+    "subtitle": "The faculties and departments that make up this institution.",
+    "treeLabel": "Org units",
+    "empty": "This institution has no org units yet.",
+    "errorTitle": "Org units could not be loaded",
+    "errorDescription": "Try again in a moment.",
+    "type": {
+      "university": "University",
+      "faculty": "Faculty",
+      "department": "Department",
+      "institute": "Institute",
+      "other": "Other"
+    }
+  },
+  "people": {
+    "title": "People",
+    "subtitle": "Everyone with a role in this institution, granted or derived from their academic record.",
+    "name": "Name",
+    "email": "Email",
+    "statusColumn": "Status",
+    "status": {
+      "invited": "Invited",
+      "active": "Active",
+      "suspended": "Suspended"
+    },
+    "roles": "Roles",
+    "noRoles": "No roles",
+    "empty": "This institution has no people yet.",
+    "errorTitle": "People could not be loaded",
+    "errorDescription": "Try again in a moment."
   }
 }

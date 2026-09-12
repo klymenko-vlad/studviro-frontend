@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { Auth, Connectors, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Marketing, Notifications, type Options, RoleAssignments, Schedule, Synchronization, Users } from '../sdk.gen';
-import type { CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, ClearInstitutionConnectorCredentialData, ClearInstitutionConnectorCredentialError, ClearInstitutionConnectorCredentialResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionConnectorCredentialsData, GetInstitutionConnectorCredentialsError, GetInstitutionConnectorCredentialsResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetSynchronizationReconciliationData, GetSynchronizationReconciliationError, GetSynchronizationReconciliationResponse, GetSynchronizationRunData, GetSynchronizationRunError, GetSynchronizationRunResponse, GetSynchronizationStateData, GetSynchronizationStateError, GetSynchronizationStateResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListInstitutionConnectorsData, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListSynchronizationRunsData, ListSynchronizationRunsError, ListSynchronizationRunsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SetInstitutionConnectorCredentialsData, SetInstitutionConnectorCredentialsError, SetInstitutionConnectorCredentialsResponse, StartSynchronizationRunData, StartSynchronizationRunError, StartSynchronizationRunResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
+import { Auth, Connectors, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Marketing, Notifications, type Options, OrgUnits, People, RoleAssignments, Schedule, Synchronization, Users } from '../sdk.gen';
+import type { CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, ClearInstitutionConnectorCredentialData, ClearInstitutionConnectorCredentialError, ClearInstitutionConnectorCredentialResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionConnectorCredentialsData, GetInstitutionConnectorCredentialsError, GetInstitutionConnectorCredentialsResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSynchronizationReconciliationData, GetSynchronizationReconciliationError, GetSynchronizationReconciliationResponse, GetSynchronizationRunData, GetSynchronizationRunError, GetSynchronizationRunResponse, GetSynchronizationStateData, GetSynchronizationStateError, GetSynchronizationStateResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListInstitutionConnectorsData, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListSynchronizationRunsData, ListSynchronizationRunsError, ListSynchronizationRunsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SetInstitutionConnectorCredentialsData, SetInstitutionConnectorCredentialsError, SetInstitutionConnectorCredentialsResponse, StartSynchronizationRunData, StartSynchronizationRunError, StartSynchronizationRunResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -220,6 +220,23 @@ export const listMyInstitutionsOptions = (options?: Options<ListMyInstitutionsDa
     queryKey: listMyInstitutionsQueryKey(options)
 });
 
+/**
+ * Create an institution and grant its first institution_admin, restricted to a platform operator
+ */
+export const createInstitutionMutation = (options?: Partial<Options<CreateInstitutionData>>): UseMutationOptions<CreateInstitutionResponse, CreateInstitutionError, Options<CreateInstitutionData>> => {
+    const mutationOptions: UseMutationOptions<CreateInstitutionResponse, CreateInstitutionError, Options<CreateInstitutionData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Institutions.createInstitution({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const getInstitutionQueryKey = (options: Options<GetInstitutionData>) => createQueryKey('getInstitution', options);
 
 /**
@@ -273,14 +290,14 @@ export const updateInstitutionConfigurationMutation = (options?: Partial<Options
     return mutationOptions;
 };
 
-export const listMyIdentitiesQueryKey = (options?: Options<ListMyIdentitiesData>) => createQueryKey('listMyIdentities', options);
+export const listOrgUnitsQueryKey = (options: Options<ListOrgUnitsData>) => createQueryKey('listOrgUnits', options);
 
 /**
- * List the accounts linked to the current user
+ * List the org units of an institution
  */
-export const listMyIdentitiesOptions = (options?: Options<ListMyIdentitiesData>) => queryOptions<ListMyIdentitiesResponse, ListMyIdentitiesError, ListMyIdentitiesResponse, ReturnType<typeof listMyIdentitiesQueryKey>>({
+export const listOrgUnitsOptions = (options: Options<ListOrgUnitsData>) => queryOptions<ListOrgUnitsResponse, ListOrgUnitsError, ListOrgUnitsResponse, ReturnType<typeof listOrgUnitsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Identities.listMyIdentities({
+        const { data } = await OrgUnits.listOrgUnits({
             ...options,
             ...queryKey[0],
             signal,
@@ -288,7 +305,43 @@ export const listMyIdentitiesOptions = (options?: Options<ListMyIdentitiesData>)
         });
         return data;
     },
-    queryKey: listMyIdentitiesQueryKey(options)
+    queryKey: listOrgUnitsQueryKey(options)
+});
+
+export const getOrgUnitQueryKey = (options: Options<GetOrgUnitData>) => createQueryKey('getOrgUnit', options);
+
+/**
+ * Get an org unit
+ */
+export const getOrgUnitOptions = (options: Options<GetOrgUnitData>) => queryOptions<GetOrgUnitResponse, GetOrgUnitError, GetOrgUnitResponse, ReturnType<typeof getOrgUnitQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await OrgUnits.getOrgUnit({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getOrgUnitQueryKey(options)
+});
+
+export const listPeopleQueryKey = (options: Options<ListPeopleData>) => createQueryKey('listPeople', options);
+
+/**
+ * List the people of an institution with their granted and derived roles
+ */
+export const listPeopleOptions = (options: Options<ListPeopleData>) => queryOptions<ListPeopleResponse, ListPeopleError, ListPeopleResponse, ReturnType<typeof listPeopleQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await People.listPeople({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listPeopleQueryKey(options)
 });
 
 export const findMeQueryKey = (options?: Options<FindMeData>) => createQueryKey('findMe', options);
@@ -453,6 +506,24 @@ export const findOneOptions = (options: Options<FindOneData>) => queryOptions<Fi
         return data;
     },
     queryKey: findOneQueryKey(options)
+});
+
+export const listMyIdentitiesQueryKey = (options?: Options<ListMyIdentitiesData>) => createQueryKey('listMyIdentities', options);
+
+/**
+ * List the accounts linked to the current user
+ */
+export const listMyIdentitiesOptions = (options?: Options<ListMyIdentitiesData>) => queryOptions<ListMyIdentitiesResponse, ListMyIdentitiesError, ListMyIdentitiesResponse, ReturnType<typeof listMyIdentitiesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Identities.listMyIdentities({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyIdentitiesQueryKey(options)
 });
 
 export const listMyNotificationsQueryKey = (options: Options<ListMyNotificationsData>) => createQueryKey('listMyNotifications', options);

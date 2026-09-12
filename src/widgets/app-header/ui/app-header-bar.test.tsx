@@ -67,4 +67,21 @@ describe('AppHeaderBar', () => {
     expect(screen.getByRole('button', { name: 'Sign out' })).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Sign in' })).not.toBeInTheDocument();
   });
+
+  it('offers a platform operator the way to create an institution', () => {
+    renderWithProviders(<AppHeaderBar signedIn isPlatformOperator />);
+
+    expect(screen.getByRole('link', { name: 'Create institution' })).toHaveAttribute(
+      'href',
+      '/institutions/new',
+    );
+  });
+
+  it('hides institution creation from an ordinary account', () => {
+    renderWithProviders(<AppHeaderBar signedIn />);
+
+    expect(
+      screen.queryByRole('link', { name: 'Create institution' }),
+    ).not.toBeInTheDocument();
+  });
 });

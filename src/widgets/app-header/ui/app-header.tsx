@@ -8,5 +8,12 @@ import { AppHeaderBar } from './app-header-bar';
  * rather than flickering through the wrong one on the client first.
  */
 export async function AppHeader() {
-  return <AppHeaderBar signedIn={(await getCurrentUser()) !== undefined} />;
+  const user = await getCurrentUser();
+
+  return (
+    <AppHeaderBar
+      signedIn={user !== undefined}
+      isPlatformOperator={user?.role === 'admin'}
+    />
+  );
 }

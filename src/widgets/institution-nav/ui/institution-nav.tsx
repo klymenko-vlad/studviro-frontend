@@ -17,6 +17,8 @@ type NavKey =
   | 'notifications'
   | 'sync'
   | 'roles'
+  | 'orgUnits'
+  | 'people'
   | 'settings';
 
 /**
@@ -36,6 +38,8 @@ const GATES: Record<NavKey, Permission | null> = {
   notifications: 'notification:read',
   sync: 'sync:read',
   roles: 'role:assign',
+  orgUnits: 'role:read',
+  people: 'role:read',
   settings: 'institution:manage',
 };
 
@@ -49,6 +53,8 @@ const ORDER: NavKey[] = [
   'notifications',
   'sync',
   'roles',
+  'orgUnits',
+  'people',
   'settings',
 ];
 

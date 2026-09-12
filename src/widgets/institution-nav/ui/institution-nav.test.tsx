@@ -50,6 +50,14 @@ describe('InstitutionNav', () => {
       'href',
       `/institutions/${INSTITUTION}/settings`,
     );
+    expect(screen.getByRole('link', { name: 'Org units' })).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}/org-units`,
+    );
+    expect(screen.getByRole('link', { name: 'People' })).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}/people`,
+    );
   });
 
   it('links the calendar and the exams once the schedule permission is granted', async () => {
@@ -77,6 +85,8 @@ describe('InstitutionNav', () => {
     expect(screen.queryByRole('link', { name: 'Roles' })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Calendar' })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Exams' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Org units' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'People' })).not.toBeInTheDocument();
   });
 
   it('links the teaching screen for staff who may propose grades', async () => {

@@ -193,6 +193,14 @@ export const zSetConnectorCredentialsDto = z.object({
     values: z.record(z.string(), z.string())
 });
 
+export const zCreateInstitutionDto = z.object({
+    code: z.string().min(2).max(32).regex(/^[a-z0-9-]+$/),
+    name: z.string().min(1).max(200),
+    defaultLocale: z.enum(['en', 'sk']).optional(),
+    timezone: z.string().optional(),
+    firstAdminUserId: z.uuid()
+});
+
 export const zInstitutionResponseDto = z.object({
     id: z.uuid(),
     code: z.string(),
@@ -226,17 +234,58 @@ export const zUpdateInstitutionConfigurationDto = z.object({
     learningSystemConnector: z.string().max(64).nullish()
 });
 
-export const zExternalIdentityResponseDto = z.object({
+export const zOrgUnitResponseDto = z.object({
     id: z.uuid(),
     institutionId: z.uuid(),
-    sourceSystem: z.enum([
-        'platform',
-        'sis',
-        'lms'
+    parentId: z.uuid().nullish(),
+    type: z.enum([
+        'university',
+        'faculty',
+        'department',
+        'institute',
+        'other'
     ]),
-    issuer: z.string(),
-    externalUsername: z.string().nullish(),
-    lastAuthenticatedAt: z.iso.datetime().nullish()
+    code: z.string(),
+    name: z.string()
+});
+
+export const zRoleAssignmentResponseDto = z.object({
+    id: z.uuid().nullish(),
+    institutionId: z.uuid(),
+    userId: z.uuid(),
+    role: z.enum([
+        'student',
+        'teacher',
+        'teaching_assistant',
+        'course_coordinator',
+        'program_coordinator',
+        'registrar',
+        'org_unit_manager',
+        'institution_admin'
+    ]),
+    scopeType: z.enum([
+        'institution',
+        'org_unit',
+        'program',
+        'course_offering'
+    ]),
+    scopeId: z.uuid().nullish(),
+    validFrom: z.iso.datetime().nullish(),
+    validUntil: z.iso.datetime().nullish(),
+    source: z.enum(['granted', 'derived']),
+    revocable: z.boolean()
+});
+
+export const zPersonDirectoryEntryDto = z.object({
+    userId: z.uuid(),
+    email: z.string(),
+    displayName: z.string(),
+    status: z.enum([
+        'invited',
+        'active',
+        'suspended'
+    ]),
+    roles: z.array(zRoleAssignmentResponseDto)
 });
 
 export const zUserResponseDto = z.object({
@@ -273,6 +322,19 @@ export const zUserResponseDtoPage = z.object({
 });
 
 export const zSortOrder = z.enum(['asc', 'desc']);
+
+export const zExternalIdentityResponseDto = z.object({
+    id: z.uuid(),
+    institutionId: z.uuid(),
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ]),
+    issuer: z.string(),
+    externalUsername: z.string().nullish(),
+    lastAuthenticatedAt: z.iso.datetime().nullish()
+});
 
 export const zNotificationResponseDto = z.object({
     id: z.uuid(),
@@ -315,33 +377,6 @@ export const zLoginDto = z.object({
 
 export const zRefreshTokenDto = z.object({
     refreshToken: z.string().min(1).max(4096)
-});
-
-export const zRoleAssignmentResponseDto = z.object({
-    id: z.uuid().nullish(),
-    institutionId: z.uuid(),
-    userId: z.uuid(),
-    role: z.enum([
-        'student',
-        'teacher',
-        'teaching_assistant',
-        'course_coordinator',
-        'program_coordinator',
-        'registrar',
-        'org_unit_manager',
-        'institution_admin'
-    ]),
-    scopeType: z.enum([
-        'institution',
-        'org_unit',
-        'program',
-        'course_offering'
-    ]),
-    scopeId: z.uuid().nullish(),
-    validFrom: z.iso.datetime().nullish(),
-    validUntil: z.iso.datetime().nullish(),
-    source: z.enum(['granted', 'derived']),
-    revocable: z.boolean()
 });
 
 export const zGrantRoleDto = z.object({
@@ -1081,6 +1116,10 @@ export const zClearInstitutionConnectorCredentialResponse = zConnectorCredential
 
 export const zListMyInstitutionsResponse = z.array(zInstitutionResponseDto);
 
+export const zCreateInstitutionBody = zCreateInstitutionDto;
+
+export const zCreateInstitutionResponse = zInstitutionResponseDto;
+
 export const zGetInstitutionPath = z.object({
     institutionId: z.string()
 });
@@ -1101,7 +1140,24 @@ export const zUpdateInstitutionConfigurationPath = z.object({
 
 export const zUpdateInstitutionConfigurationResponse = zInstitutionConfigurationResponseDto;
 
-export const zListMyIdentitiesResponse = z.array(zExternalIdentityResponseDto);
+export const zListOrgUnitsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListOrgUnitsResponse = z.array(zOrgUnitResponseDto);
+
+export const zGetOrgUnitPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zGetOrgUnitResponse = zOrgUnitResponseDto;
+
+export const zListPeoplePath = z.object({
+    institutionId: z.string()
+});
+
+export const zListPeopleResponse = z.array(zPersonDirectoryEntryDto);
 
 export const zFindMeResponse = zUserResponseDto;
 
@@ -1142,6 +1198,8 @@ export const zFindOnePath = z.object({
  * The requested user.
  */
 export const zFindOneResponse = zUserResponseDto;
+
+export const zListMyIdentitiesResponse = z.array(zExternalIdentityResponseDto);
 
 export const zListMyNotificationsPath = z.object({
     institutionId: z.string()

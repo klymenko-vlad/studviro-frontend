@@ -16,7 +16,13 @@ const MARKETING_LINKS = [
  * The presentational half, split from the session lookup so it renders in a test
  * without a cookie jar or a stubbed API.
  */
-export function AppHeaderBar({ signedIn }: { signedIn: boolean }) {
+export function AppHeaderBar({
+  signedIn,
+  isPlatformOperator = false,
+}: {
+  signedIn: boolean;
+  isPlatformOperator?: boolean;
+}) {
   const t = useTranslations('nav');
   const common = useTranslations('common');
   const marketing = useTranslations('marketing');
@@ -49,6 +55,11 @@ export function AppHeaderBar({ signedIn }: { signedIn: boolean }) {
 
       {signedIn ? (
         <>
+          {isPlatformOperator ? (
+            <Button asChild variant="ghost" size="sm">
+              <Link href={ROUTES.createInstitution}>{t('createInstitution')}</Link>
+            </Button>
+          ) : null}
           <Button asChild variant="ghost" size="sm">
             <Link href={ROUTES.account}>{t('account')}</Link>
           </Button>
