@@ -30,6 +30,15 @@ export default async function SignInPage({ searchParams }: PageProps<'/sign-in'>
       <SignIn next={safeNext(next)} />
 
       <p className="text-muted-foreground text-sm">
+        <Link
+          href={ROUTES.forgotPassword}
+          className="text-foreground underline underline-offset-4"
+        >
+          {t('forgotPassword')}
+        </Link>
+      </p>
+
+      <p className="text-muted-foreground text-sm">
         {t('noAccount')}{' '}
         <Link
           href={ROUTES.signUp}

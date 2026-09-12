@@ -121,7 +121,8 @@
     "passwordMismatch": "Passwords do not match",
     "emailTaken": "An account with this email already exists.",
     "noAccount": "No account yet?",
-    "haveAccount": "Already have an account?"
+    "haveAccount": "Already have an account?",
+    "forgotPassword": "Forgot password?"
   },
   "account": {
     "title": "Účet",
@@ -1108,5 +1109,26 @@
     "submitting": "Accepting…",
     "invalidTitle": "This invitation link is no longer valid",
     "invalidDescription": "It may have expired, already been used, or never existed. Ask whoever invited you to send a new one."
+  },
+  "passwordReset": {
+    "requestTitle": "Reset your password",
+    "requestSubtitle": "We'll send a reset link to your email.",
+    "email": "Email",
+    "submit": "Send reset link",
+    "submitting": "Sending…",
+    "requestSentTitle": "If that address has an account, we've sent a reset link",
+    "requestSentDescription": "Check your email for a link to set a new password. It expires in one hour.",
+    "devTokenHint": "No mail transport in this environment.",
+    "devTokenLink": "Continue with the reset link",
+    "backToSignIn": "Back to sign in",
+    "confirmTitle": "Set a new password",
+    "confirmSubtitle": "Choose a new password for your account.",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "passwordMismatch": "Passwords do not match",
+    "confirmSubmit": "Set new password",
+    "confirmSubmitting": "Setting password…",
+    "invalidTitle": "This password reset link is no longer valid",
+    "invalidDescription": "It may have expired, already been used, or was typed incorrectly. Request a new one."
   }
 }

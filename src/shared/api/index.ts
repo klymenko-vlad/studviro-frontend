@@ -2,6 +2,7 @@ import {
   acceptInvitationMutation,
   cancelExamRegistrationMutation,
   clearInstitutionConnectorCredentialMutation,
+  confirmPasswordResetMutation,
   countMyUnreadNotificationsOptions,
   countMyUnreadNotificationsQueryKey,
   createDemoRequestMutation,
@@ -66,6 +67,7 @@ import {
   markMyNotificationReadMutation,
   registerForExamTermMutation,
   removeMutation,
+  requestPasswordResetMutation,
   revokeRoleMutation,
   setInstitutionConnectorCredentialsMutation,
   startSynchronizationRunMutation,
@@ -73,12 +75,14 @@ import {
 } from './generated/@tanstack/react-query.gen';
 import {
   zAcceptInvitationDto,
+  zConfirmPasswordResetDto,
   zCreateDemoRequestDtoWritable,
   zCreateInstitutionDto,
   zCreateInvitationDto,
   zCreateUserDtoWritable,
   zGrantRoleDto,
   zLoginDtoWritable,
+  zRequestPasswordResetDto,
 } from './generated/zod.gen';
 
 /**
@@ -113,6 +117,7 @@ export const apiQueries = {
   acceptInvitationMutation,
   cancelExamRegistrationMutation,
   clearInstitutionConnectorCredentialMutation,
+  confirmPasswordResetMutation,
   countMyUnreadNotificationsOptions,
   countMyUnreadNotificationsQueryKey,
   createDemoRequestMutation,
@@ -177,6 +182,7 @@ export const apiQueries = {
   markMyNotificationReadMutation,
   registerForExamTermMutation,
   removeMutation,
+  requestPasswordResetMutation,
   revokeRoleMutation,
   setInstitutionConnectorCredentialsMutation,
   startSynchronizationRunMutation,
@@ -194,12 +200,14 @@ export const apiQueries = {
  */
 export const apiSchemas = {
   zAcceptInvitationDto,
+  zConfirmPasswordResetDto,
   zCreateDemoRequestDtoWritable,
   zCreateInstitutionDto,
   zCreateInvitationDto,
   zCreateUserDtoWritable,
   zGrantRoleDto,
   zLoginDtoWritable,
+  zRequestPasswordResetDto,
 } as const;
 
 export type {
@@ -228,6 +236,7 @@ export type {
   MyTimetableEventResponseDto,
   NotificationResponseDto,
   OrgUnitResponseDto,
+  PasswordResetAcceptedDto,
   PersonDirectoryEntryDto,
   UnreadNotificationsResponseDto,
   CourseRosterResponseDto,

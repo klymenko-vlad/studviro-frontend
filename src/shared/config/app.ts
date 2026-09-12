@@ -26,6 +26,8 @@ export const ROUTES = {
   contact: '/contact',
   signIn: '/sign-in',
   signUp: '/sign-up',
+  forgotPassword: '/forgot-password',
+  resetPassword: '/reset-password',
   account: '/account',
   institutions: '/institutions',
   createInstitution: '/institutions/new',
