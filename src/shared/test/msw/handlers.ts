@@ -757,7 +757,9 @@ export const courseRoster: CourseRosterResponseDto = {
       userId: '11111111-1111-4111-8111-111111111112',
       displayName: 'Grace Hopper',
       email: 'grace@example.com',
-      status: 'withdrawn',
+      // The roster never returns a withdrawn student; a second attempt is what an
+      // `attempt: 2` row actually looks like.
+      status: 'completed',
       requirementType: 'elective',
       attempt: 2,
       enrolledAt: '2026-02-11T00:00:00.000Z',

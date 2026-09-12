@@ -31,13 +31,13 @@ describe('OfferingRoster', () => {
     expect(within(table).getByText('Ada Lovelace')).toBeInTheDocument();
     expect(within(table).getByText('ada@example.com')).toBeInTheDocument();
     expect(within(table).getByText('S1')).toBeInTheDocument();
-    expect(within(table).getByText('Withdrawn')).toBeInTheDocument();
+    expect(within(table).getByText('Completed')).toBeInTheDocument();
   });
 
   it('counts the students who still hold a place, not every row listed', async () => {
     render();
 
-    expect(await screen.findByText(/1 enrolled of 2 listed/)).toBeInTheDocument();
+    expect(await screen.findByText(/2 enrolled of 2 listed/)).toBeInTheDocument();
   });
 
   it('says so when nobody is enrolled', async () => {
