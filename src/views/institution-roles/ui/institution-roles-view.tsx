@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 
 import { RoleAssignmentTable } from '@/widgets/role-assignment-table';
 import { GrantRoleForm } from '@/features/grant-role';
+import { InvitePersonForm } from '@/features/invite-person';
 import { institutionQueries } from '@/entities/institution';
 import { usePermissions } from '@/entities/permission';
 import {
@@ -60,6 +61,18 @@ export function InstitutionRolesView({ institutionId }: { institutionId: string 
           </CardHeader>
           <CardContent>
             <GrantRoleForm institutionId={institutionId} />
+          </CardContent>
+        </Card>
+      ) : null}
+
+      {mayAssign ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>{t('inviteTitle')}</CardTitle>
+            <CardDescription>{t('inviteDescription')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <InvitePersonForm institutionId={institutionId} />
           </CardContent>
         </Card>
       ) : null}

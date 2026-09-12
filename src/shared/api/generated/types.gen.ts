@@ -161,9 +161,13 @@ export type CreateInstitutionDto = {
     defaultLocale?: 'en' | 'sk';
     timezone?: string;
     /**
-     * The existing account that becomes this institution’s first institution_admin.
+     * An existing account that becomes this institution’s first institution_admin immediately. Mutually exclusive with firstAdminEmail.
      */
-    firstAdminUserId: string;
+    firstAdminUserId?: string;
+    /**
+     * An address that has not necessarily registered yet. Creates an institution_admin invitation in the same transaction instead of granting the role immediately. Mutually exclusive with firstAdminUserId.
+     */
+    firstAdminEmail?: string;
 };
 
 export type InstitutionResponseDto = {
@@ -172,6 +176,10 @@ export type InstitutionResponseDto = {
     name: string;
     defaultLocale: string;
     timezone: string;
+    /**
+     * The raw token of the first-admin invitation created via firstAdminEmail, present only outside production where there is no mail transport to deliver it through.
+     */
+    firstAdminInvitationDevToken?: string;
 };
 
 export type InstitutionConnectorsDto = {
@@ -291,6 +299,88 @@ export const SortOrder = { ASC: 'asc', DESC: 'desc' } as const;
 
 export type SortOrder = typeof SortOrder[keyof typeof SortOrder];
 
+export type CreateInvitationDto = {
+    address: string;
+    role: 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
+    scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
+    /**
+     * The org unit, program or course offering the role applies to.
+     */
+    scopeId?: string;
+};
+
+export type InvitationResponseDto = {
+    id: string;
+    institutionId: string;
+    address: string;
+    role: 'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
+    scopeType: 'institution' | 'program' | 'org_unit' | 'course_offering';
+    scopeId?: string | null;
+    expiresAt: string;
+    /**
+     * The raw invitation token, present only outside production where there is no mail transport to deliver it through instead.
+     */
+    devToken?: string;
+};
+
+export type AcceptInvitationDto = {
+    displayName?: string;
+    password?: string;
+    locale?: 'en' | 'sk';
+};
+
+export type AuthTokensDto = {
+    accessToken: string;
+    refreshToken: string;
+    /**
+     * Access-token lifetime in seconds.
+     */
+    expiresIn: number;
+    tokenType: string;
+    user: UserResponseDto;
+};
+
+export type LoginDto = {
+    email: string;
+};
+
+export type RefreshTokenDto = {
+    refreshToken: string;
+};
+
+export type RequestPasswordResetDto = {
+    email: string;
+};
+
+export type PasswordResetAcceptedDto = {
+    /**
+     * The raw reset token, present only outside production where there is no mail transport to deliver it through instead.
+     */
+    devToken?: string;
+};
+
+export type ConfirmPasswordResetDto = {
+    password: string;
+};
+
+export type GrantRoleDto = {
+    userId: string;
+    role: 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
+    scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
+    /**
+     * The org unit, program or course offering the role applies to.
+     */
+    scopeId?: string;
+    validFrom?: string;
+    validUntil?: string;
+};
+
+export type MyPermissionsResponseDto = {
+    institutionId: string;
+    roles: Array<'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin'>;
+    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'notification:read' | 'exam:register' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage' | 'sync:read' | 'sync:run' | 'connector:configure'>;
+};
+
 export type ExternalIdentityResponseDto = {
     id: string;
     institutionId: string;
@@ -317,43 +407,6 @@ export type NotificationResponseDto = {
 
 export type UnreadNotificationsResponseDto = {
     unreadCount: number;
-};
-
-export type AuthTokensDto = {
-    accessToken: string;
-    refreshToken: string;
-    /**
-     * Access-token lifetime in seconds.
-     */
-    expiresIn: number;
-    tokenType: string;
-    user: UserResponseDto;
-};
-
-export type LoginDto = {
-    email: string;
-};
-
-export type RefreshTokenDto = {
-    refreshToken: string;
-};
-
-export type GrantRoleDto = {
-    userId: string;
-    role: 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
-    scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
-    /**
-     * The org unit, program or course offering the role applies to.
-     */
-    scopeId?: string;
-    validFrom?: string;
-    validUntil?: string;
-};
-
-export type MyPermissionsResponseDto = {
-    institutionId: string;
-    roles: Array<'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin'>;
-    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'notification:read' | 'exam:register' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage' | 'sync:read' | 'sync:run' | 'connector:configure'>;
 };
 
 export type MyCourseOfferingDto = {
@@ -1593,146 +1646,16 @@ export type FindOneResponses = {
 
 export type FindOneResponse = FindOneResponses[keyof FindOneResponses];
 
-export type ListMyIdentitiesData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/api/v1/users/me/identities';
-};
-
-export type ListMyIdentitiesErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListMyIdentitiesError = ListMyIdentitiesErrors[keyof ListMyIdentitiesErrors];
-
-export type ListMyIdentitiesResponses = {
-    200: Array<ExternalIdentityResponseDto>;
-};
-
-export type ListMyIdentitiesResponse = ListMyIdentitiesResponses[keyof ListMyIdentitiesResponses];
-
-export type ListMyNotificationsData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: {
-        unreadOnly?: boolean;
-        limit?: number;
-    };
-    url: '/api/v1/institutions/{institutionId}/me/notifications';
-};
-
-export type ListMyNotificationsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListMyNotificationsError = ListMyNotificationsErrors[keyof ListMyNotificationsErrors];
-
-export type ListMyNotificationsResponses = {
-    200: Array<NotificationResponseDto>;
-};
-
-export type ListMyNotificationsResponse = ListMyNotificationsResponses[keyof ListMyNotificationsResponses];
-
-export type CountMyUnreadNotificationsData = {
-    body?: never;
+export type CreateInvitationData = {
+    body: CreateInvitationDto;
     path: {
         institutionId: string;
     };
     query?: never;
-    url: '/api/v1/institutions/{institutionId}/me/notifications/unread-count';
+    url: '/api/v1/institutions/{institutionId}/invitations';
 };
 
-export type CountMyUnreadNotificationsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type CountMyUnreadNotificationsError = CountMyUnreadNotificationsErrors[keyof CountMyUnreadNotificationsErrors];
-
-export type CountMyUnreadNotificationsResponses = {
-    200: UnreadNotificationsResponseDto;
-};
-
-export type CountMyUnreadNotificationsResponse = CountMyUnreadNotificationsResponses[keyof CountMyUnreadNotificationsResponses];
-
-export type MarkAllMyNotificationsReadData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/me/notifications/read-all';
-};
-
-export type MarkAllMyNotificationsReadErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type MarkAllMyNotificationsReadError = MarkAllMyNotificationsReadErrors[keyof MarkAllMyNotificationsReadErrors];
-
-export type MarkAllMyNotificationsReadResponses = {
-    200: UnreadNotificationsResponseDto;
-};
-
-export type MarkAllMyNotificationsReadResponse = MarkAllMyNotificationsReadResponses[keyof MarkAllMyNotificationsReadResponses];
-
-export type MarkMyNotificationReadData = {
-    body?: never;
-    path: {
-        institutionId: string;
-        id: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/me/notifications/{id}/read';
-};
-
-export type MarkMyNotificationReadErrors = {
+export type CreateInvitationErrors = {
     /**
      * Validation failed or the payload was malformed.
      */
@@ -1751,13 +1674,48 @@ export type MarkMyNotificationReadErrors = {
     500: ErrorResponseDto;
 };
 
-export type MarkMyNotificationReadError = MarkMyNotificationReadErrors[keyof MarkMyNotificationReadErrors];
+export type CreateInvitationError = CreateInvitationErrors[keyof CreateInvitationErrors];
 
-export type MarkMyNotificationReadResponses = {
-    200: NotificationResponseDto;
+export type CreateInvitationResponses = {
+    201: InvitationResponseDto;
 };
 
-export type MarkMyNotificationReadResponse = MarkMyNotificationReadResponses[keyof MarkMyNotificationReadResponses];
+export type CreateInvitationResponse = CreateInvitationResponses[keyof CreateInvitationResponses];
+
+export type AcceptInvitationData = {
+    body: AcceptInvitationDto;
+    path: {
+        token: string;
+    };
+    query?: never;
+    url: '/api/v1/invitations/{token}/accept';
+};
+
+export type AcceptInvitationErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type AcceptInvitationError = AcceptInvitationErrors[keyof AcceptInvitationErrors];
+
+export type AcceptInvitationResponses = {
+    /**
+     * The invitation was accepted.
+     */
+    204: void;
+};
+
+export type AcceptInvitationResponse = AcceptInvitationResponses[keyof AcceptInvitationResponses];
 
 export type RegisterData = {
     body: CreateUserDtoWritable;
@@ -1908,6 +1866,71 @@ export type MeResponses = {
 };
 
 export type MeResponse = MeResponses[keyof MeResponses];
+
+export type RequestPasswordResetData = {
+    body: RequestPasswordResetDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/auth/password-reset/request';
+};
+
+export type RequestPasswordResetErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RequestPasswordResetError = RequestPasswordResetErrors[keyof RequestPasswordResetErrors];
+
+export type RequestPasswordResetResponses = {
+    200: PasswordResetAcceptedDto;
+};
+
+export type RequestPasswordResetResponse = RequestPasswordResetResponses[keyof RequestPasswordResetResponses];
+
+export type ConfirmPasswordResetData = {
+    body: ConfirmPasswordResetDto;
+    path: {
+        token: string;
+    };
+    query?: never;
+    url: '/api/v1/auth/password-reset/{token}/confirm';
+};
+
+export type ConfirmPasswordResetErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ConfirmPasswordResetError = ConfirmPasswordResetErrors[keyof ConfirmPasswordResetErrors];
+
+export type ConfirmPasswordResetResponses = {
+    /**
+     * The password was reset.
+     */
+    204: void;
+};
+
+export type ConfirmPasswordResetResponse = ConfirmPasswordResetResponses[keyof ConfirmPasswordResetResponses];
 
 export type ListRoleAssignmentsData = {
     body?: never;
@@ -2084,6 +2107,172 @@ export type ListMyPermissionsResponses = {
 };
 
 export type ListMyPermissionsResponse = ListMyPermissionsResponses[keyof ListMyPermissionsResponses];
+
+export type ListMyIdentitiesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/identities';
+};
+
+export type ListMyIdentitiesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyIdentitiesError = ListMyIdentitiesErrors[keyof ListMyIdentitiesErrors];
+
+export type ListMyIdentitiesResponses = {
+    200: Array<ExternalIdentityResponseDto>;
+};
+
+export type ListMyIdentitiesResponse = ListMyIdentitiesResponses[keyof ListMyIdentitiesResponses];
+
+export type ListMyNotificationsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        unreadOnly?: boolean;
+        limit?: number;
+    };
+    url: '/api/v1/institutions/{institutionId}/me/notifications';
+};
+
+export type ListMyNotificationsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyNotificationsError = ListMyNotificationsErrors[keyof ListMyNotificationsErrors];
+
+export type ListMyNotificationsResponses = {
+    200: Array<NotificationResponseDto>;
+};
+
+export type ListMyNotificationsResponse = ListMyNotificationsResponses[keyof ListMyNotificationsResponses];
+
+export type CountMyUnreadNotificationsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/notifications/unread-count';
+};
+
+export type CountMyUnreadNotificationsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CountMyUnreadNotificationsError = CountMyUnreadNotificationsErrors[keyof CountMyUnreadNotificationsErrors];
+
+export type CountMyUnreadNotificationsResponses = {
+    200: UnreadNotificationsResponseDto;
+};
+
+export type CountMyUnreadNotificationsResponse = CountMyUnreadNotificationsResponses[keyof CountMyUnreadNotificationsResponses];
+
+export type MarkAllMyNotificationsReadData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/notifications/read-all';
+};
+
+export type MarkAllMyNotificationsReadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type MarkAllMyNotificationsReadError = MarkAllMyNotificationsReadErrors[keyof MarkAllMyNotificationsReadErrors];
+
+export type MarkAllMyNotificationsReadResponses = {
+    200: UnreadNotificationsResponseDto;
+};
+
+export type MarkAllMyNotificationsReadResponse = MarkAllMyNotificationsReadResponses[keyof MarkAllMyNotificationsReadResponses];
+
+export type MarkMyNotificationReadData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/notifications/{id}/read';
+};
+
+export type MarkMyNotificationReadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type MarkMyNotificationReadError = MarkMyNotificationReadErrors[keyof MarkMyNotificationReadErrors];
+
+export type MarkMyNotificationReadResponses = {
+    200: NotificationResponseDto;
+};
+
+export type MarkMyNotificationReadResponse = MarkMyNotificationReadResponses[keyof MarkMyNotificationReadResponses];
 
 export type ListMyCoursesData = {
     body?: never;

@@ -1,10 +1,12 @@
 import {
+  acceptInvitationMutation,
   cancelExamRegistrationMutation,
   clearInstitutionConnectorCredentialMutation,
   countMyUnreadNotificationsOptions,
   countMyUnreadNotificationsQueryKey,
   createDemoRequestMutation,
   createInstitutionMutation,
+  createInvitationMutation,
   createMutation,
   findAllInfiniteOptions,
   findAllOptions,
@@ -70,8 +72,10 @@ import {
   updateInstitutionConfigurationMutation,
 } from './generated/@tanstack/react-query.gen';
 import {
+  zAcceptInvitationDto,
   zCreateDemoRequestDtoWritable,
   zCreateInstitutionDto,
+  zCreateInvitationDto,
   zCreateUserDtoWritable,
   zGrantRoleDto,
   zLoginDtoWritable,
@@ -106,12 +110,14 @@ export {
  * when a slice needs one.
  */
 export const apiQueries = {
+  acceptInvitationMutation,
   cancelExamRegistrationMutation,
   clearInstitutionConnectorCredentialMutation,
   countMyUnreadNotificationsOptions,
   countMyUnreadNotificationsQueryKey,
   createDemoRequestMutation,
   createInstitutionMutation,
+  createInvitationMutation,
   createMutation,
   findAllInfiniteOptions,
   findAllOptions,
@@ -187,8 +193,10 @@ export const apiQueries = {
  * into the client bundle. Add an entry here when a form needs it.
  */
 export const apiSchemas = {
+  zAcceptInvitationDto,
   zCreateDemoRequestDtoWritable,
   zCreateInstitutionDto,
+  zCreateInvitationDto,
   zCreateUserDtoWritable,
   zGrantRoleDto,
   zLoginDtoWritable,
@@ -198,6 +206,8 @@ export type {
   AuthTokensDto,
   CreateDemoRequestDto,
   CreateDemoRequestDtoWritable,
+  CreateInvitationDto,
+  InvitationResponseDto,
   ConnectorCredentialFieldDto,
   ConnectorCredentialsResponseDto,
   ConnectorStatusResponseDto,

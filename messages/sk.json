@@ -205,7 +205,14 @@
     "revokeLabel": "Odobrať rolu {role}",
     "deniedTitle": "Iba na čítanie",
     "deniedDescription": "Roly tu vidíte, ale nemôžete ich meniť.",
-    "derived": "Derived — follows academic record"
+    "derived": "Derived — follows academic record",
+    "inviteTitle": "Invite a person",
+    "inviteDescription": "Send an invitation to claim an imported record or take on a role, by email.",
+    "inviteAddress": "Email address",
+    "invite": "Send invitation",
+    "inviting": "Sending…",
+    "invited": "Invitation sent",
+    "devTokenNotice": "No mail is sent outside production. Invitation link: /sign-up?invitation={token}"
   },
   "institutionSettings": {
     "title": "Nastavenia inštitúcie",
@@ -1087,5 +1094,19 @@
     "empty": "This institution has no people yet.",
     "errorTitle": "People could not be loaded",
     "errorDescription": "Try again in a moment."
+  },
+  "invitation": {
+    "title": "Accept your invitation",
+    "subtitle": "Set a password to claim your account.",
+    "displayName": "Display name",
+    "displayNameHint": "Leave blank to keep the name already on file.",
+    "password": "Password",
+    "passwordHint": "At least 8 characters. Leave blank if you can already sign in.",
+    "confirmPassword": "Confirm password",
+    "passwordMismatch": "Passwords do not match",
+    "submit": "Accept invitation",
+    "submitting": "Accepting…",
+    "invalidTitle": "This invitation link is no longer valid",
+    "invalidDescription": "It may have expired, already been used, or never existed. Ask whoever invited you to send a new one."
   }
 }

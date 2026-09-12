@@ -198,7 +198,8 @@ export const zCreateInstitutionDto = z.object({
     name: z.string().min(1).max(200),
     defaultLocale: z.enum(['en', 'sk']).optional(),
     timezone: z.string().optional(),
-    firstAdminUserId: z.uuid()
+    firstAdminUserId: z.uuid().optional(),
+    firstAdminEmail: z.email().optional()
 });
 
 export const zInstitutionResponseDto = z.object({
@@ -206,7 +207,8 @@ export const zInstitutionResponseDto = z.object({
     code: z.string(),
     name: z.string(),
     defaultLocale: z.string(),
-    timezone: z.string()
+    timezone: z.string(),
+    firstAdminInvitationDevToken: z.string().optional()
 });
 
 export const zInstitutionConnectorsDto = z.object({
@@ -323,44 +325,53 @@ export const zUserResponseDtoPage = z.object({
 
 export const zSortOrder = z.enum(['asc', 'desc']);
 
-export const zExternalIdentityResponseDto = z.object({
+export const zCreateInvitationDto = z.object({
+    address: z.email(),
+    role: z.enum([
+        'course_coordinator',
+        'program_coordinator',
+        'registrar',
+        'org_unit_manager',
+        'institution_admin'
+    ]),
+    scopeType: z.enum([
+        'institution',
+        'org_unit',
+        'program',
+        'course_offering'
+    ]),
+    scopeId: z.uuid().optional()
+});
+
+export const zInvitationResponseDto = z.object({
     id: z.uuid(),
     institutionId: z.uuid(),
-    sourceSystem: z.enum([
-        'platform',
-        'sis',
-        'lms'
+    address: z.string(),
+    role: z.enum([
+        'student',
+        'teacher',
+        'teaching_assistant',
+        'course_coordinator',
+        'program_coordinator',
+        'registrar',
+        'org_unit_manager',
+        'institution_admin'
     ]),
-    issuer: z.string(),
-    externalUsername: z.string().nullish(),
-    lastAuthenticatedAt: z.iso.datetime().nullish()
+    scopeType: z.enum([
+        'institution',
+        'program',
+        'org_unit',
+        'course_offering'
+    ]),
+    scopeId: z.uuid().nullish(),
+    expiresAt: z.iso.datetime(),
+    devToken: z.string().optional()
 });
 
-export const zNotificationResponseDto = z.object({
-    id: z.uuid(),
-    type: z.enum([
-        'exam_term_published',
-        'exam_term_rescheduled',
-        'exam_term_cancelled'
-    ]),
-    occurredAt: z.iso.datetime(),
-    occurrenceCount: z.number(),
-    readAt: z.iso.datetime().nullable(),
-    examTermId: z.uuid().nullable(),
-    courseOfferingId: z.uuid().nullable(),
-    courseCode: z.string().nullable(),
-    courseTitle: z.string().nullable(),
-    startsAt: z.iso.datetime().nullable(),
-    previousStartsAt: z.iso.datetime().nullable(),
-    sourceSystem: z.enum([
-        'platform',
-        'sis',
-        'lms'
-    ])
-});
-
-export const zUnreadNotificationsResponseDto = z.object({
-    unreadCount: z.number()
+export const zAcceptInvitationDto = z.object({
+    displayName: z.string().min(1).max(200).optional(),
+    password: z.string().min(8).max(128).optional(),
+    locale: z.enum(['en', 'sk']).optional()
 });
 
 export const zAuthTokensDto = z.object({
@@ -377,6 +388,18 @@ export const zLoginDto = z.object({
 
 export const zRefreshTokenDto = z.object({
     refreshToken: z.string().min(1).max(4096)
+});
+
+export const zRequestPasswordResetDto = z.object({
+    email: z.email()
+});
+
+export const zPasswordResetAcceptedDto = z.object({
+    devToken: z.string().optional()
+});
+
+export const zConfirmPasswordResetDto = z.object({
+    password: z.string().min(8).max(128)
 });
 
 export const zGrantRoleDto = z.object({
@@ -435,6 +458,46 @@ export const zMyPermissionsResponseDto = z.object({
         'sync:run',
         'connector:configure'
     ]))
+});
+
+export const zExternalIdentityResponseDto = z.object({
+    id: z.uuid(),
+    institutionId: z.uuid(),
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ]),
+    issuer: z.string(),
+    externalUsername: z.string().nullish(),
+    lastAuthenticatedAt: z.iso.datetime().nullish()
+});
+
+export const zNotificationResponseDto = z.object({
+    id: z.uuid(),
+    type: z.enum([
+        'exam_term_published',
+        'exam_term_rescheduled',
+        'exam_term_cancelled'
+    ]),
+    occurredAt: z.iso.datetime(),
+    occurrenceCount: z.number(),
+    readAt: z.iso.datetime().nullable(),
+    examTermId: z.uuid().nullable(),
+    courseOfferingId: z.uuid().nullable(),
+    courseCode: z.string().nullable(),
+    courseTitle: z.string().nullable(),
+    startsAt: z.iso.datetime().nullable(),
+    previousStartsAt: z.iso.datetime().nullable(),
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ])
+});
+
+export const zUnreadNotificationsResponseDto = z.object({
+    unreadCount: z.number()
 });
 
 export const zMyCourseOfferingDto = z.object({
@@ -1199,37 +1262,24 @@ export const zFindOnePath = z.object({
  */
 export const zFindOneResponse = zUserResponseDto;
 
-export const zListMyIdentitiesResponse = z.array(zExternalIdentityResponseDto);
+export const zCreateInvitationBody = zCreateInvitationDto;
 
-export const zListMyNotificationsPath = z.object({
+export const zCreateInvitationPath = z.object({
     institutionId: z.string()
 });
 
-export const zListMyNotificationsQuery = z.object({
-    unreadOnly: z.boolean().optional(),
-    limit: z.number().gte(1).lte(100).optional()
+export const zCreateInvitationResponse = zInvitationResponseDto;
+
+export const zAcceptInvitationBody = zAcceptInvitationDto;
+
+export const zAcceptInvitationPath = z.object({
+    token: z.string()
 });
 
-export const zListMyNotificationsResponse = z.array(zNotificationResponseDto);
-
-export const zCountMyUnreadNotificationsPath = z.object({
-    institutionId: z.string()
-});
-
-export const zCountMyUnreadNotificationsResponse = zUnreadNotificationsResponseDto;
-
-export const zMarkAllMyNotificationsReadPath = z.object({
-    institutionId: z.string()
-});
-
-export const zMarkAllMyNotificationsReadResponse = zUnreadNotificationsResponseDto;
-
-export const zMarkMyNotificationReadPath = z.object({
-    institutionId: z.string(),
-    id: z.string()
-});
-
-export const zMarkMyNotificationReadResponse = zNotificationResponseDto;
+/**
+ * The invitation was accepted.
+ */
+export const zAcceptInvitationResponse = z.void();
 
 export const zRegisterBody = zCreateUserDtoWritable;
 
@@ -1250,6 +1300,21 @@ export const zLogoutResponse = z.void();
 export const zLogoutAllResponse = z.void();
 
 export const zMeResponse = zUserResponseDto;
+
+export const zRequestPasswordResetBody = zRequestPasswordResetDto;
+
+export const zRequestPasswordResetResponse = zPasswordResetAcceptedDto;
+
+export const zConfirmPasswordResetBody = zConfirmPasswordResetDto;
+
+export const zConfirmPasswordResetPath = z.object({
+    token: z.string()
+});
+
+/**
+ * The password was reset.
+ */
+export const zConfirmPasswordResetResponse = z.void();
 
 export const zListRoleAssignmentsPath = z.object({
     institutionId: z.string()
@@ -1286,6 +1351,38 @@ export const zListMyPermissionsPath = z.object({
 });
 
 export const zListMyPermissionsResponse = zMyPermissionsResponseDto;
+
+export const zListMyIdentitiesResponse = z.array(zExternalIdentityResponseDto);
+
+export const zListMyNotificationsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyNotificationsQuery = z.object({
+    unreadOnly: z.boolean().optional(),
+    limit: z.number().gte(1).lte(100).optional()
+});
+
+export const zListMyNotificationsResponse = z.array(zNotificationResponseDto);
+
+export const zCountMyUnreadNotificationsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCountMyUnreadNotificationsResponse = zUnreadNotificationsResponseDto;
+
+export const zMarkAllMyNotificationsReadPath = z.object({
+    institutionId: z.string()
+});
+
+export const zMarkAllMyNotificationsReadResponse = zUnreadNotificationsResponseDto;
+
+export const zMarkMyNotificationReadPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zMarkMyNotificationReadResponse = zNotificationResponseDto;
 
 export const zListMyCoursesPath = z.object({
     institutionId: z.string()

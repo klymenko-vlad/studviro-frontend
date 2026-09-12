@@ -4,8 +4,8 @@ import * as z from 'zod';
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CancelExamRegistrationData, CancelExamRegistrationErrors, CancelExamRegistrationResponses, ClearInstitutionConnectorCredentialData, ClearInstitutionConnectorCredentialErrors, ClearInstitutionConnectorCredentialResponses, CountMyUnreadNotificationsData, CountMyUnreadNotificationsErrors, CountMyUnreadNotificationsResponses, CreateData, CreateDemoRequestData, CreateDemoRequestErrors, CreateDemoRequestResponses, CreateErrors, CreateInstitutionData, CreateInstitutionErrors, CreateInstitutionResponses, CreateResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GetCourseOfferingData, GetCourseOfferingErrors, GetCourseOfferingResponses, GetCourseRosterData, GetCourseRosterErrors, GetCourseRosterResponses, GetInstitutionConfigurationData, GetInstitutionConfigurationErrors, GetInstitutionConfigurationResponses, GetInstitutionConnectorCredentialsData, GetInstitutionConnectorCredentialsErrors, GetInstitutionConnectorCredentialsResponses, GetInstitutionData, GetInstitutionErrors, GetInstitutionResponses, GetOrgUnitData, GetOrgUnitErrors, GetOrgUnitResponses, GetSynchronizationReconciliationData, GetSynchronizationReconciliationErrors, GetSynchronizationReconciliationResponses, GetSynchronizationRunData, GetSynchronizationRunErrors, GetSynchronizationRunResponses, GetSynchronizationStateData, GetSynchronizationStateErrors, GetSynchronizationStateResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, ListInstitutionConnectorsData, ListInstitutionConnectorsErrors, ListInstitutionConnectorsResponses, ListMyCourseResultsData, ListMyCourseResultsErrors, ListMyCourseResultsResponses, ListMyCoursesData, ListMyCoursesErrors, ListMyCoursesResponses, ListMyExamTermsData, ListMyExamTermsErrors, ListMyExamTermsResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyInstitutionsData, ListMyInstitutionsErrors, ListMyInstitutionsResponses, ListMyNotificationsData, ListMyNotificationsErrors, ListMyNotificationsResponses, ListMyPermissionsData, ListMyPermissionsErrors, ListMyPermissionsResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListMyTeachingOfferingsData, ListMyTeachingOfferingsErrors, ListMyTeachingOfferingsResponses, ListMyTimetableEventsData, ListMyTimetableEventsErrors, ListMyTimetableEventsResponses, ListOrgUnitsData, ListOrgUnitsErrors, ListOrgUnitsResponses, ListPeopleData, ListPeopleErrors, ListPeopleResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, ListSynchronizationRunsData, ListSynchronizationRunsErrors, ListSynchronizationRunsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadErrors, MarkAllMyNotificationsReadResponses, MarkMyNotificationReadData, MarkMyNotificationReadErrors, MarkMyNotificationReadResponses, MeData, MeErrors, MeResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterForExamTermData, RegisterForExamTermErrors, RegisterForExamTermResponses, RegisterResponses, RemoveData, RemoveErrors, RemoveResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, SetInstitutionConnectorCredentialsData, SetInstitutionConnectorCredentialsErrors, SetInstitutionConnectorCredentialsResponses, StartSynchronizationRunData, StartSynchronizationRunErrors, StartSynchronizationRunResponses, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationErrors, UpdateInstitutionConfigurationResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses } from './types.gen';
-import { zCancelExamRegistrationPath, zCancelExamRegistrationResponse, zClearInstitutionConnectorCredentialPath, zClearInstitutionConnectorCredentialResponse, zCountMyUnreadNotificationsPath, zCountMyUnreadNotificationsResponse, zCreateBody, zCreateDemoRequestBody, zCreateDemoRequestResponse, zCreateInstitutionBody, zCreateInstitutionResponse, zCreateResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGetCourseOfferingPath, zGetCourseOfferingResponse, zGetCourseRosterPath, zGetCourseRosterResponse, zGetInstitutionConfigurationPath, zGetInstitutionConfigurationResponse, zGetInstitutionConnectorCredentialsPath, zGetInstitutionConnectorCredentialsResponse, zGetInstitutionPath, zGetInstitutionResponse, zGetOrgUnitPath, zGetOrgUnitResponse, zGetSynchronizationReconciliationPath, zGetSynchronizationReconciliationResponse, zGetSynchronizationRunPath, zGetSynchronizationRunResponse, zGetSynchronizationStatePath, zGetSynchronizationStateResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zListInstitutionConnectorsPath, zListInstitutionConnectorsResponse, zListMyCourseResultsPath, zListMyCourseResultsQuery, zListMyCourseResultsResponse, zListMyCoursesPath, zListMyCoursesQuery, zListMyCoursesResponse, zListMyExamTermsPath, zListMyExamTermsQuery, zListMyExamTermsResponse, zListMyIdentitiesResponse, zListMyInstitutionsResponse, zListMyNotificationsPath, zListMyNotificationsQuery, zListMyNotificationsResponse, zListMyPermissionsPath, zListMyPermissionsResponse, zListMyRolesResponse, zListMyTeachingOfferingsPath, zListMyTeachingOfferingsQuery, zListMyTeachingOfferingsResponse, zListMyTimetableEventsPath, zListMyTimetableEventsQuery, zListMyTimetableEventsResponse, zListOrgUnitsPath, zListOrgUnitsResponse, zListPeoplePath, zListPeopleResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zListSynchronizationRunsPath, zListSynchronizationRunsQuery, zListSynchronizationRunsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMarkAllMyNotificationsReadPath, zMarkAllMyNotificationsReadResponse, zMarkMyNotificationReadPath, zMarkMyNotificationReadResponse, zMeResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterForExamTermBody, zRegisterForExamTermPath, zRegisterForExamTermResponse, zRegisterResponse, zRemovePath, zRemoveResponse, zRevokeRolePath, zRevokeRoleResponse, zSetInstitutionConnectorCredentialsBody, zSetInstitutionConnectorCredentialsPath, zSetInstitutionConnectorCredentialsResponse, zStartSynchronizationRunBody, zStartSynchronizationRunPath, zStartSynchronizationRunResponse, zUpdateInstitutionConfigurationBody, zUpdateInstitutionConfigurationPath, zUpdateInstitutionConfigurationResponse, zUpdateMeBody, zUpdateMeResponse } from './zod.gen';
+import type { AcceptInvitationData, AcceptInvitationErrors, AcceptInvitationResponses, CancelExamRegistrationData, CancelExamRegistrationErrors, CancelExamRegistrationResponses, ClearInstitutionConnectorCredentialData, ClearInstitutionConnectorCredentialErrors, ClearInstitutionConnectorCredentialResponses, ConfirmPasswordResetData, ConfirmPasswordResetErrors, ConfirmPasswordResetResponses, CountMyUnreadNotificationsData, CountMyUnreadNotificationsErrors, CountMyUnreadNotificationsResponses, CreateData, CreateDemoRequestData, CreateDemoRequestErrors, CreateDemoRequestResponses, CreateErrors, CreateInstitutionData, CreateInstitutionErrors, CreateInstitutionResponses, CreateInvitationData, CreateInvitationErrors, CreateInvitationResponses, CreateResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GetCourseOfferingData, GetCourseOfferingErrors, GetCourseOfferingResponses, GetCourseRosterData, GetCourseRosterErrors, GetCourseRosterResponses, GetInstitutionConfigurationData, GetInstitutionConfigurationErrors, GetInstitutionConfigurationResponses, GetInstitutionConnectorCredentialsData, GetInstitutionConnectorCredentialsErrors, GetInstitutionConnectorCredentialsResponses, GetInstitutionData, GetInstitutionErrors, GetInstitutionResponses, GetOrgUnitData, GetOrgUnitErrors, GetOrgUnitResponses, GetSynchronizationReconciliationData, GetSynchronizationReconciliationErrors, GetSynchronizationReconciliationResponses, GetSynchronizationRunData, GetSynchronizationRunErrors, GetSynchronizationRunResponses, GetSynchronizationStateData, GetSynchronizationStateErrors, GetSynchronizationStateResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, ListInstitutionConnectorsData, ListInstitutionConnectorsErrors, ListInstitutionConnectorsResponses, ListMyCourseResultsData, ListMyCourseResultsErrors, ListMyCourseResultsResponses, ListMyCoursesData, ListMyCoursesErrors, ListMyCoursesResponses, ListMyExamTermsData, ListMyExamTermsErrors, ListMyExamTermsResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyInstitutionsData, ListMyInstitutionsErrors, ListMyInstitutionsResponses, ListMyNotificationsData, ListMyNotificationsErrors, ListMyNotificationsResponses, ListMyPermissionsData, ListMyPermissionsErrors, ListMyPermissionsResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListMyTeachingOfferingsData, ListMyTeachingOfferingsErrors, ListMyTeachingOfferingsResponses, ListMyTimetableEventsData, ListMyTimetableEventsErrors, ListMyTimetableEventsResponses, ListOrgUnitsData, ListOrgUnitsErrors, ListOrgUnitsResponses, ListPeopleData, ListPeopleErrors, ListPeopleResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, ListSynchronizationRunsData, ListSynchronizationRunsErrors, ListSynchronizationRunsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadErrors, MarkAllMyNotificationsReadResponses, MarkMyNotificationReadData, MarkMyNotificationReadErrors, MarkMyNotificationReadResponses, MeData, MeErrors, MeResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterForExamTermData, RegisterForExamTermErrors, RegisterForExamTermResponses, RegisterResponses, RemoveData, RemoveErrors, RemoveResponses, RequestPasswordResetData, RequestPasswordResetErrors, RequestPasswordResetResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, SetInstitutionConnectorCredentialsData, SetInstitutionConnectorCredentialsErrors, SetInstitutionConnectorCredentialsResponses, StartSynchronizationRunData, StartSynchronizationRunErrors, StartSynchronizationRunResponses, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationErrors, UpdateInstitutionConfigurationResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses } from './types.gen';
+import { zAcceptInvitationBody, zAcceptInvitationPath, zAcceptInvitationResponse, zCancelExamRegistrationPath, zCancelExamRegistrationResponse, zClearInstitutionConnectorCredentialPath, zClearInstitutionConnectorCredentialResponse, zConfirmPasswordResetBody, zConfirmPasswordResetPath, zConfirmPasswordResetResponse, zCountMyUnreadNotificationsPath, zCountMyUnreadNotificationsResponse, zCreateBody, zCreateDemoRequestBody, zCreateDemoRequestResponse, zCreateInstitutionBody, zCreateInstitutionResponse, zCreateInvitationBody, zCreateInvitationPath, zCreateInvitationResponse, zCreateResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGetCourseOfferingPath, zGetCourseOfferingResponse, zGetCourseRosterPath, zGetCourseRosterResponse, zGetInstitutionConfigurationPath, zGetInstitutionConfigurationResponse, zGetInstitutionConnectorCredentialsPath, zGetInstitutionConnectorCredentialsResponse, zGetInstitutionPath, zGetInstitutionResponse, zGetOrgUnitPath, zGetOrgUnitResponse, zGetSynchronizationReconciliationPath, zGetSynchronizationReconciliationResponse, zGetSynchronizationRunPath, zGetSynchronizationRunResponse, zGetSynchronizationStatePath, zGetSynchronizationStateResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zListInstitutionConnectorsPath, zListInstitutionConnectorsResponse, zListMyCourseResultsPath, zListMyCourseResultsQuery, zListMyCourseResultsResponse, zListMyCoursesPath, zListMyCoursesQuery, zListMyCoursesResponse, zListMyExamTermsPath, zListMyExamTermsQuery, zListMyExamTermsResponse, zListMyIdentitiesResponse, zListMyInstitutionsResponse, zListMyNotificationsPath, zListMyNotificationsQuery, zListMyNotificationsResponse, zListMyPermissionsPath, zListMyPermissionsResponse, zListMyRolesResponse, zListMyTeachingOfferingsPath, zListMyTeachingOfferingsQuery, zListMyTeachingOfferingsResponse, zListMyTimetableEventsPath, zListMyTimetableEventsQuery, zListMyTimetableEventsResponse, zListOrgUnitsPath, zListOrgUnitsResponse, zListPeoplePath, zListPeopleResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zListSynchronizationRunsPath, zListSynchronizationRunsQuery, zListSynchronizationRunsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMarkAllMyNotificationsReadPath, zMarkAllMyNotificationsReadResponse, zMarkMyNotificationReadPath, zMarkMyNotificationReadResponse, zMeResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterForExamTermBody, zRegisterForExamTermPath, zRegisterForExamTermResponse, zRegisterResponse, zRemovePath, zRemoveResponse, zRequestPasswordResetBody, zRequestPasswordResetResponse, zRevokeRolePath, zRevokeRoleResponse, zSetInstitutionConnectorCredentialsBody, zSetInstitutionConnectorCredentialsPath, zSetInstitutionConnectorCredentialsResponse, zStartSynchronizationRunBody, zStartSynchronizationRunPath, zStartSynchronizationRunResponse, zUpdateInstitutionConfigurationBody, zUpdateInstitutionConfigurationPath, zUpdateInstitutionConfigurationResponse, zUpdateMeBody, zUpdateMeResponse } from './zod.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -454,91 +454,45 @@ export class Users {
     }
 }
 
-export class Identities {
+export class Invitations {
     /**
-     * List the accounts linked to the current user
+     * Invite a person by email to claim their record and hold a role
      */
-    public static listMyIdentities<ThrowOnError extends boolean = false>(options?: Options<ListMyIdentitiesData, ThrowOnError>): RequestResult<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError> {
-        return (options?.client ?? client).get<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError>({
+    public static createInvitation<ThrowOnError extends boolean = false>(options: Options<CreateInvitationData, ThrowOnError>): RequestResult<CreateInvitationResponses, CreateInvitationErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateInvitationResponses, CreateInvitationErrors, ThrowOnError>({
             requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: z.never().optional(),
+                body: zCreateInvitationBody,
+                path: zCreateInvitationPath,
                 query: z.never().optional()
             }).parseAsync(data),
-            responseValidator: async (data) => await zListMyIdentitiesResponse.parseAsync(data),
+            responseValidator: async (data) => await zCreateInvitationResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users/me/identities',
-            ...options
-        });
-    }
-}
-
-export class Notifications {
-    /**
-     * List the notifications delivered to the current user
-     */
-    public static listMyNotifications<ThrowOnError extends boolean = false>(options: Options<ListMyNotificationsData, ThrowOnError>): RequestResult<ListMyNotificationsResponses, ListMyNotificationsErrors, ThrowOnError> {
-        return (options.client ?? client).get<ListMyNotificationsResponses, ListMyNotificationsErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: zListMyNotificationsPath,
-                query: zListMyNotificationsQuery.optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zListMyNotificationsResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/institutions/{institutionId}/me/notifications',
-            ...options
+            url: '/api/v1/institutions/{institutionId}/invitations',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
         });
     }
     
     /**
-     * Count the notifications the current user has not read
+     * Prove control of the invited address, set a password if needed, and claim the record
      */
-    public static countMyUnreadNotifications<ThrowOnError extends boolean = false>(options: Options<CountMyUnreadNotificationsData, ThrowOnError>): RequestResult<CountMyUnreadNotificationsResponses, CountMyUnreadNotificationsErrors, ThrowOnError> {
-        return (options.client ?? client).get<CountMyUnreadNotificationsResponses, CountMyUnreadNotificationsErrors, ThrowOnError>({
+    public static acceptInvitation<ThrowOnError extends boolean = false>(options: Options<AcceptInvitationData, ThrowOnError>): RequestResult<AcceptInvitationResponses, AcceptInvitationErrors, ThrowOnError> {
+        return (options.client ?? client).post<AcceptInvitationResponses, AcceptInvitationErrors, ThrowOnError>({
             requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: zCountMyUnreadNotificationsPath,
+                body: zAcceptInvitationBody,
+                path: zAcceptInvitationPath,
                 query: z.never().optional()
             }).parseAsync(data),
-            responseValidator: async (data) => await zCountMyUnreadNotificationsResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/institutions/{institutionId}/me/notifications/unread-count',
-            ...options
-        });
-    }
-    
-    /**
-     * Mark every notification of the current user as read
-     */
-    public static markAllMyNotificationsRead<ThrowOnError extends boolean = false>(options: Options<MarkAllMyNotificationsReadData, ThrowOnError>): RequestResult<MarkAllMyNotificationsReadResponses, MarkAllMyNotificationsReadErrors, ThrowOnError> {
-        return (options.client ?? client).post<MarkAllMyNotificationsReadResponses, MarkAllMyNotificationsReadErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: zMarkAllMyNotificationsReadPath,
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zMarkAllMyNotificationsReadResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/institutions/{institutionId}/me/notifications/read-all',
-            ...options
-        });
-    }
-    
-    /**
-     * Mark one notification of the current user as read
-     */
-    public static markMyNotificationRead<ThrowOnError extends boolean = false>(options: Options<MarkMyNotificationReadData, ThrowOnError>): RequestResult<MarkMyNotificationReadResponses, MarkMyNotificationReadErrors, ThrowOnError> {
-        return (options.client ?? client).post<MarkMyNotificationReadResponses, MarkMyNotificationReadErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: zMarkMyNotificationReadPath,
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zMarkMyNotificationReadResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/institutions/{institutionId}/me/notifications/{id}/read',
-            ...options
+            responseValidator: async (data) => await zAcceptInvitationResponse.parseAsync(data),
+            url: '/api/v1/invitations/{token}/accept',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
         });
     }
 }
@@ -657,6 +611,46 @@ export class Auth {
             ...options
         });
     }
+    
+    /**
+     * Ask for a password reset link, answered identically whether or not the address exists
+     */
+    public static requestPasswordReset<ThrowOnError extends boolean = false>(options: Options<RequestPasswordResetData, ThrowOnError>): RequestResult<RequestPasswordResetResponses, RequestPasswordResetErrors, ThrowOnError> {
+        return (options.client ?? client).post<RequestPasswordResetResponses, RequestPasswordResetErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zRequestPasswordResetBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRequestPasswordResetResponse.parseAsync(data),
+            url: '/api/v1/auth/password-reset/request',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Set a new password using a reset token
+     */
+    public static confirmPasswordReset<ThrowOnError extends boolean = false>(options: Options<ConfirmPasswordResetData, ThrowOnError>): RequestResult<ConfirmPasswordResetResponses, ConfirmPasswordResetErrors, ThrowOnError> {
+        return (options.client ?? client).post<ConfirmPasswordResetResponses, ConfirmPasswordResetErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zConfirmPasswordResetBody,
+                path: zConfirmPasswordResetPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zConfirmPasswordResetResponse.parseAsync(data),
+            url: '/api/v1/auth/password-reset/{token}/confirm',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
 }
 
 export class RoleAssignments {
@@ -745,6 +739,95 @@ export class RoleAssignments {
             responseValidator: async (data) => await zListMyPermissionsResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
             url: '/api/v1/institutions/{institutionId}/me/permissions',
+            ...options
+        });
+    }
+}
+
+export class Identities {
+    /**
+     * List the accounts linked to the current user
+     */
+    public static listMyIdentities<ThrowOnError extends boolean = false>(options?: Options<ListMyIdentitiesData, ThrowOnError>): RequestResult<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError> {
+        return (options?.client ?? client).get<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyIdentitiesResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/identities',
+            ...options
+        });
+    }
+}
+
+export class Notifications {
+    /**
+     * List the notifications delivered to the current user
+     */
+    public static listMyNotifications<ThrowOnError extends boolean = false>(options: Options<ListMyNotificationsData, ThrowOnError>): RequestResult<ListMyNotificationsResponses, ListMyNotificationsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListMyNotificationsResponses, ListMyNotificationsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListMyNotificationsPath,
+                query: zListMyNotificationsQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyNotificationsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/notifications',
+            ...options
+        });
+    }
+    
+    /**
+     * Count the notifications the current user has not read
+     */
+    public static countMyUnreadNotifications<ThrowOnError extends boolean = false>(options: Options<CountMyUnreadNotificationsData, ThrowOnError>): RequestResult<CountMyUnreadNotificationsResponses, CountMyUnreadNotificationsErrors, ThrowOnError> {
+        return (options.client ?? client).get<CountMyUnreadNotificationsResponses, CountMyUnreadNotificationsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zCountMyUnreadNotificationsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCountMyUnreadNotificationsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/notifications/unread-count',
+            ...options
+        });
+    }
+    
+    /**
+     * Mark every notification of the current user as read
+     */
+    public static markAllMyNotificationsRead<ThrowOnError extends boolean = false>(options: Options<MarkAllMyNotificationsReadData, ThrowOnError>): RequestResult<MarkAllMyNotificationsReadResponses, MarkAllMyNotificationsReadErrors, ThrowOnError> {
+        return (options.client ?? client).post<MarkAllMyNotificationsReadResponses, MarkAllMyNotificationsReadErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zMarkAllMyNotificationsReadPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zMarkAllMyNotificationsReadResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/notifications/read-all',
+            ...options
+        });
+    }
+    
+    /**
+     * Mark one notification of the current user as read
+     */
+    public static markMyNotificationRead<ThrowOnError extends boolean = false>(options: Options<MarkMyNotificationReadData, ThrowOnError>): RequestResult<MarkMyNotificationReadResponses, MarkMyNotificationReadErrors, ThrowOnError> {
+        return (options.client ?? client).post<MarkMyNotificationReadResponses, MarkMyNotificationReadErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zMarkMyNotificationReadPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zMarkMyNotificationReadResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/notifications/{id}/read',
             ...options
         });
     }
