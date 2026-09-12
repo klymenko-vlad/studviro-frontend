@@ -1,5 +1,6 @@
 import {
   cancelExamRegistrationMutation,
+  clearInstitutionConnectorCredentialMutation,
   countMyUnreadNotificationsOptions,
   countMyUnreadNotificationsQueryKey,
   createMutation,
@@ -14,6 +15,8 @@ import {
   getCourseRosterQueryKey,
   getInstitutionConfigurationOptions,
   getInstitutionConfigurationQueryKey,
+  getInstitutionConnectorCredentialsOptions,
+  getInstitutionConnectorCredentialsQueryKey,
   getInstitutionOptions,
   getInstitutionQueryKey,
   getSynchronizationRunOptions,
@@ -52,6 +55,7 @@ import {
   registerForExamTermMutation,
   removeMutation,
   revokeRoleMutation,
+  setInstitutionConnectorCredentialsMutation,
   startSynchronizationRunMutation,
   updateInstitutionConfigurationMutation,
 } from './generated/@tanstack/react-query.gen';
@@ -91,6 +95,7 @@ export {
  */
 export const apiQueries = {
   cancelExamRegistrationMutation,
+  clearInstitutionConnectorCredentialMutation,
   countMyUnreadNotificationsOptions,
   countMyUnreadNotificationsQueryKey,
   createMutation,
@@ -105,6 +110,8 @@ export const apiQueries = {
   getCourseRosterQueryKey,
   getInstitutionConfigurationOptions,
   getInstitutionConfigurationQueryKey,
+  getInstitutionConnectorCredentialsOptions,
+  getInstitutionConnectorCredentialsQueryKey,
   getInstitutionOptions,
   getInstitutionQueryKey,
   getSynchronizationRunOptions,
@@ -143,6 +150,7 @@ export const apiQueries = {
   registerForExamTermMutation,
   removeMutation,
   revokeRoleMutation,
+  setInstitutionConnectorCredentialsMutation,
   startSynchronizationRunMutation,
   updateInstitutionConfigurationMutation,
 } as const;
@@ -164,6 +172,8 @@ export const apiSchemas = {
 
 export type {
   AuthTokensDto,
+  ConnectorCredentialFieldDto,
+  ConnectorCredentialsResponseDto,
   ConnectorStatusResponseDto,
   CourseOfferingResponseDto,
   CreateUserDto,

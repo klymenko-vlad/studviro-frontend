@@ -54,4 +54,20 @@ describe('InstitutionSettingsView', () => {
       screen.queryByRole('button', { name: 'Save settings' }),
     ).not.toBeInTheDocument();
   });
+
+  it('offers connector credentials to someone who may configure connectors', async () => {
+    renderWithProviders(<InstitutionSettingsView institutionId={INSTITUTION} />);
+
+    expect(await screen.findByText('Connector credentials')).toBeInTheDocument();
+    expect(await screen.findByLabelText('API key')).toBeInTheDocument();
+  });
+
+  it('withholds connector credentials from someone who may not configure connectors', async () => {
+    readOnly();
+
+    renderWithProviders(<InstitutionSettingsView institutionId={INSTITUTION} />);
+
+    await screen.findByText('Read-only');
+    expect(screen.queryByText('Connector credentials')).not.toBeInTheDocument();
+  });
 });

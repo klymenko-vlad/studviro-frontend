@@ -92,6 +92,32 @@ export type ConnectorStatusResponseDto = {
     alternatives: Array<string>;
 };
 
+export type ConnectorCredentialFieldDto = {
+    key: string;
+    label: string;
+    description: string | null;
+    secret: boolean;
+    required: boolean;
+    configured: boolean;
+    updatedAt: string | null;
+};
+
+export type ConnectorCredentialsResponseDto = {
+    kind: 'academic' | 'learning';
+    connectorName: string;
+    fields: Array<ConnectorCredentialFieldDto>;
+    complete: boolean;
+};
+
+export type SetConnectorCredentialsDto = {
+    /**
+     * Credential field keys to their new values. An empty object is rejected.
+     */
+    values: {
+        [key: string]: string;
+    };
+};
+
 export type InstitutionResponseDto = {
     id: string;
     code: string;
@@ -260,7 +286,7 @@ export type GrantRoleDto = {
 export type MyPermissionsResponseDto = {
     institutionId: string;
     roles: Array<'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin'>;
-    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'notification:read' | 'exam:register' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage' | 'sync:read' | 'sync:run'>;
+    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'notification:read' | 'exam:register' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage' | 'sync:read' | 'sync:run' | 'connector:configure'>;
 };
 
 export type MyCourseOfferingDto = {
@@ -837,6 +863,118 @@ export type ListInstitutionConnectorsResponses = {
 };
 
 export type ListInstitutionConnectorsResponse = ListInstitutionConnectorsResponses[keyof ListInstitutionConnectorsResponses];
+
+export type GetInstitutionConnectorCredentialsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        kind: 'academic' | 'learning';
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/connectors/{kind}/credentials';
+};
+
+export type GetInstitutionConnectorCredentialsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetInstitutionConnectorCredentialsError = GetInstitutionConnectorCredentialsErrors[keyof GetInstitutionConnectorCredentialsErrors];
+
+export type GetInstitutionConnectorCredentialsResponses = {
+    200: ConnectorCredentialsResponseDto;
+};
+
+export type GetInstitutionConnectorCredentialsResponse = GetInstitutionConnectorCredentialsResponses[keyof GetInstitutionConnectorCredentialsResponses];
+
+export type SetInstitutionConnectorCredentialsData = {
+    body: SetConnectorCredentialsDto;
+    path: {
+        institutionId: string;
+        kind: 'academic' | 'learning';
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/connectors/{kind}/credentials';
+};
+
+export type SetInstitutionConnectorCredentialsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type SetInstitutionConnectorCredentialsError = SetInstitutionConnectorCredentialsErrors[keyof SetInstitutionConnectorCredentialsErrors];
+
+export type SetInstitutionConnectorCredentialsResponses = {
+    200: ConnectorCredentialsResponseDto;
+};
+
+export type SetInstitutionConnectorCredentialsResponse = SetInstitutionConnectorCredentialsResponses[keyof SetInstitutionConnectorCredentialsResponses];
+
+export type ClearInstitutionConnectorCredentialData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        kind: 'academic' | 'learning';
+        fieldKey: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/connectors/{kind}/credentials/{fieldKey}';
+};
+
+export type ClearInstitutionConnectorCredentialErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ClearInstitutionConnectorCredentialError = ClearInstitutionConnectorCredentialErrors[keyof ClearInstitutionConnectorCredentialErrors];
+
+export type ClearInstitutionConnectorCredentialResponses = {
+    200: ConnectorCredentialsResponseDto;
+};
+
+export type ClearInstitutionConnectorCredentialResponse = ClearInstitutionConnectorCredentialResponses[keyof ClearInstitutionConnectorCredentialResponses];
 
 export type ListMyInstitutionsData = {
     body?: never;

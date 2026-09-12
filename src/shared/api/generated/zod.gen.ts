@@ -122,6 +122,27 @@ export const zConnectorStatusResponseDto = z.object({
     alternatives: z.array(z.string())
 });
 
+export const zConnectorCredentialFieldDto = z.object({
+    key: z.string(),
+    label: z.string(),
+    description: z.string().nullable(),
+    secret: z.boolean(),
+    required: z.boolean(),
+    configured: z.boolean(),
+    updatedAt: z.iso.datetime().nullable()
+});
+
+export const zConnectorCredentialsResponseDto = z.object({
+    kind: z.enum(['academic', 'learning']),
+    connectorName: z.string(),
+    fields: z.array(zConnectorCredentialFieldDto),
+    complete: z.boolean()
+});
+
+export const zSetConnectorCredentialsDto = z.object({
+    values: z.record(z.string(), z.string())
+});
+
 export const zInstitutionResponseDto = z.object({
     id: z.uuid(),
     code: z.string(),
@@ -327,7 +348,8 @@ export const zMyPermissionsResponseDto = z.object({
         'institution:read',
         'institution:manage',
         'sync:read',
-        'sync:run'
+        'sync:run',
+        'connector:configure'
     ]))
 });
 
@@ -956,6 +978,30 @@ export const zListInstitutionConnectorsPath = z.object({
 });
 
 export const zListInstitutionConnectorsResponse = z.array(zConnectorStatusResponseDto);
+
+export const zGetInstitutionConnectorCredentialsPath = z.object({
+    institutionId: z.string(),
+    kind: z.enum(['academic', 'learning'])
+});
+
+export const zGetInstitutionConnectorCredentialsResponse = zConnectorCredentialsResponseDto;
+
+export const zSetInstitutionConnectorCredentialsBody = zSetConnectorCredentialsDto;
+
+export const zSetInstitutionConnectorCredentialsPath = z.object({
+    institutionId: z.string(),
+    kind: z.enum(['academic', 'learning'])
+});
+
+export const zSetInstitutionConnectorCredentialsResponse = zConnectorCredentialsResponseDto;
+
+export const zClearInstitutionConnectorCredentialPath = z.object({
+    institutionId: z.string(),
+    kind: z.enum(['academic', 'learning']),
+    fieldKey: z.string()
+});
+
+export const zClearInstitutionConnectorCredentialResponse = zConnectorCredentialsResponseDto;
 
 export const zListMyInstitutionsResponse = z.array(zInstitutionResponseDto);
 

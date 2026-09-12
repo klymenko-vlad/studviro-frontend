@@ -2,6 +2,7 @@ import { http, HttpResponse } from 'msw';
 
 import type {
   AuthTokensDto,
+  ConnectorCredentialsResponseDto,
   ConnectorStatusResponseDto,
   CourseOfferingResponseDto,
   CourseRosterResponseDto,
@@ -153,6 +154,32 @@ export const connectorStatuses: ConnectorStatusResponseDto[] = [
   },
 ];
 
+export const connectorCredentials: ConnectorCredentialsResponseDto = {
+  kind: 'academic',
+  connectorName: 'mock-sis',
+  complete: false,
+  fields: [
+    {
+      key: 'apiKey',
+      label: 'API key',
+      description: 'The API key issued by the student information system.',
+      secret: true,
+      required: true,
+      configured: true,
+      updatedAt: '2026-08-20T10:00:00.000Z',
+    },
+    {
+      key: 'baseUrl',
+      label: 'Base URL',
+      description: null,
+      secret: false,
+      required: true,
+      configured: false,
+      updatedAt: null,
+    },
+  ],
+};
+
 export const permissions: MyPermissionsResponseDto = {
   institutionId: '55555555-5555-4555-8555-555555555555',
   roles: ['institution_admin'],
@@ -169,6 +196,7 @@ export const permissions: MyPermissionsResponseDto = {
     'notification:read',
     'sync:read',
     'sync:run',
+    'connector:configure',
   ],
 };
 
@@ -1039,6 +1067,55 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/connectors`, () =>
     HttpResponse.json(connectorStatuses),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/connectors/:kind/credentials`,
+    ({ params }) => {
+      if (params['kind'] !== 'academic') {
+        return new HttpResponse(null, { status: 404 });
+      }
+
+      return HttpResponse.json(connectorCredentials);
+    },
+  ),
+
+  http.put(
+    `${PROXY}/institutions/:institutionId/connectors/:kind/credentials`,
+    async ({ params, request }) => {
+      if (params['kind'] !== 'academic') {
+        return new HttpResponse(null, { status: 404 });
+      }
+
+      const body = (await request.json()) as { values: Record<string, string> };
+
+      return HttpResponse.json({
+        ...connectorCredentials,
+        fields: connectorCredentials.fields.map(field =>
+          field.key in body.values
+            ? { ...field, configured: true, updatedAt: '2026-09-12T00:00:00.000Z' }
+            : field,
+        ),
+      });
+    },
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/connectors/:kind/credentials/:fieldKey`,
+    ({ params }) => {
+      if (params['kind'] !== 'academic') {
+        return new HttpResponse(null, { status: 404 });
+      }
+
+      return HttpResponse.json({
+        ...connectorCredentials,
+        fields: connectorCredentials.fields.map(field =>
+          field.key === params['fieldKey']
+            ? { ...field, configured: false, updatedAt: null }
+            : field,
+        ),
+      });
+    },
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/role-assignments`, () =>
