@@ -201,7 +201,8 @@
     "errorDescription": "Try again in a moment.",
     "revokeLabel": "Revoke {role}",
     "deniedTitle": "Read-only",
-    "deniedDescription": "You may see roles here but not change them."
+    "deniedDescription": "You may see roles here but not change them.",
+    "derived": "Derived — follows academic record"
   },
   "institutionSettings": {
     "title": "Institution settings",

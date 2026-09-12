@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 
 import { RevokeRoleButton } from '@/features/revoke-role';
 import type { RoleAssignment } from '@/entities/role-assignment';
-import { TableCell, TableRow } from '@/shared/ui';
+import { Badge, TableCell, TableRow } from '@/shared/ui';
 
 interface RoleAssignmentRowProps {
   assignment: RoleAssignment;
@@ -10,6 +10,7 @@ interface RoleAssignmentRowProps {
 }
 
 export function RoleAssignmentRow({ assignment, institutionId }: RoleAssignmentRowProps) {
+  const t = useTranslations('roleAdmin');
   const labels = useTranslations('roles');
   const roleLabel = labels(`role.${assignment.role}`);
 
@@ -20,11 +21,15 @@ export function RoleAssignmentRow({ assignment, institutionId }: RoleAssignmentR
       <TableCell>{labels(`scope.${assignment.scopeType}`)}</TableCell>
       <TableCell className="font-mono text-xs">{assignment.scopeId ?? '—'}</TableCell>
       <TableCell className="text-right">
-        <RevokeRoleButton
-          institutionId={institutionId}
-          assignmentId={assignment.id}
-          roleLabel={roleLabel}
-        />
+        {assignment.revocable && assignment.id ? (
+          <RevokeRoleButton
+            institutionId={institutionId}
+            assignmentId={assignment.id}
+            roleLabel={roleLabel}
+          />
+        ) : (
+          <Badge variant="secondary">{t('derived')}</Badge>
+        )}
       </TableCell>
     </TableRow>
   );

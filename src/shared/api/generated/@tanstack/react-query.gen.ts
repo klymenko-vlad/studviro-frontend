@@ -647,7 +647,7 @@ export const listRoleAssignmentsOptions = (options: Options<ListRoleAssignmentsD
 });
 
 /**
- * Grant a role in a scope
+ * Grant a role in a scope, checked against the scope granted on
  */
 export const grantRoleMutation = (options?: Partial<Options<GrantRoleData>>): UseMutationOptions<GrantRoleResponse, GrantRoleError, Options<GrantRoleData>> => {
     const mutationOptions: UseMutationOptions<GrantRoleResponse, GrantRoleError, Options<GrantRoleData>> = {
@@ -664,7 +664,7 @@ export const grantRoleMutation = (options?: Partial<Options<GrantRoleData>>): Us
 };
 
 /**
- * Revoke a role assignment
+ * Revoke a role assignment, checked against the assignment scope
  */
 export const revokeRoleMutation = (options?: Partial<Options<RevokeRoleData>>): UseMutationOptions<RevokeRoleResponse, RevokeRoleError, Options<RevokeRoleData>> => {
     const mutationOptions: UseMutationOptions<RevokeRoleResponse, RevokeRoleError, Options<RevokeRoleData>> = {

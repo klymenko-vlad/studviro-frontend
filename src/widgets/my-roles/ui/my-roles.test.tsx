@@ -12,7 +12,7 @@ describe('MyRoles', () => {
     renderWithProviders(<MyRoles />);
 
     expect(await screen.findByText('Student')).toBeInTheDocument();
-    expect(screen.getByText('Teaching assistant')).toBeInTheDocument();
+    expect(screen.getByText('Registrar')).toBeInTheDocument();
   });
 
   it('names the scope a role applies to rather than its raw type', async () => {

@@ -53,7 +53,10 @@ export function RoleAssignmentTable({ institutionId }: { institutionId: string }
       <TableBody>
         {data.map(assignment => (
           <RoleAssignmentRow
-            key={assignment.id}
+            key={
+              assignment.id ??
+              `${assignment.role}-${assignment.scopeType}-${assignment.scopeId}`
+            }
             assignment={assignment}
             institutionId={institutionId}
           />

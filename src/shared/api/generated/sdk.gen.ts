@@ -602,7 +602,7 @@ export class RoleAssignments {
     }
     
     /**
-     * Grant a role in a scope
+     * Grant a role in a scope, checked against the scope granted on
      */
     public static grantRole<ThrowOnError extends boolean = false>(options: Options<GrantRoleData, ThrowOnError>): RequestResult<GrantRoleResponses, GrantRoleErrors, ThrowOnError> {
         return (options.client ?? client).post<GrantRoleResponses, GrantRoleErrors, ThrowOnError>({
@@ -623,7 +623,7 @@ export class RoleAssignments {
     }
     
     /**
-     * Revoke a role assignment
+     * Revoke a role assignment, checked against the assignment scope
      */
     public static revokeRole<ThrowOnError extends boolean = false>(options: Options<RevokeRoleData, ThrowOnError>): RequestResult<RevokeRoleResponses, RevokeRoleErrors, ThrowOnError> {
         return (options.client ?? client).delete<RevokeRoleResponses, RevokeRoleErrors, ThrowOnError>({

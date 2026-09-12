@@ -78,16 +78,20 @@ export const roleAssignments: RoleAssignmentResponseDto[] = [
     scopeId: null,
     validFrom: null,
     validUntil: null,
+    source: 'derived',
+    revocable: false,
   },
   {
     id: '66666666-6666-4666-8666-666666666666',
     institutionId: '55555555-5555-4555-8555-555555555555',
     userId: users[0]!.id,
-    role: 'teaching_assistant',
+    role: 'registrar',
     scopeType: 'course_offering',
     scopeId: '77777777-7777-4777-8777-777777777777',
     validFrom: null,
     validUntil: '2027-01-31T00:00:00.000Z',
+    source: 'granted',
+    revocable: true,
   },
 ];
 
@@ -1177,7 +1181,7 @@ export const handlers = [
     async ({ request }) => {
       const body = (await request.json()) as Omit<
         RoleAssignmentResponseDto,
-        'id' | 'institutionId' | 'validFrom' | 'validUntil'
+        'id' | 'institutionId' | 'validFrom' | 'validUntil' | 'source' | 'revocable'
       >;
 
       return HttpResponse.json(
@@ -1187,6 +1191,8 @@ export const handlers = [
           validFrom: null,
           validUntil: null,
           scopeId: null,
+          source: 'granted',
+          revocable: true,
           ...body,
         } satisfies RoleAssignmentResponseDto,
         { status: 201 },

@@ -9,7 +9,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import {
-  CANONICAL_ROLES,
+  GRANTABLE_ROLES,
   ROLE_SCOPES,
   roleAssignmentMutations,
   roleAssignmentQueries,
@@ -50,7 +50,12 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
 
   const form = useForm<GrantRoleFormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { userId: '', role: 'student', scopeType: 'institution', scopeId: '' },
+    defaultValues: {
+      userId: '',
+      role: GRANTABLE_ROLES[0] ?? 'institution_admin',
+      scopeType: 'institution',
+      scopeId: '',
+    },
   });
 
   const mutation = useMutation({
@@ -124,7 +129,7 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {CANONICAL_ROLES.map(role => (
+                  {GRANTABLE_ROLES.map(role => (
                     <SelectItem key={role} value={role}>
                       {labels(`role.${role}`)}
                     </SelectItem>

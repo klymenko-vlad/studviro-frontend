@@ -201,7 +201,8 @@
     "errorDescription": "Skúste to o chvíľu znova.",
     "revokeLabel": "Odobrať rolu {role}",
     "deniedTitle": "Iba na čítanie",
-    "deniedDescription": "Roly tu vidíte, ale nemôžete ich meniť."
+    "deniedDescription": "Roly tu vidíte, ale nemôžete ich meniť.",
+    "derived": "Derived — follows academic record"
   },
   "institutionSettings": {
     "title": "Nastavenia inštitúcie",

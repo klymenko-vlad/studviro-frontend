@@ -318,7 +318,7 @@ export const zRefreshTokenDto = z.object({
 });
 
 export const zRoleAssignmentResponseDto = z.object({
-    id: z.uuid(),
+    id: z.uuid().nullish(),
     institutionId: z.uuid(),
     userId: z.uuid(),
     role: z.enum([
@@ -339,15 +339,14 @@ export const zRoleAssignmentResponseDto = z.object({
     ]),
     scopeId: z.uuid().nullish(),
     validFrom: z.iso.datetime().nullish(),
-    validUntil: z.iso.datetime().nullish()
+    validUntil: z.iso.datetime().nullish(),
+    source: z.enum(['granted', 'derived']),
+    revocable: z.boolean()
 });
 
 export const zGrantRoleDto = z.object({
     userId: z.uuid(),
     role: z.enum([
-        'student',
-        'teacher',
-        'teaching_assistant',
         'course_coordinator',
         'program_coordinator',
         'registrar',

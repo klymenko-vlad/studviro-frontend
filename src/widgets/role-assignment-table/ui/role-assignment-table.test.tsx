@@ -7,6 +7,7 @@ import {
   screen,
   server,
   waitFor,
+  within,
 } from '@/shared/test';
 
 import { RoleAssignmentTable } from './role-assignment-table';
@@ -19,7 +20,22 @@ describe('RoleAssignmentTable', () => {
     renderWithProviders(<RoleAssignmentTable institutionId={INSTITUTION} />);
 
     expect(await screen.findByRole('cell', { name: 'Student' })).toBeInTheDocument();
-    expect(screen.getByRole('cell', { name: 'Teaching assistant' })).toBeInTheDocument();
+    expect(screen.getByRole('cell', { name: 'Registrar' })).toBeInTheDocument();
+  });
+
+  it('marks a derived role as not revocable rather than offering to revoke it', async () => {
+    renderWithProviders(<RoleAssignmentTable institutionId={INSTITUTION} />);
+
+    const derivedRow = (await screen.findByRole('cell', { name: 'Student' })).closest(
+      'tr',
+    );
+    expect(derivedRow).not.toBeNull();
+    expect(
+      within(derivedRow as HTMLElement).getByText('Derived — follows academic record'),
+    ).toBeInTheDocument();
+    expect(
+      within(derivedRow as HTMLElement).queryByRole('button', { name: /Revoke/ }),
+    ).not.toBeInTheDocument();
   });
 
   it('shows an em dash rather than an empty cell for an institution-wide role', async () => {
@@ -42,10 +58,10 @@ describe('RoleAssignmentTable', () => {
       <RoleAssignmentTable institutionId={INSTITUTION} />,
     );
 
-    await user.click(await screen.findByRole('button', { name: 'Revoke Student' }));
+    await user.click(await screen.findByRole('button', { name: 'Revoke Registrar' }));
 
     await waitFor(() => {
-      expect(revoked).toHaveBeenCalledWith('44444444-4444-4444-8444-444444444444');
+      expect(revoked).toHaveBeenCalledWith('66666666-6666-4666-8666-666666666666');
     });
   });
 

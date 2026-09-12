@@ -298,7 +298,7 @@ export type RefreshTokenDto = {
 };
 
 export type RoleAssignmentResponseDto = {
-    id: string;
+    id?: string | null;
     institutionId: string;
     userId: string;
     role: 'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
@@ -306,11 +306,13 @@ export type RoleAssignmentResponseDto = {
     scopeId?: string | null;
     validFrom?: string | null;
     validUntil?: string | null;
+    source: 'granted' | 'derived';
+    revocable: boolean;
 };
 
 export type GrantRoleDto = {
     userId: string;
-    role: 'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
+    role: 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
     scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
     /**
      * The org unit, program or course offering the role applies to.

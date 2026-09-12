@@ -34,7 +34,7 @@ describe('GrantRoleForm', () => {
     await waitFor(() => {
       expect(granted).toHaveBeenCalledWith({
         userId: SUBJECT,
-        role: 'student',
+        role: 'course_coordinator',
         scopeType: 'institution',
       });
     });
