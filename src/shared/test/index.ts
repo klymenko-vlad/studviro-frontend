@@ -21,6 +21,7 @@ export {
   roleAssignments,
   session,
   reconciliationReport,
+  reconciliationResolutions,
   syncRunDetail,
   syncRuns,
   syncState,

@@ -537,7 +537,25 @@
         "externalId": "Source identifier",
         "detail": "Detail",
         "sourceUpdated": "Source updated",
-        "platformUpdated": "Platform updated"
+        "platformUpdated": "Platform updated",
+        "resolution": "Resolution"
+      },
+      "resolve": {
+        "logTitle": "Resolved discrepancies",
+        "logDescription": "Every discrepancy somebody has already settled, and what they decided.",
+        "logEmpty": "Nobody has resolved a discrepancy yet.",
+        "logError": "The resolution log could not be read just now.",
+        "unresolvable": "Run a full synchronization to take this record in.",
+        "resolved": "Discrepancy resolved.",
+        "resolvedNeedsRun": "Resolved. Run a full synchronization to apply it.",
+        "action": {
+          "accept_source": "Accept the source",
+          "keep_platform": "Keep ours"
+        },
+        "column": {
+          "action": "Decision",
+          "resolvedAt": "Resolved"
+        }
       }
     }
   },

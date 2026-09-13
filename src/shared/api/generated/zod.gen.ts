@@ -132,6 +132,64 @@ export const zReconciliationReportResponseDto = z.object({
     domains: z.array(zDomainReconciliationResponseDto)
 });
 
+export const zReconciliationResolutionResponseDto = z.object({
+    id: z.string(),
+    domain: z.enum([
+        'orgUnits',
+        'academicTerms',
+        'rooms',
+        'programs',
+        'courses',
+        'courseOfferings',
+        'programMemberships',
+        'studyGroups',
+        'enrollments',
+        'timetableEvents',
+        'examTerms',
+        'officialResults'
+    ]),
+    kind: z.enum([
+        'missing_in_platform',
+        'missing_in_source',
+        'stale',
+        'conflict'
+    ]),
+    action: z.enum(['accept_source', 'keep_platform']),
+    connectorName: z.string(),
+    externalId: z.string().nullable(),
+    canonicalId: z.string().nullable(),
+    detail: z.string(),
+    resolvedById: z.string().nullable(),
+    resolvedAt: z.iso.datetime(),
+    requiresFullSync: z.boolean()
+});
+
+export const zResolveDiscrepancyDto = z.object({
+    domain: z.enum([
+        'orgUnits',
+        'academicTerms',
+        'rooms',
+        'programs',
+        'courses',
+        'courseOfferings',
+        'programMemberships',
+        'studyGroups',
+        'enrollments',
+        'timetableEvents',
+        'examTerms',
+        'officialResults'
+    ]),
+    kind: z.enum([
+        'missing_in_platform',
+        'missing_in_source',
+        'stale',
+        'conflict'
+    ]),
+    action: z.enum(['accept_source', 'keep_platform']),
+    canonicalId: z.uuid().nullish(),
+    externalId: z.string().nullish()
+});
+
 export const zSyncWatermarkResponseDto = z.object({
     domain: z.enum([
         'orgUnits',
@@ -1140,6 +1198,24 @@ export const zGetSynchronizationReconciliationPath = z.object({
 });
 
 export const zGetSynchronizationReconciliationResponse = zReconciliationReportResponseDto;
+
+export const zListReconciliationResolutionsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListReconciliationResolutionsQuery = z.object({
+    limit: z.number().gte(1).lte(100).optional().default(20)
+});
+
+export const zListReconciliationResolutionsResponse = z.array(zReconciliationResolutionResponseDto);
+
+export const zResolveReconciliationDiscrepancyBody = zResolveDiscrepancyDto;
+
+export const zResolveReconciliationDiscrepancyPath = z.object({
+    institutionId: z.string()
+});
+
+export const zResolveReconciliationDiscrepancyResponse = zReconciliationResolutionResponseDto;
 
 export const zGetSynchronizationStatePath = z.object({
     institutionId: z.string()

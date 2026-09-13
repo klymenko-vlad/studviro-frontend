@@ -7,6 +7,7 @@ import {
   countByKind,
   disagreeingDomains,
   isClean,
+  isResolvable,
 } from './reconciliation';
 
 describe('reconciliation model', () => {
@@ -54,5 +55,25 @@ describe('reconciliation model', () => {
       missing_in_platform: 1,
       stale: 1,
     });
+  });
+
+  it('offers no resolution for a record the platform never took in', () => {
+    const [missing, stale] = reconciliationReport.domains[0]!.discrepancies;
+
+    expect(isResolvable(missing!)).toBe(false);
+    expect(isResolvable(stale!)).toBe(true);
+  });
+
+  it('offers no resolution for a discrepancy that names no canonical row', () => {
+    expect(
+      isResolvable({
+        kind: 'conflict',
+        externalId: null,
+        canonicalId: null,
+        sourceUpdatedAt: null,
+        platformUpdatedAt: null,
+        detail: 'An orphan',
+      }),
+    ).toBe(false);
   });
 });

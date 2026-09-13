@@ -17,6 +17,7 @@ import type {
   MyTimetableEventResponseDto,
   NotificationResponseDto,
   ReconciliationReportResponseDto,
+  ReconciliationResolutionResponseDto,
   RoleAssignmentResponseDto,
   SyncRunDetailResponseDto,
   SyncRunResponseDto,
@@ -928,6 +929,23 @@ export const reconciliationReport: ReconciliationReportResponseDto = {
   ],
 };
 
+export const reconciliationResolutions: ReconciliationResolutionResponseDto[] = [
+  {
+    id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+    domain: 'courses',
+    kind: 'missing_in_source',
+    action: 'keep_platform',
+    connectorName: 'mock-sis',
+    externalId: 'course-77',
+    canonicalId: '88888888-8888-4888-8888-888888888888',
+    detail:
+      'Kept the platform row and detached it from the source, so no import will match it again.',
+    resolvedById: session.user.id,
+    resolvedAt: '2026-05-30T08:00:00.000Z',
+    requiresFullSync: false,
+  },
+];
+
 export const handlers = [
   /**
    * The BFF returns only the user; the tokens stay in httpOnly cookies the test
@@ -1219,6 +1237,38 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/synchronization/reconciliation`, () =>
     HttpResponse.json(reconciliationReport),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/synchronization/reconciliation/resolutions`,
+    () => HttpResponse.json(reconciliationResolutions),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/synchronization/reconciliation/resolutions`,
+    async ({ request }) => {
+      const body = (await request.json()) as {
+        domain: string;
+        kind: string;
+        action: string;
+        canonicalId: string | null;
+        externalId: string | null;
+      };
+
+      return HttpResponse.json(
+        {
+          ...reconciliationResolutions[0]!,
+          id: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
+          domain: body.domain as ReconciliationResolutionResponseDto['domain'],
+          kind: body.kind as ReconciliationResolutionResponseDto['kind'],
+          action: body.action as ReconciliationResolutionResponseDto['action'],
+          canonicalId: body.canonicalId,
+          externalId: body.externalId,
+          requiresFullSync: body.action === 'accept_source',
+        } satisfies ReconciliationResolutionResponseDto,
+        { status: 201 },
+      );
+    },
   ),
 
   http.post(`${PROXY}/institutions/:institutionId/synchronization/runs`, () =>

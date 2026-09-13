@@ -150,4 +150,61 @@ describe('SyncReconciliation', () => {
       expect(screen.getByText('The comparison failed')).toBeInTheDocument(),
     );
   });
+
+  it('offers both decisions on a discrepancy that names a canonical row', async () => {
+    renderWithProviders(<SyncReconciliation institutionId={INSTITUTION} />);
+
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Check for discrepancies' }),
+    );
+
+    expect(
+      await screen.findByRole('button', { name: 'Accept the source' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Keep ours' })).toBeInTheDocument();
+  });
+
+  it('offers no decision on a record the platform never took in', async () => {
+    renderWithProviders(<SyncReconciliation institutionId={INSTITUTION} />);
+
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Check for discrepancies' }),
+    );
+
+    expect(
+      await screen.findByText('Run a full synchronization to take this record in.'),
+    ).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: 'Accept the source' })).toHaveLength(1);
+  });
+
+  it('shows what has already been resolved, without being asked to compare', async () => {
+    renderWithProviders(<SyncReconciliation institutionId={INSTITUTION} />);
+
+    expect(await screen.findByText('Resolved discrepancies')).toBeInTheDocument();
+    expect(await screen.findByText('Keep ours')).toBeInTheDocument();
+    expect(screen.getByText('course-77')).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: 'Resolved' })).toBeInTheDocument();
+  });
+
+  it('says so plainly when nobody has resolved anything', async () => {
+    server.use(http.get(`${URL}/resolutions`, () => HttpResponse.json([])));
+
+    renderWithProviders(<SyncReconciliation institutionId={INSTITUTION} />);
+
+    expect(
+      await screen.findByText('Nobody has resolved a discrepancy yet.'),
+    ).toBeInTheDocument();
+  });
+
+  it('does not pretend the log is empty when it could not be read', async () => {
+    server.use(
+      http.get(`${URL}/resolutions`, () => HttpResponse.json(null, { status: 500 })),
+    );
+
+    renderWithProviders(<SyncReconciliation institutionId={INSTITUTION} />);
+
+    expect(
+      await screen.findByText('The resolution log could not be read just now.'),
+    ).toBeInTheDocument();
+  });
 });

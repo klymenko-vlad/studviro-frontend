@@ -102,6 +102,34 @@ export type ReconciliationReportResponseDto = {
     domains: Array<DomainReconciliationResponseDto>;
 };
 
+export type ReconciliationResolutionResponseDto = {
+    id: string;
+    domain: 'orgUnits' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults';
+    kind: 'missing_in_platform' | 'missing_in_source' | 'stale' | 'conflict';
+    action: 'accept_source' | 'keep_platform';
+    connectorName: string;
+    externalId: string | null;
+    canonicalId: string | null;
+    detail: string;
+    resolvedById: string | null;
+    resolvedAt: string;
+    /**
+     * True when the resolution only clears the way and a full synchronization run is what applies it.
+     */
+    requiresFullSync: boolean;
+};
+
+export type ResolveDiscrepancyDto = {
+    domain: 'orgUnits' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults';
+    kind: 'missing_in_platform' | 'missing_in_source' | 'stale' | 'conflict';
+    /**
+     * `accept_source` yields to the source system; `keep_platform` detaches the row from it and keeps the platform copy.
+     */
+    action: 'accept_source' | 'keep_platform';
+    canonicalId?: string | null;
+    externalId?: string | null;
+};
+
 export type SyncWatermarkResponseDto = {
     domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults';
     connectorName: string;
@@ -971,6 +999,84 @@ export type GetSynchronizationReconciliationResponses = {
 };
 
 export type GetSynchronizationReconciliationResponse = GetSynchronizationReconciliationResponses[keyof GetSynchronizationReconciliationResponses];
+
+export type ListReconciliationResolutionsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        limit?: number;
+    };
+    url: '/api/v1/institutions/{institutionId}/synchronization/reconciliation/resolutions';
+};
+
+export type ListReconciliationResolutionsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListReconciliationResolutionsError = ListReconciliationResolutionsErrors[keyof ListReconciliationResolutionsErrors];
+
+export type ListReconciliationResolutionsResponses = {
+    200: Array<ReconciliationResolutionResponseDto>;
+};
+
+export type ListReconciliationResolutionsResponse = ListReconciliationResolutionsResponses[keyof ListReconciliationResolutionsResponses];
+
+export type ResolveReconciliationDiscrepancyData = {
+    body: ResolveDiscrepancyDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/synchronization/reconciliation/resolutions';
+};
+
+export type ResolveReconciliationDiscrepancyErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ResolveReconciliationDiscrepancyError = ResolveReconciliationDiscrepancyErrors[keyof ResolveReconciliationDiscrepancyErrors];
+
+export type ResolveReconciliationDiscrepancyResponses = {
+    201: ReconciliationResolutionResponseDto;
+};
+
+export type ResolveReconciliationDiscrepancyResponse = ResolveReconciliationDiscrepancyResponses[keyof ResolveReconciliationDiscrepancyResponses];
 
 export type GetSynchronizationStateData = {
     body?: never;

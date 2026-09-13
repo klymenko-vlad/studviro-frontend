@@ -3,9 +3,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { useFormatter, useTranslations } from 'next-intl';
 
+import { ResolveDiscrepancyButtons } from '@/features/resolve-discrepancy';
 import {
   disagreeingDomains,
   isClean,
+  isResolvable,
   reconciliationQueries,
   type Discrepancy,
   type DiscrepancyKind,
@@ -26,6 +28,8 @@ import {
   TableRow,
 } from '@/shared/ui';
 
+import { ReconciliationResolutions } from './reconciliation-resolutions';
+
 const KIND_VARIANT: Record<DiscrepancyKind, 'default' | 'secondary' | 'destructive'> = {
   missing_in_platform: 'destructive',
   missing_in_source: 'secondary',
@@ -36,6 +40,7 @@ const KIND_VARIANT: Record<DiscrepancyKind, 'default' | 'secondary' | 'destructi
 export function SyncReconciliation({ institutionId }: { institutionId: string }) {
   const t = useTranslations('sync.reconciliation');
   const tSync = useTranslations('sync');
+  const tResolve = useTranslations('sync.reconciliation.resolve');
   const format = useFormatter();
 
   const report = useQuery({
@@ -67,6 +72,20 @@ export function SyncReconciliation({ institutionId }: { institutionId: string })
       <TableCell>{discrepancy.detail}</TableCell>
       <TableCell>{moment(discrepancy.sourceUpdatedAt)}</TableCell>
       <TableCell>{moment(discrepancy.platformUpdatedAt)}</TableCell>
+      <TableCell>
+        {isResolvable(discrepancy) ? (
+          <ResolveDiscrepancyButtons
+            institutionId={institutionId}
+            domain={domain.domain}
+            discrepancy={discrepancy}
+            onResolved={() => void report.refetch()}
+          />
+        ) : (
+          <span className="text-muted-foreground text-xs">
+            {tResolve('unresolvable')}
+          </span>
+        )}
+      </TableCell>
     </TableRow>
   );
 
@@ -165,6 +184,7 @@ export function SyncReconciliation({ institutionId }: { institutionId: string })
                       <TableHead>{t('column.detail')}</TableHead>
                       <TableHead>{t('column.sourceUpdated')}</TableHead>
                       <TableHead>{t('column.platformUpdated')}</TableHead>
+                      <TableHead>{t('column.resolution')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -187,6 +207,14 @@ export function SyncReconciliation({ institutionId }: { institutionId: string })
           ))}
         </div>
       ) : null}
+
+      <section className="flex flex-col gap-2" aria-labelledby="reconciliation-log">
+        <h3 id="reconciliation-log" className="text-sm font-semibold">
+          {tResolve('logTitle')}
+        </h3>
+        <p className="text-muted-foreground text-sm">{tResolve('logDescription')}</p>
+        <ReconciliationResolutions institutionId={institutionId} />
+      </section>
     </div>
   );
 }
