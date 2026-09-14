@@ -558,6 +558,11 @@
           "resolvedAt": "Resolved"
         }
       }
+    },
+    "sourceLabel": "System",
+    "source": {
+      "sis": "Student information system",
+      "lms": "Learning management system"
     }
   },
   "dashboard": {

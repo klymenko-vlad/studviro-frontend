@@ -1,4 +1,5 @@
 import type {
+  StartSyncRunDto,
   SyncDomainResultResponseDto,
   SyncRunDetailResponseDto,
   SyncRunResponseDto,
@@ -11,6 +12,7 @@ export type SyncDomainResult = SyncDomainResultResponseDto;
 export type SyncWatermark = SyncWatermarkResponseDto;
 export type SyncRunStatus = SyncRun['status'];
 export type SyncRunMode = SyncRun['mode'];
+export type SyncSourceSystem = NonNullable<StartSyncRunDto['sourceSystem']>;
 export type SyncDomain = SyncWatermark['domain'];
 
 const ACTIVE_STATUSES: readonly SyncRunStatus[] = ['queued', 'running'];

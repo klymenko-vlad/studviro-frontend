@@ -6,11 +6,17 @@ import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
-import { syncRunMutations, syncRunQueries, type SyncRunMode } from '@/entities/sync-run';
+import {
+  syncRunMutations,
+  syncRunQueries,
+  type SyncRunMode,
+  type SyncSourceSystem,
+} from '@/entities/sync-run';
 import { toApiError } from '@/shared/api';
 import { Button, Label, Select, SelectItem } from '@/shared/ui';
 
 const MODES: readonly SyncRunMode[] = ['incremental', 'full'];
+const SOURCES: readonly SyncSourceSystem[] = ['sis', 'lms'];
 
 export function StartSyncRunButton({
   institutionId,
@@ -22,6 +28,7 @@ export function StartSyncRunButton({
   const t = useTranslations('sync');
   const queryClient = useQueryClient();
   const [mode, setMode] = useState<SyncRunMode>('incremental');
+  const [sourceSystem, setSourceSystem] = useState<SyncSourceSystem>('sis');
 
   const mutation = useMutation({
     ...syncRunMutations.start(),
@@ -46,6 +53,25 @@ export function StartSyncRunButton({
   return (
     <div className="flex flex-wrap items-end gap-3">
       <div className="flex flex-col gap-2">
+        <Label htmlFor="sync-source">{t('sourceLabel')}</Label>
+        <Select
+          id="sync-source"
+          className="w-48"
+          value={sourceSystem}
+          onValueChange={value => {
+            setSourceSystem(value as SyncSourceSystem);
+          }}
+          disabled={pending || disabled}
+        >
+          {SOURCES.map(candidate => (
+            <SelectItem key={candidate} value={candidate}>
+              {t(`source.${candidate}`)}
+            </SelectItem>
+          ))}
+        </Select>
+      </div>
+
+      <div className="flex flex-col gap-2">
         <Label htmlFor="sync-mode">{t('modeLabel')}</Label>
         <Select
           id="sync-mode"
@@ -68,7 +94,7 @@ export function StartSyncRunButton({
         type="button"
         disabled={pending || disabled}
         onClick={() => {
-          mutation.mutate({ path: { institutionId }, body: { mode } });
+          mutation.mutate({ path: { institutionId }, body: { mode, sourceSystem } });
         }}
       >
         {pending ? <LoaderCircle className="animate-spin" aria-hidden /> : null}

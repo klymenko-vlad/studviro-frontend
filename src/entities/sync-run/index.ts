@@ -13,6 +13,7 @@ export {
   type SyncRunDetail,
   type SyncRunMode,
   type SyncRunStatus,
+  type SyncSourceSystem,
   type SyncWatermark,
 } from './model/sync-run';
 export { SyncRunStatusBadge } from './ui/sync-run-status-badge';

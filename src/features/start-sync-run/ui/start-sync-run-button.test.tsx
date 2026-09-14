@@ -38,7 +38,7 @@ describe('StartSyncRunButton', () => {
     await user.click(screen.getByRole('button', { name: 'Run synchronization' }));
 
     await waitFor(() => {
-      expect(started).toHaveBeenCalledWith({ mode: 'incremental' });
+      expect(started).toHaveBeenCalledWith({ mode: 'incremental', sourceSystem: 'sis' });
     });
     await waitFor(() => {
       expect(toast.success).toHaveBeenCalledWith('Synchronization run queued');
@@ -63,7 +63,32 @@ describe('StartSyncRunButton', () => {
     await user.click(screen.getByRole('button', { name: 'Run synchronization' }));
 
     await waitFor(() => {
-      expect(started).toHaveBeenCalledWith({ mode: 'full' });
+      expect(started).toHaveBeenCalledWith({ mode: 'full', sourceSystem: 'sis' });
+    });
+  });
+
+  it('queues the learning half once that system is chosen', async () => {
+    const started = vi.fn();
+    server.use(
+      http.post(RUNS_URL, async ({ request }) => {
+        started(await request.json());
+
+        return HttpResponse.json(syncRuns[0], { status: 202 });
+      }),
+    );
+
+    const { user } = renderWithProviders(
+      <StartSyncRunButton institutionId={INSTITUTION} />,
+    );
+
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'System' }),
+      'Learning management system',
+    );
+    await user.click(screen.getByRole('button', { name: 'Run synchronization' }));
+
+    await waitFor(() => {
+      expect(started).toHaveBeenCalledWith({ mode: 'incremental', sourceSystem: 'lms' });
     });
   });
 

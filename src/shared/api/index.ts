@@ -256,6 +256,7 @@ export type {
   LoginDtoWritable,
   PageMetaDto,
   RefreshTokenDto,
+  StartSyncRunDto,
   RoleAssignmentResponseDto,
   DiscrepancyResponseDto,
   DomainReconciliationResponseDto,
