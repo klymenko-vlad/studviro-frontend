@@ -13,6 +13,7 @@ import {
   ScheduleFilters,
   ToggleFilter,
 } from '@/features/filter-schedule';
+import { deadlineQueries } from '@/entities/deadline';
 import { examTermQueries } from '@/entities/exam-term';
 import {
   addDays,
@@ -50,6 +51,7 @@ export function MyCalendar({
   const [offering, setOffering] = useState<string>(ALL_COURSES);
   const [type, setType] = useState<string>(ALL_TYPES);
   const [showExams, setShowExams] = useState(true);
+  const [showDeadlines, setShowDeadlines] = useState(true);
   const to = addWeeks(from, 1);
 
   const range = { from: from.toISOString(), to: to.toISOString() };
@@ -71,6 +73,11 @@ export function MyCalendar({
     enabled: showExams,
   });
 
+  const deadlines = useQuery({
+    ...deadlineQueries.list({ path: { institutionId }, query: { ...range, offeringId } }),
+    enabled: showDeadlines,
+  });
+
   const courses = useQuery({
     ...timetableEventQueries.list({ path: { institutionId }, query: range }),
     select: courseFilterOptions,
@@ -81,6 +88,7 @@ export function MyCalendar({
   const days = groupCalendarItems(
     data ?? [],
     showExams ? (exams.data ?? []) : [],
+    showDeadlines ? (deadlines.data ?? []) : [],
     timeZone,
   );
 
@@ -152,6 +160,11 @@ export function MyCalendar({
           label={t('showExams')}
           checked={showExams}
           onChange={setShowExams}
+        />
+        <ToggleFilter
+          label={t('showDeadlines')}
+          checked={showDeadlines}
+          onChange={setShowDeadlines}
         />
       </ScheduleFilters>
 

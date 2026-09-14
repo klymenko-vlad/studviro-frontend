@@ -15,6 +15,10 @@ const notification = (overrides: Partial<Notification>): Notification =>
     courseTitle: 'Algorithms',
     startsAt: '2026-06-02T08:00:00.000Z',
     previousStartsAt: null,
+    learningActivityId: null,
+    dueAt: null,
+    previousDueAt: null,
+    activityName: null,
     sourceSystem: 'sis',
     ...overrides,
   }) satisfies Notification;

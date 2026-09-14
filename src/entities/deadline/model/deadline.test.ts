@@ -1,0 +1,77 @@
+import { describe, expect, it } from 'vitest';
+
+import { deadlineState, nextDeadlines, sortByDueDate, type Deadline } from './deadline';
+
+const deadline = (overrides: Partial<Deadline> = {}): Deadline => ({
+  id: 'activity-1',
+  type: 'assignment',
+  name: 'Assignment 1',
+  url: null,
+  opensAt: '2026-10-29T21:00:00.000Z',
+  dueAt: '2026-11-05T21:00:00.000Z',
+  isOpen: true,
+  isOverdue: false,
+  attendance: 'enrolled',
+  learningSpace: { id: 'space-1', name: 'Programming 2', url: null },
+  offering: { id: 'offering-1' },
+  course: { id: 'course-1', code: 'INF/PF/22', title: 'Programming 2' },
+  term: { id: 'term-1', code: '2026-WS', name: 'Winter 2026' },
+  provenance: {
+    sourceSystem: 'lms',
+    externalId: 'CRS-1-A1',
+    lastSynchronizedAt: null,
+    synchronizationStatus: 'in_sync',
+  },
+  ...overrides,
+});
+
+describe('deadlineState', () => {
+  it('calls an open, unexpired deadline open', () => {
+    expect(deadlineState(deadline())).toBe('open');
+  });
+
+  it('calls a deadline that has not opened yet upcoming', () => {
+    expect(deadlineState(deadline({ isOpen: false }))).toBe('upcoming');
+  });
+
+  it('calls a passed deadline overdue whatever its open flag says', () => {
+    expect(deadlineState(deadline({ isOpen: true, isOverdue: true }))).toBe('overdue');
+  });
+});
+
+describe('sortByDueDate', () => {
+  it('orders deadlines by the date they fall due', () => {
+    const later = deadline({ id: 'b', dueAt: '2026-11-07T21:00:00.000Z' });
+    const sooner = deadline({ id: 'a', dueAt: '2026-11-03T21:00:00.000Z' });
+
+    expect(sortByDueDate([later, sooner]).map(item => item.id)).toEqual(['a', 'b']);
+  });
+
+  it('breaks a tie on the activity name', () => {
+    const second = deadline({ id: 'b', name: 'Quiz 2' });
+    const first = deadline({ id: 'a', name: 'Assignment 1' });
+
+    expect(sortByDueDate([second, first]).map(item => item.id)).toEqual(['a', 'b']);
+  });
+});
+
+describe('nextDeadlines', () => {
+  it('keeps only what is still due, soonest first', () => {
+    const passed = deadline({ id: 'past', isOverdue: true });
+    const due = deadline({ id: 'due', dueAt: '2026-11-04T21:00:00.000Z' });
+
+    expect(nextDeadlines([passed, due], 4).map(item => item.id)).toEqual(['due']);
+  });
+
+  it('never returns more than it was asked for', () => {
+    const many = Array.from({ length: 6 }, (_, index) =>
+      deadline({ id: `activity-${index}`, dueAt: `2026-11-0${index + 1}T21:00:00.000Z` }),
+    );
+
+    expect(nextDeadlines(many, 3)).toHaveLength(3);
+  });
+
+  it('returns nothing when every deadline has passed', () => {
+    expect(nextDeadlines([deadline({ isOverdue: true })], 3)).toEqual([]);
+  });
+});

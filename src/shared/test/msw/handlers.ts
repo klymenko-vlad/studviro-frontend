@@ -13,6 +13,7 @@ import type {
   LearningSpaceListResponseDto,
   MyCourseResponseDto,
   MyCourseResultResponseDto,
+  MyDeadlineResponseDto,
   MyExamTermResponseDto,
   MyPermissionsResponseDto,
   MyTimetableEventResponseDto,
@@ -374,6 +375,10 @@ export const notifications: NotificationResponseDto[] = [
     courseTitle: 'Algorithms',
     startsAt: localIso(2026, 6, 4, 9),
     previousStartsAt: localIso(2026, 6, 2, 9),
+    learningActivityId: null,
+    dueAt: null,
+    previousDueAt: null,
+    activityName: null,
     sourceSystem: 'sis',
   },
   {
@@ -388,7 +393,65 @@ export const notifications: NotificationResponseDto[] = [
     courseTitle: 'Databases',
     startsAt: localIso(2026, 6, 10, 9),
     previousStartsAt: null,
+    learningActivityId: null,
+    dueAt: null,
+    previousDueAt: null,
+    activityName: null,
     sourceSystem: 'sis',
+  },
+  {
+    id: 'eeeeeee3-eeee-4eee-8eee-eeeeeeeeeee3',
+    type: 'assignment_due_published',
+    occurredAt: localIso(2026, 2, 28, 9),
+    occurrenceCount: 1,
+    readAt: localIso(2026, 2, 28, 12),
+    examTermId: null,
+    courseOfferingId: 'aaaaaaa2-aaaa-4aaa-8aaa-aaaaaaaaaaa2',
+    courseCode: 'INF/DB/22',
+    courseTitle: 'Databases',
+    startsAt: null,
+    previousStartsAt: null,
+    learningActivityId: 'aaaaaaad-aaaa-4aaa-8aaa-aaaaaaaaaaae',
+    dueAt: localIso(2026, 3, 5, 21),
+    previousDueAt: null,
+    activityName: 'Assignment 1',
+    sourceSystem: 'lms',
+  },
+];
+
+export const deadlines: MyDeadlineResponseDto[] = [
+  {
+    id: 'aaaaaaad-aaaa-4aaa-8aaa-aaaaaaaaaaae',
+    type: 'assignment',
+    name: 'Assignment 1',
+    url: 'https://lms.example/mod/assign/view.php?id=1',
+    opensAt: localIso(2026, 2, 26, 9),
+    dueAt: localIso(2026, 3, 5, 21),
+    isOpen: true,
+    isOverdue: false,
+    attendance: 'enrolled',
+    learningSpace: {
+      id: 'aaaaaaaf-aaaa-4aaa-8aaa-aaaaaaaaaaaf',
+      name: 'Databases',
+      url: 'https://lms.example/course/view.php?id=2',
+    },
+    offering: { id: 'aaaaaaa2-aaaa-4aaa-8aaa-aaaaaaaaaaa2' },
+    course: {
+      id: 'bbbbbbb2-bbbb-4bbb-8bbb-bbbbbbbbbbb2',
+      code: 'INF/DB/22',
+      title: 'Databases',
+    },
+    term: {
+      id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
+      code: '2026-SS',
+      name: 'Summer 2026',
+    },
+    provenance: {
+      sourceSystem: 'lms',
+      externalId: 'CRS-DB-A1',
+      lastSynchronizedAt: null,
+      synchronizationStatus: 'in_sync',
+    },
   },
 ];
 
@@ -1099,6 +1162,19 @@ export const handlers = [
           (offeringId === null || term.offering.id === offeringId) &&
           (kind === null || term.kind === kind) &&
           startsInRange(term.startsAt, query),
+      ),
+    );
+  }),
+
+  http.get(`${PROXY}/institutions/:institutionId/me/deadlines`, ({ request }) => {
+    const query = new URL(request.url, location.origin).searchParams;
+    const offeringId = query.get('offeringId');
+
+    return HttpResponse.json(
+      deadlines.filter(
+        deadline =>
+          (offeringId === null || deadline.offering.id === offeringId) &&
+          startsInRange(deadline.dueAt, query),
       ),
     );
   }),

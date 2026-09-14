@@ -15,6 +15,7 @@ import { MyCalendar } from './my-calendar';
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const EVENTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/timetable-events`;
 const EXAMS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/exam-terms`;
+const DEADLINES_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/deadlines`;
 const WEDNESDAY = new Date(2026, 2, 4);
 
 const renderCalendar = () =>
@@ -102,7 +103,10 @@ describe('MyCalendar', () => {
   });
 
   it('explains an empty week instead of showing a bare heading', async () => {
-    server.use(http.get(EVENTS_URL, () => HttpResponse.json([])));
+    server.use(
+      http.get(EVENTS_URL, () => HttpResponse.json([])),
+      http.get(DEADLINES_URL, () => HttpResponse.json([])),
+    );
 
     renderCalendar();
 
@@ -129,6 +133,23 @@ describe('MyCalendar', () => {
     await userEvent.click(screen.getByRole('switch', { name: 'Show exam terms' }));
 
     expect(screen.queryByTestId('calendar-exam')).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Algorithms' })).toBeInTheDocument();
+  });
+
+  it('shows an assignment deadline of the week as its own layer', async () => {
+    renderCalendar();
+
+    expect(await screen.findByTestId('calendar-deadline')).toBeInTheDocument();
+    expect(screen.getByText('Deadline')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Assignment 1' })).toBeInTheDocument();
+  });
+
+  it('drops the deadline layer when the reader turns it off', async () => {
+    renderCalendar();
+    await screen.findByTestId('calendar-deadline');
+    await userEvent.click(screen.getByRole('switch', { name: 'Show deadlines' }));
+
+    expect(screen.queryByTestId('calendar-deadline')).not.toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Algorithms' })).toBeInTheDocument();
   });
 

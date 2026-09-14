@@ -2,6 +2,7 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
 import {
+  deadlines,
   errorResponse,
   renderWithProviders,
   screen,
@@ -15,6 +16,7 @@ const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const COURSES_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/courses`;
 const RESULTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/course-results`;
 const EVENTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/timetable-events`;
+const DEADLINES_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/deadlines`;
 
 function renderDashboard(props?: {
   canReadCourses?: boolean;
@@ -67,6 +69,47 @@ describe('StudentDashboard', () => {
     );
   });
 
+  it('counts what falls due in the reader’s next two weeks', async () => {
+    server.use(http.get(DEADLINES_URL, () => HttpResponse.json(deadlines)));
+
+    renderDashboard();
+
+    expect(await screen.findByTestId('dashboard-deadlines-summary')).toHaveTextContent(
+      '1 deadline in the next two weeks',
+    );
+    expect(screen.getByText(/Assignment 1/)).toBeInTheDocument();
+  });
+
+  it('leaves a deadline that has already passed out of the tile', async () => {
+    server.use(
+      http.get(DEADLINES_URL, () =>
+        HttpResponse.json(deadlines.map(due => ({ ...due, isOverdue: true }))),
+      ),
+    );
+
+    renderDashboard();
+
+    expect(
+      await screen.findByText('Nothing falls due in the next two weeks.'),
+    ).toBeInTheDocument();
+  });
+
+  it('reports a failed deadline read rather than an empty tile', async () => {
+    server.use(
+      http.get(DEADLINES_URL, () =>
+        HttpResponse.json(errorResponse(500, 'Boom', 'Internal Server Error'), {
+          status: 500,
+        }),
+      ),
+    );
+
+    renderDashboard();
+
+    expect(
+      await screen.findByText('Your deadlines are unavailable right now.'),
+    ).toBeInTheDocument();
+  });
+
   it('links through to the full courses, grades and calendar screens', async () => {
     renderDashboard();
 
@@ -90,6 +133,7 @@ describe('StudentDashboard', () => {
     expect(await screen.findByText('Current courses')).toBeInTheDocument();
     expect(screen.queryByText('Results')).not.toBeInTheDocument();
     expect(screen.queryByText('This week')).not.toBeInTheDocument();
+    expect(screen.queryByText('Deadlines')).not.toBeInTheDocument();
   });
 
   it('explains a member who may read nothing the dashboard shows', () => {

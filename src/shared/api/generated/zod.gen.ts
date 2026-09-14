@@ -541,17 +541,23 @@ export const zNotificationResponseDto = z.object({
     type: z.enum([
         'exam_term_published',
         'exam_term_rescheduled',
-        'exam_term_cancelled'
+        'exam_term_cancelled',
+        'assignment_due_published',
+        'assignment_due_rescheduled'
     ]),
     occurredAt: z.iso.datetime(),
     occurrenceCount: z.number(),
     readAt: z.iso.datetime().nullable(),
     examTermId: z.uuid().nullable(),
     courseOfferingId: z.uuid().nullable(),
+    learningActivityId: z.uuid().nullable(),
     courseCode: z.string().nullable(),
     courseTitle: z.string().nullable(),
     startsAt: z.iso.datetime().nullable(),
     previousStartsAt: z.iso.datetime().nullable(),
+    dueAt: z.iso.datetime().nullable(),
+    previousDueAt: z.iso.datetime().nullable(),
+    activityName: z.string().nullable(),
     sourceSystem: z.enum([
         'platform',
         'sis',
@@ -960,6 +966,68 @@ export const zLearningSpaceListResponseDto = z.object({
     linked: z.number(),
     unlinked: z.number(),
     spaces: z.array(zLearningSpaceDto)
+});
+
+export const zDeadlineLearningSpaceDto = z.object({
+    id: z.uuid(),
+    name: z.string(),
+    url: z.string().nullable()
+});
+
+export const zDeadlineOfferingDto = z.object({
+    id: z.uuid()
+});
+
+export const zDeadlineCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string()
+});
+
+export const zDeadlineTermDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string()
+});
+
+export const zDeadlineProvenanceDto = z.object({
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ]),
+    externalId: z.string().nullable(),
+    lastSynchronizedAt: z.iso.datetime().nullable(),
+    synchronizationStatus: z.enum([
+        'in_sync',
+        'pending',
+        'conflict',
+        'failed'
+    ])
+});
+
+export const zMyDeadlineResponseDto = z.object({
+    id: z.uuid(),
+    type: z.enum([
+        'assignment',
+        'quiz',
+        'forum',
+        'resource',
+        'workshop',
+        'other'
+    ]),
+    name: z.string(),
+    url: z.string().nullable(),
+    opensAt: z.iso.datetime().nullable(),
+    dueAt: z.iso.datetime(),
+    isOpen: z.boolean(),
+    isOverdue: z.boolean(),
+    attendance: z.enum(['enrolled', 'teaching']),
+    learningSpace: zDeadlineLearningSpaceDto,
+    offering: zDeadlineOfferingDto,
+    course: zDeadlineCourseDto,
+    term: zDeadlineTermDto,
+    provenance: zDeadlineProvenanceDto
 });
 
 export const zCreateDemoRequestDto = z.object({
@@ -1554,6 +1622,18 @@ export const zListLearningSpacesPath = z.object({
 });
 
 export const zListLearningSpacesResponse = zLearningSpaceListResponseDto;
+
+export const zListMyDeadlinesPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyDeadlinesQuery = z.object({
+    from: z.iso.datetime(),
+    to: z.iso.datetime(),
+    offeringId: z.uuid().optional()
+});
+
+export const zListMyDeadlinesResponse = z.array(zMyDeadlineResponseDto);
 
 export const zCreateDemoRequestBody = zCreateDemoRequestDtoWritable;
 

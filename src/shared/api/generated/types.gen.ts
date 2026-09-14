@@ -424,16 +424,20 @@ export type ExternalIdentityResponseDto = {
 
 export type NotificationResponseDto = {
     id: string;
-    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled';
+    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled';
     occurredAt: string;
     occurrenceCount: number;
     readAt: string | null;
     examTermId: string | null;
     courseOfferingId: string | null;
+    learningActivityId: string | null;
     courseCode: string | null;
     courseTitle: string | null;
     startsAt: string | null;
     previousStartsAt: string | null;
+    dueAt: string | null;
+    previousDueAt: string | null;
+    activityName: string | null;
     sourceSystem: 'platform' | 'sis' | 'lms';
 };
 
@@ -697,6 +701,52 @@ export type LearningSpaceListResponseDto = {
     linked: number;
     unlinked: number;
     spaces: Array<LearningSpaceDto>;
+};
+
+export type DeadlineLearningSpaceDto = {
+    id: string;
+    name: string;
+    url: string | null;
+};
+
+export type DeadlineOfferingDto = {
+    id: string;
+};
+
+export type DeadlineCourseDto = {
+    id: string;
+    code: string;
+    title: string;
+};
+
+export type DeadlineTermDto = {
+    id: string;
+    code: string;
+    name: string;
+};
+
+export type DeadlineProvenanceDto = {
+    sourceSystem: 'platform' | 'sis' | 'lms';
+    externalId: string | null;
+    lastSynchronizedAt: string | null;
+    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
+};
+
+export type MyDeadlineResponseDto = {
+    id: string;
+    type: 'assignment' | 'quiz' | 'forum' | 'resource' | 'workshop' | 'other';
+    name: string;
+    url: string | null;
+    opensAt: string | null;
+    dueAt: string;
+    isOpen: boolean;
+    isOverdue: boolean;
+    attendance: 'enrolled' | 'teaching';
+    learningSpace: DeadlineLearningSpaceDto;
+    offering: DeadlineOfferingDto;
+    course: DeadlineCourseDto;
+    term: DeadlineTermDto;
+    provenance: DeadlineProvenanceDto;
 };
 
 export type CreateDemoRequestDto = {
@@ -2609,6 +2659,42 @@ export type ListLearningSpacesResponses = {
 };
 
 export type ListLearningSpacesResponse = ListLearningSpacesResponses[keyof ListLearningSpacesResponses];
+
+export type ListMyDeadlinesData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query: {
+        from: string;
+        to: string;
+        offeringId?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/me/deadlines';
+};
+
+export type ListMyDeadlinesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyDeadlinesError = ListMyDeadlinesErrors[keyof ListMyDeadlinesErrors];
+
+export type ListMyDeadlinesResponses = {
+    200: Array<MyDeadlineResponseDto>;
+};
+
+export type ListMyDeadlinesResponse = ListMyDeadlinesResponses[keyof ListMyDeadlinesResponses];
 
 export type CreateDemoRequestData = {
     body: CreateDemoRequestDtoWritable;

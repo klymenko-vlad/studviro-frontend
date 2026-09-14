@@ -39,6 +39,27 @@ export function NotificationCard({
           minute: 'numeric',
         });
 
+  const dueAt =
+    notification.dueAt === null
+      ? null
+      : format.dateTime(new Date(notification.dueAt), {
+          weekday: 'short',
+          day: 'numeric',
+          month: 'long',
+          hour: 'numeric',
+          minute: 'numeric',
+        });
+
+  const previousDueAt =
+    notification.previousDueAt === null
+      ? null
+      : format.dateTime(new Date(notification.previousDueAt), {
+          day: 'numeric',
+          month: 'long',
+          hour: 'numeric',
+          minute: 'numeric',
+        });
+
   return (
     <Card className={isUnread(notification) ? 'border-primary/40' : 'opacity-80'}>
       <CardContent className="flex flex-col gap-2 py-4">
@@ -77,6 +98,18 @@ export function NotificationCard({
         {notification.courseCode === null ? null : (
           <p className="text-muted-foreground font-mono text-xs">
             {notification.courseCode}
+          </p>
+        )}
+
+        {notification.activityName === null ? null : (
+          <p className="text-sm font-medium">{notification.activityName}</p>
+        )}
+
+        {dueAt === null ? null : (
+          <p className="text-muted-foreground text-sm">
+            {previousDueAt === null
+              ? t('dueAt', { date: dueAt })
+              : t('dueMovedTo', { from: previousDueAt, to: dueAt })}
           </p>
         )}
 

@@ -609,6 +609,15 @@
       "FX": "FX",
       "passed": "Passed",
       "failed": "Failed"
+    },
+    "deadlines": {
+      "title": "Deadlines",
+      "description": "What falls due in your courses next.",
+      "summary": "{deadlines, plural, one {# deadline} other {# deadlines}} in the next two weeks",
+      "empty": "Nothing falls due in the next two weeks.",
+      "error": "Your deadlines are unavailable right now.",
+      "link": "Open the calendar",
+      "due": "Due {date}"
     }
   },
   "calendar": {
@@ -650,7 +659,9 @@
     "allCourses": "All courses",
     "allTypes": "All types",
     "showExams": "Show exam terms",
-    "examLayer": "Exam term"
+    "examLayer": "Exam term",
+    "showDeadlines": "Show deadlines",
+    "deadlineLayer": "Deadline"
   },
   "exams": {
     "title": "Exams",
@@ -732,8 +743,12 @@
     "type": {
       "exam_term_published": "New exam term",
       "exam_term_rescheduled": "Exam term moved",
-      "exam_term_cancelled": "Exam term cancelled"
-    }
+      "exam_term_cancelled": "Exam term cancelled",
+      "assignment_due_published": "New assignment deadline",
+      "assignment_due_rescheduled": "Assignment deadline moved"
+    },
+    "dueAt": "Due {date}",
+    "dueMovedTo": "Deadline moved from {from} to {to}"
   },
   "myTeaching": {
     "title": "My teaching",
@@ -1176,6 +1191,28 @@
       "activities": "Activities",
       "nextDue": "Next deadline",
       "synchronized": "Last synchronized"
+    }
+  },
+  "deadlines": {
+    "title": "Deadlines",
+    "dueAt": "Due {time}",
+    "dueOn": "Due {date}",
+    "inSpace": "In {space}",
+    "state": {
+      "open": "Open",
+      "upcoming": "Not open yet",
+      "overdue": "Past due"
+    },
+    "type": {
+      "assignment": "Assignment",
+      "quiz": "Quiz",
+      "forum": "Forum",
+      "resource": "Resource",
+      "workshop": "Peer review",
+      "other": "Activity"
+    },
+    "attendance": {
+      "teaching": "You teach this"
     }
   }
 }

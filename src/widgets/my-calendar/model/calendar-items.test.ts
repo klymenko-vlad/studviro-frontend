@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import type { Deadline } from '@/entities/deadline';
 import type { ExamTerm } from '@/entities/exam-term';
 import type { TimetableEvent } from '@/entities/timetable-event';
 
@@ -9,12 +10,14 @@ const KYIV = 'Europe/Kyiv';
 
 const event = (id: string, startsAt: string) => ({ id, startsAt }) as TimetableEvent;
 const exam = (id: string, startsAt: string) => ({ id, startsAt }) as ExamTerm;
+const deadline = (id: string, dueAt: string) => ({ id, dueAt }) as Deadline;
 
 describe('groupCalendarItems', () => {
   it('interleaves an exam term among the classes of its day by start time', () => {
     const days = groupCalendarItems(
       [event('a', '2026-06-02T08:00:00.000Z'), event('b', '2026-06-02T14:00:00.000Z')],
       [exam('x', '2026-06-02T11:00:00.000Z')],
+      [],
       KYIV,
     );
 
@@ -23,7 +26,12 @@ describe('groupCalendarItems', () => {
   });
 
   it('keeps the two layers distinguishable rather than flattening an exam into an event', () => {
-    const [day] = groupCalendarItems([], [exam('x', '2026-06-02T11:00:00.000Z')], KYIV);
+    const [day] = groupCalendarItems(
+      [],
+      [exam('x', '2026-06-02T11:00:00.000Z')],
+      [],
+      KYIV,
+    );
 
     expect(day!.items[0]).toMatchObject({ kind: 'exam', term: { id: 'x' } });
   });
@@ -32,6 +40,7 @@ describe('groupCalendarItems', () => {
     const days = groupCalendarItems(
       [event('a', '2026-06-02T08:00:00.000Z')],
       [exam('x', '2026-06-03T08:00:00.000Z')],
+      [],
       KYIV,
     );
 
@@ -39,19 +48,46 @@ describe('groupCalendarItems', () => {
   });
 
   it('groups in the institution’s timezone, not the reader’s', () => {
-    const days = groupCalendarItems([], [exam('x', '2026-06-02T22:30:00.000Z')], KYIV);
+    const days = groupCalendarItems(
+      [],
+      [exam('x', '2026-06-02T22:30:00.000Z')],
+      [],
+      KYIV,
+    );
 
     expect(days[0]!.key).toBe('2026-06-03');
   });
 
+  it('interleaves an assignment deadline among the day’s classes by the hour it falls due', () => {
+    const days = groupCalendarItems(
+      [event('a', '2026-06-02T08:00:00.000Z')],
+      [],
+      [deadline('d', '2026-06-02T18:00:00.000Z')],
+      KYIV,
+    );
+
+    expect(days[0]!.items.map(item => item.id)).toEqual(['event-a', 'deadline-d']);
+  });
+
+  it('keeps a deadline distinguishable from the exam layer', () => {
+    const [day] = groupCalendarItems(
+      [],
+      [],
+      [deadline('d', '2026-06-02T18:00:00.000Z')],
+      KYIV,
+    );
+
+    expect(day!.items[0]).toMatchObject({ kind: 'deadline', deadline: { id: 'd' } });
+  });
+
   it('returns no days when neither layer has anything for the week', () => {
-    expect(groupCalendarItems([], [], KYIV)).toEqual([]);
+    expect(groupCalendarItems([], [], [], KYIV)).toEqual([]);
   });
 
   it('orders an exam and a class that start at the same instant deterministically', () => {
     const at = '2026-06-02T08:00:00.000Z';
-    const first = groupCalendarItems([event('a', at)], [exam('x', at)], KYIV);
-    const second = groupCalendarItems([event('a', at)], [exam('x', at)], KYIV);
+    const first = groupCalendarItems([event('a', at)], [exam('x', at)], [], KYIV);
+    const second = groupCalendarItems([event('a', at)], [exam('x', at)], [], KYIV);
 
     expect(first[0]!.items.map(i => i.id)).toEqual(second[0]!.items.map(i => i.id));
   });

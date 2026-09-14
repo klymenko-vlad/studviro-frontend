@@ -9,6 +9,7 @@ export {
   courseOffering,
   courseRoster,
   courseResults,
+  deadlines,
   enrolledCourses,
   errorResponse,
   examTerms,

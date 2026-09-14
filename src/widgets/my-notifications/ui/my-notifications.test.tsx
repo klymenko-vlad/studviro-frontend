@@ -30,6 +30,14 @@ describe('MyNotifications', () => {
     );
   });
 
+  it('names the assignment and the date it falls due', async () => {
+    renderWidget();
+
+    expect(await screen.findByText('New assignment deadline')).toBeInTheDocument();
+    expect(screen.getByText('Assignment 1')).toBeInTheDocument();
+    expect(screen.getByText(/^Due /)).toBeInTheDocument();
+  });
+
   it('counts the unread deliveries and marks an aggregated change as one entry', async () => {
     renderWidget();
 

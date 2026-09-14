@@ -1,6 +1,7 @@
 import { useFormatter, useTranslations } from 'next-intl';
 
 import { courseOfferingHref } from '@/entities/course-offering';
+import { DeadlineCard } from '@/entities/deadline';
 import { ExamTermCard } from '@/entities/exam-term';
 import { dayKey, TimetableEventCard } from '@/entities/timetable-event';
 
@@ -39,6 +40,16 @@ export function CalendarDaySection({
                 event={item.event}
                 href={courseOfferingHref(institutionId, item.event.offering.id)}
               />
+            ) : item.kind === 'deadline' ? (
+              <div className="flex flex-col gap-1.5" data-testid="calendar-deadline">
+                <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                  {t('deadlineLayer')}
+                </p>
+                <DeadlineCard
+                  deadline={item.deadline}
+                  href={courseOfferingHref(institutionId, item.deadline.offering.id)}
+                />
+              </div>
             ) : (
               <div className="flex flex-col gap-1.5" data-testid="calendar-exam">
                 <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">

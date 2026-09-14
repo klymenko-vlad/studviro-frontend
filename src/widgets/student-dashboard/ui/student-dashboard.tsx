@@ -6,6 +6,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/shared/ui';
 
 import { CalendarTile } from './calendar-tile';
 import { CoursesTile } from './courses-tile';
+import { DeadlinesTile } from './deadlines-tile';
 import { GradesTile } from './grades-tile';
 
 export function StudentDashboard({
@@ -35,6 +36,7 @@ export function StudentDashboard({
       {canReadCourses ? <CoursesTile institutionId={institutionId} /> : null}
       {canReadGrades ? <GradesTile institutionId={institutionId} /> : null}
       {canReadSchedule ? <CalendarTile institutionId={institutionId} /> : null}
+      {canReadSchedule ? <DeadlinesTile institutionId={institutionId} /> : null}
     </div>
   );
 }
