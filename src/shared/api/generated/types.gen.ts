@@ -9,6 +9,10 @@ export type StartSyncRunDto = {
      * A full run ignores the stored watermarks and re-reads every record the connector offers.
      */
     mode?: 'incremental' | 'full';
+    /**
+     * Which half of the model to import: the student information system or the learning management system.
+     */
+    sourceSystem?: 'sis' | 'lms';
 };
 
 export type SyncRunResponseDto = {
@@ -47,7 +51,7 @@ export type ErrorResponseDto = {
 };
 
 export type SyncDomainResultResponseDto = {
-    domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults';
+    domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities';
     status: 'succeeded' | 'partial' | 'failed' | 'skipped';
     fetched: number;
     created: number;
@@ -131,7 +135,7 @@ export type ResolveDiscrepancyDto = {
 };
 
 export type SyncWatermarkResponseDto = {
-    domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults';
+    domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities';
     connectorName: string;
     /**
      * The newest source change this domain has taken in.
@@ -670,6 +674,29 @@ export type MyCourseResultResponseDto = {
     offering: MyCourseResultOfferingDto;
     course: MyCourseResultCourseDto;
     term: MyCourseResultTermDto;
+};
+
+export type LearningSpaceDto = {
+    id: string;
+    name: string;
+    shortName: string | null;
+    url: string | null;
+    visible: boolean;
+    externalId: string | null;
+    lastSynchronizedAt: string | null;
+    offeringId: string | null;
+    courseCode: string | null;
+    courseTitle: string | null;
+    termCode: string | null;
+    activityCount: number;
+    nextDueAt: string | null;
+};
+
+export type LearningSpaceListResponseDto = {
+    total: number;
+    linked: number;
+    unlinked: number;
+    spaces: Array<LearningSpaceDto>;
 };
 
 export type CreateDemoRequestDto = {
@@ -2550,6 +2577,38 @@ export type ListMyCourseResultsResponses = {
 };
 
 export type ListMyCourseResultsResponse = ListMyCourseResultsResponses[keyof ListMyCourseResultsResponses];
+
+export type ListLearningSpacesData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces';
+};
+
+export type ListLearningSpacesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListLearningSpacesError = ListLearningSpacesErrors[keyof ListLearningSpacesErrors];
+
+export type ListLearningSpacesResponses = {
+    200: LearningSpaceListResponseDto;
+};
+
+export type ListLearningSpacesResponse = ListLearningSpacesResponses[keyof ListLearningSpacesResponses];
 
 export type CreateDemoRequestData = {
     body: CreateDemoRequestDtoWritable;

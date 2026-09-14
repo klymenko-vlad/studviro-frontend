@@ -3,7 +3,8 @@
 import * as z from 'zod';
 
 export const zStartSyncRunDto = z.object({
-    mode: z.enum(['incremental', 'full']).optional().default('incremental')
+    mode: z.enum(['incremental', 'full']).optional().default('incremental'),
+    sourceSystem: z.enum(['sis', 'lms']).optional().default('sis')
 });
 
 export const zSyncRunResponseDto = z.object({
@@ -58,7 +59,9 @@ export const zSyncDomainResultResponseDto = z.object({
         'enrollments',
         'timetableEvents',
         'examTerms',
-        'officialResults'
+        'officialResults',
+        'learningSpaces',
+        'learningActivities'
     ]),
     status: z.enum([
         'succeeded',
@@ -204,7 +207,9 @@ export const zSyncWatermarkResponseDto = z.object({
         'enrollments',
         'timetableEvents',
         'examTerms',
-        'officialResults'
+        'officialResults',
+        'learningSpaces',
+        'learningActivities'
     ]),
     connectorName: z.string(),
     sourceUpdatedAt: z.iso.datetime().nullable(),
@@ -934,6 +939,29 @@ export const zMyCourseResultResponseDto = z.object({
     term: zMyCourseResultTermDto
 });
 
+export const zLearningSpaceDto = z.object({
+    id: z.uuid(),
+    name: z.string(),
+    shortName: z.string().nullable(),
+    url: z.string().nullable(),
+    visible: z.boolean(),
+    externalId: z.string().nullable(),
+    lastSynchronizedAt: z.iso.datetime().nullable(),
+    offeringId: z.uuid().nullable(),
+    courseCode: z.string().nullable(),
+    courseTitle: z.string().nullable(),
+    termCode: z.string().nullable(),
+    activityCount: z.number(),
+    nextDueAt: z.iso.datetime().nullable()
+});
+
+export const zLearningSpaceListResponseDto = z.object({
+    total: z.number(),
+    linked: z.number(),
+    unlinked: z.number(),
+    spaces: z.array(zLearningSpaceDto)
+});
+
 export const zCreateDemoRequestDto = z.object({
     institutionName: z.string().min(2).max(200),
     contactName: z.string().min(1).max(120),
@@ -1520,6 +1548,12 @@ export const zListMyCourseResultsQuery = z.object({
 });
 
 export const zListMyCourseResultsResponse = z.array(zMyCourseResultResponseDto);
+
+export const zListLearningSpacesPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListLearningSpacesResponse = zLearningSpaceListResponseDto;
 
 export const zCreateDemoRequestBody = zCreateDemoRequestDtoWritable;
 

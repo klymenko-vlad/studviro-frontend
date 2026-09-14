@@ -10,6 +10,7 @@ import type {
   ExternalIdentityResponseDto,
   InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
+  LearningSpaceListResponseDto,
   MyCourseResponseDto,
   MyCourseResultResponseDto,
   MyExamTermResponseDto,
@@ -882,6 +883,44 @@ export const syncState: SyncWatermarkResponseDto[] = [
   },
 ];
 
+export const learningSpaces: LearningSpaceListResponseDto = {
+  total: 2,
+  linked: 1,
+  unlinked: 1,
+  spaces: [
+    {
+      id: '9a1f0b3c-1111-4111-8111-111111111111',
+      name: 'Algorithms and Data Structures',
+      shortName: 'ALG/WS26',
+      url: 'https://moodle.mocku.example/course/view.php?idnumber=LMS-ALG',
+      visible: true,
+      externalId: 'LMS-ALG',
+      lastSynchronizedAt: '2026-06-01T10:00:00.000Z',
+      offeringId: '9a1f0b3c-2222-4222-8222-222222222222',
+      courseCode: 'ALG',
+      courseTitle: 'Algorithms and Data Structures',
+      termCode: 'WS26',
+      activityCount: 4,
+      nextDueAt: '2026-06-15T21:00:00.000Z',
+    },
+    {
+      id: '9a1f0b3c-3333-4333-8333-333333333333',
+      name: 'Orphaned Moodle course',
+      shortName: null,
+      url: null,
+      visible: false,
+      externalId: 'LMS-ORPHAN',
+      lastSynchronizedAt: null,
+      offeringId: null,
+      courseCode: null,
+      courseTitle: null,
+      termCode: null,
+      activityCount: 0,
+      nextDueAt: null,
+    },
+  ],
+};
+
 export const reconciliationReport: ReconciliationReportResponseDto = {
   connectorName: 'mock-sis',
   checkedAt: '2026-06-01T10:00:00.000Z',
@@ -1221,6 +1260,10 @@ export const handlers = [
   http.delete(
     `${PROXY}/institutions/:institutionId/role-assignments/:id`,
     () => new HttpResponse(null, { status: 204 }),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/learning-spaces`, () =>
+    HttpResponse.json(learningSpaces),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/synchronization/runs`, () =>

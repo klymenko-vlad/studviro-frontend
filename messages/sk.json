@@ -26,7 +26,8 @@
     "notifications": "Notifications",
     "createInstitution": "Create institution",
     "orgUnits": "Org units",
-    "people": "People"
+    "people": "People",
+    "learning": "Learning"
   },
   "home": {
     "title": "One academic platform over the systems you already run",
@@ -1148,5 +1149,28 @@
     "confirmSubmitting": "Setting password…",
     "invalidTitle": "This password reset link is no longer valid",
     "invalidDescription": "It may have expired, already been used, or was typed incorrectly. Request a new one."
+  },
+  "learning": {
+    "title": "Learning spaces",
+    "subtitle": "The courses, assignments and quizzes imported from this institution's learning management system, and the study records each one is matched to.",
+    "deniedTitle": "These learning spaces are not yours to see",
+    "deniedDescription": "You can browse imported learning spaces only if you administer this institution or run its synchronization.",
+    "errorTitle": "Learning spaces could not be loaded",
+    "errorDescription": "The server answered {status}. Try again in a moment.",
+    "emptyTitle": "No learning spaces yet",
+    "emptyDescription": "Choose a learning system connector in Settings, then run a synchronization for it. Imported courses appear here.",
+    "summaryTitle": "Imported from the learning system",
+    "summary": "{total} learning spaces, {linked} of them matched to a course offering.",
+    "unlinkedTitle": "Some spaces match no course offering",
+    "unlinkedDescription": "{unlinked} spaces name a course offering this platform has not imported. Run the student information system synchronization, then run this one again.",
+    "unlinkedBadge": "Not matched",
+    "none": "—",
+    "column": {
+      "space": "Learning space",
+      "offering": "Course offering",
+      "activities": "Activities",
+      "nextDue": "Next deadline",
+      "synchronized": "Last synchronized"
+    }
   }
 }

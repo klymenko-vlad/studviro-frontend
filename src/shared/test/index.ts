@@ -15,6 +15,7 @@ export {
   handlers,
   institutionConfiguration,
   institutions,
+  learningSpaces,
   permissions,
   linkedAccounts,
   notifications,

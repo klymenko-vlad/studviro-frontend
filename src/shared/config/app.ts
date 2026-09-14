@@ -47,6 +47,7 @@ export const institutionRoutes = (institutionId: string) => {
     calendar: `${base}/calendar`,
     exams: `${base}/exams`,
     notifications: `${base}/notifications`,
+    learning: `${base}/learning`,
     sync: `${base}/sync`,
     roles: `${base}/roles`,
     orgUnits: `${base}/org-units`,
