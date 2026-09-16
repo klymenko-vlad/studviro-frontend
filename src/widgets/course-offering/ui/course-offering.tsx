@@ -7,6 +7,7 @@ import { courseOfferingQueries } from '@/entities/course-offering';
 import { toApiError } from '@/shared/api';
 import { Alert, AlertDescription, AlertTitle, Skeleton } from '@/shared/ui';
 
+import { OfferingAssessments } from './offering-assessments';
 import { OfferingEnrollment } from './offering-enrollment';
 import { OfferingExams } from './offering-exams';
 import { OfferingHeader } from './offering-header';
@@ -55,6 +56,8 @@ export function CourseOffering({
       )}
 
       <OfferingResults institutionId={institutionId} offeringId={offeringId} />
+
+      <OfferingAssessments institutionId={institutionId} offeringId={offeringId} />
 
       <OfferingExams institutionId={institutionId} offeringId={offeringId} />
     </div>

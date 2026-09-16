@@ -11,6 +11,7 @@ const deadline = (overrides: Partial<Deadline> = {}): Deadline => ({
   dueAt: '2026-11-05T21:00:00.000Z',
   isOpen: true,
   isOverdue: false,
+  submission: null,
   attendance: 'enrolled',
   learningSpace: { id: 'space-1', name: 'Programming 2', url: null },
   offering: { id: 'offering-1' },
@@ -34,8 +35,26 @@ describe('deadlineState', () => {
     expect(deadlineState(deadline({ isOpen: false }))).toBe('upcoming');
   });
 
-  it('calls a passed deadline overdue whatever its open flag says', () => {
-    expect(deadlineState(deadline({ isOpen: true, isOverdue: true }))).toBe('overdue');
+  it('calls a passed deadline missed whatever its open flag says', () => {
+    expect(deadlineState(deadline({ isOpen: true, isOverdue: true }))).toBe('missed');
+  });
+
+  it('calls a passed deadline handed in once the learner submitted', () => {
+    const submission = { state: 'submitted' as const, submittedAt: null, isLate: false };
+
+    expect(deadlineState(deadline({ isOverdue: true, submission }))).toBe('handedIn');
+  });
+
+  it('prefers the hand-in over the clock even before the deadline passes', () => {
+    const submission = { state: 'graded' as const, submittedAt: null, isLate: false };
+
+    expect(deadlineState(deadline({ isOverdue: false, submission }))).toBe('handedIn');
+  });
+
+  it('says overdue rather than missed to the teacher, who hands nothing in', () => {
+    expect(deadlineState(deadline({ isOverdue: true, attendance: 'teaching' }))).toBe(
+      'overdue',
+    );
   });
 });
 

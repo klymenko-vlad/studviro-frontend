@@ -4,6 +4,7 @@
  */
 export { renderWithProviders, screen, userEvent, waitFor, within } from './render';
 export {
+  assessmentResults,
   connectorCredentials,
   connectorStatuses,
   courseOffering,

@@ -9,9 +9,12 @@ export function DeadlineCard({ deadline, href }: { deadline: Deadline; href?: st
   const t = useTranslations('deadlines');
   const format = useFormatter();
   const state = deadlineState(deadline);
+  const { submission } = deadline;
 
   return (
-    <Card className={state === 'overdue' ? 'opacity-70' : undefined}>
+    <Card
+      className={state === 'overdue' || state === 'handedIn' ? 'opacity-70' : undefined}
+    >
       <CardContent className="flex flex-col gap-2 py-4">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
           <p className="font-medium">
@@ -19,7 +22,7 @@ export function DeadlineCard({ deadline, href }: { deadline: Deadline; href?: st
               time: format.dateTime(new Date(deadline.dueAt), { timeStyle: 'short' }),
             })}
           </p>
-          <Badge variant={state === 'overdue' ? 'destructive' : 'secondary'}>
+          <Badge variant={state === 'missed' ? 'destructive' : 'secondary'}>
             {t(`state.${state}`)}
           </Badge>
         </div>
@@ -57,6 +60,20 @@ export function DeadlineCard({ deadline, href }: { deadline: Deadline; href?: st
             <Badge variant="outline">{t('attendance.teaching')}</Badge>
           ) : null}
         </div>
+
+        {submission === null ? null : (
+          <p className="text-sm">
+            {t(submission.isLate ? 'submission.handedInLate' : 'submission.handedIn', {
+              when:
+                submission.submittedAt === null
+                  ? t(`submission.state.${submission.state}`)
+                  : format.dateTime(new Date(submission.submittedAt), {
+                      dateStyle: 'medium',
+                      timeStyle: 'short',
+                    }),
+            })}
+          </p>
+        )}
 
         <p className="text-muted-foreground text-sm">
           {t('inSpace', { space: deadline.learningSpace.name })}

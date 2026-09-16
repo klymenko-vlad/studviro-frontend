@@ -499,7 +499,13 @@
       "enrollments": "Enrolments",
       "timetableEvents": "Timetable events",
       "examTerms": "Exam terms",
-      "officialResults": "Official results"
+      "officialResults": "Official results",
+      "learningSpaces": "Learning spaces",
+      "learningActivities": "Learning activities",
+      "assessments": "Gradebook columns",
+      "assessmentResults": "Marks",
+      "activityCompletions": "Activity completion",
+      "submissions": "Submissions"
     },
     "reconciliation": {
       "title": "Reconciliation",
@@ -1191,6 +1197,29 @@
       "activities": "Activities",
       "nextDue": "Next deadline",
       "synchronized": "Last synchronized"
+    },
+    "assessments": {
+      "panel": "Marks from the learning system",
+      "empty": "No mark has been recorded for you in this course yet.",
+      "error": "Marks could not be loaded. Try again in a moment.",
+      "score": "{points} of {maxPoints}",
+      "percentage": "{percentage}%",
+      "ungraded": "Not marked yet",
+      "notCounted": "Does not count toward the final grade",
+      "gradedOn": "Marked {on}",
+      "dueOn": "Due {on}",
+      "openInLms": "Open in the learning system",
+      "completion": {
+        "complete": "Completed",
+        "complete_pass": "Completed, passed",
+        "complete_fail": "Completed, failed",
+        "incomplete": "Not completed"
+      },
+      "column": {
+        "assessment": "Assessment",
+        "score": "Score",
+        "state": "State"
+      }
     }
   },
   "deadlines": {
@@ -1201,7 +1230,9 @@
     "state": {
       "open": "Open",
       "upcoming": "Not open yet",
-      "overdue": "Past due"
+      "overdue": "Past due",
+      "handedIn": "Handed in",
+      "missed": "Missed"
     },
     "type": {
       "assignment": "Assignment",
@@ -1213,6 +1244,17 @@
     },
     "attendance": {
       "teaching": "You teach this"
+    },
+    "submission": {
+      "handedIn": "Handed in {when}",
+      "handedInLate": "Handed in late, {when}",
+      "notHandedIn": "Nothing handed in",
+      "state": {
+        "draft": "Draft",
+        "submitted": "Submitted",
+        "returned": "Returned",
+        "graded": "Graded"
+      }
     }
   }
 }

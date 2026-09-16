@@ -51,7 +51,7 @@ export type ErrorResponseDto = {
 };
 
 export type SyncDomainResultResponseDto = {
-    domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities';
+    domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities' | 'assessments' | 'assessmentResults' | 'activityCompletions' | 'submissions';
     status: 'succeeded' | 'partial' | 'failed' | 'skipped';
     fetched: number;
     created: number;
@@ -135,7 +135,7 @@ export type ResolveDiscrepancyDto = {
 };
 
 export type SyncWatermarkResponseDto = {
-    domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities';
+    domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities' | 'assessments' | 'assessmentResults' | 'activityCompletions' | 'submissions';
     connectorName: string;
     /**
      * The newest source change this domain has taken in.
@@ -703,6 +703,12 @@ export type LearningSpaceListResponseDto = {
     spaces: Array<LearningSpaceDto>;
 };
 
+export type DeadlineSubmissionDto = {
+    state: 'draft' | 'submitted' | 'returned' | 'graded';
+    submittedAt: string | null;
+    isLate: boolean;
+};
+
 export type DeadlineLearningSpaceDto = {
     id: string;
     name: string;
@@ -741,12 +747,59 @@ export type MyDeadlineResponseDto = {
     dueAt: string;
     isOpen: boolean;
     isOverdue: boolean;
+    submission: DeadlineSubmissionDto | null;
     attendance: 'enrolled' | 'teaching';
     learningSpace: DeadlineLearningSpaceDto;
     offering: DeadlineOfferingDto;
     course: DeadlineCourseDto;
     term: DeadlineTermDto;
     provenance: DeadlineProvenanceDto;
+};
+
+export type AssessmentSubmissionDto = {
+    state: 'draft' | 'submitted' | 'returned' | 'graded';
+    submittedAt: string | null;
+    isLate: boolean;
+};
+
+export type AssessmentActivityDto = {
+    id: string;
+    type: 'assignment' | 'quiz' | 'forum' | 'resource' | 'workshop' | 'other';
+    url: string | null;
+    dueAt: string | null;
+    completionState: 'incomplete' | 'complete' | 'complete_pass' | 'complete_fail';
+    submission: AssessmentSubmissionDto | null;
+};
+
+export type AssessmentLearningSpaceDto = {
+    id: string;
+    name: string;
+};
+
+export type AssessmentOfferingDto = {
+    id: string;
+};
+
+export type AssessmentProvenanceDto = {
+    sourceSystem: 'platform' | 'sis' | 'lms';
+    externalId: string | null;
+    lastSynchronizedAt: string | null;
+    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
+};
+
+export type MyAssessmentResultResponseDto = {
+    id: string;
+    name: string;
+    points: number | null;
+    maxPoints: number | null;
+    percentage: number | null;
+    feedback: string | null;
+    gradedAt: string | null;
+    countsTowardFinalGrade: boolean;
+    activity: AssessmentActivityDto | null;
+    learningSpace: AssessmentLearningSpaceDto;
+    offering: AssessmentOfferingDto | null;
+    provenance: AssessmentProvenanceDto;
 };
 
 export type CreateDemoRequestDto = {
@@ -2695,6 +2748,40 @@ export type ListMyDeadlinesResponses = {
 };
 
 export type ListMyDeadlinesResponse = ListMyDeadlinesResponses[keyof ListMyDeadlinesResponses];
+
+export type ListMyAssessmentResultsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        offeringId?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/me/assessment-results';
+};
+
+export type ListMyAssessmentResultsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyAssessmentResultsError = ListMyAssessmentResultsErrors[keyof ListMyAssessmentResultsErrors];
+
+export type ListMyAssessmentResultsResponses = {
+    200: Array<MyAssessmentResultResponseDto>;
+};
+
+export type ListMyAssessmentResultsResponse = ListMyAssessmentResultsResponses[keyof ListMyAssessmentResultsResponses];
 
 export type CreateDemoRequestData = {
     body: CreateDemoRequestDtoWritable;

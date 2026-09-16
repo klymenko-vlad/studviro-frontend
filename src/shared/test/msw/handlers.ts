@@ -11,6 +11,7 @@ import type {
   InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
   LearningSpaceListResponseDto,
+  MyAssessmentResultResponseDto,
   MyCourseResponseDto,
   MyCourseResultResponseDto,
   MyDeadlineResponseDto,
@@ -419,6 +420,64 @@ export const notifications: NotificationResponseDto[] = [
   },
 ];
 
+export const assessmentResults: MyAssessmentResultResponseDto[] = [
+  {
+    id: 'aaaaaab1-aaaa-4aaa-8aaa-aaaaaaaaaab1',
+    name: 'Assignment 1',
+    points: 72,
+    maxPoints: 100,
+    percentage: 72,
+    feedback: null,
+    gradedAt: localIso(2026, 3, 10, 12),
+    countsTowardFinalGrade: true,
+    activity: {
+      id: 'aaaaaaad-aaaa-4aaa-8aaa-aaaaaaaaaaae',
+      type: 'assignment',
+      url: 'https://lms.example/mod/assign/view.php?id=1',
+      dueAt: localIso(2026, 3, 5, 21),
+      completionState: 'complete',
+      submission: {
+        state: 'graded',
+        submittedAt: localIso(2026, 3, 5, 18),
+        isLate: false,
+      },
+    },
+    learningSpace: {
+      id: 'aaaaaaaf-aaaa-4aaa-8aaa-aaaaaaaaaaaf',
+      name: 'Databases',
+    },
+    offering: { id: 'aaaaaaa2-aaaa-4aaa-8aaa-aaaaaaaaaaa2' },
+    provenance: {
+      sourceSystem: 'lms',
+      externalId: 'GRD-CRS-DB-A1-P1',
+      lastSynchronizedAt: null,
+      synchronizationStatus: 'in_sync',
+    },
+  },
+  {
+    id: 'aaaaaab2-aaaa-4aaa-8aaa-aaaaaaaaaab2',
+    name: 'Quiz 2',
+    points: null,
+    maxPoints: 100,
+    percentage: null,
+    feedback: null,
+    gradedAt: null,
+    countsTowardFinalGrade: false,
+    activity: null,
+    learningSpace: {
+      id: 'aaaaaaaf-aaaa-4aaa-8aaa-aaaaaaaaaaaf',
+      name: 'Databases',
+    },
+    offering: { id: 'aaaaaaa2-aaaa-4aaa-8aaa-aaaaaaaaaaa2' },
+    provenance: {
+      sourceSystem: 'lms',
+      externalId: 'GRD-CRS-DB-A2-P1',
+      lastSynchronizedAt: null,
+      synchronizationStatus: 'in_sync',
+    },
+  },
+];
+
 export const deadlines: MyDeadlineResponseDto[] = [
   {
     id: 'aaaaaaad-aaaa-4aaa-8aaa-aaaaaaaaaaae',
@@ -429,6 +488,7 @@ export const deadlines: MyDeadlineResponseDto[] = [
     dueAt: localIso(2026, 3, 5, 21),
     isOpen: true,
     isOverdue: false,
+    submission: null,
     attendance: 'enrolled',
     learningSpace: {
       id: 'aaaaaaaf-aaaa-4aaa-8aaa-aaaaaaaaaaaf',
@@ -1150,6 +1210,21 @@ export const handlers = [
         : courseResults.filter(result => result.offering.id === offeringId),
     );
   }),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/me/assessment-results`,
+    ({ request }) => {
+      const offeringId = new URL(request.url, location.origin).searchParams.get(
+        'offeringId',
+      );
+
+      return HttpResponse.json(
+        offeringId === null
+          ? assessmentResults
+          : assessmentResults.filter(result => result.offering?.id === offeringId),
+      );
+    },
+  ),
 
   http.get(`${PROXY}/institutions/:institutionId/me/exam-terms`, ({ request }) => {
     const query = new URL(request.url, location.origin).searchParams;

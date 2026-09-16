@@ -61,7 +61,11 @@ export const zSyncDomainResultResponseDto = z.object({
         'examTerms',
         'officialResults',
         'learningSpaces',
-        'learningActivities'
+        'learningActivities',
+        'assessments',
+        'assessmentResults',
+        'activityCompletions',
+        'submissions'
     ]),
     status: z.enum([
         'succeeded',
@@ -209,7 +213,11 @@ export const zSyncWatermarkResponseDto = z.object({
         'examTerms',
         'officialResults',
         'learningSpaces',
-        'learningActivities'
+        'learningActivities',
+        'assessments',
+        'assessmentResults',
+        'activityCompletions',
+        'submissions'
     ]),
     connectorName: z.string(),
     sourceUpdatedAt: z.iso.datetime().nullable(),
@@ -968,6 +976,17 @@ export const zLearningSpaceListResponseDto = z.object({
     spaces: z.array(zLearningSpaceDto)
 });
 
+export const zDeadlineSubmissionDto = z.object({
+    state: z.enum([
+        'draft',
+        'submitted',
+        'returned',
+        'graded'
+    ]),
+    submittedAt: z.iso.datetime().nullable(),
+    isLate: z.boolean()
+});
+
 export const zDeadlineLearningSpaceDto = z.object({
     id: z.uuid(),
     name: z.string(),
@@ -1022,12 +1041,85 @@ export const zMyDeadlineResponseDto = z.object({
     dueAt: z.iso.datetime(),
     isOpen: z.boolean(),
     isOverdue: z.boolean(),
+    submission: zDeadlineSubmissionDto.nullable(),
     attendance: z.enum(['enrolled', 'teaching']),
     learningSpace: zDeadlineLearningSpaceDto,
     offering: zDeadlineOfferingDto,
     course: zDeadlineCourseDto,
     term: zDeadlineTermDto,
     provenance: zDeadlineProvenanceDto
+});
+
+export const zAssessmentSubmissionDto = z.object({
+    state: z.enum([
+        'draft',
+        'submitted',
+        'returned',
+        'graded'
+    ]),
+    submittedAt: z.iso.datetime().nullable(),
+    isLate: z.boolean()
+});
+
+export const zAssessmentActivityDto = z.object({
+    id: z.uuid(),
+    type: z.enum([
+        'assignment',
+        'quiz',
+        'forum',
+        'resource',
+        'workshop',
+        'other'
+    ]),
+    url: z.string().nullable(),
+    dueAt: z.iso.datetime().nullable(),
+    completionState: z.enum([
+        'incomplete',
+        'complete',
+        'complete_pass',
+        'complete_fail'
+    ]),
+    submission: zAssessmentSubmissionDto.nullable()
+});
+
+export const zAssessmentLearningSpaceDto = z.object({
+    id: z.uuid(),
+    name: z.string()
+});
+
+export const zAssessmentOfferingDto = z.object({
+    id: z.uuid()
+});
+
+export const zAssessmentProvenanceDto = z.object({
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ]),
+    externalId: z.string().nullable(),
+    lastSynchronizedAt: z.iso.datetime().nullable(),
+    synchronizationStatus: z.enum([
+        'in_sync',
+        'pending',
+        'conflict',
+        'failed'
+    ])
+});
+
+export const zMyAssessmentResultResponseDto = z.object({
+    id: z.uuid(),
+    name: z.string(),
+    points: z.number().nullable(),
+    maxPoints: z.number().nullable(),
+    percentage: z.number().nullable(),
+    feedback: z.string().nullable(),
+    gradedAt: z.iso.datetime().nullable(),
+    countsTowardFinalGrade: z.boolean(),
+    activity: zAssessmentActivityDto.nullable(),
+    learningSpace: zAssessmentLearningSpaceDto,
+    offering: zAssessmentOfferingDto.nullable(),
+    provenance: zAssessmentProvenanceDto
 });
 
 export const zCreateDemoRequestDto = z.object({
@@ -1634,6 +1726,16 @@ export const zListMyDeadlinesQuery = z.object({
 });
 
 export const zListMyDeadlinesResponse = z.array(zMyDeadlineResponseDto);
+
+export const zListMyAssessmentResultsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyAssessmentResultsQuery = z.object({
+    offeringId: z.uuid().optional()
+});
+
+export const zListMyAssessmentResultsResponse = z.array(zMyAssessmentResultResponseDto);
 
 export const zCreateDemoRequestBody = zCreateDemoRequestDtoWritable;
 

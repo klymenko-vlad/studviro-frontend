@@ -6,6 +6,7 @@ export {
   type Deadline,
   type DeadlineAttendance,
   type DeadlineState,
+  type DeadlineSubmission,
   type DeadlineType,
 } from './model/deadline';
 export { DeadlineCard } from './ui/deadline-card';
