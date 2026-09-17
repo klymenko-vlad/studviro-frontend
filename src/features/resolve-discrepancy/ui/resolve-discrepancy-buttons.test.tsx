@@ -79,7 +79,7 @@ describe('ResolveDiscrepancyButtons', () => {
 
     await waitFor(() => {
       expect(toast.success).toHaveBeenCalledWith(
-        'Resolved. Run a full synchronization to apply it.',
+        'Resolved. Run a full Student information system synchronization to apply it.',
       );
     });
   });
@@ -136,6 +136,7 @@ const resolution = {
   kind: 'stale',
   action: 'accept_source',
   connectorName: 'mock-sis',
+  sourceSystem: 'sis',
   externalId: 'course-12',
   canonicalId: stale.canonicalId,
   detail: 'Accepted the source.',

@@ -172,7 +172,9 @@ describe('SyncReconciliation', () => {
     );
 
     expect(
-      await screen.findByText('Run a full synchronization to take this record in.'),
+      await screen.findByText(
+        'Run a full Student information system synchronization to take this record in.',
+      ),
     ).toBeInTheDocument();
     expect(screen.getAllByRole('button', { name: 'Accept the source' })).toHaveLength(1);
   });
@@ -206,5 +208,43 @@ describe('SyncReconciliation', () => {
     expect(
       await screen.findByText('The resolution log could not be read just now.'),
     ).toBeInTheDocument();
+  });
+
+  it('compares the learning half when the system picker names it', async () => {
+    renderWithProviders(<SyncReconciliation institutionId={INSTITUTION} />);
+
+    await userEvent.selectOptions(
+      screen.getByLabelText('System'),
+      'Learning management system',
+    );
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Check for discrepancies' }),
+    );
+
+    expect(await screen.findAllByText('Learning spaces')).not.toHaveLength(0);
+    expect(screen.getByText('space-3')).toBeInTheDocument();
+    expect(screen.queryByText('course-404')).not.toBeInTheDocument();
+  });
+
+  it('names the system the two sides disagreed about', async () => {
+    renderWithProviders(<SyncReconciliation institutionId={INSTITUTION} />);
+
+    await userEvent.selectOptions(
+      screen.getByLabelText('System'),
+      'Learning management system',
+    );
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Check for discrepancies' }),
+    );
+
+    expect(
+      await screen.findByText(/differ between the Learning management system/),
+    ).toBeInTheDocument();
+  });
+
+  it('says people are compared by neither system', () => {
+    renderWithProviders(<SyncReconciliation institutionId={INSTITUTION} />);
+
+    expect(screen.getByText(/People are compared by neither system/)).toBeInTheDocument();
   });
 });

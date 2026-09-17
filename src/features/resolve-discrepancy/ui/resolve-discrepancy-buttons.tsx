@@ -29,12 +29,21 @@ export function ResolveDiscrepancyButtons({
   onResolved?: () => void;
 }) {
   const t = useTranslations('sync.reconciliation.resolve');
+  const tSync = useTranslations('sync');
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     ...reconciliationMutations.resolve(),
     onSuccess: async resolution => {
-      toast.success(resolution.requiresFullSync ? t('resolvedNeedsRun') : t('resolved'));
+      // The run that applies an accepted source must be a run against the system
+      // that owns the row, so the toast names which one.
+      toast.success(
+        resolution.requiresFullSync
+          ? t('resolvedNeedsRun', {
+              system: tSync(`source.${resolution.sourceSystem}`),
+            })
+          : t('resolved'),
+      );
       await queryClient.invalidateQueries({
         queryKey: reconciliationQueries.resolutionsKey({ path: { institutionId } }),
       });

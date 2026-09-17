@@ -99,7 +99,7 @@ export const getSynchronizationReconciliationQueryKey = (options: Options<GetSyn
 /**
  * Compare the source population against the canonical one
  *
- * Reads both sides live and reports where they disagree. It resolves nothing and writes nothing.
+ * Reads both sides live and reports where they disagree. It resolves nothing and writes nothing. `sourceSystem` chooses which half of the model is compared; people are reconciled by neither, because a person becomes a user and a linked identity rather than a provenanced canonical row.
  */
 export const getSynchronizationReconciliationOptions = (options: Options<GetSynchronizationReconciliationData>) => queryOptions<GetSynchronizationReconciliationResponse, GetSynchronizationReconciliationError, GetSynchronizationReconciliationResponse, ReturnType<typeof getSynchronizationReconciliationQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {

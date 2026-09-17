@@ -1045,6 +1045,7 @@ export const learningSpaces: LearningSpaceListResponseDto = {
 };
 
 export const reconciliationReport: ReconciliationReportResponseDto = {
+  sourceSystem: 'sis',
   connectorName: 'mock-sis',
   checkedAt: '2026-06-01T10:00:00.000Z',
   discrepancyCount: 2,
@@ -1091,6 +1092,35 @@ export const reconciliationReport: ReconciliationReportResponseDto = {
   ],
 };
 
+export const learningReconciliationReport: ReconciliationReportResponseDto = {
+  sourceSystem: 'lms',
+  connectorName: 'mock-lms',
+  checkedAt: '2026-06-01T10:05:00.000Z',
+  discrepancyCount: 1,
+  domains: [
+    {
+      domain: 'learningSpaces',
+      status: 'checked',
+      sourceCount: 12,
+      platformCount: 12,
+      matched: 12,
+      discrepancyCount: 1,
+      truncated: false,
+      errorMessage: null,
+      discrepancies: [
+        {
+          kind: 'stale',
+          externalId: 'space-3',
+          canonicalId: '77777777-7777-4777-8777-777777777777',
+          sourceUpdatedAt: '2026-06-01T09:30:00.000Z',
+          platformUpdatedAt: '2026-05-01T09:30:00.000Z',
+          detail: 'The source has changed since the platform last took this row in.',
+        },
+      ],
+    },
+  ],
+};
+
 export const reconciliationResolutions: ReconciliationResolutionResponseDto[] = [
   {
     id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
@@ -1098,6 +1128,7 @@ export const reconciliationResolutions: ReconciliationResolutionResponseDto[] = 
     kind: 'missing_in_source',
     action: 'keep_platform',
     connectorName: 'mock-sis',
+    sourceSystem: 'sis',
     externalId: 'course-77',
     canonicalId: '88888888-8888-4888-8888-888888888888',
     detail:
@@ -1429,8 +1460,14 @@ export const handlers = [
     HttpResponse.json(syncState),
   ),
 
-  http.get(`${PROXY}/institutions/:institutionId/synchronization/reconciliation`, () =>
-    HttpResponse.json(reconciliationReport),
+  http.get(
+    `${PROXY}/institutions/:institutionId/synchronization/reconciliation`,
+    ({ request }) =>
+      HttpResponse.json(
+        new URL(request.url).searchParams.get('sourceSystem') === 'lms'
+          ? learningReconciliationReport
+          : reconciliationReport,
+      ),
   ),
 
   http.get(
@@ -1456,6 +1493,7 @@ export const handlers = [
           domain: body.domain as ReconciliationResolutionResponseDto['domain'],
           kind: body.kind as ReconciliationResolutionResponseDto['kind'],
           action: body.action as ReconciliationResolutionResponseDto['action'],
+          sourceSystem: body.domain.startsWith('learning') ? 'lms' : 'sis',
           canonicalId: body.canonicalId,
           externalId: body.externalId,
           requiresFullSync: body.action === 'accept_source',

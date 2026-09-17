@@ -517,7 +517,7 @@
       "cleanTitle": "The two sides agree",
       "cleanDescription": "Every record the source offers is in the platform, at the version the source holds.",
       "dirtyTitle": "The two sides disagree",
-      "dirtyDescription": "{count, plural, one {# record} other {# records}} differ between the source and the platform. Run synchronization to take in what is missing or out of date.",
+      "dirtyDescription": "{count, plural, one {# record} other {# records}} differ between the {system} and the platform. Run synchronization against that system to take in what is missing or out of date.",
       "domainHeading": "{domain} — {count, plural, one {# discrepancy} other {# discrepancies}}",
       "truncated": "Showing {shown} of {total}. Run synchronization and compare again to see the rest.",
       "noDetail": "This domain reported no detail.",
@@ -552,9 +552,9 @@
         "logDescription": "Every discrepancy somebody has already settled, and what they decided.",
         "logEmpty": "Nobody has resolved a discrepancy yet.",
         "logError": "The resolution log could not be read just now.",
-        "unresolvable": "Run a full synchronization to take this record in.",
+        "unresolvable": "Run a full {system} synchronization to take this record in.",
         "resolved": "Discrepancy resolved.",
-        "resolvedNeedsRun": "Resolved. Run a full synchronization to apply it.",
+        "resolvedNeedsRun": "Resolved. Run a full {system} synchronization to apply it.",
         "action": {
           "accept_source": "Accept the source",
           "keep_platform": "Keep ours"
@@ -563,7 +563,8 @@
           "action": "Decision",
           "resolvedAt": "Resolved"
         }
-      }
+      },
+      "peopleNote": "People are compared by neither system: a person becomes an account and a linked identity rather than a synchronized record."
     },
     "sourceLabel": "System",
     "source": {

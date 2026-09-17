@@ -116,7 +116,13 @@ export const zDomainReconciliationResponseDto = z.object({
         'enrollments',
         'timetableEvents',
         'examTerms',
-        'officialResults'
+        'officialResults',
+        'learningSpaces',
+        'learningActivities',
+        'assessments',
+        'assessmentResults',
+        'activityCompletions',
+        'submissions'
     ]),
     status: z.enum([
         'checked',
@@ -133,6 +139,7 @@ export const zDomainReconciliationResponseDto = z.object({
 });
 
 export const zReconciliationReportResponseDto = z.object({
+    sourceSystem: z.enum(['sis', 'lms']),
     connectorName: z.string(),
     checkedAt: z.iso.datetime(),
     discrepancyCount: z.number(),
@@ -153,7 +160,13 @@ export const zReconciliationResolutionResponseDto = z.object({
         'enrollments',
         'timetableEvents',
         'examTerms',
-        'officialResults'
+        'officialResults',
+        'learningSpaces',
+        'learningActivities',
+        'assessments',
+        'assessmentResults',
+        'activityCompletions',
+        'submissions'
     ]),
     kind: z.enum([
         'missing_in_platform',
@@ -163,6 +176,7 @@ export const zReconciliationResolutionResponseDto = z.object({
     ]),
     action: z.enum(['accept_source', 'keep_platform']),
     connectorName: z.string(),
+    sourceSystem: z.enum(['sis', 'lms']),
     externalId: z.string().nullable(),
     canonicalId: z.string().nullable(),
     detail: z.string(),
@@ -184,7 +198,13 @@ export const zResolveDiscrepancyDto = z.object({
         'enrollments',
         'timetableEvents',
         'examTerms',
-        'officialResults'
+        'officialResults',
+        'learningSpaces',
+        'learningActivities',
+        'assessments',
+        'assessmentResults',
+        'activityCompletions',
+        'submissions'
     ]),
     kind: z.enum([
         'missing_in_platform',
@@ -1383,6 +1403,10 @@ export const zGetSynchronizationRunResponse = zSyncRunDetailResponseDto;
 
 export const zGetSynchronizationReconciliationPath = z.object({
     institutionId: z.string()
+});
+
+export const zGetSynchronizationReconciliationQuery = z.object({
+    sourceSystem: z.enum(['sis', 'lms']).optional().default('sis')
 });
 
 export const zGetSynchronizationReconciliationResponse = zReconciliationReportResponseDto;

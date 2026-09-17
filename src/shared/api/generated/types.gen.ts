@@ -85,7 +85,7 @@ export type DiscrepancyResponseDto = {
 };
 
 export type DomainReconciliationResponseDto = {
-    domain: 'orgUnits' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults';
+    domain: 'orgUnits' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities' | 'assessments' | 'assessmentResults' | 'activityCompletions' | 'submissions';
     status: 'checked' | 'skipped' | 'failed';
     sourceCount: number;
     platformCount: number;
@@ -100,6 +100,7 @@ export type DomainReconciliationResponseDto = {
 };
 
 export type ReconciliationReportResponseDto = {
+    sourceSystem: 'sis' | 'lms';
     connectorName: string;
     checkedAt: string;
     discrepancyCount: number;
@@ -108,10 +109,14 @@ export type ReconciliationReportResponseDto = {
 
 export type ReconciliationResolutionResponseDto = {
     id: string;
-    domain: 'orgUnits' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults';
+    domain: 'orgUnits' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities' | 'assessments' | 'assessmentResults' | 'activityCompletions' | 'submissions';
     kind: 'missing_in_platform' | 'missing_in_source' | 'stale' | 'conflict';
     action: 'accept_source' | 'keep_platform';
     connectorName: string;
+    /**
+     * Which half of the model the resolved row belongs to. A run that applies an accepted source must be a run against this system.
+     */
+    sourceSystem: 'sis' | 'lms';
     externalId: string | null;
     canonicalId: string | null;
     detail: string;
@@ -124,7 +129,7 @@ export type ReconciliationResolutionResponseDto = {
 };
 
 export type ResolveDiscrepancyDto = {
-    domain: 'orgUnits' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults';
+    domain: 'orgUnits' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities' | 'assessments' | 'assessmentResults' | 'activityCompletions' | 'submissions';
     kind: 'missing_in_platform' | 'missing_in_source' | 'stale' | 'conflict';
     /**
      * `accept_source` yields to the source system; `keep_platform` detaches the row from it and keeps the platform copy.
@@ -1099,7 +1104,12 @@ export type GetSynchronizationReconciliationData = {
     path: {
         institutionId: string;
     };
-    query?: never;
+    query?: {
+        /**
+         * Which half of the model to compare: the student information system or the learning management system. Each has its own connector and its own domains.
+         */
+        sourceSystem?: 'sis' | 'lms';
+    };
     url: '/api/v1/institutions/{institutionId}/synchronization/reconciliation';
 };
 

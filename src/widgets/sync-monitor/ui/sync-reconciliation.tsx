@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useFormatter, useTranslations } from 'next-intl';
 
@@ -13,12 +14,16 @@ import {
   type DiscrepancyKind,
   type DomainReconciliation,
 } from '@/entities/reconciliation';
+import type { SyncSourceSystem } from '@/entities/sync-run';
 import {
   Alert,
   AlertDescription,
   AlertTitle,
   Badge,
   Button,
+  Label,
+  Select,
+  SelectItem,
   Skeleton,
   Table,
   TableBody,
@@ -29,6 +34,8 @@ import {
 } from '@/shared/ui';
 
 import { ReconciliationResolutions } from './reconciliation-resolutions';
+
+const SOURCES: readonly SyncSourceSystem[] = ['sis', 'lms'];
 
 const KIND_VARIANT: Record<DiscrepancyKind, 'default' | 'secondary' | 'destructive'> = {
   missing_in_platform: 'destructive',
@@ -42,9 +49,13 @@ export function SyncReconciliation({ institutionId }: { institutionId: string })
   const tSync = useTranslations('sync');
   const tResolve = useTranslations('sync.reconciliation.resolve');
   const format = useFormatter();
+  const [sourceSystem, setSourceSystem] = useState<SyncSourceSystem>('sis');
 
+  // Each half has its own connector and its own domains, so the report is keyed
+  // by the system it compared: switching the picker asks a different question
+  // rather than re-labelling the last answer.
   const report = useQuery({
-    ...reconciliationQueries.report({ path: { institutionId } }),
+    ...reconciliationQueries.report({ path: { institutionId }, query: { sourceSystem } }),
     enabled: false,
   });
 
@@ -82,7 +93,7 @@ export function SyncReconciliation({ institutionId }: { institutionId: string })
           />
         ) : (
           <span className="text-muted-foreground text-xs">
-            {tResolve('unresolvable')}
+            {tResolve('unresolvable', { system: tSync(`source.${sourceSystem}`) })}
           </span>
         )}
       </TableCell>
@@ -93,11 +104,32 @@ export function SyncReconciliation({ institutionId }: { institutionId: string })
     <div className="flex flex-col gap-4">
       <p className="text-muted-foreground text-sm">{t('description')}</p>
 
-      <div>
+      <div className="flex flex-wrap items-end gap-3">
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="reconciliation-source">{tSync('sourceLabel')}</Label>
+          <Select
+            id="reconciliation-source"
+            className="w-56"
+            value={sourceSystem}
+            onValueChange={value => {
+              setSourceSystem(value as SyncSourceSystem);
+            }}
+            disabled={report.isFetching}
+          >
+            {SOURCES.map(candidate => (
+              <SelectItem key={candidate} value={candidate}>
+                {tSync(`source.${candidate}`)}
+              </SelectItem>
+            ))}
+          </Select>
+        </div>
+
         <Button onClick={() => void report.refetch()} disabled={report.isFetching}>
           {report.isFetching ? t('checking') : t('checkNow')}
         </Button>
       </div>
+
+      <p className="text-muted-foreground text-xs">{t('peopleNote')}</p>
 
       {report.isFetching ? <Skeleton className="h-24 w-full" /> : null}
 
@@ -123,7 +155,10 @@ export function SyncReconciliation({ institutionId }: { institutionId: string })
             <Alert variant="destructive">
               <AlertTitle>{t('dirtyTitle')}</AlertTitle>
               <AlertDescription>
-                {t('dirtyDescription', { count: report.data.discrepancyCount })}
+                {t('dirtyDescription', {
+                  count: report.data.discrepancyCount,
+                  system: tSync(`source.${report.data.sourceSystem}`),
+                })}
               </AlertDescription>
             </Alert>
           )}
