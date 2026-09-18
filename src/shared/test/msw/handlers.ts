@@ -5,6 +5,7 @@ import type {
   ConnectorCredentialsResponseDto,
   ConnectorStatusResponseDto,
   CourseOfferingResponseDto,
+  CourseResponseDto,
   CourseRosterResponseDto,
   EnrollableOfferingResponseDto,
   ErrorResponseDto,
@@ -21,6 +22,7 @@ import type {
   MyTimetableEventResponseDto,
   NotificationResponseDto,
   OfferingResultsResponseDto,
+  ProgramResponseDto,
   ReconciliationReportResponseDto,
   ReconciliationResolutionResponseDto,
   RoleAssignmentResponseDto,
@@ -205,6 +207,10 @@ export const permissions: MyPermissionsResponseDto = {
     'enrollment:read',
     'offering:read',
     'course:enroll',
+    'course:read',
+    'course:manage',
+    'program:read',
+    'program:manage',
     'grade:read',
     'grade:propose',
     'schedule:read',
@@ -1163,6 +1169,33 @@ export const reconciliationResolutions: ReconciliationResolutionResponseDto[] = 
   },
 ];
 
+export const programs: ProgramResponseDto[] = [
+  {
+    id: 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1',
+    code: 'INF-BC',
+    name: 'Informatics',
+    degreeLevel: 'bachelor',
+    studyForm: 'full_time',
+    standardLengthSemesters: 6,
+    orgUnitId: null,
+    sourceSystem: 'platform',
+    synchronizationStatus: 'in_sync',
+  },
+];
+
+export const catalogueCourses: CourseResponseDto[] = [
+  {
+    id: 'cccccccc-cccc-4ccc-8ccc-ccccccccccc2',
+    code: 'INF/ALG/22',
+    title: 'Algorithms',
+    description: null,
+    credits: 6,
+    orgUnitId: null,
+    sourceSystem: 'sis',
+    synchronizationStatus: 'pending',
+  },
+];
+
 export const enrollableOfferings: EnrollableOfferingResponseDto[] = [
   {
     id: '66666666-6666-4666-8666-666666666666',
@@ -1603,6 +1636,22 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/synchronization/state`, () =>
     HttpResponse.json(syncState),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/programs`, () =>
+    HttpResponse.json(programs),
+  ),
+
+  http.post(`${PROXY}/institutions/:institutionId/programs`, () =>
+    HttpResponse.json(programs[0], { status: 201 }),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/courses`, () =>
+    HttpResponse.json(catalogueCourses),
+  ),
+
+  http.post(`${PROXY}/institutions/:institutionId/courses`, () =>
+    HttpResponse.json(catalogueCourses[0], { status: 201 }),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/me/enrollments/enrollable`, () =>

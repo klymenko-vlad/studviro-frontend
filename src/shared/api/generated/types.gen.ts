@@ -1148,6 +1148,90 @@ export type EnrollmentResponseDto = {
     synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
 };
 
+export type ProgramResponseDto = {
+    id: string;
+    code: string;
+    name: string;
+    degreeLevel: 'bachelor' | 'master' | 'doctoral' | 'other';
+    studyForm: 'full_time' | 'part_time' | 'distance';
+    standardLengthSemesters: number | null;
+    orgUnitId: string | null;
+    sourceSystem: 'platform' | 'sis' | 'lms';
+    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
+};
+
+export type CreateProgramDto = {
+    code: string;
+    name: string;
+    degreeLevel?: 'bachelor' | 'master' | 'doctoral' | 'other';
+    studyForm?: 'full_time' | 'part_time' | 'distance';
+    standardLengthSemesters?: number | null;
+    orgUnitId?: string | null;
+};
+
+export type UpdateProgramDto = {
+    code?: string;
+    name?: string;
+    degreeLevel?: 'bachelor' | 'master' | 'doctoral' | 'other';
+    studyForm?: 'full_time' | 'part_time' | 'distance';
+    standardLengthSemesters?: number | null;
+    orgUnitId?: string | null;
+};
+
+export type CourseResponseDto = {
+    id: string;
+    code: string;
+    title: string;
+    description: string | null;
+    credits: number | null;
+    orgUnitId: string | null;
+    sourceSystem: 'platform' | 'sis' | 'lms';
+    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
+};
+
+export type CreateCourseDto = {
+    code: string;
+    title: string;
+    description?: string | null;
+    credits?: number | null;
+    orgUnitId?: string | null;
+};
+
+export type UpdateCourseDto = {
+    code?: string;
+    title?: string;
+    description?: string | null;
+    credits?: number | null;
+    orgUnitId?: string | null;
+};
+
+export type UpdateCourseOfferingDto = {
+    capacity?: number | null;
+    status?: 'planned' | 'open' | 'running' | 'closed' | 'cancelled';
+    language?: string | null;
+};
+
+export type CourseOfferingAdminResponseDto = {
+    id: string;
+    capacity: number | null;
+    status: 'planned' | 'open' | 'running' | 'closed' | 'cancelled';
+    language: string | null;
+    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
+};
+
+export type CorrectEnrollmentDto = {
+    /**
+     * The correction verb: a registrar may put an enrolment into any state, including past a full course or back from a mistaken withdrawal.
+     */
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+};
+
+export type CorrectedEnrollmentResponseDto = {
+    id: string;
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
+};
+
 export type CreateUserDtoWritable = {
     email: string;
     displayName: string;
@@ -3081,6 +3165,47 @@ export type GetCourseOfferingResponses = {
 
 export type GetCourseOfferingResponse = GetCourseOfferingResponses[keyof GetCourseOfferingResponses];
 
+export type UpdateCourseOfferingData = {
+    body: UpdateCourseOfferingDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}';
+};
+
+export type UpdateCourseOfferingErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateCourseOfferingError = UpdateCourseOfferingErrors[keyof UpdateCourseOfferingErrors];
+
+export type UpdateCourseOfferingResponses = {
+    200: CourseOfferingAdminResponseDto;
+};
+
+export type UpdateCourseOfferingResponse = UpdateCourseOfferingResponses[keyof UpdateCourseOfferingResponses];
+
 export type GetCourseRosterData = {
     body?: never;
     path: {
@@ -3511,3 +3636,341 @@ export type WithdrawFromCourseResponses = {
 };
 
 export type WithdrawFromCourseResponse = WithdrawFromCourseResponses[keyof WithdrawFromCourseResponses];
+
+export type ListProgramsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/programs';
+};
+
+export type ListProgramsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListProgramsError = ListProgramsErrors[keyof ListProgramsErrors];
+
+export type ListProgramsResponses = {
+    200: Array<ProgramResponseDto>;
+};
+
+export type ListProgramsResponse = ListProgramsResponses[keyof ListProgramsResponses];
+
+export type CreateProgramData = {
+    body: CreateProgramDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/programs';
+};
+
+export type CreateProgramErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateProgramError = CreateProgramErrors[keyof CreateProgramErrors];
+
+export type CreateProgramResponses = {
+    201: ProgramResponseDto;
+};
+
+export type CreateProgramResponse = CreateProgramResponses[keyof CreateProgramResponses];
+
+export type RemoveProgramData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/programs/{id}';
+};
+
+export type RemoveProgramErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveProgramError = RemoveProgramErrors[keyof RemoveProgramErrors];
+
+export type RemoveProgramResponses = {
+    204: void;
+};
+
+export type RemoveProgramResponse = RemoveProgramResponses[keyof RemoveProgramResponses];
+
+export type UpdateProgramData = {
+    body: UpdateProgramDto;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/programs/{id}';
+};
+
+export type UpdateProgramErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateProgramError = UpdateProgramErrors[keyof UpdateProgramErrors];
+
+export type UpdateProgramResponses = {
+    200: ProgramResponseDto;
+};
+
+export type UpdateProgramResponse = UpdateProgramResponses[keyof UpdateProgramResponses];
+
+export type ListCoursesData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/courses';
+};
+
+export type ListCoursesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListCoursesError = ListCoursesErrors[keyof ListCoursesErrors];
+
+export type ListCoursesResponses = {
+    200: Array<CourseResponseDto>;
+};
+
+export type ListCoursesResponse = ListCoursesResponses[keyof ListCoursesResponses];
+
+export type CreateCourseData = {
+    body: CreateCourseDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/courses';
+};
+
+export type CreateCourseErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateCourseError = CreateCourseErrors[keyof CreateCourseErrors];
+
+export type CreateCourseResponses = {
+    201: CourseResponseDto;
+};
+
+export type CreateCourseResponse = CreateCourseResponses[keyof CreateCourseResponses];
+
+export type RemoveCourseData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/courses/{id}';
+};
+
+export type RemoveCourseErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveCourseError = RemoveCourseErrors[keyof RemoveCourseErrors];
+
+export type RemoveCourseResponses = {
+    204: void;
+};
+
+export type RemoveCourseResponse = RemoveCourseResponses[keyof RemoveCourseResponses];
+
+export type UpdateCourseData = {
+    body: UpdateCourseDto;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/courses/{id}';
+};
+
+export type UpdateCourseErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateCourseError = UpdateCourseErrors[keyof UpdateCourseErrors];
+
+export type UpdateCourseResponses = {
+    200: CourseResponseDto;
+};
+
+export type UpdateCourseResponse = UpdateCourseResponses[keyof UpdateCourseResponses];
+
+export type CorrectEnrollmentData = {
+    body: CorrectEnrollmentDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        enrollmentId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/enrollments/{enrollmentId}';
+};
+
+export type CorrectEnrollmentErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CorrectEnrollmentError = CorrectEnrollmentErrors[keyof CorrectEnrollmentErrors];
+
+export type CorrectEnrollmentResponses = {
+    200: CorrectedEnrollmentResponseDto;
+};
+
+export type CorrectEnrollmentResponse = CorrectEnrollmentResponses[keyof CorrectEnrollmentResponses];

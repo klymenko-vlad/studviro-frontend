@@ -6,7 +6,9 @@ export { renderWithProviders, screen, userEvent, waitFor, within } from './rende
 export {
   assessmentResults,
   connectorCredentials,
+  catalogueCourses,
   connectorStatuses,
+  programs,
   courseOffering,
   courseRoster,
   courseResults,

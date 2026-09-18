@@ -1688,6 +1688,168 @@ export const zEnrollmentResponseDto = z.object({
     ])
 });
 
+export const zProgramResponseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string(),
+    degreeLevel: z.enum([
+        'bachelor',
+        'master',
+        'doctoral',
+        'other'
+    ]),
+    studyForm: z.enum([
+        'full_time',
+        'part_time',
+        'distance'
+    ]),
+    standardLengthSemesters: z.number().nullable(),
+    orgUnitId: z.uuid().nullable(),
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ]),
+    synchronizationStatus: z.enum([
+        'in_sync',
+        'pending',
+        'conflict',
+        'failed'
+    ])
+});
+
+export const zCreateProgramDto = z.object({
+    code: z.string().min(1).max(64),
+    name: z.string().min(1).max(200),
+    degreeLevel: z.enum([
+        'bachelor',
+        'master',
+        'doctoral',
+        'other'
+    ]).optional(),
+    studyForm: z.enum([
+        'full_time',
+        'part_time',
+        'distance'
+    ]).optional(),
+    standardLengthSemesters: z.number().gte(1).lte(20).nullish(),
+    orgUnitId: z.uuid().nullish()
+});
+
+export const zUpdateProgramDto = z.object({
+    code: z.string().min(1).max(64).optional(),
+    name: z.string().min(1).max(200).optional(),
+    degreeLevel: z.enum([
+        'bachelor',
+        'master',
+        'doctoral',
+        'other'
+    ]).optional(),
+    studyForm: z.enum([
+        'full_time',
+        'part_time',
+        'distance'
+    ]).optional(),
+    standardLengthSemesters: z.number().gte(1).lte(20).nullish(),
+    orgUnitId: z.uuid().nullish()
+});
+
+export const zCourseResponseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string(),
+    description: z.string().nullable(),
+    credits: z.number().nullable(),
+    orgUnitId: z.uuid().nullable(),
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ]),
+    synchronizationStatus: z.enum([
+        'in_sync',
+        'pending',
+        'conflict',
+        'failed'
+    ])
+});
+
+export const zCreateCourseDto = z.object({
+    code: z.string().min(1).max(64),
+    title: z.string().min(1).max(200),
+    description: z.string().max(2000).nullish(),
+    credits: z.number().gte(0).lte(120).nullish(),
+    orgUnitId: z.uuid().nullish()
+});
+
+export const zUpdateCourseDto = z.object({
+    code: z.string().min(1).max(64).optional(),
+    title: z.string().min(1).max(200).optional(),
+    description: z.string().max(2000).nullish(),
+    credits: z.number().gte(0).lte(120).nullish(),
+    orgUnitId: z.uuid().nullish()
+});
+
+export const zUpdateCourseOfferingDto = z.object({
+    capacity: z.number().gte(0).nullish(),
+    status: z.enum([
+        'planned',
+        'open',
+        'running',
+        'closed',
+        'cancelled'
+    ]).optional(),
+    language: z.string().max(64).nullish()
+});
+
+export const zCourseOfferingAdminResponseDto = z.object({
+    id: z.uuid(),
+    capacity: z.number().nullable(),
+    status: z.enum([
+        'planned',
+        'open',
+        'running',
+        'closed',
+        'cancelled'
+    ]),
+    language: z.string().nullable(),
+    synchronizationStatus: z.enum([
+        'in_sync',
+        'pending',
+        'conflict',
+        'failed'
+    ])
+});
+
+export const zCorrectEnrollmentDto = z.object({
+    status: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected'
+    ])
+});
+
+export const zCorrectedEnrollmentResponseDto = z.object({
+    id: z.uuid(),
+    status: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected'
+    ]),
+    synchronizationStatus: z.enum([
+        'in_sync',
+        'pending',
+        'conflict',
+        'failed'
+    ])
+});
+
 export const zCreateUserDtoWritable = z.object({
     email: z.email(),
     displayName: z.string().min(1).max(120),
@@ -2116,6 +2278,15 @@ export const zGetCourseOfferingPath = z.object({
 
 export const zGetCourseOfferingResponse = zCourseOfferingResponseDto;
 
+export const zUpdateCourseOfferingBody = zUpdateCourseOfferingDto;
+
+export const zUpdateCourseOfferingPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zUpdateCourseOfferingResponse = zCourseOfferingAdminResponseDto;
+
 export const zGetCourseRosterPath = z.object({
     institutionId: z.string(),
     offeringId: z.string()
@@ -2221,3 +2392,73 @@ export const zWithdrawFromCoursePath = z.object({
 });
 
 export const zWithdrawFromCourseResponse = zEnrollmentResponseDto;
+
+export const zListProgramsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListProgramsResponse = z.array(zProgramResponseDto);
+
+export const zCreateProgramBody = zCreateProgramDto;
+
+export const zCreateProgramPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateProgramResponse = zProgramResponseDto;
+
+export const zRemoveProgramPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zRemoveProgramResponse = z.void();
+
+export const zUpdateProgramBody = zUpdateProgramDto;
+
+export const zUpdateProgramPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zUpdateProgramResponse = zProgramResponseDto;
+
+export const zListCoursesPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListCoursesResponse = z.array(zCourseResponseDto);
+
+export const zCreateCourseBody = zCreateCourseDto;
+
+export const zCreateCoursePath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateCourseResponse = zCourseResponseDto;
+
+export const zRemoveCoursePath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zRemoveCourseResponse = z.void();
+
+export const zUpdateCourseBody = zUpdateCourseDto;
+
+export const zUpdateCoursePath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zUpdateCourseResponse = zCourseResponseDto;
+
+export const zCorrectEnrollmentBody = zCorrectEnrollmentDto;
+
+export const zCorrectEnrollmentPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    enrollmentId: z.string()
+});
+
+export const zCorrectEnrollmentResponse = zCorrectedEnrollmentResponseDto;

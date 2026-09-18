@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { Auth, Connectors, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, RoleAssignments, Schedule, Synchronization, Users } from '../sdk.gen';
-import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, ClearInstitutionConnectorCredentialData, ClearInstitutionConnectorCredentialError, ClearInstitutionConnectorCredentialResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateResponse, DiscardSourceWriteIntentData, DiscardSourceWriteIntentError, DiscardSourceWriteIntentResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionConnectorCredentialsData, GetInstitutionConnectorCredentialsError, GetInstitutionConnectorCredentialsResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSynchronizationReconciliationData, GetSynchronizationReconciliationError, GetSynchronizationReconciliationResponse, GetSynchronizationRunData, GetSynchronizationRunError, GetSynchronizationRunResponse, GetSynchronizationStateData, GetSynchronizationStateError, GetSynchronizationStateResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListInstitutionConnectorsData, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListReconciliationResolutionsData, ListReconciliationResolutionsError, ListReconciliationResolutionsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListSourceWriteIntentsData, ListSourceWriteIntentsError, ListSourceWriteIntentsResponse, ListSynchronizationRunsData, ListSynchronizationRunsError, ListSynchronizationRunsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MeData, MeError, MeResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, ResolveReconciliationDiscrepancyData, ResolveReconciliationDiscrepancyError, ResolveReconciliationDiscrepancyResponse, RetrySourceWriteIntentData, RetrySourceWriteIntentError, RetrySourceWriteIntentResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SetInstitutionConnectorCredentialsData, SetInstitutionConnectorCredentialsError, SetInstitutionConnectorCredentialsResponse, StartSynchronizationRunData, StartSynchronizationRunError, StartSynchronizationRunResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
+import { Auth, Catalogue, Connectors, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, RoleAssignments, Schedule, Synchronization, Users } from '../sdk.gen';
+import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, ClearInstitutionConnectorCredentialData, ClearInstitutionConnectorCredentialError, ClearInstitutionConnectorCredentialResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateCourseData, CreateCourseError, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateResponse, DiscardSourceWriteIntentData, DiscardSourceWriteIntentError, DiscardSourceWriteIntentResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionConnectorCredentialsData, GetInstitutionConnectorCredentialsError, GetInstitutionConnectorCredentialsResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSynchronizationReconciliationData, GetSynchronizationReconciliationError, GetSynchronizationReconciliationResponse, GetSynchronizationRunData, GetSynchronizationRunError, GetSynchronizationRunResponse, GetSynchronizationStateData, GetSynchronizationStateError, GetSynchronizationStateResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListInstitutionConnectorsData, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListReconciliationResolutionsData, ListReconciliationResolutionsError, ListReconciliationResolutionsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListSourceWriteIntentsData, ListSourceWriteIntentsError, ListSourceWriteIntentsResponse, ListSynchronizationRunsData, ListSynchronizationRunsError, ListSynchronizationRunsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MeData, MeError, MeResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveCourseData, RemoveCourseError, RemoveCourseResponse, RemoveData, RemoveError, RemoveProgramData, RemoveProgramError, RemoveProgramResponse, RemoveResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, ResolveReconciliationDiscrepancyData, ResolveReconciliationDiscrepancyError, ResolveReconciliationDiscrepancyResponse, RetrySourceWriteIntentData, RetrySourceWriteIntentError, RetrySourceWriteIntentResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SetInstitutionConnectorCredentialsData, SetInstitutionConnectorCredentialsError, SetInstitutionConnectorCredentialsResponse, StartSynchronizationRunData, StartSynchronizationRunError, StartSynchronizationRunResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateProgramData, UpdateProgramError, UpdateProgramResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -1070,6 +1070,25 @@ export const getCourseOfferingOptions = (options: Options<GetCourseOfferingData>
     queryKey: getCourseOfferingQueryKey(options)
 });
 
+/**
+ * Change an offering’s capacity, status or language
+ *
+ * Capacity may not be cut below the places already taken, because the count would then be a lie.
+ */
+export const updateCourseOfferingMutation = (options?: Partial<Options<UpdateCourseOfferingData>>): UseMutationOptions<UpdateCourseOfferingResponse, UpdateCourseOfferingError, Options<UpdateCourseOfferingData>> => {
+    const mutationOptions: UseMutationOptions<UpdateCourseOfferingResponse, UpdateCourseOfferingError, Options<UpdateCourseOfferingData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Catalogue.updateCourseOffering({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const getCourseRosterQueryKey = (options: Options<GetCourseRosterData>) => createQueryKey('getCourseRoster', options);
 
 /**
@@ -1280,6 +1299,167 @@ export const withdrawFromCourseMutation = (options?: Partial<Options<WithdrawFro
     const mutationOptions: UseMutationOptions<WithdrawFromCourseResponse, WithdrawFromCourseError, Options<WithdrawFromCourseData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await Courses.withdrawFromCourse({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listProgramsQueryKey = (options: Options<ListProgramsData>) => createQueryKey('listPrograms', options);
+
+/**
+ * List the institution’s programmes
+ */
+export const listProgramsOptions = (options: Options<ListProgramsData>) => queryOptions<ListProgramsResponse, ListProgramsError, ListProgramsResponse, ReturnType<typeof listProgramsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Catalogue.listPrograms({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listProgramsQueryKey(options)
+});
+
+/**
+ * Add a programme the source system does not carry
+ *
+ * The row is platform-authored, so no import will ever match it and reconciliation leaves it alone.
+ */
+export const createProgramMutation = (options?: Partial<Options<CreateProgramData>>): UseMutationOptions<CreateProgramResponse, CreateProgramError, Options<CreateProgramData>> => {
+    const mutationOptions: UseMutationOptions<CreateProgramResponse, CreateProgramError, Options<CreateProgramData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Catalogue.createProgram({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Retire a programme
+ */
+export const removeProgramMutation = (options?: Partial<Options<RemoveProgramData>>): UseMutationOptions<RemoveProgramResponse, RemoveProgramError, Options<RemoveProgramData>> => {
+    const mutationOptions: UseMutationOptions<RemoveProgramResponse, RemoveProgramError, Options<RemoveProgramData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Catalogue.removeProgram({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Correct a programme
+ *
+ * Editing a row the source system owns marks it `pending`, so the disagreement is on the record until a run settles it.
+ */
+export const updateProgramMutation = (options?: Partial<Options<UpdateProgramData>>): UseMutationOptions<UpdateProgramResponse, UpdateProgramError, Options<UpdateProgramData>> => {
+    const mutationOptions: UseMutationOptions<UpdateProgramResponse, UpdateProgramError, Options<UpdateProgramData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Catalogue.updateProgram({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listCoursesQueryKey = (options: Options<ListCoursesData>) => createQueryKey('listCourses', options);
+
+/**
+ * List the institution’s courses
+ */
+export const listCoursesOptions = (options: Options<ListCoursesData>) => queryOptions<ListCoursesResponse, ListCoursesError, ListCoursesResponse, ReturnType<typeof listCoursesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Catalogue.listCourses({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listCoursesQueryKey(options)
+});
+
+/**
+ * Add a course the source system does not carry
+ */
+export const createCourseMutation = (options?: Partial<Options<CreateCourseData>>): UseMutationOptions<CreateCourseResponse, CreateCourseError, Options<CreateCourseData>> => {
+    const mutationOptions: UseMutationOptions<CreateCourseResponse, CreateCourseError, Options<CreateCourseData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Catalogue.createCourse({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Retire a course
+ */
+export const removeCourseMutation = (options?: Partial<Options<RemoveCourseData>>): UseMutationOptions<RemoveCourseResponse, RemoveCourseError, Options<RemoveCourseData>> => {
+    const mutationOptions: UseMutationOptions<RemoveCourseResponse, RemoveCourseError, Options<RemoveCourseData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Catalogue.removeCourse({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Correct a course
+ */
+export const updateCourseMutation = (options?: Partial<Options<UpdateCourseData>>): UseMutationOptions<UpdateCourseResponse, UpdateCourseError, Options<UpdateCourseData>> => {
+    const mutationOptions: UseMutationOptions<UpdateCourseResponse, UpdateCourseError, Options<UpdateCourseData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Catalogue.updateCourse({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Put a student’s enrolment into the state it should be in
+ *
+ * The registrar’s correction verb, which is not bound by the window or the capacity a student is bound by.
+ */
+export const correctEnrollmentMutation = (options?: Partial<Options<CorrectEnrollmentData>>): UseMutationOptions<CorrectEnrollmentResponse, CorrectEnrollmentError, Options<CorrectEnrollmentData>> => {
+    const mutationOptions: UseMutationOptions<CorrectEnrollmentResponse, CorrectEnrollmentError, Options<CorrectEnrollmentData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Catalogue.correctEnrollment({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

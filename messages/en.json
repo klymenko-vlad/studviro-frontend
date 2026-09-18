@@ -28,7 +28,8 @@
     "orgUnits": "Org units",
     "people": "People",
     "learning": "Learning",
-    "enroll": "Enrol"
+    "enroll": "Enrol",
+    "catalogue": "Catalogue"
   },
   "home": {
     "title": "One academic platform over the systems you already run",
@@ -1435,5 +1436,42 @@
     },
     "deniedTitle": "You cannot enrol here",
     "deniedDescription": "Your role at this institution does not include taking courses."
+  },
+  "catalogue": {
+    "title": "Catalogue",
+    "subtitle": "The programmes and courses this institution offers.",
+    "pending": "Awaiting sync",
+    "deniedTitle": "You cannot see the catalogue here",
+    "deniedDescription": "Your role at this institution does not include reading the catalogue.",
+    "programs": {
+      "title": "Programmes",
+      "description": "What a student can be enrolled on.",
+      "empty": "No programmes yet.",
+      "error": "The programmes could not be read.",
+      "add": "Add programme",
+      "added": "The programme was added."
+    },
+    "courses": {
+      "title": "Courses",
+      "description": "What a programme is made of.",
+      "empty": "No courses yet.",
+      "error": "The courses could not be read.",
+      "add": "Add course",
+      "added": "The course was added."
+    },
+    "column": {
+      "code": "Code",
+      "name": "Name",
+      "title": "Title",
+      "credits": "Credits",
+      "degreeLevel": "Degree",
+      "state": "State"
+    },
+    "degreeLevel": {
+      "bachelor": "Bachelor",
+      "master": "Master",
+      "doctoral": "Doctoral",
+      "other": "Other"
+    }
   }
 }

@@ -15,6 +15,7 @@ type NavKey =
   | 'dashboard'
   | 'courses'
   | 'enroll'
+  | 'catalogue'
   | 'teaching'
   | 'grades'
   | 'calendar'
@@ -36,6 +37,7 @@ const GATES: Record<NavKey, Permission | null> = {
   dashboard: null,
   courses: 'enrollment:read',
   enroll: 'course:enroll',
+  catalogue: 'course:manage',
   // `offering:read` gates the endpoint but every student holds it, so the tab
   // keys off the weakest permission only teaching staff are granted.
   teaching: 'grade:propose',
@@ -80,6 +82,7 @@ const ORDER: NavKey[] = [
   'roles',
   'orgUnits',
   'people',
+  'catalogue',
   'settings',
 ];
 
