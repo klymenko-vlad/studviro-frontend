@@ -59,4 +59,32 @@ describe('OrgUnitTree', () => {
 
     expect(await screen.findByText('Org units could not be loaded')).toBeInTheDocument();
   });
+
+  describe('the institution’s own words (B7)', () => {
+    const university = {
+      id: '33333333-3333-4333-8333-333333333333',
+      institutionId: INSTITUTION,
+      parentId: null,
+      type: 'university',
+      code: 'upjs',
+      name: 'UPJŠ',
+    };
+
+    it('calls a faculty what this institution calls it', async () => {
+      server.use(http.get(ORG_UNITS_URL, () => HttpResponse.json([faculty])));
+
+      renderWithProviders(<OrgUnitTree institutionId={INSTITUTION} />);
+
+      expect(await screen.findByText('School')).toBeInTheDocument();
+      expect(screen.queryByText('Faculty')).not.toBeInTheDocument();
+    });
+
+    it('keeps the platform’s word where the institution has not chosen one', async () => {
+      server.use(http.get(ORG_UNITS_URL, () => HttpResponse.json([university])));
+
+      renderWithProviders(<OrgUnitTree institutionId={INSTITUTION} />);
+
+      expect(await screen.findByText('University')).toBeInTheDocument();
+    });
+  });
 });

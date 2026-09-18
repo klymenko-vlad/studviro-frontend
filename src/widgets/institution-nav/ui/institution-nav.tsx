@@ -2,6 +2,10 @@
 
 import { useTranslations } from 'next-intl';
 
+import {
+  useInstitutionFeatures,
+  type FeatureFlag,
+} from '@/entities/institution-configuration';
 import { usePermissions, type Permission } from '@/entities/permission';
 import { institutionRoutes, Link, usePathname } from '@/shared/config';
 import { cn } from '@/shared/lib';
@@ -48,6 +52,17 @@ const GATES: Record<NavKey, Permission | null> = {
   settings: 'institution:manage',
 };
 
+/**
+ * A tab whose feature the institution turned off is not offered, because the
+ * endpoint behind it now refuses. The permission gate above says who may; this
+ * says whether the institution runs it at all.
+ */
+const FEATURES: Partial<Record<NavKey, FeatureFlag>> = {
+  grades: 'grades',
+  calendar: 'timetable',
+  exams: 'examRegistration',
+};
+
 const ORDER: NavKey[] = [
   'dashboard',
   'courses',
@@ -68,6 +83,7 @@ export function InstitutionNav({ institutionId }: { institutionId: string }) {
   const t = useTranslations('nav');
   const pathname = usePathname();
   const { can, isPending } = usePermissions(institutionId);
+  const features = useInstitutionFeatures(institutionId);
   const routes = institutionRoutes(institutionId);
 
   if (isPending) {
@@ -78,8 +94,11 @@ export function InstitutionNav({ institutionId }: { institutionId: string }) {
 
   const visible = ORDER.filter(key => {
     const gate = GATES[key];
+    const feature = FEATURES[key];
 
-    return gate === null || can(gate);
+    if (gate !== null && !can(gate)) return false;
+
+    return feature === undefined || features.isEnabled(feature);
   });
 
   return (

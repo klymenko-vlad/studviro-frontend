@@ -101,7 +101,10 @@ export function InstitutionConfigurationForm({
         <section className="flex flex-col gap-4">
           <h3 className="text-sm font-medium">{t('featuresTitle')}</h3>
           <p className="text-muted-foreground text-sm">{t('featuresDescription')}</p>
-          <FeatureFields flags={featureFlags(configuration)} />
+          <FeatureFields
+            flags={featureFlags(configuration)}
+            implemented={configuration.implementedFeatures}
+          />
         </section>
 
         <Separator />

@@ -295,7 +295,8 @@
     "credentialClear": "Clear",
     "credentialSaved": "Credential saved",
     "credentialCleared": "Credential cleared",
-    "credentialValueRequired": "Enter a value before saving."
+    "credentialValueRequired": "Enter a value before saving.",
+    "featureNotBuilt": "Not built yet — this switch would change nothing."
   },
   "myCourses": {
     "title": "My courses",
@@ -1378,5 +1379,18 @@
       "passed": "Passed",
       "failed": "Failed"
     }
+  },
+  "terminology": {
+    "institution": "Institution",
+    "faculty": "Faculty",
+    "department": "Department",
+    "program": "Programme",
+    "course": "Course",
+    "courseOffering": "Course offering",
+    "academicTerm": "Term",
+    "student": "Student",
+    "teacher": "Teacher",
+    "studentIdentifier": "Student number",
+    "credits": "Credits"
   }
 }

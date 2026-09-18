@@ -258,6 +258,10 @@ export type InstitutionConfigurationResponseDto = {
     features: {
         [key: string]: boolean;
     };
+    /**
+     * The flags this platform build actually enforces. A flag outside this list is stored and resolved but gates nothing, so the screen must not offer it as a live control.
+     */
+    implementedFeatures: Array<'courseRegistration' | 'examRegistration' | 'timetable' | 'grades' | 'thesis' | 'accommodation' | 'fees'>;
     connectors: InstitutionConnectorsDto;
 };
 

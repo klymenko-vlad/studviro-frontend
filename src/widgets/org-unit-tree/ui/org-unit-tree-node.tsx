@@ -1,16 +1,30 @@
 import { useTranslations } from 'next-intl';
 
+import {
+  useTerminology,
+  type TerminologyKey,
+} from '@/entities/institution-configuration';
 import type { OrgUnitNode } from '@/entities/org-unit';
 import { Badge } from '@/shared/ui';
 
+/** The three unit types this institution may have its own word for. */
+const OVERRIDABLE: Partial<Record<OrgUnitNode['type'], TerminologyKey>> = {
+  faculty: 'faculty',
+  department: 'department',
+};
+
 export function OrgUnitTreeNode({
   node,
+  institutionId,
   depth = 0,
 }: {
   node: OrgUnitNode;
+  institutionId: string;
   depth?: number;
 }) {
   const t = useTranslations('orgUnits');
+  const term = useTerminology(institutionId);
+  const overridable = OVERRIDABLE[node.type];
 
   return (
     <li>
@@ -20,13 +34,20 @@ export function OrgUnitTreeNode({
       >
         <span className="font-medium">{node.name}</span>
         <span className="text-muted-foreground font-mono text-xs">{node.code}</span>
-        <Badge variant="secondary">{t(`type.${node.type}`)}</Badge>
+        <Badge variant="secondary">
+          {overridable === undefined ? t(`type.${node.type}`) : term(overridable)}
+        </Badge>
       </div>
 
       {node.children.length > 0 ? (
         <ul>
           {node.children.map(child => (
-            <OrgUnitTreeNode key={child.id} node={child} depth={depth + 1} />
+            <OrgUnitTreeNode
+              key={child.id}
+              node={child}
+              institutionId={institutionId}
+              depth={depth + 1}
+            />
           ))}
         </ul>
       ) : null}

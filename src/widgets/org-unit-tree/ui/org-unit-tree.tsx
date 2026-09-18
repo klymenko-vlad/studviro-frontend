@@ -34,7 +34,7 @@ export function OrgUnitTree({ institutionId }: { institutionId: string }) {
   return (
     <ul aria-label={t('treeLabel')}>
       {roots.map(node => (
-        <OrgUnitTreeNode key={node.id} node={node} />
+        <OrgUnitTreeNode key={node.id} node={node} institutionId={institutionId} />
       ))}
     </ul>
   );

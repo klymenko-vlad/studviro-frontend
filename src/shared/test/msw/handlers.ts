@@ -131,6 +131,7 @@ export const institutionConfiguration: InstitutionConfigurationResponseDto = {
     studentIdentifier: null,
     credits: null,
   },
+  implementedFeatures: ['examRegistration', 'timetable', 'grades'],
   features: {
     courseRegistration: true,
     examRegistration: true,

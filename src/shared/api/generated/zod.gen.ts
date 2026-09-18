@@ -349,6 +349,15 @@ export const zInstitutionConfigurationResponseDto = z.object({
     timezone: z.string(),
     terminology: z.record(z.string(), z.string().nullable()),
     features: z.record(z.string(), z.boolean()),
+    implementedFeatures: z.array(z.enum([
+        'courseRegistration',
+        'examRegistration',
+        'timetable',
+        'grades',
+        'thesis',
+        'accommodation',
+        'fees'
+    ])),
     connectors: zInstitutionConnectorsDto
 });
 
