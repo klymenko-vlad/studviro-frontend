@@ -435,7 +435,7 @@ export type GrantRoleDto = {
 export type MyPermissionsResponseDto = {
     institutionId: string;
     roles: Array<'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin'>;
-    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'notification:read' | 'exam:register' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage' | 'sync:read' | 'sync:run' | 'connector:configure'>;
+    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'notification:read' | 'exam:register' | 'course:enroll' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage' | 'sync:read' | 'sync:run' | 'connector:configure'>;
 };
 
 export type ExternalIdentityResponseDto = {
@@ -1091,6 +1091,61 @@ export type CreateDemoRequestDto = {
 
 export type DemoRequestAcceptedDto = {
     status: 'accepted';
+};
+
+export type EnrollmentAvailabilityDto = {
+    canEnroll: boolean;
+    canWithdraw: boolean;
+    reason: 'open' | 'enrolled' | 'requested' | 'completed' | 'not_open' | 'closed' | 'full' | 'not_a_student';
+};
+
+export type MyEnrollmentSummaryDto = {
+    id: string;
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+};
+
+export type EnrollableCourseDto = {
+    id: string;
+    code: string;
+    title: string;
+    credits: number | null;
+};
+
+export type EnrollableTermDto = {
+    id: string;
+    code: string;
+    name: string;
+};
+
+export type EnrollableOfferingResponseDto = {
+    id: string;
+    capacity: number | null;
+    occupiedSeats: number;
+    seatsRemaining: number | null;
+    isFull: boolean;
+    enrollmentOpensAt: string | null;
+    enrollmentClosesAt: string | null;
+    windowState: 'not_open' | 'open' | 'closed';
+    availability: EnrollmentAvailabilityDto;
+    myEnrollment: MyEnrollmentSummaryDto | null;
+    course: EnrollableCourseDto;
+    term: EnrollableTermDto;
+};
+
+export type RequestEnrollmentDto = {
+    courseOfferingId: string;
+};
+
+export type EnrollmentResponseDto = {
+    id: string;
+    courseOfferingId: string;
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    enrolledAt: string | null;
+    withdrawnAt: string | null;
+    /**
+     * `pending` while the registrar’s system has not answered the request yet.
+     */
+    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
 };
 
 export type CreateUserDtoWritable = {
@@ -3337,3 +3392,122 @@ export type CreateDemoRequestResponses = {
 };
 
 export type CreateDemoRequestResponse = CreateDemoRequestResponses[keyof CreateDemoRequestResponses];
+
+export type ListEnrollableOfferingsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        termId?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/me/enrollments/enrollable';
+};
+
+export type ListEnrollableOfferingsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListEnrollableOfferingsError = ListEnrollableOfferingsErrors[keyof ListEnrollableOfferingsErrors];
+
+export type ListEnrollableOfferingsResponses = {
+    200: Array<EnrollableOfferingResponseDto>;
+};
+
+export type ListEnrollableOfferingsResponse = ListEnrollableOfferingsResponses[keyof ListEnrollableOfferingsResponses];
+
+export type RequestEnrollmentData = {
+    body: RequestEnrollmentDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/enrollments';
+};
+
+export type RequestEnrollmentErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RequestEnrollmentError = RequestEnrollmentErrors[keyof RequestEnrollmentErrors];
+
+export type RequestEnrollmentResponses = {
+    201: EnrollmentResponseDto;
+};
+
+export type RequestEnrollmentResponse = RequestEnrollmentResponses[keyof RequestEnrollmentResponses];
+
+export type WithdrawFromCourseData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/enrollments/{id}';
+};
+
+export type WithdrawFromCourseErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type WithdrawFromCourseError = WithdrawFromCourseErrors[keyof WithdrawFromCourseErrors];
+
+export type WithdrawFromCourseResponses = {
+    200: EnrollmentResponseDto;
+};
+
+export type WithdrawFromCourseResponse = WithdrawFromCourseResponses[keyof WithdrawFromCourseResponses];

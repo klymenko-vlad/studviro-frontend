@@ -27,7 +27,8 @@
     "createInstitution": "Create institution",
     "orgUnits": "Org units",
     "people": "People",
-    "learning": "Learning"
+    "learning": "Learning",
+    "enroll": "Enrol"
   },
   "home": {
     "title": "One academic platform over the systems you already run",
@@ -1392,5 +1393,47 @@
     "teacher": "Teacher",
     "studentIdentifier": "Student number",
     "credits": "Credits"
+  },
+  "enrollment": {
+    "title": "Enrol in a course",
+    "subtitle": "The courses on offer this term, and whether you may take them.",
+    "enroll": "Enrol",
+    "withdraw": "Withdraw",
+    "full": "Full",
+    "requested": "Asked for. The university has not answered yet.",
+    "enrolled": "You have a place on this course.",
+    "withdrawn": "You withdrew from this course.",
+    "credits": "{credits} credits",
+    "seats": "{seats} of {capacity} places left",
+    "seatsFull": "No places left",
+    "seatsUnknown": "No limit on places",
+    "actionableOnly": "Only courses I can act on",
+    "empty": "No courses are on offer here yet.",
+    "emptyForFilters": "No course here is one you can act on right now.",
+    "errorTitle": "Courses could not be loaded",
+    "errorDescription": "Something went wrong while loading the courses on offer. Try again in a moment.",
+    "status": {
+      "requested": "Requested",
+      "provisioning": "Being set up",
+      "active": "Enrolled",
+      "completed": "Completed",
+      "withdrawn": "Withdrawn",
+      "rejected": "Refused"
+    },
+    "window": {
+      "opensOn": "Enrolment opens {date}",
+      "closesOn": "Enrolment closes {date}",
+      "openUntilFurtherNotice": "Enrolment is open",
+      "closedNow": "Enrolment is closed"
+    },
+    "blocked": {
+      "enrolled": "You already have a place on this course.",
+      "requested": "You have asked for a place and the university has not answered yet.",
+      "completed": "You have already completed this course.",
+      "full": "Every place is taken.",
+      "not_a_student": "Only a student of a programme at this institution can take its courses."
+    },
+    "deniedTitle": "You cannot enrol here",
+    "deniedDescription": "Your role at this institution does not include taking courses."
   }
 }

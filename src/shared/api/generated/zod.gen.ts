@@ -584,6 +584,7 @@ export const zMyPermissionsResponseDto = z.object({
         'schedule:manage',
         'notification:read',
         'exam:register',
+        'course:enroll',
         'role:read',
         'role:assign',
         'institution:read',
@@ -1603,6 +1604,90 @@ export const zDemoRequestAcceptedDto = z.object({
     status: z.enum(['accepted'])
 });
 
+export const zEnrollmentAvailabilityDto = z.object({
+    canEnroll: z.boolean(),
+    canWithdraw: z.boolean(),
+    reason: z.enum([
+        'open',
+        'enrolled',
+        'requested',
+        'completed',
+        'not_open',
+        'closed',
+        'full',
+        'not_a_student'
+    ])
+});
+
+export const zMyEnrollmentSummaryDto = z.object({
+    id: z.uuid(),
+    status: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected'
+    ])
+});
+
+export const zEnrollableCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string(),
+    credits: z.number().nullable()
+});
+
+export const zEnrollableTermDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string()
+});
+
+export const zEnrollableOfferingResponseDto = z.object({
+    id: z.uuid(),
+    capacity: z.number().nullable(),
+    occupiedSeats: z.number(),
+    seatsRemaining: z.number().nullable(),
+    isFull: z.boolean(),
+    enrollmentOpensAt: z.iso.datetime().nullable(),
+    enrollmentClosesAt: z.iso.datetime().nullable(),
+    windowState: z.enum([
+        'not_open',
+        'open',
+        'closed'
+    ]),
+    availability: zEnrollmentAvailabilityDto,
+    myEnrollment: zMyEnrollmentSummaryDto.nullable(),
+    course: zEnrollableCourseDto,
+    term: zEnrollableTermDto
+});
+
+export const zRequestEnrollmentDto = z.object({
+    courseOfferingId: z.uuid()
+});
+
+export const zEnrollmentResponseDto = z.object({
+    id: z.uuid(),
+    courseOfferingId: z.uuid(),
+    status: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected'
+    ]),
+    enrolledAt: z.iso.datetime().nullable(),
+    withdrawnAt: z.iso.datetime().nullable(),
+    synchronizationStatus: z.enum([
+        'in_sync',
+        'pending',
+        'conflict',
+        'failed'
+    ])
+});
+
 export const zCreateUserDtoWritable = z.object({
     email: z.email(),
     displayName: z.string().min(1).max(120),
@@ -2111,3 +2196,28 @@ export const zListMyAssessmentResultsResponse = z.array(zMyAssessmentResultRespo
 export const zCreateDemoRequestBody = zCreateDemoRequestDtoWritable;
 
 export const zCreateDemoRequestResponse = zDemoRequestAcceptedDto;
+
+export const zListEnrollableOfferingsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListEnrollableOfferingsQuery = z.object({
+    termId: z.uuid().optional()
+});
+
+export const zListEnrollableOfferingsResponse = z.array(zEnrollableOfferingResponseDto);
+
+export const zRequestEnrollmentBody = zRequestEnrollmentDto;
+
+export const zRequestEnrollmentPath = z.object({
+    institutionId: z.string()
+});
+
+export const zRequestEnrollmentResponse = zEnrollmentResponseDto;
+
+export const zWithdrawFromCoursePath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zWithdrawFromCourseResponse = zEnrollmentResponseDto;

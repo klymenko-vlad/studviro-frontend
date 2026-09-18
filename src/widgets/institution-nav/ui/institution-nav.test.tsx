@@ -2,7 +2,14 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, it, vi } from 'vitest';
 
 import type * as SharedConfig from '@/shared/config';
-import { permissions, renderWithProviders, screen, server } from '@/shared/test';
+import {
+  institutionConfiguration,
+  permissions,
+  renderWithProviders,
+  screen,
+  server,
+  waitFor,
+} from '@/shared/test';
 
 import { InstitutionNav } from './institution-nav';
 
@@ -152,5 +159,44 @@ describe('InstitutionNav', () => {
     );
 
     pathname.value = `/institutions/${INSTITUTION}`;
+  });
+
+  it('offers the enrolment tab to somebody who may take a course', async () => {
+    renderWithProviders(<InstitutionNav institutionId={INSTITUTION} />);
+
+    expect(await screen.findByRole('link', { name: 'Enrol' })).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}/enroll`,
+    );
+  });
+
+  it('withholds the enrolment tab from somebody who may not', async () => {
+    grant(['institution:read']);
+
+    renderWithProviders(<InstitutionNav institutionId={INSTITUTION} />);
+
+    await screen.findByRole('link', { name: 'Dashboard' });
+
+    expect(screen.queryByRole('link', { name: 'Enrol' })).not.toBeInTheDocument();
+  });
+
+  it('drops a tab whose feature the institution turned off (B6)', async () => {
+    server.use(
+      http.get(`/api/proxy/api/v1/institutions/${INSTITUTION}/configuration`, () =>
+        HttpResponse.json({
+          ...institutionConfiguration,
+          features: { ...institutionConfiguration.features, grades: false },
+        }),
+      ),
+    );
+
+    renderWithProviders(<InstitutionNav institutionId={INSTITUTION} />);
+
+    await screen.findByRole('link', { name: 'Dashboard' });
+
+    await waitFor(() => {
+      expect(screen.queryByRole('link', { name: 'Grades' })).not.toBeInTheDocument();
+    });
+    expect(screen.getByRole('link', { name: 'Exams' })).toBeInTheDocument();
   });
 });

@@ -6,6 +6,7 @@ import type {
   ConnectorStatusResponseDto,
   CourseOfferingResponseDto,
   CourseRosterResponseDto,
+  EnrollableOfferingResponseDto,
   ErrorResponseDto,
   ExternalIdentityResponseDto,
   InstitutionConfigurationResponseDto,
@@ -203,6 +204,7 @@ export const permissions: MyPermissionsResponseDto = {
     'role:assign',
     'enrollment:read',
     'offering:read',
+    'course:enroll',
     'grade:read',
     'grade:propose',
     'schedule:read',
@@ -1161,6 +1163,55 @@ export const reconciliationResolutions: ReconciliationResolutionResponseDto[] = 
   },
 ];
 
+export const enrollableOfferings: EnrollableOfferingResponseDto[] = [
+  {
+    id: '66666666-6666-4666-8666-666666666666',
+    capacity: 30,
+    occupiedSeats: 12,
+    seatsRemaining: 18,
+    isFull: false,
+    enrollmentOpensAt: '2026-01-10T00:00:00.000Z',
+    enrollmentClosesAt: '2099-02-10T00:00:00.000Z',
+    windowState: 'open',
+    availability: { canEnroll: true, canWithdraw: false, reason: 'open' },
+    myEnrollment: null,
+    course: {
+      id: '77777777-7777-4777-8777-777777777777',
+      code: 'INF/ALG/22',
+      title: 'Algorithms',
+      credits: 6,
+    },
+    term: {
+      id: '88888888-8888-4888-8888-888888888888',
+      code: '2026-SS',
+      name: 'Summer 2026',
+    },
+  },
+  {
+    id: '99999999-9999-4999-8999-999999999999',
+    capacity: 10,
+    occupiedSeats: 10,
+    seatsRemaining: 0,
+    isFull: true,
+    enrollmentOpensAt: '2026-01-10T00:00:00.000Z',
+    enrollmentClosesAt: '2099-02-10T00:00:00.000Z',
+    windowState: 'open',
+    availability: { canEnroll: false, canWithdraw: false, reason: 'full' },
+    myEnrollment: null,
+    course: {
+      id: 'aaaaaaa3-aaaa-4aaa-8aaa-aaaaaaaaaaa3',
+      code: 'INF/DB/22',
+      title: 'Databases',
+      credits: 5,
+    },
+    term: {
+      id: '88888888-8888-4888-8888-888888888888',
+      code: '2026-SS',
+      name: 'Summer 2026',
+    },
+  },
+];
+
 export const offeringResults: OfferingResultsResponseDto = {
   offering: { id: '66666666-6666-4666-8666-666666666666' },
   course: {
@@ -1552,6 +1603,35 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/synchronization/state`, () =>
     HttpResponse.json(syncState),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/me/enrollments/enrollable`, () =>
+    HttpResponse.json(enrollableOfferings),
+  ),
+
+  http.post(`${PROXY}/institutions/:institutionId/me/enrollments`, () =>
+    HttpResponse.json(
+      {
+        id: 'bbbbbbb2-bbbb-4bbb-8bbb-bbbbbbbbbbb2',
+        courseOfferingId: '66666666-6666-4666-8666-666666666666',
+        status: 'requested',
+        enrolledAt: '2026-01-20T09:00:00.000Z',
+        withdrawnAt: null,
+        synchronizationStatus: 'pending',
+      },
+      { status: 201 },
+    ),
+  ),
+
+  http.delete(`${PROXY}/institutions/:institutionId/me/enrollments/:id`, () =>
+    HttpResponse.json({
+      id: 'bbbbbbb2-bbbb-4bbb-8bbb-bbbbbbbbbbb2',
+      courseOfferingId: '66666666-6666-4666-8666-666666666666',
+      status: 'withdrawn',
+      enrolledAt: null,
+      withdrawnAt: '2026-01-21T09:00:00.000Z',
+      synchronizationStatus: 'in_sync',
+    }),
   ),
 
   http.get(

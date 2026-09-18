@@ -14,6 +14,7 @@ import { Skeleton } from '@/shared/ui';
 type NavKey =
   | 'dashboard'
   | 'courses'
+  | 'enroll'
   | 'teaching'
   | 'grades'
   | 'calendar'
@@ -34,6 +35,7 @@ type NavKey =
 const GATES: Record<NavKey, Permission | null> = {
   dashboard: null,
   courses: 'enrollment:read',
+  enroll: 'course:enroll',
   // `offering:read` gates the endpoint but every student holds it, so the tab
   // keys off the weakest permission only teaching staff are granted.
   teaching: 'grade:propose',
@@ -58,6 +60,7 @@ const GATES: Record<NavKey, Permission | null> = {
  * says whether the institution runs it at all.
  */
 const FEATURES: Partial<Record<NavKey, FeatureFlag>> = {
+  enroll: 'courseRegistration',
   grades: 'grades',
   calendar: 'timetable',
   exams: 'examRegistration',
@@ -66,6 +69,7 @@ const FEATURES: Partial<Record<NavKey, FeatureFlag>> = {
 const ORDER: NavKey[] = [
   'dashboard',
   'courses',
+  'enroll',
   'teaching',
   'grades',
   'calendar',

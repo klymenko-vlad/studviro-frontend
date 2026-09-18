@@ -11,6 +11,7 @@ export {
   courseRoster,
   courseResults,
   deadlines,
+  enrollableOfferings,
   enrolledCourses,
   errorResponse,
   examTerms,
