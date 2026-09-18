@@ -75,9 +75,34 @@ const budgets = [
     // confirm screens then spent some of that recovered room; measured at 431.47 kB with
     // both in place. Not lowering the limit itself: 455 kB stays the ceiling, now with
     // headroom again instead of against it.
+    //
+    // Raised from 455 kB to 480 kB for the grade-entry table, the notification
+    // families, the feature-flag and terminology plumbing, and the enrolment
+    // screen. Measured at 453.66 kB with all four in place — 1.34 kB of headroom,
+    // which is not headroom.
+    //
+    // A reduction was looked for first, as the entries above insist. There was
+    // none left to take:
+    //   - The barrel-narrowing lever is spent: `apiQueries`, `apiSchemas` and the
+    //     `sdk.gen` re-exports were all narrowed in earlier steps.
+    //   - `@radix-ui/react-select` is already gone, swapped for a native
+    //     `<select>`; that was the single largest item and it was taken, not
+    //     deferred.
+    //   - Nine Radix-backed primitives sit unused in `shared/ui` (checkbox,
+    //     dialog, dropdown-menu, popover, scroll-area, sheet, tabs, tooltip,
+    //     avatar) — but none is exported from `shared/ui/index.ts`, so none of
+    //     them is in the bundle to begin with. Deleting the files would tidy the
+    //     tree and recover nothing.
+    // What is left is route code that four new screens genuinely need.
+    //
+    // The remaining known duplication, for whoever needs room next: `/enroll` and
+    // `/exams` render the same card-and-reason shape twice, and
+    // `EnrollableOfferingCard` repeats `ExamTermCard`'s window and seats logic.
+    // One shared component would cover both. It is worth a step of its own rather
+    // than a rushed extraction inside a feature step.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '455 kB',
+    limit: '480 kB',
     gzip: true,
   },
 ];
