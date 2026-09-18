@@ -3,12 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
-import {
-  courseResultQueries,
-  creditsEarned,
-  isPublished,
-  weightedAverage,
-} from '@/entities/course-result';
+import { courseResultQueries, isPublished } from '@/entities/course-result';
 import { Link } from '@/shared/config';
 import {
   Button,
@@ -28,7 +23,8 @@ export function GradesTile({ institutionId }: { institutionId: string }) {
     courseResultQueries.list({ path: { institutionId } }),
   );
 
-  const average = isPending || isError ? null : weightedAverage(data);
+  const summary = useQuery(courseResultQueries.summary({ path: { institutionId } }));
+  const progress = summary.data ?? null;
 
   return (
     <Card>
@@ -46,14 +42,16 @@ export function GradesTile({ institutionId }: { institutionId: string }) {
           <p className="text-muted-foreground text-sm">{t('grades.empty')}</p>
         ) : (
           <>
-            <p className="text-sm" data-testid="dashboard-grades-summary">
-              {average === null
-                ? t('grades.summaryWithoutAverage', { credits: creditsEarned(data) })
-                : t('grades.summary', {
-                    credits: creditsEarned(data),
-                    average: average.toFixed(2),
-                  })}
-            </p>
+            {progress === null ? null : (
+              <p className="text-sm" data-testid="dashboard-grades-summary">
+                {progress.weightedAverage === null
+                  ? t('grades.summaryWithoutAverage', { credits: progress.creditsEarned })
+                  : t('grades.summary', {
+                      credits: progress.creditsEarned,
+                      average: progress.weightedAverage.toFixed(2),
+                    })}
+              </p>
+            )}
 
             <ul className="flex flex-col gap-1 text-sm">
               {data.slice(0, SHOWN).map(result => (

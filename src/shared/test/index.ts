@@ -23,6 +23,7 @@ export {
   notifications,
   roleAssignments,
   session,
+  studyProgress,
   learningReconciliationReport,
   reconciliationReport,
   reconciliationResolutions,

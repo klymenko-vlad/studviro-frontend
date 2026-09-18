@@ -69,6 +69,10 @@ export function ExamTermCard({
 
           {isRegistered(term) ? <Badge>{t('registered')}</Badge> : null}
 
+          {term.myRegistration?.status === 'cancelled' ? (
+            <Badge variant="outline">{t('cancelledRegistration')}</Badge>
+          ) : null}
+
           {term.isCancelled ? (
             <Badge variant="destructive">{t('cancelled')}</Badge>
           ) : null}

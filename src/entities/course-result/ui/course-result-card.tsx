@@ -36,7 +36,9 @@ export function CourseResultCard({
             )}
           </CardTitle>
 
-          {effective === null ? (
+          {result.isVoided ? (
+            <Badge variant="destructive">{t('noStanding')}</Badge>
+          ) : effective === null ? (
             <Badge variant="outline">{t('noGrade')}</Badge>
           ) : (
             <Badge
@@ -54,6 +56,12 @@ export function CourseResultCard({
       </CardHeader>
 
       <CardContent className="flex flex-col gap-3 text-sm">
+        {result.isVoided ? (
+          <p className="text-muted-foreground text-sm" data-testid="result-annulled-note">
+            {t('annulledNote')}
+          </p>
+        ) : null}
+
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline">{t(`status.${result.status}`)}</Badge>
           {result.course.credits === null ? null : (

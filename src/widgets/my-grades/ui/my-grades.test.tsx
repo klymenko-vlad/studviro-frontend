@@ -1,12 +1,21 @@
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
-import { errorResponse, renderWithProviders, screen, server } from '@/shared/test';
+import {
+  errorResponse,
+  renderWithProviders,
+  screen,
+  server,
+  studyProgress,
+} from '@/shared/test';
 
 import { MyGrades } from './my-grades';
 
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const RESULTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/course-results`;
+const SUMMARY_URL = `${RESULTS_URL}/summary`;
+
+const render = () => renderWithProviders(<MyGrades institutionId={INSTITUTION} />);
 
 describe('MyGrades', () => {
   it('names every result under the term that produced it', async () => {
@@ -81,5 +90,44 @@ describe('MyGrades', () => {
     expect(
       screen.queryByText('No result has been recorded for you yet.'),
     ).not.toBeInTheDocument();
+  });
+
+  describe('the study-progress summary', () => {
+    it('reports the server’s credit total and average rather than computing its own', async () => {
+      render();
+
+      expect(await screen.findByTestId('my-grades-summary')).toHaveTextContent(
+        /6 credits/i,
+      );
+    });
+
+    it('says how many courses are awaiting a resit when any are', async () => {
+      server.use(
+        http.get(SUMMARY_URL, () =>
+          HttpResponse.json({ ...studyProgress, awaitingRetake: 2, failedCourses: 2 }),
+        ),
+      );
+      render();
+
+      expect(await screen.findByTestId('my-grades-retakes')).toHaveTextContent(
+        /2 courses are awaiting a resit/i,
+      );
+    });
+
+    it('stays silent about resits when none are owed', async () => {
+      render();
+
+      await screen.findByTestId('my-grades-summary');
+
+      expect(screen.queryByTestId('my-grades-retakes')).not.toBeInTheDocument();
+    });
+
+    it('still lists the results when the summary itself fails', async () => {
+      server.use(http.get(SUMMARY_URL, () => new HttpResponse(null, { status: 500 })));
+      render();
+
+      expect(await screen.findByText('Algorithms')).toBeInTheDocument();
+      expect(screen.queryByTestId('my-grades-summary')).not.toBeInTheDocument();
+    });
   });
 });

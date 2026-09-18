@@ -22,6 +22,7 @@ import type {
   ReconciliationReportResponseDto,
   ReconciliationResolutionResponseDto,
   RoleAssignmentResponseDto,
+  StudyProgressResponseDto,
   SyncRunDetailResponseDto,
   SyncRunResponseDto,
   SyncWatermarkResponseDto,
@@ -295,7 +296,8 @@ export const courseResults: MyCourseResultResponseDto[] = [
     status: 'official',
     attempt: 1,
     conflictNote: null,
-    effective: { kind: 'official', grade: 'A' },
+    effective: { kind: 'official', grade: 'A', passed: true },
+    isVoided: false,
     calculated: { grade: 'B', points: 87.5 },
     proposed: { grade: 'B', at: '2026-06-01T00:00:00.000Z' },
     official: { grade: 'A', recordedAt: '2026-06-10T00:00:00.000Z' },
@@ -327,7 +329,8 @@ export const courseResults: MyCourseResultResponseDto[] = [
     status: 'proposed',
     attempt: 2,
     conflictNote: 'The source system reports a different mark.',
-    effective: { kind: 'proposed', grade: 'C' },
+    effective: { kind: 'proposed', grade: 'C', passed: true },
+    isVoided: false,
     calculated: { grade: 'D', points: 61 },
     proposed: { grade: 'C', at: '2026-01-20T00:00:00.000Z' },
     official: { grade: null, recordedAt: null },
@@ -1141,6 +1144,16 @@ export const reconciliationResolutions: ReconciliationResolutionResponseDto[] = 
   },
 ];
 
+export const studyProgress: StudyProgressResponseDto = {
+  gradedCourses: 1,
+  passedCourses: 1,
+  failedCourses: 0,
+  creditsEarned: 6,
+  creditsAttempted: 6,
+  weightedAverage: 1,
+  awaitingRetake: 0,
+};
+
 export const writeIntents: WriteIntentResponseDto[] = [
   {
     id: 'cccccccc-cccc-4ccc-8ccc-cccccccccccc',
@@ -1479,6 +1492,10 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/synchronization/state`, () =>
     HttpResponse.json(syncState),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/me/course-results/summary`, () =>
+    HttpResponse.json(studyProgress),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/synchronization/write-intents`, () =>

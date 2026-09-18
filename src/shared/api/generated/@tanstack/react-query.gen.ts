@@ -4,7 +4,7 @@ import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOption
 
 import { client } from '../client.gen';
 import { Auth, Connectors, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, RoleAssignments, Schedule, Synchronization, Users } from '../sdk.gen';
-import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, ClearInstitutionConnectorCredentialData, ClearInstitutionConnectorCredentialError, ClearInstitutionConnectorCredentialResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateResponse, DiscardSourceWriteIntentData, DiscardSourceWriteIntentError, DiscardSourceWriteIntentResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionConnectorCredentialsData, GetInstitutionConnectorCredentialsError, GetInstitutionConnectorCredentialsResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSynchronizationReconciliationData, GetSynchronizationReconciliationError, GetSynchronizationReconciliationResponse, GetSynchronizationRunData, GetSynchronizationRunError, GetSynchronizationRunResponse, GetSynchronizationStateData, GetSynchronizationStateError, GetSynchronizationStateResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListInstitutionConnectorsData, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListReconciliationResolutionsData, ListReconciliationResolutionsError, ListReconciliationResolutionsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListSourceWriteIntentsData, ListSourceWriteIntentsError, ListSourceWriteIntentsResponse, ListSynchronizationRunsData, ListSynchronizationRunsError, ListSynchronizationRunsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, ResolveReconciliationDiscrepancyData, ResolveReconciliationDiscrepancyError, ResolveReconciliationDiscrepancyResponse, RetrySourceWriteIntentData, RetrySourceWriteIntentError, RetrySourceWriteIntentResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SetInstitutionConnectorCredentialsData, SetInstitutionConnectorCredentialsError, SetInstitutionConnectorCredentialsResponse, StartSynchronizationRunData, StartSynchronizationRunError, StartSynchronizationRunResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
+import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, ClearInstitutionConnectorCredentialData, ClearInstitutionConnectorCredentialError, ClearInstitutionConnectorCredentialResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateResponse, DiscardSourceWriteIntentData, DiscardSourceWriteIntentError, DiscardSourceWriteIntentResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionConnectorCredentialsData, GetInstitutionConnectorCredentialsError, GetInstitutionConnectorCredentialsResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSynchronizationReconciliationData, GetSynchronizationReconciliationError, GetSynchronizationReconciliationResponse, GetSynchronizationRunData, GetSynchronizationRunError, GetSynchronizationRunResponse, GetSynchronizationStateData, GetSynchronizationStateError, GetSynchronizationStateResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListInstitutionConnectorsData, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListReconciliationResolutionsData, ListReconciliationResolutionsError, ListReconciliationResolutionsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListSourceWriteIntentsData, ListSourceWriteIntentsError, ListSourceWriteIntentsResponse, ListSynchronizationRunsData, ListSynchronizationRunsError, ListSynchronizationRunsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, ResolveReconciliationDiscrepancyData, ResolveReconciliationDiscrepancyError, ResolveReconciliationDiscrepancyResponse, RetrySourceWriteIntentData, RetrySourceWriteIntentError, RetrySourceWriteIntentResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SetInstitutionConnectorCredentialsData, SetInstitutionConnectorCredentialsError, SetInstitutionConnectorCredentialsResponse, StartSynchronizationRunData, StartSynchronizationRunError, StartSynchronizationRunResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -946,6 +946,76 @@ export const markMyNotificationReadMutation = (options?: Partial<Options<MarkMyN
     return mutationOptions;
 };
 
+export const listMyTimetableEventsQueryKey = (options: Options<ListMyTimetableEventsData>) => createQueryKey('listMyTimetableEvents', options);
+
+/**
+ * List the current user’s timetable events overlapping a date range
+ */
+export const listMyTimetableEventsOptions = (options: Options<ListMyTimetableEventsData>) => queryOptions<ListMyTimetableEventsResponse, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ReturnType<typeof listMyTimetableEventsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Schedule.listMyTimetableEvents({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyTimetableEventsQueryKey(options)
+});
+
+export const listMyExamTermsQueryKey = (options: Options<ListMyExamTermsData>) => createQueryKey('listMyExamTerms', options);
+
+/**
+ * List the exam terms of the courses the current user attends or teaches
+ */
+export const listMyExamTermsOptions = (options: Options<ListMyExamTermsData>) => queryOptions<ListMyExamTermsResponse, ListMyExamTermsError, ListMyExamTermsResponse, ReturnType<typeof listMyExamTermsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Schedule.listMyExamTerms({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyExamTermsQueryKey(options)
+});
+
+/**
+ * Register the current user for an exam term
+ */
+export const registerForExamTermMutation = (options?: Partial<Options<RegisterForExamTermData>>): UseMutationOptions<RegisterForExamTermResponse, RegisterForExamTermError, Options<RegisterForExamTermData>> => {
+    const mutationOptions: UseMutationOptions<RegisterForExamTermResponse, RegisterForExamTermError, Options<RegisterForExamTermData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Schedule.registerForExamTerm({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Cancel the current user’s registration for an exam term
+ */
+export const cancelExamRegistrationMutation = (options?: Partial<Options<CancelExamRegistrationData>>): UseMutationOptions<CancelExamRegistrationResponse, CancelExamRegistrationError, Options<CancelExamRegistrationData>> => {
+    const mutationOptions: UseMutationOptions<CancelExamRegistrationResponse, CancelExamRegistrationError, Options<CancelExamRegistrationData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Schedule.cancelExamRegistration({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const listMyCoursesQueryKey = (options: Options<ListMyCoursesData>) => createQueryKey('listMyCourses', options);
 
 /**
@@ -1036,6 +1106,26 @@ export const listMyCourseResultsOptions = (options: Options<ListMyCourseResultsD
     queryKey: listMyCourseResultsQueryKey(options)
 });
 
+export const getMyStudyProgressQueryKey = (options: Options<GetMyStudyProgressData>) => createQueryKey('getMyStudyProgress', options);
+
+/**
+ * Total the current user’s credits, pass rate and weighted average
+ *
+ * Answered on the server so the client never keeps a second copy of what counts as a pass. Only the latest attempt of a course counts, and an annulled result counts for nothing.
+ */
+export const getMyStudyProgressOptions = (options: Options<GetMyStudyProgressData>) => queryOptions<GetMyStudyProgressResponse, GetMyStudyProgressError, GetMyStudyProgressResponse, ReturnType<typeof getMyStudyProgressQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Grades.getMyStudyProgress({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getMyStudyProgressQueryKey(options)
+});
+
 export const listLearningSpacesQueryKey = (options: Options<ListLearningSpacesData>) => createQueryKey('listLearningSpaces', options);
 
 /**
@@ -1097,76 +1187,6 @@ export const createDemoRequestMutation = (options?: Partial<Options<CreateDemoRe
     const mutationOptions: UseMutationOptions<CreateDemoRequestResponse, CreateDemoRequestError, Options<CreateDemoRequestData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await Marketing.createDemoRequest({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const listMyTimetableEventsQueryKey = (options: Options<ListMyTimetableEventsData>) => createQueryKey('listMyTimetableEvents', options);
-
-/**
- * List the current user’s timetable events overlapping a date range
- */
-export const listMyTimetableEventsOptions = (options: Options<ListMyTimetableEventsData>) => queryOptions<ListMyTimetableEventsResponse, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ReturnType<typeof listMyTimetableEventsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Schedule.listMyTimetableEvents({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listMyTimetableEventsQueryKey(options)
-});
-
-export const listMyExamTermsQueryKey = (options: Options<ListMyExamTermsData>) => createQueryKey('listMyExamTerms', options);
-
-/**
- * List the exam terms of the courses the current user attends or teaches
- */
-export const listMyExamTermsOptions = (options: Options<ListMyExamTermsData>) => queryOptions<ListMyExamTermsResponse, ListMyExamTermsError, ListMyExamTermsResponse, ReturnType<typeof listMyExamTermsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Schedule.listMyExamTerms({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listMyExamTermsQueryKey(options)
-});
-
-/**
- * Register the current user for an exam term
- */
-export const registerForExamTermMutation = (options?: Partial<Options<RegisterForExamTermData>>): UseMutationOptions<RegisterForExamTermResponse, RegisterForExamTermError, Options<RegisterForExamTermData>> => {
-    const mutationOptions: UseMutationOptions<RegisterForExamTermResponse, RegisterForExamTermError, Options<RegisterForExamTermData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Schedule.registerForExamTerm({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Cancel the current user’s registration for an exam term
- */
-export const cancelExamRegistrationMutation = (options?: Partial<Options<CancelExamRegistrationData>>): UseMutationOptions<CancelExamRegistrationResponse, CancelExamRegistrationError, Options<CancelExamRegistrationData>> => {
-    const mutationOptions: UseMutationOptions<CancelExamRegistrationResponse, CancelExamRegistrationError, Options<CancelExamRegistrationData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Schedule.cancelExamRegistration({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

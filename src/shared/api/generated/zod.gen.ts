@@ -631,6 +631,216 @@ export const zUnreadNotificationsResponseDto = z.object({
     unreadCount: z.number()
 });
 
+export const zTimetableRoomDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string().nullable(),
+    building: z.string().nullable()
+});
+
+export const zTimetableStudyGroupDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string().nullable(),
+    kind: z.enum([
+        'seminar',
+        'lab',
+        'exercise',
+        'project',
+        'other'
+    ])
+});
+
+export const zTimetableOfferingDto = z.object({
+    id: z.uuid()
+});
+
+export const zTimetableCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string()
+});
+
+export const zTimetableTermDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string()
+});
+
+export const zTimetableEventProvenanceDto = z.object({
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ]),
+    externalId: z.string().nullable(),
+    sourceUpdatedAt: z.iso.datetime().nullable(),
+    lastSynchronizedAt: z.iso.datetime().nullable(),
+    synchronizationStatus: z.enum([
+        'in_sync',
+        'pending',
+        'conflict',
+        'failed'
+    ])
+});
+
+export const zMyTimetableEventResponseDto = z.object({
+    id: z.uuid(),
+    type: z.enum([
+        'lecture',
+        'seminar',
+        'lab',
+        'consultation',
+        'exam',
+        'other'
+    ]),
+    title: z.string().nullable(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+    cancelledAt: z.iso.datetime().nullable(),
+    isCancelled: z.boolean(),
+    attendance: z.enum(['enrolled', 'teaching']),
+    room: zTimetableRoomDto.nullable(),
+    studyGroup: zTimetableStudyGroupDto.nullable(),
+    offering: zTimetableOfferingDto,
+    course: zTimetableCourseDto,
+    term: zTimetableTermDto,
+    provenance: zTimetableEventProvenanceDto
+});
+
+export const zExamRegistrationAvailabilityDto = z.object({
+    canRegister: z.boolean(),
+    canCancel: z.boolean(),
+    reason: z.enum([
+        'open',
+        'teaching',
+        'registered',
+        'cancelled',
+        'not_open',
+        'closed',
+        'other_term_registered',
+        'full',
+        'attempt_not_earned'
+    ])
+});
+
+export const zMyExamRegistrationDto = z.object({
+    id: z.uuid(),
+    status: z.enum([
+        'registered',
+        'cancelled',
+        'attended',
+        'no_show',
+        'excused'
+    ]),
+    registeredAt: z.iso.datetime().nullable(),
+    cancelledAt: z.iso.datetime().nullable(),
+    delivery: z.enum([
+        'not_relayed',
+        'sending',
+        'relayed',
+        'refused',
+        'stuck'
+    ])
+});
+
+export const zExamRoomDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string().nullable(),
+    building: z.string().nullable()
+});
+
+export const zExamExaminerDto = z.object({
+    id: z.uuid(),
+    displayName: z.string()
+});
+
+export const zExamOfferingDto = z.object({
+    id: z.uuid()
+});
+
+export const zExamCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string()
+});
+
+export const zExamTermDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string()
+});
+
+export const zExamTermProvenanceDto = z.object({
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ]),
+    externalId: z.string().nullable(),
+    sourceUpdatedAt: z.iso.datetime().nullable(),
+    lastSynchronizedAt: z.iso.datetime().nullable(),
+    synchronizationStatus: z.enum([
+        'in_sync',
+        'pending',
+        'conflict',
+        'failed'
+    ])
+});
+
+export const zMyExamTermResponseDto = z.object({
+    id: z.uuid(),
+    kind: z.enum([
+        'regular',
+        'first_retake',
+        'second_retake',
+        'state_exam'
+    ]),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime().nullable(),
+    cancelledAt: z.iso.datetime().nullable(),
+    isCancelled: z.boolean(),
+    attendance: z.enum(['enrolled', 'teaching']),
+    capacity: z.number().nullable(),
+    registeredCount: z.number(),
+    seatsRemaining: z.number().nullable(),
+    isFull: z.boolean(),
+    registrationOpensAt: z.iso.datetime().nullable(),
+    registrationClosesAt: z.iso.datetime().nullable(),
+    registrationState: z.enum([
+        'not_open',
+        'open',
+        'closed'
+    ]),
+    registrationAvailability: zExamRegistrationAvailabilityDto,
+    myRegistration: zMyExamRegistrationDto.nullable(),
+    room: zExamRoomDto.nullable(),
+    examiner: zExamExaminerDto.nullable(),
+    offering: zExamOfferingDto,
+    course: zExamCourseDto,
+    term: zExamTermDto,
+    provenance: zExamTermProvenanceDto
+});
+
+export const zRegisterForExamTermDto = z.object({
+    examTermId: z.uuid()
+});
+
+export const zExamRegistrationResponseDto = z.object({
+    id: z.uuid(),
+    examTermId: z.uuid(),
+    status: z.enum([
+        'registered',
+        'cancelled',
+        'attended',
+        'no_show',
+        'excused'
+    ]),
+    registeredAt: z.iso.datetime().nullable(),
+    cancelledAt: z.iso.datetime().nullable()
+});
+
 export const zMyCourseOfferingDto = z.object({
     id: z.uuid(),
     status: z.enum([
@@ -903,7 +1113,8 @@ export const zEffectiveCourseGradeDto = z.object({
         'FX',
         'passed',
         'failed'
-    ])
+    ]),
+    passed: z.boolean()
 });
 
 export const zCalculatedCourseResultDto = z.object({
@@ -997,6 +1208,7 @@ export const zMyCourseResultResponseDto = z.object({
     attempt: z.number(),
     conflictNote: z.string().nullable(),
     effective: zEffectiveCourseGradeDto.nullable(),
+    isVoided: z.boolean(),
     calculated: zCalculatedCourseResultDto,
     proposed: zProposedCourseResultDto,
     official: zOfficialCourseResultDto,
@@ -1005,6 +1217,16 @@ export const zMyCourseResultResponseDto = z.object({
     offering: zMyCourseResultOfferingDto,
     course: zMyCourseResultCourseDto,
     term: zMyCourseResultTermDto
+});
+
+export const zStudyProgressResponseDto = z.object({
+    gradedCourses: z.number(),
+    passedCourses: z.number(),
+    failedCourses: z.number(),
+    creditsEarned: z.number(),
+    creditsAttempted: z.number(),
+    weightedAverage: z.number().nullable(),
+    awaitingRetake: z.number()
 });
 
 export const zLearningSpaceDto = z.object({
@@ -1186,215 +1408,6 @@ export const zCreateDemoRequestDto = z.object({
 
 export const zDemoRequestAcceptedDto = z.object({
     status: z.enum(['accepted'])
-});
-
-export const zTimetableRoomDto = z.object({
-    id: z.uuid(),
-    code: z.string(),
-    name: z.string().nullable(),
-    building: z.string().nullable()
-});
-
-export const zTimetableStudyGroupDto = z.object({
-    id: z.uuid(),
-    code: z.string(),
-    name: z.string().nullable(),
-    kind: z.enum([
-        'seminar',
-        'lab',
-        'exercise',
-        'project',
-        'other'
-    ])
-});
-
-export const zTimetableOfferingDto = z.object({
-    id: z.uuid()
-});
-
-export const zTimetableCourseDto = z.object({
-    id: z.uuid(),
-    code: z.string(),
-    title: z.string()
-});
-
-export const zTimetableTermDto = z.object({
-    id: z.uuid(),
-    code: z.string(),
-    name: z.string()
-});
-
-export const zTimetableEventProvenanceDto = z.object({
-    sourceSystem: z.enum([
-        'platform',
-        'sis',
-        'lms'
-    ]),
-    externalId: z.string().nullable(),
-    sourceUpdatedAt: z.iso.datetime().nullable(),
-    lastSynchronizedAt: z.iso.datetime().nullable(),
-    synchronizationStatus: z.enum([
-        'in_sync',
-        'pending',
-        'conflict',
-        'failed'
-    ])
-});
-
-export const zMyTimetableEventResponseDto = z.object({
-    id: z.uuid(),
-    type: z.enum([
-        'lecture',
-        'seminar',
-        'lab',
-        'consultation',
-        'exam',
-        'other'
-    ]),
-    title: z.string().nullable(),
-    startsAt: z.iso.datetime(),
-    endsAt: z.iso.datetime(),
-    cancelledAt: z.iso.datetime().nullable(),
-    isCancelled: z.boolean(),
-    attendance: z.enum(['enrolled', 'teaching']),
-    room: zTimetableRoomDto.nullable(),
-    studyGroup: zTimetableStudyGroupDto.nullable(),
-    offering: zTimetableOfferingDto,
-    course: zTimetableCourseDto,
-    term: zTimetableTermDto,
-    provenance: zTimetableEventProvenanceDto
-});
-
-export const zExamRegistrationAvailabilityDto = z.object({
-    canRegister: z.boolean(),
-    canCancel: z.boolean(),
-    reason: z.enum([
-        'open',
-        'teaching',
-        'registered',
-        'cancelled',
-        'not_open',
-        'closed',
-        'other_term_registered',
-        'full'
-    ])
-});
-
-export const zMyExamRegistrationDto = z.object({
-    id: z.uuid(),
-    status: z.enum([
-        'registered',
-        'cancelled',
-        'attended',
-        'no_show',
-        'excused'
-    ]),
-    registeredAt: z.iso.datetime().nullable(),
-    cancelledAt: z.iso.datetime().nullable(),
-    delivery: z.enum([
-        'not_relayed',
-        'sending',
-        'relayed',
-        'refused',
-        'stuck'
-    ])
-});
-
-export const zExamRoomDto = z.object({
-    id: z.uuid(),
-    code: z.string(),
-    name: z.string().nullable(),
-    building: z.string().nullable()
-});
-
-export const zExamExaminerDto = z.object({
-    id: z.uuid(),
-    displayName: z.string()
-});
-
-export const zExamOfferingDto = z.object({
-    id: z.uuid()
-});
-
-export const zExamCourseDto = z.object({
-    id: z.uuid(),
-    code: z.string(),
-    title: z.string()
-});
-
-export const zExamTermDto = z.object({
-    id: z.uuid(),
-    code: z.string(),
-    name: z.string()
-});
-
-export const zExamTermProvenanceDto = z.object({
-    sourceSystem: z.enum([
-        'platform',
-        'sis',
-        'lms'
-    ]),
-    externalId: z.string().nullable(),
-    sourceUpdatedAt: z.iso.datetime().nullable(),
-    lastSynchronizedAt: z.iso.datetime().nullable(),
-    synchronizationStatus: z.enum([
-        'in_sync',
-        'pending',
-        'conflict',
-        'failed'
-    ])
-});
-
-export const zMyExamTermResponseDto = z.object({
-    id: z.uuid(),
-    kind: z.enum([
-        'regular',
-        'first_retake',
-        'second_retake',
-        'state_exam'
-    ]),
-    startsAt: z.iso.datetime(),
-    endsAt: z.iso.datetime().nullable(),
-    cancelledAt: z.iso.datetime().nullable(),
-    isCancelled: z.boolean(),
-    attendance: z.enum(['enrolled', 'teaching']),
-    capacity: z.number().nullable(),
-    registeredCount: z.number(),
-    seatsRemaining: z.number().nullable(),
-    isFull: z.boolean(),
-    registrationOpensAt: z.iso.datetime().nullable(),
-    registrationClosesAt: z.iso.datetime().nullable(),
-    registrationState: z.enum([
-        'not_open',
-        'open',
-        'closed'
-    ]),
-    registrationAvailability: zExamRegistrationAvailabilityDto,
-    myRegistration: zMyExamRegistrationDto.nullable(),
-    room: zExamRoomDto.nullable(),
-    examiner: zExamExaminerDto.nullable(),
-    offering: zExamOfferingDto,
-    course: zExamCourseDto,
-    term: zExamTermDto,
-    provenance: zExamTermProvenanceDto
-});
-
-export const zRegisterForExamTermDto = z.object({
-    examTermId: z.uuid()
-});
-
-export const zExamRegistrationResponseDto = z.object({
-    id: z.uuid(),
-    examTermId: z.uuid(),
-    status: z.enum([
-        'registered',
-        'cancelled',
-        'attended',
-        'no_show',
-        'excused'
-    ]),
-    registeredAt: z.iso.datetime().nullable(),
-    cancelledAt: z.iso.datetime().nullable()
 });
 
 export const zCreateUserDtoWritable = z.object({
@@ -1737,6 +1750,59 @@ export const zMarkMyNotificationReadPath = z.object({
 
 export const zMarkMyNotificationReadResponse = zNotificationResponseDto;
 
+export const zListMyTimetableEventsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyTimetableEventsQuery = z.object({
+    from: z.iso.datetime(),
+    to: z.iso.datetime(),
+    offeringId: z.uuid().optional(),
+    type: z.enum([
+        'lecture',
+        'seminar',
+        'lab',
+        'consultation',
+        'exam',
+        'other'
+    ]).optional()
+});
+
+export const zListMyTimetableEventsResponse = z.array(zMyTimetableEventResponseDto);
+
+export const zListMyExamTermsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyExamTermsQuery = z.object({
+    from: z.iso.datetime().optional(),
+    to: z.iso.datetime().optional(),
+    offeringId: z.uuid().optional(),
+    kind: z.enum([
+        'regular',
+        'first_retake',
+        'second_retake',
+        'state_exam'
+    ]).optional()
+});
+
+export const zListMyExamTermsResponse = z.array(zMyExamTermResponseDto);
+
+export const zRegisterForExamTermBody = zRegisterForExamTermDto;
+
+export const zRegisterForExamTermPath = z.object({
+    institutionId: z.string()
+});
+
+export const zRegisterForExamTermResponse = zExamRegistrationResponseDto;
+
+export const zCancelExamRegistrationPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zCancelExamRegistrationResponse = zExamRegistrationResponseDto;
+
 export const zListMyCoursesPath = z.object({
     institutionId: z.string()
 });
@@ -1798,6 +1864,12 @@ export const zListMyCourseResultsQuery = z.object({
 
 export const zListMyCourseResultsResponse = z.array(zMyCourseResultResponseDto);
 
+export const zGetMyStudyProgressPath = z.object({
+    institutionId: z.string()
+});
+
+export const zGetMyStudyProgressResponse = zStudyProgressResponseDto;
+
 export const zListLearningSpacesPath = z.object({
     institutionId: z.string()
 });
@@ -1829,56 +1901,3 @@ export const zListMyAssessmentResultsResponse = z.array(zMyAssessmentResultRespo
 export const zCreateDemoRequestBody = zCreateDemoRequestDtoWritable;
 
 export const zCreateDemoRequestResponse = zDemoRequestAcceptedDto;
-
-export const zListMyTimetableEventsPath = z.object({
-    institutionId: z.string()
-});
-
-export const zListMyTimetableEventsQuery = z.object({
-    from: z.iso.datetime(),
-    to: z.iso.datetime(),
-    offeringId: z.uuid().optional(),
-    type: z.enum([
-        'lecture',
-        'seminar',
-        'lab',
-        'consultation',
-        'exam',
-        'other'
-    ]).optional()
-});
-
-export const zListMyTimetableEventsResponse = z.array(zMyTimetableEventResponseDto);
-
-export const zListMyExamTermsPath = z.object({
-    institutionId: z.string()
-});
-
-export const zListMyExamTermsQuery = z.object({
-    from: z.iso.datetime().optional(),
-    to: z.iso.datetime().optional(),
-    offeringId: z.uuid().optional(),
-    kind: z.enum([
-        'regular',
-        'first_retake',
-        'second_retake',
-        'state_exam'
-    ]).optional()
-});
-
-export const zListMyExamTermsResponse = z.array(zMyExamTermResponseDto);
-
-export const zRegisterForExamTermBody = zRegisterForExamTermDto;
-
-export const zRegisterForExamTermPath = z.object({
-    institutionId: z.string()
-});
-
-export const zRegisterForExamTermResponse = zExamRegistrationResponseDto;
-
-export const zCancelExamRegistrationPath = z.object({
-    institutionId: z.string(),
-    id: z.string()
-});
-
-export const zCancelExamRegistrationResponse = zExamRegistrationResponseDto;

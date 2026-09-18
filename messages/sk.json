@@ -425,7 +425,10 @@
       "pending": "Pending",
       "conflict": "Conflict",
       "failed": "Failed"
-    }
+    },
+    "awaitingRetake": "{courses, plural, one {# course is awaiting a resit} other {# courses are awaiting a resit}}",
+    "annulledNote": "The registrar struck this result. It counts towards nothing.",
+    "noStanding": "No standing"
   },
   "sync": {
     "title": "Synchronization",
@@ -773,7 +776,8 @@
       "teaching": "You examine this term, so there is no seat to take.",
       "cancelled": "This term was cancelled, so registration is no longer possible.",
       "full": "Every seat is taken.",
-      "other_term_registered": "You are registered for another term of this course. Cancel that one first."
+      "other_term_registered": "You are registered for another term of this course. Cancel that one first.",
+      "attempt_not_earned": "A retake is only open once you have failed the attempt before it."
     },
     "delivery": {
       "not_relayed": {
@@ -796,7 +800,8 @@
         "label": "Not confirmed",
         "description": "The university's system could not be reached. The registration stands here; an administrator has to settle it."
       }
-    }
+    },
+    "cancelledRegistration": "You cancelled this registration"
   },
   "notifications": {
     "title": "Notifications",
