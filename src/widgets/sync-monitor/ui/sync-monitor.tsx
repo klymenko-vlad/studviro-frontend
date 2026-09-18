@@ -27,6 +27,7 @@ import { SyncFreshness } from './sync-freshness';
 import { SyncReconciliation } from './sync-reconciliation';
 import { SyncRunDomains } from './sync-run-domains';
 import { SyncRunHistory } from './sync-run-history';
+import { SyncWriteBack } from './sync-write-back';
 
 const ACTIVE_POLL_MS = 5000;
 
@@ -150,6 +151,16 @@ export function SyncMonitor({
           </CardContent>
         </Card>
       ) : null}
+
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('writeBack.title')}</CardTitle>
+          <CardDescription>{t('writeBack.cardDescription')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <SyncWriteBack institutionId={institutionId} canRun={canRun} />
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>

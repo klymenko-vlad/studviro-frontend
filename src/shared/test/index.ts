@@ -32,5 +32,6 @@ export {
   teachingOfferings,
   timetableEvents,
   users,
+  writeIntents,
 } from './msw/handlers';
 export { server } from './msw/server';

@@ -252,6 +252,40 @@ export const zSyncWatermarkResponseDto = z.object({
     lastErrorMessage: z.string().nullable()
 });
 
+export const zWriteIntentResponseDto = z.object({
+    id: z.uuid(),
+    targetSourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ]),
+    connectorName: z.string(),
+    kind: z.enum([
+        'exam_registration.create',
+        'exam_registration.cancel',
+        'course_enrollment.request',
+        'course_enrollment.withdraw',
+        'course_result.publish',
+        'learning_space.provision',
+        'learning_enrollment.upsert'
+    ]),
+    state: z.enum([
+        'pending',
+        'in_flight',
+        'acknowledged',
+        'rejected',
+        'abandoned'
+    ]),
+    canonicalTable: z.string(),
+    canonicalId: z.uuid(),
+    attempts: z.number(),
+    nextAttemptAt: z.iso.datetime().nullable(),
+    deliveredAt: z.iso.datetime().nullable(),
+    lastErrorCode: z.string().nullable(),
+    lastErrorMessage: z.string().nullable(),
+    createdAt: z.iso.datetime()
+});
+
 export const zConnectorStatusResponseDto = z.object({
     kind: z.enum(['academic', 'learning']),
     name: z.string().nullable(),
@@ -1256,7 +1290,14 @@ export const zMyExamRegistrationDto = z.object({
         'excused'
     ]),
     registeredAt: z.iso.datetime().nullable(),
-    cancelledAt: z.iso.datetime().nullable()
+    cancelledAt: z.iso.datetime().nullable(),
+    delivery: z.enum([
+        'not_relayed',
+        'sending',
+        'relayed',
+        'refused',
+        'stuck'
+    ])
 });
 
 export const zExamRoomDto = z.object({
@@ -1434,6 +1475,30 @@ export const zGetSynchronizationStatePath = z.object({
 });
 
 export const zGetSynchronizationStateResponse = z.array(zSyncWatermarkResponseDto);
+
+export const zListSourceWriteIntentsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListSourceWriteIntentsQuery = z.object({
+    limit: z.number().gte(1).lte(100).optional().default(20)
+});
+
+export const zListSourceWriteIntentsResponse = z.array(zWriteIntentResponseDto);
+
+export const zRetrySourceWriteIntentPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zRetrySourceWriteIntentResponse = zWriteIntentResponseDto;
+
+export const zDiscardSourceWriteIntentPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zDiscardSourceWriteIntentResponse = z.void();
 
 export const zListInstitutionConnectorsPath = z.object({
     institutionId: z.string()

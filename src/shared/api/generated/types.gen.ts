@@ -152,6 +152,22 @@ export type SyncWatermarkResponseDto = {
     lastErrorMessage: string | null;
 };
 
+export type WriteIntentResponseDto = {
+    id: string;
+    targetSourceSystem: 'platform' | 'sis' | 'lms';
+    connectorName: string;
+    kind: 'exam_registration.create' | 'exam_registration.cancel' | 'course_enrollment.request' | 'course_enrollment.withdraw' | 'course_result.publish' | 'learning_space.provision' | 'learning_enrollment.upsert';
+    state: 'pending' | 'in_flight' | 'acknowledged' | 'rejected' | 'abandoned';
+    canonicalTable: string;
+    canonicalId: string;
+    attempts: number;
+    nextAttemptAt: string | null;
+    deliveredAt: string | null;
+    lastErrorCode: string | null;
+    lastErrorMessage: string | null;
+    createdAt: string;
+};
+
 export type ConnectorStatusResponseDto = {
     kind: 'academic' | 'learning';
     name: string | null;
@@ -885,6 +901,7 @@ export type MyExamRegistrationDto = {
     status: 'registered' | 'cancelled' | 'attended' | 'no_show' | 'excused';
     registeredAt: string | null;
     cancelledAt: string | null;
+    delivery: 'not_relayed' | 'sending' | 'relayed' | 'refused' | 'stuck';
 };
 
 export type ExamRoomDto = {
@@ -1253,6 +1270,126 @@ export type GetSynchronizationStateResponses = {
 };
 
 export type GetSynchronizationStateResponse = GetSynchronizationStateResponses[keyof GetSynchronizationStateResponses];
+
+export type ListSourceWriteIntentsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        limit?: number;
+    };
+    url: '/api/v1/institutions/{institutionId}/synchronization/write-intents';
+};
+
+export type ListSourceWriteIntentsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListSourceWriteIntentsError = ListSourceWriteIntentsErrors[keyof ListSourceWriteIntentsErrors];
+
+export type ListSourceWriteIntentsResponses = {
+    200: Array<WriteIntentResponseDto>;
+};
+
+export type ListSourceWriteIntentsResponse = ListSourceWriteIntentsResponses[keyof ListSourceWriteIntentsResponses];
+
+export type RetrySourceWriteIntentData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/synchronization/write-intents/{id}/retry';
+};
+
+export type RetrySourceWriteIntentErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RetrySourceWriteIntentError = RetrySourceWriteIntentErrors[keyof RetrySourceWriteIntentErrors];
+
+export type RetrySourceWriteIntentResponses = {
+    200: WriteIntentResponseDto;
+};
+
+export type RetrySourceWriteIntentResponse = RetrySourceWriteIntentResponses[keyof RetrySourceWriteIntentResponses];
+
+export type DiscardSourceWriteIntentData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/synchronization/write-intents/{id}';
+};
+
+export type DiscardSourceWriteIntentErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type DiscardSourceWriteIntentError = DiscardSourceWriteIntentErrors[keyof DiscardSourceWriteIntentErrors];
+
+export type DiscardSourceWriteIntentResponses = {
+    204: void;
+};
+
+export type DiscardSourceWriteIntentResponse = DiscardSourceWriteIntentResponses[keyof DiscardSourceWriteIntentResponses];
 
 export type ListInstitutionConnectorsData = {
     body?: never;

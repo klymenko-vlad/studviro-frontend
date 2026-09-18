@@ -16,4 +16,5 @@ export {
   type ExamTermKind,
   type ExamTermSplit,
 } from './model/exam-term';
+export { ExamDeliveryNote } from './ui/exam-delivery-note';
 export { ExamTermCard } from './ui/exam-term-card';

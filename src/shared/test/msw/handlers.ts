@@ -27,6 +27,7 @@ import type {
   SyncWatermarkResponseDto,
   TeachingOfferingResponseDto,
   UserResponseDto,
+  WriteIntentResponseDto,
 } from '@/shared/api';
 
 /**
@@ -602,6 +603,7 @@ export const examTerms: MyExamTermResponseDto[] = [
       status: 'registered',
       registeredAt: localIso(2026, 5, 14, 8),
       cancelledAt: null,
+      delivery: 'not_relayed',
     },
     room: null,
     examiner: null,
@@ -1139,6 +1141,25 @@ export const reconciliationResolutions: ReconciliationResolutionResponseDto[] = 
   },
 ];
 
+export const writeIntents: WriteIntentResponseDto[] = [
+  {
+    id: 'cccccccc-cccc-4ccc-8ccc-cccccccccccc',
+    targetSourceSystem: 'sis',
+    connectorName: 'mock-sis',
+    kind: 'exam_registration.create',
+    state: 'rejected',
+    canonicalTable: 'exam_registrations',
+    canonicalId: 'ddddddd3-dddd-4ddd-8ddd-ddddddddddd3',
+    attempts: 1,
+    nextAttemptAt: null,
+    deliveredAt: '2026-05-30T09:00:00.000Z',
+    lastErrorCode: 'RETAKE_NOT_SELF_SERVICE',
+    lastErrorMessage:
+      'A retake seat is assigned by the study department and cannot be booked by the student',
+    createdAt: '2026-05-30T08:59:00.000Z',
+  },
+];
+
 export const handlers = [
   /**
    * The BFF returns only the user; the tokens stay in httpOnly cookies the test
@@ -1458,6 +1479,20 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/synchronization/state`, () =>
     HttpResponse.json(syncState),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/synchronization/write-intents`, () =>
+    HttpResponse.json(writeIntents),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/synchronization/write-intents/:id/retry`,
+    () => HttpResponse.json({ ...writeIntents[0], state: 'pending', attempts: 0 }),
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/synchronization/write-intents/:id`,
+    () => new HttpResponse(null, { status: 204 }),
   ),
 
   http.get(

@@ -4,7 +4,7 @@ import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOption
 
 import { client } from '../client.gen';
 import { Auth, Connectors, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, RoleAssignments, Schedule, Synchronization, Users } from '../sdk.gen';
-import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, ClearInstitutionConnectorCredentialData, ClearInstitutionConnectorCredentialError, ClearInstitutionConnectorCredentialResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionConnectorCredentialsData, GetInstitutionConnectorCredentialsError, GetInstitutionConnectorCredentialsResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSynchronizationReconciliationData, GetSynchronizationReconciliationError, GetSynchronizationReconciliationResponse, GetSynchronizationRunData, GetSynchronizationRunError, GetSynchronizationRunResponse, GetSynchronizationStateData, GetSynchronizationStateError, GetSynchronizationStateResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListInstitutionConnectorsData, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListReconciliationResolutionsData, ListReconciliationResolutionsError, ListReconciliationResolutionsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListSynchronizationRunsData, ListSynchronizationRunsError, ListSynchronizationRunsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, ResolveReconciliationDiscrepancyData, ResolveReconciliationDiscrepancyError, ResolveReconciliationDiscrepancyResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SetInstitutionConnectorCredentialsData, SetInstitutionConnectorCredentialsError, SetInstitutionConnectorCredentialsResponse, StartSynchronizationRunData, StartSynchronizationRunError, StartSynchronizationRunResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
+import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, ClearInstitutionConnectorCredentialData, ClearInstitutionConnectorCredentialError, ClearInstitutionConnectorCredentialResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateResponse, DiscardSourceWriteIntentData, DiscardSourceWriteIntentError, DiscardSourceWriteIntentResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionConnectorCredentialsData, GetInstitutionConnectorCredentialsError, GetInstitutionConnectorCredentialsResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSynchronizationReconciliationData, GetSynchronizationReconciliationError, GetSynchronizationReconciliationResponse, GetSynchronizationRunData, GetSynchronizationRunError, GetSynchronizationRunResponse, GetSynchronizationStateData, GetSynchronizationStateError, GetSynchronizationStateResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListInstitutionConnectorsData, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListReconciliationResolutionsData, ListReconciliationResolutionsError, ListReconciliationResolutionsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListSourceWriteIntentsData, ListSourceWriteIntentsError, ListSourceWriteIntentsResponse, ListSynchronizationRunsData, ListSynchronizationRunsError, ListSynchronizationRunsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MeData, MeError, MeResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveData, RemoveError, RemoveResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, ResolveReconciliationDiscrepancyData, ResolveReconciliationDiscrepancyError, ResolveReconciliationDiscrepancyResponse, RetrySourceWriteIntentData, RetrySourceWriteIntentError, RetrySourceWriteIntentResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SetInstitutionConnectorCredentialsData, SetInstitutionConnectorCredentialsError, SetInstitutionConnectorCredentialsResponse, StartSynchronizationRunData, StartSynchronizationRunError, StartSynchronizationRunResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -168,6 +168,60 @@ export const getSynchronizationStateOptions = (options: Options<GetSynchronizati
     },
     queryKey: getSynchronizationStateQueryKey(options)
 });
+
+export const listSourceWriteIntentsQueryKey = (options: Options<ListSourceWriteIntentsData>) => createQueryKey('listSourceWriteIntents', options);
+
+/**
+ * List the writes the source system has not acknowledged
+ *
+ * A stuck write is a synchronization fact: an act taken in StudViro that the university’s system has not accepted. A `rejected` one was refused and has already been compensated; an `abandoned` one may or may not have landed, so nothing was reversed.
+ */
+export const listSourceWriteIntentsOptions = (options: Options<ListSourceWriteIntentsData>) => queryOptions<ListSourceWriteIntentsResponse, ListSourceWriteIntentsError, ListSourceWriteIntentsResponse, ReturnType<typeof listSourceWriteIntentsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Synchronization.listSourceWriteIntents({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listSourceWriteIntentsQueryKey(options)
+});
+
+/**
+ * Offer a stuck write to the source system again
+ */
+export const retrySourceWriteIntentMutation = (options?: Partial<Options<RetrySourceWriteIntentData>>): UseMutationOptions<RetrySourceWriteIntentResponse, RetrySourceWriteIntentError, Options<RetrySourceWriteIntentData>> => {
+    const mutationOptions: UseMutationOptions<RetrySourceWriteIntentResponse, RetrySourceWriteIntentError, Options<RetrySourceWriteIntentData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Synchronization.retrySourceWriteIntent({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Give up on a stuck write, leaving the two systems in disagreement
+ */
+export const discardSourceWriteIntentMutation = (options?: Partial<Options<DiscardSourceWriteIntentData>>): UseMutationOptions<DiscardSourceWriteIntentResponse, DiscardSourceWriteIntentError, Options<DiscardSourceWriteIntentData>> => {
+    const mutationOptions: UseMutationOptions<DiscardSourceWriteIntentResponse, DiscardSourceWriteIntentError, Options<DiscardSourceWriteIntentData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Synchronization.discardSourceWriteIntent({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
 
 export const listInstitutionConnectorsQueryKey = (options: Options<ListInstitutionConnectorsData>) => createQueryKey('listInstitutionConnectors', options);
 

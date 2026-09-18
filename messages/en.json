@@ -570,6 +570,52 @@
     "source": {
       "sis": "Student information system",
       "lms": "Learning management system"
+    },
+    "writeBack": {
+      "title": "Writes to the source system",
+      "cardDescription": "Acts taken in StudViro that the source system has not acknowledged. A refused one has already been reversed here; an unreachable one has not, because nobody knows whether it landed.",
+      "empty": "Every write the source system owes an answer to has been acknowledged.",
+      "error": "The undelivered writes could not be read.",
+      "retry": "Retry",
+      "discard": "Discard",
+      "retried": "The write is queued again.",
+      "discarded": "The write was discarded. The two systems stay in disagreement.",
+      "inFlightNote": "Being delivered now.",
+      "noReason": "—",
+      "column": {
+        "kind": "Write",
+        "state": "State",
+        "attempts": "Attempts",
+        "queuedAt": "Queued",
+        "reason": "Last answer",
+        "actions": "Actions"
+      },
+      "kind": {
+        "exam_registration": {
+          "create": "Exam registration",
+          "cancel": "Exam registration cancelled"
+        },
+        "course_enrollment": {
+          "request": "Course enrolment requested",
+          "withdraw": "Course enrolment withdrawn"
+        },
+        "course_result": {
+          "publish": "Grade published"
+        },
+        "learning_space": {
+          "provision": "Learning space provisioned"
+        },
+        "learning_enrollment": {
+          "upsert": "Learning enrolment"
+        }
+      },
+      "state": {
+        "pending": "Queued",
+        "in_flight": "Sending",
+        "acknowledged": "Acknowledged",
+        "rejected": "Refused",
+        "abandoned": "Unreachable"
+      }
     }
   },
   "dashboard": {
@@ -728,6 +774,28 @@
       "cancelled": "This term was cancelled, so registration is no longer possible.",
       "full": "Every seat is taken.",
       "other_term_registered": "You are registered for another term of this course. Cancel that one first."
+    },
+    "delivery": {
+      "not_relayed": {
+        "label": "Registered in StudViro",
+        "description": "This institution's system is not notified automatically. Check with the study department if the registration has to be recorded there too."
+      },
+      "sending": {
+        "label": "Sending to the university",
+        "description": "Registered here. The university's system has not confirmed it yet."
+      },
+      "relayed": {
+        "label": "Confirmed by the university",
+        "description": "The university's system accepted the registration and assigned it an identifier."
+      },
+      "refused": {
+        "label": "Refused by the university",
+        "description": "The university's system would not accept this registration, so it was withdrawn here too."
+      },
+      "stuck": {
+        "label": "Not confirmed",
+        "description": "The university's system could not be reached. The registration stands here; an administrator has to settle it."
+      }
     }
   },
   "notifications": {

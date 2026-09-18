@@ -11,6 +11,7 @@ import {
   type ExamTerm,
 } from '../model/exam-term';
 import { examTermBlockedNote } from '../model/exam-term-filter';
+import { ExamDeliveryNote } from './exam-delivery-note';
 
 export function ExamTermCard({
   term,
@@ -98,6 +99,8 @@ export function ExamTermCard({
         </div>
 
         <ExamBlockedNote term={term} />
+
+        <ExamDeliveryNote term={term} />
 
         {action === undefined ? null : <div className="flex justify-end">{action}</div>}
       </CardContent>
