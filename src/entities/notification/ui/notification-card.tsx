@@ -113,11 +113,35 @@ export function NotificationCard({
           </p>
         )}
 
+        {notification.eventTitle === null ? null : (
+          <p className="text-sm font-medium">{notification.eventTitle}</p>
+        )}
+
         {startsAt === null ? null : (
           <p className="text-muted-foreground text-sm">
             {previousStartsAt === null
               ? t('startsAt', { date: startsAt })
               : t('movedTo', { from: previousStartsAt, to: startsAt })}
+          </p>
+        )}
+
+        {notification.grade === null ? null : (
+          <p className="text-sm" data-testid="notification-grade">
+            {notification.previousGrade === null
+              ? t('gradeIs', { grade: notification.grade })
+              : t('gradeChanged', {
+                  from: notification.previousGrade,
+                  to: notification.grade,
+                })}
+            {notification.attempt === null || notification.attempt === 1
+              ? ''
+              : ` · ${t('attempt', { attempt: notification.attempt })}`}
+          </p>
+        )}
+
+        {notification.reason === null ? null : (
+          <p className="text-destructive text-sm" data-testid="notification-reason">
+            {t('reason', { reason: notification.reason })}
           </p>
         )}
 

@@ -445,7 +445,7 @@ export type ExternalIdentityResponseDto = {
 
 export type NotificationResponseDto = {
     id: string;
-    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled';
+    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused';
     occurredAt: string;
     occurrenceCount: number;
     readAt: string | null;
@@ -459,6 +459,14 @@ export type NotificationResponseDto = {
     dueAt: string | null;
     previousDueAt: string | null;
     activityName: string | null;
+    grade: string | null;
+    previousGrade: string | null;
+    attempt: number | null;
+    eventTitle: string | null;
+    /**
+     * Why the source system refused, when it did.
+     */
+    reason: string | null;
     sourceSystem: 'platform' | 'sis' | 'lms';
 };
 

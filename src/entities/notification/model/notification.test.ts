@@ -19,6 +19,11 @@ const notification = (overrides: Partial<Notification>): Notification =>
     dueAt: null,
     previousDueAt: null,
     activityName: null,
+    grade: null,
+    previousGrade: null,
+    attempt: null,
+    eventTitle: null,
+    reason: null,
     sourceSystem: 'sis',
     ...overrides,
   }) satisfies Notification;

@@ -825,10 +825,23 @@
       "exam_term_rescheduled": "Exam term moved",
       "exam_term_cancelled": "Exam term cancelled",
       "assignment_due_published": "New assignment deadline",
-      "assignment_due_rescheduled": "Assignment deadline moved"
+      "assignment_due_rescheduled": "Assignment deadline moved",
+      "grade_published": "Grade published",
+      "grade_corrected": "Grade corrected",
+      "enrollment_confirmed": "Place in the course confirmed",
+      "enrollment_rejected": "Course enrolment refused",
+      "timetable_event_rescheduled": "Class moved",
+      "timetable_event_cancelled": "Class cancelled",
+      "exam_registration_confirmed": "You registered for an exam",
+      "exam_registration_cancelled": "You cancelled an exam registration",
+      "exam_registration_refused": "The university refused your exam registration"
     },
     "dueAt": "Due {date}",
-    "dueMovedTo": "Deadline moved from {from} to {to}"
+    "dueMovedTo": "Deadline moved from {from} to {to}",
+    "gradeIs": "Grade: {grade}",
+    "gradeChanged": "Grade changed from {from} to {to}",
+    "attempt": "Attempt {attempt}",
+    "reason": "Reason: {reason}"
   },
   "myTeaching": {
     "title": "My teaching",
