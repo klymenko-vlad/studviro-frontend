@@ -4,10 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
 import { CatalogueEntryForm } from '@/features/manage-catalogue';
-import { catalogueQueries, isOutOfStep } from '@/entities/catalogue';
+import { catalogueQueries } from '@/entities/catalogue';
 import { usePermissions } from '@/entities/permission';
 import {
-  Badge,
   Card,
   CardContent,
   CardDescription,
@@ -54,7 +53,6 @@ export function Catalogue({ institutionId }: { institutionId: string }) {
                   <TableHead>{t('column.code')}</TableHead>
                   <TableHead>{t('column.name')}</TableHead>
                   <TableHead>{t('column.degreeLevel')}</TableHead>
-                  <TableHead>{t('column.state')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -63,11 +61,6 @@ export function Catalogue({ institutionId }: { institutionId: string }) {
                     <TableCell className="font-mono text-xs">{program.code}</TableCell>
                     <TableCell className="font-medium">{program.name}</TableCell>
                     <TableCell>{t(`degreeLevel.${program.degreeLevel}`)}</TableCell>
-                    <TableCell>
-                      {isOutOfStep(program) ? (
-                        <Badge variant="secondary">{t('pending')}</Badge>
-                      ) : null}
-                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -99,7 +92,6 @@ export function Catalogue({ institutionId }: { institutionId: string }) {
                   <TableHead>{t('column.code')}</TableHead>
                   <TableHead>{t('column.title')}</TableHead>
                   <TableHead>{t('column.credits')}</TableHead>
-                  <TableHead>{t('column.state')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -108,11 +100,6 @@ export function Catalogue({ institutionId }: { institutionId: string }) {
                     <TableCell className="font-mono text-xs">{course.code}</TableCell>
                     <TableCell className="font-medium">{course.title}</TableCell>
                     <TableCell>{course.credits ?? '—'}</TableCell>
-                    <TableCell>
-                      {isOutOfStep(course) ? (
-                        <Badge variant="secondary">{t('pending')}</Badge>
-                      ) : null}
-                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

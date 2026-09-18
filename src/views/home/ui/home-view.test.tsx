@@ -83,7 +83,9 @@ describe('HomeView', () => {
     // Moodle import is Planned in Feature Status; claiming it here would make
     // the landing page the only place in the product that says otherwise.
     expect(
-      screen.getByText(/Moodle connector and the learning-system data behind it/),
+      screen.getByText(
+        /Course materials, assignments and submissions are the next phase/,
+      ),
     ).toBeInTheDocument();
   });
 });

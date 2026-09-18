@@ -7,7 +7,6 @@ export {
   termCredits,
   type CourseResult,
   type CourseResultKind,
-  type CourseResultProvenance,
   type CourseResultTerm,
   type StudyProgress,
   type TermResults,

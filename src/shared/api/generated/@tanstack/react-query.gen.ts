@@ -3,8 +3,93 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { Auth, Catalogue, Connectors, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, RoleAssignments, Schedule, Synchronization, Users } from '../sdk.gen';
-import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, ClearInstitutionConnectorCredentialData, ClearInstitutionConnectorCredentialError, ClearInstitutionConnectorCredentialResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateCourseData, CreateCourseError, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateResponse, DiscardSourceWriteIntentData, DiscardSourceWriteIntentError, DiscardSourceWriteIntentResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionConnectorCredentialsData, GetInstitutionConnectorCredentialsError, GetInstitutionConnectorCredentialsResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSynchronizationReconciliationData, GetSynchronizationReconciliationError, GetSynchronizationReconciliationResponse, GetSynchronizationRunData, GetSynchronizationRunError, GetSynchronizationRunResponse, GetSynchronizationStateData, GetSynchronizationStateError, GetSynchronizationStateResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListInstitutionConnectorsData, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListReconciliationResolutionsData, ListReconciliationResolutionsError, ListReconciliationResolutionsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListSourceWriteIntentsData, ListSourceWriteIntentsError, ListSourceWriteIntentsResponse, ListSynchronizationRunsData, ListSynchronizationRunsError, ListSynchronizationRunsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MeData, MeError, MeResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveCourseData, RemoveCourseError, RemoveCourseResponse, RemoveData, RemoveError, RemoveProgramData, RemoveProgramError, RemoveProgramResponse, RemoveResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, ResolveReconciliationDiscrepancyData, ResolveReconciliationDiscrepancyError, ResolveReconciliationDiscrepancyResponse, RetrySourceWriteIntentData, RetrySourceWriteIntentError, RetrySourceWriteIntentResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SetInstitutionConnectorCredentialsData, SetInstitutionConnectorCredentialsError, SetInstitutionConnectorCredentialsResponse, StartSynchronizationRunData, StartSynchronizationRunError, StartSynchronizationRunResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateProgramData, UpdateProgramError, UpdateProgramResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
+import { Auth, Catalogue, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, RoleAssignments, Schedule, Users } from '../sdk.gen';
+import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateCourseData, CreateCourseError, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MeData, MeError, MeResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveCourseData, RemoveCourseError, RemoveCourseResponse, RemoveData, RemoveError, RemoveProgramData, RemoveProgramError, RemoveProgramResponse, RemoveResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateProgramData, UpdateProgramError, UpdateProgramResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
+
+/**
+ * Create an account and start a session
+ */
+export const registerMutation = (options?: Partial<Options<RegisterData>>): UseMutationOptions<RegisterResponse, RegisterError, Options<RegisterData>> => {
+    const mutationOptions: UseMutationOptions<RegisterResponse, RegisterError, Options<RegisterData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Auth.register({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Exchange credentials for tokens
+ */
+export const loginMutation = (options?: Partial<Options<LoginData>>): UseMutationOptions<LoginResponse, LoginError, Options<LoginData>> => {
+    const mutationOptions: UseMutationOptions<LoginResponse, LoginError, Options<LoginData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Auth.login({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Rotate a refresh token for a new pair
+ */
+export const refreshMutation = (options?: Partial<Options<RefreshData>>): UseMutationOptions<RefreshResponse, RefreshError, Options<RefreshData>> => {
+    const mutationOptions: UseMutationOptions<RefreshResponse, RefreshError, Options<RefreshData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Auth.refresh({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Revoke a single refresh token
+ */
+export const logoutMutation = (options?: Partial<Options<LogoutData>>): UseMutationOptions<LogoutResponse, DefaultError, Options<LogoutData>> => {
+    const mutationOptions: UseMutationOptions<LogoutResponse, DefaultError, Options<LogoutData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Auth.logout({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Revoke every session for the current user
+ */
+export const logoutAllMutation = (options?: Partial<Options<LogoutAllData>>): UseMutationOptions<LogoutAllResponse, DefaultError, Options<LogoutAllData>> => {
+    const mutationOptions: UseMutationOptions<LogoutAllResponse, DefaultError, Options<LogoutAllData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Auth.logoutAll({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -39,14 +124,14 @@ const createQueryKey = <TOptions extends Options>(id: string, options?: TOptions
     return [params];
 };
 
-export const listSynchronizationRunsQueryKey = (options: Options<ListSynchronizationRunsData>) => createQueryKey('listSynchronizationRuns', options);
+export const meQueryKey = (options?: Options<MeData>) => createQueryKey('me', options);
 
 /**
- * List the most recent synchronization runs
+ * The currently authenticated user
  */
-export const listSynchronizationRunsOptions = (options: Options<ListSynchronizationRunsData>) => queryOptions<ListSynchronizationRunsResponse, ListSynchronizationRunsError, ListSynchronizationRunsResponse, ReturnType<typeof listSynchronizationRunsQueryKey>>({
+export const meOptions = (options?: Options<MeData>) => queryOptions<MeResponse, MeError, MeResponse, ReturnType<typeof meQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Synchronization.listSynchronizationRuns({
+        const { data } = await Auth.me({
             ...options,
             ...queryKey[0],
             signal,
@@ -54,148 +139,16 @@ export const listSynchronizationRunsOptions = (options: Options<ListSynchronizat
         });
         return data;
     },
-    queryKey: listSynchronizationRunsQueryKey(options)
+    queryKey: meQueryKey(options)
 });
 
 /**
- * Queue a synchronization run against the institution’s academic connector
- *
- * Returns the run already in flight instead of queueing a second one, so a repeated request cannot double-import.
+ * Ask for a password reset link, answered identically whether or not the address exists
  */
-export const startSynchronizationRunMutation = (options?: Partial<Options<StartSynchronizationRunData>>): UseMutationOptions<StartSynchronizationRunResponse, StartSynchronizationRunError, Options<StartSynchronizationRunData>> => {
-    const mutationOptions: UseMutationOptions<StartSynchronizationRunResponse, StartSynchronizationRunError, Options<StartSynchronizationRunData>> = {
+export const requestPasswordResetMutation = (options?: Partial<Options<RequestPasswordResetData>>): UseMutationOptions<RequestPasswordResetResponse, RequestPasswordResetError, Options<RequestPasswordResetData>> => {
+    const mutationOptions: UseMutationOptions<RequestPasswordResetResponse, RequestPasswordResetError, Options<RequestPasswordResetData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await Synchronization.startSynchronizationRun({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const getSynchronizationRunQueryKey = (options: Options<GetSynchronizationRunData>) => createQueryKey('getSynchronizationRun', options);
-
-/**
- * Read one synchronization run and its per-domain results
- */
-export const getSynchronizationRunOptions = (options: Options<GetSynchronizationRunData>) => queryOptions<GetSynchronizationRunResponse, GetSynchronizationRunError, GetSynchronizationRunResponse, ReturnType<typeof getSynchronizationRunQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Synchronization.getSynchronizationRun({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getSynchronizationRunQueryKey(options)
-});
-
-export const getSynchronizationReconciliationQueryKey = (options: Options<GetSynchronizationReconciliationData>) => createQueryKey('getSynchronizationReconciliation', options);
-
-/**
- * Compare the source population against the canonical one
- *
- * Reads both sides live and reports where they disagree. It resolves nothing and writes nothing. `sourceSystem` chooses which half of the model is compared; people are reconciled by neither, because a person becomes a user and a linked identity rather than a provenanced canonical row.
- */
-export const getSynchronizationReconciliationOptions = (options: Options<GetSynchronizationReconciliationData>) => queryOptions<GetSynchronizationReconciliationResponse, GetSynchronizationReconciliationError, GetSynchronizationReconciliationResponse, ReturnType<typeof getSynchronizationReconciliationQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Synchronization.getSynchronizationReconciliation({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getSynchronizationReconciliationQueryKey(options)
-});
-
-export const listReconciliationResolutionsQueryKey = (options: Options<ListReconciliationResolutionsData>) => createQueryKey('listReconciliationResolutions', options);
-
-/**
- * List the discrepancies somebody has already resolved
- */
-export const listReconciliationResolutionsOptions = (options: Options<ListReconciliationResolutionsData>) => queryOptions<ListReconciliationResolutionsResponse, ListReconciliationResolutionsError, ListReconciliationResolutionsResponse, ReturnType<typeof listReconciliationResolutionsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Synchronization.listReconciliationResolutions({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listReconciliationResolutionsQueryKey(options)
-});
-
-/**
- * Settle one discrepancy by accepting the source or overriding it
- *
- * Either yields the platform row to the source, or detaches it so no import matches it again. A record the platform never took in cannot be resolved here — run a full synchronization instead.
- */
-export const resolveReconciliationDiscrepancyMutation = (options?: Partial<Options<ResolveReconciliationDiscrepancyData>>): UseMutationOptions<ResolveReconciliationDiscrepancyResponse, ResolveReconciliationDiscrepancyError, Options<ResolveReconciliationDiscrepancyData>> => {
-    const mutationOptions: UseMutationOptions<ResolveReconciliationDiscrepancyResponse, ResolveReconciliationDiscrepancyError, Options<ResolveReconciliationDiscrepancyData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Synchronization.resolveReconciliationDiscrepancy({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const getSynchronizationStateQueryKey = (options: Options<GetSynchronizationStateData>) => createQueryKey('getSynchronizationState', options);
-
-/**
- * Report how fresh each synchronized domain is
- */
-export const getSynchronizationStateOptions = (options: Options<GetSynchronizationStateData>) => queryOptions<GetSynchronizationStateResponse, GetSynchronizationStateError, GetSynchronizationStateResponse, ReturnType<typeof getSynchronizationStateQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Synchronization.getSynchronizationState({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getSynchronizationStateQueryKey(options)
-});
-
-export const listSourceWriteIntentsQueryKey = (options: Options<ListSourceWriteIntentsData>) => createQueryKey('listSourceWriteIntents', options);
-
-/**
- * List the writes the source system has not acknowledged
- *
- * A stuck write is a synchronization fact: an act taken in StudViro that the university’s system has not accepted. A `rejected` one was refused and has already been compensated; an `abandoned` one may or may not have landed, so nothing was reversed.
- */
-export const listSourceWriteIntentsOptions = (options: Options<ListSourceWriteIntentsData>) => queryOptions<ListSourceWriteIntentsResponse, ListSourceWriteIntentsError, ListSourceWriteIntentsResponse, ReturnType<typeof listSourceWriteIntentsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Synchronization.listSourceWriteIntents({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listSourceWriteIntentsQueryKey(options)
-});
-
-/**
- * Offer a stuck write to the source system again
- */
-export const retrySourceWriteIntentMutation = (options?: Partial<Options<RetrySourceWriteIntentData>>): UseMutationOptions<RetrySourceWriteIntentResponse, RetrySourceWriteIntentError, Options<RetrySourceWriteIntentData>> => {
-    const mutationOptions: UseMutationOptions<RetrySourceWriteIntentResponse, RetrySourceWriteIntentError, Options<RetrySourceWriteIntentData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Synchronization.retrySourceWriteIntent({
+            const { data } = await Auth.requestPasswordReset({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -207,12 +160,12 @@ export const retrySourceWriteIntentMutation = (options?: Partial<Options<RetrySo
 };
 
 /**
- * Give up on a stuck write, leaving the two systems in disagreement
+ * Set a new password using a reset token
  */
-export const discardSourceWriteIntentMutation = (options?: Partial<Options<DiscardSourceWriteIntentData>>): UseMutationOptions<DiscardSourceWriteIntentResponse, DiscardSourceWriteIntentError, Options<DiscardSourceWriteIntentData>> => {
-    const mutationOptions: UseMutationOptions<DiscardSourceWriteIntentResponse, DiscardSourceWriteIntentError, Options<DiscardSourceWriteIntentData>> = {
+export const confirmPasswordResetMutation = (options?: Partial<Options<ConfirmPasswordResetData>>): UseMutationOptions<ConfirmPasswordResetResponse, ConfirmPasswordResetError, Options<ConfirmPasswordResetData>> => {
+    const mutationOptions: UseMutationOptions<ConfirmPasswordResetResponse, ConfirmPasswordResetError, Options<ConfirmPasswordResetData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await Synchronization.discardSourceWriteIntent({
+            const { data } = await Auth.confirmPasswordReset({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -222,218 +175,6 @@ export const discardSourceWriteIntentMutation = (options?: Partial<Options<Disca
     };
     return mutationOptions;
 };
-
-export const listInstitutionConnectorsQueryKey = (options: Options<ListInstitutionConnectorsData>) => createQueryKey('listInstitutionConnectors', options);
-
-/**
- * Report the health and capabilities of an institution’s connectors
- */
-export const listInstitutionConnectorsOptions = (options: Options<ListInstitutionConnectorsData>) => queryOptions<ListInstitutionConnectorsResponse, ListInstitutionConnectorsError, ListInstitutionConnectorsResponse, ReturnType<typeof listInstitutionConnectorsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Connectors.listInstitutionConnectors({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listInstitutionConnectorsQueryKey(options)
-});
-
-export const getInstitutionConnectorCredentialsQueryKey = (options: Options<GetInstitutionConnectorCredentialsData>) => createQueryKey('getInstitutionConnectorCredentials', options);
-
-/**
- * Report which credential fields a connector needs and which are stored
- */
-export const getInstitutionConnectorCredentialsOptions = (options: Options<GetInstitutionConnectorCredentialsData>) => queryOptions<GetInstitutionConnectorCredentialsResponse, GetInstitutionConnectorCredentialsError, GetInstitutionConnectorCredentialsResponse, ReturnType<typeof getInstitutionConnectorCredentialsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Connectors.getInstitutionConnectorCredentials({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getInstitutionConnectorCredentialsQueryKey(options)
-});
-
-/**
- * Store one or more connector credential values, encrypted at rest
- */
-export const setInstitutionConnectorCredentialsMutation = (options?: Partial<Options<SetInstitutionConnectorCredentialsData>>): UseMutationOptions<SetInstitutionConnectorCredentialsResponse, SetInstitutionConnectorCredentialsError, Options<SetInstitutionConnectorCredentialsData>> => {
-    const mutationOptions: UseMutationOptions<SetInstitutionConnectorCredentialsResponse, SetInstitutionConnectorCredentialsError, Options<SetInstitutionConnectorCredentialsData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Connectors.setInstitutionConnectorCredentials({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Clear one stored connector credential value
- */
-export const clearInstitutionConnectorCredentialMutation = (options?: Partial<Options<ClearInstitutionConnectorCredentialData>>): UseMutationOptions<ClearInstitutionConnectorCredentialResponse, ClearInstitutionConnectorCredentialError, Options<ClearInstitutionConnectorCredentialData>> => {
-    const mutationOptions: UseMutationOptions<ClearInstitutionConnectorCredentialResponse, ClearInstitutionConnectorCredentialError, Options<ClearInstitutionConnectorCredentialData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Connectors.clearInstitutionConnectorCredential({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const listMyInstitutionsQueryKey = (options?: Options<ListMyInstitutionsData>) => createQueryKey('listMyInstitutions', options);
-
-/**
- * List the institutions the current user belongs to
- */
-export const listMyInstitutionsOptions = (options?: Options<ListMyInstitutionsData>) => queryOptions<ListMyInstitutionsResponse, ListMyInstitutionsError, ListMyInstitutionsResponse, ReturnType<typeof listMyInstitutionsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Institutions.listMyInstitutions({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listMyInstitutionsQueryKey(options)
-});
-
-/**
- * Create an institution and grant its first institution_admin, restricted to a platform operator
- */
-export const createInstitutionMutation = (options?: Partial<Options<CreateInstitutionData>>): UseMutationOptions<CreateInstitutionResponse, CreateInstitutionError, Options<CreateInstitutionData>> => {
-    const mutationOptions: UseMutationOptions<CreateInstitutionResponse, CreateInstitutionError, Options<CreateInstitutionData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Institutions.createInstitution({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const getInstitutionQueryKey = (options: Options<GetInstitutionData>) => createQueryKey('getInstitution', options);
-
-/**
- * Get an institution
- */
-export const getInstitutionOptions = (options: Options<GetInstitutionData>) => queryOptions<GetInstitutionResponse, GetInstitutionError, GetInstitutionResponse, ReturnType<typeof getInstitutionQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Institutions.getInstitution({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getInstitutionQueryKey(options)
-});
-
-export const getInstitutionConfigurationQueryKey = (options: Options<GetInstitutionConfigurationData>) => createQueryKey('getInstitutionConfiguration', options);
-
-/**
- * Read an institution’s terminology, locale and feature flags
- */
-export const getInstitutionConfigurationOptions = (options: Options<GetInstitutionConfigurationData>) => queryOptions<GetInstitutionConfigurationResponse, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, ReturnType<typeof getInstitutionConfigurationQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await InstitutionConfiguration.getInstitutionConfiguration({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getInstitutionConfigurationQueryKey(options)
-});
-
-/**
- * Change an institution’s terminology, locale and feature flags
- */
-export const updateInstitutionConfigurationMutation = (options?: Partial<Options<UpdateInstitutionConfigurationData>>): UseMutationOptions<UpdateInstitutionConfigurationResponse, UpdateInstitutionConfigurationError, Options<UpdateInstitutionConfigurationData>> => {
-    const mutationOptions: UseMutationOptions<UpdateInstitutionConfigurationResponse, UpdateInstitutionConfigurationError, Options<UpdateInstitutionConfigurationData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await InstitutionConfiguration.updateInstitutionConfiguration({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const listOrgUnitsQueryKey = (options: Options<ListOrgUnitsData>) => createQueryKey('listOrgUnits', options);
-
-/**
- * List the org units of an institution
- */
-export const listOrgUnitsOptions = (options: Options<ListOrgUnitsData>) => queryOptions<ListOrgUnitsResponse, ListOrgUnitsError, ListOrgUnitsResponse, ReturnType<typeof listOrgUnitsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await OrgUnits.listOrgUnits({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listOrgUnitsQueryKey(options)
-});
-
-export const getOrgUnitQueryKey = (options: Options<GetOrgUnitData>) => createQueryKey('getOrgUnit', options);
-
-/**
- * Get an org unit
- */
-export const getOrgUnitOptions = (options: Options<GetOrgUnitData>) => queryOptions<GetOrgUnitResponse, GetOrgUnitError, GetOrgUnitResponse, ReturnType<typeof getOrgUnitQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await OrgUnits.getOrgUnit({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getOrgUnitQueryKey(options)
-});
-
-export const listPeopleQueryKey = (options: Options<ListPeopleData>) => createQueryKey('listPeople', options);
-
-/**
- * List the people of an institution with their granted and derived roles
- */
-export const listPeopleOptions = (options: Options<ListPeopleData>) => queryOptions<ListPeopleResponse, ListPeopleError, ListPeopleResponse, ReturnType<typeof listPeopleQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await People.listPeople({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listPeopleQueryKey(options)
-});
 
 export const findMeQueryKey = (options?: Options<FindMeData>) => createQueryKey('findMe', options);
 
@@ -599,177 +340,6 @@ export const findOneOptions = (options: Options<FindOneData>) => queryOptions<Fi
     queryKey: findOneQueryKey(options)
 });
 
-/**
- * Invite a person by email to claim their record and hold a role
- */
-export const createInvitationMutation = (options?: Partial<Options<CreateInvitationData>>): UseMutationOptions<CreateInvitationResponse, CreateInvitationError, Options<CreateInvitationData>> => {
-    const mutationOptions: UseMutationOptions<CreateInvitationResponse, CreateInvitationError, Options<CreateInvitationData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Invitations.createInvitation({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Prove control of the invited address, set a password if needed, and claim the record
- */
-export const acceptInvitationMutation = (options?: Partial<Options<AcceptInvitationData>>): UseMutationOptions<AcceptInvitationResponse, AcceptInvitationError, Options<AcceptInvitationData>> => {
-    const mutationOptions: UseMutationOptions<AcceptInvitationResponse, AcceptInvitationError, Options<AcceptInvitationData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Invitations.acceptInvitation({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Create an account and start a session
- */
-export const registerMutation = (options?: Partial<Options<RegisterData>>): UseMutationOptions<RegisterResponse, RegisterError, Options<RegisterData>> => {
-    const mutationOptions: UseMutationOptions<RegisterResponse, RegisterError, Options<RegisterData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Auth.register({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Exchange credentials for tokens
- */
-export const loginMutation = (options?: Partial<Options<LoginData>>): UseMutationOptions<LoginResponse, LoginError, Options<LoginData>> => {
-    const mutationOptions: UseMutationOptions<LoginResponse, LoginError, Options<LoginData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Auth.login({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Rotate a refresh token for a new pair
- */
-export const refreshMutation = (options?: Partial<Options<RefreshData>>): UseMutationOptions<RefreshResponse, RefreshError, Options<RefreshData>> => {
-    const mutationOptions: UseMutationOptions<RefreshResponse, RefreshError, Options<RefreshData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Auth.refresh({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Revoke a single refresh token
- */
-export const logoutMutation = (options?: Partial<Options<LogoutData>>): UseMutationOptions<LogoutResponse, DefaultError, Options<LogoutData>> => {
-    const mutationOptions: UseMutationOptions<LogoutResponse, DefaultError, Options<LogoutData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Auth.logout({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Revoke every session for the current user
- */
-export const logoutAllMutation = (options?: Partial<Options<LogoutAllData>>): UseMutationOptions<LogoutAllResponse, DefaultError, Options<LogoutAllData>> => {
-    const mutationOptions: UseMutationOptions<LogoutAllResponse, DefaultError, Options<LogoutAllData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Auth.logoutAll({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const meQueryKey = (options?: Options<MeData>) => createQueryKey('me', options);
-
-/**
- * The currently authenticated user
- */
-export const meOptions = (options?: Options<MeData>) => queryOptions<MeResponse, MeError, MeResponse, ReturnType<typeof meQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Auth.me({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: meQueryKey(options)
-});
-
-/**
- * Ask for a password reset link, answered identically whether or not the address exists
- */
-export const requestPasswordResetMutation = (options?: Partial<Options<RequestPasswordResetData>>): UseMutationOptions<RequestPasswordResetResponse, RequestPasswordResetError, Options<RequestPasswordResetData>> => {
-    const mutationOptions: UseMutationOptions<RequestPasswordResetResponse, RequestPasswordResetError, Options<RequestPasswordResetData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Auth.requestPasswordReset({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Set a new password using a reset token
- */
-export const confirmPasswordResetMutation = (options?: Partial<Options<ConfirmPasswordResetData>>): UseMutationOptions<ConfirmPasswordResetResponse, ConfirmPasswordResetError, Options<ConfirmPasswordResetData>> => {
-    const mutationOptions: UseMutationOptions<ConfirmPasswordResetResponse, ConfirmPasswordResetError, Options<ConfirmPasswordResetData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Auth.confirmPasswordReset({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
 export const listRoleAssignmentsQueryKey = (options: Options<ListRoleAssignmentsData>) => createQueryKey('listRoleAssignments', options);
 
 /**
@@ -857,164 +427,6 @@ export const listMyPermissionsOptions = (options: Options<ListMyPermissionsData>
     },
     queryKey: listMyPermissionsQueryKey(options)
 });
-
-export const listMyIdentitiesQueryKey = (options?: Options<ListMyIdentitiesData>) => createQueryKey('listMyIdentities', options);
-
-/**
- * List the accounts linked to the current user
- */
-export const listMyIdentitiesOptions = (options?: Options<ListMyIdentitiesData>) => queryOptions<ListMyIdentitiesResponse, ListMyIdentitiesError, ListMyIdentitiesResponse, ReturnType<typeof listMyIdentitiesQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Identities.listMyIdentities({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listMyIdentitiesQueryKey(options)
-});
-
-export const listMyNotificationsQueryKey = (options: Options<ListMyNotificationsData>) => createQueryKey('listMyNotifications', options);
-
-/**
- * List the notifications delivered to the current user
- */
-export const listMyNotificationsOptions = (options: Options<ListMyNotificationsData>) => queryOptions<ListMyNotificationsResponse, ListMyNotificationsError, ListMyNotificationsResponse, ReturnType<typeof listMyNotificationsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Notifications.listMyNotifications({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listMyNotificationsQueryKey(options)
-});
-
-export const countMyUnreadNotificationsQueryKey = (options: Options<CountMyUnreadNotificationsData>) => createQueryKey('countMyUnreadNotifications', options);
-
-/**
- * Count the notifications the current user has not read
- */
-export const countMyUnreadNotificationsOptions = (options: Options<CountMyUnreadNotificationsData>) => queryOptions<CountMyUnreadNotificationsResponse, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, ReturnType<typeof countMyUnreadNotificationsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Notifications.countMyUnreadNotifications({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: countMyUnreadNotificationsQueryKey(options)
-});
-
-/**
- * Mark every notification of the current user as read
- */
-export const markAllMyNotificationsReadMutation = (options?: Partial<Options<MarkAllMyNotificationsReadData>>): UseMutationOptions<MarkAllMyNotificationsReadResponse, MarkAllMyNotificationsReadError, Options<MarkAllMyNotificationsReadData>> => {
-    const mutationOptions: UseMutationOptions<MarkAllMyNotificationsReadResponse, MarkAllMyNotificationsReadError, Options<MarkAllMyNotificationsReadData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Notifications.markAllMyNotificationsRead({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Mark one notification of the current user as read
- */
-export const markMyNotificationReadMutation = (options?: Partial<Options<MarkMyNotificationReadData>>): UseMutationOptions<MarkMyNotificationReadResponse, MarkMyNotificationReadError, Options<MarkMyNotificationReadData>> => {
-    const mutationOptions: UseMutationOptions<MarkMyNotificationReadResponse, MarkMyNotificationReadError, Options<MarkMyNotificationReadData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Notifications.markMyNotificationRead({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const listMyTimetableEventsQueryKey = (options: Options<ListMyTimetableEventsData>) => createQueryKey('listMyTimetableEvents', options);
-
-/**
- * List the current user’s timetable events overlapping a date range
- */
-export const listMyTimetableEventsOptions = (options: Options<ListMyTimetableEventsData>) => queryOptions<ListMyTimetableEventsResponse, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ReturnType<typeof listMyTimetableEventsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Schedule.listMyTimetableEvents({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listMyTimetableEventsQueryKey(options)
-});
-
-export const listMyExamTermsQueryKey = (options: Options<ListMyExamTermsData>) => createQueryKey('listMyExamTerms', options);
-
-/**
- * List the exam terms of the courses the current user attends or teaches
- */
-export const listMyExamTermsOptions = (options: Options<ListMyExamTermsData>) => queryOptions<ListMyExamTermsResponse, ListMyExamTermsError, ListMyExamTermsResponse, ReturnType<typeof listMyExamTermsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Schedule.listMyExamTerms({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listMyExamTermsQueryKey(options)
-});
-
-/**
- * Register the current user for an exam term
- */
-export const registerForExamTermMutation = (options?: Partial<Options<RegisterForExamTermData>>): UseMutationOptions<RegisterForExamTermResponse, RegisterForExamTermError, Options<RegisterForExamTermData>> => {
-    const mutationOptions: UseMutationOptions<RegisterForExamTermResponse, RegisterForExamTermError, Options<RegisterForExamTermData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Schedule.registerForExamTerm({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Cancel the current user’s registration for an exam term
- */
-export const cancelExamRegistrationMutation = (options?: Partial<Options<CancelExamRegistrationData>>): UseMutationOptions<CancelExamRegistrationResponse, CancelExamRegistrationError, Options<CancelExamRegistrationData>> => {
-    const mutationOptions: UseMutationOptions<CancelExamRegistrationResponse, CancelExamRegistrationError, Options<CancelExamRegistrationData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Schedule.cancelExamRegistration({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
 
 export const listMyCoursesQueryKey = (options: Options<ListMyCoursesData>) => createQueryKey('listMyCourses', options);
 
@@ -1184,6 +596,270 @@ export const recordOfferingResultMutation = (options?: Partial<Options<RecordOff
     return mutationOptions;
 };
 
+export const listMyNotificationsQueryKey = (options: Options<ListMyNotificationsData>) => createQueryKey('listMyNotifications', options);
+
+/**
+ * List the notifications delivered to the current user
+ */
+export const listMyNotificationsOptions = (options: Options<ListMyNotificationsData>) => queryOptions<ListMyNotificationsResponse, ListMyNotificationsError, ListMyNotificationsResponse, ReturnType<typeof listMyNotificationsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Notifications.listMyNotifications({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyNotificationsQueryKey(options)
+});
+
+export const countMyUnreadNotificationsQueryKey = (options: Options<CountMyUnreadNotificationsData>) => createQueryKey('countMyUnreadNotifications', options);
+
+/**
+ * Count the notifications the current user has not read
+ */
+export const countMyUnreadNotificationsOptions = (options: Options<CountMyUnreadNotificationsData>) => queryOptions<CountMyUnreadNotificationsResponse, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, ReturnType<typeof countMyUnreadNotificationsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Notifications.countMyUnreadNotifications({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: countMyUnreadNotificationsQueryKey(options)
+});
+
+/**
+ * Mark every notification of the current user as read
+ */
+export const markAllMyNotificationsReadMutation = (options?: Partial<Options<MarkAllMyNotificationsReadData>>): UseMutationOptions<MarkAllMyNotificationsReadResponse, MarkAllMyNotificationsReadError, Options<MarkAllMyNotificationsReadData>> => {
+    const mutationOptions: UseMutationOptions<MarkAllMyNotificationsReadResponse, MarkAllMyNotificationsReadError, Options<MarkAllMyNotificationsReadData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Notifications.markAllMyNotificationsRead({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Mark one notification of the current user as read
+ */
+export const markMyNotificationReadMutation = (options?: Partial<Options<MarkMyNotificationReadData>>): UseMutationOptions<MarkMyNotificationReadResponse, MarkMyNotificationReadError, Options<MarkMyNotificationReadData>> => {
+    const mutationOptions: UseMutationOptions<MarkMyNotificationReadResponse, MarkMyNotificationReadError, Options<MarkMyNotificationReadData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Notifications.markMyNotificationRead({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listMyIdentitiesQueryKey = (options?: Options<ListMyIdentitiesData>) => createQueryKey('listMyIdentities', options);
+
+/**
+ * List the accounts linked to the current user
+ */
+export const listMyIdentitiesOptions = (options?: Options<ListMyIdentitiesData>) => queryOptions<ListMyIdentitiesResponse, ListMyIdentitiesError, ListMyIdentitiesResponse, ReturnType<typeof listMyIdentitiesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Identities.listMyIdentities({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyIdentitiesQueryKey(options)
+});
+
+export const listMyInstitutionsQueryKey = (options?: Options<ListMyInstitutionsData>) => createQueryKey('listMyInstitutions', options);
+
+/**
+ * List the institutions the current user belongs to
+ */
+export const listMyInstitutionsOptions = (options?: Options<ListMyInstitutionsData>) => queryOptions<ListMyInstitutionsResponse, ListMyInstitutionsError, ListMyInstitutionsResponse, ReturnType<typeof listMyInstitutionsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Institutions.listMyInstitutions({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyInstitutionsQueryKey(options)
+});
+
+/**
+ * Create an institution and grant its first institution_admin, restricted to a platform operator
+ */
+export const createInstitutionMutation = (options?: Partial<Options<CreateInstitutionData>>): UseMutationOptions<CreateInstitutionResponse, CreateInstitutionError, Options<CreateInstitutionData>> => {
+    const mutationOptions: UseMutationOptions<CreateInstitutionResponse, CreateInstitutionError, Options<CreateInstitutionData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Institutions.createInstitution({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getInstitutionQueryKey = (options: Options<GetInstitutionData>) => createQueryKey('getInstitution', options);
+
+/**
+ * Get an institution
+ */
+export const getInstitutionOptions = (options: Options<GetInstitutionData>) => queryOptions<GetInstitutionResponse, GetInstitutionError, GetInstitutionResponse, ReturnType<typeof getInstitutionQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Institutions.getInstitution({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getInstitutionQueryKey(options)
+});
+
+export const getInstitutionConfigurationQueryKey = (options: Options<GetInstitutionConfigurationData>) => createQueryKey('getInstitutionConfiguration', options);
+
+/**
+ * Read an institution’s terminology, locale and feature flags
+ */
+export const getInstitutionConfigurationOptions = (options: Options<GetInstitutionConfigurationData>) => queryOptions<GetInstitutionConfigurationResponse, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, ReturnType<typeof getInstitutionConfigurationQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await InstitutionConfiguration.getInstitutionConfiguration({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getInstitutionConfigurationQueryKey(options)
+});
+
+/**
+ * Change an institution’s terminology, locale and feature flags
+ */
+export const updateInstitutionConfigurationMutation = (options?: Partial<Options<UpdateInstitutionConfigurationData>>): UseMutationOptions<UpdateInstitutionConfigurationResponse, UpdateInstitutionConfigurationError, Options<UpdateInstitutionConfigurationData>> => {
+    const mutationOptions: UseMutationOptions<UpdateInstitutionConfigurationResponse, UpdateInstitutionConfigurationError, Options<UpdateInstitutionConfigurationData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await InstitutionConfiguration.updateInstitutionConfiguration({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listOrgUnitsQueryKey = (options: Options<ListOrgUnitsData>) => createQueryKey('listOrgUnits', options);
+
+/**
+ * List the org units of an institution
+ */
+export const listOrgUnitsOptions = (options: Options<ListOrgUnitsData>) => queryOptions<ListOrgUnitsResponse, ListOrgUnitsError, ListOrgUnitsResponse, ReturnType<typeof listOrgUnitsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await OrgUnits.listOrgUnits({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listOrgUnitsQueryKey(options)
+});
+
+export const getOrgUnitQueryKey = (options: Options<GetOrgUnitData>) => createQueryKey('getOrgUnit', options);
+
+/**
+ * Get an org unit
+ */
+export const getOrgUnitOptions = (options: Options<GetOrgUnitData>) => queryOptions<GetOrgUnitResponse, GetOrgUnitError, GetOrgUnitResponse, ReturnType<typeof getOrgUnitQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await OrgUnits.getOrgUnit({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getOrgUnitQueryKey(options)
+});
+
+export const listPeopleQueryKey = (options: Options<ListPeopleData>) => createQueryKey('listPeople', options);
+
+/**
+ * List the people of an institution with their granted and derived roles
+ */
+export const listPeopleOptions = (options: Options<ListPeopleData>) => queryOptions<ListPeopleResponse, ListPeopleError, ListPeopleResponse, ReturnType<typeof listPeopleQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await People.listPeople({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listPeopleQueryKey(options)
+});
+
+/**
+ * Invite a person by email to claim their record and hold a role
+ */
+export const createInvitationMutation = (options?: Partial<Options<CreateInvitationData>>): UseMutationOptions<CreateInvitationResponse, CreateInvitationError, Options<CreateInvitationData>> => {
+    const mutationOptions: UseMutationOptions<CreateInvitationResponse, CreateInvitationError, Options<CreateInvitationData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Invitations.createInvitation({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Prove control of the invited address, set a password if needed, and claim the record
+ */
+export const acceptInvitationMutation = (options?: Partial<Options<AcceptInvitationData>>): UseMutationOptions<AcceptInvitationResponse, AcceptInvitationError, Options<AcceptInvitationData>> => {
+    const mutationOptions: UseMutationOptions<AcceptInvitationResponse, AcceptInvitationError, Options<AcceptInvitationData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Invitations.acceptInvitation({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const listLearningSpacesQueryKey = (options: Options<ListLearningSpacesData>) => createQueryKey('listLearningSpaces', options);
 
 /**
@@ -1245,6 +921,76 @@ export const createDemoRequestMutation = (options?: Partial<Options<CreateDemoRe
     const mutationOptions: UseMutationOptions<CreateDemoRequestResponse, CreateDemoRequestError, Options<CreateDemoRequestData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await Marketing.createDemoRequest({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listMyTimetableEventsQueryKey = (options: Options<ListMyTimetableEventsData>) => createQueryKey('listMyTimetableEvents', options);
+
+/**
+ * List the current user’s timetable events overlapping a date range
+ */
+export const listMyTimetableEventsOptions = (options: Options<ListMyTimetableEventsData>) => queryOptions<ListMyTimetableEventsResponse, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ReturnType<typeof listMyTimetableEventsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Schedule.listMyTimetableEvents({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyTimetableEventsQueryKey(options)
+});
+
+export const listMyExamTermsQueryKey = (options: Options<ListMyExamTermsData>) => createQueryKey('listMyExamTerms', options);
+
+/**
+ * List the exam terms of the courses the current user attends or teaches
+ */
+export const listMyExamTermsOptions = (options: Options<ListMyExamTermsData>) => queryOptions<ListMyExamTermsResponse, ListMyExamTermsError, ListMyExamTermsResponse, ReturnType<typeof listMyExamTermsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Schedule.listMyExamTerms({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyExamTermsQueryKey(options)
+});
+
+/**
+ * Register the current user for an exam term
+ */
+export const registerForExamTermMutation = (options?: Partial<Options<RegisterForExamTermData>>): UseMutationOptions<RegisterForExamTermResponse, RegisterForExamTermError, Options<RegisterForExamTermData>> => {
+    const mutationOptions: UseMutationOptions<RegisterForExamTermResponse, RegisterForExamTermError, Options<RegisterForExamTermData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Schedule.registerForExamTerm({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Cancel the current user’s registration for an exam term
+ */
+export const cancelExamRegistrationMutation = (options?: Partial<Options<CancelExamRegistrationData>>): UseMutationOptions<CancelExamRegistrationResponse, CancelExamRegistrationError, Options<CancelExamRegistrationData>> => {
+    const mutationOptions: UseMutationOptions<CancelExamRegistrationResponse, CancelExamRegistrationError, Options<CancelExamRegistrationData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Schedule.cancelExamRegistration({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

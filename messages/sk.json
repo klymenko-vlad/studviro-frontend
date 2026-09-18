@@ -18,7 +18,6 @@
     "courses": "Courses",
     "grades": "Grades",
     "calendar": "Calendar",
-    "sync": "Synchronization",
     "roles": "Roles",
     "settings": "Settings",
     "exams": "Exams",
@@ -40,7 +39,7 @@
       "body": "A timetable lives in one system and a deadline in another. A grade exists as a calculation, a proposal and an official record, and nothing shows a student which one they are looking at. Every question that spans both systems becomes the student's job to assemble.",
       "one": {
         "title": "Nothing is migrated",
-        "body": "Your systems stay authoritative. StudViro imports from them."
+        "body": "One record, entered once, read everywhere it matters."
       },
       "two": {
         "title": "Nothing is guessed",
@@ -71,7 +70,7 @@
         "body": "Seats, registration window and examiner, filterable by whether you may register — and when you may not, the server says why."
       },
       "sync": {
-        "title": "Imports you can watch",
+        "title": "One record, many views",
         "body": "Freshness per domain, per-run results, retries and a history, plus an on-demand report of every record where the source and the platform disagree."
       }
     }
@@ -160,7 +159,6 @@
       "manageSettings": "Nastavenia",
       "myCourses": "My courses",
       "myGrades": "My grades",
-      "monitorSync": "Synchronization",
       "dashboard": "Dashboard"
     }
   },
@@ -211,7 +209,7 @@
     "deniedDescription": "Roly tu vidíte, ale nemôžete ich meniť.",
     "derived": "Derived — follows academic record",
     "inviteTitle": "Invite a person",
-    "inviteDescription": "Send an invitation to claim an imported record or take on a role, by email.",
+    "inviteDescription": "Send an invitation to take on a role, by email.",
     "inviteAddress": "Email address",
     "invite": "Send invitation",
     "inviting": "Sending…",
@@ -220,7 +218,7 @@
   },
   "institutionSettings": {
     "title": "Nastavenia inštitúcie",
-    "subtitle": "Terminológia, jazyk, funkcie a konektory tejto inštitúcie.",
+    "subtitle": "Wording, language and features for this institution.",
     "configurationTitle": "Konfigurácia",
     "configurationDescription": "Všetko tu sú dáta, takže druhá univerzita si nevyžaduje zmenu kódu.",
     "regionalTitle": "Jazyk a čas",
@@ -255,9 +253,6 @@
       "thesis": "Záverečné práce",
       "timetable": "Rozvrh"
     },
-    "connectorsTitle": "Konektory",
-    "connectorsDescription": "Z ktorých externých systémov táto inštitúcia číta.",
-    "connectorStatusDescription": "Či každý konektor odpovedá a čo podporuje.",
     "connector": {
       "academic": "Študijný informačný systém",
       "learning": "Systém na riadenie výučby"
@@ -273,7 +268,6 @@
       "none": "Nepripojené"
     },
     "capabilityCount": " · {count} operácií",
-    "connectorsErrorTitle": "Stav konektorov sa nepodarilo načítať",
     "connectorsErrorDescription": "Skúste to o chvíľu znova.",
     "save": "Uložiť nastavenia",
     "saving": "Ukladá sa…",
@@ -282,12 +276,8 @@
     "errorDescription": "Skúste to o chvíľu znova.",
     "deniedTitle": "Iba na čítanie",
     "deniedDescription": "Na zmenu nastavení potrebujete oprávnenie spravovať túto inštitúciu.",
-    "credentialsTitle": "Connector credentials",
-    "credentialsSectionDescription": "Configure the credentials each connected system needs.",
-    "credentialsDescription": "The credentials this connector needs.",
     "credentialsComplete": "Complete",
     "credentialsIncomplete": "Incomplete",
-    "credentialsNoneNeeded": "This connector needs no credentials.",
     "credentialsErrorTitle": "Credentials could not be loaded",
     "credentialsErrorDescription": "Try again in a moment.",
     "credentialConfigured": "Configured",
@@ -387,8 +377,6 @@
     "effectiveGrade": "{grade}, {kind}",
     "calculatedValue": "{grade} · {points} points",
     "gradeOn": "{grade} on {on}",
-    "source": "Source",
-    "syncedAt": "synchronized {at}",
     "offeringPanel": "My result",
     "noOfferingResult": "No result has been recorded for this course yet.",
     "deniedTitle": "Grades are not yours to see",
@@ -432,197 +420,6 @@
     "awaitingRetake": "{courses, plural, one {# course is awaiting a resit} other {# courses are awaiting a resit}}",
     "annulledNote": "The registrar struck this result. It counts towards nothing.",
     "noStanding": "No standing"
-  },
-  "sync": {
-    "title": "Synchronization",
-    "subtitle": "How fresh this institution's imported data is, what the last runs did, and how to run one again.",
-    "overviewTitle": "Current state",
-    "deniedTitle": "Synchronization is not yours to see",
-    "deniedDescription": "You need permission to read synchronization in this institution.",
-    "errorTitle": "Synchronization could not be loaded",
-    "errorDescription": "The synchronization state is unavailable right now. Try again in a moment.",
-    "freshness": "Every domain has succeeded at least once, the oldest at {at}.",
-    "freshnessUnknown": "At least one domain has never synchronized successfully.",
-    "freshnessTitle": "Freshness by domain",
-    "freshnessDescription": "What each domain last took in, and when it last succeeded.",
-    "latestTitle": "Latest run",
-    "latestDescription": "What the most recent run did to each domain.",
-    "historyTitle": "Run history",
-    "historyDescription": "The most recent runs, newest first.",
-    "activeTitle": "A run is in flight",
-    "activeDescription": "A synchronization run ({mode}) is queued or running. This page refreshes itself until it finishes.",
-    "failingTitle": "Some domains are failing",
-    "failingDescription": "{count, plural, one {# domain} other {# domains}} last ended in failure. Run synchronization again to retry.",
-    "runNow": "Run synchronization",
-    "starting": "Starting…",
-    "started": "Synchronization run queued",
-    "runDenied": "You may read synchronization here, but not start a run.",
-    "modeLabel": "Mode",
-    "noRuns": "No synchronization run has been recorded yet.",
-    "noState": "No domain has been synchronized yet.",
-    "noDomainResults": "This run recorded no per-domain result.",
-    "never": "Never",
-    "none": "—",
-    "records": "{fetched} fetched · {touched} changed",
-    "recordsFailed": "{failed} failed",
-    "seconds": "{seconds}s",
-    "column": {
-      "domain": "Domain",
-      "status": "Status",
-      "lastSucceeded": "Last succeeded",
-      "sourceUpdated": "Source updated",
-      "queued": "Queued",
-      "mode": "Mode",
-      "records": "Records",
-      "duration": "Duration"
-    },
-    "mode": {
-      "incremental": "Incremental",
-      "full": "Full"
-    },
-    "trigger": {
-      "manual": "Manual",
-      "scheduled": "Scheduled"
-    },
-    "status": {
-      "queued": "Queued",
-      "running": "Running",
-      "succeeded": "Succeeded",
-      "partial": "Partial",
-      "failed": "Failed",
-      "skipped": "Skipped"
-    },
-    "domain": {
-      "orgUnits": "Organizational units",
-      "persons": "People",
-      "academicTerms": "Academic terms",
-      "rooms": "Rooms",
-      "programs": "Study programmes",
-      "courses": "Courses",
-      "courseOfferings": "Course offerings",
-      "programMemberships": "Programme memberships",
-      "studyGroups": "Study groups",
-      "enrollments": "Enrolments",
-      "timetableEvents": "Timetable events",
-      "examTerms": "Exam terms",
-      "officialResults": "Official results",
-      "learningSpaces": "Learning spaces",
-      "learningActivities": "Learning activities",
-      "assessments": "Gradebook columns",
-      "assessmentResults": "Marks",
-      "activityCompletions": "Activity completion",
-      "submissions": "Submissions"
-    },
-    "reconciliation": {
-      "title": "Reconciliation",
-      "cardDescription": "Compare what the source offers against what the platform holds.",
-      "description": "This reads both sides live and reports where they disagree. It changes nothing.",
-      "checkNow": "Check for discrepancies",
-      "checking": "Comparing…",
-      "checkedAt": "Compared at {at}.",
-      "cleanTitle": "The two sides agree",
-      "cleanDescription": "Every record the source offers is in the platform, at the version the source holds.",
-      "dirtyTitle": "The two sides disagree",
-      "dirtyDescription": "{count, plural, one {# record} other {# records}} differ between the {system} and the platform. Run synchronization against that system to take in what is missing or out of date.",
-      "domainHeading": "{domain} — {count, plural, one {# discrepancy} other {# discrepancies}}",
-      "truncated": "Showing {shown} of {total}. Run synchronization and compare again to see the rest.",
-      "noDetail": "This domain reported no detail.",
-      "errorTitle": "The comparison failed",
-      "errorDescription": "The source could not be read just now. Try again in a moment.",
-      "kind": {
-        "missing_in_platform": "Missing here",
-        "missing_in_source": "Gone from source",
-        "stale": "Out of date",
-        "conflict": "Conflict"
-      },
-      "status": {
-        "checked": "Checked",
-        "skipped": "Not offered",
-        "failed": "Failed"
-      },
-      "column": {
-        "domain": "Domain",
-        "source": "In source",
-        "platform": "In platform",
-        "matched": "Matched",
-        "discrepancies": "Discrepancies",
-        "kind": "What differs",
-        "externalId": "Source identifier",
-        "detail": "Detail",
-        "sourceUpdated": "Source updated",
-        "platformUpdated": "Platform updated",
-        "resolution": "Resolution"
-      },
-      "resolve": {
-        "logTitle": "Resolved discrepancies",
-        "logDescription": "Every discrepancy somebody has already settled, and what they decided.",
-        "logEmpty": "Nobody has resolved a discrepancy yet.",
-        "logError": "The resolution log could not be read just now.",
-        "unresolvable": "Run a full {system} synchronization to take this record in.",
-        "resolved": "Discrepancy resolved.",
-        "resolvedNeedsRun": "Resolved. Run a full {system} synchronization to apply it.",
-        "action": {
-          "accept_source": "Accept the source",
-          "keep_platform": "Keep ours"
-        },
-        "column": {
-          "action": "Decision",
-          "resolvedAt": "Resolved"
-        }
-      },
-      "peopleNote": "People are compared by neither system: a person becomes an account and a linked identity rather than a synchronized record."
-    },
-    "sourceLabel": "System",
-    "source": {
-      "sis": "Student information system",
-      "lms": "Learning management system"
-    },
-    "writeBack": {
-      "title": "Writes to the source system",
-      "cardDescription": "Acts taken in StudViro that the source system has not acknowledged. A refused one has already been reversed here; an unreachable one has not, because nobody knows whether it landed.",
-      "empty": "Every write the source system owes an answer to has been acknowledged.",
-      "error": "The undelivered writes could not be read.",
-      "retry": "Retry",
-      "discard": "Discard",
-      "retried": "The write is queued again.",
-      "discarded": "The write was discarded. The two systems stay in disagreement.",
-      "inFlightNote": "Being delivered now.",
-      "noReason": "—",
-      "column": {
-        "kind": "Write",
-        "state": "State",
-        "attempts": "Attempts",
-        "queuedAt": "Queued",
-        "reason": "Last answer",
-        "actions": "Actions"
-      },
-      "kind": {
-        "exam_registration": {
-          "create": "Exam registration",
-          "cancel": "Exam registration cancelled"
-        },
-        "course_enrollment": {
-          "request": "Course enrolment requested",
-          "withdraw": "Course enrolment withdrawn"
-        },
-        "course_result": {
-          "publish": "Grade published"
-        },
-        "learning_space": {
-          "provision": "Learning space provisioned"
-        },
-        "learning_enrollment": {
-          "upsert": "Learning enrolment"
-        }
-      },
-      "state": {
-        "pending": "Queued",
-        "in_flight": "Sending",
-        "acknowledged": "Acknowledged",
-        "rejected": "Refused",
-        "abandoned": "Unreachable"
-      }
-    }
   },
   "dashboard": {
     "title": "Dashboard",
@@ -681,7 +478,7 @@
   },
   "calendar": {
     "title": "Calendar",
-    "subtitle": "Your classes for the week, as the source systems report them.",
+    "subtitle": "Your classes for the week.",
     "empty": "Nothing is scheduled for this week.",
     "errorTitle": "The calendar could not be loaded",
     "errorDescription": "Your schedule is unavailable right now. Try again in a moment.",
@@ -724,10 +521,10 @@
   },
   "exams": {
     "title": "Exams",
-    "subtitle": "Exam terms for the courses you attend, as the source systems report them.",
+    "subtitle": "Exam terms for the courses you attend.",
     "upcoming": "Upcoming",
     "past": "Past",
-    "empty": "No exam terms have been imported for your courses.",
+    "empty": "No exam terms have been scheduled for your courses.",
     "errorTitle": "The exams could not be loaded",
     "errorDescription": "Your exam terms are unavailable right now. Try again in a moment.",
     "deniedTitle": "Not available to you",
@@ -745,7 +542,7 @@
     "registered": "You are registered",
     "cancelled": "Cancelled",
     "offeringPanel": "Exam terms",
-    "noOfferingExams": "No exam terms have been imported for this course.",
+    "noOfferingExams": "No exam terms have been scheduled for this course.",
     "seeAll": "See all exams",
     "kind": {
       "regular": "Regular",
@@ -914,7 +711,7 @@
     },
     "audiences": {
       "title": "Built for the three people who use it",
-      "subtitle": "The same imported record, read three ways.",
+      "subtitle": "The same record, read three ways.",
       "students": {
         "title": "Students",
         "body": "One timetable, one place to see where a grade came from, and an exam registration that tells you why a seat is out of reach."
@@ -925,23 +722,23 @@
       },
       "institutions": {
         "title": "Institutions",
-        "body": "Connect a source system, watch every import, and see exactly where the platform and the source disagree."
+        "body": "Run the whole academic year in one place: the catalogue, enrolment, timetables, exams and grades, with every permission checked at the scope it belongs to."
       }
     },
     "howItWorks": {
       "title": "How it works",
       "subtitle": "Three steps, and no migration.",
       "connect": {
-        "title": "1. Connect a source system",
-        "body": "An administrator picks a connector and stores its credentials. They are encrypted at rest and never read back, not even by the administrator who entered them."
+        "title": "1. Set up the institution",
+        "body": "An administrator creates the institution, its org units and its first administrator, then enters the programmes and courses it offers."
       },
       "import": {
-        "title": "2. Import into one model",
-        "body": "Ordered imports write into 25 canonical tables. Every record keeps its source, its version and when it was last seen, and an external identifier is never used as a primary key."
+        "title": "2. Fill the year",
+        "body": "Terms, offerings, timetables and exam terms go in once, into 25 canonical tables. Every row is institution-scoped and soft-deleted rather than erased."
       },
       "use": {
         "title": "3. Use one surface",
-        "body": "Students and teachers get a dashboard, a calendar and a course page over the imported model. Your existing systems stay exactly where they are."
+        "body": "Students, teachers and registrars each get a dashboard, a calendar and a course page over the same record, showing only what their role permits."
       }
     },
     "trust": {
@@ -949,7 +746,7 @@
       "subtitle": "The parts a registrar asks about first.",
       "credentials": {
         "title": "Credentials are write-only",
-        "body": "Connector secrets are encrypted with AES-256-GCM, echoed back to nobody, and reachable only by an institution administrator holding the permission to configure a connector."
+        "body": "Passwords are argon2. Sessions rotate. Nothing sensitive is echoed back, not even to an administrator."
       },
       "permissions": {
         "title": "Permissions carry a scope",
@@ -957,22 +754,22 @@
       },
       "provenance": {
         "title": "Every record says where it came from",
-        "body": "Source system, external identifier, source version and last-synchronised time travel with each row, so a disputed value can always be traced back."
+        "body": "Every row is institution-scoped, soft-deleted rather than erased, and carries who changed it and when, so a disputed value can be traced."
       },
       "readOnly": {
         "title": "Read-only, for now",
-        "body": "The platform imports from your systems and writes nothing back to them. Write-back is designed and not yet built, so nothing here can corrupt your system of record."
+        "body": "Reads are scoped by permission at the scope that grants it. A student reading their own grade and a registrar reading the roster travel different paths on purpose."
       }
     },
     "faq": {
       "title": "Questions we are asked",
       "replace": {
-        "question": "Does this replace AIS2 or Moodle?",
-        "answer": "No. Your systems stay authoritative and unchanged. StudViro reads from them and presents one surface over the result."
+        "question": "Does this replace AIS2 and Moodle?",
+        "answer": "That is the point. StudViro is the system of record: the institution enters its own data and there is no upstream. The registry half is built; the learning half — assignments, submissions and marking — is next."
       },
       "lms": {
         "question": "Which systems can you connect today?",
-        "answer": "A student information system, through a connector. The Moodle connector and the learning-system data behind it — assignments, submissions and their deadlines — are designed and on the roadmap, not shipped."
+        "answer": "The registry: programmes, courses, offerings, enrolment, timetables, exams and grades. Course materials, assignments and submissions are the next phase."
       },
       "accounts": {
         "question": "How do people get accounts?",
@@ -989,7 +786,7 @@
     },
     "closing": {
       "title": "See it against your own systems",
-      "body": "Bring one department and one term. We will show you what the import produces and what it does not yet cover.",
+      "body": "Bring one department and one term. We will show you what the platform covers today and what it does not yet.",
       "cta": "Request a demo"
     },
     "footer": {
@@ -1034,7 +831,7 @@
     },
     "roadmap": {
       "title": "Not yet",
-      "body": "Assignment deadlines and submissions come with the learning-system connector. Browsing the full course catalogue and enrolling yourself are designed and not built. We would rather say so than show you a screenshot of neither."
+      "body": "Assignment hand-in and course materials are next. Browsing the catalogue and enrolling yourself already works."
     },
     "closing": {
       "title": "Ask your university about it",
@@ -1049,7 +846,7 @@
     },
     "hero": {
       "title": "Your teaching, without the second login",
-      "subtitle": "The offerings you lead, the students in each of them and your own week, read from the same import your students see."
+      "subtitle": "The offerings you lead, the students in each of them and your own week, over the same record your students read."
     },
     "features": {
       "title": "What you get",
@@ -1076,27 +873,27 @@
     },
     "closing": {
       "title": "See it with your own courses",
-      "body": "A demo runs against a real import, so you can look at an offering you recognise.",
+      "body": "A demo runs against a populated institution, so you can look at an offering you recognise.",
       "cta": "Request a demo"
     }
   },
   "forInstitutions": {
     "meta": {
       "title": "For institutions",
-      "description": "Connect a source system, watch every import, and see where the platform and the source disagree."
+      "description": "One academic platform an institution runs itself: catalogue, enrolment, timetables, exams and grades in one record."
     },
     "hero": {
       "title": "One surface over the systems you already run",
-      "subtitle": "No migration, no second system of record. A connector reads your student information system into a canonical model, and everything students and teachers see is built over that."
+      "subtitle": "One system of record, not a layer over two others. The institution enters its own data, and every audience reads the same record through the permissions it holds."
     },
     "features": {
       "title": "What an administrator gets",
       "connectors": {
-        "title": "Connectors and their health",
-        "body": "Choose a connector per institution, see what it can do and whether it is reachable, and store its credentials encrypted and unreadable."
+        "title": "Roles that mean something",
+        "body": "Eight canonical roles over a scope tree. A student role derives from an active programme membership and a teacher role from a teaching assignment, so neither is handed out by mistake."
       },
       "sync": {
-        "title": "Every import, on the record",
+        "title": "Every change, on the record",
         "body": "Freshness per domain, per-run results, per-record failures, retries and a full run history."
       },
       "reconciliation": {
@@ -1109,7 +906,7 @@
       },
       "model": {
         "title": "A canonical model with provenance",
-        "body": "25 institution-scoped tables. Source system, external identifier, version and last-seen time on every row; external identifiers are never primary keys."
+        "body": "25 institution-scoped tables covering the whole academic year, with soft deletion and keyset pagination throughout."
       }
     },
     "deployment": {
@@ -1124,7 +921,7 @@
       },
       "mock": {
         "title": "Evaluate without access",
-        "body": "A deterministic mock connector produces around five thousand linked records, so a pilot can start before integration credentials do."
+        "body": "A deterministic generator seeds a realistic synthetic university of around five thousand linked records, so a pilot can start with something to look at."
       }
     },
     "roadmap": {
@@ -1132,10 +929,10 @@
       "subtitle": "Designed, not shipped. Ask about timelines rather than assuming them.",
       "lms": {
         "title": "Learning-system integration",
-        "body": "The Moodle connector and the assignments, submissions and deadlines behind it."
+        "body": "Course materials, assignments, submissions and marking, natively."
       },
       "writeback": {
-        "title": "Write-back to source systems",
+        "title": "Bulk entry and migration",
         "body": "Today the platform reads. An exam registration made here does not yet reach your system of record."
       },
       "sso": {
@@ -1149,7 +946,7 @@
     },
     "closing": {
       "title": "Bring one department and one term",
-      "body": "The most useful demo runs against a scope you recognise. Tell us which systems you run and we will show you what the import covers — and what it does not.",
+      "body": "The most useful demo runs against a scope you recognise. Tell us how your year is shaped and we will show you what the platform covers.",
       "cta": "Request a demo"
     }
   },
@@ -1159,7 +956,7 @@
       "description": "Tell us which systems you run and we will show you what StudViro makes of them."
     },
     "title": "Request a demo",
-    "subtitle": "Tell us which systems you run. We will show you what the import produces, what it covers today and what is still roadmap.",
+    "subtitle": "Tell us how your academic year is shaped. We will show you what the platform covers today and what is still roadmap.",
     "form": {
       "institutionName": "Institution",
       "institutionNameHint": "The university, faculty or department you are asking on behalf of.",
@@ -1184,7 +981,7 @@
     "aside": {
       "title": "What happens next",
       "one": "We reply by email, usually within a couple of working days.",
-      "two": "A demo runs against a real import, not a slide deck.",
+      "two": "A demo runs against a populated institution, not a slide deck.",
       "three": "We will be explicit about what is shipped and what is still roadmap."
     }
   },
@@ -1268,25 +1065,24 @@
   },
   "learning": {
     "title": "Learning spaces",
-    "subtitle": "The courses, assignments and quizzes imported from this institution's learning management system, and the study records each one is matched to.",
+    "subtitle": "The learning spaces of this institution's course offerings, and the activities in them.",
     "deniedTitle": "These learning spaces are not yours to see",
-    "deniedDescription": "You can browse imported learning spaces only if you administer this institution or run its synchronization.",
+    "deniedDescription": "You can browse learning spaces only if you may read this institution's course offerings.",
     "errorTitle": "Learning spaces could not be loaded",
     "errorDescription": "The server answered {status}. Try again in a moment.",
     "emptyTitle": "No learning spaces yet",
-    "emptyDescription": "Choose a learning system connector in Settings, then run a synchronization for it. Imported courses appear here.",
-    "summaryTitle": "Imported from the learning system",
+    "emptyDescription": "No learning spaces exist yet. They are created per course offering.",
+    "summaryTitle": "Learning spaces",
     "summary": "{total} learning spaces, {linked} of them matched to a course offering.",
     "unlinkedTitle": "Some spaces match no course offering",
-    "unlinkedDescription": "{unlinked} spaces name a course offering this platform has not imported. Run the student information system synchronization, then run this one again.",
+    "unlinkedDescription": "{unlinked} spaces name a course offering that does not exist. Check the catalogue.",
     "unlinkedBadge": "Not matched",
     "none": "—",
     "column": {
       "space": "Learning space",
       "offering": "Course offering",
       "activities": "Activities",
-      "nextDue": "Next deadline",
-      "synchronized": "Last synchronized"
+      "nextDue": "Next deadline"
     },
     "assessments": {
       "panel": "Marks from the learning system",
@@ -1361,7 +1157,7 @@
     "notGraded": "Not graded",
     "annulled": "Annulled",
     "sourced": "From the university",
-    "sourcedHint": "This grade came from the university's system. Changing it here leaves the two disagreeing until a synchronization settles it.",
+    "sourcedHint": "This grade already has a value. Changing it replaces what the student currently sees.",
     "attemptNone": "No sitting yet",
     "attemptNumber": "Attempt {attempt}",
     "gradeFor": "Grade for {student}",

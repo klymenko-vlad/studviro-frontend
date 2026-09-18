@@ -39,14 +39,6 @@ describe('OfferingGrades', () => {
     expect(screen.getByText('No sitting yet')).toBeInTheDocument();
   });
 
-  it('marks a grade the university owns, so a teacher knows what they are overwriting', async () => {
-    render();
-
-    await screen.findByText('Veronika Gajdošová');
-
-    expect(screen.getByText('From the university')).toBeInTheDocument();
-  });
-
   it('says a student with no result is not graded rather than showing nothing', async () => {
     render();
 

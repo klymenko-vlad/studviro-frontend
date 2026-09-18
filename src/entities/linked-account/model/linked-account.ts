@@ -1,7 +1,6 @@
 import type { ExternalIdentityResponseDto } from '@/shared/api';
 
 export type LinkedAccount = ExternalIdentityResponseDto;
-export type SourceSystem = LinkedAccount['sourceSystem'];
 
 /**
  * The issuer is a URL the provider chose; its host is the only part a person

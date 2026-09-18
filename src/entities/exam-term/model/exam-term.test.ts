@@ -30,13 +30,6 @@ const term = (overrides: Partial<ExamTerm> = {}): ExamTerm => ({
   offering: { id: 'offering-1' },
   course: { id: 'course-1', code: 'INF/ALG/22', title: 'Algorithms' },
   term: { id: 'term-1', code: '2026-SS', name: 'Summer 2026' },
-  provenance: {
-    sourceSystem: 'sis',
-    externalId: 'EXT-1',
-    sourceUpdatedAt: null,
-    lastSynchronizedAt: null,
-    synchronizationStatus: 'in_sync',
-  },
   ...overrides,
 });
 
@@ -97,7 +90,6 @@ describe('isRegistered', () => {
             status: 'registered',
             registeredAt: null,
             cancelledAt: null,
-            delivery: 'not_relayed',
           },
         }),
       ),
@@ -113,7 +105,6 @@ describe('isRegistered', () => {
             status: 'cancelled',
             registeredAt: null,
             cancelledAt: '2026-05-15T00:00:00.000Z',
-            delivery: 'not_relayed',
           },
         }),
       ),

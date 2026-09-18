@@ -100,9 +100,15 @@ const budgets = [
     // `EnrollableOfferingCard` repeats `ExamTermCard`'s window and seats logic.
     // One shared component would cover both. It is worth a step of its own rather
     // than a rushed extraction inside a feature step.
+    // Lowered from 480 kB to 450 kB when the integration was removed (ADR 0024).
+    // Deleting the sync monitor, connector status, reconciliation and write-intent
+    // slices — four entities, four features, two widgets and a route — took the
+    // measured total from 458.02 kB to 437.63 kB, 20.39 kB back. The guard is
+    // lowered rather than left where it was, because a ceiling nothing approaches
+    // stops being a ceiling.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '480 kB',
+    limit: '450 kB',
     gzip: true,
   },
 ];

@@ -2,8 +2,6 @@ import { http, HttpResponse } from 'msw';
 
 import type {
   AuthTokensDto,
-  ConnectorCredentialsResponseDto,
-  ConnectorStatusResponseDto,
   CourseOfferingResponseDto,
   CourseResponseDto,
   CourseRosterResponseDto,
@@ -23,16 +21,10 @@ import type {
   NotificationResponseDto,
   OfferingResultsResponseDto,
   ProgramResponseDto,
-  ReconciliationReportResponseDto,
-  ReconciliationResolutionResponseDto,
   RoleAssignmentResponseDto,
   StudyProgressResponseDto,
-  SyncRunDetailResponseDto,
-  SyncRunResponseDto,
-  SyncWatermarkResponseDto,
   TeachingOfferingResponseDto,
   UserResponseDto,
-  WriteIntentResponseDto,
 } from '@/shared/api';
 
 /**
@@ -144,56 +136,6 @@ export const institutionConfiguration: InstitutionConfigurationResponseDto = {
     accommodation: false,
     fees: false,
   },
-  connectors: { academicSystem: 'mock-sis', learningSystem: null },
-};
-
-export const connectorStatuses: ConnectorStatusResponseDto[] = [
-  {
-    kind: 'academic',
-    name: 'mock-sis',
-    installed: true,
-    healthy: true,
-    checkedAt: '2026-08-15T09:00:00.000Z',
-    detail: null,
-    capabilities: ['courses.read', 'enrollments.read'],
-    alternatives: ['mock-sis'],
-  },
-  {
-    kind: 'learning',
-    name: null,
-    installed: false,
-    healthy: false,
-    checkedAt: null,
-    detail: null,
-    capabilities: [],
-    alternatives: [],
-  },
-];
-
-export const connectorCredentials: ConnectorCredentialsResponseDto = {
-  kind: 'academic',
-  connectorName: 'mock-sis',
-  complete: false,
-  fields: [
-    {
-      key: 'apiKey',
-      label: 'API key',
-      description: 'The API key issued by the student information system.',
-      secret: true,
-      required: true,
-      configured: true,
-      updatedAt: '2026-08-20T10:00:00.000Z',
-    },
-    {
-      key: 'baseUrl',
-      label: 'Base URL',
-      description: null,
-      secret: false,
-      required: true,
-      configured: false,
-      updatedAt: null,
-    },
-  ],
 };
 
 export const permissions: MyPermissionsResponseDto = {
@@ -215,9 +157,6 @@ export const permissions: MyPermissionsResponseDto = {
     'grade:propose',
     'schedule:read',
     'notification:read',
-    'sync:read',
-    'sync:run',
-    'connector:configure',
   ],
 };
 
@@ -225,7 +164,6 @@ export const linkedAccounts: ExternalIdentityResponseDto[] = [
   {
     id: '88888888-8888-4888-8888-888888888888',
     institutionId: '55555555-5555-4555-8555-555555555555',
-    sourceSystem: 'sis',
     issuer: 'https://login.upjs.sk',
     externalUsername: 'ada123',
     lastAuthenticatedAt: '2026-08-01T09:00:00.000Z',
@@ -311,13 +249,6 @@ export const courseResults: MyCourseResultResponseDto[] = [
     calculated: { grade: 'B', points: 87.5 },
     proposed: { grade: 'B', at: '2026-06-01T00:00:00.000Z' },
     official: { grade: 'A', recordedAt: '2026-06-10T00:00:00.000Z' },
-    provenance: {
-      sourceSystem: 'sis',
-      externalId: 'sis-result-1',
-      sourceUpdatedAt: '2026-06-11T00:00:00.000Z',
-      lastSynchronizedAt: '2026-06-12T00:00:00.000Z',
-      synchronizationStatus: 'in_sync',
-    },
     enrollmentId: '99999999-9999-4999-8999-999999999991',
     offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1' },
     course: {
@@ -344,13 +275,6 @@ export const courseResults: MyCourseResultResponseDto[] = [
     calculated: { grade: 'D', points: 61 },
     proposed: { grade: 'C', at: '2026-01-20T00:00:00.000Z' },
     official: { grade: null, recordedAt: null },
-    provenance: {
-      sourceSystem: 'platform',
-      externalId: null,
-      sourceUpdatedAt: null,
-      lastSynchronizedAt: null,
-      synchronizationStatus: 'conflict',
-    },
     enrollmentId: '99999999-9999-4999-8999-999999999992',
     offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa2' },
     course: {
@@ -399,7 +323,6 @@ export const notifications: NotificationResponseDto[] = [
     attempt: null,
     eventTitle: null,
     reason: null,
-    sourceSystem: 'sis',
   },
   {
     id: 'eeeeeee2-eeee-4eee-8eee-eeeeeeeeeee2',
@@ -422,7 +345,6 @@ export const notifications: NotificationResponseDto[] = [
     attempt: null,
     eventTitle: null,
     reason: null,
-    sourceSystem: 'sis',
   },
   {
     id: 'eeeeeee3-eeee-4eee-8eee-eeeeeeeeeee3',
@@ -445,7 +367,6 @@ export const notifications: NotificationResponseDto[] = [
     attempt: null,
     eventTitle: null,
     reason: null,
-    sourceSystem: 'lms',
   },
 ];
 
@@ -476,12 +397,6 @@ export const assessmentResults: MyAssessmentResultResponseDto[] = [
       name: 'Databases',
     },
     offering: { id: 'aaaaaaa2-aaaa-4aaa-8aaa-aaaaaaaaaaa2' },
-    provenance: {
-      sourceSystem: 'lms',
-      externalId: 'GRD-CRS-DB-A1-P1',
-      lastSynchronizedAt: null,
-      synchronizationStatus: 'in_sync',
-    },
   },
   {
     id: 'aaaaaab2-aaaa-4aaa-8aaa-aaaaaaaaaab2',
@@ -498,12 +413,6 @@ export const assessmentResults: MyAssessmentResultResponseDto[] = [
       name: 'Databases',
     },
     offering: { id: 'aaaaaaa2-aaaa-4aaa-8aaa-aaaaaaaaaaa2' },
-    provenance: {
-      sourceSystem: 'lms',
-      externalId: 'GRD-CRS-DB-A2-P1',
-      lastSynchronizedAt: null,
-      synchronizationStatus: 'in_sync',
-    },
   },
 ];
 
@@ -534,12 +443,6 @@ export const deadlines: MyDeadlineResponseDto[] = [
       id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
       code: '2026-SS',
       name: 'Summer 2026',
-    },
-    provenance: {
-      sourceSystem: 'lms',
-      externalId: 'CRS-DB-A1',
-      lastSynchronizedAt: null,
-      synchronizationStatus: 'in_sync',
     },
   },
 ];
@@ -598,13 +501,6 @@ export const examTerms: MyExamTermResponseDto[] = [
       code: '2026-SS',
       name: 'Summer 2026',
     },
-    provenance: {
-      sourceSystem: 'sis',
-      externalId: 'EXT-1',
-      sourceUpdatedAt: null,
-      lastSynchronizedAt: null,
-      synchronizationStatus: 'in_sync',
-    },
   },
   {
     id: 'ddddddd2-dddd-4ddd-8ddd-ddddddddddd2',
@@ -631,7 +527,6 @@ export const examTerms: MyExamTermResponseDto[] = [
       status: 'registered',
       registeredAt: localIso(2026, 5, 14, 8),
       cancelledAt: null,
-      delivery: 'not_relayed',
     },
     room: null,
     examiner: null,
@@ -645,13 +540,6 @@ export const examTerms: MyExamTermResponseDto[] = [
       id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
       code: '2026-SS',
       name: 'Summer 2026',
-    },
-    provenance: {
-      sourceSystem: 'sis',
-      externalId: 'EXT-2',
-      sourceUpdatedAt: null,
-      lastSynchronizedAt: null,
-      synchronizationStatus: 'in_sync',
     },
   },
   {
@@ -688,13 +576,6 @@ export const examTerms: MyExamTermResponseDto[] = [
       code: '2026-SS',
       name: 'Summer 2026',
     },
-    provenance: {
-      sourceSystem: 'sis',
-      externalId: 'EXT-3',
-      sourceUpdatedAt: null,
-      lastSynchronizedAt: null,
-      synchronizationStatus: 'in_sync',
-    },
   },
 ];
 
@@ -726,13 +607,6 @@ export const timetableEvents: MyTimetableEventResponseDto[] = [
       code: '2026-SS',
       name: 'Summer 2026',
     },
-    provenance: {
-      sourceSystem: 'sis',
-      externalId: 'TTE-ALG-L1',
-      sourceUpdatedAt: '2026-02-20T00:00:00.000Z',
-      lastSynchronizedAt: '2026-02-21T00:00:00.000Z',
-      synchronizationStatus: 'in_sync',
-    },
   },
   {
     id: 'eeeeeee1-eeee-4eee-8eee-eeeeeeeeeee2',
@@ -760,13 +634,6 @@ export const timetableEvents: MyTimetableEventResponseDto[] = [
       id: 'ccccccc1-cccc-4ccc-8ccc-ccccccccccc1',
       code: '2026-SS',
       name: 'Summer 2026',
-    },
-    provenance: {
-      sourceSystem: 'sis',
-      externalId: 'TTE-ALG-S1',
-      sourceUpdatedAt: null,
-      lastSynchronizedAt: null,
-      synchronizationStatus: 'pending',
     },
   },
 ];
@@ -942,100 +809,6 @@ export function errorResponse(
   };
 }
 
-export const syncRuns: SyncRunResponseDto[] = [
-  {
-    id: '77777777-7777-4777-8777-777777777777',
-    institutionId: '55555555-5555-4555-8555-555555555555',
-    connectorName: 'mock-sis',
-    mode: 'incremental',
-    trigger: 'manual',
-    status: 'partial',
-    queuedAt: '2026-06-01T09:00:00.000Z',
-    startedAt: '2026-06-01T09:00:01.000Z',
-    finishedAt: '2026-06-01T09:00:04.000Z',
-    fetched: 120,
-    created: 10,
-    updated: 5,
-    deleted: 1,
-    skipped: 100,
-    failed: 4,
-    errorCode: null,
-    errorMessage: 'Enrolments could not be read in full',
-  },
-  {
-    id: '88888888-8888-4888-8888-888888888888',
-    institutionId: '55555555-5555-4555-8555-555555555555',
-    connectorName: 'mock-sis',
-    mode: 'full',
-    trigger: 'scheduled',
-    status: 'succeeded',
-    queuedAt: '2026-05-31T09:00:00.000Z',
-    startedAt: '2026-05-31T09:00:01.000Z',
-    finishedAt: '2026-05-31T09:00:11.000Z',
-    fetched: 500,
-    created: 500,
-    updated: 0,
-    deleted: 0,
-    skipped: 0,
-    failed: 0,
-    errorCode: null,
-    errorMessage: null,
-  },
-];
-
-export const syncRunDetail: SyncRunDetailResponseDto = {
-  run: syncRuns[0]!,
-  domains: [
-    {
-      domain: 'courses',
-      status: 'succeeded',
-      fetched: 60,
-      created: 8,
-      updated: 2,
-      deleted: 0,
-      skipped: 50,
-      failed: 0,
-      durationMs: 1200,
-      watermark: '2026-06-01T08:59:00.000Z',
-      errorMessage: null,
-    },
-    {
-      domain: 'enrollments',
-      status: 'failed',
-      fetched: 60,
-      created: 2,
-      updated: 3,
-      deleted: 1,
-      skipped: 50,
-      failed: 4,
-      durationMs: 1800,
-      watermark: null,
-      errorMessage: 'Enrolments could not be read in full',
-    },
-  ],
-};
-
-export const syncState: SyncWatermarkResponseDto[] = [
-  {
-    domain: 'courses',
-    connectorName: 'mock-sis',
-    sourceUpdatedAt: '2026-06-01T08:59:00.000Z',
-    lastStatus: 'succeeded',
-    lastAttemptedAt: '2026-06-01T09:00:02.000Z',
-    lastSucceededAt: '2026-06-01T09:00:02.000Z',
-    lastErrorMessage: null,
-  },
-  {
-    domain: 'enrollments',
-    connectorName: 'mock-sis',
-    sourceUpdatedAt: null,
-    lastStatus: 'failed',
-    lastAttemptedAt: '2026-06-01T09:00:04.000Z',
-    lastSucceededAt: null,
-    lastErrorMessage: 'Enrolments could not be read in full',
-  },
-];
-
 export const learningSpaces: LearningSpaceListResponseDto = {
   total: 2,
   linked: 1,
@@ -1047,8 +820,6 @@ export const learningSpaces: LearningSpaceListResponseDto = {
       shortName: 'ALG/WS26',
       url: 'https://moodle.mocku.example/course/view.php?idnumber=LMS-ALG',
       visible: true,
-      externalId: 'LMS-ALG',
-      lastSynchronizedAt: '2026-06-01T10:00:00.000Z',
       offeringId: '9a1f0b3c-2222-4222-8222-222222222222',
       courseCode: 'ALG',
       courseTitle: 'Algorithms and Data Structures',
@@ -1062,8 +833,6 @@ export const learningSpaces: LearningSpaceListResponseDto = {
       shortName: null,
       url: null,
       visible: false,
-      externalId: 'LMS-ORPHAN',
-      lastSynchronizedAt: null,
       offeringId: null,
       courseCode: null,
       courseTitle: null,
@@ -1074,101 +843,6 @@ export const learningSpaces: LearningSpaceListResponseDto = {
   ],
 };
 
-export const reconciliationReport: ReconciliationReportResponseDto = {
-  sourceSystem: 'sis',
-  connectorName: 'mock-sis',
-  checkedAt: '2026-06-01T10:00:00.000Z',
-  discrepancyCount: 2,
-  domains: [
-    {
-      domain: 'courses',
-      status: 'checked',
-      sourceCount: 60,
-      platformCount: 59,
-      matched: 59,
-      discrepancyCount: 2,
-      truncated: false,
-      errorMessage: null,
-      discrepancies: [
-        {
-          kind: 'missing_in_platform',
-          externalId: 'course-404',
-          canonicalId: null,
-          sourceUpdatedAt: '2026-06-01T09:30:00.000Z',
-          platformUpdatedAt: null,
-          detail: 'The source holds this record and the platform has no live row for it.',
-        },
-        {
-          kind: 'stale',
-          externalId: 'course-12',
-          canonicalId: '99999999-9999-4999-8999-999999999999',
-          sourceUpdatedAt: '2026-06-01T09:30:00.000Z',
-          platformUpdatedAt: '2026-05-01T09:30:00.000Z',
-          detail: 'The source has changed since the platform last took this row in.',
-        },
-      ],
-    },
-    {
-      domain: 'enrollments',
-      status: 'checked',
-      sourceCount: 120,
-      platformCount: 120,
-      matched: 120,
-      discrepancyCount: 0,
-      truncated: false,
-      errorMessage: null,
-      discrepancies: [],
-    },
-  ],
-};
-
-export const learningReconciliationReport: ReconciliationReportResponseDto = {
-  sourceSystem: 'lms',
-  connectorName: 'mock-lms',
-  checkedAt: '2026-06-01T10:05:00.000Z',
-  discrepancyCount: 1,
-  domains: [
-    {
-      domain: 'learningSpaces',
-      status: 'checked',
-      sourceCount: 12,
-      platformCount: 12,
-      matched: 12,
-      discrepancyCount: 1,
-      truncated: false,
-      errorMessage: null,
-      discrepancies: [
-        {
-          kind: 'stale',
-          externalId: 'space-3',
-          canonicalId: '77777777-7777-4777-8777-777777777777',
-          sourceUpdatedAt: '2026-06-01T09:30:00.000Z',
-          platformUpdatedAt: '2026-05-01T09:30:00.000Z',
-          detail: 'The source has changed since the platform last took this row in.',
-        },
-      ],
-    },
-  ],
-};
-
-export const reconciliationResolutions: ReconciliationResolutionResponseDto[] = [
-  {
-    id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
-    domain: 'courses',
-    kind: 'missing_in_source',
-    action: 'keep_platform',
-    connectorName: 'mock-sis',
-    sourceSystem: 'sis',
-    externalId: 'course-77',
-    canonicalId: '88888888-8888-4888-8888-888888888888',
-    detail:
-      'Kept the platform row and detached it from the source, so no import will match it again.',
-    resolvedById: session.user.id,
-    resolvedAt: '2026-05-30T08:00:00.000Z',
-    requiresFullSync: false,
-  },
-];
-
 export const programs: ProgramResponseDto[] = [
   {
     id: 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1',
@@ -1178,8 +852,6 @@ export const programs: ProgramResponseDto[] = [
     studyForm: 'full_time',
     standardLengthSemesters: 6,
     orgUnitId: null,
-    sourceSystem: 'platform',
-    synchronizationStatus: 'in_sync',
   },
 ];
 
@@ -1191,8 +863,6 @@ export const catalogueCourses: CourseResponseDto[] = [
     description: null,
     credits: 6,
     orgUnitId: null,
-    sourceSystem: 'sis',
-    synchronizationStatus: 'pending',
   },
 ];
 
@@ -1272,7 +942,6 @@ export const offeringResults: OfferingResultsResponseDto = {
           calculated: { grade: 'B', points: 82 },
           proposed: { grade: 'B', at: '2026-06-01T00:00:00.000Z' },
           official: { grade: 'B', recordedAt: '2026-06-10T00:00:00.000Z' },
-          provenance: { sourceSystem: 'sis', externalId: 'RES-1' },
         },
       ],
     },
@@ -1297,25 +966,6 @@ export const studyProgress: StudyProgressResponseDto = {
   weightedAverage: 1,
   awaitingRetake: 0,
 };
-
-export const writeIntents: WriteIntentResponseDto[] = [
-  {
-    id: 'cccccccc-cccc-4ccc-8ccc-cccccccccccc',
-    targetSourceSystem: 'sis',
-    connectorName: 'mock-sis',
-    kind: 'exam_registration.create',
-    state: 'rejected',
-    canonicalTable: 'exam_registrations',
-    canonicalId: 'ddddddd3-dddd-4ddd-8ddd-ddddddddddd3',
-    attempts: 1,
-    nextAttemptAt: null,
-    deliveredAt: '2026-05-30T09:00:00.000Z',
-    lastErrorCode: 'RETAKE_NOT_SELF_SERVICE',
-    lastErrorMessage:
-      'A retake seat is assigned by the study department and cannot be booked by the student',
-    createdAt: '2026-05-30T08:59:00.000Z',
-  },
-];
 
 export const handlers = [
   /**
@@ -1536,59 +1186,6 @@ export const handlers = [
     },
   ),
 
-  http.get(`${PROXY}/institutions/:institutionId/connectors`, () =>
-    HttpResponse.json(connectorStatuses),
-  ),
-
-  http.get(
-    `${PROXY}/institutions/:institutionId/connectors/:kind/credentials`,
-    ({ params }) => {
-      if (params['kind'] !== 'academic') {
-        return new HttpResponse(null, { status: 404 });
-      }
-
-      return HttpResponse.json(connectorCredentials);
-    },
-  ),
-
-  http.put(
-    `${PROXY}/institutions/:institutionId/connectors/:kind/credentials`,
-    async ({ params, request }) => {
-      if (params['kind'] !== 'academic') {
-        return new HttpResponse(null, { status: 404 });
-      }
-
-      const body = (await request.json()) as { values: Record<string, string> };
-
-      return HttpResponse.json({
-        ...connectorCredentials,
-        fields: connectorCredentials.fields.map(field =>
-          field.key in body.values
-            ? { ...field, configured: true, updatedAt: '2026-09-12T00:00:00.000Z' }
-            : field,
-        ),
-      });
-    },
-  ),
-
-  http.delete(
-    `${PROXY}/institutions/:institutionId/connectors/:kind/credentials/:fieldKey`,
-    ({ params }) => {
-      if (params['kind'] !== 'academic') {
-        return new HttpResponse(null, { status: 404 });
-      }
-
-      return HttpResponse.json({
-        ...connectorCredentials,
-        fields: connectorCredentials.fields.map(field =>
-          field.key === params['fieldKey']
-            ? { ...field, configured: false, updatedAt: null }
-            : field,
-        ),
-      });
-    },
-  ),
-
   http.get(`${PROXY}/institutions/:institutionId/role-assignments`, () =>
     HttpResponse.json(roleAssignments),
   ),
@@ -1626,18 +1223,6 @@ export const handlers = [
     HttpResponse.json(learningSpaces),
   ),
 
-  http.get(`${PROXY}/institutions/:institutionId/synchronization/runs`, () =>
-    HttpResponse.json(syncRuns),
-  ),
-
-  http.get(`${PROXY}/institutions/:institutionId/synchronization/runs/:runId`, () =>
-    HttpResponse.json(syncRunDetail),
-  ),
-
-  http.get(`${PROXY}/institutions/:institutionId/synchronization/state`, () =>
-    HttpResponse.json(syncState),
-  ),
-
   http.get(`${PROXY}/institutions/:institutionId/programs`, () =>
     HttpResponse.json(programs),
   ),
@@ -1666,7 +1251,6 @@ export const handlers = [
         status: 'requested',
         enrolledAt: '2026-01-20T09:00:00.000Z',
         withdrawnAt: null,
-        synchronizationStatus: 'pending',
       },
       { status: 201 },
     ),
@@ -1679,7 +1263,6 @@ export const handlers = [
       status: 'withdrawn',
       enrolledAt: null,
       withdrawnAt: '2026-01-21T09:00:00.000Z',
-      synchronizationStatus: 'in_sync',
     }),
   ),
 
@@ -1698,77 +1281,10 @@ export const handlers = [
         status: 'proposed',
         proposedGrade: 'A',
         officialGrade: null,
-        synchronizationStatus: 'pending',
       }),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/me/course-results/summary`, () =>
     HttpResponse.json(studyProgress),
-  ),
-
-  http.get(`${PROXY}/institutions/:institutionId/synchronization/write-intents`, () =>
-    HttpResponse.json(writeIntents),
-  ),
-
-  http.post(
-    `${PROXY}/institutions/:institutionId/synchronization/write-intents/:id/retry`,
-    () => HttpResponse.json({ ...writeIntents[0], state: 'pending', attempts: 0 }),
-  ),
-
-  http.delete(
-    `${PROXY}/institutions/:institutionId/synchronization/write-intents/:id`,
-    () => new HttpResponse(null, { status: 204 }),
-  ),
-
-  http.get(
-    `${PROXY}/institutions/:institutionId/synchronization/reconciliation`,
-    ({ request }) =>
-      HttpResponse.json(
-        new URL(request.url).searchParams.get('sourceSystem') === 'lms'
-          ? learningReconciliationReport
-          : reconciliationReport,
-      ),
-  ),
-
-  http.get(
-    `${PROXY}/institutions/:institutionId/synchronization/reconciliation/resolutions`,
-    () => HttpResponse.json(reconciliationResolutions),
-  ),
-
-  http.post(
-    `${PROXY}/institutions/:institutionId/synchronization/reconciliation/resolutions`,
-    async ({ request }) => {
-      const body = (await request.json()) as {
-        domain: string;
-        kind: string;
-        action: string;
-        canonicalId: string | null;
-        externalId: string | null;
-      };
-
-      return HttpResponse.json(
-        {
-          ...reconciliationResolutions[0]!,
-          id: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
-          domain: body.domain as ReconciliationResolutionResponseDto['domain'],
-          kind: body.kind as ReconciliationResolutionResponseDto['kind'],
-          action: body.action as ReconciliationResolutionResponseDto['action'],
-          sourceSystem: body.domain.startsWith('learning') ? 'lms' : 'sis',
-          canonicalId: body.canonicalId,
-          externalId: body.externalId,
-          requiresFullSync: body.action === 'accept_source',
-        } satisfies ReconciliationResolutionResponseDto,
-        { status: 201 },
-      );
-    },
-  ),
-
-  http.post(`${PROXY}/institutions/:institutionId/synchronization/runs`, () =>
-    HttpResponse.json(
-      { ...syncRuns[0]!, status: 'queued' } satisfies SyncRunResponseDto,
-      {
-        status: 202,
-      },
-    ),
   ),
 ];

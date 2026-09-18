@@ -26,13 +26,6 @@ const event = (overrides: Partial<TimetableEvent> = {}): TimetableEvent => ({
   offering: { id: 'offering-1' },
   course: { id: 'course-1', code: 'INF/ALG/22', title: 'Algorithms' },
   term: { id: 'term-1', code: '2026-SS', name: 'Summer 2026' },
-  provenance: {
-    sourceSystem: 'sis',
-    externalId: 'TTE-1',
-    sourceUpdatedAt: null,
-    lastSynchronizedAt: null,
-    synchronizationStatus: 'in_sync',
-  },
   ...overrides,
 });
 

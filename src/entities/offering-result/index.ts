@@ -4,7 +4,6 @@ export {
 } from './api/offering-result-queries';
 export {
   currentAttempt,
-  isSourced,
   RECORDABLE_GRADES,
   standingGrade,
   type OfferingResultAttempt,

@@ -38,8 +38,3 @@ export function standingGrade(
 
   return attempt.official.grade ?? attempt.proposed.grade ?? null;
 }
-
-/** Whether the registrar owns this row, so an edit here is a disagreement. */
-export function isSourced(attempt: OfferingResultAttempt | null): boolean {
-  return attempt !== null && attempt.provenance.sourceSystem !== 'platform';
-}

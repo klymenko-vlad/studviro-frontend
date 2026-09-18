@@ -6,7 +6,6 @@ import { useTranslations } from 'next-intl';
 import { GradeEntryCell } from '@/features/record-grade';
 import {
   currentAttempt,
-  isSourced,
   offeringResultQueries,
   standingGrade,
   type OfferingResultStudent,
@@ -112,12 +111,6 @@ function StudentRow({
             {t(`grade.${standing}`)}
           </Badge>
         )}
-
-        {isSourced(attempt) ? (
-          <Badge variant="outline" title={t('sourcedHint')}>
-            {t('sourced')}
-          </Badge>
-        ) : null}
       </TableCell>
 
       <TableCell>

@@ -17,12 +17,6 @@ const deadline = (overrides: Partial<Deadline> = {}): Deadline => ({
   offering: { id: 'offering-1' },
   course: { id: 'course-1', code: 'INF/PF/22', title: 'Programming 2' },
   term: { id: 'term-1', code: '2026-WS', name: 'Winter 2026' },
-  provenance: {
-    sourceSystem: 'lms',
-    externalId: 'CRS-1-A1',
-    lastSynchronizedAt: null,
-    synchronizationStatus: 'in_sync',
-  },
   ...overrides,
 });
 

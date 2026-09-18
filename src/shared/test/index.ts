@@ -5,9 +5,7 @@
 export { renderWithProviders, screen, userEvent, waitFor, within } from './render';
 export {
   assessmentResults,
-  connectorCredentials,
   catalogueCourses,
-  connectorStatuses,
   programs,
   courseOffering,
   courseRoster,
@@ -28,15 +26,8 @@ export {
   roleAssignments,
   session,
   studyProgress,
-  learningReconciliationReport,
-  reconciliationReport,
-  reconciliationResolutions,
-  syncRunDetail,
-  syncRuns,
-  syncState,
   teachingOfferings,
   timetableEvents,
   users,
-  writeIntents,
 } from './msw/handlers';
 export { server } from './msw/server';

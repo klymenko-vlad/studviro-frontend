@@ -67,26 +67,6 @@ describe('InstitutionNav', () => {
     );
   });
 
-  it('links the learning spaces for staff who may read the synchronization', async () => {
-    grant(['sync:read']);
-
-    renderWithProviders(<InstitutionNav institutionId={INSTITUTION} />);
-
-    expect(await screen.findByRole('link', { name: 'Learning' })).toHaveAttribute(
-      'href',
-      `/institutions/${INSTITUTION}/learning`,
-    );
-  });
-
-  it('hides the learning spaces from a student, who also holds offering:read', async () => {
-    grant(['offering:read', 'enrollment:read']);
-
-    renderWithProviders(<InstitutionNav institutionId={INSTITUTION} />);
-
-    await screen.findByRole('link', { name: 'Dashboard' });
-    expect(screen.queryByRole('link', { name: 'Learning' })).not.toBeInTheDocument();
-  });
-
   it('links the calendar and the exams once the schedule permission is granted', async () => {
     grant(['schedule:read']);
 

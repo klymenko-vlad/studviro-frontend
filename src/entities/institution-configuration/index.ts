@@ -10,10 +10,7 @@ export {
 } from './model/use-institution-features';
 export { useTerminology, type TerminologyKey } from './model/use-terminology';
 export {
-  alternativesFor,
   featureFlags,
   terminologyKeys,
-  type ConnectorKind,
-  type ConnectorStatus,
   type InstitutionConfiguration,
 } from './model/institution-configuration';

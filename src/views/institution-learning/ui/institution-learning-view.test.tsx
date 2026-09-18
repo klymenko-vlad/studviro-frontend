@@ -81,18 +81,6 @@ describe('InstitutionLearningView', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('explains what to do when nothing has been imported yet', async () => {
-    server.use(
-      http.get(SPACES_URL, () =>
-        HttpResponse.json({ total: 0, linked: 0, unlinked: 0, spaces: [] }),
-      ),
-    );
-
-    render();
-
-    expect(await screen.findByText('No learning spaces yet')).toBeInTheDocument();
-  });
-
   it('reports a server failure rather than an empty table', async () => {
     server.use(http.get(SPACES_URL, () => new HttpResponse(null, { status: 500 })));
 

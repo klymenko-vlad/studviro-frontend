@@ -82,7 +82,6 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
             <TableHead>{t('column.offering')}</TableHead>
             <TableHead>{t('column.activities')}</TableHead>
             <TableHead>{t('column.nextDue')}</TableHead>
-            <TableHead>{t('column.synchronized')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -94,7 +93,7 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
                 <TableCell>
                   {space.name}
                   <span className="text-muted-foreground block text-xs">
-                    {space.shortName ?? space.externalId ?? t('none')}
+                    {space.shortName ?? t('none')}
                   </span>
                 </TableCell>
                 <TableCell>
@@ -114,13 +113,6 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
                   {due === null
                     ? t('none')
                     : format.dateTime(due, { dateStyle: 'medium', timeStyle: 'short' })}
-                </TableCell>
-                <TableCell>
-                  {space.lastSynchronizedAt === null
-                    ? t('none')
-                    : format.dateTime(new Date(space.lastSynchronizedAt), {
-                        dateStyle: 'medium',
-                      })}
                 </TableCell>
               </TableRow>
             );

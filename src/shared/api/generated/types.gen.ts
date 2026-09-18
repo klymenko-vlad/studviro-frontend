@@ -4,314 +4,9 @@ export type ClientOptions = {
     baseUrl: string;
 };
 
-export type StartSyncRunDto = {
-    /**
-     * A full run ignores the stored watermarks and re-reads every record the connector offers.
-     */
-    mode?: 'incremental' | 'full';
-    /**
-     * Which half of the model to import: the student information system or the learning management system.
-     */
-    sourceSystem?: 'sis' | 'lms';
-};
-
-export type SyncRunResponseDto = {
-    id: string;
-    institutionId: string;
-    connectorName: string;
-    mode: 'incremental' | 'full';
-    trigger: 'manual' | 'scheduled';
-    status: 'queued' | 'running' | 'succeeded' | 'partial' | 'failed';
-    queuedAt: string;
-    startedAt: string | null;
-    finishedAt: string | null;
-    fetched: number;
-    created: number;
-    updated: number;
-    deleted: number;
-    skipped: number;
-    failed: number;
-    errorCode: string | null;
-    errorMessage: string | null;
-};
-
-export type ErrorResponseDto = {
-    statusCode: number;
-    error: string;
-    /**
-     * A single message, or one entry per failed validation constraint.
-     */
-    message: string | Array<string>;
-    path: string;
-    /**
-     * Echoed back in the `x-request-id` header — quote it in bug reports.
-     */
-    requestId?: string;
-    timestamp: string;
-};
-
-export type SyncDomainResultResponseDto = {
-    domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities' | 'assessments' | 'assessmentResults' | 'activityCompletions' | 'submissions';
-    status: 'succeeded' | 'partial' | 'failed' | 'skipped';
-    fetched: number;
-    created: number;
-    updated: number;
-    deleted: number;
-    skipped: number;
-    failed: number;
-    durationMs: number;
-    watermark: string | null;
-    errorMessage: string | null;
-};
-
-export type SyncRunDetailResponseDto = {
-    run: SyncRunResponseDto;
-    domains: Array<SyncDomainResultResponseDto>;
-};
-
-export type DiscrepancyResponseDto = {
-    kind: 'missing_in_platform' | 'missing_in_source' | 'stale' | 'conflict';
-    /**
-     * Null when the platform row carries no external identifier.
-     */
-    externalId: string | null;
-    /**
-     * The canonical row, when one exists.
-     */
-    canonicalId: string | null;
-    sourceUpdatedAt: string | null;
-    platformUpdatedAt: string | null;
-    detail: string;
-};
-
-export type DomainReconciliationResponseDto = {
-    domain: 'orgUnits' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities' | 'assessments' | 'assessmentResults' | 'activityCompletions' | 'submissions';
-    status: 'checked' | 'skipped' | 'failed';
-    sourceCount: number;
-    platformCount: number;
-    matched: number;
-    discrepancyCount: number;
-    discrepancies: Array<DiscrepancyResponseDto>;
-    /**
-     * More discrepancies exist than the report lists.
-     */
-    truncated: boolean;
-    errorMessage: string | null;
-};
-
-export type ReconciliationReportResponseDto = {
-    sourceSystem: 'sis' | 'lms';
-    connectorName: string;
-    checkedAt: string;
-    discrepancyCount: number;
-    domains: Array<DomainReconciliationResponseDto>;
-};
-
-export type ReconciliationResolutionResponseDto = {
-    id: string;
-    domain: 'orgUnits' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities' | 'assessments' | 'assessmentResults' | 'activityCompletions' | 'submissions';
-    kind: 'missing_in_platform' | 'missing_in_source' | 'stale' | 'conflict';
-    action: 'accept_source' | 'keep_platform';
-    connectorName: string;
-    /**
-     * Which half of the model the resolved row belongs to. A run that applies an accepted source must be a run against this system.
-     */
-    sourceSystem: 'sis' | 'lms';
-    externalId: string | null;
-    canonicalId: string | null;
-    detail: string;
-    resolvedById: string | null;
-    resolvedAt: string;
-    /**
-     * True when the resolution only clears the way and a full synchronization run is what applies it.
-     */
-    requiresFullSync: boolean;
-};
-
-export type ResolveDiscrepancyDto = {
-    domain: 'orgUnits' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities' | 'assessments' | 'assessmentResults' | 'activityCompletions' | 'submissions';
-    kind: 'missing_in_platform' | 'missing_in_source' | 'stale' | 'conflict';
-    /**
-     * `accept_source` yields to the source system; `keep_platform` detaches the row from it and keeps the platform copy.
-     */
-    action: 'accept_source' | 'keep_platform';
-    canonicalId?: string | null;
-    externalId?: string | null;
-};
-
-export type SyncWatermarkResponseDto = {
-    domain: 'orgUnits' | 'persons' | 'academicTerms' | 'rooms' | 'programs' | 'courses' | 'courseOfferings' | 'programMemberships' | 'studyGroups' | 'enrollments' | 'timetableEvents' | 'examTerms' | 'officialResults' | 'learningSpaces' | 'learningActivities' | 'assessments' | 'assessmentResults' | 'activityCompletions' | 'submissions';
-    connectorName: string;
-    /**
-     * The newest source change this domain has taken in.
-     */
-    sourceUpdatedAt: string | null;
-    lastStatus: 'succeeded' | 'partial' | 'failed' | 'skipped';
-    lastAttemptedAt: string | null;
-    lastSucceededAt: string | null;
-    lastErrorMessage: string | null;
-};
-
-export type WriteIntentResponseDto = {
-    id: string;
-    targetSourceSystem: 'platform' | 'sis' | 'lms';
-    connectorName: string;
-    kind: 'exam_registration.create' | 'exam_registration.cancel' | 'course_enrollment.request' | 'course_enrollment.withdraw' | 'course_result.publish' | 'learning_space.provision' | 'learning_enrollment.upsert';
-    state: 'pending' | 'in_flight' | 'acknowledged' | 'rejected' | 'abandoned';
-    canonicalTable: string;
-    canonicalId: string;
-    attempts: number;
-    nextAttemptAt: string | null;
-    deliveredAt: string | null;
-    lastErrorCode: string | null;
-    lastErrorMessage: string | null;
-    createdAt: string;
-};
-
-export type ConnectorStatusResponseDto = {
-    kind: 'academic' | 'learning';
-    name: string | null;
-    installed: boolean;
-    healthy: boolean;
-    checkedAt: string | null;
-    detail: string | null;
-    capabilities: Array<string>;
-    /**
-     * Connector names of this kind the deployment can be pointed at.
-     */
-    alternatives: Array<string>;
-};
-
-export type ConnectorCredentialFieldDto = {
-    key: string;
-    label: string;
-    description: string | null;
-    secret: boolean;
-    required: boolean;
-    configured: boolean;
-    updatedAt: string | null;
-};
-
-export type ConnectorCredentialsResponseDto = {
-    kind: 'academic' | 'learning';
-    connectorName: string;
-    fields: Array<ConnectorCredentialFieldDto>;
-    complete: boolean;
-};
-
-export type SetConnectorCredentialsDto = {
-    /**
-     * Credential field keys to their new values. An empty object is rejected.
-     */
-    values: {
-        [key: string]: string;
-    };
-};
-
-export type CreateInstitutionDto = {
-    code: string;
-    name: string;
-    defaultLocale?: 'en' | 'sk';
-    timezone?: string;
-    /**
-     * An existing account that becomes this institution’s first institution_admin immediately. Mutually exclusive with firstAdminEmail.
-     */
-    firstAdminUserId?: string;
-    /**
-     * An address that has not necessarily registered yet. Creates an institution_admin invitation in the same transaction instead of granting the role immediately. Mutually exclusive with firstAdminUserId.
-     */
-    firstAdminEmail?: string;
-};
-
-export type InstitutionResponseDto = {
-    id: string;
-    code: string;
-    name: string;
-    defaultLocale: string;
-    timezone: string;
-    /**
-     * The raw token of the first-admin invitation created via firstAdminEmail, present only outside production where there is no mail transport to deliver it through.
-     */
-    firstAdminInvitationDevToken?: string;
-};
-
-export type InstitutionConnectorsDto = {
-    academicSystem: string | null;
-    learningSystem: string | null;
-};
-
-export type InstitutionConfigurationResponseDto = {
-    institutionId: string;
-    code: string;
-    name: string;
-    defaultLocale: string;
-    timezone: string;
-    /**
-     * Institution label overrides; null means the client uses its own wording.
-     */
-    terminology: {
-        [key: string]: string | null;
-    };
-    /**
-     * Every feature flag, resolved against the platform defaults.
-     */
-    features: {
-        [key: string]: boolean;
-    };
-    /**
-     * The flags this platform build actually enforces. A flag outside this list is stored and resolved but gates nothing, so the screen must not offer it as a live control.
-     */
-    implementedFeatures: Array<'courseRegistration' | 'examRegistration' | 'timetable' | 'grades' | 'thesis' | 'accommodation' | 'fees'>;
-    connectors: InstitutionConnectorsDto;
-};
-
-export type UpdateInstitutionConfigurationDto = {
-    defaultLocale?: 'en' | 'sk';
-    timezone?: string;
-    /**
-     * Label overrides to merge in; null clears one.
-     */
-    terminology?: {
-        [key: string]: string | null;
-    };
-    /**
-     * Feature flags to merge in.
-     */
-    features?: {
-        [key: string]: boolean;
-    };
-    academicSystemConnector?: string | null;
-    learningSystemConnector?: string | null;
-};
-
-export type OrgUnitResponseDto = {
-    id: string;
-    institutionId: string;
-    parentId?: string | null;
-    type: 'university' | 'faculty' | 'department' | 'institute' | 'other';
-    code: string;
-    name: string;
-};
-
-export type RoleAssignmentResponseDto = {
-    id?: string | null;
-    institutionId: string;
-    userId: string;
-    role: 'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
-    scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
-    scopeId?: string | null;
-    validFrom?: string | null;
-    validUntil?: string | null;
-    source: 'granted' | 'derived';
-    revocable: boolean;
-};
-
-export type PersonDirectoryEntryDto = {
-    userId: string;
+export type CreateUserDto = {
     email: string;
     displayName: string;
-    status: 'invited' | 'active' | 'suspended';
-    roles: Array<RoleAssignmentResponseDto>;
 };
 
 export type UserResponseDto = {
@@ -328,64 +23,6 @@ export type UserResponseDto = {
     createdAt: string;
 };
 
-export type UpdateMeDto = {
-    displayName?: string;
-    locale?: 'en' | 'sk';
-};
-
-export type CreateUserDto = {
-    email: string;
-    displayName: string;
-};
-
-export type PageMetaDto = {
-    page: number;
-    limit: number;
-    total: number;
-    pageCount: number;
-    hasNextPage: boolean;
-    hasPreviousPage: boolean;
-};
-
-export type UserResponseDtoPage = {
-    items: Array<UserResponseDto>;
-    meta: PageMetaDto;
-};
-
-export const SortOrder = { ASC: 'asc', DESC: 'desc' } as const;
-
-export type SortOrder = typeof SortOrder[keyof typeof SortOrder];
-
-export type CreateInvitationDto = {
-    address: string;
-    role: 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
-    scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
-    /**
-     * The org unit, program or course offering the role applies to.
-     */
-    scopeId?: string;
-};
-
-export type InvitationResponseDto = {
-    id: string;
-    institutionId: string;
-    address: string;
-    role: 'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
-    scopeType: 'institution' | 'program' | 'org_unit' | 'course_offering';
-    scopeId?: string | null;
-    expiresAt: string;
-    /**
-     * The raw invitation token, present only outside production where there is no mail transport to deliver it through instead.
-     */
-    devToken?: string;
-};
-
-export type AcceptInvitationDto = {
-    displayName?: string;
-    password?: string;
-    locale?: 'en' | 'sk';
-};
-
 export type AuthTokensDto = {
     accessToken: string;
     refreshToken: string;
@@ -395,6 +32,21 @@ export type AuthTokensDto = {
     expiresIn: number;
     tokenType: string;
     user: UserResponseDto;
+};
+
+export type ErrorResponseDto = {
+    statusCode: number;
+    error: string;
+    /**
+     * A single message, or one entry per failed validation constraint.
+     */
+    message: string | Array<string>;
+    path: string;
+    /**
+     * Echoed back in the `x-request-id` header — quote it in bug reports.
+     */
+    requestId?: string;
+    timestamp: string;
 };
 
 export type LoginDto = {
@@ -420,6 +72,42 @@ export type ConfirmPasswordResetDto = {
     password: string;
 };
 
+export type UpdateMeDto = {
+    displayName?: string;
+    locale?: 'en' | 'sk';
+};
+
+export type PageMetaDto = {
+    page: number;
+    limit: number;
+    total: number;
+    pageCount: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+};
+
+export type UserResponseDtoPage = {
+    items: Array<UserResponseDto>;
+    meta: PageMetaDto;
+};
+
+export const SortOrder = { ASC: 'asc', DESC: 'desc' } as const;
+
+export type SortOrder = typeof SortOrder[keyof typeof SortOrder];
+
+export type RoleAssignmentResponseDto = {
+    id?: string | null;
+    institutionId: string;
+    userId: string;
+    role: 'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
+    scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
+    scopeId?: string | null;
+    validFrom?: string | null;
+    validUntil?: string | null;
+    source: 'granted' | 'derived';
+    revocable: boolean;
+};
+
 export type GrantRoleDto = {
     userId: string;
     role: 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
@@ -435,189 +123,7 @@ export type GrantRoleDto = {
 export type MyPermissionsResponseDto = {
     institutionId: string;
     roles: Array<'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin'>;
-    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'notification:read' | 'exam:register' | 'course:enroll' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage' | 'sync:read' | 'sync:run' | 'connector:configure'>;
-};
-
-export type ExternalIdentityResponseDto = {
-    id: string;
-    institutionId: string;
-    sourceSystem: 'platform' | 'sis' | 'lms';
-    issuer: string;
-    externalUsername?: string | null;
-    lastAuthenticatedAt?: string | null;
-};
-
-export type NotificationResponseDto = {
-    id: string;
-    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused';
-    occurredAt: string;
-    occurrenceCount: number;
-    readAt: string | null;
-    examTermId: string | null;
-    courseOfferingId: string | null;
-    learningActivityId: string | null;
-    courseCode: string | null;
-    courseTitle: string | null;
-    startsAt: string | null;
-    previousStartsAt: string | null;
-    dueAt: string | null;
-    previousDueAt: string | null;
-    activityName: string | null;
-    grade: string | null;
-    previousGrade: string | null;
-    attempt: number | null;
-    eventTitle: string | null;
-    /**
-     * Why the source system refused, when it did.
-     */
-    reason: string | null;
-    sourceSystem: 'platform' | 'sis' | 'lms';
-};
-
-export type UnreadNotificationsResponseDto = {
-    unreadCount: number;
-};
-
-export type TimetableRoomDto = {
-    id: string;
-    code: string;
-    name: string | null;
-    building: string | null;
-};
-
-export type TimetableStudyGroupDto = {
-    id: string;
-    code: string;
-    name: string | null;
-    kind: 'seminar' | 'lab' | 'exercise' | 'project' | 'other';
-};
-
-export type TimetableOfferingDto = {
-    id: string;
-};
-
-export type TimetableCourseDto = {
-    id: string;
-    code: string;
-    title: string;
-};
-
-export type TimetableTermDto = {
-    id: string;
-    code: string;
-    name: string;
-};
-
-export type TimetableEventProvenanceDto = {
-    sourceSystem: 'platform' | 'sis' | 'lms';
-    externalId: string | null;
-    sourceUpdatedAt: string | null;
-    lastSynchronizedAt: string | null;
-    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
-};
-
-export type MyTimetableEventResponseDto = {
-    id: string;
-    type: 'lecture' | 'seminar' | 'lab' | 'consultation' | 'exam' | 'other';
-    title: string | null;
-    startsAt: string;
-    endsAt: string;
-    cancelledAt: string | null;
-    isCancelled: boolean;
-    attendance: 'enrolled' | 'teaching';
-    room: TimetableRoomDto | null;
-    studyGroup: TimetableStudyGroupDto | null;
-    offering: TimetableOfferingDto;
-    course: TimetableCourseDto;
-    term: TimetableTermDto;
-    provenance: TimetableEventProvenanceDto;
-};
-
-export type ExamRegistrationAvailabilityDto = {
-    canRegister: boolean;
-    canCancel: boolean;
-    reason: 'open' | 'teaching' | 'registered' | 'cancelled' | 'not_open' | 'closed' | 'other_term_registered' | 'full' | 'attempt_not_earned';
-};
-
-export type MyExamRegistrationDto = {
-    id: string;
-    status: 'registered' | 'cancelled' | 'attended' | 'no_show' | 'excused';
-    registeredAt: string | null;
-    cancelledAt: string | null;
-    delivery: 'not_relayed' | 'sending' | 'relayed' | 'refused' | 'stuck';
-};
-
-export type ExamRoomDto = {
-    id: string;
-    code: string;
-    name: string | null;
-    building: string | null;
-};
-
-export type ExamExaminerDto = {
-    id: string;
-    displayName: string;
-};
-
-export type ExamOfferingDto = {
-    id: string;
-};
-
-export type ExamCourseDto = {
-    id: string;
-    code: string;
-    title: string;
-};
-
-export type ExamTermDto = {
-    id: string;
-    code: string;
-    name: string;
-};
-
-export type ExamTermProvenanceDto = {
-    sourceSystem: 'platform' | 'sis' | 'lms';
-    externalId: string | null;
-    sourceUpdatedAt: string | null;
-    lastSynchronizedAt: string | null;
-    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
-};
-
-export type MyExamTermResponseDto = {
-    id: string;
-    kind: 'regular' | 'first_retake' | 'second_retake' | 'state_exam';
-    startsAt: string;
-    endsAt: string | null;
-    cancelledAt: string | null;
-    isCancelled: boolean;
-    attendance: 'enrolled' | 'teaching';
-    capacity: number | null;
-    registeredCount: number;
-    seatsRemaining: number | null;
-    isFull: boolean;
-    registrationOpensAt: string | null;
-    registrationClosesAt: string | null;
-    registrationState: 'not_open' | 'open' | 'closed';
-    registrationAvailability: ExamRegistrationAvailabilityDto;
-    myRegistration: MyExamRegistrationDto | null;
-    room: ExamRoomDto | null;
-    examiner: ExamExaminerDto | null;
-    offering: ExamOfferingDto;
-    course: ExamCourseDto;
-    term: ExamTermDto;
-    provenance: ExamTermProvenanceDto;
-};
-
-export type RegisterForExamTermDto = {
-    examTermId: string;
-};
-
-export type ExamRegistrationResponseDto = {
-    id: string;
-    examTermId: string;
-    status: 'registered' | 'cancelled' | 'attended' | 'no_show' | 'excused';
-    registeredAt: string | null;
-    cancelledAt: string | null;
+    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'notification:read' | 'exam:register' | 'course:enroll' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage'>;
 };
 
 export type MyCourseOfferingDto = {
@@ -813,14 +319,6 @@ export type OfficialCourseResultDto = {
     recordedAt: string | null;
 };
 
-export type CourseResultProvenanceDto = {
-    sourceSystem: 'platform' | 'sis' | 'lms';
-    externalId: string | null;
-    sourceUpdatedAt: string | null;
-    lastSynchronizedAt: string | null;
-    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
-};
-
 export type MyCourseResultOfferingDto = {
     id: string;
 };
@@ -853,7 +351,6 @@ export type MyCourseResultResponseDto = {
     calculated: CalculatedCourseResultDto;
     proposed: ProposedCourseResultDto;
     official: OfficialCourseResultDto;
-    provenance: CourseResultProvenanceDto;
     enrollmentId: string;
     offering: MyCourseResultOfferingDto;
     course: MyCourseResultCourseDto;
@@ -896,11 +393,6 @@ export type OfferingOfficialStageDto = {
     recordedAt: string | null;
 };
 
-export type OfferingResultProvenanceDto = {
-    sourceSystem: 'platform' | 'sis' | 'lms';
-    externalId: string | null;
-};
-
 export type OfferingResultAttemptDto = {
     id: string;
     attempt: number;
@@ -909,7 +401,6 @@ export type OfferingResultAttemptDto = {
     calculated: OfferingCalculatedStageDto;
     proposed: OfferingProposedStageDto;
     official: OfferingOfficialStageDto;
-    provenance: OfferingResultProvenanceDto;
 };
 
 export type OfferingResultStudentDto = {
@@ -956,7 +447,159 @@ export type RecordedGradeResponseDto = {
     status: 'calculated' | 'proposed' | 'official' | 'corrected' | 'annulled' | 'disputed';
     proposedGrade: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed' | null;
     officialGrade: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed' | null;
-    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
+};
+
+export type NotificationResponseDto = {
+    id: string;
+    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused';
+    occurredAt: string;
+    occurrenceCount: number;
+    readAt: string | null;
+    examTermId: string | null;
+    courseOfferingId: string | null;
+    learningActivityId: string | null;
+    courseCode: string | null;
+    courseTitle: string | null;
+    startsAt: string | null;
+    previousStartsAt: string | null;
+    dueAt: string | null;
+    previousDueAt: string | null;
+    activityName: string | null;
+    grade: string | null;
+    previousGrade: string | null;
+    attempt: number | null;
+    eventTitle: string | null;
+    /**
+     * Why the source system refused, when it did.
+     */
+    reason: string | null;
+};
+
+export type UnreadNotificationsResponseDto = {
+    unreadCount: number;
+};
+
+export type ExternalIdentityResponseDto = {
+    id: string;
+    institutionId: string;
+    issuer: string;
+    externalUsername?: string | null;
+    lastAuthenticatedAt?: string | null;
+};
+
+export type CreateInstitutionDto = {
+    code: string;
+    name: string;
+    defaultLocale?: 'en' | 'sk';
+    timezone?: string;
+    /**
+     * An existing account that becomes this institution’s first institution_admin immediately. Mutually exclusive with firstAdminEmail.
+     */
+    firstAdminUserId?: string;
+    /**
+     * An address that has not necessarily registered yet. Creates an institution_admin invitation in the same transaction instead of granting the role immediately. Mutually exclusive with firstAdminUserId.
+     */
+    firstAdminEmail?: string;
+};
+
+export type InstitutionResponseDto = {
+    id: string;
+    code: string;
+    name: string;
+    defaultLocale: string;
+    timezone: string;
+    /**
+     * The raw token of the first-admin invitation created via firstAdminEmail, present only outside production where there is no mail transport to deliver it through.
+     */
+    firstAdminInvitationDevToken?: string;
+};
+
+export type InstitutionConfigurationResponseDto = {
+    institutionId: string;
+    code: string;
+    name: string;
+    defaultLocale: string;
+    timezone: string;
+    /**
+     * Institution label overrides; null means the client uses its own wording.
+     */
+    terminology: {
+        [key: string]: string | null;
+    };
+    /**
+     * Every feature flag, resolved against the platform defaults.
+     */
+    features: {
+        [key: string]: boolean;
+    };
+    /**
+     * The flags this platform build actually enforces. A flag outside this list is stored and resolved but gates nothing, so the screen must not offer it as a live control.
+     */
+    implementedFeatures: Array<'courseRegistration' | 'examRegistration' | 'timetable' | 'grades' | 'thesis' | 'accommodation' | 'fees'>;
+};
+
+export type UpdateInstitutionConfigurationDto = {
+    defaultLocale?: 'en' | 'sk';
+    timezone?: string;
+    /**
+     * Label overrides to merge in; null clears one.
+     */
+    terminology?: {
+        [key: string]: string | null;
+    };
+    /**
+     * Feature flags to merge in.
+     */
+    features?: {
+        [key: string]: boolean;
+    };
+};
+
+export type OrgUnitResponseDto = {
+    id: string;
+    institutionId: string;
+    parentId?: string | null;
+    type: 'university' | 'faculty' | 'department' | 'institute' | 'other';
+    code: string;
+    name: string;
+};
+
+export type PersonDirectoryEntryDto = {
+    userId: string;
+    email: string;
+    displayName: string;
+    status: 'invited' | 'active' | 'suspended';
+    roles: Array<RoleAssignmentResponseDto>;
+};
+
+export type CreateInvitationDto = {
+    address: string;
+    role: 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
+    scopeType: 'institution' | 'org_unit' | 'program' | 'course_offering';
+    /**
+     * The org unit, program or course offering the role applies to.
+     */
+    scopeId?: string;
+};
+
+export type InvitationResponseDto = {
+    id: string;
+    institutionId: string;
+    address: string;
+    role: 'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin';
+    scopeType: 'institution' | 'program' | 'org_unit' | 'course_offering';
+    scopeId?: string | null;
+    expiresAt: string;
+    /**
+     * The raw invitation token, present only outside production where there is no mail transport to deliver it through instead.
+     */
+    devToken?: string;
+};
+
+export type AcceptInvitationDto = {
+    displayName?: string;
+    password?: string;
+    locale?: 'en' | 'sk';
 };
 
 export type LearningSpaceDto = {
@@ -965,8 +608,6 @@ export type LearningSpaceDto = {
     shortName: string | null;
     url: string | null;
     visible: boolean;
-    externalId: string | null;
-    lastSynchronizedAt: string | null;
     offeringId: string | null;
     courseCode: string | null;
     courseTitle: string | null;
@@ -1010,13 +651,6 @@ export type DeadlineTermDto = {
     name: string;
 };
 
-export type DeadlineProvenanceDto = {
-    sourceSystem: 'platform' | 'sis' | 'lms';
-    externalId: string | null;
-    lastSynchronizedAt: string | null;
-    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
-};
-
 export type MyDeadlineResponseDto = {
     id: string;
     type: 'assignment' | 'quiz' | 'forum' | 'resource' | 'workshop' | 'other';
@@ -1032,7 +666,6 @@ export type MyDeadlineResponseDto = {
     offering: DeadlineOfferingDto;
     course: DeadlineCourseDto;
     term: DeadlineTermDto;
-    provenance: DeadlineProvenanceDto;
 };
 
 export type AssessmentSubmissionDto = {
@@ -1059,13 +692,6 @@ export type AssessmentOfferingDto = {
     id: string;
 };
 
-export type AssessmentProvenanceDto = {
-    sourceSystem: 'platform' | 'sis' | 'lms';
-    externalId: string | null;
-    lastSynchronizedAt: string | null;
-    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
-};
-
 export type MyAssessmentResultResponseDto = {
     id: string;
     name: string;
@@ -1078,7 +704,6 @@ export type MyAssessmentResultResponseDto = {
     activity: AssessmentActivityDto | null;
     learningSpace: AssessmentLearningSpaceDto;
     offering: AssessmentOfferingDto | null;
-    provenance: AssessmentProvenanceDto;
 };
 
 export type CreateDemoRequestDto = {
@@ -1091,6 +716,129 @@ export type CreateDemoRequestDto = {
 
 export type DemoRequestAcceptedDto = {
     status: 'accepted';
+};
+
+export type TimetableRoomDto = {
+    id: string;
+    code: string;
+    name: string | null;
+    building: string | null;
+};
+
+export type TimetableStudyGroupDto = {
+    id: string;
+    code: string;
+    name: string | null;
+    kind: 'seminar' | 'lab' | 'exercise' | 'project' | 'other';
+};
+
+export type TimetableOfferingDto = {
+    id: string;
+};
+
+export type TimetableCourseDto = {
+    id: string;
+    code: string;
+    title: string;
+};
+
+export type TimetableTermDto = {
+    id: string;
+    code: string;
+    name: string;
+};
+
+export type MyTimetableEventResponseDto = {
+    id: string;
+    type: 'lecture' | 'seminar' | 'lab' | 'consultation' | 'exam' | 'other';
+    title: string | null;
+    startsAt: string;
+    endsAt: string;
+    cancelledAt: string | null;
+    isCancelled: boolean;
+    attendance: 'enrolled' | 'teaching';
+    room: TimetableRoomDto | null;
+    studyGroup: TimetableStudyGroupDto | null;
+    offering: TimetableOfferingDto;
+    course: TimetableCourseDto;
+    term: TimetableTermDto;
+};
+
+export type ExamRegistrationAvailabilityDto = {
+    canRegister: boolean;
+    canCancel: boolean;
+    reason: 'open' | 'teaching' | 'registered' | 'cancelled' | 'not_open' | 'closed' | 'other_term_registered' | 'full' | 'attempt_not_earned';
+};
+
+export type MyExamRegistrationDto = {
+    id: string;
+    status: 'registered' | 'cancelled' | 'attended' | 'no_show' | 'excused';
+    registeredAt: string | null;
+    cancelledAt: string | null;
+};
+
+export type ExamRoomDto = {
+    id: string;
+    code: string;
+    name: string | null;
+    building: string | null;
+};
+
+export type ExamExaminerDto = {
+    id: string;
+    displayName: string;
+};
+
+export type ExamOfferingDto = {
+    id: string;
+};
+
+export type ExamCourseDto = {
+    id: string;
+    code: string;
+    title: string;
+};
+
+export type ExamTermDto = {
+    id: string;
+    code: string;
+    name: string;
+};
+
+export type MyExamTermResponseDto = {
+    id: string;
+    kind: 'regular' | 'first_retake' | 'second_retake' | 'state_exam';
+    startsAt: string;
+    endsAt: string | null;
+    cancelledAt: string | null;
+    isCancelled: boolean;
+    attendance: 'enrolled' | 'teaching';
+    capacity: number | null;
+    registeredCount: number;
+    seatsRemaining: number | null;
+    isFull: boolean;
+    registrationOpensAt: string | null;
+    registrationClosesAt: string | null;
+    registrationState: 'not_open' | 'open' | 'closed';
+    registrationAvailability: ExamRegistrationAvailabilityDto;
+    myRegistration: MyExamRegistrationDto | null;
+    room: ExamRoomDto | null;
+    examiner: ExamExaminerDto | null;
+    offering: ExamOfferingDto;
+    course: ExamCourseDto;
+    term: ExamTermDto;
+};
+
+export type RegisterForExamTermDto = {
+    examTermId: string;
+};
+
+export type ExamRegistrationResponseDto = {
+    id: string;
+    examTermId: string;
+    status: 'registered' | 'cancelled' | 'attended' | 'no_show' | 'excused';
+    registeredAt: string | null;
+    cancelledAt: string | null;
 };
 
 export type EnrollmentAvailabilityDto = {
@@ -1142,10 +890,6 @@ export type EnrollmentResponseDto = {
     status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
     enrolledAt: string | null;
     withdrawnAt: string | null;
-    /**
-     * `pending` while the registrar’s system has not answered the request yet.
-     */
-    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
 };
 
 export type ProgramResponseDto = {
@@ -1156,8 +900,6 @@ export type ProgramResponseDto = {
     studyForm: 'full_time' | 'part_time' | 'distance';
     standardLengthSemesters: number | null;
     orgUnitId: string | null;
-    sourceSystem: 'platform' | 'sis' | 'lms';
-    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
 };
 
 export type CreateProgramDto = {
@@ -1185,8 +927,6 @@ export type CourseResponseDto = {
     description: string | null;
     credits: number | null;
     orgUnitId: string | null;
-    sourceSystem: 'platform' | 'sis' | 'lms';
-    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
 };
 
 export type CreateCourseDto = {
@@ -1216,7 +956,6 @@ export type CourseOfferingAdminResponseDto = {
     capacity: number | null;
     status: 'planned' | 'open' | 'running' | 'closed' | 'cancelled';
     language: string | null;
-    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
 };
 
 export type CorrectEnrollmentDto = {
@@ -1229,7 +968,6 @@ export type CorrectEnrollmentDto = {
 export type CorrectedEnrollmentResponseDto = {
     id: string;
     status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
-    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
 };
 
 export type CreateUserDtoWritable = {
@@ -1259,1101 +997,6 @@ export type CreateDemoRequestDtoWritable = {
      */
     website?: string;
 };
-
-export type ListSynchronizationRunsData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: {
-        limit?: number;
-    };
-    url: '/api/v1/institutions/{institutionId}/synchronization/runs';
-};
-
-export type ListSynchronizationRunsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListSynchronizationRunsError = ListSynchronizationRunsErrors[keyof ListSynchronizationRunsErrors];
-
-export type ListSynchronizationRunsResponses = {
-    200: Array<SyncRunResponseDto>;
-};
-
-export type ListSynchronizationRunsResponse = ListSynchronizationRunsResponses[keyof ListSynchronizationRunsResponses];
-
-export type StartSynchronizationRunData = {
-    body: StartSyncRunDto;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/synchronization/runs';
-};
-
-export type StartSynchronizationRunErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type StartSynchronizationRunError = StartSynchronizationRunErrors[keyof StartSynchronizationRunErrors];
-
-export type StartSynchronizationRunResponses = {
-    202: SyncRunResponseDto;
-};
-
-export type StartSynchronizationRunResponse = StartSynchronizationRunResponses[keyof StartSynchronizationRunResponses];
-
-export type GetSynchronizationRunData = {
-    body?: never;
-    path: {
-        institutionId: string;
-        runId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/synchronization/runs/{runId}';
-};
-
-export type GetSynchronizationRunErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type GetSynchronizationRunError = GetSynchronizationRunErrors[keyof GetSynchronizationRunErrors];
-
-export type GetSynchronizationRunResponses = {
-    200: SyncRunDetailResponseDto;
-};
-
-export type GetSynchronizationRunResponse = GetSynchronizationRunResponses[keyof GetSynchronizationRunResponses];
-
-export type GetSynchronizationReconciliationData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: {
-        /**
-         * Which half of the model to compare: the student information system or the learning management system. Each has its own connector and its own domains.
-         */
-        sourceSystem?: 'sis' | 'lms';
-    };
-    url: '/api/v1/institutions/{institutionId}/synchronization/reconciliation';
-};
-
-export type GetSynchronizationReconciliationErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type GetSynchronizationReconciliationError = GetSynchronizationReconciliationErrors[keyof GetSynchronizationReconciliationErrors];
-
-export type GetSynchronizationReconciliationResponses = {
-    200: ReconciliationReportResponseDto;
-};
-
-export type GetSynchronizationReconciliationResponse = GetSynchronizationReconciliationResponses[keyof GetSynchronizationReconciliationResponses];
-
-export type ListReconciliationResolutionsData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: {
-        limit?: number;
-    };
-    url: '/api/v1/institutions/{institutionId}/synchronization/reconciliation/resolutions';
-};
-
-export type ListReconciliationResolutionsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListReconciliationResolutionsError = ListReconciliationResolutionsErrors[keyof ListReconciliationResolutionsErrors];
-
-export type ListReconciliationResolutionsResponses = {
-    200: Array<ReconciliationResolutionResponseDto>;
-};
-
-export type ListReconciliationResolutionsResponse = ListReconciliationResolutionsResponses[keyof ListReconciliationResolutionsResponses];
-
-export type ResolveReconciliationDiscrepancyData = {
-    body: ResolveDiscrepancyDto;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/synchronization/reconciliation/resolutions';
-};
-
-export type ResolveReconciliationDiscrepancyErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Conflicts with an existing record.
-     */
-    409: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ResolveReconciliationDiscrepancyError = ResolveReconciliationDiscrepancyErrors[keyof ResolveReconciliationDiscrepancyErrors];
-
-export type ResolveReconciliationDiscrepancyResponses = {
-    201: ReconciliationResolutionResponseDto;
-};
-
-export type ResolveReconciliationDiscrepancyResponse = ResolveReconciliationDiscrepancyResponses[keyof ResolveReconciliationDiscrepancyResponses];
-
-export type GetSynchronizationStateData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/synchronization/state';
-};
-
-export type GetSynchronizationStateErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type GetSynchronizationStateError = GetSynchronizationStateErrors[keyof GetSynchronizationStateErrors];
-
-export type GetSynchronizationStateResponses = {
-    200: Array<SyncWatermarkResponseDto>;
-};
-
-export type GetSynchronizationStateResponse = GetSynchronizationStateResponses[keyof GetSynchronizationStateResponses];
-
-export type ListSourceWriteIntentsData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: {
-        limit?: number;
-    };
-    url: '/api/v1/institutions/{institutionId}/synchronization/write-intents';
-};
-
-export type ListSourceWriteIntentsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListSourceWriteIntentsError = ListSourceWriteIntentsErrors[keyof ListSourceWriteIntentsErrors];
-
-export type ListSourceWriteIntentsResponses = {
-    200: Array<WriteIntentResponseDto>;
-};
-
-export type ListSourceWriteIntentsResponse = ListSourceWriteIntentsResponses[keyof ListSourceWriteIntentsResponses];
-
-export type RetrySourceWriteIntentData = {
-    body?: never;
-    path: {
-        institutionId: string;
-        id: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/synchronization/write-intents/{id}/retry';
-};
-
-export type RetrySourceWriteIntentErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Conflicts with an existing record.
-     */
-    409: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type RetrySourceWriteIntentError = RetrySourceWriteIntentErrors[keyof RetrySourceWriteIntentErrors];
-
-export type RetrySourceWriteIntentResponses = {
-    200: WriteIntentResponseDto;
-};
-
-export type RetrySourceWriteIntentResponse = RetrySourceWriteIntentResponses[keyof RetrySourceWriteIntentResponses];
-
-export type DiscardSourceWriteIntentData = {
-    body?: never;
-    path: {
-        institutionId: string;
-        id: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/synchronization/write-intents/{id}';
-};
-
-export type DiscardSourceWriteIntentErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Conflicts with an existing record.
-     */
-    409: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type DiscardSourceWriteIntentError = DiscardSourceWriteIntentErrors[keyof DiscardSourceWriteIntentErrors];
-
-export type DiscardSourceWriteIntentResponses = {
-    204: void;
-};
-
-export type DiscardSourceWriteIntentResponse = DiscardSourceWriteIntentResponses[keyof DiscardSourceWriteIntentResponses];
-
-export type ListInstitutionConnectorsData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/connectors';
-};
-
-export type ListInstitutionConnectorsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListInstitutionConnectorsError = ListInstitutionConnectorsErrors[keyof ListInstitutionConnectorsErrors];
-
-export type ListInstitutionConnectorsResponses = {
-    200: Array<ConnectorStatusResponseDto>;
-};
-
-export type ListInstitutionConnectorsResponse = ListInstitutionConnectorsResponses[keyof ListInstitutionConnectorsResponses];
-
-export type GetInstitutionConnectorCredentialsData = {
-    body?: never;
-    path: {
-        institutionId: string;
-        kind: 'academic' | 'learning';
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/connectors/{kind}/credentials';
-};
-
-export type GetInstitutionConnectorCredentialsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type GetInstitutionConnectorCredentialsError = GetInstitutionConnectorCredentialsErrors[keyof GetInstitutionConnectorCredentialsErrors];
-
-export type GetInstitutionConnectorCredentialsResponses = {
-    200: ConnectorCredentialsResponseDto;
-};
-
-export type GetInstitutionConnectorCredentialsResponse = GetInstitutionConnectorCredentialsResponses[keyof GetInstitutionConnectorCredentialsResponses];
-
-export type SetInstitutionConnectorCredentialsData = {
-    body: SetConnectorCredentialsDto;
-    path: {
-        institutionId: string;
-        kind: 'academic' | 'learning';
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/connectors/{kind}/credentials';
-};
-
-export type SetInstitutionConnectorCredentialsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type SetInstitutionConnectorCredentialsError = SetInstitutionConnectorCredentialsErrors[keyof SetInstitutionConnectorCredentialsErrors];
-
-export type SetInstitutionConnectorCredentialsResponses = {
-    200: ConnectorCredentialsResponseDto;
-};
-
-export type SetInstitutionConnectorCredentialsResponse = SetInstitutionConnectorCredentialsResponses[keyof SetInstitutionConnectorCredentialsResponses];
-
-export type ClearInstitutionConnectorCredentialData = {
-    body?: never;
-    path: {
-        institutionId: string;
-        kind: 'academic' | 'learning';
-        fieldKey: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/connectors/{kind}/credentials/{fieldKey}';
-};
-
-export type ClearInstitutionConnectorCredentialErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ClearInstitutionConnectorCredentialError = ClearInstitutionConnectorCredentialErrors[keyof ClearInstitutionConnectorCredentialErrors];
-
-export type ClearInstitutionConnectorCredentialResponses = {
-    200: ConnectorCredentialsResponseDto;
-};
-
-export type ClearInstitutionConnectorCredentialResponse = ClearInstitutionConnectorCredentialResponses[keyof ClearInstitutionConnectorCredentialResponses];
-
-export type ListMyInstitutionsData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/api/v1/institutions';
-};
-
-export type ListMyInstitutionsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListMyInstitutionsError = ListMyInstitutionsErrors[keyof ListMyInstitutionsErrors];
-
-export type ListMyInstitutionsResponses = {
-    200: Array<InstitutionResponseDto>;
-};
-
-export type ListMyInstitutionsResponse = ListMyInstitutionsResponses[keyof ListMyInstitutionsResponses];
-
-export type CreateInstitutionData = {
-    body: CreateInstitutionDto;
-    path?: never;
-    query?: never;
-    url: '/api/v1/institutions';
-};
-
-export type CreateInstitutionErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Conflicts with an existing record.
-     */
-    409: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type CreateInstitutionError = CreateInstitutionErrors[keyof CreateInstitutionErrors];
-
-export type CreateInstitutionResponses = {
-    201: InstitutionResponseDto;
-};
-
-export type CreateInstitutionResponse = CreateInstitutionResponses[keyof CreateInstitutionResponses];
-
-export type GetInstitutionData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}';
-};
-
-export type GetInstitutionErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type GetInstitutionError = GetInstitutionErrors[keyof GetInstitutionErrors];
-
-export type GetInstitutionResponses = {
-    200: InstitutionResponseDto;
-};
-
-export type GetInstitutionResponse = GetInstitutionResponses[keyof GetInstitutionResponses];
-
-export type GetInstitutionConfigurationData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/configuration';
-};
-
-export type GetInstitutionConfigurationErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type GetInstitutionConfigurationError = GetInstitutionConfigurationErrors[keyof GetInstitutionConfigurationErrors];
-
-export type GetInstitutionConfigurationResponses = {
-    200: InstitutionConfigurationResponseDto;
-};
-
-export type GetInstitutionConfigurationResponse = GetInstitutionConfigurationResponses[keyof GetInstitutionConfigurationResponses];
-
-export type UpdateInstitutionConfigurationData = {
-    body: UpdateInstitutionConfigurationDto;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/configuration';
-};
-
-export type UpdateInstitutionConfigurationErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type UpdateInstitutionConfigurationError = UpdateInstitutionConfigurationErrors[keyof UpdateInstitutionConfigurationErrors];
-
-export type UpdateInstitutionConfigurationResponses = {
-    200: InstitutionConfigurationResponseDto;
-};
-
-export type UpdateInstitutionConfigurationResponse = UpdateInstitutionConfigurationResponses[keyof UpdateInstitutionConfigurationResponses];
-
-export type ListOrgUnitsData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/org-units';
-};
-
-export type ListOrgUnitsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListOrgUnitsError = ListOrgUnitsErrors[keyof ListOrgUnitsErrors];
-
-export type ListOrgUnitsResponses = {
-    200: Array<OrgUnitResponseDto>;
-};
-
-export type ListOrgUnitsResponse = ListOrgUnitsResponses[keyof ListOrgUnitsResponses];
-
-export type GetOrgUnitData = {
-    body?: never;
-    path: {
-        institutionId: string;
-        id: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/org-units/{id}';
-};
-
-export type GetOrgUnitErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type GetOrgUnitError = GetOrgUnitErrors[keyof GetOrgUnitErrors];
-
-export type GetOrgUnitResponses = {
-    200: OrgUnitResponseDto;
-};
-
-export type GetOrgUnitResponse = GetOrgUnitResponses[keyof GetOrgUnitResponses];
-
-export type ListPeopleData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/people';
-};
-
-export type ListPeopleErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListPeopleError = ListPeopleErrors[keyof ListPeopleErrors];
-
-export type ListPeopleResponses = {
-    200: Array<PersonDirectoryEntryDto>;
-};
-
-export type ListPeopleResponse = ListPeopleResponses[keyof ListPeopleResponses];
-
-export type FindMeData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/api/v1/users/me';
-};
-
-export type FindMeErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type FindMeError = FindMeErrors[keyof FindMeErrors];
-
-export type FindMeResponses = {
-    200: UserResponseDto;
-};
-
-export type FindMeResponse = FindMeResponses[keyof FindMeResponses];
-
-export type UpdateMeData = {
-    body: UpdateMeDto;
-    path?: never;
-    query?: never;
-    url: '/api/v1/users/me';
-};
-
-export type UpdateMeErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type UpdateMeError = UpdateMeErrors[keyof UpdateMeErrors];
-
-export type UpdateMeResponses = {
-    200: UserResponseDto;
-};
-
-export type UpdateMeResponse = UpdateMeResponses[keyof UpdateMeResponses];
-
-export type FindAllData = {
-    body?: never;
-    path?: never;
-    query?: {
-        page?: number;
-        limit?: number;
-        order?: SortOrder;
-        /**
-         * Sortable column name
-         */
-        sortBy?: string;
-    };
-    url: '/api/v1/users';
-};
-
-export type FindAllErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type FindAllError = FindAllErrors[keyof FindAllErrors];
-
-export type FindAllResponses = {
-    200: UserResponseDtoPage;
-};
-
-export type FindAllResponse = FindAllResponses[keyof FindAllResponses];
-
-export type CreateData = {
-    body: CreateUserDtoWritable;
-    path?: never;
-    query?: never;
-    url: '/api/v1/users';
-};
-
-export type CreateErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Conflicts with an existing record.
-     */
-    409: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type CreateError = CreateErrors[keyof CreateErrors];
-
-export type CreateResponses = {
-    /**
-     * The created user.
-     */
-    201: UserResponseDto;
-};
-
-export type CreateResponse = CreateResponses[keyof CreateResponses];
-
-export type RemoveData = {
-    body?: never;
-    path: {
-        id: string;
-    };
-    query?: never;
-    url: '/api/v1/users/{id}';
-};
-
-export type RemoveErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type RemoveError = RemoveErrors[keyof RemoveErrors];
-
-export type RemoveResponses = {
-    /**
-     * The user was soft-deleted.
-     */
-    204: void;
-};
-
-export type RemoveResponse = RemoveResponses[keyof RemoveResponses];
-
-export type FindOneData = {
-    body?: never;
-    path: {
-        id: string;
-    };
-    query?: never;
-    url: '/api/v1/users/{id}';
-};
-
-export type FindOneErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type FindOneError = FindOneErrors[keyof FindOneErrors];
-
-export type FindOneResponses = {
-    /**
-     * The requested user.
-     */
-    200: UserResponseDto;
-};
-
-export type FindOneResponse = FindOneResponses[keyof FindOneResponses];
-
-export type CreateInvitationData = {
-    body: CreateInvitationDto;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/invitations';
-};
-
-export type CreateInvitationErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type CreateInvitationError = CreateInvitationErrors[keyof CreateInvitationErrors];
-
-export type CreateInvitationResponses = {
-    201: InvitationResponseDto;
-};
-
-export type CreateInvitationResponse = CreateInvitationResponses[keyof CreateInvitationResponses];
-
-export type AcceptInvitationData = {
-    body: AcceptInvitationDto;
-    path: {
-        token: string;
-    };
-    query?: never;
-    url: '/api/v1/invitations/{token}/accept';
-};
-
-export type AcceptInvitationErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type AcceptInvitationError = AcceptInvitationErrors[keyof AcceptInvitationErrors];
-
-export type AcceptInvitationResponses = {
-    /**
-     * The invitation was accepted.
-     */
-    204: void;
-};
-
-export type AcceptInvitationResponse = AcceptInvitationResponses[keyof AcceptInvitationResponses];
 
 export type RegisterData = {
     body: CreateUserDtoWritable;
@@ -2570,6 +1213,219 @@ export type ConfirmPasswordResetResponses = {
 
 export type ConfirmPasswordResetResponse = ConfirmPasswordResetResponses[keyof ConfirmPasswordResetResponses];
 
+export type FindMeData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me';
+};
+
+export type FindMeErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type FindMeError = FindMeErrors[keyof FindMeErrors];
+
+export type FindMeResponses = {
+    200: UserResponseDto;
+};
+
+export type FindMeResponse = FindMeResponses[keyof FindMeResponses];
+
+export type UpdateMeData = {
+    body: UpdateMeDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me';
+};
+
+export type UpdateMeErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateMeError = UpdateMeErrors[keyof UpdateMeErrors];
+
+export type UpdateMeResponses = {
+    200: UserResponseDto;
+};
+
+export type UpdateMeResponse = UpdateMeResponses[keyof UpdateMeResponses];
+
+export type FindAllData = {
+    body?: never;
+    path?: never;
+    query?: {
+        page?: number;
+        limit?: number;
+        order?: SortOrder;
+        /**
+         * Sortable column name
+         */
+        sortBy?: string;
+    };
+    url: '/api/v1/users';
+};
+
+export type FindAllErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type FindAllError = FindAllErrors[keyof FindAllErrors];
+
+export type FindAllResponses = {
+    200: UserResponseDtoPage;
+};
+
+export type FindAllResponse = FindAllResponses[keyof FindAllResponses];
+
+export type CreateData = {
+    body: CreateUserDtoWritable;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users';
+};
+
+export type CreateErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateError = CreateErrors[keyof CreateErrors];
+
+export type CreateResponses = {
+    /**
+     * The created user.
+     */
+    201: UserResponseDto;
+};
+
+export type CreateResponse = CreateResponses[keyof CreateResponses];
+
+export type RemoveData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/users/{id}';
+};
+
+export type RemoveErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveError = RemoveErrors[keyof RemoveErrors];
+
+export type RemoveResponses = {
+    /**
+     * The user was soft-deleted.
+     */
+    204: void;
+};
+
+export type RemoveResponse = RemoveResponses[keyof RemoveResponses];
+
+export type FindOneData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/users/{id}';
+};
+
+export type FindOneErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type FindOneError = FindOneErrors[keyof FindOneErrors];
+
+export type FindOneResponses = {
+    /**
+     * The requested user.
+     */
+    200: UserResponseDto;
+};
+
+export type FindOneResponse = FindOneResponses[keyof FindOneResponses];
+
 export type ListRoleAssignmentsData = {
     body?: never;
     path: {
@@ -2745,323 +1601,6 @@ export type ListMyPermissionsResponses = {
 };
 
 export type ListMyPermissionsResponse = ListMyPermissionsResponses[keyof ListMyPermissionsResponses];
-
-export type ListMyIdentitiesData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/api/v1/users/me/identities';
-};
-
-export type ListMyIdentitiesErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListMyIdentitiesError = ListMyIdentitiesErrors[keyof ListMyIdentitiesErrors];
-
-export type ListMyIdentitiesResponses = {
-    200: Array<ExternalIdentityResponseDto>;
-};
-
-export type ListMyIdentitiesResponse = ListMyIdentitiesResponses[keyof ListMyIdentitiesResponses];
-
-export type ListMyNotificationsData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: {
-        unreadOnly?: boolean;
-        limit?: number;
-    };
-    url: '/api/v1/institutions/{institutionId}/me/notifications';
-};
-
-export type ListMyNotificationsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListMyNotificationsError = ListMyNotificationsErrors[keyof ListMyNotificationsErrors];
-
-export type ListMyNotificationsResponses = {
-    200: Array<NotificationResponseDto>;
-};
-
-export type ListMyNotificationsResponse = ListMyNotificationsResponses[keyof ListMyNotificationsResponses];
-
-export type CountMyUnreadNotificationsData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/me/notifications/unread-count';
-};
-
-export type CountMyUnreadNotificationsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type CountMyUnreadNotificationsError = CountMyUnreadNotificationsErrors[keyof CountMyUnreadNotificationsErrors];
-
-export type CountMyUnreadNotificationsResponses = {
-    200: UnreadNotificationsResponseDto;
-};
-
-export type CountMyUnreadNotificationsResponse = CountMyUnreadNotificationsResponses[keyof CountMyUnreadNotificationsResponses];
-
-export type MarkAllMyNotificationsReadData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/me/notifications/read-all';
-};
-
-export type MarkAllMyNotificationsReadErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type MarkAllMyNotificationsReadError = MarkAllMyNotificationsReadErrors[keyof MarkAllMyNotificationsReadErrors];
-
-export type MarkAllMyNotificationsReadResponses = {
-    200: UnreadNotificationsResponseDto;
-};
-
-export type MarkAllMyNotificationsReadResponse = MarkAllMyNotificationsReadResponses[keyof MarkAllMyNotificationsReadResponses];
-
-export type MarkMyNotificationReadData = {
-    body?: never;
-    path: {
-        institutionId: string;
-        id: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/me/notifications/{id}/read';
-};
-
-export type MarkMyNotificationReadErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type MarkMyNotificationReadError = MarkMyNotificationReadErrors[keyof MarkMyNotificationReadErrors];
-
-export type MarkMyNotificationReadResponses = {
-    200: NotificationResponseDto;
-};
-
-export type MarkMyNotificationReadResponse = MarkMyNotificationReadResponses[keyof MarkMyNotificationReadResponses];
-
-export type ListMyTimetableEventsData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query: {
-        from: string;
-        to: string;
-        offeringId?: string;
-        type?: 'lecture' | 'seminar' | 'lab' | 'consultation' | 'exam' | 'other';
-    };
-    url: '/api/v1/institutions/{institutionId}/me/timetable-events';
-};
-
-export type ListMyTimetableEventsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListMyTimetableEventsError = ListMyTimetableEventsErrors[keyof ListMyTimetableEventsErrors];
-
-export type ListMyTimetableEventsResponses = {
-    200: Array<MyTimetableEventResponseDto>;
-};
-
-export type ListMyTimetableEventsResponse = ListMyTimetableEventsResponses[keyof ListMyTimetableEventsResponses];
-
-export type ListMyExamTermsData = {
-    body?: never;
-    path: {
-        institutionId: string;
-    };
-    query?: {
-        from?: string;
-        to?: string;
-        offeringId?: string;
-        kind?: 'regular' | 'first_retake' | 'second_retake' | 'state_exam';
-    };
-    url: '/api/v1/institutions/{institutionId}/me/exam-terms';
-};
-
-export type ListMyExamTermsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListMyExamTermsError = ListMyExamTermsErrors[keyof ListMyExamTermsErrors];
-
-export type ListMyExamTermsResponses = {
-    200: Array<MyExamTermResponseDto>;
-};
-
-export type ListMyExamTermsResponse = ListMyExamTermsResponses[keyof ListMyExamTermsResponses];
-
-export type RegisterForExamTermData = {
-    body: RegisterForExamTermDto;
-    path: {
-        institutionId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/me/exam-registrations';
-};
-
-export type RegisterForExamTermErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Conflicts with an existing record.
-     */
-    409: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type RegisterForExamTermError = RegisterForExamTermErrors[keyof RegisterForExamTermErrors];
-
-export type RegisterForExamTermResponses = {
-    201: ExamRegistrationResponseDto;
-};
-
-export type RegisterForExamTermResponse = RegisterForExamTermResponses[keyof RegisterForExamTermResponses];
-
-export type CancelExamRegistrationData = {
-    body?: never;
-    path: {
-        institutionId: string;
-        id: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/me/exam-registrations/{id}';
-};
-
-export type CancelExamRegistrationErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type CancelExamRegistrationError = CancelExamRegistrationErrors[keyof CancelExamRegistrationErrors];
-
-export type CancelExamRegistrationResponses = {
-    200: ExamRegistrationResponseDto;
-};
-
-export type CancelExamRegistrationResponse = CancelExamRegistrationResponses[keyof CancelExamRegistrationResponses];
 
 export type ListMyCoursesData = {
     body?: never;
@@ -3386,6 +1925,520 @@ export type RecordOfferingResultResponses = {
 
 export type RecordOfferingResultResponse = RecordOfferingResultResponses[keyof RecordOfferingResultResponses];
 
+export type ListMyNotificationsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        unreadOnly?: boolean;
+        limit?: number;
+    };
+    url: '/api/v1/institutions/{institutionId}/me/notifications';
+};
+
+export type ListMyNotificationsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyNotificationsError = ListMyNotificationsErrors[keyof ListMyNotificationsErrors];
+
+export type ListMyNotificationsResponses = {
+    200: Array<NotificationResponseDto>;
+};
+
+export type ListMyNotificationsResponse = ListMyNotificationsResponses[keyof ListMyNotificationsResponses];
+
+export type CountMyUnreadNotificationsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/notifications/unread-count';
+};
+
+export type CountMyUnreadNotificationsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CountMyUnreadNotificationsError = CountMyUnreadNotificationsErrors[keyof CountMyUnreadNotificationsErrors];
+
+export type CountMyUnreadNotificationsResponses = {
+    200: UnreadNotificationsResponseDto;
+};
+
+export type CountMyUnreadNotificationsResponse = CountMyUnreadNotificationsResponses[keyof CountMyUnreadNotificationsResponses];
+
+export type MarkAllMyNotificationsReadData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/notifications/read-all';
+};
+
+export type MarkAllMyNotificationsReadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type MarkAllMyNotificationsReadError = MarkAllMyNotificationsReadErrors[keyof MarkAllMyNotificationsReadErrors];
+
+export type MarkAllMyNotificationsReadResponses = {
+    200: UnreadNotificationsResponseDto;
+};
+
+export type MarkAllMyNotificationsReadResponse = MarkAllMyNotificationsReadResponses[keyof MarkAllMyNotificationsReadResponses];
+
+export type MarkMyNotificationReadData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/notifications/{id}/read';
+};
+
+export type MarkMyNotificationReadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type MarkMyNotificationReadError = MarkMyNotificationReadErrors[keyof MarkMyNotificationReadErrors];
+
+export type MarkMyNotificationReadResponses = {
+    200: NotificationResponseDto;
+};
+
+export type MarkMyNotificationReadResponse = MarkMyNotificationReadResponses[keyof MarkMyNotificationReadResponses];
+
+export type ListMyIdentitiesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/identities';
+};
+
+export type ListMyIdentitiesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyIdentitiesError = ListMyIdentitiesErrors[keyof ListMyIdentitiesErrors];
+
+export type ListMyIdentitiesResponses = {
+    200: Array<ExternalIdentityResponseDto>;
+};
+
+export type ListMyIdentitiesResponse = ListMyIdentitiesResponses[keyof ListMyIdentitiesResponses];
+
+export type ListMyInstitutionsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/institutions';
+};
+
+export type ListMyInstitutionsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyInstitutionsError = ListMyInstitutionsErrors[keyof ListMyInstitutionsErrors];
+
+export type ListMyInstitutionsResponses = {
+    200: Array<InstitutionResponseDto>;
+};
+
+export type ListMyInstitutionsResponse = ListMyInstitutionsResponses[keyof ListMyInstitutionsResponses];
+
+export type CreateInstitutionData = {
+    body: CreateInstitutionDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/institutions';
+};
+
+export type CreateInstitutionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateInstitutionError = CreateInstitutionErrors[keyof CreateInstitutionErrors];
+
+export type CreateInstitutionResponses = {
+    201: InstitutionResponseDto;
+};
+
+export type CreateInstitutionResponse = CreateInstitutionResponses[keyof CreateInstitutionResponses];
+
+export type GetInstitutionData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}';
+};
+
+export type GetInstitutionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetInstitutionError = GetInstitutionErrors[keyof GetInstitutionErrors];
+
+export type GetInstitutionResponses = {
+    200: InstitutionResponseDto;
+};
+
+export type GetInstitutionResponse = GetInstitutionResponses[keyof GetInstitutionResponses];
+
+export type GetInstitutionConfigurationData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/configuration';
+};
+
+export type GetInstitutionConfigurationErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetInstitutionConfigurationError = GetInstitutionConfigurationErrors[keyof GetInstitutionConfigurationErrors];
+
+export type GetInstitutionConfigurationResponses = {
+    200: InstitutionConfigurationResponseDto;
+};
+
+export type GetInstitutionConfigurationResponse = GetInstitutionConfigurationResponses[keyof GetInstitutionConfigurationResponses];
+
+export type UpdateInstitutionConfigurationData = {
+    body: UpdateInstitutionConfigurationDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/configuration';
+};
+
+export type UpdateInstitutionConfigurationErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateInstitutionConfigurationError = UpdateInstitutionConfigurationErrors[keyof UpdateInstitutionConfigurationErrors];
+
+export type UpdateInstitutionConfigurationResponses = {
+    200: InstitutionConfigurationResponseDto;
+};
+
+export type UpdateInstitutionConfigurationResponse = UpdateInstitutionConfigurationResponses[keyof UpdateInstitutionConfigurationResponses];
+
+export type ListOrgUnitsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/org-units';
+};
+
+export type ListOrgUnitsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListOrgUnitsError = ListOrgUnitsErrors[keyof ListOrgUnitsErrors];
+
+export type ListOrgUnitsResponses = {
+    200: Array<OrgUnitResponseDto>;
+};
+
+export type ListOrgUnitsResponse = ListOrgUnitsResponses[keyof ListOrgUnitsResponses];
+
+export type GetOrgUnitData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/org-units/{id}';
+};
+
+export type GetOrgUnitErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetOrgUnitError = GetOrgUnitErrors[keyof GetOrgUnitErrors];
+
+export type GetOrgUnitResponses = {
+    200: OrgUnitResponseDto;
+};
+
+export type GetOrgUnitResponse = GetOrgUnitResponses[keyof GetOrgUnitResponses];
+
+export type ListPeopleData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/people';
+};
+
+export type ListPeopleErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListPeopleError = ListPeopleErrors[keyof ListPeopleErrors];
+
+export type ListPeopleResponses = {
+    200: Array<PersonDirectoryEntryDto>;
+};
+
+export type ListPeopleResponse = ListPeopleResponses[keyof ListPeopleResponses];
+
+export type CreateInvitationData = {
+    body: CreateInvitationDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/invitations';
+};
+
+export type CreateInvitationErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateInvitationError = CreateInvitationErrors[keyof CreateInvitationErrors];
+
+export type CreateInvitationResponses = {
+    201: InvitationResponseDto;
+};
+
+export type CreateInvitationResponse = CreateInvitationResponses[keyof CreateInvitationResponses];
+
+export type AcceptInvitationData = {
+    body: AcceptInvitationDto;
+    path: {
+        token: string;
+    };
+    query?: never;
+    url: '/api/v1/invitations/{token}/accept';
+};
+
+export type AcceptInvitationErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type AcceptInvitationError = AcceptInvitationErrors[keyof AcceptInvitationErrors];
+
+export type AcceptInvitationResponses = {
+    /**
+     * The invitation was accepted.
+     */
+    204: void;
+};
+
+export type AcceptInvitationResponse = AcceptInvitationResponses[keyof AcceptInvitationResponses];
+
 export type ListLearningSpacesData = {
     body?: never;
     path: {
@@ -3517,6 +2570,157 @@ export type CreateDemoRequestResponses = {
 };
 
 export type CreateDemoRequestResponse = CreateDemoRequestResponses[keyof CreateDemoRequestResponses];
+
+export type ListMyTimetableEventsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query: {
+        from: string;
+        to: string;
+        offeringId?: string;
+        type?: 'lecture' | 'seminar' | 'lab' | 'consultation' | 'exam' | 'other';
+    };
+    url: '/api/v1/institutions/{institutionId}/me/timetable-events';
+};
+
+export type ListMyTimetableEventsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyTimetableEventsError = ListMyTimetableEventsErrors[keyof ListMyTimetableEventsErrors];
+
+export type ListMyTimetableEventsResponses = {
+    200: Array<MyTimetableEventResponseDto>;
+};
+
+export type ListMyTimetableEventsResponse = ListMyTimetableEventsResponses[keyof ListMyTimetableEventsResponses];
+
+export type ListMyExamTermsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        from?: string;
+        to?: string;
+        offeringId?: string;
+        kind?: 'regular' | 'first_retake' | 'second_retake' | 'state_exam';
+    };
+    url: '/api/v1/institutions/{institutionId}/me/exam-terms';
+};
+
+export type ListMyExamTermsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyExamTermsError = ListMyExamTermsErrors[keyof ListMyExamTermsErrors];
+
+export type ListMyExamTermsResponses = {
+    200: Array<MyExamTermResponseDto>;
+};
+
+export type ListMyExamTermsResponse = ListMyExamTermsResponses[keyof ListMyExamTermsResponses];
+
+export type RegisterForExamTermData = {
+    body: RegisterForExamTermDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/exam-registrations';
+};
+
+export type RegisterForExamTermErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RegisterForExamTermError = RegisterForExamTermErrors[keyof RegisterForExamTermErrors];
+
+export type RegisterForExamTermResponses = {
+    201: ExamRegistrationResponseDto;
+};
+
+export type RegisterForExamTermResponse = RegisterForExamTermResponses[keyof RegisterForExamTermResponses];
+
+export type CancelExamRegistrationData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/exam-registrations/{id}';
+};
+
+export type CancelExamRegistrationErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CancelExamRegistrationError = CancelExamRegistrationErrors[keyof CancelExamRegistrationErrors];
+
+export type CancelExamRegistrationResponses = {
+    200: ExamRegistrationResponseDto;
+};
+
+export type CancelExamRegistrationResponse = CancelExamRegistrationResponses[keyof CancelExamRegistrationResponses];
 
 export type ListEnrollableOfferingsData = {
     body?: never;

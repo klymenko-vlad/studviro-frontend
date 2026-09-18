@@ -39,17 +39,6 @@ describe('MyGrades', () => {
     expect(screen.getByText('A on Jun 10, 2026')).toBeInTheDocument();
   });
 
-  it('names the system a result came from and flags one out of sync', async () => {
-    renderWithProviders(<MyGrades institutionId={INSTITUTION} />);
-
-    expect(await screen.findByText('Student information system')).toBeInTheDocument();
-    expect(screen.getByText('In sync')).toBeInTheDocument();
-    expect(screen.getByText('Conflict')).toBeInTheDocument();
-    expect(
-      screen.getByText('The source system reports a different mark.'),
-    ).toBeInTheDocument();
-  });
-
   it('labels the effective grade with the kind that produced it', async () => {
     renderWithProviders(<MyGrades institutionId={INSTITUTION} />);
 

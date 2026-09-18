@@ -91,7 +91,7 @@ describe('MyExams', () => {
     renderExams();
 
     expect(
-      await screen.findByText('No exam terms have been imported for your courses.'),
+      await screen.findByText('No exam terms have been scheduled for your courses.'),
     ).toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'Upcoming' })).not.toBeInTheDocument();
   });
@@ -170,7 +170,7 @@ describe('MyExams', () => {
     renderExams();
 
     expect(
-      await screen.findByText('No exam terms have been imported for your courses.'),
+      await screen.findByText('No exam terms have been scheduled for your courses.'),
     ).toBeInTheDocument();
   });
 

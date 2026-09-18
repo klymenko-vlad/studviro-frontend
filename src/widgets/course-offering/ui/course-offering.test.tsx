@@ -112,7 +112,6 @@ describe('CourseOffering', () => {
 
     expect(await screen.findByText('My result')).toBeInTheDocument();
     expect(await screen.findByText('B · 87.5 points')).toBeInTheDocument();
-    expect(screen.getByText('Student information system')).toBeInTheDocument();
   });
 
   it('says so when no result has been recorded for the offering', async () => {

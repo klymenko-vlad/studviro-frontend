@@ -4,7 +4,6 @@ export type CourseResult = MyCourseResultResponseDto;
 export type StudyProgress = StudyProgressResponseDto;
 export type CourseResultTerm = CourseResult['term'];
 export type CourseResultKind = NonNullable<CourseResult['effective']>['kind'];
-export type CourseResultProvenance = CourseResult['provenance'];
 
 export interface TermResults {
   term: CourseResultTerm;

@@ -22,7 +22,6 @@ type NavKey =
   | 'exams'
   | 'notifications'
   | 'learning'
-  | 'sync'
   | 'roles'
   | 'orgUnits'
   | 'people'
@@ -48,8 +47,7 @@ const GATES: Record<NavKey, Permission | null> = {
   // The endpoint behind this screen answers to `offering:read`, which every
   // student holds; the screen itself reports import provenance, so the tab is
   // offered to the staff who run the imports.
-  learning: 'sync:read',
-  sync: 'sync:read',
+  learning: 'offering:read',
   roles: 'role:assign',
   orgUnits: 'role:read',
   people: 'role:read',
@@ -78,7 +76,6 @@ const ORDER: NavKey[] = [
   'exams',
   'notifications',
   'learning',
-  'sync',
   'roles',
   'orgUnits',
   'people',

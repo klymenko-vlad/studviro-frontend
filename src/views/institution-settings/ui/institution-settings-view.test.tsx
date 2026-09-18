@@ -38,12 +38,6 @@ describe('InstitutionSettingsView', () => {
     ).toBeInTheDocument();
   });
 
-  it('shows connector health alongside the form', async () => {
-    renderWithProviders(<InstitutionSettingsView institutionId={INSTITUTION} />);
-
-    expect(await screen.findByText('Reachable')).toBeInTheDocument();
-  });
-
   it('withholds everything from someone who may only read, and says why', async () => {
     readOnly();
 
@@ -53,21 +47,5 @@ describe('InstitutionSettingsView', () => {
     expect(
       screen.queryByRole('button', { name: 'Save settings' }),
     ).not.toBeInTheDocument();
-  });
-
-  it('offers connector credentials to someone who may configure connectors', async () => {
-    renderWithProviders(<InstitutionSettingsView institutionId={INSTITUTION} />);
-
-    expect(await screen.findByText('Connector credentials')).toBeInTheDocument();
-    expect(await screen.findByLabelText('API key')).toBeInTheDocument();
-  });
-
-  it('withholds connector credentials from someone who may not configure connectors', async () => {
-    readOnly();
-
-    renderWithProviders(<InstitutionSettingsView institutionId={INSTITUTION} />);
-
-    await screen.findByText('Read-only');
-    expect(screen.queryByText('Connector credentials')).not.toBeInTheDocument();
   });
 });

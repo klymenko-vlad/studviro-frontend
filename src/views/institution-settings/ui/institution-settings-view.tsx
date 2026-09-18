@@ -3,9 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
-import { ConnectorStatus } from '@/widgets/connector-status';
 import { InstitutionConfigurationForm } from '@/features/edit-institution-configuration';
-import { ConnectorCredentialsSection } from '@/features/manage-connector-credentials';
 import { institutionConfigurationQueries } from '@/entities/institution-configuration';
 import { usePermissions } from '@/entities/permission';
 import {
@@ -24,7 +22,6 @@ export function InstitutionSettingsView({ institutionId }: { institutionId: stri
   const t = useTranslations('institutionSettings');
   const { can, isPending: permissionsPending } = usePermissions(institutionId);
   const mayManage = can('institution:manage');
-  const mayConfigureConnectors = can('connector:configure');
 
   const { data: configuration, isPending } = useQuery(
     institutionConfigurationQueries.detail({ path: { institutionId } }),
@@ -69,29 +66,7 @@ export function InstitutionSettingsView({ institutionId }: { institutionId: stri
               )}
             </CardContent>
           </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>{t('connectorsTitle')}</CardTitle>
-              <CardDescription>{t('connectorStatusDescription')}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ConnectorStatus institutionId={institutionId} />
-            </CardContent>
-          </Card>
         </>
-      ) : null}
-
-      {mayConfigureConnectors ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>{t('credentialsTitle')}</CardTitle>
-            <CardDescription>{t('credentialsSectionDescription')}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ConnectorCredentialsSection institutionId={institutionId} />
-          </CardContent>
-        </Card>
       ) : null}
     </main>
   );

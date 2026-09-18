@@ -12,35 +12,12 @@ describe('LinkedAccounts', () => {
     renderWithProviders(<LinkedAccounts />);
 
     expect(await screen.findByText('ada123')).toBeInTheDocument();
-    expect(screen.getByText('Student information system')).toBeInTheDocument();
   });
 
   it('says when the account was last used', async () => {
     renderWithProviders(<LinkedAccounts />);
 
     expect(await screen.findByText(/^Last used /)).toBeInTheDocument();
-  });
-
-  it('falls back to the issuer host when the provider gave no username', async () => {
-    server.use(
-      http.get(IDENTITIES_URL, () =>
-        HttpResponse.json([
-          {
-            id: '99999999-9999-4999-8999-999999999999',
-            institutionId: '55555555-5555-4555-8555-555555555555',
-            sourceSystem: 'lms',
-            issuer: 'https://moodle.upjs.sk',
-            externalUsername: null,
-            lastAuthenticatedAt: null,
-          },
-        ]),
-      ),
-    );
-
-    renderWithProviders(<LinkedAccounts />);
-
-    expect(await screen.findByText('moodle.upjs.sk')).toBeInTheDocument();
-    expect(screen.getByText('Not used yet')).toBeInTheDocument();
   });
 
   it('explains an empty result', async () => {

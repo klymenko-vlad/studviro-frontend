@@ -20,7 +20,7 @@ export function CourseResultCard({
 }) {
   const t = useTranslations('grades');
   const format = useFormatter();
-  const { effective, calculated, proposed, official, provenance } = result;
+  const { effective, calculated, proposed, official } = result;
 
   return (
     <Card>
@@ -111,27 +111,6 @@ export function CourseResultCard({
                       dateStyle: 'medium',
                     }),
                   })}
-          </dd>
-
-          <dt className="text-muted-foreground">{t('source')}</dt>
-          <dd className="flex flex-wrap items-center gap-2">
-            <span>{t(`sourceSystem.${provenance.sourceSystem}`)}</span>
-            <Badge
-              variant={
-                provenance.synchronizationStatus === 'in_sync' ? 'outline' : 'destructive'
-              }
-            >
-              {t(`syncStatus.${provenance.synchronizationStatus}`)}
-            </Badge>
-            {provenance.lastSynchronizedAt === null ? null : (
-              <span className="text-muted-foreground text-xs">
-                {t('syncedAt', {
-                  at: format.dateTime(new Date(provenance.lastSynchronizedAt), {
-                    dateStyle: 'medium',
-                  }),
-                })}
-              </span>
-            )}
           </dd>
         </dl>
 

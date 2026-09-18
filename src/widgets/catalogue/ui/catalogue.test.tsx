@@ -34,14 +34,6 @@ describe('Catalogue', () => {
     expect(screen.getByText('INF-BC')).toBeInTheDocument();
   });
 
-  it('marks a row that is out of step with its source', async () => {
-    render();
-
-    await screen.findByText('Algorithms');
-
-    expect(screen.getByText('Awaiting sync')).toBeInTheDocument();
-  });
-
   it('adds a programme the institution enters itself', async () => {
     render();
 
