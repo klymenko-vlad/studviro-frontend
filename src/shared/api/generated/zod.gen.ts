@@ -1229,6 +1229,176 @@ export const zStudyProgressResponseDto = z.object({
     awaitingRetake: z.number()
 });
 
+export const zOfferingResultsOfferingDto = z.object({
+    id: z.uuid()
+});
+
+export const zOfferingResultsCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string(),
+    credits: z.number().nullable()
+});
+
+export const zOfferingCalculatedStageDto = z.object({
+    grade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    points: z.number().nullable()
+});
+
+export const zOfferingProposedStageDto = z.object({
+    grade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    at: z.iso.datetime().nullable()
+});
+
+export const zOfferingOfficialStageDto = z.object({
+    grade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    recordedAt: z.iso.datetime().nullable()
+});
+
+export const zOfferingResultProvenanceDto = z.object({
+    sourceSystem: z.enum([
+        'platform',
+        'sis',
+        'lms'
+    ]),
+    externalId: z.string().nullable()
+});
+
+export const zOfferingResultAttemptDto = z.object({
+    id: z.uuid(),
+    attempt: z.number(),
+    status: z.enum([
+        'calculated',
+        'proposed',
+        'official',
+        'corrected',
+        'annulled',
+        'disputed'
+    ]),
+    isVoided: z.boolean(),
+    calculated: zOfferingCalculatedStageDto,
+    proposed: zOfferingProposedStageDto,
+    official: zOfferingOfficialStageDto,
+    provenance: zOfferingResultProvenanceDto
+});
+
+export const zOfferingResultStudentDto = z.object({
+    enrollmentId: z.uuid(),
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string(),
+    enrollmentStatus: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected'
+    ]),
+    attempts: z.array(zOfferingResultAttemptDto),
+    nextAttempt: z.number()
+});
+
+export const zOfferingResultsResponseDto = z.object({
+    offering: zOfferingResultsOfferingDto,
+    course: zOfferingResultsCourseDto,
+    viewerRole: z.enum(['teacher', 'administrator']),
+    canPublish: z.boolean(),
+    students: z.array(zOfferingResultStudentDto)
+});
+
+export const zRecordGradeDto = z.object({
+    attempt: z.number().gte(1).optional(),
+    proposedGrade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullish(),
+    officialGrade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullish(),
+    conflictNote: z.string().max(500).nullish()
+});
+
+export const zRecordedGradeResponseDto = z.object({
+    id: z.uuid(),
+    enrollmentId: z.uuid(),
+    attempt: z.number(),
+    status: z.enum([
+        'calculated',
+        'proposed',
+        'official',
+        'corrected',
+        'annulled',
+        'disputed'
+    ]),
+    proposedGrade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    officialGrade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    synchronizationStatus: z.enum([
+        'in_sync',
+        'pending',
+        'conflict',
+        'failed'
+    ])
+});
+
 export const zLearningSpaceDto = z.object({
     id: z.uuid(),
     name: z.string(),
@@ -1869,6 +2039,23 @@ export const zGetMyStudyProgressPath = z.object({
 });
 
 export const zGetMyStudyProgressResponse = zStudyProgressResponseDto;
+
+export const zListOfferingResultsPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListOfferingResultsResponse = zOfferingResultsResponseDto;
+
+export const zRecordOfferingResultBody = zRecordGradeDto;
+
+export const zRecordOfferingResultPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    enrollmentId: z.string()
+});
+
+export const zRecordOfferingResultResponse = zRecordedGradeResponseDto;
 
 export const zListLearningSpacesPath = z.object({
     institutionId: z.string()

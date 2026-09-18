@@ -858,6 +858,95 @@ export type StudyProgressResponseDto = {
     awaitingRetake: number;
 };
 
+export type OfferingResultsOfferingDto = {
+    id: string;
+};
+
+export type OfferingResultsCourseDto = {
+    id: string;
+    code: string;
+    title: string;
+    credits: number | null;
+};
+
+export type OfferingCalculatedStageDto = {
+    grade: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed' | null;
+    points: number | null;
+};
+
+export type OfferingProposedStageDto = {
+    grade: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed' | null;
+    at: string | null;
+};
+
+export type OfferingOfficialStageDto = {
+    grade: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed' | null;
+    recordedAt: string | null;
+};
+
+export type OfferingResultProvenanceDto = {
+    sourceSystem: 'platform' | 'sis' | 'lms';
+    externalId: string | null;
+};
+
+export type OfferingResultAttemptDto = {
+    id: string;
+    attempt: number;
+    status: 'calculated' | 'proposed' | 'official' | 'corrected' | 'annulled' | 'disputed';
+    isVoided: boolean;
+    calculated: OfferingCalculatedStageDto;
+    proposed: OfferingProposedStageDto;
+    official: OfferingOfficialStageDto;
+    provenance: OfferingResultProvenanceDto;
+};
+
+export type OfferingResultStudentDto = {
+    enrollmentId: string;
+    userId: string;
+    displayName: string;
+    email: string;
+    enrollmentStatus: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    attempts: Array<OfferingResultAttemptDto>;
+    nextAttempt: number;
+};
+
+export type OfferingResultsResponseDto = {
+    offering: OfferingResultsOfferingDto;
+    course: OfferingResultsCourseDto;
+    viewerRole: 'teacher' | 'administrator';
+    /**
+     * Whether the caller may promote a proposal to official, as opposed to only proposing one.
+     */
+    canPublish: boolean;
+    students: Array<OfferingResultStudentDto>;
+};
+
+export type RecordGradeDto = {
+    /**
+     * Which sitting the grade belongs to. Omitted, it lands on the student’s current attempt; a resit is recorded by naming the next one.
+     */
+    attempt?: number;
+    /**
+     * Behind `grade:propose`. Null withdraws the proposal.
+     */
+    proposedGrade?: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed' | null;
+    /**
+     * Behind `grade:publish`. Null withdraws the published grade.
+     */
+    officialGrade?: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed' | null;
+    conflictNote?: string | null;
+};
+
+export type RecordedGradeResponseDto = {
+    id: string;
+    enrollmentId: string;
+    attempt: number;
+    status: 'calculated' | 'proposed' | 'official' | 'corrected' | 'annulled' | 'disputed';
+    proposedGrade: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed' | null;
+    officialGrade: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed' | null;
+    synchronizationStatus: 'in_sync' | 'pending' | 'conflict' | 'failed';
+};
+
 export type LearningSpaceDto = {
     id: string;
     name: string;
@@ -3025,6 +3114,85 @@ export type GetMyStudyProgressResponses = {
 };
 
 export type GetMyStudyProgressResponse = GetMyStudyProgressResponses[keyof GetMyStudyProgressResponses];
+
+export type ListOfferingResultsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/results';
+};
+
+export type ListOfferingResultsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListOfferingResultsError = ListOfferingResultsErrors[keyof ListOfferingResultsErrors];
+
+export type ListOfferingResultsResponses = {
+    200: OfferingResultsResponseDto;
+};
+
+export type ListOfferingResultsResponse = ListOfferingResultsResponses[keyof ListOfferingResultsResponses];
+
+export type RecordOfferingResultData = {
+    body: RecordGradeDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        enrollmentId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/results/{enrollmentId}';
+};
+
+export type RecordOfferingResultErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RecordOfferingResultError = RecordOfferingResultErrors[keyof RecordOfferingResultErrors];
+
+export type RecordOfferingResultResponses = {
+    200: RecordedGradeResponseDto;
+};
+
+export type RecordOfferingResultResponse = RecordOfferingResultResponses[keyof RecordOfferingResultResponses];
 
 export type ListLearningSpacesData = {
     body?: never;

@@ -1330,5 +1330,40 @@
         "graded": "Graded"
       }
     }
+  },
+  "gradeEntry": {
+    "panelTitle": "Grades",
+    "panelDescription": "Propose a grade for each student, or publish one. A published grade is what the student stands on and marks their seat as attended.",
+    "error": "The grades of this offering could not be read.",
+    "empty": "Nobody is recorded in this offering yet.",
+    "mayPublish": "You may propose a grade and publish it.",
+    "mayOnlyPropose": "You may propose a grade. Publishing it is someone else's decision.",
+    "saved": "The grade was recorded.",
+    "propose": "Propose",
+    "publish": "Publish",
+    "noGrade": "Choose a grade",
+    "notGraded": "Not graded",
+    "annulled": "Annulled",
+    "sourced": "From the university",
+    "sourcedHint": "This grade came from the university's system. Changing it here leaves the two disagreeing until a synchronization settles it.",
+    "attemptNone": "No sitting yet",
+    "attemptNumber": "Attempt {attempt}",
+    "gradeFor": "Grade for {student}",
+    "column": {
+      "student": "Student",
+      "attempt": "Attempt",
+      "standing": "Standing",
+      "record": "Record"
+    },
+    "grade": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D",
+      "E": "E",
+      "FX": "FX",
+      "passed": "Passed",
+      "failed": "Failed"
+    }
   }
 }

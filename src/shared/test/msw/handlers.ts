@@ -19,6 +19,7 @@ import type {
   MyPermissionsResponseDto,
   MyTimetableEventResponseDto,
   NotificationResponseDto,
+  OfferingResultsResponseDto,
   ReconciliationReportResponseDto,
   ReconciliationResolutionResponseDto,
   RoleAssignmentResponseDto,
@@ -1144,6 +1145,49 @@ export const reconciliationResolutions: ReconciliationResolutionResponseDto[] = 
   },
 ];
 
+export const offeringResults: OfferingResultsResponseDto = {
+  offering: { id: '66666666-6666-4666-8666-666666666666' },
+  course: {
+    id: '77777777-7777-4777-8777-777777777777',
+    code: 'INF/ALG/22',
+    title: 'Algorithms',
+    credits: 6,
+  },
+  viewerRole: 'teacher',
+  canPublish: true,
+  students: [
+    {
+      enrollmentId: 'eeeeeee1-eeee-4eee-8eee-eeeeeeeeeee1',
+      userId: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1',
+      displayName: 'Veronika Gajdošová',
+      email: 'veronika@mocku.example',
+      enrollmentStatus: 'active',
+      nextAttempt: 2,
+      attempts: [
+        {
+          id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+          attempt: 1,
+          status: 'official',
+          isVoided: false,
+          calculated: { grade: 'B', points: 82 },
+          proposed: { grade: 'B', at: '2026-06-01T00:00:00.000Z' },
+          official: { grade: 'B', recordedAt: '2026-06-10T00:00:00.000Z' },
+          provenance: { sourceSystem: 'sis', externalId: 'RES-1' },
+        },
+      ],
+    },
+    {
+      enrollmentId: 'eeeeeee2-eeee-4eee-8eee-eeeeeeeeeee2',
+      userId: 'aaaaaaa2-aaaa-4aaa-8aaa-aaaaaaaaaaa2',
+      displayName: 'Marek Horváth',
+      email: 'marek@mocku.example',
+      enrollmentStatus: 'active',
+      nextAttempt: 1,
+      attempts: [],
+    },
+  ],
+};
+
 export const studyProgress: StudyProgressResponseDto = {
   gradedCourses: 1,
   passedCourses: 1,
@@ -1492,6 +1536,25 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/synchronization/state`, () =>
     HttpResponse.json(syncState),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/results`,
+    () => HttpResponse.json(offeringResults),
+  ),
+
+  http.put(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/results/:enrollmentId`,
+    () =>
+      HttpResponse.json({
+        id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+        enrollmentId: 'eeeeeee1-eeee-4eee-8eee-eeeeeeeeeee1',
+        attempt: 1,
+        status: 'proposed',
+        proposedGrade: 'A',
+        officialGrade: null,
+        synchronizationStatus: 'pending',
+      }),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/me/course-results/summary`, () =>

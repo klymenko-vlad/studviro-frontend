@@ -21,6 +21,7 @@ export {
   permissions,
   linkedAccounts,
   notifications,
+  offeringResults,
   roleAssignments,
   session,
   studyProgress,

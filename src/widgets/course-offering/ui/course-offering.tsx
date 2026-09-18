@@ -10,6 +10,7 @@ import { Alert, AlertDescription, AlertTitle, Skeleton } from '@/shared/ui';
 import { OfferingAssessments } from './offering-assessments';
 import { OfferingEnrollment } from './offering-enrollment';
 import { OfferingExams } from './offering-exams';
+import { OfferingGradeEntry } from './offering-grade-entry';
 import { OfferingHeader } from './offering-header';
 import { OfferingResults } from './offering-results';
 import { OfferingRoster } from './offering-roster';
@@ -52,7 +53,10 @@ export function CourseOffering({
       </div>
 
       {data.viewerRole === 'student' ? null : (
-        <OfferingRoster institutionId={institutionId} offeringId={offeringId} />
+        <>
+          <OfferingRoster institutionId={institutionId} offeringId={offeringId} />
+          <OfferingGradeEntry institutionId={institutionId} offeringId={offeringId} />
+        </>
       )}
 
       <OfferingResults institutionId={institutionId} offeringId={offeringId} />
