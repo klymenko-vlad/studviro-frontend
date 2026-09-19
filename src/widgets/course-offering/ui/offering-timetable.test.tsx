@@ -62,6 +62,7 @@ describe('OfferingTimetable', () => {
 
     expect(within(list).getByText(/Monday 12:00–14:00/)).toBeInTheDocument();
     expect(within(list).getByText('2 weeks')).toBeInTheDocument();
+    expect(within(list).getByText('1 week')).toBeInTheDocument();
     expect(slots.length).toBeGreaterThan(0);
   });
 

@@ -95,6 +95,35 @@ export const SortOrder = { ASC: 'asc', DESC: 'desc' } as const;
 
 export type SortOrder = typeof SortOrder[keyof typeof SortOrder];
 
+export type AuditEventResponseDto = {
+    id: string;
+    institutionId: string;
+    action: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled';
+    subjectType: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term';
+    subjectId: string;
+    actorUserId?: string | null;
+    summary?: string | null;
+    before?: {
+        [key: string]: unknown;
+    } | null;
+    after?: {
+        [key: string]: unknown;
+    } | null;
+    requestId?: string | null;
+    occurredAt: string;
+};
+
+export type CursorPageMetaDto = {
+    limit: number;
+    hasNextPage: boolean;
+    nextCursor: string | null;
+};
+
+export type AuditEventPageDto = {
+    items: Array<AuditEventResponseDto>;
+    meta: CursorPageMetaDto;
+};
+
 export type RoleAssignmentResponseDto = {
     id?: string | null;
     institutionId: string;
@@ -123,7 +152,7 @@ export type GrantRoleDto = {
 export type MyPermissionsResponseDto = {
     institutionId: string;
     roles: Array<'student' | 'teacher' | 'teaching_assistant' | 'course_coordinator' | 'program_coordinator' | 'registrar' | 'org_unit_manager' | 'institution_admin'>;
-    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'notification:read' | 'exam:register' | 'course:enroll' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage'>;
+    permissions: Array<'program:read' | 'program:manage' | 'course:read' | 'course:manage' | 'offering:read' | 'offering:manage' | 'enrollment:read' | 'enrollment:manage' | 'grade:read' | 'grade:propose' | 'grade:publish' | 'schedule:read' | 'schedule:manage' | 'notification:read' | 'exam:register' | 'course:enroll' | 'role:read' | 'role:assign' | 'institution:read' | 'institution:manage' | 'audit:read'>;
 };
 
 export type MyCourseOfferingDto = {
@@ -1673,6 +1702,49 @@ export type FindOneResponses = {
 };
 
 export type FindOneResponse = FindOneResponses[keyof FindOneResponses];
+
+export type ListAuditEventsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        limit?: number;
+        /**
+         * Opaque cursor from a previous page
+         */
+        cursor?: string;
+        order?: SortOrder;
+        action?: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled';
+        subjectType?: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term';
+        subjectId?: string;
+        actorUserId?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/audit-events';
+};
+
+export type ListAuditEventsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListAuditEventsError = ListAuditEventsErrors[keyof ListAuditEventsErrors];
+
+export type ListAuditEventsResponses = {
+    200: AuditEventPageDto;
+};
+
+export type ListAuditEventsResponse = ListAuditEventsResponses[keyof ListAuditEventsResponses];
 
 export type ListRoleAssignmentsData = {
     body?: never;

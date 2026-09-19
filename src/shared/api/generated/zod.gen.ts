@@ -77,6 +77,43 @@ export const zUserResponseDtoPage = z.object({
 
 export const zSortOrder = z.enum(['asc', 'desc']);
 
+export const zAuditEventResponseDto = z.object({
+    id: z.uuid(),
+    institutionId: z.uuid(),
+    action: z.enum([
+        'grade.proposed',
+        'grade.published',
+        'role.granted',
+        'role.revoked',
+        'enrollment.corrected',
+        'exam_term.cancelled'
+    ]),
+    subjectType: z.enum([
+        'course_result',
+        'role_assignment',
+        'enrollment',
+        'exam_term'
+    ]),
+    subjectId: z.uuid(),
+    actorUserId: z.uuid().nullish(),
+    summary: z.string().nullish(),
+    before: z.record(z.string(), z.unknown()).nullish(),
+    after: z.record(z.string(), z.unknown()).nullish(),
+    requestId: z.string().nullish(),
+    occurredAt: z.iso.datetime()
+});
+
+export const zCursorPageMetaDto = z.object({
+    limit: z.number(),
+    hasNextPage: z.boolean(),
+    nextCursor: z.string().nullable()
+});
+
+export const zAuditEventPageDto = z.object({
+    items: z.array(zAuditEventResponseDto),
+    meta: zCursorPageMetaDto
+});
+
 export const zRoleAssignmentResponseDto = z.object({
     id: z.uuid().nullish(),
     institutionId: z.uuid(),
@@ -156,7 +193,8 @@ export const zMyPermissionsResponseDto = z.object({
         'role:read',
         'role:assign',
         'institution:read',
-        'institution:manage'
+        'institution:manage',
+        'audit:read'
     ]))
 });
 
@@ -1783,6 +1821,34 @@ export const zFindOnePath = z.object({
  * The requested user.
  */
 export const zFindOneResponse = zUserResponseDto;
+
+export const zListAuditEventsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListAuditEventsQuery = z.object({
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    cursor: z.string().optional(),
+    order: zSortOrder.optional(),
+    action: z.enum([
+        'grade.proposed',
+        'grade.published',
+        'role.granted',
+        'role.revoked',
+        'enrollment.corrected',
+        'exam_term.cancelled'
+    ]).optional(),
+    subjectType: z.enum([
+        'course_result',
+        'role_assignment',
+        'enrollment',
+        'exam_term'
+    ]).optional(),
+    subjectId: z.uuid().optional(),
+    actorUserId: z.uuid().optional()
+});
+
+export const zListAuditEventsResponse = zAuditEventPageDto;
 
 export const zListRoleAssignmentsPath = z.object({
     institutionId: z.string()

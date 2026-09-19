@@ -1497,7 +1497,7 @@
     "empty": "Nothing is scheduled for this course yet.",
     "error": "The timetable could not be read.",
     "schedule": "Schedule",
-    "scheduled": "{count} classes scheduled.",
+    "scheduled": "{count, plural, one {# class scheduled.} other {# classes scheduled.}}",
     "cancel": "Call off",
     "cancelNamed": "Call off the class on {label}",
     "cancelled": "The class on {label} was called off.",
@@ -1505,7 +1505,7 @@
     "restoreNamed": "Put the class on {label} back on",
     "restored": "The class on {label} is back on.",
     "noRoom": "No room",
-    "occurrences": "{count} weeks",
+    "occurrences": "{count, plural, one {# week} other {# weeks}}",
     "field": {
       "date": "First class",
       "from": "From",
