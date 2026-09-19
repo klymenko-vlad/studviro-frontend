@@ -1352,5 +1352,45 @@
       "capacity": "Seats",
       "actions": "Actions"
     }
+  },
+  "offerings": {
+    "title": "Course offerings",
+    "description": "What is actually on this term — a course paired with a term, with its places and who teaches it.",
+    "empty": "Nothing is on offer yet.",
+    "error": "The offerings could not be read.",
+    "nothingToOffer": "Add a course and an academic term first; an offering is the pairing of the two.",
+    "add": "Put on offer",
+    "created": "The offering was added.",
+    "retire": "Retire",
+    "retireNamed": "Retire {label}",
+    "retired": "{label} was retired.",
+    "full": "Full",
+    "noTeacher": "No teacher",
+    "places": {
+      "capped": "{enrolled} of {capacity}",
+      "uncapped": "{enrolled} enrolled · no limit"
+    },
+    "field": {
+      "course": "Course",
+      "chooseCourse": "Choose a course",
+      "term": "Term",
+      "chooseTerm": "Choose a term",
+      "capacity": "Places",
+      "capacityDescription": "Leave empty for no limit.",
+      "status": "State"
+    },
+    "status": {
+      "planned": "Planned",
+      "open": "Open",
+      "running": "Running",
+      "closed": "Closed",
+      "cancelled": "Cancelled"
+    },
+    "column": {
+      "course": "Course",
+      "places": "Places",
+      "state": "State",
+      "actions": "Actions"
+    }
   }
 }

@@ -1036,10 +1036,31 @@ export type UpdateCourseDto = {
     orgUnitId?: string | null;
 };
 
-export type UpdateCourseOfferingDto = {
+export type CourseOfferingListItemDto = {
+    id: string;
+    courseId: string;
+    courseCode: string;
+    courseTitle: string;
+    academicTermId: string;
+    termCode: string;
+    termName: string;
+    status: 'planned' | 'open' | 'running' | 'closed' | 'cancelled';
+    capacity: number | null;
+    enrolled: number;
+    language: string | null;
+    teacherCount: number;
+};
+
+export type CreateCourseOfferingDto = {
+    courseId: string;
+    academicTermId: string;
     capacity?: number | null;
     status?: 'planned' | 'open' | 'running' | 'closed' | 'cancelled';
     language?: string | null;
+    /**
+     * Defaults to the course’s own org unit.
+     */
+    orgUnitId?: string | null;
 };
 
 export type CourseOfferingAdminResponseDto = {
@@ -1047,6 +1068,12 @@ export type CourseOfferingAdminResponseDto = {
     capacity: number | null;
     status: 'planned' | 'open' | 'running' | 'closed' | 'cancelled';
     language: string | null;
+};
+
+export type UpdateCourseOfferingDto = {
+    capacity?: number | null;
+    status?: 'planned' | 'open' | 'running' | 'closed' | 'cancelled';
+    language?: string | null;
 };
 
 export type CorrectEnrollmentDto = {
@@ -1761,6 +1788,47 @@ export type ListMyTeachingOfferingsResponses = {
 };
 
 export type ListMyTeachingOfferingsResponse = ListMyTeachingOfferingsResponses[keyof ListMyTeachingOfferingsResponses];
+
+export type RemoveCourseOfferingData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}';
+};
+
+export type RemoveCourseOfferingErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveCourseOfferingError = RemoveCourseOfferingErrors[keyof RemoveCourseOfferingErrors];
+
+export type RemoveCourseOfferingResponses = {
+    204: void;
+};
+
+export type RemoveCourseOfferingResponse = RemoveCourseOfferingResponses[keyof RemoveCourseOfferingResponses];
 
 export type GetCourseOfferingData = {
     body?: never;
@@ -3665,6 +3733,82 @@ export type UpdateCourseResponses = {
 };
 
 export type UpdateCourseResponse = UpdateCourseResponses[keyof UpdateCourseResponses];
+
+export type ListCourseOfferingsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings';
+};
+
+export type ListCourseOfferingsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListCourseOfferingsError = ListCourseOfferingsErrors[keyof ListCourseOfferingsErrors];
+
+export type ListCourseOfferingsResponses = {
+    200: Array<CourseOfferingListItemDto>;
+};
+
+export type ListCourseOfferingsResponse = ListCourseOfferingsResponses[keyof ListCourseOfferingsResponses];
+
+export type CreateCourseOfferingData = {
+    body: CreateCourseOfferingDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings';
+};
+
+export type CreateCourseOfferingErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateCourseOfferingError = CreateCourseOfferingErrors[keyof CreateCourseOfferingErrors];
+
+export type CreateCourseOfferingResponses = {
+    201: CourseOfferingAdminResponseDto;
+};
+
+export type CreateCourseOfferingResponse = CreateCourseOfferingResponses[keyof CreateCourseOfferingResponses];
 
 export type CorrectEnrollmentData = {
     body: CorrectEnrollmentDto;

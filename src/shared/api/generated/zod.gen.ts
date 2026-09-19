@@ -1427,7 +1427,30 @@ export const zUpdateCourseDto = z.object({
     orgUnitId: z.uuid().nullish()
 });
 
-export const zUpdateCourseOfferingDto = z.object({
+export const zCourseOfferingListItemDto = z.object({
+    id: z.uuid(),
+    courseId: z.uuid(),
+    courseCode: z.string(),
+    courseTitle: z.string(),
+    academicTermId: z.uuid(),
+    termCode: z.string(),
+    termName: z.string(),
+    status: z.enum([
+        'planned',
+        'open',
+        'running',
+        'closed',
+        'cancelled'
+    ]),
+    capacity: z.number().nullable(),
+    enrolled: z.number(),
+    language: z.string().nullable(),
+    teacherCount: z.number()
+});
+
+export const zCreateCourseOfferingDto = z.object({
+    courseId: z.uuid(),
+    academicTermId: z.uuid(),
     capacity: z.number().gte(0).nullish(),
     status: z.enum([
         'planned',
@@ -1436,7 +1459,8 @@ export const zUpdateCourseOfferingDto = z.object({
         'closed',
         'cancelled'
     ]).optional(),
-    language: z.string().max(64).nullish()
+    language: z.string().max(64).nullish(),
+    orgUnitId: z.uuid().nullish()
 });
 
 export const zCourseOfferingAdminResponseDto = z.object({
@@ -1450,6 +1474,18 @@ export const zCourseOfferingAdminResponseDto = z.object({
         'cancelled'
     ]),
     language: z.string().nullable()
+});
+
+export const zUpdateCourseOfferingDto = z.object({
+    capacity: z.number().gte(0).nullish(),
+    status: z.enum([
+        'planned',
+        'open',
+        'running',
+        'closed',
+        'cancelled'
+    ]).optional(),
+    language: z.string().max(64).nullish()
 });
 
 export const zCorrectEnrollmentDto = z.object({
@@ -1633,6 +1669,13 @@ export const zListMyTeachingOfferingsQuery = z.object({
 });
 
 export const zListMyTeachingOfferingsResponse = z.array(zTeachingOfferingResponseDto);
+
+export const zRemoveCourseOfferingPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zRemoveCourseOfferingResponse = z.void();
 
 export const zGetCourseOfferingPath = z.object({
     institutionId: z.string(),
@@ -2048,6 +2091,20 @@ export const zUpdateCoursePath = z.object({
 });
 
 export const zUpdateCourseResponse = zCourseResponseDto;
+
+export const zListCourseOfferingsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListCourseOfferingsResponse = z.array(zCourseOfferingListItemDto);
+
+export const zCreateCourseOfferingBody = zCreateCourseOfferingDto;
+
+export const zCreateCourseOfferingPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateCourseOfferingResponse = zCourseOfferingAdminResponseDto;
 
 export const zCorrectEnrollmentBody = zCorrectEnrollmentDto;
 

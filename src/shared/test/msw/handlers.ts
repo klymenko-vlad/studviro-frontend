@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw';
 import type {
   AcademicTermResponseDto,
   AuthTokensDto,
+  CourseOfferingListItemDto,
   CourseOfferingResponseDto,
   CourseResponseDto,
   CourseRosterResponseDto,
@@ -150,6 +151,7 @@ export const permissions: MyPermissionsResponseDto = {
     'role:assign',
     'enrollment:read',
     'offering:read',
+    'offering:manage',
     'course:enroll',
     'course:read',
     'course:manage',
@@ -846,6 +848,37 @@ export const learningSpaces: LearningSpaceListResponseDto = {
   ],
 };
 
+export const adminOfferings: CourseOfferingListItemDto[] = [
+  {
+    id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1',
+    courseId: 'cccccccc-cccc-4ccc-8ccc-ccccccccccc2',
+    courseCode: 'INF/ALG/22',
+    courseTitle: 'Algorithms',
+    academicTermId: 'dddddddd-dddd-4ddd-8ddd-ddddddddddd1',
+    termCode: '2026W',
+    termName: 'Winter semester 2026/2027',
+    status: 'open',
+    capacity: 60,
+    enrolled: 60,
+    language: 'sk',
+    teacherCount: 2,
+  },
+  {
+    id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2',
+    courseId: 'cccccccc-cccc-4ccc-8ccc-ccccccccccc3',
+    courseCode: 'INF/DB/22',
+    courseTitle: 'Databases',
+    academicTermId: 'dddddddd-dddd-4ddd-8ddd-ddddddddddd1',
+    termCode: '2026W',
+    termName: 'Winter semester 2026/2027',
+    status: 'planned',
+    capacity: null,
+    enrolled: 0,
+    language: null,
+    teacherCount: 0,
+  },
+];
+
 export const rooms: RoomResponseDto[] = [
   {
     id: 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee1',
@@ -1268,6 +1301,27 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/learning-spaces`, () =>
     HttpResponse.json(learningSpaces),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/course-offerings`, () =>
+    HttpResponse.json(adminOfferings),
+  ),
+
+  http.post(`${PROXY}/institutions/:institutionId/course-offerings`, () =>
+    HttpResponse.json(
+      {
+        id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa3',
+        capacity: null,
+        status: 'planned',
+        language: null,
+      },
+      { status: 201 },
+    ),
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId`,
+    () => new HttpResponse(null, { status: 204 }),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/rooms`, () => HttpResponse.json(rooms)),

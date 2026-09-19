@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 
 import { AcademicTerms } from '@/widgets/academic-terms';
 import { Catalogue } from '@/widgets/catalogue';
+import { CourseOfferings } from '@/widgets/course-offerings';
 import { usePermissions } from '@/entities/permission';
 import { Alert, AlertDescription, AlertTitle } from '@/shared/ui';
 
@@ -24,6 +25,9 @@ export function InstitutionCatalogueView({ institutionId }: { institutionId: str
             <AcademicTerms institutionId={institutionId} />
           ) : null}
           <Catalogue institutionId={institutionId} />
+          {can('offering:read') ? (
+            <CourseOfferings institutionId={institutionId} />
+          ) : null}
         </div>
       ) : (
         <Alert>
