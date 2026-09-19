@@ -1,7 +1,8 @@
 import { useTranslations } from 'next-intl';
 
-import { OfferingGrades } from '@/widgets/offering-grades';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui';
+
+import { OfferingGrades } from './offering-grades';
 
 export function OfferingGradeEntry({
   institutionId,
