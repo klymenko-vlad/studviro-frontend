@@ -48,7 +48,11 @@ export function CourseOffering({
       <OfferingHeader offering={data} />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <OfferingStaff offering={data} />
+        <OfferingStaff
+          offering={data}
+          institutionId={institutionId}
+          offeringId={offeringId}
+        />
         <OfferingEnrollment offering={data} />
       </div>
 

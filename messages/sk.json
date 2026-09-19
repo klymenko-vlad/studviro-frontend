@@ -361,7 +361,8 @@
       "exercise": "Exercise",
       "project": "Project",
       "other": "Other"
-    }
+    },
+    "staffError": "Who teaches this could not be read."
   },
   "grades": {
     "title": "My grades",
@@ -1391,6 +1392,28 @@
       "places": "Places",
       "state": "State",
       "actions": "Actions"
+    }
+  },
+  "teaching": {
+    "assign": "Assign",
+    "assigned": "They now teach this offering.",
+    "unassign": "Remove",
+    "unassignNamed": "Remove {name} from this offering",
+    "unassigned": "{name} no longer teaches this offering.",
+    "field": {
+      "person": "Person",
+      "choosePerson": "Choose a person",
+      "personDescription": "Anybody who already belongs to this institution. Somebody new arrives by invitation.",
+      "role": "Role",
+      "isPrimary": "Lead teacher",
+      "isPrimaryDescription": "One per offering — naming a second stands the first down."
+    },
+    "role": {
+      "lecturer": "Lecturer",
+      "seminar_leader": "Seminar leader",
+      "lab_supervisor": "Lab supervisor",
+      "examiner": "Examiner",
+      "assistant": "Assistant"
     }
   }
 }

@@ -22,10 +22,12 @@ import type {
   MyTimetableEventResponseDto,
   NotificationResponseDto,
   OfferingResultsResponseDto,
+  PersonDirectoryEntryDto,
   ProgramResponseDto,
   RoleAssignmentResponseDto,
   RoomResponseDto,
   StudyProgressResponseDto,
+  TeachingAssignmentResponseDto,
   TeachingOfferingResponseDto,
   UserResponseDto,
 } from '@/shared/api';
@@ -848,6 +850,34 @@ export const learningSpaces: LearningSpaceListResponseDto = {
   ],
 };
 
+export const people: PersonDirectoryEntryDto[] = [
+  {
+    userId: '11111111-1111-4111-8111-111111111111',
+    email: 'jana.novakova@example.com',
+    displayName: 'Jana Nováková',
+    status: 'active',
+    roles: [],
+  },
+  {
+    userId: '22222222-2222-4222-8222-222222222222',
+    email: 'peter.kovac@example.com',
+    displayName: 'Peter Kováč',
+    status: 'active',
+    roles: [],
+  },
+];
+
+export const teachingAssignments: TeachingAssignmentResponseDto[] = [
+  {
+    id: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
+    userId: '11111111-1111-4111-8111-111111111111',
+    displayName: 'Jana Nováková',
+    email: 'jana.novakova@example.com',
+    role: 'lecturer',
+    isPrimary: true,
+  },
+];
+
 export const adminOfferings: CourseOfferingListItemDto[] = [
   {
     id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1',
@@ -1301,6 +1331,26 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/learning-spaces`, () =>
     HttpResponse.json(learningSpaces),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/people`, () =>
+    HttpResponse.json(people),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/teaching`,
+    () => HttpResponse.json(teachingAssignments),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/teaching`,
+    () =>
+      HttpResponse.json({ id: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbb2' }, { status: 201 }),
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/teaching/:assignmentId`,
+    () => new HttpResponse(null, { status: 204 }),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/course-offerings`, () =>

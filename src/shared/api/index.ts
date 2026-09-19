@@ -1,5 +1,6 @@
 import {
   acceptInvitationMutation,
+  assignTeacherMutation,
   cancelExamRegistrationMutation,
   confirmPasswordResetMutation,
   correctEnrollmentMutation,
@@ -79,6 +80,8 @@ import {
   listRoleAssignmentsQueryKey,
   listRoomsOptions,
   listRoomsQueryKey,
+  listTeachingAssignmentsOptions,
+  listTeachingAssignmentsQueryKey,
   markAllMyNotificationsReadMutation,
   markMyNotificationReadMutation,
   recordOfferingResultMutation,
@@ -93,6 +96,7 @@ import {
   requestEnrollmentMutation,
   requestPasswordResetMutation,
   revokeRoleMutation,
+  unassignTeacherMutation,
   updateAcademicTermMutation,
   updateCourseMutation,
   updateCourseOfferingMutation,
@@ -104,6 +108,7 @@ import {
 } from './generated/@tanstack/react-query.gen';
 import {
   zAcceptInvitationDto,
+  zAssignTeacherDto,
   zConfirmPasswordResetDto,
   zCreateAcademicTermDto,
   zCreateCourseDto,
@@ -244,6 +249,10 @@ export const apiQueries = {
   listPeopleQueryKey,
   listRoleAssignmentsOptions,
   listRoleAssignmentsQueryKey,
+  listTeachingAssignmentsOptions,
+  listTeachingAssignmentsQueryKey,
+  assignTeacherMutation,
+  unassignTeacherMutation,
   markAllMyNotificationsReadMutation,
   markMyNotificationReadMutation,
   registerForExamTermMutation,
@@ -264,6 +273,7 @@ export const apiQueries = {
  */
 export const apiSchemas = {
   zAcceptInvitationDto,
+  zAssignTeacherDto,
   zConfirmPasswordResetDto,
   zCreateAcademicTermDto,
   zCreateCourseOfferingDto,
@@ -321,6 +331,7 @@ export type {
   PersonDirectoryEntryDto,
   UnreadNotificationsResponseDto,
   CourseRosterResponseDto,
+  TeachingAssignmentResponseDto,
   TeachingOfferingResponseDto,
   LoginDtoWritable,
   PageMetaDto,

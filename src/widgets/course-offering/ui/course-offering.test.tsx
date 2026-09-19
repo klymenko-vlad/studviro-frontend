@@ -8,6 +8,7 @@ import {
   renderWithProviders,
   screen,
   server,
+  waitFor,
   within,
 } from '@/shared/test';
 
@@ -162,7 +163,12 @@ describe('CourseOffering', () => {
     render();
 
     expect(await screen.findByText('Roster')).toBeInTheDocument();
-    expect(await screen.findByText('Ada Lovelace')).toBeInTheDocument();
+
+    // Re-queried rather than held: the staff panel resolves its own query a
+    // tick later and re-renders the tree under it.
+    await waitFor(() => {
+      expect(screen.getByText('Ada Lovelace')).toBeInTheDocument();
+    });
   });
 
   it('hides the roster from a student, who may not see their classmates', async () => {

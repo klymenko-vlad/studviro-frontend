@@ -4,7 +4,7 @@ import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOption
 
 import { client } from '../client.gen';
 import { Auth, Catalogue, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, RoleAssignments, Schedule, Users } from '../sdk.gen';
-import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateAcademicTermData, CreateAcademicTermError, CreateAcademicTermResponse, CreateCourseData, CreateCourseError, CreateCourseOfferingData, CreateCourseOfferingError, CreateCourseOfferingResponse, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateOrgUnitData, CreateOrgUnitError, CreateOrgUnitResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateResponse, CreateRoomData, CreateRoomError, CreateRoomResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListAcademicTermsData, ListAcademicTermsError, ListAcademicTermsResponse, ListCourseOfferingsData, ListCourseOfferingsError, ListCourseOfferingsResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListRoomsData, ListRoomsError, ListRoomsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MeData, MeError, MeResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveAcademicTermData, RemoveAcademicTermError, RemoveAcademicTermResponse, RemoveCourseData, RemoveCourseError, RemoveCourseOfferingData, RemoveCourseOfferingError, RemoveCourseOfferingResponse, RemoveCourseResponse, RemoveData, RemoveError, RemoveOrgUnitData, RemoveOrgUnitError, RemoveOrgUnitResponse, RemoveProgramData, RemoveProgramError, RemoveProgramResponse, RemoveResponse, RemoveRoomData, RemoveRoomError, RemoveRoomResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, UpdateAcademicTermData, UpdateAcademicTermError, UpdateAcademicTermResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateOrgUnitData, UpdateOrgUnitError, UpdateOrgUnitResponse, UpdateProgramData, UpdateProgramError, UpdateProgramResponse, UpdateRoomData, UpdateRoomError, UpdateRoomResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
+import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, AssignTeacherData, AssignTeacherError, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateAcademicTermData, CreateAcademicTermError, CreateAcademicTermResponse, CreateCourseData, CreateCourseError, CreateCourseOfferingData, CreateCourseOfferingError, CreateCourseOfferingResponse, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateOrgUnitData, CreateOrgUnitError, CreateOrgUnitResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateResponse, CreateRoomData, CreateRoomError, CreateRoomResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListAcademicTermsData, ListAcademicTermsError, ListAcademicTermsResponse, ListCourseOfferingsData, ListCourseOfferingsError, ListCourseOfferingsResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListRoomsData, ListRoomsError, ListRoomsResponse, ListTeachingAssignmentsData, ListTeachingAssignmentsError, ListTeachingAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MeData, MeError, MeResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveAcademicTermData, RemoveAcademicTermError, RemoveAcademicTermResponse, RemoveCourseData, RemoveCourseError, RemoveCourseOfferingData, RemoveCourseOfferingError, RemoveCourseOfferingResponse, RemoveCourseResponse, RemoveData, RemoveError, RemoveOrgUnitData, RemoveOrgUnitError, RemoveOrgUnitResponse, RemoveProgramData, RemoveProgramError, RemoveProgramResponse, RemoveResponse, RemoveRoomData, RemoveRoomError, RemoveRoomResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, UnassignTeacherData, UnassignTeacherError, UnassignTeacherResponse, UpdateAcademicTermData, UpdateAcademicTermError, UpdateAcademicTermResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateOrgUnitData, UpdateOrgUnitError, UpdateOrgUnitResponse, UpdateProgramData, UpdateProgramError, UpdateProgramResponse, UpdateRoomData, UpdateRoomError, UpdateRoomResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
 
 /**
  * Create an account and start a session
@@ -1451,6 +1451,62 @@ export const correctEnrollmentMutation = (options?: Partial<Options<CorrectEnrol
     const mutationOptions: UseMutationOptions<CorrectEnrollmentResponse, CorrectEnrollmentError, Options<CorrectEnrollmentData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await Catalogue.correctEnrollment({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listTeachingAssignmentsQueryKey = (options: Options<ListTeachingAssignmentsData>) => createQueryKey('listTeachingAssignments', options);
+
+/**
+ * Who teaches this offering
+ */
+export const listTeachingAssignmentsOptions = (options: Options<ListTeachingAssignmentsData>) => queryOptions<ListTeachingAssignmentsResponse, ListTeachingAssignmentsError, ListTeachingAssignmentsResponse, ReturnType<typeof listTeachingAssignmentsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Catalogue.listTeachingAssignments({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listTeachingAssignmentsQueryKey(options)
+});
+
+/**
+ * Make somebody a teacher of this offering
+ *
+ * The `teacher` role derives from this assignment and cannot be granted by hand, so this is how a teacher comes to exist. The person must already belong to the institution; somebody new arrives by invitation.
+ */
+export const assignTeacherMutation = (options?: Partial<Options<AssignTeacherData>>): UseMutationOptions<unknown, AssignTeacherError, Options<AssignTeacherData>> => {
+    const mutationOptions: UseMutationOptions<unknown, AssignTeacherError, Options<AssignTeacherData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Catalogue.assignTeacher({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Take somebody off this offering
+ *
+ * They stop being a `teacher` of it the moment the assignment goes, because the role was only ever derived from it.
+ */
+export const unassignTeacherMutation = (options?: Partial<Options<UnassignTeacherData>>): UseMutationOptions<UnassignTeacherResponse, UnassignTeacherError, Options<UnassignTeacherData>> => {
+    const mutationOptions: UseMutationOptions<UnassignTeacherResponse, UnassignTeacherError, Options<UnassignTeacherData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Catalogue.unassignTeacher({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

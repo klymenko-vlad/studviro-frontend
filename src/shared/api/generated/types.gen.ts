@@ -1088,6 +1088,24 @@ export type CorrectedEnrollmentResponseDto = {
     status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
 };
 
+export type TeachingAssignmentResponseDto = {
+    id: string;
+    userId: string;
+    displayName: string;
+    email: string;
+    role: 'lecturer' | 'seminar_leader' | 'lab_supervisor' | 'examiner' | 'assistant';
+    isPrimary: boolean;
+};
+
+export type AssignTeacherDto = {
+    userId: string;
+    role?: 'lecturer' | 'seminar_leader' | 'lab_supervisor' | 'examiner' | 'assistant';
+    /**
+     * At most one per offering — promoting a second demotes the first.
+     */
+    isPrimary?: boolean;
+};
+
 export type CreateUserDtoWritable = {
     email: string;
     displayName: string;
@@ -3847,3 +3865,117 @@ export type CorrectEnrollmentResponses = {
 };
 
 export type CorrectEnrollmentResponse = CorrectEnrollmentResponses[keyof CorrectEnrollmentResponses];
+
+export type ListTeachingAssignmentsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/teaching';
+};
+
+export type ListTeachingAssignmentsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListTeachingAssignmentsError = ListTeachingAssignmentsErrors[keyof ListTeachingAssignmentsErrors];
+
+export type ListTeachingAssignmentsResponses = {
+    200: Array<TeachingAssignmentResponseDto>;
+};
+
+export type ListTeachingAssignmentsResponse = ListTeachingAssignmentsResponses[keyof ListTeachingAssignmentsResponses];
+
+export type AssignTeacherData = {
+    body: AssignTeacherDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/teaching';
+};
+
+export type AssignTeacherErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type AssignTeacherError = AssignTeacherErrors[keyof AssignTeacherErrors];
+
+export type AssignTeacherResponses = {
+    201: unknown;
+};
+
+export type UnassignTeacherData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        assignmentId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/teaching/{assignmentId}';
+};
+
+export type UnassignTeacherErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UnassignTeacherError = UnassignTeacherErrors[keyof UnassignTeacherErrors];
+
+export type UnassignTeacherResponses = {
+    204: void;
+};
+
+export type UnassignTeacherResponse = UnassignTeacherResponses[keyof UnassignTeacherResponses];

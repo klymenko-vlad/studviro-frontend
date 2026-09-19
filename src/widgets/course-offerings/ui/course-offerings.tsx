@@ -12,6 +12,7 @@ import {
   offeringAdminQueries,
 } from '@/entities/course-offering-admin';
 import { usePermissions } from '@/entities/permission';
+import { institutionRoutes, Link } from '@/shared/config';
 import {
   Badge,
   Card,
@@ -78,7 +79,14 @@ export function CourseOfferings({ institutionId }: { institutionId: string }) {
                   {term.offerings.map(offering => (
                     <TableRow key={offering.id}>
                       <TableCell>
-                        <span className="font-medium">{offering.courseTitle}</span>
+                        <Link
+                          href={institutionRoutes(institutionId).courseOffering(
+                            offering.id,
+                          )}
+                          className="font-medium hover:underline focus-visible:underline"
+                        >
+                          {offering.courseTitle}
+                        </Link>
                         <span className="text-muted-foreground ml-2 font-mono text-xs">
                           {offering.courseCode}
                         </span>

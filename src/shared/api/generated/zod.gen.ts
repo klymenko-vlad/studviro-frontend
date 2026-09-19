@@ -1511,6 +1511,33 @@ export const zCorrectedEnrollmentResponseDto = z.object({
     ])
 });
 
+export const zTeachingAssignmentResponseDto = z.object({
+    id: z.uuid(),
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string(),
+    role: z.enum([
+        'lecturer',
+        'seminar_leader',
+        'lab_supervisor',
+        'examiner',
+        'assistant'
+    ]),
+    isPrimary: z.boolean()
+});
+
+export const zAssignTeacherDto = z.object({
+    userId: z.uuid(),
+    role: z.enum([
+        'lecturer',
+        'seminar_leader',
+        'lab_supervisor',
+        'examiner',
+        'assistant'
+    ]).optional(),
+    isPrimary: z.boolean().optional()
+});
+
 export const zCreateUserDtoWritable = z.object({
     email: z.email(),
     displayName: z.string().min(1).max(120),
@@ -2115,3 +2142,25 @@ export const zCorrectEnrollmentPath = z.object({
 });
 
 export const zCorrectEnrollmentResponse = zCorrectedEnrollmentResponseDto;
+
+export const zListTeachingAssignmentsPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListTeachingAssignmentsResponse = z.array(zTeachingAssignmentResponseDto);
+
+export const zAssignTeacherBody = zAssignTeacherDto;
+
+export const zAssignTeacherPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zUnassignTeacherPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    assignmentId: z.string()
+});
+
+export const zUnassignTeacherResponse = z.void();
