@@ -19,7 +19,7 @@ describe('HomeView', () => {
     renderWithProviders(<HomeView signedIn={false} />);
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'One academic platform over the systems you already run',
+      'One academic platform your institution runs itself',
     );
   });
 

@@ -35,8 +35,8 @@
     "audit": "Audit"
   },
   "home": {
-    "title": "One academic platform over the systems you already run",
-    "subtitle": "StudViro reads your student information system and gives students, teachers and administrators a single dashboard, calendar and course page — without replacing anything.",
+    "title": "One academic platform your institution runs itself",
+    "subtitle": "The institution enters its own data once. Students, teachers and administrators then read it through one dashboard, one calendar and one course page.",
     "signedInCta": "Go to your account",
     "problem": {
       "title": "Two systems, two logins, two answers",
@@ -71,7 +71,7 @@
       },
       "exams": {
         "title": "Exam terms you can act on",
-        "body": "Seats, registration window and examiner, filterable by whether you may register — and when you may not, the server says why."
+        "body": "Seats, registration window and examiner, filterable by whether you may register. When you may not, the server says why."
       },
       "sync": {
         "title": "One record, many views",
@@ -211,7 +211,7 @@
     "revokeLabel": "Odobrať rolu {role}",
     "deniedTitle": "Iba na čítanie",
     "deniedDescription": "Roly tu vidíte, ale nemôžete ich meniť.",
-    "derived": "Derived — follows academic record",
+    "derived": "Derived, follows academic record",
     "inviteTitle": "Invite a person",
     "inviteDescription": "Send an invitation to take on a role, by email.",
     "inviteAddress": "Email address",
@@ -293,7 +293,7 @@
     "credentialSaved": "Credential saved",
     "credentialCleared": "Credential cleared",
     "credentialValueRequired": "Enter a value before saving.",
-    "featureNotBuilt": "Not built yet — this switch would change nothing."
+    "featureNotBuilt": "Not built yet. This switch would change nothing."
   },
   "myCourses": {
     "title": "My courses",
@@ -732,7 +732,7 @@
       },
       "teachers": {
         "title": "Teachers",
-        "body": "The offerings you lead, who is enrolled in each, and your own teaching week — without opening a second system to assemble it."
+        "body": "The offerings you lead, who is enrolled in each, and your own teaching week, without opening a second system to assemble it."
       },
       "institutions": {
         "title": "Institutions",
@@ -779,7 +779,7 @@
       "title": "Questions we are asked",
       "replace": {
         "question": "Does this replace AIS2 and Moodle?",
-        "answer": "That is the point. StudViro is the system of record: the institution enters its own data and there is no upstream. The registry half is built; the learning half — assignments, submissions and marking — is next."
+        "answer": "That is the point. StudViro is the system of record: the institution enters its own data and there is no upstream. The registry half is built. The learning half (assignments, submissions and marking) is next."
       },
       "lms": {
         "question": "Which systems can you connect today?",
@@ -818,7 +818,7 @@
     },
     "hero": {
       "title": "Stop assembling your own timetable",
-      "subtitle": "Your courses, your week and your results in one place — read from your university's systems, not retyped into another one."
+      "subtitle": "Your courses, your week and your results in one place, on the record your university keeps."
     },
     "features": {
       "title": "What you get",
@@ -840,7 +840,7 @@
       },
       "notifications": {
         "title": "Told once, not five times",
-        "body": "When an exam term is published, moved or cancelled you hear about it — deduplicated to one message per term per day."
+        "body": "When an exam term is published, moved or cancelled you hear about it, deduplicated to one message per term per day."
       }
     },
     "roadmap": {
@@ -856,7 +856,7 @@
   "forTeachers": {
     "meta": {
       "title": "For teachers",
-      "description": "The offerings you lead, who is in them, and your teaching week — in one place."
+      "description": "The offerings you lead, who is in them, and your teaching week, in one place."
     },
     "hero": {
       "title": "Your teaching, without the second login",
@@ -985,7 +985,7 @@
       "submitting": "Sending…"
     },
     "success": {
-      "title": "Thank you — your request is in",
+      "title": "Thank you, your request is in",
       "body": "We read every one of these ourselves and will reply to the address you gave us."
     },
     "errors": {
@@ -1034,7 +1034,7 @@
       "name": "Name",
       "type": "Kind",
       "parent": "Sits under",
-      "noParent": "Nothing — this is a root unit",
+      "noParent": "Nothing, this is a root unit",
       "parentDescription": "A faculty sits under the university; a department sits under a faculty."
     }
   },
@@ -1375,7 +1375,7 @@
   },
   "offerings": {
     "title": "Course offerings",
-    "description": "What is actually on this term — a course paired with a term, with its places and who teaches it.",
+    "description": "What is actually on this term: a course paired with a term, with its places and who teaches it.",
     "empty": "Nothing is on offer yet.",
     "error": "The offerings could not be read.",
     "nothingToOffer": "Add a course and an academic term first; an offering is the pairing of the two.",
@@ -1425,7 +1425,7 @@
       "personDescription": "Anybody who already belongs to this institution. Somebody new arrives by invitation.",
       "role": "Role",
       "isPrimary": "Lead teacher",
-      "isPrimaryDescription": "One per offering — naming a second stands the first down."
+      "isPrimaryDescription": "One per offering. Naming a second stands the first down."
     },
     "role": {
       "lecturer": "Lecturer",
@@ -1799,7 +1799,7 @@
   },
   "search": {
     "title": "Search",
-    "subtitle": "Courses, programmes, people, rooms — everything you are allowed to see.",
+    "subtitle": "Courses, programmes, people, rooms: everything you are allowed to see.",
     "label": "What are you looking for?",
     "placeholder": "A course code, a name, a room…",
     "hint": "At least two characters.",
@@ -1848,7 +1848,7 @@
     "export": "Download my data",
     "exported": "Your data was downloaded.",
     "eraseTitle": "Erase {name}",
-    "eraseWarning": "This cannot be undone. Their sign-in, sessions, contact addresses and files go. Their academic record stays — the grades remain, attached to a row that no longer says who it was.",
+    "eraseWarning": "This cannot be undone. Their sign-in, sessions, contact addresses and files go. Their academic record stays: the grades remain, attached to a row that no longer says who it was.",
     "typeAddress": "Type {email} to confirm",
     "erase": "Erase this person",
     "erased": "{name} was erased.",

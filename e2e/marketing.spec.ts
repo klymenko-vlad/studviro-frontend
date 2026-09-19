@@ -3,7 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { expectNoA11yViolations } from './fixtures/axe';
 
 const PAGES = [
-  { path: '/', heading: 'One academic platform over the systems you already run' },
+  { path: '/', heading: 'One academic platform your institution runs itself' },
   { path: '/for-students', heading: 'Stop assembling your own timetable' },
   { path: '/for-teachers', heading: 'Your teaching, without the second login' },
   {
@@ -76,7 +76,7 @@ test.describe('marketing pages', () => {
     await fillDemoForm(page, `dean-${Date.now()}@university.edu`);
     await page.getByRole('button', { name: 'Request a demo' }).click();
 
-    await expect(page.getByText('Thank you — your request is in')).toBeVisible();
+    await expect(page.getByText('Thank you, your request is in')).toBeVisible();
     await expect(page.getByLabel('Institution')).toHaveValue('');
   });
 
@@ -87,7 +87,7 @@ test.describe('marketing pages', () => {
 
     await waitForHydratedForm(page);
 
-    await expect(page.getByText('Thank you — your request is in')).toBeHidden();
+    await expect(page.getByText('Thank you, your request is in')).toBeHidden();
   });
 
   test('lists every marketing page in the sitemap', async ({ request }) => {

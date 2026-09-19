@@ -7,7 +7,7 @@ test.describe('home page', () => {
     await page.goto('/');
 
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-      'One academic platform over the systems you already run',
+      'One academic platform your institution runs itself',
     );
     await expect(
       page.getByRole('link', { name: 'Request a demo' }).first(),

@@ -51,7 +51,7 @@ describe('erasing a person (O4)', () => {
     await openFor('Jana Nováková');
 
     expect(
-      screen.getByText(/Their academic record stays — the grades remain/),
+      screen.getByText(/Their academic record stays: the grades remain/),
     ).toBeInTheDocument();
   });
 

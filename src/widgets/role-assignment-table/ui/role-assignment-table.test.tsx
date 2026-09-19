@@ -31,7 +31,7 @@ describe('RoleAssignmentTable', () => {
     );
     expect(derivedRow).not.toBeNull();
     expect(
-      within(derivedRow as HTMLElement).getByText('Derived — follows academic record'),
+      within(derivedRow as HTMLElement).getByText('Derived, follows academic record'),
     ).toBeInTheDocument();
     expect(
       within(derivedRow as HTMLElement).queryByRole('button', { name: /Revoke/ }),

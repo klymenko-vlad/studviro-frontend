@@ -70,7 +70,7 @@ describe('RequestDemo', () => {
       expect(onSubmitted).toHaveBeenCalled();
     });
     expect(toast.success).toHaveBeenCalledWith(
-      'Thank you — your request is in',
+      'Thank you, your request is in',
       expect.objectContaining({ description: expect.any(String) as string }),
     );
     expect(received).toMatchObject({

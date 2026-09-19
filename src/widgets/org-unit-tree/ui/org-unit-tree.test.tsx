@@ -135,7 +135,7 @@ describe('OrgUnitTree', () => {
 
       const parent = await screen.findByLabelText('Sits under');
       expect(
-        within(parent).getByRole('option', { name: 'Nothing — this is a root unit' }),
+        within(parent).getByRole('option', { name: 'Nothing, this is a root unit' }),
       ).toBeInTheDocument();
       expect(
         within(parent).getByRole('option', {
