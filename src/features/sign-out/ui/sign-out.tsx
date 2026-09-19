@@ -6,13 +6,9 @@ import { useTranslations } from 'next-intl';
 
 import { sessionApi } from '@/entities/session';
 import { ROUTES, useRouter } from '@/shared/config';
-import { Button } from '@/shared/ui';
+import { DropdownMenuItem } from '@/shared/ui';
 
-interface SignOutProps {
-  className?: string;
-}
-
-export function SignOut({ className }: SignOutProps) {
+export function SignOutMenuItem() {
   const t = useTranslations('auth');
   const router = useRouter();
 
@@ -33,17 +29,14 @@ export function SignOut({ className }: SignOutProps) {
   });
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      className={className}
+    <DropdownMenuItem
       disabled={mutation.isPending}
-      onClick={() => {
+      onSelect={() => {
         mutation.mutate();
       }}
     >
-      <LogOut aria-hidden />
+      <LogOut aria-hidden className="text-muted-foreground" />
       {t('signOut')}
-    </Button>
+    </DropdownMenuItem>
   );
 }

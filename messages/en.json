@@ -32,7 +32,12 @@
     "catalogue": "Catalogue",
     "bulk": "Bulk entry",
     "search": "Search",
-    "audit": "Audit"
+    "audit": "Audit",
+    "home": "StudViro home",
+    "menu": "Menu",
+    "menuDescription": "Product links and account actions.",
+    "accountMenu": "Account menu",
+    "preferences": "Theme and language"
   },
   "home": {
     "title": "One academic platform your institution runs itself",

@@ -13,6 +13,8 @@ export async function AppHeader() {
   return (
     <AppHeaderBar
       signedIn={user !== undefined}
+      displayName={user?.displayName}
+      email={user?.email}
       isPlatformOperator={user?.role === 'admin'}
     />
   );
