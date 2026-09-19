@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 
 import { Link } from '@/shared/config';
-import { Badge, Card, CardContent } from '@/shared/ui';
+import { Badge, ListingCard, ListingNote } from '@/shared/ui';
 
 import {
   examRegistrationLabel,
@@ -23,10 +23,14 @@ export function ExamTermCard({
 }) {
   const t = useTranslations('exams');
   const format = useFormatter();
+  const blocked = examTermBlockedNote(term);
 
   return (
-    <Card className={term.isCancelled ? 'opacity-70' : undefined}>
-      <CardContent className="flex flex-col gap-2 py-4">
+    <ListingCard
+      dimmed={term.isCancelled}
+      action={action}
+      code={term.course.code}
+      header={
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
           <p className="font-medium">
             {format.dateTime(new Date(term.startsAt), {
@@ -46,20 +50,18 @@ export function ExamTermCard({
             </p>
           )}
         </div>
-
-        <h3 className="text-base leading-tight font-semibold">
-          {href === undefined ? (
-            term.course.title
-          ) : (
-            <Link href={href} className="hover:underline focus-visible:underline">
-              {term.course.title}
-            </Link>
-          )}
-        </h3>
-
-        <p className="text-muted-foreground font-mono text-xs">{term.course.code}</p>
-
-        <div className="flex flex-wrap items-center gap-2">
+      }
+      title={
+        href === undefined ? (
+          term.course.title
+        ) : (
+          <Link href={href} className="hover:underline focus-visible:underline">
+            {term.course.title}
+          </Link>
+        )
+      }
+      badges={
+        <>
           <Badge variant="secondary">{t(`kind.${term.kind}`)}</Badge>
 
           {term.attendance === 'teaching' ? (
@@ -75,47 +77,36 @@ export function ExamTermCard({
           {term.isCancelled ? (
             <Badge variant="destructive">{t('cancelled')}</Badge>
           ) : null}
-        </div>
+        </>
+      }
+    >
+      <ListingNote>
+        {term.room === null
+          ? t('noRoom')
+          : term.room.building === null
+            ? t('room', { room: term.room.code })
+            : t('roomIn', { room: term.room.code, building: term.room.building })}
+      </ListingNote>
 
-        <p className="text-muted-foreground text-sm">
-          {term.room === null
-            ? t('noRoom')
-            : term.room.building === null
-              ? t('room', { room: term.room.code })
-              : t('roomIn', { room: term.room.code, building: term.room.building })}
+      <ListingNote>
+        {term.examiner === null
+          ? t('noExaminer')
+          : t('examiner', { examiner: term.examiner.displayName })}
+      </ListingNote>
+
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm">
+        <p className="text-muted-foreground">
+          {t(examSeatsLabelKey(term), {
+            seats: term.seatsRemaining ?? 0,
+            capacity: term.capacity ?? 0,
+          })}
         </p>
+        <ExamRegistrationNote term={term} />
+      </div>
 
-        <p className="text-muted-foreground text-sm">
-          {term.examiner === null
-            ? t('noExaminer')
-            : t('examiner', { examiner: term.examiner.displayName })}
-        </p>
-
-        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm">
-          <p className="text-muted-foreground">
-            {t(examSeatsLabelKey(term), {
-              seats: term.seatsRemaining ?? 0,
-              capacity: term.capacity ?? 0,
-            })}
-          </p>
-          <ExamRegistrationNote term={term} />
-        </div>
-
-        <ExamBlockedNote term={term} />
-
-        {action === undefined ? null : <div className="flex justify-end">{action}</div>}
-      </CardContent>
-    </Card>
+      {blocked === null ? null : <ListingNote>{t(`blocked.${blocked}`)}</ListingNote>}
+    </ListingCard>
   );
-}
-
-function ExamBlockedNote({ term }: { term: ExamTerm }) {
-  const t = useTranslations('exams');
-  const reason = examTermBlockedNote(term);
-
-  if (reason === null) return null;
-
-  return <p className="text-muted-foreground text-sm">{t(`blocked.${reason}`)}</p>;
 }
 
 function ExamRegistrationNote({ term }: { term: ExamTerm }) {

@@ -106,9 +106,35 @@ const budgets = [
     // measured total from 458.02 kB to 437.63 kB, 20.39 kB back. The guard is
     // lowered rather than left where it was, because a ceiling nothing approaches
     // stops being a ceiling.
+    //
+    // Raised from 450 kB to 540 kB for Phase 1 and Phase 2 of `Product Plan.md`
+    // (see `backend/docs/`). N1 and N2 took the measured total from 437.63 kB to
+    // 448.45 kB — 1.55 kB of headroom, with thirteen more registry and learning
+    // screens to come at roughly 5 kB of route code each.
+    //
+    // The reduction this file's earlier entries reserved was taken first, and
+    // measured: `/enroll` and `/exams` now share a `ListingCard` shell in
+    // `shared/ui` instead of rendering the same Card-and-notes shape twice.
+    // **It recovered nothing** — 448.45 kB before, 448.50 kB after. The
+    // duplication was structural rather than byte-heavy, and gzip was already
+    // collapsing the repeated markup. The extraction is kept because it is
+    // better code, not because it bought room. Whoever needs room next should
+    // not re-attempt it.
+    //
+    // That exhausts the levers this file has ever named: the barrels are
+    // narrowed, `@radix-ui/react-select` is gone, the unused primitives were
+    // never exported. What is left in the two largest chunks is the React and
+    // Next runtime, which no amount of application work moves.
+    //
+    // This budget globs every chunk, so it is total app JS: an app deliberately
+    // gaining fifteen routes cannot hold a fixed number, and a ceiling that has
+    // to be raised every step is not measuring anything. 540 kB is set once, for
+    // the whole of Phase 1 and Phase 2, and should be **lowered back to whatever
+    // the app actually measures** when that work lands — the way it was lowered
+    // to 450 kB when the integration came out.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '450 kB',
+    limit: '540 kB',
     gzip: true,
   },
 ];

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 
-import { Badge, Card, CardContent } from '@/shared/ui';
+import { Badge, ListingCard, ListingNote } from '@/shared/ui';
 
 import {
   enrollmentBlockedNote,
@@ -21,13 +21,25 @@ export function EnrollableOfferingCard({
   const blocked = enrollmentBlockedNote(offering);
   const status = offering.myEnrollment?.status;
 
-  return (
-    <Card>
-      <CardContent className="flex flex-col gap-2 py-4">
-        <h3 className="text-base leading-tight font-semibold">{offering.course.title}</h3>
-        <p className="text-muted-foreground font-mono text-xs">{offering.course.code}</p>
+  const shortDate = (value: string) =>
+    format.dateTime(new Date(value), { day: 'numeric', month: 'short' });
 
-        <div className="flex flex-wrap items-center gap-2">
+  const window =
+    offering.windowState === 'not_open' && offering.enrollmentOpensAt !== null
+      ? t('window.opensOn', { date: shortDate(offering.enrollmentOpensAt) })
+      : offering.windowState === 'open'
+        ? offering.enrollmentClosesAt === null
+          ? t('window.openUntilFurtherNotice')
+          : t('window.closesOn', { date: shortDate(offering.enrollmentClosesAt) })
+        : t('window.closedNow');
+
+  return (
+    <ListingCard
+      title={offering.course.title}
+      code={offering.course.code}
+      action={action}
+      badges={
+        <>
           <Badge variant="secondary">{offering.term.name}</Badge>
           {offering.course.credits === null ? null : (
             <Badge variant="outline">
@@ -39,46 +51,23 @@ export function EnrollableOfferingCard({
               {t(`status.${status}`)}
             </Badge>
           )}
-        </div>
+        </>
+      }
+    >
+      <ListingNote>
+        {t(seatsLabelKey(offering), {
+          seats: offering.seatsRemaining ?? 0,
+          capacity: offering.capacity ?? 0,
+        })}
+      </ListingNote>
 
-        <p className="text-muted-foreground text-sm">
-          {t(seatsLabelKey(offering), {
-            seats: offering.seatsRemaining ?? 0,
-            capacity: offering.capacity ?? 0,
-          })}
-        </p>
+      <ListingNote>{window}</ListingNote>
 
-        <p className="text-muted-foreground text-sm">
-          {offering.windowState === 'not_open' && offering.enrollmentOpensAt !== null
-            ? t('window.opensOn', {
-                date: format.dateTime(new Date(offering.enrollmentOpensAt), {
-                  day: 'numeric',
-                  month: 'short',
-                }),
-              })
-            : offering.windowState === 'open'
-              ? offering.enrollmentClosesAt === null
-                ? t('window.openUntilFurtherNotice')
-                : t('window.closesOn', {
-                    date: format.dateTime(new Date(offering.enrollmentClosesAt), {
-                      day: 'numeric',
-                      month: 'short',
-                    }),
-                  })
-              : t('window.closedNow')}
-        </p>
-
-        {blocked === null ? null : (
-          <p
-            className="text-muted-foreground text-sm"
-            data-testid="enrollment-blocked-note"
-          >
-            {t(`blocked.${blocked}`)}
-          </p>
-        )}
-
-        {action === undefined ? null : <div className="flex justify-end">{action}</div>}
-      </CardContent>
-    </Card>
+      {blocked === null ? null : (
+        <ListingNote data-testid="enrollment-blocked-note">
+          {t(`blocked.${blocked}`)}
+        </ListingNote>
+      )}
+    </ListingCard>
   );
 }

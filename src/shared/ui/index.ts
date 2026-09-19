@@ -29,6 +29,7 @@ export {
 } from './form';
 export { Input } from './input';
 export { Label } from './label';
+export { ListingCard, ListingNote } from './listing-card';
 export { PasswordInput } from './password-input';
 export { Select, SelectItem } from './select';
 export { Separator } from './separator';
