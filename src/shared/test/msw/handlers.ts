@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
 import type {
+  AcademicTermResponseDto,
   AuthTokensDto,
   CourseOfferingResponseDto,
   CourseResponseDto,
@@ -843,6 +844,31 @@ export const learningSpaces: LearningSpaceListResponseDto = {
   ],
 };
 
+export const academicTerms: AcademicTermResponseDto[] = [
+  {
+    id: 'dddddddd-dddd-4ddd-8ddd-ddddddddddd1',
+    code: '2026W',
+    name: 'Winter semester 2026/2027',
+    kind: 'semester',
+    academicYear: '2026/2027',
+    startsAt: '2026-09-21T00:00:00.000Z',
+    endsAt: '2027-02-14T00:00:00.000Z',
+    enrollmentOpensAt: '2026-08-24T00:00:00.000Z',
+    enrollmentClosesAt: '2026-10-05T00:00:00.000Z',
+  },
+  {
+    id: 'dddddddd-dddd-4ddd-8ddd-ddddddddddd2',
+    code: '2026S',
+    name: 'Summer semester 2026/2027',
+    kind: 'summer',
+    academicYear: '2026/2027',
+    startsAt: '2027-02-15T00:00:00.000Z',
+    endsAt: '2027-07-11T00:00:00.000Z',
+    enrollmentOpensAt: null,
+    enrollmentClosesAt: null,
+  },
+];
+
 export const programs: ProgramResponseDto[] = [
   {
     id: 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1',
@@ -1221,6 +1247,19 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/learning-spaces`, () =>
     HttpResponse.json(learningSpaces),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/academic-terms`, () =>
+    HttpResponse.json(academicTerms),
+  ),
+
+  http.post(`${PROXY}/institutions/:institutionId/academic-terms`, () =>
+    HttpResponse.json(academicTerms[0], { status: 201 }),
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/academic-terms/:id`,
+    () => new HttpResponse(null, { status: 204 }),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/programs`, () =>

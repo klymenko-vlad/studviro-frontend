@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
+import { AcademicTerms } from '@/widgets/academic-terms';
 import { Catalogue } from '@/widgets/catalogue';
 import { usePermissions } from '@/entities/permission';
 import { Alert, AlertDescription, AlertTitle } from '@/shared/ui';
@@ -18,7 +19,12 @@ export function InstitutionCatalogueView({ institutionId }: { institutionId: str
       </header>
 
       {isPending ? null : can('course:read') ? (
-        <Catalogue institutionId={institutionId} />
+        <div className="flex flex-col gap-8">
+          {can('institution:read') ? (
+            <AcademicTerms institutionId={institutionId} />
+          ) : null}
+          <Catalogue institutionId={institutionId} />
+        </div>
       ) : (
         <Alert>
           <AlertTitle>{t('deniedTitle')}</AlertTitle>

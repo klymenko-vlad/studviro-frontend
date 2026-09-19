@@ -892,6 +892,46 @@ export type EnrollmentResponseDto = {
     withdrawnAt: string | null;
 };
 
+export type AcademicTermResponseDto = {
+    id: string;
+    code: string;
+    name: string;
+    kind: 'semester' | 'trimester' | 'summer' | 'year' | 'other';
+    academicYear: string;
+    startsAt: string;
+    endsAt: string;
+    enrollmentOpensAt: string | null;
+    enrollmentClosesAt: string | null;
+};
+
+export type CreateAcademicTermDto = {
+    code: string;
+    name: string;
+    kind?: 'semester' | 'trimester' | 'summer' | 'year' | 'other';
+    academicYear: string;
+    startsAt: string;
+    endsAt: string;
+    /**
+     * Left unset, the term never opens for self-service enrolment.
+     */
+    enrollmentOpensAt?: string | null;
+    enrollmentClosesAt?: string | null;
+};
+
+export type UpdateAcademicTermDto = {
+    code?: string;
+    name?: string;
+    kind?: 'semester' | 'trimester' | 'summer' | 'year' | 'other';
+    academicYear?: string;
+    startsAt?: string;
+    endsAt?: string;
+    /**
+     * Left unset, the term never opens for self-service enrolment.
+     */
+    enrollmentOpensAt?: string | null;
+    enrollmentClosesAt?: string | null;
+};
+
 export type ProgramResponseDto = {
     id: string;
     code: string;
@@ -2840,6 +2880,160 @@ export type WithdrawFromCourseResponses = {
 };
 
 export type WithdrawFromCourseResponse = WithdrawFromCourseResponses[keyof WithdrawFromCourseResponses];
+
+export type ListAcademicTermsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/academic-terms';
+};
+
+export type ListAcademicTermsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListAcademicTermsError = ListAcademicTermsErrors[keyof ListAcademicTermsErrors];
+
+export type ListAcademicTermsResponses = {
+    200: Array<AcademicTermResponseDto>;
+};
+
+export type ListAcademicTermsResponse = ListAcademicTermsResponses[keyof ListAcademicTermsResponses];
+
+export type CreateAcademicTermData = {
+    body: CreateAcademicTermDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/academic-terms';
+};
+
+export type CreateAcademicTermErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateAcademicTermError = CreateAcademicTermErrors[keyof CreateAcademicTermErrors];
+
+export type CreateAcademicTermResponses = {
+    201: AcademicTermResponseDto;
+};
+
+export type CreateAcademicTermResponse = CreateAcademicTermResponses[keyof CreateAcademicTermResponses];
+
+export type RemoveAcademicTermData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/academic-terms/{id}';
+};
+
+export type RemoveAcademicTermErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveAcademicTermError = RemoveAcademicTermErrors[keyof RemoveAcademicTermErrors];
+
+export type RemoveAcademicTermResponses = {
+    204: void;
+};
+
+export type RemoveAcademicTermResponse = RemoveAcademicTermResponses[keyof RemoveAcademicTermResponses];
+
+export type UpdateAcademicTermData = {
+    body: UpdateAcademicTermDto;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/academic-terms/{id}';
+};
+
+export type UpdateAcademicTermErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateAcademicTermError = UpdateAcademicTermErrors[keyof UpdateAcademicTermErrors];
+
+export type UpdateAcademicTermResponses = {
+    200: AcademicTermResponseDto;
+};
+
+export type UpdateAcademicTermResponse = UpdateAcademicTermResponses[keyof UpdateAcademicTermResponses];
 
 export type ListProgramsData = {
     body?: never;

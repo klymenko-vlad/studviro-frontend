@@ -1269,5 +1269,48 @@
       "doctoral": "Doctoral",
       "other": "Other"
     }
+  },
+  "academicTerms": {
+    "title": "Academic terms",
+    "description": "The year an offering hangs off. The enrolment window lives here: a term without one never opens for self-service enrolment.",
+    "empty": "No academic terms yet. Add the first one and the catalogue has a year to sit in.",
+    "error": "The academic terms could not be read.",
+    "add": "Add term",
+    "created": "{name} was added.",
+    "retire": "Retire",
+    "retireNamed": "Retire {name}",
+    "retired": "{name} was retired.",
+    "range": "{from} – {to}",
+    "field": {
+      "code": "Code",
+      "name": "Name",
+      "academicYear": "Academic year",
+      "kind": "Kind",
+      "startsAt": "Starts",
+      "endsAt": "Ends",
+      "enrollmentOpensAt": "Enrolment opens",
+      "enrollmentClosesAt": "Enrolment closes",
+      "windowDescription": "Leave both empty and the term never opens for self-service enrolment."
+    },
+    "kind": {
+      "semester": "Semester",
+      "trimester": "Trimester",
+      "summer": "Summer",
+      "year": "Year",
+      "other": "Other"
+    },
+    "column": {
+      "code": "Code",
+      "name": "Name",
+      "runs": "Runs",
+      "enrollment": "Enrolment",
+      "actions": "Actions"
+    },
+    "window": {
+      "none": "Never opens",
+      "upcoming": "Opens later",
+      "open": "Open",
+      "closed": "Closed"
+    }
   }
 }

@@ -1244,6 +1244,58 @@ export const zEnrollmentResponseDto = z.object({
     withdrawnAt: z.iso.datetime().nullable()
 });
 
+export const zAcademicTermResponseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string(),
+    kind: z.enum([
+        'semester',
+        'trimester',
+        'summer',
+        'year',
+        'other'
+    ]),
+    academicYear: z.string(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+    enrollmentOpensAt: z.iso.datetime().nullable(),
+    enrollmentClosesAt: z.iso.datetime().nullable()
+});
+
+export const zCreateAcademicTermDto = z.object({
+    code: z.string().min(1).max(64),
+    name: z.string().min(1).max(200),
+    kind: z.enum([
+        'semester',
+        'trimester',
+        'summer',
+        'year',
+        'other'
+    ]).optional(),
+    academicYear: z.string().min(1).max(32),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+    enrollmentOpensAt: z.iso.datetime().nullish(),
+    enrollmentClosesAt: z.iso.datetime().nullish()
+});
+
+export const zUpdateAcademicTermDto = z.object({
+    code: z.string().min(1).max(64).optional(),
+    name: z.string().min(1).max(200).optional(),
+    kind: z.enum([
+        'semester',
+        'trimester',
+        'summer',
+        'year',
+        'other'
+    ]).optional(),
+    academicYear: z.string().min(1).max(32).optional(),
+    startsAt: z.iso.datetime().optional(),
+    endsAt: z.iso.datetime().optional(),
+    enrollmentOpensAt: z.iso.datetime().nullish(),
+    enrollmentClosesAt: z.iso.datetime().nullish()
+});
+
 export const zProgramResponseDto = z.object({
     id: z.uuid(),
     code: z.string(),
@@ -1801,6 +1853,36 @@ export const zWithdrawFromCoursePath = z.object({
 });
 
 export const zWithdrawFromCourseResponse = zEnrollmentResponseDto;
+
+export const zListAcademicTermsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListAcademicTermsResponse = z.array(zAcademicTermResponseDto);
+
+export const zCreateAcademicTermBody = zCreateAcademicTermDto;
+
+export const zCreateAcademicTermPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateAcademicTermResponse = zAcademicTermResponseDto;
+
+export const zRemoveAcademicTermPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zRemoveAcademicTermResponse = z.void();
+
+export const zUpdateAcademicTermBody = zUpdateAcademicTermDto;
+
+export const zUpdateAcademicTermPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zUpdateAcademicTermResponse = zAcademicTermResponseDto;
 
 export const zListProgramsPath = z.object({
     institutionId: z.string()
