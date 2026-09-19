@@ -4,7 +4,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
   learningMaterials,
-  permissions,
   renderWithProviders,
   screen,
   server,
@@ -19,19 +18,16 @@ vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const SPACE = '9a1f0b3c-1111-4111-8111-111111111111';
-const PERMISSIONS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/permissions`;
 const MATERIALS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/learning-spaces/${SPACE}/materials`;
 
-const render = () =>
-  renderWithProviders(<OfferingMaterials institutionId={INSTITUTION} spaceId={SPACE} />);
-
-const grant = (granted: string[]) => {
-  server.use(
-    http.get(PERMISSIONS_URL, () =>
-      HttpResponse.json({ ...permissions, permissions: granted }),
-    ),
+const render = (viewerRole: 'student' | 'teacher' | 'administrator' = 'administrator') =>
+  renderWithProviders(
+    <OfferingMaterials
+      institutionId={INSTITUTION}
+      spaceId={SPACE}
+      viewerRole={viewerRole}
+    />,
   );
-};
 
 /** Counts the confirm step, so a test can prove it never ran. */
 function countCreates() {
@@ -75,9 +71,7 @@ describe('OfferingMaterials', () => {
   });
 
   it('keeps the authoring form and the per-material actions away from a reader', async () => {
-    grant(['offering:read']);
-
-    render();
+    render('student');
 
     expect(await screen.findByText('Lecture 1 — slides')).toBeInTheDocument();
     expect(
@@ -86,6 +80,14 @@ describe('OfferingMaterials', () => {
     expect(
       screen.queryByRole('button', { name: 'Remove Lecture 1 — slides' }),
     ).not.toBeInTheDocument();
+  });
+
+  it('gives the authoring form to the teacher of the course, not only an administrator', async () => {
+    render('teacher');
+
+    expect(
+      await screen.findByRole('form', { name: 'Add a material' }),
+    ).toBeInTheDocument();
   });
 
   it('uploads a file to the store and only then asks the API to record it', async () => {

@@ -6,6 +6,7 @@ import { useFormatter, useTimeZone, useTranslations } from 'next-intl';
 
 import { AssignmentActions, AssignmentForm } from '@/features/manage-assignments';
 import { assignmentQueries, type Assignment } from '@/entities/assignment';
+import { authorsOffering } from '@/entities/course-offering';
 import { usePermissions } from '@/entities/permission';
 import type { CourseOfferingResponseDto } from '@/shared/api';
 import {
@@ -37,7 +38,7 @@ export function OfferingAssignments({
   // the timetable and in the calendar.
   const timeZone = useTimeZone() ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
   const { can } = usePermissions(institutionId);
-  const manageable = can('offering:manage');
+  const manageable = authorsOffering(viewerRole);
   const marker = can('grade:propose');
   const [editing, setEditing] = useState<string | null>(null);
 

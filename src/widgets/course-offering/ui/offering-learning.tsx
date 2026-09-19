@@ -7,8 +7,8 @@ import {
   LearningSpaceForm,
   LearningSpaceSettings,
 } from '@/features/manage-learning-space';
+import { authorsOffering } from '@/entities/course-offering';
 import { learningSpaceQueries, spaceForOffering } from '@/entities/learning-space';
-import { usePermissions } from '@/entities/permission';
 import type { CourseOfferingResponseDto } from '@/shared/api';
 import {
   Badge,
@@ -40,8 +40,7 @@ export function OfferingLearning({
   viewerRole: CourseOfferingResponseDto['viewerRole'];
 }) {
   const t = useTranslations('learningSpace');
-  const { can } = usePermissions(institutionId);
-  const manageable = can('offering:manage');
+  const manageable = authorsOffering(viewerRole);
 
   const spaces = useQuery(
     learningSpaceQueries.list({ path: { institutionId }, query: { offeringId } }),
@@ -105,7 +104,11 @@ export function OfferingLearning({
 
       {space === null ? null : (
         <>
-          <OfferingMaterials institutionId={institutionId} spaceId={space.id} />
+          <OfferingMaterials
+            institutionId={institutionId}
+            spaceId={space.id}
+            viewerRole={viewerRole}
+          />
           <OfferingAssignments
             institutionId={institutionId}
             spaceId={space.id}

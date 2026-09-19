@@ -8,8 +8,9 @@ import {
   MaterialDownload,
   MaterialForm,
 } from '@/features/manage-materials';
+import { authorsOffering } from '@/entities/course-offering';
 import { kilobytes, learningMaterialQueries } from '@/entities/learning-material';
-import { usePermissions } from '@/entities/permission';
+import type { CourseOfferingResponseDto } from '@/shared/api';
 import {
   Badge,
   Card,
@@ -23,13 +24,14 @@ import {
 export function OfferingMaterials({
   institutionId,
   spaceId,
+  viewerRole,
 }: {
   institutionId: string;
   spaceId: string;
+  viewerRole: CourseOfferingResponseDto['viewerRole'];
 }) {
   const t = useTranslations('materials');
-  const { can } = usePermissions(institutionId);
-  const manageable = can('offering:manage');
+  const manageable = authorsOffering(viewerRole);
 
   const materials = useQuery(
     learningMaterialQueries.list({ path: { institutionId, spaceId } }),

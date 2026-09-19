@@ -73,6 +73,27 @@ describe('OfferingLearning', () => {
     expect(screen.getByRole('textbox', { name: 'Name' })).toHaveValue('Algorithms');
   });
 
+  it('lets the teacher of the course open its page, with no administrator involved', async () => {
+    grant(['offering:read']);
+    noSpace();
+
+    renderWithProviders(panel('teacher'));
+
+    expect(
+      await screen.findByRole('button', { name: 'Open the course page' }),
+    ).toBeInTheDocument();
+  });
+
+  it('gives that teacher the settings form on a page that already exists', async () => {
+    grant(['offering:read']);
+
+    renderWithProviders(panel('teacher'));
+
+    expect(
+      await screen.findByRole('form', { name: 'Course page settings' }),
+    ).toBeInTheDocument();
+  });
+
   it('tells a reader who may not author that there is no page, rather than offering one', async () => {
     grant(['offering:read']);
     noSpace();
