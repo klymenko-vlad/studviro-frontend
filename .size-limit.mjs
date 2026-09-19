@@ -128,13 +128,38 @@ const budgets = [
     //
     // This budget globs every chunk, so it is total app JS: an app deliberately
     // gaining fifteen routes cannot hold a fixed number, and a ceiling that has
-    // to be raised every step is not measuring anything. 540 kB is set once, for
-    // the whole of Phase 1 and Phase 2, and should be **lowered back to whatever
-    // the app actually measures** when that work lands — the way it was lowered
-    // to 450 kB when the integration came out.
+    // to be raised every step is not measuring anything. 540 kB was set once, for
+    // the whole of Phase 1 and Phase 2, to be lowered back to whatever the app
+    // measured when that work landed — the way it was lowered to 450 kB when the
+    // integration came out.
+    //
+    // **That lowering was attempted and is void.** It was written down when the
+    // app measured 506 kB against this 540 kB ceiling, leaving 34 kB to give
+    // back. By the time it was taken the app measured **539.88 kB** — the
+    // interface pass that went through every screen (the account menu, the
+    // single-column theme and language rows, a placeholder on every field) spent
+    // the whole of that headroom and came to rest 0.12 kB under the ceiling.
+    // There was nothing left to reclaim. Nothing was reverted to make room: that
+    // work is wanted, and a guard exists to make its cost visible, not to veto it.
+    //
+    // Raised to 555 kB for the person typeahead and the per-offering authoring
+    // gate. Measured at **546.74 kB**, +6.86 kB over the 539.88 kB baseline. The
+    // picker is deliberately hand-built from `Input` and a listbox rather than
+    // adopting `cmdk` or the vendored `popover`: adopting either would put it in
+    // this barrel and so on every route, which is what the header of
+    // `shared/ui/index.ts` warns about, and would cost more than the component.
+    //
+    // A reduction was looked for first, as every entry above insists, and there
+    // was none: the barrels are narrowed, `@radix-ui/react-select` is long gone,
+    // the unused Radix primitives were never exported, and the `ListingCard`
+    // extraction this file reserved was taken and measured at zero bytes. What is
+    // left in the two largest chunks is the React and Next runtime.
+    //
+    // 8.26 kB of headroom. That is thin, and the next person to need room should
+    // expect to find it by shipping less rather than by narrowing anything.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '540 kB',
+    limit: '555 kB',
     gzip: true,
   },
 ];
