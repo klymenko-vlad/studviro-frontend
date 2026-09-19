@@ -52,7 +52,7 @@ export function CourseOfferings({ institutionId }: { institutionId: string }) {
         ) : offerings.data.length === 0 ? (
           <p className="text-muted-foreground text-sm">{t('empty')}</p>
         ) : (
-          <Table data-testid="offerings-table">
+          <Table label={t('title')} data-testid="offerings-table">
             <TableHeader>
               <TableRow>
                 <TableHead>{t('column.course')}</TableHead>

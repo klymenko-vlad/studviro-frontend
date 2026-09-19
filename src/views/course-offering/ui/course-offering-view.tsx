@@ -18,7 +18,10 @@ export function CourseOfferingView({
   const { can, isPending } = usePermissions(institutionId);
 
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-6 py-12">
+    <main
+      id="main-content"
+      className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-6 py-12"
+    >
       <Button variant="ghost" size="sm" className="self-start" asChild>
         <Link href={`/institutions/${institutionId}/courses`}>{t('backToCourses')}</Link>
       </Button>

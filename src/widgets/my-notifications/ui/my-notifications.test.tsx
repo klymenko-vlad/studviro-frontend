@@ -22,7 +22,7 @@ describe('MyNotifications', () => {
     renderWidget();
 
     expect(await screen.findByText('Exam term moved')).toBeInTheDocument();
-    const headings = screen.getAllByRole('heading', { level: 3 });
+    const headings = screen.getAllByRole('heading', { level: 2 });
     expect(headings[0]).toHaveTextContent('Exam term moved');
     expect(screen.getByRole('link', { name: 'Algorithms' })).toHaveAttribute(
       'href',

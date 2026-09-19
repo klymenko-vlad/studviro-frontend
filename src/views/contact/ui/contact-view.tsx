@@ -10,7 +10,7 @@ export function ContactView() {
 
   return (
     <>
-      <main className="flex flex-1 flex-col">
+      <main id="main-content" className="flex flex-1 flex-col">
         <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-10 px-6 py-16 sm:py-20 lg:flex-row lg:gap-16">
           <div className="flex max-w-xl flex-1 flex-col gap-6">
             <div className="flex flex-col gap-3">

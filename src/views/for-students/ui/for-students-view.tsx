@@ -17,7 +17,7 @@ export function ForStudentsView() {
 
   return (
     <>
-      <main className="flex flex-1 flex-col">
+      <main id="main-content" className="flex flex-1 flex-col">
         <MarketingHero
           eyebrow={m('nav.forStudents')}
           title={t('hero.title')}

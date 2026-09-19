@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { headers } from 'next/headers';
 import { NextIntlClientProvider } from 'next-intl';
@@ -58,8 +58,21 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+/**
+ * The browser chrome follows the theme. Declared against the media query rather
+ * than the `.dark` class because that is all `theme-color` can key off; the
+ * cookie-set class still wins inside the document.
+ */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#090b0f' },
+  ],
+};
+
 export default async function RootLayout({ children }: LayoutProps<'/'>) {
   const locale = await getLocale();
+  const t = await getTranslations('common');
   const nonce = (await headers()).get(NONCE_HEADER) ?? undefined;
 
   return (
@@ -82,6 +95,17 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider>
           <AppProviders>
+            {/*
+              The first tab stop on every page. Off-screen until focused, which
+              is the only way a bypass block is any use (WCAG 2.4.1).
+            */}
+            <a
+              href="#main-content"
+              className="bg-background focus-visible:ring-ring sr-only rounded-md border text-sm font-medium shadow-md focus-visible:not-sr-only focus-visible:fixed focus-visible:top-3 focus-visible:left-3 focus-visible:z-50 focus-visible:px-4 focus-visible:py-2 focus-visible:ring-2"
+            >
+              {t('skipToContent')}
+            </a>
+
             <AppHeader />
             {children}
           </AppProviders>

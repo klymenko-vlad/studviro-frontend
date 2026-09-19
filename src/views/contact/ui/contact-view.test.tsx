@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { renderWithProviders, screen } from '@/shared/test';
+import { renderAndAudit, renderWithProviders, screen } from '@/shared/test';
 
 import { ContactView } from './contact-view';
 
@@ -22,5 +22,11 @@ describe('ContactView', () => {
     const { container } = renderWithProviders(<ContactView />);
 
     expect(container.textContent).not.toMatch(/contact\.|marketing\./);
+  });
+});
+
+describe('ContactView accessibility', () => {
+  it('has no axe violations — a form screen', async () => {
+    await renderAndAudit(<ContactView />);
   });
 });

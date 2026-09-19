@@ -67,7 +67,7 @@ export function ProgramMembers({
         ) : members.data.length === 0 ? (
           <p className="text-muted-foreground text-sm">{t('empty')}</p>
         ) : (
-          <Table data-testid="program-members-table">
+          <Table label={t('title')} data-testid="program-members-table">
             <TableHeader>
               <TableRow>
                 <TableHead>{t('column.student')}</TableHead>

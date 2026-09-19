@@ -24,7 +24,9 @@ export function FeatureGrid({ items, columns = 3 }: FeatureGridProps) {
         <li key={item.key} className="flex">
           <Card className="w-full gap-3">
             <CardHeader>
-              <CardTitle className="text-base">{item.title}</CardTitle>
+              <CardTitle as="h3" className="text-base">
+                {item.title}
+              </CardTitle>
             </CardHeader>
             <CardContent className="text-muted-foreground text-sm text-pretty">
               {item.body}

@@ -4,8 +4,8 @@ import * as z from 'zod';
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AcceptInvitationData, AcceptInvitationErrors, AcceptInvitationResponses, AddStudyGroupMemberData, AddStudyGroupMemberErrors, AddStudyGroupMemberResponses, AdmitToProgramData, AdmitToProgramErrors, AdmitToProgramResponses, AssignTeacherData, AssignTeacherErrors, AssignTeacherResponses, BulkImportCourseOfferingsData, BulkImportCourseOfferingsErrors, BulkImportCourseOfferingsResponses, BulkImportProgramMembersData, BulkImportProgramMembersErrors, BulkImportProgramMembersResponses, CancelExamRegistrationData, CancelExamRegistrationErrors, CancelExamRegistrationResponses, CancelExamTermData, CancelExamTermErrors, CancelExamTermResponses, CancelTimetableEventData, CancelTimetableEventErrors, CancelTimetableEventResponses, ConfirmPasswordResetData, ConfirmPasswordResetErrors, ConfirmPasswordResetResponses, CorrectEnrollmentData, CorrectEnrollmentErrors, CorrectEnrollmentResponses, CountMyUnreadNotificationsData, CountMyUnreadNotificationsErrors, CountMyUnreadNotificationsResponses, CreateAcademicTermData, CreateAcademicTermErrors, CreateAcademicTermResponses, CreateCourseData, CreateCourseErrors, CreateCourseOfferingData, CreateCourseOfferingErrors, CreateCourseOfferingResponses, CreateCourseResponses, CreateData, CreateDemoRequestData, CreateDemoRequestErrors, CreateDemoRequestResponses, CreateErrors, CreateExamTermData, CreateExamTermErrors, CreateExamTermResponses, CreateInstitutionData, CreateInstitutionErrors, CreateInstitutionResponses, CreateInvitationData, CreateInvitationErrors, CreateInvitationResponses, CreateOrgUnitData, CreateOrgUnitErrors, CreateOrgUnitResponses, CreateProgramData, CreateProgramErrors, CreateProgramResponses, CreateResponses, CreateRoomData, CreateRoomErrors, CreateRoomResponses, CreateStudyGroupData, CreateStudyGroupErrors, CreateStudyGroupResponses, CreateTimetableEventData, CreateTimetableEventErrors, CreateTimetableEventResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GetCourseOfferingData, GetCourseOfferingErrors, GetCourseOfferingResponses, GetCourseRosterData, GetCourseRosterErrors, GetCourseRosterResponses, GetInstitutionConfigurationData, GetInstitutionConfigurationErrors, GetInstitutionConfigurationResponses, GetInstitutionData, GetInstitutionErrors, GetInstitutionResponses, GetMyStudyProgressData, GetMyStudyProgressErrors, GetMyStudyProgressResponses, GetOrgUnitData, GetOrgUnitErrors, GetOrgUnitResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, ListAcademicTermsData, ListAcademicTermsErrors, ListAcademicTermsResponses, ListAuditEventsData, ListAuditEventsErrors, ListAuditEventsResponses, ListCourseOfferingsData, ListCourseOfferingsErrors, ListCourseOfferingsResponses, ListCoursesData, ListCoursesErrors, ListCoursesResponses, ListEnrollableOfferingsData, ListEnrollableOfferingsErrors, ListEnrollableOfferingsResponses, ListLearningSpacesData, ListLearningSpacesErrors, ListLearningSpacesResponses, ListMyAssessmentResultsData, ListMyAssessmentResultsErrors, ListMyAssessmentResultsResponses, ListMyCourseResultsData, ListMyCourseResultsErrors, ListMyCourseResultsResponses, ListMyCoursesData, ListMyCoursesErrors, ListMyCoursesResponses, ListMyDeadlinesData, ListMyDeadlinesErrors, ListMyDeadlinesResponses, ListMyExamTermsData, ListMyExamTermsErrors, ListMyExamTermsResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyInstitutionsData, ListMyInstitutionsErrors, ListMyInstitutionsResponses, ListMyNotificationsData, ListMyNotificationsErrors, ListMyNotificationsResponses, ListMyPermissionsData, ListMyPermissionsErrors, ListMyPermissionsResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListMyTeachingOfferingsData, ListMyTeachingOfferingsErrors, ListMyTeachingOfferingsResponses, ListMyTimetableEventsData, ListMyTimetableEventsErrors, ListMyTimetableEventsResponses, ListOfferingExamTermsData, ListOfferingExamTermsErrors, ListOfferingExamTermsResponses, ListOfferingResultsData, ListOfferingResultsErrors, ListOfferingResultsResponses, ListOfferingTimetableData, ListOfferingTimetableErrors, ListOfferingTimetableResponses, ListOrgUnitsData, ListOrgUnitsErrors, ListOrgUnitsResponses, ListPeopleData, ListPeopleErrors, ListPeopleResponses, ListProgramMembersData, ListProgramMembersErrors, ListProgramMembersResponses, ListProgramsData, ListProgramsErrors, ListProgramsResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, ListRoomsData, ListRoomsErrors, ListRoomsResponses, ListStudyGroupsData, ListStudyGroupsErrors, ListStudyGroupsResponses, ListTeachingAssignmentsData, ListTeachingAssignmentsErrors, ListTeachingAssignmentsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadErrors, MarkAllMyNotificationsReadResponses, MarkMyNotificationReadData, MarkMyNotificationReadErrors, MarkMyNotificationReadResponses, MeData, MeErrors, MeResponses, RecordOfferingResultData, RecordOfferingResultErrors, RecordOfferingResultResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterForExamTermData, RegisterForExamTermErrors, RegisterForExamTermResponses, RegisterResponses, RemoveAcademicTermData, RemoveAcademicTermErrors, RemoveAcademicTermResponses, RemoveCourseData, RemoveCourseErrors, RemoveCourseOfferingData, RemoveCourseOfferingErrors, RemoveCourseOfferingResponses, RemoveCourseResponses, RemoveData, RemoveErrors, RemoveExamTermData, RemoveExamTermErrors, RemoveExamTermResponses, RemoveOrgUnitData, RemoveOrgUnitErrors, RemoveOrgUnitResponses, RemoveProgramData, RemoveProgramErrors, RemoveProgramMembershipData, RemoveProgramMembershipErrors, RemoveProgramMembershipResponses, RemoveProgramResponses, RemoveResponses, RemoveRoomData, RemoveRoomErrors, RemoveRoomResponses, RemoveStudyGroupData, RemoveStudyGroupErrors, RemoveStudyGroupMemberData, RemoveStudyGroupMemberErrors, RemoveStudyGroupMemberResponses, RemoveStudyGroupResponses, RemoveTimetableEventData, RemoveTimetableEventErrors, RemoveTimetableEventResponses, RequestEnrollmentData, RequestEnrollmentErrors, RequestEnrollmentResponses, RequestPasswordResetData, RequestPasswordResetErrors, RequestPasswordResetResponses, RestoreTimetableEventData, RestoreTimetableEventErrors, RestoreTimetableEventResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, UnassignTeacherData, UnassignTeacherErrors, UnassignTeacherResponses, UpdateAcademicTermData, UpdateAcademicTermErrors, UpdateAcademicTermResponses, UpdateCourseData, UpdateCourseErrors, UpdateCourseOfferingData, UpdateCourseOfferingErrors, UpdateCourseOfferingResponses, UpdateCourseResponses, UpdateExamTermData, UpdateExamTermErrors, UpdateExamTermResponses, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationErrors, UpdateInstitutionConfigurationResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses, UpdateOrgUnitData, UpdateOrgUnitErrors, UpdateOrgUnitResponses, UpdateProgramData, UpdateProgramErrors, UpdateProgramMembershipData, UpdateProgramMembershipErrors, UpdateProgramMembershipResponses, UpdateProgramResponses, UpdateRoomData, UpdateRoomErrors, UpdateRoomResponses, UpdateStudyGroupData, UpdateStudyGroupErrors, UpdateStudyGroupResponses, UpdateTimetableEventData, UpdateTimetableEventErrors, UpdateTimetableEventResponses, WithdrawFromCourseData, WithdrawFromCourseErrors, WithdrawFromCourseResponses } from './types.gen';
-import { zAcceptInvitationBody, zAcceptInvitationPath, zAcceptInvitationResponse, zAddStudyGroupMemberBody, zAddStudyGroupMemberPath, zAddStudyGroupMemberResponse, zAdmitToProgramBody, zAdmitToProgramPath, zAssignTeacherBody, zAssignTeacherPath, zBulkImportCourseOfferingsBody, zBulkImportCourseOfferingsPath, zBulkImportCourseOfferingsResponse, zBulkImportProgramMembersBody, zBulkImportProgramMembersPath, zBulkImportProgramMembersResponse, zCancelExamRegistrationPath, zCancelExamRegistrationResponse, zCancelExamTermPath, zCancelExamTermResponse, zCancelTimetableEventPath, zCancelTimetableEventResponse, zConfirmPasswordResetBody, zConfirmPasswordResetPath, zConfirmPasswordResetResponse, zCorrectEnrollmentBody, zCorrectEnrollmentPath, zCorrectEnrollmentResponse, zCountMyUnreadNotificationsPath, zCountMyUnreadNotificationsResponse, zCreateAcademicTermBody, zCreateAcademicTermPath, zCreateAcademicTermResponse, zCreateBody, zCreateCourseBody, zCreateCourseOfferingBody, zCreateCourseOfferingPath, zCreateCourseOfferingResponse, zCreateCoursePath, zCreateCourseResponse, zCreateDemoRequestBody, zCreateDemoRequestResponse, zCreateExamTermBody, zCreateExamTermPath, zCreateExamTermResponse, zCreateInstitutionBody, zCreateInstitutionResponse, zCreateInvitationBody, zCreateInvitationPath, zCreateInvitationResponse, zCreateOrgUnitBody, zCreateOrgUnitPath, zCreateOrgUnitResponse, zCreateProgramBody, zCreateProgramPath, zCreateProgramResponse, zCreateResponse, zCreateRoomBody, zCreateRoomPath, zCreateRoomResponse, zCreateStudyGroupBody, zCreateStudyGroupPath, zCreateTimetableEventBody, zCreateTimetableEventPath, zCreateTimetableEventResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGetCourseOfferingPath, zGetCourseOfferingResponse, zGetCourseRosterPath, zGetCourseRosterResponse, zGetInstitutionConfigurationPath, zGetInstitutionConfigurationResponse, zGetInstitutionPath, zGetInstitutionResponse, zGetMyStudyProgressPath, zGetMyStudyProgressResponse, zGetOrgUnitPath, zGetOrgUnitResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zListAcademicTermsPath, zListAcademicTermsResponse, zListAuditEventsPath, zListAuditEventsQuery, zListAuditEventsResponse, zListCourseOfferingsPath, zListCourseOfferingsResponse, zListCoursesPath, zListCoursesResponse, zListEnrollableOfferingsPath, zListEnrollableOfferingsQuery, zListEnrollableOfferingsResponse, zListLearningSpacesPath, zListLearningSpacesResponse, zListMyAssessmentResultsPath, zListMyAssessmentResultsQuery, zListMyAssessmentResultsResponse, zListMyCourseResultsPath, zListMyCourseResultsQuery, zListMyCourseResultsResponse, zListMyCoursesPath, zListMyCoursesQuery, zListMyCoursesResponse, zListMyDeadlinesPath, zListMyDeadlinesQuery, zListMyDeadlinesResponse, zListMyExamTermsPath, zListMyExamTermsQuery, zListMyExamTermsResponse, zListMyIdentitiesResponse, zListMyInstitutionsResponse, zListMyNotificationsPath, zListMyNotificationsQuery, zListMyNotificationsResponse, zListMyPermissionsPath, zListMyPermissionsResponse, zListMyRolesResponse, zListMyTeachingOfferingsPath, zListMyTeachingOfferingsQuery, zListMyTeachingOfferingsResponse, zListMyTimetableEventsPath, zListMyTimetableEventsQuery, zListMyTimetableEventsResponse, zListOfferingExamTermsPath, zListOfferingExamTermsResponse, zListOfferingResultsPath, zListOfferingResultsResponse, zListOfferingTimetablePath, zListOfferingTimetableResponse, zListOrgUnitsPath, zListOrgUnitsResponse, zListPeoplePath, zListPeopleResponse, zListProgramMembersPath, zListProgramMembersResponse, zListProgramsPath, zListProgramsResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zListRoomsPath, zListRoomsResponse, zListStudyGroupsPath, zListStudyGroupsResponse, zListTeachingAssignmentsPath, zListTeachingAssignmentsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMarkAllMyNotificationsReadPath, zMarkAllMyNotificationsReadResponse, zMarkMyNotificationReadPath, zMarkMyNotificationReadResponse, zMeResponse, zRecordOfferingResultBody, zRecordOfferingResultPath, zRecordOfferingResultResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterForExamTermBody, zRegisterForExamTermPath, zRegisterForExamTermResponse, zRegisterResponse, zRemoveAcademicTermPath, zRemoveAcademicTermResponse, zRemoveCourseOfferingPath, zRemoveCourseOfferingResponse, zRemoveCoursePath, zRemoveCourseResponse, zRemoveExamTermPath, zRemoveExamTermResponse, zRemoveOrgUnitPath, zRemoveOrgUnitResponse, zRemovePath, zRemoveProgramMembershipPath, zRemoveProgramMembershipResponse, zRemoveProgramPath, zRemoveProgramResponse, zRemoveResponse, zRemoveRoomPath, zRemoveRoomResponse, zRemoveStudyGroupMemberPath, zRemoveStudyGroupMemberResponse, zRemoveStudyGroupPath, zRemoveStudyGroupResponse, zRemoveTimetableEventPath, zRemoveTimetableEventResponse, zRequestEnrollmentBody, zRequestEnrollmentPath, zRequestEnrollmentResponse, zRequestPasswordResetBody, zRequestPasswordResetResponse, zRestoreTimetableEventPath, zRestoreTimetableEventResponse, zRevokeRolePath, zRevokeRoleResponse, zUnassignTeacherPath, zUnassignTeacherResponse, zUpdateAcademicTermBody, zUpdateAcademicTermPath, zUpdateAcademicTermResponse, zUpdateCourseBody, zUpdateCourseOfferingBody, zUpdateCourseOfferingPath, zUpdateCourseOfferingResponse, zUpdateCoursePath, zUpdateCourseResponse, zUpdateExamTermBody, zUpdateExamTermPath, zUpdateExamTermResponse, zUpdateInstitutionConfigurationBody, zUpdateInstitutionConfigurationPath, zUpdateInstitutionConfigurationResponse, zUpdateMeBody, zUpdateMeResponse, zUpdateOrgUnitBody, zUpdateOrgUnitPath, zUpdateOrgUnitResponse, zUpdateProgramBody, zUpdateProgramMembershipBody, zUpdateProgramMembershipPath, zUpdateProgramMembershipResponse, zUpdateProgramPath, zUpdateProgramResponse, zUpdateRoomBody, zUpdateRoomPath, zUpdateRoomResponse, zUpdateStudyGroupBody, zUpdateStudyGroupPath, zUpdateTimetableEventBody, zUpdateTimetableEventPath, zUpdateTimetableEventResponse, zWithdrawFromCoursePath, zWithdrawFromCourseResponse } from './zod.gen';
+import type { AcceptInvitationData, AcceptInvitationErrors, AcceptInvitationResponses, AddStudyGroupMemberData, AddStudyGroupMemberErrors, AddStudyGroupMemberResponses, AdmitToProgramData, AdmitToProgramErrors, AdmitToProgramResponses, AssignTeacherData, AssignTeacherErrors, AssignTeacherResponses, BulkImportCourseOfferingsData, BulkImportCourseOfferingsErrors, BulkImportCourseOfferingsResponses, BulkImportProgramMembersData, BulkImportProgramMembersErrors, BulkImportProgramMembersResponses, CancelExamRegistrationData, CancelExamRegistrationErrors, CancelExamRegistrationResponses, CancelExamTermData, CancelExamTermErrors, CancelExamTermResponses, CancelTimetableEventData, CancelTimetableEventErrors, CancelTimetableEventResponses, ConfirmPasswordResetData, ConfirmPasswordResetErrors, ConfirmPasswordResetResponses, CorrectEnrollmentData, CorrectEnrollmentErrors, CorrectEnrollmentResponses, CountMyUnreadNotificationsData, CountMyUnreadNotificationsErrors, CountMyUnreadNotificationsResponses, CreateAcademicTermData, CreateAcademicTermErrors, CreateAcademicTermResponses, CreateAssignmentData, CreateAssignmentErrors, CreateAssignmentResponses, CreateCourseData, CreateCourseErrors, CreateCourseOfferingData, CreateCourseOfferingErrors, CreateCourseOfferingResponses, CreateCourseResponses, CreateData, CreateDemoRequestData, CreateDemoRequestErrors, CreateDemoRequestResponses, CreateErrors, CreateExamTermData, CreateExamTermErrors, CreateExamTermResponses, CreateInstitutionData, CreateInstitutionErrors, CreateInstitutionResponses, CreateInvitationData, CreateInvitationErrors, CreateInvitationResponses, CreateLearningMaterialData, CreateLearningMaterialErrors, CreateLearningMaterialResponses, CreateLearningSpaceData, CreateLearningSpaceErrors, CreateLearningSpaceResponses, CreateMaterialUploadTicketData, CreateMaterialUploadTicketErrors, CreateMaterialUploadTicketResponses, CreateOrgUnitData, CreateOrgUnitErrors, CreateOrgUnitResponses, CreateProgramData, CreateProgramErrors, CreateProgramResponses, CreateResponses, CreateRoomData, CreateRoomErrors, CreateRoomResponses, CreateStudyGroupData, CreateStudyGroupErrors, CreateStudyGroupResponses, CreateSubmissionUploadTicketData, CreateSubmissionUploadTicketErrors, CreateSubmissionUploadTicketResponses, CreateTimetableEventData, CreateTimetableEventErrors, CreateTimetableEventResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GetAssignmentData, GetAssignmentErrors, GetAssignmentResponses, GetCourseOfferingData, GetCourseOfferingErrors, GetCourseOfferingResponses, GetCourseRosterData, GetCourseRosterErrors, GetCourseRosterResponses, GetInstitutionConfigurationData, GetInstitutionConfigurationErrors, GetInstitutionConfigurationResponses, GetInstitutionData, GetInstitutionErrors, GetInstitutionResponses, GetLearningMaterialDownloadUrlData, GetLearningMaterialDownloadUrlErrors, GetLearningMaterialDownloadUrlResponses, GetLearningSpaceData, GetLearningSpaceErrors, GetLearningSpaceResponses, GetMyStudyProgressData, GetMyStudyProgressErrors, GetMyStudyProgressResponses, GetOrgUnitData, GetOrgUnitErrors, GetOrgUnitResponses, GetSubmissionFileDownloadUrlData, GetSubmissionFileDownloadUrlErrors, GetSubmissionFileDownloadUrlResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, ListAcademicTermsData, ListAcademicTermsErrors, ListAcademicTermsResponses, ListAssignmentsData, ListAssignmentsErrors, ListAssignmentsResponses, ListAssignmentSubmissionsData, ListAssignmentSubmissionsErrors, ListAssignmentSubmissionsResponses, ListAuditEventsData, ListAuditEventsErrors, ListAuditEventsResponses, ListCourseOfferingsData, ListCourseOfferingsErrors, ListCourseOfferingsResponses, ListCoursesData, ListCoursesErrors, ListCoursesResponses, ListEnrollableOfferingsData, ListEnrollableOfferingsErrors, ListEnrollableOfferingsResponses, ListLearningMaterialsData, ListLearningMaterialsErrors, ListLearningMaterialsResponses, ListLearningSpacesData, ListLearningSpacesErrors, ListLearningSpacesResponses, ListMyAssessmentResultsData, ListMyAssessmentResultsErrors, ListMyAssessmentResultsResponses, ListMyCourseResultsData, ListMyCourseResultsErrors, ListMyCourseResultsResponses, ListMyCoursesData, ListMyCoursesErrors, ListMyCoursesResponses, ListMyDeadlinesData, ListMyDeadlinesErrors, ListMyDeadlinesResponses, ListMyExamTermsData, ListMyExamTermsErrors, ListMyExamTermsResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyInstitutionsData, ListMyInstitutionsErrors, ListMyInstitutionsResponses, ListMyNotificationsData, ListMyNotificationsErrors, ListMyNotificationsResponses, ListMyPermissionsData, ListMyPermissionsErrors, ListMyPermissionsResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListMySubmissionsData, ListMySubmissionsErrors, ListMySubmissionsResponses, ListMyTeachingOfferingsData, ListMyTeachingOfferingsErrors, ListMyTeachingOfferingsResponses, ListMyTimetableEventsData, ListMyTimetableEventsErrors, ListMyTimetableEventsResponses, ListOfferingExamTermsData, ListOfferingExamTermsErrors, ListOfferingExamTermsResponses, ListOfferingResultsData, ListOfferingResultsErrors, ListOfferingResultsResponses, ListOfferingTimetableData, ListOfferingTimetableErrors, ListOfferingTimetableResponses, ListOrgUnitsData, ListOrgUnitsErrors, ListOrgUnitsResponses, ListPeopleData, ListPeopleErrors, ListPeopleResponses, ListProgramMembersData, ListProgramMembersErrors, ListProgramMembersResponses, ListProgramsData, ListProgramsErrors, ListProgramsResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, ListRoomsData, ListRoomsErrors, ListRoomsResponses, ListStudyGroupsData, ListStudyGroupsErrors, ListStudyGroupsResponses, ListTeachingAssignmentsData, ListTeachingAssignmentsErrors, ListTeachingAssignmentsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadErrors, MarkAllMyNotificationsReadResponses, MarkMyNotificationReadData, MarkMyNotificationReadErrors, MarkMyNotificationReadResponses, MarkSubmissionData, MarkSubmissionErrors, MarkSubmissionResponses, MeData, MeErrors, MeResponses, RecordOfferingResultData, RecordOfferingResultErrors, RecordOfferingResultResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterForExamTermData, RegisterForExamTermErrors, RegisterForExamTermResponses, RegisterResponses, RemoveAcademicTermData, RemoveAcademicTermErrors, RemoveAcademicTermResponses, RemoveAssignmentData, RemoveAssignmentErrors, RemoveAssignmentResponses, RemoveCourseData, RemoveCourseErrors, RemoveCourseOfferingData, RemoveCourseOfferingErrors, RemoveCourseOfferingResponses, RemoveCourseResponses, RemoveData, RemoveErrors, RemoveExamTermData, RemoveExamTermErrors, RemoveExamTermResponses, RemoveLearningMaterialData, RemoveLearningMaterialErrors, RemoveLearningMaterialResponses, RemoveOrgUnitData, RemoveOrgUnitErrors, RemoveOrgUnitResponses, RemoveProgramData, RemoveProgramErrors, RemoveProgramMembershipData, RemoveProgramMembershipErrors, RemoveProgramMembershipResponses, RemoveProgramResponses, RemoveResponses, RemoveRoomData, RemoveRoomErrors, RemoveRoomResponses, RemoveStudyGroupData, RemoveStudyGroupErrors, RemoveStudyGroupMemberData, RemoveStudyGroupMemberErrors, RemoveStudyGroupMemberResponses, RemoveStudyGroupResponses, RemoveTimetableEventData, RemoveTimetableEventErrors, RemoveTimetableEventResponses, RequestEnrollmentData, RequestEnrollmentErrors, RequestEnrollmentResponses, RequestPasswordResetData, RequestPasswordResetErrors, RequestPasswordResetResponses, RestoreTimetableEventData, RestoreTimetableEventErrors, RestoreTimetableEventResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, SearchData, SearchErrors, SearchResponses, SubmitAssignmentData, SubmitAssignmentErrors, SubmitAssignmentResponses, UnassignTeacherData, UnassignTeacherErrors, UnassignTeacherResponses, UpdateAcademicTermData, UpdateAcademicTermErrors, UpdateAcademicTermResponses, UpdateAssignmentData, UpdateAssignmentErrors, UpdateAssignmentResponses, UpdateCourseData, UpdateCourseErrors, UpdateCourseOfferingData, UpdateCourseOfferingErrors, UpdateCourseOfferingResponses, UpdateCourseResponses, UpdateExamTermData, UpdateExamTermErrors, UpdateExamTermResponses, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationErrors, UpdateInstitutionConfigurationResponses, UpdateLearningMaterialData, UpdateLearningMaterialErrors, UpdateLearningMaterialResponses, UpdateLearningSpaceData, UpdateLearningSpaceErrors, UpdateLearningSpaceResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses, UpdateOrgUnitData, UpdateOrgUnitErrors, UpdateOrgUnitResponses, UpdateProgramData, UpdateProgramErrors, UpdateProgramMembershipData, UpdateProgramMembershipErrors, UpdateProgramMembershipResponses, UpdateProgramResponses, UpdateRoomData, UpdateRoomErrors, UpdateRoomResponses, UpdateStudyGroupData, UpdateStudyGroupErrors, UpdateStudyGroupResponses, UpdateTimetableEventData, UpdateTimetableEventErrors, UpdateTimetableEventResponses, WithdrawFromCourseData, WithdrawFromCourseErrors, WithdrawFromCourseResponses } from './types.gen';
+import { zAcceptInvitationBody, zAcceptInvitationPath, zAcceptInvitationResponse, zAddStudyGroupMemberBody, zAddStudyGroupMemberPath, zAddStudyGroupMemberResponse, zAdmitToProgramBody, zAdmitToProgramPath, zAssignTeacherBody, zAssignTeacherPath, zBulkImportCourseOfferingsBody, zBulkImportCourseOfferingsPath, zBulkImportCourseOfferingsResponse, zBulkImportProgramMembersBody, zBulkImportProgramMembersPath, zBulkImportProgramMembersResponse, zCancelExamRegistrationPath, zCancelExamRegistrationResponse, zCancelExamTermPath, zCancelExamTermResponse, zCancelTimetableEventPath, zCancelTimetableEventResponse, zConfirmPasswordResetBody, zConfirmPasswordResetPath, zConfirmPasswordResetResponse, zCorrectEnrollmentBody, zCorrectEnrollmentPath, zCorrectEnrollmentResponse, zCountMyUnreadNotificationsPath, zCountMyUnreadNotificationsResponse, zCreateAcademicTermBody, zCreateAcademicTermPath, zCreateAcademicTermResponse, zCreateAssignmentBody, zCreateAssignmentPath, zCreateAssignmentResponse, zCreateBody, zCreateCourseBody, zCreateCourseOfferingBody, zCreateCourseOfferingPath, zCreateCourseOfferingResponse, zCreateCoursePath, zCreateCourseResponse, zCreateDemoRequestBody, zCreateDemoRequestResponse, zCreateExamTermBody, zCreateExamTermPath, zCreateExamTermResponse, zCreateInstitutionBody, zCreateInstitutionResponse, zCreateInvitationBody, zCreateInvitationPath, zCreateInvitationResponse, zCreateLearningMaterialBody, zCreateLearningMaterialPath, zCreateLearningMaterialResponse, zCreateLearningSpaceBody, zCreateLearningSpacePath, zCreateLearningSpaceResponse, zCreateMaterialUploadTicketBody, zCreateMaterialUploadTicketPath, zCreateMaterialUploadTicketResponse, zCreateOrgUnitBody, zCreateOrgUnitPath, zCreateOrgUnitResponse, zCreateProgramBody, zCreateProgramPath, zCreateProgramResponse, zCreateResponse, zCreateRoomBody, zCreateRoomPath, zCreateRoomResponse, zCreateStudyGroupBody, zCreateStudyGroupPath, zCreateSubmissionUploadTicketBody, zCreateSubmissionUploadTicketPath, zCreateSubmissionUploadTicketResponse, zCreateTimetableEventBody, zCreateTimetableEventPath, zCreateTimetableEventResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGetAssignmentPath, zGetAssignmentResponse, zGetCourseOfferingPath, zGetCourseOfferingResponse, zGetCourseRosterPath, zGetCourseRosterResponse, zGetInstitutionConfigurationPath, zGetInstitutionConfigurationResponse, zGetInstitutionPath, zGetInstitutionResponse, zGetLearningMaterialDownloadUrlPath, zGetLearningMaterialDownloadUrlResponse, zGetLearningSpacePath, zGetLearningSpaceResponse, zGetMyStudyProgressPath, zGetMyStudyProgressResponse, zGetOrgUnitPath, zGetOrgUnitResponse, zGetSubmissionFileDownloadUrlPath, zGetSubmissionFileDownloadUrlResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zListAcademicTermsPath, zListAcademicTermsResponse, zListAssignmentsPath, zListAssignmentsResponse, zListAssignmentSubmissionsPath, zListAssignmentSubmissionsResponse, zListAuditEventsPath, zListAuditEventsQuery, zListAuditEventsResponse, zListCourseOfferingsPath, zListCourseOfferingsResponse, zListCoursesPath, zListCoursesResponse, zListEnrollableOfferingsPath, zListEnrollableOfferingsQuery, zListEnrollableOfferingsResponse, zListLearningMaterialsPath, zListLearningMaterialsResponse, zListLearningSpacesPath, zListLearningSpacesQuery, zListLearningSpacesResponse, zListMyAssessmentResultsPath, zListMyAssessmentResultsQuery, zListMyAssessmentResultsResponse, zListMyCourseResultsPath, zListMyCourseResultsQuery, zListMyCourseResultsResponse, zListMyCoursesPath, zListMyCoursesQuery, zListMyCoursesResponse, zListMyDeadlinesPath, zListMyDeadlinesQuery, zListMyDeadlinesResponse, zListMyExamTermsPath, zListMyExamTermsQuery, zListMyExamTermsResponse, zListMyIdentitiesResponse, zListMyInstitutionsResponse, zListMyNotificationsPath, zListMyNotificationsQuery, zListMyNotificationsResponse, zListMyPermissionsPath, zListMyPermissionsResponse, zListMyRolesResponse, zListMySubmissionsPath, zListMySubmissionsResponse, zListMyTeachingOfferingsPath, zListMyTeachingOfferingsQuery, zListMyTeachingOfferingsResponse, zListMyTimetableEventsPath, zListMyTimetableEventsQuery, zListMyTimetableEventsResponse, zListOfferingExamTermsPath, zListOfferingExamTermsResponse, zListOfferingResultsPath, zListOfferingResultsResponse, zListOfferingTimetablePath, zListOfferingTimetableResponse, zListOrgUnitsPath, zListOrgUnitsResponse, zListPeoplePath, zListPeopleResponse, zListProgramMembersPath, zListProgramMembersResponse, zListProgramsPath, zListProgramsResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zListRoomsPath, zListRoomsResponse, zListStudyGroupsPath, zListStudyGroupsResponse, zListTeachingAssignmentsPath, zListTeachingAssignmentsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMarkAllMyNotificationsReadPath, zMarkAllMyNotificationsReadResponse, zMarkMyNotificationReadPath, zMarkMyNotificationReadResponse, zMarkSubmissionBody, zMarkSubmissionPath, zMarkSubmissionResponse, zMeResponse, zRecordOfferingResultBody, zRecordOfferingResultPath, zRecordOfferingResultResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterForExamTermBody, zRegisterForExamTermPath, zRegisterForExamTermResponse, zRegisterResponse, zRemoveAcademicTermPath, zRemoveAcademicTermResponse, zRemoveAssignmentPath, zRemoveAssignmentResponse, zRemoveCourseOfferingPath, zRemoveCourseOfferingResponse, zRemoveCoursePath, zRemoveCourseResponse, zRemoveExamTermPath, zRemoveExamTermResponse, zRemoveLearningMaterialPath, zRemoveLearningMaterialResponse, zRemoveOrgUnitPath, zRemoveOrgUnitResponse, zRemovePath, zRemoveProgramMembershipPath, zRemoveProgramMembershipResponse, zRemoveProgramPath, zRemoveProgramResponse, zRemoveResponse, zRemoveRoomPath, zRemoveRoomResponse, zRemoveStudyGroupMemberPath, zRemoveStudyGroupMemberResponse, zRemoveStudyGroupPath, zRemoveStudyGroupResponse, zRemoveTimetableEventPath, zRemoveTimetableEventResponse, zRequestEnrollmentBody, zRequestEnrollmentPath, zRequestEnrollmentResponse, zRequestPasswordResetBody, zRequestPasswordResetResponse, zRestoreTimetableEventPath, zRestoreTimetableEventResponse, zRevokeRolePath, zRevokeRoleResponse, zSearchPath, zSearchQuery, zSearchResponse, zSubmitAssignmentBody, zSubmitAssignmentPath, zSubmitAssignmentResponse, zUnassignTeacherPath, zUnassignTeacherResponse, zUpdateAcademicTermBody, zUpdateAcademicTermPath, zUpdateAcademicTermResponse, zUpdateAssignmentBody, zUpdateAssignmentPath, zUpdateAssignmentResponse, zUpdateCourseBody, zUpdateCourseOfferingBody, zUpdateCourseOfferingPath, zUpdateCourseOfferingResponse, zUpdateCoursePath, zUpdateCourseResponse, zUpdateExamTermBody, zUpdateExamTermPath, zUpdateExamTermResponse, zUpdateInstitutionConfigurationBody, zUpdateInstitutionConfigurationPath, zUpdateInstitutionConfigurationResponse, zUpdateLearningMaterialBody, zUpdateLearningMaterialPath, zUpdateLearningMaterialResponse, zUpdateLearningSpaceBody, zUpdateLearningSpacePath, zUpdateLearningSpaceResponse, zUpdateMeBody, zUpdateMeResponse, zUpdateOrgUnitBody, zUpdateOrgUnitPath, zUpdateOrgUnitResponse, zUpdateProgramBody, zUpdateProgramMembershipBody, zUpdateProgramMembershipPath, zUpdateProgramMembershipResponse, zUpdateProgramPath, zUpdateProgramResponse, zUpdateRoomBody, zUpdateRoomPath, zUpdateRoomResponse, zUpdateStudyGroupBody, zUpdateStudyGroupPath, zUpdateTimetableEventBody, zUpdateTimetableEventPath, zUpdateTimetableEventResponse, zWithdrawFromCoursePath, zWithdrawFromCourseResponse } from './zod.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -1667,19 +1667,417 @@ export class Invitations {
 
 export class Learning {
     /**
-     * List the learning spaces imported from the learning management system
+     * List the learning spaces of an institution, or the one on an offering
      */
     public static listLearningSpaces<ThrowOnError extends boolean = false>(options: Options<ListLearningSpacesData, ThrowOnError>): RequestResult<ListLearningSpacesResponses, ListLearningSpacesErrors, ThrowOnError> {
         return (options.client ?? client).get<ListLearningSpacesResponses, ListLearningSpacesErrors, ThrowOnError>({
             requestValidator: async (data) => await z.object({
                 body: z.never().optional(),
                 path: zListLearningSpacesPath,
-                query: z.never().optional()
+                query: zListLearningSpacesQuery.optional()
             }).parseAsync(data),
             responseValidator: async (data) => await zListLearningSpacesResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
             url: '/api/v1/institutions/{institutionId}/learning-spaces',
             ...options
+        });
+    }
+    
+    /**
+     * Open the learning space for an offering
+     *
+     * One space per offering. A new space is unpublished unless `visible` says otherwise, so a course can be built before anybody sees it.
+     */
+    public static createLearningSpace<ThrowOnError extends boolean = false>(options: Options<CreateLearningSpaceData, ThrowOnError>): RequestResult<CreateLearningSpaceResponses, CreateLearningSpaceErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateLearningSpaceResponses, CreateLearningSpaceErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateLearningSpaceBody,
+                path: zCreateLearningSpacePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateLearningSpaceResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * One learning space
+     *
+     * An unpublished space is not found for anybody who cannot publish it.
+     */
+    public static getLearningSpace<ThrowOnError extends boolean = false>(options: Options<GetLearningSpaceData, ThrowOnError>): RequestResult<GetLearningSpaceResponses, GetLearningSpaceErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetLearningSpaceResponses, GetLearningSpaceErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetLearningSpacePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetLearningSpaceResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Rename a space, rewrite its summary, publish or unpublish it
+     */
+    public static updateLearningSpace<ThrowOnError extends boolean = false>(options: Options<UpdateLearningSpaceData, ThrowOnError>): RequestResult<UpdateLearningSpaceResponses, UpdateLearningSpaceErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateLearningSpaceResponses, UpdateLearningSpaceErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateLearningSpaceBody,
+                path: zUpdateLearningSpacePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateLearningSpaceResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * The files, links and notes on a course page, in order
+     *
+     * A hidden material is omitted for anybody who cannot unhide it.
+     */
+    public static listLearningMaterials<ThrowOnError extends boolean = false>(options: Options<ListLearningMaterialsData, ThrowOnError>): RequestResult<ListLearningMaterialsResponses, ListLearningMaterialsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListLearningMaterialsResponses, ListLearningMaterialsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListLearningMaterialsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListLearningMaterialsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials',
+            ...options
+        });
+    }
+    
+    /**
+     * Add a file, a link or a note to a course page
+     */
+    public static createLearningMaterial<ThrowOnError extends boolean = false>(options: Options<CreateLearningMaterialData, ThrowOnError>): RequestResult<CreateLearningMaterialResponses, CreateLearningMaterialErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateLearningMaterialResponses, CreateLearningMaterialErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateLearningMaterialBody,
+                path: zCreateLearningMaterialPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateLearningMaterialResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Ask for somewhere to PUT a file
+     *
+     * The bytes go straight to the object store, never through this API. PUT them at the returned URL with the returned headers, then create the material with the returned key.
+     */
+    public static createMaterialUploadTicket<ThrowOnError extends boolean = false>(options: Options<CreateMaterialUploadTicketData, ThrowOnError>): RequestResult<CreateMaterialUploadTicketResponses, CreateMaterialUploadTicketErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateMaterialUploadTicketResponses, CreateMaterialUploadTicketErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateMaterialUploadTicketBody,
+                path: zCreateMaterialUploadTicketPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateMaterialUploadTicketResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/upload-tickets',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Take a material off the page
+     */
+    public static removeLearningMaterial<ThrowOnError extends boolean = false>(options: Options<RemoveLearningMaterialData, ThrowOnError>): RequestResult<RemoveLearningMaterialResponses, RemoveLearningMaterialErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveLearningMaterialResponses, RemoveLearningMaterialErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveLearningMaterialPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveLearningMaterialResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Retitle a material, move it, hide or show it
+     */
+    public static updateLearningMaterial<ThrowOnError extends boolean = false>(options: Options<UpdateLearningMaterialData, ThrowOnError>): RequestResult<UpdateLearningMaterialResponses, UpdateLearningMaterialErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateLearningMaterialResponses, UpdateLearningMaterialErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateLearningMaterialBody,
+                path: zUpdateLearningMaterialPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateLearningMaterialResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * A short-lived link to the file behind a material
+     */
+    public static getLearningMaterialDownloadUrl<ThrowOnError extends boolean = false>(options: Options<GetLearningMaterialDownloadUrlData, ThrowOnError>): RequestResult<GetLearningMaterialDownloadUrlResponses, GetLearningMaterialDownloadUrlErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetLearningMaterialDownloadUrlResponses, GetLearningMaterialDownloadUrlErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetLearningMaterialDownloadUrlPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetLearningMaterialDownloadUrlResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}/download',
+            ...options
+        });
+    }
+    
+    /**
+     * The assignments on a course page, in order
+     */
+    public static listAssignments<ThrowOnError extends boolean = false>(options: Options<ListAssignmentsData, ThrowOnError>): RequestResult<ListAssignmentsResponses, ListAssignmentsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListAssignmentsResponses, ListAssignmentsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListAssignmentsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListAssignmentsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments',
+            ...options
+        });
+    }
+    
+    /**
+     * Set an assignment: a brief, a window and an attempt policy
+     *
+     * The dates run opens → due → closes. With no explicit close, the due date closes the assignment unless late work is accepted. A gradebook column is opened alongside it, so a mark always has somewhere to go.
+     */
+    public static createAssignment<ThrowOnError extends boolean = false>(options: Options<CreateAssignmentData, ThrowOnError>): RequestResult<CreateAssignmentResponses, CreateAssignmentErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateAssignmentResponses, CreateAssignmentErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateAssignmentBody,
+                path: zCreateAssignmentPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateAssignmentResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Withdraw an assignment and its gradebook column
+     */
+    public static removeAssignment<ThrowOnError extends boolean = false>(options: Options<RemoveAssignmentData, ThrowOnError>): RequestResult<RemoveAssignmentResponses, RemoveAssignmentErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveAssignmentResponses, RemoveAssignmentErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveAssignmentPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveAssignmentResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments/{assignmentId}',
+            ...options
+        });
+    }
+    
+    /**
+     * One assignment, with its brief
+     */
+    public static getAssignment<ThrowOnError extends boolean = false>(options: Options<GetAssignmentData, ThrowOnError>): RequestResult<GetAssignmentResponses, GetAssignmentErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetAssignmentResponses, GetAssignmentErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetAssignmentPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetAssignmentResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments/{assignmentId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Change a brief, a date, the attempt policy or what it is worth
+     */
+    public static updateAssignment<ThrowOnError extends boolean = false>(options: Options<UpdateAssignmentData, ThrowOnError>): RequestResult<UpdateAssignmentResponses, UpdateAssignmentErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateAssignmentResponses, UpdateAssignmentErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateAssignmentBody,
+                path: zUpdateAssignmentPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateAssignmentResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments/{assignmentId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Every attempt the caller has handed in on this assignment
+     */
+    public static listMySubmissions<ThrowOnError extends boolean = false>(options: Options<ListMySubmissionsData, ThrowOnError>): RequestResult<ListMySubmissionsResponses, ListMySubmissionsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListMySubmissionsResponses, ListMySubmissionsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListMySubmissionsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMySubmissionsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/mine',
+            ...options
+        });
+    }
+    
+    /**
+     * Hand work in, or hand it in again
+     *
+     * Each call is a new attempt, refused once the attempt limit is reached. Whether the work is late is decided here from the due date and the server’s clock; the client is not asked and is not believed.
+     */
+    public static submitAssignment<ThrowOnError extends boolean = false>(options: Options<SubmitAssignmentData, ThrowOnError>): RequestResult<SubmitAssignmentResponses, SubmitAssignmentErrors, ThrowOnError> {
+        return (options.client ?? client).post<SubmitAssignmentResponses, SubmitAssignmentErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zSubmitAssignmentBody,
+                path: zSubmitAssignmentPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zSubmitAssignmentResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/mine',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Ask for somewhere to PUT a file being handed in
+     */
+    public static createSubmissionUploadTicket<ThrowOnError extends boolean = false>(options: Options<CreateSubmissionUploadTicketData, ThrowOnError>): RequestResult<CreateSubmissionUploadTicketResponses, CreateSubmissionUploadTicketErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateSubmissionUploadTicketResponses, CreateSubmissionUploadTicketErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateSubmissionUploadTicketBody,
+                path: zCreateSubmissionUploadTicketPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateSubmissionUploadTicketResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/mine/upload-tickets',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Everything handed in on this assignment, for marking
+     *
+     * `grade:read` is not enough on its own: the caller must teach this offering or administer its offerings.
+     */
+    public static listAssignmentSubmissions<ThrowOnError extends boolean = false>(options: Options<ListAssignmentSubmissionsData, ThrowOnError>): RequestResult<ListAssignmentSubmissionsResponses, ListAssignmentSubmissionsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListAssignmentSubmissionsResponses, ListAssignmentSubmissionsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListAssignmentSubmissionsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListAssignmentSubmissionsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions',
+            ...options
+        });
+    }
+    
+    /**
+     * A short-lived link to one handed-in file
+     *
+     * The student who wrote it, or somebody who may mark it. Nobody else.
+     */
+    public static getSubmissionFileDownloadUrl<ThrowOnError extends boolean = false>(options: Options<GetSubmissionFileDownloadUrlData, ThrowOnError>): RequestResult<GetSubmissionFileDownloadUrlResponses, GetSubmissionFileDownloadUrlErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetSubmissionFileDownloadUrlResponses, GetSubmissionFileDownloadUrlErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetSubmissionFileDownloadUrlPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetSubmissionFileDownloadUrlResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/{submissionId}/files/{fileId}/download',
+            ...options
+        });
+    }
+    
+    /**
+     * Give one submission points and feedback
+     *
+     * The mark lands on the assignment’s gradebook column as a working grade. Publishing an official course grade is a separate decision, made in the results screen with `grade:publish`.
+     */
+    public static markSubmission<ThrowOnError extends boolean = false>(options: Options<MarkSubmissionData, ThrowOnError>): RequestResult<MarkSubmissionResponses, MarkSubmissionErrors, ThrowOnError> {
+        return (options.client ?? client).put<MarkSubmissionResponses, MarkSubmissionErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zMarkSubmissionBody,
+                path: zMarkSubmissionPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zMarkSubmissionResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/{submissionId}/mark',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
         });
     }
     
@@ -2028,6 +2426,27 @@ export class Scheduling {
             responseValidator: async (data) => await zCancelExamTermResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
             url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms/{examTermId}/cancellation',
+            ...options
+        });
+    }
+}
+
+export class Search {
+    /**
+     * Search everything the caller may see
+     *
+     * Permission decides what is searched rather than what is filtered afterwards, so a kind the caller cannot read is never queried and an empty result cannot be read as proof that something does not exist.
+     */
+    public static search<ThrowOnError extends boolean = false>(options: Options<SearchData, ThrowOnError>): RequestResult<SearchResponses, SearchErrors, ThrowOnError> {
+        return (options.client ?? client).get<SearchResponses, SearchErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zSearchPath,
+                query: zSearchQuery
+            }).parseAsync(data),
+            responseValidator: async (data) => await zSearchResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/search',
             ...options
         });
     }

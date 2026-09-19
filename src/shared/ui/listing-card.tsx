@@ -15,6 +15,7 @@ import { Card, CardContent } from './card';
  */
 export function ListingCard({
   title,
+  headingLevel: Heading = 'h3',
   code,
   badges,
   header,
@@ -23,6 +24,12 @@ export function ListingCard({
   children,
 }: {
   title: ReactNode;
+  /**
+   * `h3` suits a card inside a section that already has an `h2`, which is where
+   * most of these live. A list rendered straight under the page `h1` passes
+   * `h2`, so the outline never skips a level.
+   */
+  headingLevel?: 'h2' | 'h3';
   code?: ReactNode;
   badges?: ReactNode;
   /** Rendered above the title — the exam cards put the sitting's date there. */
@@ -36,7 +43,7 @@ export function ListingCard({
       <CardContent className="flex flex-col gap-2 py-4">
         {header}
 
-        <h3 className="text-base leading-tight font-semibold">{title}</h3>
+        <Heading className="text-base leading-tight font-semibold">{title}</Heading>
 
         {code === undefined ? null : (
           <p className="text-muted-foreground font-mono text-xs">{code}</p>

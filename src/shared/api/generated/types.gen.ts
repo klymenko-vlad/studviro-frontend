@@ -386,6 +386,25 @@ export type MyCourseResultResponseDto = {
     term: MyCourseResultTermDto;
 };
 
+export type ProgrammeStandingDto = {
+    programId: string;
+    programCode: string;
+    programName: string;
+    studyYear: number | null;
+    standardLengthSemesters: number | null;
+    /**
+     * Null when the programme has no recorded length — there is then no denominator, and the screen must not invent one.
+     */
+    creditsRequired: number | null;
+    creditsEarned: number;
+    percentComplete: number | null;
+    creditsRemaining: number | null;
+    /**
+     * The credits are there. Says nothing about a final examination.
+     */
+    creditsComplete: boolean;
+};
+
 export type StudyProgressResponseDto = {
     gradedCourses: number;
     passedCourses: number;
@@ -394,6 +413,7 @@ export type StudyProgressResponseDto = {
     creditsAttempted: number;
     weightedAverage: number | null;
     awaitingRetake: number;
+    programmes: Array<ProgrammeStandingDto>;
 };
 
 export type OfferingResultsOfferingDto = {
@@ -701,6 +721,219 @@ export type LearningSpaceListResponseDto = {
     linked: number;
     unlinked: number;
     spaces: Array<LearningSpaceDto>;
+};
+
+export type CreateLearningSpaceDto = {
+    courseOfferingId: string;
+    name: string;
+    shortName?: string | null;
+    summary?: string | null;
+    /**
+     * Unpublished unless said otherwise.
+     */
+    visible?: boolean;
+};
+
+export type LearningSpaceDetailResponseDto = {
+    id: string;
+    courseOfferingId: string | null;
+    name: string;
+    shortName: string | null;
+    summary: string | null;
+    visible: boolean;
+    updatedAt: string;
+};
+
+export type UpdateLearningSpaceDto = {
+    name?: string;
+    shortName?: string | null;
+    summary?: string | null;
+    /**
+     * Unpublished unless said otherwise.
+     */
+    visible?: boolean;
+};
+
+export type LearningMaterialResponseDto = {
+    id: string;
+    kind: 'file' | 'link' | 'text';
+    title: string;
+    description: string | null;
+    body: string | null;
+    url: string | null;
+    filename: string | null;
+    contentType: string | null;
+    sizeBytes: number | null;
+    position: number;
+    visible: boolean;
+};
+
+export type RequestUploadTicketDto = {
+    filename: string;
+    contentType: string;
+};
+
+export type UploadTicketResponseDto = {
+    /**
+     * PUT the bytes here, unchanged.
+     */
+    url: string;
+    headers: {
+        [key: string]: string;
+    };
+    key: string;
+    expiresAt: string;
+    maxBytes: number;
+};
+
+export type CreateLearningMaterialDto = {
+    kind: 'file' | 'link' | 'text';
+    title: string;
+    description?: string | null;
+    /**
+     * Text materials only.
+     */
+    body?: string | null;
+    /**
+     * Link materials only.
+     */
+    url?: string | null;
+    /**
+     * File materials only: the key returned with the upload ticket.
+     */
+    storageKey?: string | null;
+    filename?: string | null;
+    visible?: boolean;
+};
+
+export type UpdateLearningMaterialDto = {
+    title?: string;
+    description?: string | null;
+    /**
+     * Text materials only.
+     */
+    body?: string | null;
+    /**
+     * Link materials only.
+     */
+    url?: string | null;
+    /**
+     * File materials only: the key returned with the upload ticket.
+     */
+    storageKey?: string | null;
+    filename?: string | null;
+    visible?: boolean;
+    position?: number;
+};
+
+export type DownloadUrlResponseDto = {
+    /**
+     * Short-lived, and forces a download.
+     */
+    url: string;
+};
+
+export type AssignmentResponseDto = {
+    id: string;
+    learningSpaceId: string;
+    assessmentId: string;
+    name: string;
+    brief: string | null;
+    opensAt: string | null;
+    dueAt: string | null;
+    closesAt: string | null;
+    maxAttempts: number | null;
+    allowsLateSubmission: boolean;
+    maxPoints: number | null;
+    countsTowardFinalGrade: boolean;
+    position: number | null;
+    visible: boolean;
+};
+
+export type CreateAssignmentDto = {
+    name: string;
+    brief?: string | null;
+    opensAt?: string | null;
+    dueAt?: string | null;
+    closesAt?: string | null;
+    /**
+     * Null means unlimited. Defaults to one.
+     */
+    maxAttempts?: number | null;
+    allowsLateSubmission?: boolean;
+    maxPoints?: number | null;
+    countsTowardFinalGrade?: boolean;
+    visible?: boolean;
+};
+
+export type UpdateAssignmentDto = {
+    name?: string;
+    brief?: string | null;
+    opensAt?: string | null;
+    dueAt?: string | null;
+    closesAt?: string | null;
+    /**
+     * Null means unlimited. Defaults to one.
+     */
+    maxAttempts?: number | null;
+    allowsLateSubmission?: boolean;
+    maxPoints?: number | null;
+    countsTowardFinalGrade?: boolean;
+    visible?: boolean;
+    position?: number;
+};
+
+export type SubmissionStudentDto = {
+    id: string;
+    displayName: string;
+    email: string;
+};
+
+export type SubmissionFileResponseDto = {
+    id: string;
+    filename: string;
+    contentType: string;
+    sizeBytes: number;
+};
+
+export type SubmissionResponseDto = {
+    id: string;
+    assignmentId: string;
+    state: 'draft' | 'submitted' | 'returned' | 'graded';
+    attempt: number;
+    submittedAt: string | null;
+    isLate: boolean;
+    notes: string | null;
+    student: SubmissionStudentDto;
+    files: Array<SubmissionFileResponseDto>;
+};
+
+export type SubmissionFileInputDto = {
+    /**
+     * The key from the upload ticket.
+     */
+    storageKey: string;
+    filename: string;
+};
+
+export type SubmitAssignmentDto = {
+    files: Array<SubmissionFileInputDto>;
+    notes?: string | null;
+};
+
+export type MarkSubmissionDto = {
+    points?: number | null;
+    feedback?: string | null;
+};
+
+export type MarkedSubmissionResponseDto = {
+    submissionId: string;
+    state: 'draft' | 'submitted' | 'returned' | 'graded';
+    assessmentResultId: string;
+    points: number | null;
+    normalizedScore: number | null;
+    feedback: string | null;
+    gradedAt: string | null;
 };
 
 export type DeadlineSubmissionDto = {
@@ -1027,6 +1260,29 @@ export type UpdateExamTermDto = {
      * Somebody who teaches this offering.
      */
     examinerId?: string | null;
+};
+
+export type SearchHitDto = {
+    kind: 'course' | 'offering' | 'program' | 'person' | 'orgUnit' | 'room';
+    id: string;
+    title: string;
+    subtitle: string | null;
+    context: string | null;
+    offeringId?: string | null;
+    programId?: string | null;
+};
+
+export type SearchResultsDto = {
+    query: string;
+    hits: Array<SearchHitDto>;
+    /**
+     * What this caller was allowed to search at all. A kind absent here was never queried, so an empty result does not mean the thing does not exist.
+     */
+    searched: Array<'course' | 'offering' | 'program' | 'person' | 'orgUnit' | 'room'>;
+    /**
+     * Some kind returned its full page; refine the query.
+     */
+    truncated: boolean;
 };
 
 export type EnrollmentAvailabilityDto = {
@@ -3168,7 +3424,9 @@ export type ListLearningSpacesData = {
     path: {
         institutionId: string;
     };
-    query?: never;
+    query?: {
+        offeringId?: string;
+    };
     url: '/api/v1/institutions/{institutionId}/learning-spaces';
 };
 
@@ -3194,6 +3452,794 @@ export type ListLearningSpacesResponses = {
 };
 
 export type ListLearningSpacesResponse = ListLearningSpacesResponses[keyof ListLearningSpacesResponses];
+
+export type CreateLearningSpaceData = {
+    body: CreateLearningSpaceDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces';
+};
+
+export type CreateLearningSpaceErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateLearningSpaceError = CreateLearningSpaceErrors[keyof CreateLearningSpaceErrors];
+
+export type CreateLearningSpaceResponses = {
+    201: LearningSpaceDetailResponseDto;
+};
+
+export type CreateLearningSpaceResponse = CreateLearningSpaceResponses[keyof CreateLearningSpaceResponses];
+
+export type GetLearningSpaceData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}';
+};
+
+export type GetLearningSpaceErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetLearningSpaceError = GetLearningSpaceErrors[keyof GetLearningSpaceErrors];
+
+export type GetLearningSpaceResponses = {
+    200: LearningSpaceDetailResponseDto;
+};
+
+export type GetLearningSpaceResponse = GetLearningSpaceResponses[keyof GetLearningSpaceResponses];
+
+export type UpdateLearningSpaceData = {
+    body: UpdateLearningSpaceDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}';
+};
+
+export type UpdateLearningSpaceErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateLearningSpaceError = UpdateLearningSpaceErrors[keyof UpdateLearningSpaceErrors];
+
+export type UpdateLearningSpaceResponses = {
+    200: LearningSpaceDetailResponseDto;
+};
+
+export type UpdateLearningSpaceResponse = UpdateLearningSpaceResponses[keyof UpdateLearningSpaceResponses];
+
+export type ListLearningMaterialsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials';
+};
+
+export type ListLearningMaterialsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListLearningMaterialsError = ListLearningMaterialsErrors[keyof ListLearningMaterialsErrors];
+
+export type ListLearningMaterialsResponses = {
+    200: Array<LearningMaterialResponseDto>;
+};
+
+export type ListLearningMaterialsResponse = ListLearningMaterialsResponses[keyof ListLearningMaterialsResponses];
+
+export type CreateLearningMaterialData = {
+    body: CreateLearningMaterialDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials';
+};
+
+export type CreateLearningMaterialErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateLearningMaterialError = CreateLearningMaterialErrors[keyof CreateLearningMaterialErrors];
+
+export type CreateLearningMaterialResponses = {
+    201: LearningMaterialResponseDto;
+};
+
+export type CreateLearningMaterialResponse = CreateLearningMaterialResponses[keyof CreateLearningMaterialResponses];
+
+export type CreateMaterialUploadTicketData = {
+    body: RequestUploadTicketDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/upload-tickets';
+};
+
+export type CreateMaterialUploadTicketErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateMaterialUploadTicketError = CreateMaterialUploadTicketErrors[keyof CreateMaterialUploadTicketErrors];
+
+export type CreateMaterialUploadTicketResponses = {
+    201: UploadTicketResponseDto;
+};
+
+export type CreateMaterialUploadTicketResponse = CreateMaterialUploadTicketResponses[keyof CreateMaterialUploadTicketResponses];
+
+export type RemoveLearningMaterialData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        materialId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}';
+};
+
+export type RemoveLearningMaterialErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveLearningMaterialError = RemoveLearningMaterialErrors[keyof RemoveLearningMaterialErrors];
+
+export type RemoveLearningMaterialResponses = {
+    204: void;
+};
+
+export type RemoveLearningMaterialResponse = RemoveLearningMaterialResponses[keyof RemoveLearningMaterialResponses];
+
+export type UpdateLearningMaterialData = {
+    body: UpdateLearningMaterialDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        materialId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}';
+};
+
+export type UpdateLearningMaterialErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateLearningMaterialError = UpdateLearningMaterialErrors[keyof UpdateLearningMaterialErrors];
+
+export type UpdateLearningMaterialResponses = {
+    200: LearningMaterialResponseDto;
+};
+
+export type UpdateLearningMaterialResponse = UpdateLearningMaterialResponses[keyof UpdateLearningMaterialResponses];
+
+export type GetLearningMaterialDownloadUrlData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        materialId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}/download';
+};
+
+export type GetLearningMaterialDownloadUrlErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetLearningMaterialDownloadUrlError = GetLearningMaterialDownloadUrlErrors[keyof GetLearningMaterialDownloadUrlErrors];
+
+export type GetLearningMaterialDownloadUrlResponses = {
+    200: DownloadUrlResponseDto;
+};
+
+export type GetLearningMaterialDownloadUrlResponse = GetLearningMaterialDownloadUrlResponses[keyof GetLearningMaterialDownloadUrlResponses];
+
+export type ListAssignmentsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments';
+};
+
+export type ListAssignmentsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListAssignmentsError = ListAssignmentsErrors[keyof ListAssignmentsErrors];
+
+export type ListAssignmentsResponses = {
+    200: Array<AssignmentResponseDto>;
+};
+
+export type ListAssignmentsResponse = ListAssignmentsResponses[keyof ListAssignmentsResponses];
+
+export type CreateAssignmentData = {
+    body: CreateAssignmentDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments';
+};
+
+export type CreateAssignmentErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateAssignmentError = CreateAssignmentErrors[keyof CreateAssignmentErrors];
+
+export type CreateAssignmentResponses = {
+    201: AssignmentResponseDto;
+};
+
+export type CreateAssignmentResponse = CreateAssignmentResponses[keyof CreateAssignmentResponses];
+
+export type RemoveAssignmentData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        assignmentId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments/{assignmentId}';
+};
+
+export type RemoveAssignmentErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveAssignmentError = RemoveAssignmentErrors[keyof RemoveAssignmentErrors];
+
+export type RemoveAssignmentResponses = {
+    204: void;
+};
+
+export type RemoveAssignmentResponse = RemoveAssignmentResponses[keyof RemoveAssignmentResponses];
+
+export type GetAssignmentData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        assignmentId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments/{assignmentId}';
+};
+
+export type GetAssignmentErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetAssignmentError = GetAssignmentErrors[keyof GetAssignmentErrors];
+
+export type GetAssignmentResponses = {
+    200: AssignmentResponseDto;
+};
+
+export type GetAssignmentResponse = GetAssignmentResponses[keyof GetAssignmentResponses];
+
+export type UpdateAssignmentData = {
+    body: UpdateAssignmentDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        assignmentId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments/{assignmentId}';
+};
+
+export type UpdateAssignmentErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateAssignmentError = UpdateAssignmentErrors[keyof UpdateAssignmentErrors];
+
+export type UpdateAssignmentResponses = {
+    200: AssignmentResponseDto;
+};
+
+export type UpdateAssignmentResponse = UpdateAssignmentResponses[keyof UpdateAssignmentResponses];
+
+export type ListMySubmissionsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        assignmentId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/mine';
+};
+
+export type ListMySubmissionsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMySubmissionsError = ListMySubmissionsErrors[keyof ListMySubmissionsErrors];
+
+export type ListMySubmissionsResponses = {
+    200: Array<SubmissionResponseDto>;
+};
+
+export type ListMySubmissionsResponse = ListMySubmissionsResponses[keyof ListMySubmissionsResponses];
+
+export type SubmitAssignmentData = {
+    body: SubmitAssignmentDto;
+    path: {
+        institutionId: string;
+        assignmentId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/mine';
+};
+
+export type SubmitAssignmentErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type SubmitAssignmentError = SubmitAssignmentErrors[keyof SubmitAssignmentErrors];
+
+export type SubmitAssignmentResponses = {
+    201: SubmissionResponseDto;
+};
+
+export type SubmitAssignmentResponse = SubmitAssignmentResponses[keyof SubmitAssignmentResponses];
+
+export type CreateSubmissionUploadTicketData = {
+    body: RequestUploadTicketDto;
+    path: {
+        institutionId: string;
+        assignmentId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/mine/upload-tickets';
+};
+
+export type CreateSubmissionUploadTicketErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateSubmissionUploadTicketError = CreateSubmissionUploadTicketErrors[keyof CreateSubmissionUploadTicketErrors];
+
+export type CreateSubmissionUploadTicketResponses = {
+    201: UploadTicketResponseDto;
+};
+
+export type CreateSubmissionUploadTicketResponse = CreateSubmissionUploadTicketResponses[keyof CreateSubmissionUploadTicketResponses];
+
+export type ListAssignmentSubmissionsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        assignmentId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions';
+};
+
+export type ListAssignmentSubmissionsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListAssignmentSubmissionsError = ListAssignmentSubmissionsErrors[keyof ListAssignmentSubmissionsErrors];
+
+export type ListAssignmentSubmissionsResponses = {
+    200: Array<SubmissionResponseDto>;
+};
+
+export type ListAssignmentSubmissionsResponse = ListAssignmentSubmissionsResponses[keyof ListAssignmentSubmissionsResponses];
+
+export type GetSubmissionFileDownloadUrlData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        assignmentId: string;
+        submissionId: string;
+        fileId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/{submissionId}/files/{fileId}/download';
+};
+
+export type GetSubmissionFileDownloadUrlErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetSubmissionFileDownloadUrlError = GetSubmissionFileDownloadUrlErrors[keyof GetSubmissionFileDownloadUrlErrors];
+
+export type GetSubmissionFileDownloadUrlResponses = {
+    200: DownloadUrlResponseDto;
+};
+
+export type GetSubmissionFileDownloadUrlResponse = GetSubmissionFileDownloadUrlResponses[keyof GetSubmissionFileDownloadUrlResponses];
+
+export type MarkSubmissionData = {
+    body: MarkSubmissionDto;
+    path: {
+        institutionId: string;
+        assignmentId: string;
+        submissionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/{submissionId}/mark';
+};
+
+export type MarkSubmissionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type MarkSubmissionError = MarkSubmissionErrors[keyof MarkSubmissionErrors];
+
+export type MarkSubmissionResponses = {
+    200: MarkedSubmissionResponseDto;
+};
+
+export type MarkSubmissionResponse = MarkSubmissionResponses[keyof MarkSubmissionResponses];
 
 export type ListMyDeadlinesData = {
     body?: never;
@@ -3875,6 +4921,47 @@ export type CancelExamTermResponses = {
 };
 
 export type CancelExamTermResponse = CancelExamTermResponses[keyof CancelExamTermResponses];
+
+export type SearchData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query: {
+        /**
+         * At least two characters.
+         */
+        q: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/search';
+};
+
+export type SearchErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type SearchError = SearchErrors[keyof SearchErrors];
+
+export type SearchResponses = {
+    200: SearchResultsDto;
+};
+
+export type SearchResponse = SearchResponses[keyof SearchResponses];
 
 export type ListEnrollableOfferingsData = {
     body?: never;

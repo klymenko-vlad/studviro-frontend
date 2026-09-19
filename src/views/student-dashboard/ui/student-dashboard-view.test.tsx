@@ -1,7 +1,13 @@
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
-import { permissions, renderWithProviders, screen, server } from '@/shared/test';
+import {
+  permissions,
+  renderAndAudit,
+  renderWithProviders,
+  screen,
+  server,
+} from '@/shared/test';
 
 import { StudentDashboardView } from './student-dashboard-view';
 
@@ -56,5 +62,13 @@ describe('StudentDashboardView', () => {
     renderWithProviders(<StudentDashboardView institutionId={INSTITUTION} />);
 
     expect(await screen.findByText('Nothing to show yet')).toBeInTheDocument();
+  });
+});
+
+describe('StudentDashboardView accessibility', () => {
+  it('has no axe violations once every tile has loaded', async () => {
+    await renderAndAudit(<StudentDashboardView institutionId={INSTITUTION} />, () =>
+      screen.findByText('Current courses'),
+    );
   });
 });

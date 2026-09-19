@@ -48,7 +48,7 @@ export function OfferingGrades({
         {results.data.canPublish ? t('mayPublish') : t('mayOnlyPropose')}
       </p>
 
-      <Table>
+      <Table label={t('panelTitle')}>
         <TableHeader>
           <TableRow>
             <TableHead>{t('column.student')}</TableHead>

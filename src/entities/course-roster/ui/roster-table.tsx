@@ -32,7 +32,7 @@ export function RosterTable({
   const format = useFormatter();
 
   return (
-    <Table aria-label={caption}>
+    <Table label={caption}>
       <TableHeader>
         <TableRow>
           <TableHead>{t('column.student')}</TableHead>

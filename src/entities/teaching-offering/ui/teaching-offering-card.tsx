@@ -26,7 +26,7 @@ export function TeachingOfferingCard({
     <Card>
       <CardHeader className="gap-1">
         <div className="flex flex-wrap items-start justify-between gap-2">
-          <CardTitle className="text-base">
+          <CardTitle as="h3" className="text-base">
             {href === undefined ? (
               offering.course.title
             ) : (

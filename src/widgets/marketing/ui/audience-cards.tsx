@@ -22,7 +22,7 @@ export function AudienceCards({ items }: { items: readonly AudienceItem[] }) {
         <li key={item.key} className="flex">
           <Card className="hover:border-ring focus-within:border-ring relative w-full gap-3 transition-colors">
             <CardHeader>
-              <CardTitle className="text-base">
+              <CardTitle as="h3" className="text-base">
                 <Link
                   href={item.href}
                   className="after:absolute after:inset-0 focus-visible:outline-none"

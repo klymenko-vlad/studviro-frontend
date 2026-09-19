@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { renderWithProviders, screen } from '@/shared/test';
+import { renderAndAudit, renderWithProviders, screen } from '@/shared/test';
 
 import { HomeView } from './home-view';
 
@@ -87,5 +87,11 @@ describe('HomeView', () => {
         /Course materials, assignments and submissions are the next phase/,
       ),
     ).toBeInTheDocument();
+  });
+});
+
+describe('HomeView accessibility', () => {
+  it('has no axe violations — the public landing', async () => {
+    await renderAndAudit(<HomeView signedIn={false} />);
   });
 });

@@ -40,7 +40,7 @@ export function RoleAssignmentTable({ institutionId }: { institutionId: string }
     return <p className="text-muted-foreground text-sm">{t('empty')}</p>;
 
   return (
-    <Table>
+    <Table label={t('tableLabel')}>
       <TableHeader>
         <TableRow>
           <TableHead>{t('userId')}</TableHead>

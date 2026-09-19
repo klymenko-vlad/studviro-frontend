@@ -21,7 +21,7 @@ export function ForInstitutionsView() {
 
   return (
     <>
-      <main className="flex flex-1 flex-col">
+      <main id="main-content" className="flex flex-1 flex-col">
         <MarketingHero
           eyebrow={m('nav.forInstitutions')}
           title={t('hero.title')}

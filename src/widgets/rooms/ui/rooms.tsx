@@ -45,7 +45,7 @@ export function Rooms({ institutionId }: { institutionId: string }) {
         ) : rooms.data.length === 0 ? (
           <p className="text-muted-foreground text-sm">{t('empty')}</p>
         ) : (
-          <Table data-testid="rooms-table">
+          <Table label={t('title')} data-testid="rooms-table">
             <TableHeader>
               <TableRow>
                 <TableHead>{t('column.code')}</TableHead>

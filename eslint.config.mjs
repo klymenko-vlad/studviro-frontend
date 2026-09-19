@@ -146,6 +146,16 @@ export default defineConfig([
     files: ['**/*.tsx'],
     rules: {
       ...jsxA11y.flatConfigs.strict.rules,
+
+      /* `region` is added to the rule's allowlist, not exempted from it: a
+         region that scrolls has to be in the tab order or a keyboard user
+         cannot reach the content to the side of it (WCAG 2.1.1), which is
+         exactly what axe's `scrollable-region-focusable` checks. The rule
+         ships with only `tabpanel` allowed. */
+      'jsx-a11y/no-noninteractive-tabindex': [
+        'error',
+        { tags: [], roles: ['tabpanel', 'region'], allowExpressionValues: true },
+      ],
     },
   },
 

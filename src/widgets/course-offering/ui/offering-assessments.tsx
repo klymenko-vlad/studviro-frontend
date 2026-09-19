@@ -49,7 +49,7 @@ export function OfferingAssessments({
         ) : data.length === 0 ? (
           <p className="text-muted-foreground">{t('empty')}</p>
         ) : (
-          <Table>
+          <Table label={t('panel')}>
             <TableHeader>
               <TableRow>
                 <TableHead>{t('column.assessment')}</TableHead>

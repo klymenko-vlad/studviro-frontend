@@ -20,7 +20,10 @@ export function InstitutionProgramView({
   const program = programs.data?.find(candidate => candidate.id === programId);
 
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-6 py-12">
+    <main
+      id="main-content"
+      className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-6 py-12"
+    >
       {programs.isPending ? (
         <Skeleton className="h-16 w-full" data-testid="program-loading" />
       ) : program === undefined ? (

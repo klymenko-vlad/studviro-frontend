@@ -48,7 +48,7 @@ export function Catalogue({ institutionId }: { institutionId: string }) {
           ) : programs.data.length === 0 ? (
             <p className="text-muted-foreground text-sm">{t('programs.empty')}</p>
           ) : (
-            <Table data-testid="programs-table">
+            <Table label={t('programs.title')} data-testid="programs-table">
               <TableHeader>
                 <TableRow>
                   <TableHead>{t('column.code')}</TableHead>
@@ -94,7 +94,7 @@ export function Catalogue({ institutionId }: { institutionId: string }) {
           ) : courses.data.length === 0 ? (
             <p className="text-muted-foreground text-sm">{t('courses.empty')}</p>
           ) : (
-            <Table data-testid="courses-table">
+            <Table label={t('courses.title')} data-testid="courses-table">
               <TableHeader>
                 <TableRow>
                   <TableHead>{t('column.code')}</TableHead>

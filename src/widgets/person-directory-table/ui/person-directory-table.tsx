@@ -41,7 +41,7 @@ export function PersonDirectoryTable({ institutionId }: { institutionId: string 
     return <p className="text-muted-foreground text-sm">{t('empty')}</p>;
 
   return (
-    <Table>
+    <Table label={t('title')}>
       <TableHeader>
         <TableRow>
           <TableHead>{t('name')}</TableHead>

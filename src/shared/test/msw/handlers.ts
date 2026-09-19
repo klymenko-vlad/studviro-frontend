@@ -1198,6 +1198,20 @@ export const studyProgress: StudyProgressResponseDto = {
   creditsAttempted: 6,
   weightedAverage: 1,
   awaitingRetake: 0,
+  programmes: [
+    {
+      programId: 'cccccccc-cccc-4ccc-8ccc-ccccccccccc1',
+      programCode: 'INF-BC',
+      programName: 'Informatics',
+      studyYear: 2,
+      standardLengthSemesters: 6,
+      creditsRequired: 180,
+      creditsEarned: 6,
+      percentComplete: 3,
+      creditsRemaining: 174,
+      creditsComplete: false,
+    },
+  ],
 };
 
 export const handlers = [

@@ -2,6 +2,7 @@
  * Public API of the test-support segment. Test files import from
  * `@/shared/test` rather than reaching into individual modules.
  */
+export { expectNoAxeViolations, renderAndAudit } from './axe';
 export { renderWithProviders, screen, userEvent, waitFor, within } from './render';
 export {
   academicTerms,

@@ -7,7 +7,8 @@
     "save": "Save",
     "appDescription": "The student platform for coursework, schedules and collaboration.",
     "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "hidePassword": "Hide password",
+    "skipToContent": "Skip to Content"
   },
   "nav": {
     "account": "Account",
@@ -215,7 +216,8 @@
     "invite": "Send invitation",
     "inviting": "Sending…",
     "invited": "Invitation sent",
-    "devTokenNotice": "No mail is sent outside production. Invitation link: /sign-up?invitation={token}"
+    "devTokenNotice": "No mail is sent outside production. Invitation link: /sign-up?invitation={token}",
+    "tableLabel": "Role Assignments"
   },
   "institutionSettings": {
     "title": "Institution settings",
@@ -1619,6 +1621,7 @@
       "line": "Row",
       "status": "Status",
       "detail": "What happens"
-    }
+    },
+    "rowsLabel": "Import Rows"
   }
 }

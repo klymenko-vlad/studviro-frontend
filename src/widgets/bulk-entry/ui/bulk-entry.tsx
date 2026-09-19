@@ -102,11 +102,12 @@ export function BulkEntry({ institutionId }: { institutionId: string }) {
 
         <div className="flex flex-col gap-1">
           <Label htmlFor="bulk-text">{t('field.text')}</Label>
-          <p className="text-muted-foreground text-sm">
+          <p id="bulk-text-columns" className="text-muted-foreground text-sm">
             {t('field.columns', { columns: BULK_COLUMNS[kind] })}
           </p>
           <Textarea
             id="bulk-text"
+            aria-describedby="bulk-text-columns"
             rows={10}
             className="font-mono text-xs"
             placeholder={BULK_EXAMPLE[kind]}
@@ -134,7 +135,9 @@ export function BulkEntry({ institutionId }: { institutionId: string }) {
               run(true);
             }}
           >
-            {active.isPending ? <LoaderCircle className="size-4 animate-spin" /> : null}
+            {active.isPending ? (
+              <LoaderCircle className="size-4 animate-spin" aria-hidden />
+            ) : null}
             {t('preview')}
           </Button>
 
@@ -151,7 +154,15 @@ export function BulkEntry({ institutionId }: { institutionId: string }) {
           </Button>
         </div>
 
-        {preview === null ? null : <BulkResult result={preview} />}
+        {/*
+          The dry run's answer arrives without moving focus, so it is announced
+          rather than left for the caller to notice (WCAG 4.1.3). The wrapper is
+          always rendered: a live region added to the DOM at the same moment as
+          its content is not announced at all.
+        */}
+        <div aria-live="polite">
+          {preview === null ? null : <BulkResult result={preview} />}
+        </div>
       </CardContent>
     </Card>
   );
@@ -176,7 +187,7 @@ function BulkResult({ result }: { result: BulkImportResultDto }) {
         </span>
       </div>
 
-      <Table data-testid="bulk-rows">
+      <Table label={t('rowsLabel')} data-testid="bulk-rows">
         <TableHeader>
           <TableRow>
             <TableHead>{t('column.line')}</TableHead>

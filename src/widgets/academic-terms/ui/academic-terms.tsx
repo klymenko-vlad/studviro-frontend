@@ -52,7 +52,7 @@ export function AcademicTerms({ institutionId }: { institutionId: string }) {
         ) : terms.data.length === 0 ? (
           <p className="text-muted-foreground text-sm">{t('empty')}</p>
         ) : (
-          <Table data-testid="academic-terms-table">
+          <Table label={t('title')} data-testid="academic-terms-table">
             <TableHeader>
               <TableRow>
                 <TableHead>{t('column.code')}</TableHead>

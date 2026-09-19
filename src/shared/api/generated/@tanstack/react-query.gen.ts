@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { Audit, Auth, Catalogue, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, RoleAssignments, Schedule, Scheduling, Users } from '../sdk.gen';
-import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, AddStudyGroupMemberData, AddStudyGroupMemberError, AddStudyGroupMemberResponse, AdmitToProgramData, AdmitToProgramError, AssignTeacherData, AssignTeacherError, BulkImportCourseOfferingsData, BulkImportCourseOfferingsError, BulkImportCourseOfferingsResponse, BulkImportProgramMembersData, BulkImportProgramMembersError, BulkImportProgramMembersResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, CancelExamTermData, CancelExamTermError, CancelExamTermResponse, CancelTimetableEventData, CancelTimetableEventError, CancelTimetableEventResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateAcademicTermData, CreateAcademicTermError, CreateAcademicTermResponse, CreateCourseData, CreateCourseError, CreateCourseOfferingData, CreateCourseOfferingError, CreateCourseOfferingResponse, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateExamTermData, CreateExamTermError, CreateExamTermResponse, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateOrgUnitData, CreateOrgUnitError, CreateOrgUnitResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateResponse, CreateRoomData, CreateRoomError, CreateRoomResponse, CreateStudyGroupData, CreateStudyGroupError, CreateTimetableEventData, CreateTimetableEventError, CreateTimetableEventResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListAcademicTermsData, ListAcademicTermsError, ListAcademicTermsResponse, ListAuditEventsData, ListAuditEventsError, ListAuditEventsResponse, ListCourseOfferingsData, ListCourseOfferingsError, ListCourseOfferingsResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingExamTermsData, ListOfferingExamTermsError, ListOfferingExamTermsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOfferingTimetableData, ListOfferingTimetableError, ListOfferingTimetableResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramMembersData, ListProgramMembersError, ListProgramMembersResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListRoomsData, ListRoomsError, ListRoomsResponse, ListStudyGroupsData, ListStudyGroupsError, ListStudyGroupsResponse, ListTeachingAssignmentsData, ListTeachingAssignmentsError, ListTeachingAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MeData, MeError, MeResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveAcademicTermData, RemoveAcademicTermError, RemoveAcademicTermResponse, RemoveCourseData, RemoveCourseError, RemoveCourseOfferingData, RemoveCourseOfferingError, RemoveCourseOfferingResponse, RemoveCourseResponse, RemoveData, RemoveError, RemoveExamTermData, RemoveExamTermError, RemoveExamTermResponse, RemoveOrgUnitData, RemoveOrgUnitError, RemoveOrgUnitResponse, RemoveProgramData, RemoveProgramError, RemoveProgramMembershipData, RemoveProgramMembershipError, RemoveProgramMembershipResponse, RemoveProgramResponse, RemoveResponse, RemoveRoomData, RemoveRoomError, RemoveRoomResponse, RemoveStudyGroupData, RemoveStudyGroupError, RemoveStudyGroupMemberData, RemoveStudyGroupMemberError, RemoveStudyGroupMemberResponse, RemoveStudyGroupResponse, RemoveTimetableEventData, RemoveTimetableEventError, RemoveTimetableEventResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, RestoreTimetableEventData, RestoreTimetableEventError, RestoreTimetableEventResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, UnassignTeacherData, UnassignTeacherError, UnassignTeacherResponse, UpdateAcademicTermData, UpdateAcademicTermError, UpdateAcademicTermResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateExamTermData, UpdateExamTermError, UpdateExamTermResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateOrgUnitData, UpdateOrgUnitError, UpdateOrgUnitResponse, UpdateProgramData, UpdateProgramError, UpdateProgramMembershipData, UpdateProgramMembershipError, UpdateProgramMembershipResponse, UpdateProgramResponse, UpdateRoomData, UpdateRoomError, UpdateRoomResponse, UpdateStudyGroupData, UpdateStudyGroupError, UpdateTimetableEventData, UpdateTimetableEventError, UpdateTimetableEventResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
+import { Audit, Auth, Catalogue, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, RoleAssignments, Schedule, Scheduling, Search, Users } from '../sdk.gen';
+import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, AddStudyGroupMemberData, AddStudyGroupMemberError, AddStudyGroupMemberResponse, AdmitToProgramData, AdmitToProgramError, AssignTeacherData, AssignTeacherError, BulkImportCourseOfferingsData, BulkImportCourseOfferingsError, BulkImportCourseOfferingsResponse, BulkImportProgramMembersData, BulkImportProgramMembersError, BulkImportProgramMembersResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, CancelExamTermData, CancelExamTermError, CancelExamTermResponse, CancelTimetableEventData, CancelTimetableEventError, CancelTimetableEventResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateAcademicTermData, CreateAcademicTermError, CreateAcademicTermResponse, CreateAssignmentData, CreateAssignmentError, CreateAssignmentResponse, CreateCourseData, CreateCourseError, CreateCourseOfferingData, CreateCourseOfferingError, CreateCourseOfferingResponse, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateExamTermData, CreateExamTermError, CreateExamTermResponse, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateLearningMaterialData, CreateLearningMaterialError, CreateLearningMaterialResponse, CreateLearningSpaceData, CreateLearningSpaceError, CreateLearningSpaceResponse, CreateMaterialUploadTicketData, CreateMaterialUploadTicketError, CreateMaterialUploadTicketResponse, CreateOrgUnitData, CreateOrgUnitError, CreateOrgUnitResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateResponse, CreateRoomData, CreateRoomError, CreateRoomResponse, CreateStudyGroupData, CreateStudyGroupError, CreateSubmissionUploadTicketData, CreateSubmissionUploadTicketError, CreateSubmissionUploadTicketResponse, CreateTimetableEventData, CreateTimetableEventError, CreateTimetableEventResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetAssignmentData, GetAssignmentError, GetAssignmentResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetLearningMaterialDownloadUrlData, GetLearningMaterialDownloadUrlError, GetLearningMaterialDownloadUrlResponse, GetLearningSpaceData, GetLearningSpaceError, GetLearningSpaceResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSubmissionFileDownloadUrlData, GetSubmissionFileDownloadUrlError, GetSubmissionFileDownloadUrlResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListAcademicTermsData, ListAcademicTermsError, ListAcademicTermsResponse, ListAssignmentsData, ListAssignmentsError, ListAssignmentsResponse, ListAssignmentSubmissionsData, ListAssignmentSubmissionsError, ListAssignmentSubmissionsResponse, ListAuditEventsData, ListAuditEventsError, ListAuditEventsResponse, ListCourseOfferingsData, ListCourseOfferingsError, ListCourseOfferingsResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListLearningMaterialsData, ListLearningMaterialsError, ListLearningMaterialsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMySubmissionsData, ListMySubmissionsError, ListMySubmissionsResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingExamTermsData, ListOfferingExamTermsError, ListOfferingExamTermsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOfferingTimetableData, ListOfferingTimetableError, ListOfferingTimetableResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramMembersData, ListProgramMembersError, ListProgramMembersResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListRoomsData, ListRoomsError, ListRoomsResponse, ListStudyGroupsData, ListStudyGroupsError, ListStudyGroupsResponse, ListTeachingAssignmentsData, ListTeachingAssignmentsError, ListTeachingAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MarkSubmissionData, MarkSubmissionError, MarkSubmissionResponse, MeData, MeError, MeResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveAcademicTermData, RemoveAcademicTermError, RemoveAcademicTermResponse, RemoveAssignmentData, RemoveAssignmentError, RemoveAssignmentResponse, RemoveCourseData, RemoveCourseError, RemoveCourseOfferingData, RemoveCourseOfferingError, RemoveCourseOfferingResponse, RemoveCourseResponse, RemoveData, RemoveError, RemoveExamTermData, RemoveExamTermError, RemoveExamTermResponse, RemoveLearningMaterialData, RemoveLearningMaterialError, RemoveLearningMaterialResponse, RemoveOrgUnitData, RemoveOrgUnitError, RemoveOrgUnitResponse, RemoveProgramData, RemoveProgramError, RemoveProgramMembershipData, RemoveProgramMembershipError, RemoveProgramMembershipResponse, RemoveProgramResponse, RemoveResponse, RemoveRoomData, RemoveRoomError, RemoveRoomResponse, RemoveStudyGroupData, RemoveStudyGroupError, RemoveStudyGroupMemberData, RemoveStudyGroupMemberError, RemoveStudyGroupMemberResponse, RemoveStudyGroupResponse, RemoveTimetableEventData, RemoveTimetableEventError, RemoveTimetableEventResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, RestoreTimetableEventData, RestoreTimetableEventError, RestoreTimetableEventResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SearchData, SearchError, SearchResponse, SubmitAssignmentData, SubmitAssignmentError, SubmitAssignmentResponse, UnassignTeacherData, UnassignTeacherError, UnassignTeacherResponse, UpdateAcademicTermData, UpdateAcademicTermError, UpdateAcademicTermResponse, UpdateAssignmentData, UpdateAssignmentError, UpdateAssignmentResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateExamTermData, UpdateExamTermError, UpdateExamTermResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateLearningMaterialData, UpdateLearningMaterialError, UpdateLearningMaterialResponse, UpdateLearningSpaceData, UpdateLearningSpaceError, UpdateLearningSpaceResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateOrgUnitData, UpdateOrgUnitError, UpdateOrgUnitResponse, UpdateProgramData, UpdateProgramError, UpdateProgramMembershipData, UpdateProgramMembershipError, UpdateProgramMembershipResponse, UpdateProgramResponse, UpdateRoomData, UpdateRoomError, UpdateRoomResponse, UpdateStudyGroupData, UpdateStudyGroupError, UpdateTimetableEventData, UpdateTimetableEventError, UpdateTimetableEventResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
 
 /**
  * Create an account and start a session
@@ -1056,7 +1056,7 @@ export const acceptInvitationMutation = (options?: Partial<Options<AcceptInvitat
 export const listLearningSpacesQueryKey = (options: Options<ListLearningSpacesData>) => createQueryKey('listLearningSpaces', options);
 
 /**
- * List the learning spaces imported from the learning management system
+ * List the learning spaces of an institution, or the one on an offering
  */
 export const listLearningSpacesOptions = (options: Options<ListLearningSpacesData>) => queryOptions<ListLearningSpacesResponse, ListLearningSpacesError, ListLearningSpacesResponse, ReturnType<typeof listLearningSpacesQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -1070,6 +1070,372 @@ export const listLearningSpacesOptions = (options: Options<ListLearningSpacesDat
     },
     queryKey: listLearningSpacesQueryKey(options)
 });
+
+/**
+ * Open the learning space for an offering
+ *
+ * One space per offering. A new space is unpublished unless `visible` says otherwise, so a course can be built before anybody sees it.
+ */
+export const createLearningSpaceMutation = (options?: Partial<Options<CreateLearningSpaceData>>): UseMutationOptions<CreateLearningSpaceResponse, CreateLearningSpaceError, Options<CreateLearningSpaceData>> => {
+    const mutationOptions: UseMutationOptions<CreateLearningSpaceResponse, CreateLearningSpaceError, Options<CreateLearningSpaceData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.createLearningSpace({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getLearningSpaceQueryKey = (options: Options<GetLearningSpaceData>) => createQueryKey('getLearningSpace', options);
+
+/**
+ * One learning space
+ *
+ * An unpublished space is not found for anybody who cannot publish it.
+ */
+export const getLearningSpaceOptions = (options: Options<GetLearningSpaceData>) => queryOptions<GetLearningSpaceResponse, GetLearningSpaceError, GetLearningSpaceResponse, ReturnType<typeof getLearningSpaceQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.getLearningSpace({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getLearningSpaceQueryKey(options)
+});
+
+/**
+ * Rename a space, rewrite its summary, publish or unpublish it
+ */
+export const updateLearningSpaceMutation = (options?: Partial<Options<UpdateLearningSpaceData>>): UseMutationOptions<UpdateLearningSpaceResponse, UpdateLearningSpaceError, Options<UpdateLearningSpaceData>> => {
+    const mutationOptions: UseMutationOptions<UpdateLearningSpaceResponse, UpdateLearningSpaceError, Options<UpdateLearningSpaceData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.updateLearningSpace({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listLearningMaterialsQueryKey = (options: Options<ListLearningMaterialsData>) => createQueryKey('listLearningMaterials', options);
+
+/**
+ * The files, links and notes on a course page, in order
+ *
+ * A hidden material is omitted for anybody who cannot unhide it.
+ */
+export const listLearningMaterialsOptions = (options: Options<ListLearningMaterialsData>) => queryOptions<ListLearningMaterialsResponse, ListLearningMaterialsError, ListLearningMaterialsResponse, ReturnType<typeof listLearningMaterialsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listLearningMaterials({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listLearningMaterialsQueryKey(options)
+});
+
+/**
+ * Add a file, a link or a note to a course page
+ */
+export const createLearningMaterialMutation = (options?: Partial<Options<CreateLearningMaterialData>>): UseMutationOptions<CreateLearningMaterialResponse, CreateLearningMaterialError, Options<CreateLearningMaterialData>> => {
+    const mutationOptions: UseMutationOptions<CreateLearningMaterialResponse, CreateLearningMaterialError, Options<CreateLearningMaterialData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.createLearningMaterial({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Ask for somewhere to PUT a file
+ *
+ * The bytes go straight to the object store, never through this API. PUT them at the returned URL with the returned headers, then create the material with the returned key.
+ */
+export const createMaterialUploadTicketMutation = (options?: Partial<Options<CreateMaterialUploadTicketData>>): UseMutationOptions<CreateMaterialUploadTicketResponse, CreateMaterialUploadTicketError, Options<CreateMaterialUploadTicketData>> => {
+    const mutationOptions: UseMutationOptions<CreateMaterialUploadTicketResponse, CreateMaterialUploadTicketError, Options<CreateMaterialUploadTicketData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.createMaterialUploadTicket({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Take a material off the page
+ */
+export const removeLearningMaterialMutation = (options?: Partial<Options<RemoveLearningMaterialData>>): UseMutationOptions<RemoveLearningMaterialResponse, RemoveLearningMaterialError, Options<RemoveLearningMaterialData>> => {
+    const mutationOptions: UseMutationOptions<RemoveLearningMaterialResponse, RemoveLearningMaterialError, Options<RemoveLearningMaterialData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.removeLearningMaterial({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Retitle a material, move it, hide or show it
+ */
+export const updateLearningMaterialMutation = (options?: Partial<Options<UpdateLearningMaterialData>>): UseMutationOptions<UpdateLearningMaterialResponse, UpdateLearningMaterialError, Options<UpdateLearningMaterialData>> => {
+    const mutationOptions: UseMutationOptions<UpdateLearningMaterialResponse, UpdateLearningMaterialError, Options<UpdateLearningMaterialData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.updateLearningMaterial({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getLearningMaterialDownloadUrlQueryKey = (options: Options<GetLearningMaterialDownloadUrlData>) => createQueryKey('getLearningMaterialDownloadUrl', options);
+
+/**
+ * A short-lived link to the file behind a material
+ */
+export const getLearningMaterialDownloadUrlOptions = (options: Options<GetLearningMaterialDownloadUrlData>) => queryOptions<GetLearningMaterialDownloadUrlResponse, GetLearningMaterialDownloadUrlError, GetLearningMaterialDownloadUrlResponse, ReturnType<typeof getLearningMaterialDownloadUrlQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.getLearningMaterialDownloadUrl({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getLearningMaterialDownloadUrlQueryKey(options)
+});
+
+export const listAssignmentsQueryKey = (options: Options<ListAssignmentsData>) => createQueryKey('listAssignments', options);
+
+/**
+ * The assignments on a course page, in order
+ */
+export const listAssignmentsOptions = (options: Options<ListAssignmentsData>) => queryOptions<ListAssignmentsResponse, ListAssignmentsError, ListAssignmentsResponse, ReturnType<typeof listAssignmentsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listAssignments({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listAssignmentsQueryKey(options)
+});
+
+/**
+ * Set an assignment: a brief, a window and an attempt policy
+ *
+ * The dates run opens → due → closes. With no explicit close, the due date closes the assignment unless late work is accepted. A gradebook column is opened alongside it, so a mark always has somewhere to go.
+ */
+export const createAssignmentMutation = (options?: Partial<Options<CreateAssignmentData>>): UseMutationOptions<CreateAssignmentResponse, CreateAssignmentError, Options<CreateAssignmentData>> => {
+    const mutationOptions: UseMutationOptions<CreateAssignmentResponse, CreateAssignmentError, Options<CreateAssignmentData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.createAssignment({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Withdraw an assignment and its gradebook column
+ */
+export const removeAssignmentMutation = (options?: Partial<Options<RemoveAssignmentData>>): UseMutationOptions<RemoveAssignmentResponse, RemoveAssignmentError, Options<RemoveAssignmentData>> => {
+    const mutationOptions: UseMutationOptions<RemoveAssignmentResponse, RemoveAssignmentError, Options<RemoveAssignmentData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.removeAssignment({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getAssignmentQueryKey = (options: Options<GetAssignmentData>) => createQueryKey('getAssignment', options);
+
+/**
+ * One assignment, with its brief
+ */
+export const getAssignmentOptions = (options: Options<GetAssignmentData>) => queryOptions<GetAssignmentResponse, GetAssignmentError, GetAssignmentResponse, ReturnType<typeof getAssignmentQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.getAssignment({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getAssignmentQueryKey(options)
+});
+
+/**
+ * Change a brief, a date, the attempt policy or what it is worth
+ */
+export const updateAssignmentMutation = (options?: Partial<Options<UpdateAssignmentData>>): UseMutationOptions<UpdateAssignmentResponse, UpdateAssignmentError, Options<UpdateAssignmentData>> => {
+    const mutationOptions: UseMutationOptions<UpdateAssignmentResponse, UpdateAssignmentError, Options<UpdateAssignmentData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.updateAssignment({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listMySubmissionsQueryKey = (options: Options<ListMySubmissionsData>) => createQueryKey('listMySubmissions', options);
+
+/**
+ * Every attempt the caller has handed in on this assignment
+ */
+export const listMySubmissionsOptions = (options: Options<ListMySubmissionsData>) => queryOptions<ListMySubmissionsResponse, ListMySubmissionsError, ListMySubmissionsResponse, ReturnType<typeof listMySubmissionsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listMySubmissions({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMySubmissionsQueryKey(options)
+});
+
+/**
+ * Hand work in, or hand it in again
+ *
+ * Each call is a new attempt, refused once the attempt limit is reached. Whether the work is late is decided here from the due date and the server’s clock; the client is not asked and is not believed.
+ */
+export const submitAssignmentMutation = (options?: Partial<Options<SubmitAssignmentData>>): UseMutationOptions<SubmitAssignmentResponse, SubmitAssignmentError, Options<SubmitAssignmentData>> => {
+    const mutationOptions: UseMutationOptions<SubmitAssignmentResponse, SubmitAssignmentError, Options<SubmitAssignmentData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.submitAssignment({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Ask for somewhere to PUT a file being handed in
+ */
+export const createSubmissionUploadTicketMutation = (options?: Partial<Options<CreateSubmissionUploadTicketData>>): UseMutationOptions<CreateSubmissionUploadTicketResponse, CreateSubmissionUploadTicketError, Options<CreateSubmissionUploadTicketData>> => {
+    const mutationOptions: UseMutationOptions<CreateSubmissionUploadTicketResponse, CreateSubmissionUploadTicketError, Options<CreateSubmissionUploadTicketData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.createSubmissionUploadTicket({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listAssignmentSubmissionsQueryKey = (options: Options<ListAssignmentSubmissionsData>) => createQueryKey('listAssignmentSubmissions', options);
+
+/**
+ * Everything handed in on this assignment, for marking
+ *
+ * `grade:read` is not enough on its own: the caller must teach this offering or administer its offerings.
+ */
+export const listAssignmentSubmissionsOptions = (options: Options<ListAssignmentSubmissionsData>) => queryOptions<ListAssignmentSubmissionsResponse, ListAssignmentSubmissionsError, ListAssignmentSubmissionsResponse, ReturnType<typeof listAssignmentSubmissionsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listAssignmentSubmissions({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listAssignmentSubmissionsQueryKey(options)
+});
+
+export const getSubmissionFileDownloadUrlQueryKey = (options: Options<GetSubmissionFileDownloadUrlData>) => createQueryKey('getSubmissionFileDownloadUrl', options);
+
+/**
+ * A short-lived link to one handed-in file
+ *
+ * The student who wrote it, or somebody who may mark it. Nobody else.
+ */
+export const getSubmissionFileDownloadUrlOptions = (options: Options<GetSubmissionFileDownloadUrlData>) => queryOptions<GetSubmissionFileDownloadUrlResponse, GetSubmissionFileDownloadUrlError, GetSubmissionFileDownloadUrlResponse, ReturnType<typeof getSubmissionFileDownloadUrlQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.getSubmissionFileDownloadUrl({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getSubmissionFileDownloadUrlQueryKey(options)
+});
+
+/**
+ * Give one submission points and feedback
+ *
+ * The mark lands on the assignment’s gradebook column as a working grade. Publishing an official course grade is a separate decision, made in the results screen with `grade:publish`.
+ */
+export const markSubmissionMutation = (options?: Partial<Options<MarkSubmissionData>>): UseMutationOptions<MarkSubmissionResponse, MarkSubmissionError, Options<MarkSubmissionData>> => {
+    const mutationOptions: UseMutationOptions<MarkSubmissionResponse, MarkSubmissionError, Options<MarkSubmissionData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.markSubmission({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
 
 export const listMyDeadlinesQueryKey = (options: Options<ListMyDeadlinesData>) => createQueryKey('listMyDeadlines', options);
 
@@ -1396,6 +1762,26 @@ export const cancelExamTermMutation = (options?: Partial<Options<CancelExamTermD
     };
     return mutationOptions;
 };
+
+export const searchQueryKey = (options: Options<SearchData>) => createQueryKey('search', options);
+
+/**
+ * Search everything the caller may see
+ *
+ * Permission decides what is searched rather than what is filtered afterwards, so a kind the caller cannot read is never queried and an empty result cannot be read as proof that something does not exist.
+ */
+export const searchOptions = (options: Options<SearchData>) => queryOptions<SearchResponse, SearchError, SearchResponse, ReturnType<typeof searchQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Search.search({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: searchQueryKey(options)
+});
 
 export const listEnrollableOfferingsQueryKey = (options: Options<ListEnrollableOfferingsData>) => createQueryKey('listEnrollableOfferings', options);
 

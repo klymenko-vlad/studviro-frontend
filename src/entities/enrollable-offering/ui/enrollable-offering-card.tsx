@@ -35,6 +35,7 @@ export function EnrollableOfferingCard({
 
   return (
     <ListingCard
+      headingLevel="h2"
       title={offering.course.title}
       code={offering.course.code}
       action={action}

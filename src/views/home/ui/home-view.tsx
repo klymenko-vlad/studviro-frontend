@@ -36,7 +36,7 @@ export function HomeView({ signedIn }: { signedIn: boolean }) {
 
   return (
     <>
-      <main className="flex flex-1 flex-col">
+      <main id="main-content" className="flex flex-1 flex-col">
         <MarketingHero
           title={t('title')}
           subtitle={t('subtitle')}

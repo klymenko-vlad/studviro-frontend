@@ -75,7 +75,7 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
         ) : null}
       </Card>
 
-      <Table>
+      <Table label={t('summaryTitle')}>
         <TableHeader>
           <TableRow>
             <TableHead>{t('column.space')}</TableHead>
