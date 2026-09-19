@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 
 import { ProgramMembers } from '@/widgets/program-members';
 import { catalogueQueries } from '@/entities/catalogue';
+import { useTerminology } from '@/entities/institution-configuration';
 import { Alert, AlertDescription, AlertTitle, Badge, Skeleton } from '@/shared/ui';
 
 export function InstitutionProgramView({
@@ -16,6 +17,7 @@ export function InstitutionProgramView({
 }) {
   const t = useTranslations('programMembers');
   const catalogue = useTranslations('catalogue');
+  const term = useTerminology(institutionId);
   const programs = useQuery(catalogueQueries.programs({ path: { institutionId } }));
   const program = programs.data?.find(candidate => candidate.id === programId);
 
@@ -39,6 +41,7 @@ export function InstitutionProgramView({
               <span className="text-muted-foreground font-mono text-xs">
                 {program.code}
               </span>
+              <Badge variant="outline">{term('program')}</Badge>
               <Badge variant="secondary">
                 {catalogue(`degreeLevel.${program.degreeLevel}`)}
               </Badge>

@@ -30,7 +30,9 @@
     "learning": "Learning",
     "enroll": "Enrol",
     "catalogue": "Catalogue",
-    "bulk": "Bulk entry"
+    "bulk": "Bulk entry",
+    "search": "Search",
+    "audit": "Audit"
   },
   "home": {
     "title": "One academic platform over the systems you already run",
@@ -423,7 +425,15 @@
     },
     "awaitingRetake": "{courses, plural, one {# course is awaiting a resit} other {# courses are awaiting a resit}}",
     "annulledNote": "The registrar struck this result. It counts towards nothing.",
-    "noStanding": "No standing"
+    "noStanding": "No standing",
+    "standing": {
+      "title": "Where you are in your programme",
+      "year": "Year {year}",
+      "creditsComplete": "Credits complete",
+      "barLabel": "Progress through {name}",
+      "measured": "{earned} of {required} credits · {percent}% · {remaining} to go",
+      "noTarget": "{earned} credits earned. This programme has no recorded length, so there is nothing to measure against yet."
+    }
   },
   "dashboard": {
     "title": "Dashboard",
@@ -1784,6 +1794,50 @@
       "points": "Points",
       "pointsOf": "Points of {maxPoints}",
       "feedback": "Feedback"
+    }
+  },
+  "search": {
+    "title": "Search",
+    "subtitle": "Courses, programmes, people, rooms — everything you are allowed to see.",
+    "label": "What are you looking for?",
+    "placeholder": "A course code, a name, a room…",
+    "hint": "At least two characters.",
+    "searching": "Searching…",
+    "error": "The search could not be run.",
+    "nothing": "Nothing matches “{query}”.",
+    "truncated": "There are more matches than shown. Try a longer query.",
+    "notSearched": "Not searched, because your role does not include reading them:",
+    "kind": {
+      "course": "Courses",
+      "offering": "On offer",
+      "program": "Programmes",
+      "person": "People",
+      "orgUnit": "Org units",
+      "room": "Rooms"
+    }
+  },
+  "audit": {
+    "title": "Audit trail",
+    "subtitle": "Who changed what, and what it was before.",
+    "description": "Grades, role grants, enrolment corrections and cancelled exam terms. Reads are not recorded.",
+    "deniedTitle": "You cannot see the audit trail",
+    "deniedDescription": "Only an institution administrator may read it.",
+    "filter": "Show",
+    "allActions": "Everything",
+    "empty": "Nothing has been recorded yet.",
+    "error": "The audit trail could not be read.",
+    "moreExist": "Older entries exist than are shown here.",
+    "systemActor": "The system",
+    "unknownActor": "Somebody no longer in this institution",
+    "changed": "{before} → {after}",
+    "nothing": "nothing",
+    "action": {
+      "gradeProposed": "Grade proposed",
+      "gradePublished": "Grade published",
+      "roleGranted": "Role granted",
+      "roleRevoked": "Role revoked",
+      "enrollmentCorrected": "Enrolment corrected",
+      "examTermCancelled": "Exam term cancelled"
     }
   }
 }

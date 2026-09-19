@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw';
 import type {
   AcademicTermResponseDto,
   AssignmentResponseDto,
+  AuditEventPageDto,
   AuthTokensDto,
   CourseOfferingListItemDto,
   CourseOfferingResponseDto,
@@ -32,6 +33,7 @@ import type {
   ProgramResponseDto,
   RoleAssignmentResponseDto,
   RoomResponseDto,
+  SearchResultsDto,
   StudyGroupResponseDto,
   StudyProgressResponseDto,
   SubmissionResponseDto,
@@ -1116,6 +1118,73 @@ export const programMembers: ProgramMemberResponseDto[] = [
   },
 ];
 
+export const searchResults: SearchResultsDto = {
+  query: 'algorithms',
+  searched: ['course', 'offering', 'program', 'room'],
+  truncated: false,
+  hits: [
+    {
+      kind: 'offering',
+      id: '66666666-6666-4666-8666-666666666666',
+      title: 'Algorithms',
+      subtitle: 'INF/ALG/22',
+      context: 'Winter semester 2026/2027',
+      offeringId: '66666666-6666-4666-8666-666666666666',
+      programId: null,
+    },
+    {
+      kind: 'course',
+      id: 'cccccccc-cccc-4ccc-8ccc-ccccccccccc2',
+      title: 'Algorithms',
+      subtitle: 'INF/ALG/22',
+      context: null,
+      offeringId: null,
+      programId: null,
+    },
+    {
+      kind: 'room',
+      id: 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee1',
+      title: 'Algorithms lab',
+      subtitle: 'FEI-101',
+      context: 'Blok A',
+      offeringId: null,
+      programId: null,
+    },
+  ],
+};
+
+export const auditEvents: AuditEventPageDto = {
+  items: [
+    {
+      id: 'abababab-abab-4aba-8aba-abababababa1',
+      institutionId: '55555555-5555-4555-8555-555555555555',
+      action: 'grade.published',
+      subjectType: 'course_result',
+      subjectId: 'dddddddd-dddd-4ddd-8ddd-ddddddddddda',
+      actorUserId: '11111111-1111-4111-8111-111111111111',
+      summary: 'Published a grade for Algorithms',
+      before: { officialGrade: null, status: 'proposed' },
+      after: { officialGrade: 'B', status: 'official' },
+      requestId: 'req-1',
+      occurredAt: '2026-09-18T09:00:00.000Z',
+    },
+    {
+      id: 'abababab-abab-4aba-8aba-abababababa2',
+      institutionId: '55555555-5555-4555-8555-555555555555',
+      action: 'role.granted',
+      subjectType: 'role_assignment',
+      subjectId: 'dddddddd-dddd-4ddd-8ddd-dddddddddddb',
+      actorUserId: null,
+      summary: 'Granted registrar',
+      before: null,
+      after: { role: 'registrar' },
+      requestId: null,
+      occurredAt: '2026-09-17T09:00:00.000Z',
+    },
+  ],
+  meta: { limit: 50, hasNextPage: false, nextCursor: null },
+};
+
 export const people: PersonDirectoryEntryDto[] = [
   {
     userId: '11111111-1111-4111-8111-111111111111',
@@ -1798,6 +1867,14 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/people`, () =>
     HttpResponse.json(people),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/search`, () =>
+    HttpResponse.json(searchResults),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/audit-events`, () =>
+    HttpResponse.json(auditEvents),
   ),
 
   http.post(

@@ -7,6 +7,7 @@ import {
   AdmitStudentForm,
   MembershipStatusSelect,
 } from '@/features/manage-program-members';
+import { useTerminology } from '@/entities/institution-configuration';
 import { usePermissions } from '@/entities/permission';
 import {
   byStanding,
@@ -37,6 +38,7 @@ export function ProgramMembers({
   programId: string;
 }) {
   const t = useTranslations('programMembers');
+  const term = useTerminology(institutionId);
   const format = useFormatter();
   const { can } = usePermissions(institutionId);
   const manageable = can('program:manage');
@@ -70,7 +72,7 @@ export function ProgramMembers({
           <Table label={t('title')} data-testid="program-members-table">
             <TableHeader>
               <TableRow>
-                <TableHead>{t('column.student')}</TableHead>
+                <TableHead>{term('student')}</TableHead>
                 <TableHead>{t('column.year')}</TableHead>
                 <TableHead>{t('column.since')}</TableHead>
                 <TableHead>{t('column.standing')}</TableHead>

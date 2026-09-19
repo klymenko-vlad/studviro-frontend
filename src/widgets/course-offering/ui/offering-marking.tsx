@@ -6,6 +6,7 @@ import { useFormatter, useTimeZone, useTranslations } from 'next-intl';
 import { MarkSubmissionForm } from '@/features/mark-submission';
 import { SubmissionFileDownload } from '@/features/submit-assignment';
 import type { Assignment } from '@/entities/assignment';
+import { useTerminology } from '@/entities/institution-configuration';
 import { submissionQueries } from '@/entities/submission';
 import {
   Badge,
@@ -27,6 +28,7 @@ export function OfferingMarking({
   assignment: Assignment;
 }) {
   const t = useTranslations('marking');
+  const term = useTerminology(institutionId);
   const format = useFormatter();
   const timeZone = useTimeZone() ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -54,7 +56,7 @@ export function OfferingMarking({
       <Table label={t('tableLabel', { name: assignment.name })}>
         <TableHeader>
           <TableRow>
-            <TableHead>{t('column.student')}</TableHead>
+            <TableHead>{term('student')}</TableHead>
             <TableHead>{t('column.handedIn')}</TableHead>
             <TableHead>{t('column.files')}</TableHead>
             <TableHead>{t('column.mark')}</TableHead>

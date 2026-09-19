@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 
 import { CatalogueEntryForm } from '@/features/manage-catalogue';
 import { catalogueQueries } from '@/entities/catalogue';
+import { useTerminology } from '@/entities/institution-configuration';
 import { usePermissions } from '@/entities/permission';
 import { institutionRoutes, Link } from '@/shared/config';
 import {
@@ -24,6 +25,7 @@ import {
 
 export function Catalogue({ institutionId }: { institutionId: string }) {
   const t = useTranslations('catalogue');
+  const term = useTerminology(institutionId);
   const { can } = usePermissions(institutionId);
 
   const programs = useQuery(catalogueQueries.programs({ path: { institutionId } }));
@@ -99,7 +101,7 @@ export function Catalogue({ institutionId }: { institutionId: string }) {
                 <TableRow>
                   <TableHead>{t('column.code')}</TableHead>
                   <TableHead>{t('column.title')}</TableHead>
-                  <TableHead>{t('column.credits')}</TableHead>
+                  <TableHead>{term('credits')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

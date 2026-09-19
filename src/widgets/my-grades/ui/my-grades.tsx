@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { courseResultQueries, groupResultsByTerm } from '@/entities/course-result';
 import { Alert, AlertDescription, AlertTitle, Skeleton } from '@/shared/ui';
 
+import { ProgrammeStandingCard } from './programme-standing';
 import { TermResultsSection } from './term-results-section';
 
 export function MyGrades({ institutionId }: { institutionId: string }) {
@@ -52,6 +53,15 @@ export function MyGrades({ institutionId }: { institutionId: string }) {
               {t('awaitingRetake', { courses: progress.awaitingRetake })}
             </p>
           )}
+        </div>
+      )}
+
+      {progress === null || progress.programmes.length === 0 ? null : (
+        <div className="flex flex-col gap-3" data-testid="my-grades-standing">
+          <h2 className="text-lg font-semibold tracking-tight">{t('standing.title')}</h2>
+          {progress.programmes.map(standing => (
+            <ProgrammeStandingCard key={standing.programId} standing={standing} />
+          ))}
         </div>
       )}
 

@@ -7,6 +7,7 @@ import {
   screen,
   server,
   studyProgress,
+  within,
 } from '@/shared/test';
 
 import { MyGrades } from './my-grades';
@@ -117,6 +118,65 @@ describe('MyGrades', () => {
 
       expect(await screen.findByText('Algorithms')).toBeInTheDocument();
       expect(screen.queryByTestId('my-grades-summary')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('where the student is in their programme (U2)', () => {
+    it('measures the credits against the programme rather than just totalling them', async () => {
+      render();
+
+      const panel = await screen.findByTestId('my-grades-standing');
+
+      expect(within(panel).getByText('Informatics')).toBeInTheDocument();
+      expect(
+        within(panel).getByText('6 of 180 credits · 3% · 174 to go'),
+      ).toBeInTheDocument();
+      expect(
+        within(panel).getByRole('progressbar', { name: 'Progress through Informatics' }),
+      ).toHaveAttribute('aria-valuenow', '3');
+    });
+
+    it('invents no bar for a programme with no recorded length', async () => {
+      server.use(
+        http.get(SUMMARY_URL, () =>
+          HttpResponse.json({
+            ...studyProgress,
+            programmes: [
+              {
+                ...studyProgress.programmes[0]!,
+                standardLengthSemesters: null,
+                creditsRequired: null,
+                percentComplete: null,
+                creditsRemaining: null,
+              },
+            ],
+          }),
+        ),
+      );
+
+      render();
+
+      const panel = await screen.findByTestId('my-grades-standing');
+
+      expect(
+        within(panel).getByText(
+          '6 credits earned. This programme has no recorded length, so there is nothing to measure against yet.',
+        ),
+      ).toBeInTheDocument();
+      expect(within(panel).queryByRole('progressbar')).not.toBeInTheDocument();
+    });
+
+    it('says nothing at all when the student is on no programme', async () => {
+      server.use(
+        http.get(SUMMARY_URL, () =>
+          HttpResponse.json({ ...studyProgress, programmes: [] }),
+        ),
+      );
+
+      render();
+      await screen.findByTestId('my-grades-summary');
+
+      expect(screen.queryByTestId('my-grades-standing')).not.toBeInTheDocument();
     });
   });
 });

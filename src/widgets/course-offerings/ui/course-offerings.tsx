@@ -11,6 +11,7 @@ import {
   isFull,
   offeringAdminQueries,
 } from '@/entities/course-offering-admin';
+import { useTerminology } from '@/entities/institution-configuration';
 import { usePermissions } from '@/entities/permission';
 import { institutionRoutes, Link } from '@/shared/config';
 import {
@@ -31,6 +32,7 @@ import {
 
 export function CourseOfferings({ institutionId }: { institutionId: string }) {
   const t = useTranslations('offerings');
+  const term = useTerminology(institutionId);
   const { can } = usePermissions(institutionId);
   const manageable = can('offering:manage');
 
@@ -55,7 +57,7 @@ export function CourseOfferings({ institutionId }: { institutionId: string }) {
           <Table label={t('title')} data-testid="offerings-table">
             <TableHeader>
               <TableRow>
-                <TableHead>{t('column.course')}</TableHead>
+                <TableHead>{term('course')}</TableHead>
                 <TableHead>{t('column.places')}</TableHead>
                 <TableHead>{t('column.state')}</TableHead>
                 {manageable ? (

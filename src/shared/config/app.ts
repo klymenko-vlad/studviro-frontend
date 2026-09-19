@@ -55,6 +55,8 @@ export const institutionRoutes = (institutionId: string) => {
     roles: `${base}/roles`,
     orgUnits: `${base}/org-units`,
     people: `${base}/people`,
+    search: `${base}/search`,
+    audit: `${base}/audit`,
     bulk: `${base}/bulk`,
     settings: `${base}/settings`,
   } as const;

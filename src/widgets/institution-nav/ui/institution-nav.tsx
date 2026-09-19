@@ -25,6 +25,8 @@ type NavKey =
   | 'roles'
   | 'orgUnits'
   | 'people'
+  | 'search'
+  | 'audit'
   | 'bulk'
   | 'settings';
 
@@ -52,6 +54,10 @@ const GATES: Record<NavKey, Permission | null> = {
   roles: 'role:assign',
   orgUnits: 'role:read',
   people: 'role:read',
+  // Everybody with a place in the institution may search; the server decides
+  // what they actually get back.
+  search: 'institution:read',
+  audit: 'audit:read',
   // Either half of bulk entry is enough to make the screen worth offering;
   // the screen itself refuses the half the caller cannot do.
   bulk: 'offering:manage',
@@ -83,8 +89,10 @@ const ORDER: NavKey[] = [
   'roles',
   'orgUnits',
   'people',
+  'search',
   'catalogue',
   'bulk',
+  'audit',
   'settings',
 ];
 

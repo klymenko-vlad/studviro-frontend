@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
 import { GradeEntryCell } from '@/features/record-grade';
+import { useTerminology } from '@/entities/institution-configuration';
 import {
   currentAttempt,
   offeringResultQueries,
@@ -29,6 +30,7 @@ export function OfferingGrades({
   offeringId: string;
 }) {
   const t = useTranslations('gradeEntry');
+  const term = useTerminology(institutionId);
   const results = useQuery(
     offeringResultQueries.list({ path: { institutionId, offeringId } }),
   );
@@ -51,7 +53,7 @@ export function OfferingGrades({
       <Table label={t('panelTitle')}>
         <TableHeader>
           <TableRow>
-            <TableHead>{t('column.student')}</TableHead>
+            <TableHead>{term('student')}</TableHead>
             <TableHead>{t('column.attempt')}</TableHead>
             <TableHead>{t('column.standing')}</TableHead>
             <TableHead>{t('column.record')}</TableHead>
