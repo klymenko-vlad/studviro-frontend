@@ -1088,6 +1088,33 @@ export type CorrectedEnrollmentResponseDto = {
     status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
 };
 
+export type ProgramMemberResponseDto = {
+    id: string;
+    userId: string;
+    displayName: string;
+    email: string;
+    status: 'active' | 'interrupted' | 'graduated' | 'terminated';
+    studyYear: number | null;
+    startedAt: string | null;
+    endedAt: string | null;
+};
+
+export type AdmitToProgramDto = {
+    userId: string;
+    studyYear?: number | null;
+    status?: 'active' | 'interrupted' | 'graduated' | 'terminated';
+    startedAt?: string | null;
+};
+
+export type UpdateProgramMembershipDto = {
+    /**
+     * Anything other than `active` takes the `student` role away and stamps the end date.
+     */
+    status?: 'active' | 'interrupted' | 'graduated' | 'terminated';
+    studyYear?: number | null;
+    endedAt?: string | null;
+};
+
 export type TeachingAssignmentResponseDto = {
     id: string;
     userId: string;
@@ -3865,6 +3892,162 @@ export type CorrectEnrollmentResponses = {
 };
 
 export type CorrectEnrollmentResponse = CorrectEnrollmentResponses[keyof CorrectEnrollmentResponses];
+
+export type ListProgramMembersData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        programId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/programs/{programId}/members';
+};
+
+export type ListProgramMembersErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListProgramMembersError = ListProgramMembersErrors[keyof ListProgramMembersErrors];
+
+export type ListProgramMembersResponses = {
+    200: Array<ProgramMemberResponseDto>;
+};
+
+export type ListProgramMembersResponse = ListProgramMembersResponses[keyof ListProgramMembersResponses];
+
+export type AdmitToProgramData = {
+    body: AdmitToProgramDto;
+    path: {
+        institutionId: string;
+        programId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/programs/{programId}/members';
+};
+
+export type AdmitToProgramErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type AdmitToProgramError = AdmitToProgramErrors[keyof AdmitToProgramErrors];
+
+export type AdmitToProgramResponses = {
+    201: unknown;
+};
+
+export type RemoveProgramMembershipData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        programId: string;
+        membershipId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/programs/{programId}/members/{membershipId}';
+};
+
+export type RemoveProgramMembershipErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveProgramMembershipError = RemoveProgramMembershipErrors[keyof RemoveProgramMembershipErrors];
+
+export type RemoveProgramMembershipResponses = {
+    204: void;
+};
+
+export type RemoveProgramMembershipResponse = RemoveProgramMembershipResponses[keyof RemoveProgramMembershipResponses];
+
+export type UpdateProgramMembershipData = {
+    body: UpdateProgramMembershipDto;
+    path: {
+        institutionId: string;
+        programId: string;
+        membershipId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/programs/{programId}/members/{membershipId}';
+};
+
+export type UpdateProgramMembershipErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateProgramMembershipError = UpdateProgramMembershipErrors[keyof UpdateProgramMembershipErrors];
+
+export type UpdateProgramMembershipResponses = {
+    200: ProgramMemberResponseDto;
+};
+
+export type UpdateProgramMembershipResponse = UpdateProgramMembershipResponses[keyof UpdateProgramMembershipResponses];
 
 export type ListTeachingAssignmentsData = {
     body?: never;

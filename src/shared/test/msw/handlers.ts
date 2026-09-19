@@ -23,6 +23,7 @@ import type {
   NotificationResponseDto,
   OfferingResultsResponseDto,
   PersonDirectoryEntryDto,
+  ProgramMemberResponseDto,
   ProgramResponseDto,
   RoleAssignmentResponseDto,
   RoomResponseDto,
@@ -850,6 +851,29 @@ export const learningSpaces: LearningSpaceListResponseDto = {
   ],
 };
 
+export const programMembers: ProgramMemberResponseDto[] = [
+  {
+    id: 'cccccccc-cccc-4ccc-8ccc-ccccccccccd1',
+    userId: '11111111-1111-4111-8111-111111111111',
+    displayName: 'Jana Nováková',
+    email: 'jana.novakova@example.com',
+    status: 'active',
+    studyYear: 1,
+    startedAt: '2026-09-21T00:00:00.000Z',
+    endedAt: null,
+  },
+  {
+    id: 'cccccccc-cccc-4ccc-8ccc-ccccccccccd2',
+    userId: '22222222-2222-4222-8222-222222222222',
+    displayName: 'Peter Kováč',
+    email: 'peter.kovac@example.com',
+    status: 'graduated',
+    studyYear: 3,
+    startedAt: '2023-09-21T00:00:00.000Z',
+    endedAt: '2026-06-30T00:00:00.000Z',
+  },
+];
+
 export const people: PersonDirectoryEntryDto[] = [
   {
     userId: '11111111-1111-4111-8111-111111111111',
@@ -1335,6 +1359,24 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/people`, () =>
     HttpResponse.json(people),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/programs/:programId/members`, () =>
+    HttpResponse.json(programMembers),
+  ),
+
+  http.post(`${PROXY}/institutions/:institutionId/programs/:programId/members`, () =>
+    HttpResponse.json({ id: 'cccccccc-cccc-4ccc-8ccc-ccccccccccd3' }, { status: 201 }),
+  ),
+
+  http.patch(
+    `${PROXY}/institutions/:institutionId/programs/:programId/members/:membershipId`,
+    () => HttpResponse.json({ ...programMembers[0], status: 'graduated' }),
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/programs/:programId/members/:membershipId`,
+    () => new HttpResponse(null, { status: 204 }),
   ),
 
   http.get(

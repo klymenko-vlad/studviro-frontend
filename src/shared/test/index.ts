@@ -8,6 +8,7 @@ export {
   adminOfferings,
   assessmentResults,
   catalogueCourses,
+  programMembers,
   programs,
   courseOffering,
   courseRoster,

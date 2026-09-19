@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { CatalogueEntryForm } from '@/features/manage-catalogue';
 import { catalogueQueries } from '@/entities/catalogue';
 import { usePermissions } from '@/entities/permission';
+import { institutionRoutes, Link } from '@/shared/config';
 import {
   Card,
   CardContent,
@@ -59,7 +60,14 @@ export function Catalogue({ institutionId }: { institutionId: string }) {
                 {programs.data.map(program => (
                   <TableRow key={program.id}>
                     <TableCell className="font-mono text-xs">{program.code}</TableCell>
-                    <TableCell className="font-medium">{program.name}</TableCell>
+                    <TableCell>
+                      <Link
+                        href={institutionRoutes(institutionId).program(program.id)}
+                        className="font-medium hover:underline focus-visible:underline"
+                      >
+                        {program.name}
+                      </Link>
+                    </TableCell>
                     <TableCell>{t(`degreeLevel.${program.degreeLevel}`)}</TableCell>
                   </TableRow>
                 ))}

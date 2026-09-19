@@ -1511,6 +1511,45 @@ export const zCorrectedEnrollmentResponseDto = z.object({
     ])
 });
 
+export const zProgramMemberResponseDto = z.object({
+    id: z.uuid(),
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string(),
+    status: z.enum([
+        'active',
+        'interrupted',
+        'graduated',
+        'terminated'
+    ]),
+    studyYear: z.number().nullable(),
+    startedAt: z.iso.datetime().nullable(),
+    endedAt: z.iso.datetime().nullable()
+});
+
+export const zAdmitToProgramDto = z.object({
+    userId: z.uuid(),
+    studyYear: z.number().gte(1).lte(10).nullish(),
+    status: z.enum([
+        'active',
+        'interrupted',
+        'graduated',
+        'terminated'
+    ]).optional(),
+    startedAt: z.iso.datetime().nullish()
+});
+
+export const zUpdateProgramMembershipDto = z.object({
+    status: z.enum([
+        'active',
+        'interrupted',
+        'graduated',
+        'terminated'
+    ]).optional(),
+    studyYear: z.number().gte(1).lte(10).nullish(),
+    endedAt: z.iso.datetime().nullish()
+});
+
 export const zTeachingAssignmentResponseDto = z.object({
     id: z.uuid(),
     userId: z.uuid(),
@@ -2142,6 +2181,38 @@ export const zCorrectEnrollmentPath = z.object({
 });
 
 export const zCorrectEnrollmentResponse = zCorrectedEnrollmentResponseDto;
+
+export const zListProgramMembersPath = z.object({
+    institutionId: z.string(),
+    programId: z.string()
+});
+
+export const zListProgramMembersResponse = z.array(zProgramMemberResponseDto);
+
+export const zAdmitToProgramBody = zAdmitToProgramDto;
+
+export const zAdmitToProgramPath = z.object({
+    institutionId: z.string(),
+    programId: z.string()
+});
+
+export const zRemoveProgramMembershipPath = z.object({
+    institutionId: z.string(),
+    programId: z.string(),
+    membershipId: z.string()
+});
+
+export const zRemoveProgramMembershipResponse = z.void();
+
+export const zUpdateProgramMembershipBody = zUpdateProgramMembershipDto;
+
+export const zUpdateProgramMembershipPath = z.object({
+    institutionId: z.string(),
+    programId: z.string(),
+    membershipId: z.string()
+});
+
+export const zUpdateProgramMembershipResponse = zProgramMemberResponseDto;
 
 export const zListTeachingAssignmentsPath = z.object({
     institutionId: z.string(),

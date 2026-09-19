@@ -1282,6 +1282,11 @@
       "master": "Master",
       "doctoral": "Doctoral",
       "other": "Other"
+    },
+    "studyForm": {
+      "full_time": "Full time",
+      "part_time": "Part time",
+      "distance": "Distance"
     }
   },
   "academicTerms": {
@@ -1414,6 +1419,38 @@
       "lab_supervisor": "Lab supervisor",
       "examiner": "Examiner",
       "assistant": "Assistant"
+    }
+  },
+  "programMembers": {
+    "title": "Students on this programme",
+    "description": "Who is studying it, and where each of them stands.",
+    "studying": "{count} studying now",
+    "empty": "Nobody is on this programme yet.",
+    "error": "The roll could not be read.",
+    "notFoundTitle": "That programme is not here",
+    "notFoundDescription": "It may have been retired, or it belongs to another institution.",
+    "admit": "Admit",
+    "admitted": "They are now a student of this programme.",
+    "statusChanged": "{name} is now {status}.",
+    "statusFor": "Standing of {name}",
+    "yearNumber": "Year {year}",
+    "field": {
+      "person": "Person",
+      "choosePerson": "Choose a person",
+      "personDescription": "Anybody who already belongs to this institution. Somebody new arrives by invitation.",
+      "studyYear": "Year"
+    },
+    "status": {
+      "active": "Studying",
+      "interrupted": "Interrupted",
+      "graduated": "Graduated",
+      "terminated": "Terminated"
+    },
+    "column": {
+      "student": "Student",
+      "year": "Year",
+      "since": "Since",
+      "standing": "Standing"
     }
   }
 }
