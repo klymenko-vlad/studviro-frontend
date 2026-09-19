@@ -1102,7 +1102,7 @@
       "nextDue": "Next deadline"
     },
     "assessments": {
-      "panel": "Marks from the learning system",
+      "panel": "Coursework marks",
       "empty": "No mark has been recorded for you in this course yet.",
       "error": "Marks could not be loaded. Try again in a moment.",
       "score": "{points} of {maxPoints}",
@@ -1111,7 +1111,6 @@
       "notCounted": "Does not count toward the final grade",
       "gradedOn": "Marked {on}",
       "dueOn": "Due {on}",
-      "openInLms": "Open in the learning system",
       "completion": {
         "complete": "Completed",
         "complete_pass": "Completed, passed",
