@@ -98,6 +98,7 @@ export function MarkSubmissionForm({
                   type="number"
                   min={0}
                   inputMode="decimal"
+                  placeholder={t('placeholder.points')}
                   className="w-28"
                   {...field}
                 />
@@ -114,7 +115,7 @@ export function MarkSubmissionForm({
             <FormItem className="min-w-64 flex-1">
               <FormLabel>{t('field.feedback')}</FormLabel>
               <FormControl>
-                <Textarea rows={2} {...field} />
+                <Textarea rows={2} placeholder={t('placeholder.feedback')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

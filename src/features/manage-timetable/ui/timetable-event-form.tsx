@@ -213,7 +213,11 @@ export function TimetableEventForm({
             <FormItem className="sm:col-span-2">
               <FormLabel>{t('field.title')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.title')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

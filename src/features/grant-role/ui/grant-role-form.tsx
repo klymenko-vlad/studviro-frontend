@@ -105,7 +105,7 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('userId')}</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input placeholder={t('placeholder.userId')} {...field} />
               </FormControl>
               <FormDescription>{t('userIdHint')}</FormDescription>
               <FormMessage />
@@ -161,7 +161,7 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
               <FormItem>
                 <FormLabel>{t('scopeId')}</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input placeholder={t('placeholder.scopeId')} {...field} />
                 </FormControl>
                 <FormDescription>{t('scopeIdHint')}</FormDescription>
                 <FormMessage />

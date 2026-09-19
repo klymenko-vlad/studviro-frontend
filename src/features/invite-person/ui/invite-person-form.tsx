@@ -76,7 +76,12 @@ export function InvitePersonForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('inviteAddress')}</FormLabel>
               <FormControl>
-                <Input type="email" autoComplete="email" {...field} />
+                <Input
+                  type="email"
+                  autoComplete="email"
+                  placeholder={t('placeholder.inviteAddress')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

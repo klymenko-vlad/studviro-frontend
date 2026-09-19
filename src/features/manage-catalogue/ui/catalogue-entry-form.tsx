@@ -71,6 +71,7 @@ export function CatalogueEntryForm({
         <Label htmlFor={codeId}>{t('column.code')}</Label>
         <Input
           id={codeId}
+          placeholder={t(`${kind}s.codePlaceholder`)}
           value={code}
           onChange={event => {
             setCode(event.target.value);
@@ -85,6 +86,7 @@ export function CatalogueEntryForm({
         </Label>
         <Input
           id={nameId}
+          placeholder={t(`${kind}s.namePlaceholder`)}
           value={name}
           onChange={event => {
             setName(event.target.value);

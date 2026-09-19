@@ -34,6 +34,20 @@ describe('SignIn', () => {
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
   });
 
+  it('shows the shape of each answer before anything is typed', () => {
+    renderWithProviders(<SignIn />);
+
+    // An empty box under a one-word label leaves the format to guesswork.
+    expect(screen.getByLabelText('Email')).toHaveAttribute(
+      'placeholder',
+      'jana.kovacova@university.edu',
+    );
+    expect(screen.getByLabelText('Password')).toHaveAttribute(
+      'placeholder',
+      'Your password',
+    );
+  });
+
   it('never exposes a token to the page on success', async () => {
     const { user, container } = renderWithProviders(<SignIn />);
 

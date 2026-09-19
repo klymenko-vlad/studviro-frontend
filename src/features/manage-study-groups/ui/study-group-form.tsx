@@ -86,7 +86,12 @@ export function StudyGroupForm({
             <FormItem>
               <FormLabel>{t('field.code')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" placeholder="S1" className="w-24" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.code')}
+                  className="w-24"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -100,7 +105,12 @@ export function StudyGroupForm({
             <FormItem>
               <FormLabel>{t('field.name')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" className="w-52" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.name')}
+                  className="w-52"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -138,6 +148,7 @@ export function StudyGroupForm({
                   type="number"
                   min={0}
                   inputMode="numeric"
+                  placeholder={t('placeholder.capacity')}
                   className="w-24"
                   {...field}
                 />

@@ -80,7 +80,11 @@ export function OrgUnitForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('field.code')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" placeholder="FEI" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.code')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -94,7 +98,11 @@ export function OrgUnitForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('field.name')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.name')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

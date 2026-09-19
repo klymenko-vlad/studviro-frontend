@@ -91,7 +91,12 @@ export function RequestPasswordResetForm() {
             <FormItem>
               <FormLabel>{t('email')}</FormLabel>
               <FormControl>
-                <Input type="email" autoComplete="email" {...field} />
+                <Input
+                  type="email"
+                  autoComplete="email"
+                  placeholder={t('placeholder.email')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

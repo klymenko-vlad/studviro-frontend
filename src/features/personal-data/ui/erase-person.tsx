@@ -58,6 +58,7 @@ export function ErasePerson({
         <Input
           id={`erase-${userId}`}
           autoComplete="off"
+          placeholder={email}
           value={confirmation}
           onChange={event => {
             setConfirmation(event.target.value);

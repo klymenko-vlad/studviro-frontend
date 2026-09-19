@@ -89,7 +89,11 @@ export function LearningSpaceForm({
             <FormItem>
               <FormLabel>{t('field.name')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.name')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -103,7 +107,11 @@ export function LearningSpaceForm({
             <FormItem>
               <FormLabel>{t('field.shortName')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.shortName')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -117,7 +125,7 @@ export function LearningSpaceForm({
             <FormItem>
               <FormLabel>{t('field.summary')}</FormLabel>
               <FormControl>
-                <Textarea rows={3} {...field} />
+                <Textarea rows={3} placeholder={t('placeholder.summary')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

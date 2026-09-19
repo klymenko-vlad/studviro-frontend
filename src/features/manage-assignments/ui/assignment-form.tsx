@@ -124,7 +124,11 @@ export function AssignmentForm({
             <FormItem>
               <FormLabel>{t('field.name')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.name')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -138,7 +142,7 @@ export function AssignmentForm({
             <FormItem>
               <FormLabel>{t('field.brief')}</FormLabel>
               <FormControl>
-                <Textarea rows={4} {...field} />
+                <Textarea rows={4} placeholder={t('placeholder.brief')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -172,7 +176,14 @@ export function AssignmentForm({
               <FormItem>
                 <FormLabel>{t('field.maxAttempts')}</FormLabel>
                 <FormControl>
-                  <Input type="number" min={1} max={100} inputMode="numeric" {...field} />
+                  <Input
+                    type="number"
+                    min={1}
+                    max={100}
+                    inputMode="numeric"
+                    placeholder={t('placeholder.maxAttempts')}
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>{t('field.maxAttemptsHint')}</FormDescription>
                 <FormMessage />
@@ -187,7 +198,13 @@ export function AssignmentForm({
               <FormItem>
                 <FormLabel>{t('field.maxPoints')}</FormLabel>
                 <FormControl>
-                  <Input type="number" min={0} inputMode="numeric" {...field} />
+                  <Input
+                    type="number"
+                    min={0}
+                    inputMode="numeric"
+                    placeholder={t('placeholder.maxPoints')}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

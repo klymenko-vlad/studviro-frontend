@@ -100,7 +100,13 @@
     "passwordMismatch": "Passwords do not match",
     "submit": "Create user",
     "submitting": "Creating…",
-    "created": "User created"
+    "created": "User created",
+    "placeholder": {
+      "email": "jana.kovacova@university.edu",
+      "displayName": "Jana Kováčová",
+      "password": "At least 12 characters",
+      "confirmPassword": "Repeat the password"
+    }
   },
   "theme": {
     "label": "Theme",
@@ -133,7 +139,14 @@
     "emailTaken": "An account with this email already exists.",
     "noAccount": "No account yet?",
     "haveAccount": "Already have an account?",
-    "forgotPassword": "Forgot password?"
+    "forgotPassword": "Forgot password?",
+    "placeholder": {
+      "displayName": "Jana Kováčová",
+      "email": "jana.kovacova@university.edu",
+      "password": "At least 12 characters",
+      "confirmPassword": "Repeat your password",
+      "currentPassword": "Your password"
+    }
   },
   "account": {
     "title": "Account",
@@ -224,7 +237,12 @@
     "inviting": "Sending…",
     "invited": "Invitation sent",
     "devTokenNotice": "No mail is sent outside production. Invitation link: /sign-up?invitation={token}",
-    "tableLabel": "Role Assignments"
+    "tableLabel": "Role Assignments",
+    "placeholder": {
+      "userId": "Account identifier",
+      "scopeId": "Identifier of the faculty, programme or offering",
+      "inviteAddress": "jana.kovacova@university.edu"
+    }
   },
   "institutionSettings": {
     "title": "Institution settings",
@@ -298,7 +316,10 @@
     "credentialSaved": "Credential saved",
     "credentialCleared": "Credential cleared",
     "credentialValueRequired": "Enter a value before saving.",
-    "featureNotBuilt": "Not built yet. This switch would change nothing."
+    "featureNotBuilt": "Not built yet. This switch would change nothing.",
+    "placeholder": {
+      "timezone": "Europe/Bratislava"
+    }
   },
   "myCourses": {
     "title": "My courses",
@@ -1002,6 +1023,13 @@
       "one": "We reply by email, usually within a couple of working days.",
       "two": "A demo runs against a populated institution, not a slide deck.",
       "three": "We will be explicit about what is shipped and what is still roadmap."
+    },
+    "placeholder": {
+      "institutionName": "Technical University of Košice",
+      "contactName": "Jana Kováčová",
+      "email": "jana.kovacova@university.edu",
+      "role": "Registrar",
+      "message": "We run Moodle and a homegrown SIS for 4 000 students."
     }
   },
   "createInstitution": {
@@ -1013,7 +1041,12 @@
     "firstAdminUserId": "First administrator",
     "firstAdminUserIdDescription": "The account id of the person who becomes this institution's first administrator.",
     "submit": "Create institution",
-    "created": "{name} created"
+    "created": "{name} created",
+    "placeholder": {
+      "code": "tuke",
+      "name": "Technical University of Košice",
+      "firstAdminUserId": "Account identifier"
+    }
   },
   "orgUnits": {
     "title": "Org units",
@@ -1041,6 +1074,10 @@
       "parent": "Sits under",
       "noParent": "Nothing, this is a root unit",
       "parentDescription": "A faculty sits under the university; a department sits under a faculty."
+    },
+    "placeholder": {
+      "code": "FEI",
+      "name": "Faculty of Electrical Engineering and Informatics"
     }
   },
   "people": {
@@ -1073,7 +1110,12 @@
     "submit": "Accept invitation",
     "submitting": "Accepting…",
     "invalidTitle": "This invitation link is no longer valid",
-    "invalidDescription": "It may have expired, already been used, or never existed. Ask whoever invited you to send a new one."
+    "invalidDescription": "It may have expired, already been used, or never existed. Ask whoever invited you to send a new one.",
+    "placeholder": {
+      "displayName": "Jana Kováčová",
+      "password": "At least 8 characters",
+      "confirmPassword": "Repeat the password"
+    }
   },
   "passwordReset": {
     "requestTitle": "Reset your password",
@@ -1094,7 +1136,12 @@
     "confirmSubmit": "Set new password",
     "confirmSubmitting": "Setting password…",
     "invalidTitle": "This password reset link is no longer valid",
-    "invalidDescription": "It may have expired, already been used, or was typed incorrectly. Request a new one."
+    "invalidDescription": "It may have expired, already been used, or was typed incorrectly. Request a new one.",
+    "placeholder": {
+      "email": "jana.kovacova@university.edu",
+      "newPassword": "At least 12 characters",
+      "confirmPassword": "Repeat the new password"
+    }
   },
   "learning": {
     "title": "Learning spaces",
@@ -1278,7 +1325,9 @@
       "empty": "No programmes yet.",
       "error": "The programmes could not be read.",
       "add": "Add programme",
-      "added": "The programme was added."
+      "added": "The programme was added.",
+      "codePlaceholder": "B-INF",
+      "namePlaceholder": "Informatics"
     },
     "courses": {
       "title": "Courses",
@@ -1286,7 +1335,9 @@
       "empty": "No courses yet.",
       "error": "The courses could not be read.",
       "add": "Add course",
-      "added": "The course was added."
+      "added": "The course was added.",
+      "codePlaceholder": "INF101",
+      "namePlaceholder": "Operating Systems"
     },
     "column": {
       "code": "Code",
@@ -1349,6 +1400,11 @@
       "upcoming": "Opens later",
       "open": "Open",
       "closed": "Closed"
+    },
+    "placeholder": {
+      "code": "2026W",
+      "name": "Winter 2026/2027",
+      "academicYear": "2026/2027"
     }
   },
   "rooms": {
@@ -1376,6 +1432,12 @@
       "name": "Name",
       "capacity": "Seats",
       "actions": "Actions"
+    },
+    "placeholder": {
+      "code": "FEI-101",
+      "name": "Lecture hall A",
+      "building": "Main building",
+      "capacity": "No limit"
     }
   },
   "offerings": {
@@ -1416,6 +1478,9 @@
       "places": "Places",
       "state": "State",
       "actions": "Actions"
+    },
+    "placeholder": {
+      "capacity": "No limit"
     }
   },
   "teaching": {
@@ -1470,6 +1535,9 @@
       "year": "Year",
       "since": "Since",
       "standing": "Standing"
+    },
+    "placeholder": {
+      "studyYear": "1"
     }
   },
   "studyGroups": {
@@ -1508,7 +1576,12 @@
       "project": "Project",
       "other": "Other"
     },
-    "nobodyEnrolled": "Nobody is enrolled on this offering yet, so there is nobody to put in a group."
+    "nobodyEnrolled": "Nobody is enrolled on this offering yet, so there is nobody to put in a group.",
+    "placeholder": {
+      "code": "S1",
+      "name": "Monday seminar",
+      "capacity": "No limit"
+    }
   },
   "examTermAdmin": {
     "title": "Exam terms",
@@ -1605,7 +1678,10 @@
       "5": "Friday",
       "6": "Saturday"
     },
-    "slotWhen": "{weekday} {from}–{to}"
+    "slotWhen": "{weekday} {from}–{to}",
+    "placeholder": {
+      "title": "Lecture"
+    }
   },
   "bulkEntry": {
     "title": "Bulk entry",
@@ -1658,6 +1734,11 @@
       "summary": "Summary",
       "visible": "Show this page to students",
       "visibleHint": "A new page is unpublished, so a course can be built before anybody sees it."
+    },
+    "placeholder": {
+      "name": "Operating Systems",
+      "shortName": "OS",
+      "summary": "What the course covers, in a sentence or two."
     }
   },
   "materials": {
@@ -1702,6 +1783,12 @@
       "failed": "The file could not be uploaded. Nothing was added.",
       "tooLarge": "That file is larger than the store accepts. Nothing was added.",
       "progressLabel": "Upload progress"
+    },
+    "placeholder": {
+      "title": "Lecture 1: Processes",
+      "description": "One line about what this is.",
+      "url": "https://example.edu/lecture-1",
+      "body": "The text students will read here."
     }
   },
   "assignments": {
@@ -1744,6 +1831,12 @@
       "allowsLate": "Accept work after the due date",
       "counts": "Counts toward the final grade",
       "visible": "Show this assignment to students"
+    },
+    "placeholder": {
+      "name": "Assignment 1: Shell",
+      "brief": "What to hand in, and how it will be marked.",
+      "maxAttempts": "Unlimited",
+      "maxPoints": "100"
     }
   },
   "submissions": {
@@ -1776,6 +1869,9 @@
       "submitted": "Handed in",
       "returned": "Returned",
       "graded": "Marked"
+    },
+    "placeholder": {
+      "notes": "Anything the marker should know. Optional."
     }
   },
   "marking": {
@@ -1800,6 +1896,10 @@
       "points": "Points",
       "pointsOf": "Points of {maxPoints}",
       "feedback": "Feedback"
+    },
+    "placeholder": {
+      "points": "0",
+      "feedback": "What they did well, and what to fix."
     }
   },
   "search": {

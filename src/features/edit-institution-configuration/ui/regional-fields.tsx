@@ -53,7 +53,7 @@ export function RegionalFields() {
           <FormItem>
             <FormLabel>{t('timezone')}</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input placeholder={t('placeholder.timezone')} {...field} />
             </FormControl>
             <FormDescription>{t('timezoneHint')}</FormDescription>
             <FormMessage />

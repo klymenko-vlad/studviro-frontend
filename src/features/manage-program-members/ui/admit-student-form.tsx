@@ -108,6 +108,7 @@ export function AdmitStudentForm({
                   type="number"
                   min={1}
                   inputMode="numeric"
+                  placeholder={t('placeholder.studyYear')}
                   className="w-24"
                   {...field}
                 />

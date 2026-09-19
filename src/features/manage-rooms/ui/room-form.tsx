@@ -81,7 +81,11 @@ export function RoomForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('field.code')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" placeholder="FEI-101" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.code')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -95,7 +99,11 @@ export function RoomForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('field.name')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.name')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -109,7 +117,11 @@ export function RoomForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('field.building')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.building')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -123,7 +135,13 @@ export function RoomForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('field.capacity')}</FormLabel>
               <FormControl>
-                <Input type="number" min={0} inputMode="numeric" {...field} />
+                <Input
+                  type="number"
+                  min={0}
+                  inputMode="numeric"
+                  placeholder={t('placeholder.capacity')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

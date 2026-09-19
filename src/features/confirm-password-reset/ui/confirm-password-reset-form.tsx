@@ -76,7 +76,11 @@ export function ConfirmPasswordResetForm({ token }: { token: string }) {
             <FormItem>
               <FormLabel>{t('newPassword')}</FormLabel>
               <FormControl>
-                <PasswordInput autoComplete="new-password" {...field} />
+                <PasswordInput
+                  autoComplete="new-password"
+                  placeholder={t('placeholder.newPassword')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -90,7 +94,11 @@ export function ConfirmPasswordResetForm({ token }: { token: string }) {
             <FormItem>
               <FormLabel>{t('confirmPassword')}</FormLabel>
               <FormControl>
-                <PasswordInput autoComplete="new-password" {...field} />
+                <PasswordInput
+                  autoComplete="new-password"
+                  placeholder={t('placeholder.confirmPassword')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

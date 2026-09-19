@@ -73,7 +73,11 @@ export function RequestDemo({ onSubmitted }: { onSubmitted?: () => void }) {
             <FormItem>
               <FormLabel>{t('form.institutionName')}</FormLabel>
               <FormControl>
-                <Input autoComplete="organization" {...field} />
+                <Input
+                  autoComplete="organization"
+                  placeholder={t('placeholder.institutionName')}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>{t('form.institutionNameHint')}</FormDescription>
               <FormMessage />
@@ -88,7 +92,11 @@ export function RequestDemo({ onSubmitted }: { onSubmitted?: () => void }) {
             <FormItem>
               <FormLabel>{t('form.contactName')}</FormLabel>
               <FormControl>
-                <Input autoComplete="name" {...field} />
+                <Input
+                  autoComplete="name"
+                  placeholder={t('placeholder.contactName')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -102,7 +110,12 @@ export function RequestDemo({ onSubmitted }: { onSubmitted?: () => void }) {
             <FormItem>
               <FormLabel>{t('form.email')}</FormLabel>
               <FormControl>
-                <Input type="email" autoComplete="email" {...field} />
+                <Input
+                  type="email"
+                  autoComplete="email"
+                  placeholder={t('placeholder.email')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -116,7 +129,11 @@ export function RequestDemo({ onSubmitted }: { onSubmitted?: () => void }) {
             <FormItem>
               <FormLabel>{t('form.role')}</FormLabel>
               <FormControl>
-                <Input autoComplete="organization-title" {...field} />
+                <Input
+                  autoComplete="organization-title"
+                  placeholder={t('placeholder.role')}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>{t('form.roleHint')}</FormDescription>
               <FormMessage />
@@ -131,7 +148,7 @@ export function RequestDemo({ onSubmitted }: { onSubmitted?: () => void }) {
             <FormItem>
               <FormLabel>{t('form.message')}</FormLabel>
               <FormControl>
-                <Textarea rows={4} {...field} />
+                <Textarea rows={4} placeholder={t('placeholder.message')} {...field} />
               </FormControl>
               <FormDescription>{t('form.messageHint')}</FormDescription>
               <FormMessage />

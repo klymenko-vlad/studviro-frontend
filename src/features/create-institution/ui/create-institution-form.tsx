@@ -79,7 +79,11 @@ export function CreateInstitutionForm() {
             <FormItem>
               <FormLabel>{t('code')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.code')}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>{t('codeDescription')}</FormDescription>
               <FormMessage />
@@ -94,7 +98,11 @@ export function CreateInstitutionForm() {
             <FormItem>
               <FormLabel>{t('name')}</FormLabel>
               <FormControl>
-                <Input autoComplete="organization" {...field} />
+                <Input
+                  autoComplete="organization"
+                  placeholder={t('placeholder.name')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -108,7 +116,11 @@ export function CreateInstitutionForm() {
             <FormItem>
               <FormLabel>{t('firstAdminUserId')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.firstAdminUserId')}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>{t('firstAdminUserIdDescription')}</FormDescription>
               <FormMessage />

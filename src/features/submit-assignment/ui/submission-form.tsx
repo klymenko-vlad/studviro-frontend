@@ -118,6 +118,7 @@ export function SubmissionForm({
         <Textarea
           id="submission-notes"
           rows={3}
+          placeholder={t('placeholder.notes')}
           value={notes}
           onChange={event => {
             setNotes(event.target.value);

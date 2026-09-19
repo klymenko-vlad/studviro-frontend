@@ -84,7 +84,11 @@ export function AcceptInvitationForm({ token }: { token: string }) {
             <FormItem>
               <FormLabel>{t('displayName')}</FormLabel>
               <FormControl>
-                <Input autoComplete="name" {...field} />
+                <Input
+                  autoComplete="name"
+                  placeholder={t('placeholder.displayName')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -98,7 +102,11 @@ export function AcceptInvitationForm({ token }: { token: string }) {
             <FormItem>
               <FormLabel>{t('password')}</FormLabel>
               <FormControl>
-                <PasswordInput autoComplete="new-password" {...field} />
+                <PasswordInput
+                  autoComplete="new-password"
+                  placeholder={t('placeholder.password')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -112,7 +120,11 @@ export function AcceptInvitationForm({ token }: { token: string }) {
             <FormItem>
               <FormLabel>{t('confirmPassword')}</FormLabel>
               <FormControl>
-                <PasswordInput autoComplete="new-password" {...field} />
+                <PasswordInput
+                  autoComplete="new-password"
+                  placeholder={t('placeholder.confirmPassword')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

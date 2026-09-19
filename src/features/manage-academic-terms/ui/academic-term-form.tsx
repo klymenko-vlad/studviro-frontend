@@ -87,7 +87,11 @@ export function AcademicTermForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('field.code')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" placeholder="2026W" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.code')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -101,7 +105,11 @@ export function AcademicTermForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('field.name')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.name')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -115,7 +123,11 @@ export function AcademicTermForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('field.academicYear')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" placeholder="2026/2027" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.academicYear')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

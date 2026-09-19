@@ -156,7 +156,11 @@ export function MaterialForm({
             <FormItem>
               <FormLabel>{t('field.title')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.title')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -170,7 +174,11 @@ export function MaterialForm({
             <FormItem>
               <FormLabel>{t('field.description')}</FormLabel>
               <FormControl>
-                <Input autoComplete="off" {...field} />
+                <Input
+                  autoComplete="off"
+                  placeholder={t('placeholder.description')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -185,7 +193,12 @@ export function MaterialForm({
               <FormItem>
                 <FormLabel>{t('field.url')}</FormLabel>
                 <FormControl>
-                  <Input autoComplete="off" inputMode="url" {...field} />
+                  <Input
+                    autoComplete="off"
+                    inputMode="url"
+                    placeholder={t('placeholder.url')}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -201,7 +214,7 @@ export function MaterialForm({
               <FormItem>
                 <FormLabel>{t('field.body')}</FormLabel>
                 <FormControl>
-                  <Textarea rows={4} {...field} />
+                  <Textarea rows={4} placeholder={t('placeholder.body')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

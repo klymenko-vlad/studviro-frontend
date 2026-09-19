@@ -140,7 +140,13 @@ export function OfferingForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('field.capacity')}</FormLabel>
               <FormControl>
-                <Input type="number" min={0} inputMode="numeric" {...field} />
+                <Input
+                  type="number"
+                  min={0}
+                  inputMode="numeric"
+                  placeholder={t('placeholder.capacity')}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>{t('field.capacityDescription')}</FormDescription>
               <FormMessage />

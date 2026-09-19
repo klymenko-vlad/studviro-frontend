@@ -87,7 +87,12 @@ export function SignIn({ next }: SignInProps) {
             <FormItem>
               <FormLabel>{t('email')}</FormLabel>
               <FormControl>
-                <Input type="email" autoComplete="email" {...field} />
+                <Input
+                  type="email"
+                  autoComplete="email"
+                  placeholder={t('placeholder.email')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -101,7 +106,11 @@ export function SignIn({ next }: SignInProps) {
             <FormItem>
               <FormLabel>{t('password')}</FormLabel>
               <FormControl>
-                <PasswordInput autoComplete="current-password" {...field} />
+                <PasswordInput
+                  autoComplete="current-password"
+                  placeholder={t('placeholder.currentPassword')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
