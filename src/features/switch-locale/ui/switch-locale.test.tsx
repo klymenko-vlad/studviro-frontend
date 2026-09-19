@@ -47,6 +47,16 @@ describe('LocaleMenuItems', () => {
     ).toBeInTheDocument();
   });
 
+  it('keeps the language code out of the accessible name', async () => {
+    renderOpenMenu();
+
+    // The `EN` / `SK` chip lines the rows up with the themes above them; a
+    // screen reader should still hear the language, not the code twice.
+    expect(
+      await screen.findByRole('menuitemradio', { name: 'English' }),
+    ).toHaveAccessibleName('English');
+  });
+
   it('switches to the chosen locale', async () => {
     const { user } = renderOpenMenu();
 

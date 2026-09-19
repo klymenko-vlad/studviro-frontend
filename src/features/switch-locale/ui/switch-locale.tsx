@@ -24,7 +24,7 @@ export function LocaleMenuItems() {
 
   return (
     <>
-      <DropdownMenuLabel className="text-muted-foreground text-xs font-normal">
+      <DropdownMenuLabel className="text-muted-foreground px-2 pt-1 pb-1 text-xs font-medium tracking-wide uppercase">
         {t('label')}
       </DropdownMenuLabel>
       <DropdownMenuRadioGroup
@@ -36,7 +36,18 @@ export function LocaleMenuItems() {
         }}
       >
         {LOCALES.map(locale => (
-          <DropdownMenuRadioItem key={locale} value={locale} disabled={isPending}>
+          <DropdownMenuRadioItem
+            key={locale}
+            value={locale}
+            disabled={isPending}
+            indicator="check"
+          >
+            <span
+              aria-hidden
+              className="text-muted-foreground w-4 text-center text-[0.625rem] font-semibold tracking-wider uppercase"
+            >
+              {locale}
+            </span>
             {t(locale)}
           </DropdownMenuRadioItem>
         ))}

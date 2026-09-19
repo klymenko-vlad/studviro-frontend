@@ -29,7 +29,7 @@ export function ThemeMenuItems() {
 
   return (
     <>
-      <DropdownMenuLabel className="text-muted-foreground text-xs font-normal">
+      <DropdownMenuLabel className="text-muted-foreground px-2 pt-1 pb-1 text-xs font-medium tracking-wide uppercase">
         {t('label')}
       </DropdownMenuLabel>
       <DropdownMenuRadioGroup
@@ -39,8 +39,11 @@ export function ThemeMenuItems() {
         }}
       >
         {OPTIONS.map(({ value, Icon }) => (
-          <DropdownMenuRadioItem key={value} value={value}>
-            <Icon aria-hidden className="text-muted-foreground" />
+          <DropdownMenuRadioItem key={value} value={value} indicator="check">
+            <Icon
+              aria-hidden
+              className="text-muted-foreground group-data-[state=checked]/item:text-foreground"
+            />
             {t(value)}
           </DropdownMenuRadioItem>
         ))}
