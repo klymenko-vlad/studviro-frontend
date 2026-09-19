@@ -686,7 +686,7 @@ export type LearningSpaceDto = {
     id: string;
     name: string;
     shortName: string | null;
-    url: string | null;
+    summary: string | null;
     visible: boolean;
     offeringId: string | null;
     courseCode: string | null;
@@ -712,7 +712,7 @@ export type DeadlineSubmissionDto = {
 export type DeadlineLearningSpaceDto = {
     id: string;
     name: string;
-    url: string | null;
+    brief: string | null;
 };
 
 export type DeadlineOfferingDto = {
@@ -733,9 +733,9 @@ export type DeadlineTermDto = {
 
 export type MyDeadlineResponseDto = {
     id: string;
-    type: 'assignment' | 'quiz' | 'forum' | 'resource' | 'workshop' | 'other';
+    type: 'assignment' | 'forum' | 'resource' | 'workshop' | 'other';
     name: string;
-    url: string | null;
+    brief: string | null;
     opensAt: string | null;
     dueAt: string;
     isOpen: boolean;
@@ -756,8 +756,7 @@ export type AssessmentSubmissionDto = {
 
 export type AssessmentActivityDto = {
     id: string;
-    type: 'assignment' | 'quiz' | 'forum' | 'resource' | 'workshop' | 'other';
-    url: string | null;
+    type: 'assignment' | 'forum' | 'resource' | 'workshop' | 'other';
     dueAt: string | null;
     completionState: 'incomplete' | 'complete' | 'complete_pass' | 'complete_fail';
     submission: AssessmentSubmissionDto | null;
@@ -973,6 +972,63 @@ export type TimetableEventRefDto = {
     id: string;
 };
 
+export type ExamTermAdminResponseDto = {
+    id: string;
+    kind: 'regular' | 'first_retake' | 'second_retake' | 'state_exam';
+    startsAt: string;
+    endsAt: string | null;
+    capacity: number | null;
+    /**
+     * Seats held right now.
+     */
+    seatsTaken: number;
+    registrationOpensAt: string | null;
+    registrationClosesAt: string | null;
+    cancelledAt: string | null;
+    roomId: string | null;
+    roomCode: string | null;
+    examinerId: string | null;
+    examinerName: string | null;
+};
+
+export type CreateExamTermDto = {
+    kind?: 'regular' | 'first_retake' | 'second_retake' | 'state_exam';
+    startsAt: string;
+    endsAt?: string | null;
+    /**
+     * How many seats the room holds. Null means no limit.
+     */
+    capacity?: number | null;
+    registrationOpensAt?: string | null;
+    registrationClosesAt?: string | null;
+    roomId?: string | null;
+    /**
+     * Somebody who teaches this offering.
+     */
+    examinerId?: string | null;
+};
+
+export type ExamTermRefDto = {
+    id: string;
+};
+
+export type UpdateExamTermDto = {
+    kind?: 'regular' | 'first_retake' | 'second_retake' | 'state_exam';
+    startsAt?: string;
+    endsAt?: string | null;
+    /**
+     * How many seats the room holds. Null means no limit.
+     */
+    capacity?: number | null;
+    registrationOpensAt?: string | null;
+    registrationClosesAt?: string | null;
+    roomId?: string | null;
+    /**
+     * Somebody who teaches this offering.
+     */
+    examinerId?: string | null;
+};
+
 export type EnrollmentAvailabilityDto = {
     canEnroll: boolean;
     canWithdraw: boolean;
@@ -1062,6 +1118,33 @@ export type UpdateAcademicTermDto = {
      */
     enrollmentOpensAt?: string | null;
     enrollmentClosesAt?: string | null;
+};
+
+export type BulkImportDto = {
+    /**
+     * Delimited text pasted from a spreadsheet. Tab, semicolon and comma are all accepted; the first row names the columns.
+     */
+    text: string;
+    /**
+     * Defaults to true. A dry run reports what would happen, row by row, and writes nothing.
+     */
+    dryRun?: boolean;
+};
+
+export type BulkRowResultDto = {
+    line: number;
+    status: 'created' | 'skipped' | 'failed';
+    code: string;
+    detail: string;
+};
+
+export type BulkImportResultDto = {
+    dryRun: boolean;
+    total: number;
+    created: number;
+    skipped: number;
+    failed: number;
+    rows: Array<BulkRowResultDto>;
 };
 
 export type ProgramResponseDto = {
@@ -3597,6 +3680,202 @@ export type CancelTimetableEventResponses = {
 
 export type CancelTimetableEventResponse = CancelTimetableEventResponses[keyof CancelTimetableEventResponses];
 
+export type ListOfferingExamTermsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms';
+};
+
+export type ListOfferingExamTermsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListOfferingExamTermsError = ListOfferingExamTermsErrors[keyof ListOfferingExamTermsErrors];
+
+export type ListOfferingExamTermsResponses = {
+    200: Array<ExamTermAdminResponseDto>;
+};
+
+export type ListOfferingExamTermsResponse = ListOfferingExamTermsResponses[keyof ListOfferingExamTermsResponses];
+
+export type CreateExamTermData = {
+    body: CreateExamTermDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms';
+};
+
+export type CreateExamTermErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateExamTermError = CreateExamTermErrors[keyof CreateExamTermErrors];
+
+export type CreateExamTermResponses = {
+    201: ExamTermRefDto;
+};
+
+export type CreateExamTermResponse = CreateExamTermResponses[keyof CreateExamTermResponses];
+
+export type RemoveExamTermData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        examTermId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms/{examTermId}';
+};
+
+export type RemoveExamTermErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveExamTermError = RemoveExamTermErrors[keyof RemoveExamTermErrors];
+
+export type RemoveExamTermResponses = {
+    204: void;
+};
+
+export type RemoveExamTermResponse = RemoveExamTermResponses[keyof RemoveExamTermResponses];
+
+export type UpdateExamTermData = {
+    body: UpdateExamTermDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        examTermId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms/{examTermId}';
+};
+
+export type UpdateExamTermErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateExamTermError = UpdateExamTermErrors[keyof UpdateExamTermErrors];
+
+export type UpdateExamTermResponses = {
+    200: ExamTermRefDto;
+};
+
+export type UpdateExamTermResponse = UpdateExamTermResponses[keyof UpdateExamTermResponses];
+
+export type CancelExamTermData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        examTermId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms/{examTermId}/cancellation';
+};
+
+export type CancelExamTermErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CancelExamTermError = CancelExamTermErrors[keyof CancelExamTermErrors];
+
+export type CancelExamTermResponses = {
+    200: ExamTermRefDto;
+};
+
+export type CancelExamTermResponse = CancelExamTermResponses[keyof CancelExamTermResponses];
+
 export type ListEnrollableOfferingsData = {
     body?: never;
     path: {
@@ -3869,6 +4148,86 @@ export type UpdateAcademicTermResponses = {
 };
 
 export type UpdateAcademicTermResponse = UpdateAcademicTermResponses[keyof UpdateAcademicTermResponses];
+
+export type BulkImportCourseOfferingsData = {
+    body: BulkImportDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/bulk/course-offerings';
+};
+
+export type BulkImportCourseOfferingsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type BulkImportCourseOfferingsError = BulkImportCourseOfferingsErrors[keyof BulkImportCourseOfferingsErrors];
+
+export type BulkImportCourseOfferingsResponses = {
+    200: BulkImportResultDto;
+};
+
+export type BulkImportCourseOfferingsResponse = BulkImportCourseOfferingsResponses[keyof BulkImportCourseOfferingsResponses];
+
+export type BulkImportProgramMembersData = {
+    body: BulkImportDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/bulk/program-members';
+};
+
+export type BulkImportProgramMembersErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type BulkImportProgramMembersError = BulkImportProgramMembersErrors[keyof BulkImportProgramMembersErrors];
+
+export type BulkImportProgramMembersResponses = {
+    200: BulkImportResultDto;
+};
+
+export type BulkImportProgramMembersResponse = BulkImportProgramMembersResponses[keyof BulkImportProgramMembersResponses];
 
 export type ListProgramsData = {
     body?: never;

@@ -9,6 +9,7 @@ import { Alert, AlertDescription, AlertTitle, Skeleton } from '@/shared/ui';
 
 import { OfferingAssessments } from './offering-assessments';
 import { OfferingEnrollment } from './offering-enrollment';
+import { OfferingExamTerms } from './offering-exam-terms';
 import { OfferingExams } from './offering-exams';
 import { OfferingGradeEntry } from './offering-grade-entry';
 import { OfferingHeader } from './offering-header';
@@ -63,6 +64,7 @@ export function CourseOffering({
           <OfferingRoster institutionId={institutionId} offeringId={offeringId} />
           <OfferingStudyGroups institutionId={institutionId} offeringId={offeringId} />
           <OfferingTimetable institutionId={institutionId} offeringId={offeringId} />
+          <OfferingExamTerms institutionId={institutionId} offeringId={offeringId} />
           <OfferingGradeEntry institutionId={institutionId} offeringId={offeringId} />
         </>
       )}
@@ -71,7 +73,9 @@ export function CourseOffering({
 
       <OfferingAssessments institutionId={institutionId} offeringId={offeringId} />
 
-      <OfferingExams institutionId={institutionId} offeringId={offeringId} />
+      {data.viewerRole === 'student' ? (
+        <OfferingExams institutionId={institutionId} offeringId={offeringId} />
+      ) : null}
     </div>
   );
 }

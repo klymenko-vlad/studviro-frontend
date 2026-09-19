@@ -14,20 +14,8 @@ export function AssessmentResultRow({ result }: { result: AssessmentResult }) {
   return (
     <TableRow>
       <TableCell className="align-top">
-        <span className="font-medium">
-          {activity?.url == null ? (
-            result.name
-          ) : (
-            <a
-              href={activity.url}
-              rel="noreferrer noopener"
-              target="_blank"
-              className="hover:underline focus-visible:underline"
-            >
-              {result.name}
-            </a>
-          )}
-        </span>
+        {/* Was a link out to Moodle; the activity lives here now. */}
+        <span className="font-medium">{result.name}</span>
 
         {activity?.dueAt == null ? null : (
           <span className="text-muted-foreground block text-xs">

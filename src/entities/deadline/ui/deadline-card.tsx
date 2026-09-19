@@ -27,20 +27,13 @@ export function DeadlineCard({ deadline, href }: { deadline: Deadline; href?: st
           </Badge>
         </div>
 
-        <h3 className="text-base leading-tight font-semibold">
-          {deadline.url === null ? (
-            deadline.name
-          ) : (
-            <a
-              href={deadline.url}
-              rel="noreferrer noopener"
-              target="_blank"
-              className="hover:underline focus-visible:underline"
-            >
-              {deadline.name}
-            </a>
-          )}
-        </h3>
+        {/*
+          The name used to link out to Moodle. StudViro owns the activity now
+          and there is nowhere external to go, so it is plain text — the course
+          title below already links to the offering the work belongs to, and
+          two links to the same place is one too many.
+        */}
+        <h3 className="text-base leading-tight font-semibold">{deadline.name}</h3>
 
         <p className="text-sm">
           {href === undefined ? (

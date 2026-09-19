@@ -9,6 +9,7 @@ import type {
   CourseRosterResponseDto,
   EnrollableOfferingResponseDto,
   ErrorResponseDto,
+  ExamTermAdminResponseDto,
   ExternalIdentityResponseDto,
   InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
@@ -393,7 +394,6 @@ export const assessmentResults: MyAssessmentResultResponseDto[] = [
     activity: {
       id: 'aaaaaaad-aaaa-4aaa-8aaa-aaaaaaaaaaae',
       type: 'assignment',
-      url: 'https://lms.example/mod/assign/view.php?id=1',
       dueAt: localIso(2026, 3, 5, 21),
       completionState: 'complete',
       submission: {
@@ -431,7 +431,7 @@ export const deadlines: MyDeadlineResponseDto[] = [
     id: 'aaaaaaad-aaaa-4aaa-8aaa-aaaaaaaaaaae',
     type: 'assignment',
     name: 'Assignment 1',
-    url: 'https://lms.example/mod/assign/view.php?id=1',
+    brief: null,
     opensAt: localIso(2026, 2, 26, 9),
     dueAt: localIso(2026, 3, 5, 21),
     isOpen: true,
@@ -441,7 +441,7 @@ export const deadlines: MyDeadlineResponseDto[] = [
     learningSpace: {
       id: 'aaaaaaaf-aaaa-4aaa-8aaa-aaaaaaaaaaaf',
       name: 'Databases',
-      url: 'https://lms.example/course/view.php?id=2',
+      brief: null,
     },
     offering: { id: 'aaaaaaa2-aaaa-4aaa-8aaa-aaaaaaaaaaa2' },
     course: {
@@ -828,7 +828,7 @@ export const learningSpaces: LearningSpaceListResponseDto = {
       id: '9a1f0b3c-1111-4111-8111-111111111111',
       name: 'Algorithms and Data Structures',
       shortName: 'ALG/WS26',
-      url: 'https://moodle.mocku.example/course/view.php?idnumber=LMS-ALG',
+      summary: 'Complexity, design techniques and their analysis.',
       visible: true,
       offeringId: '9a1f0b3c-2222-4222-8222-222222222222',
       courseCode: 'ALG',
@@ -839,9 +839,9 @@ export const learningSpaces: LearningSpaceListResponseDto = {
     },
     {
       id: '9a1f0b3c-3333-4333-8333-333333333333',
-      name: 'Orphaned Moodle course',
+      name: 'A space with no offering behind it',
       shortName: null,
-      url: null,
+      summary: null,
       visible: false,
       offeringId: null,
       courseCode: null,
@@ -889,6 +889,39 @@ export const offeringTimetable: TimetableEventResponseDto[] = [
     roomCode: null,
     studyGroupId: 'f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f1',
     studyGroupCode: 'S1',
+  },
+];
+
+export const offeringExamTerms: ExamTermAdminResponseDto[] = [
+  {
+    id: 'b1b1b1b1-b1b1-4b1b-8b1b-b1b1b1b1b1b1',
+    kind: 'regular',
+    startsAt: '2027-01-12T09:00:00.000Z',
+    endsAt: '2027-01-12T11:00:00.000Z',
+    capacity: 30,
+    seatsTaken: 12,
+    registrationOpensAt: '2026-12-15T00:00:00.000Z',
+    registrationClosesAt: '2027-01-10T00:00:00.000Z',
+    cancelledAt: null,
+    roomId: 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee1',
+    roomCode: 'FEI-101',
+    examinerId: '11111111-1111-4111-8111-111111111111',
+    examinerName: 'Jana Nováková',
+  },
+  {
+    id: 'b2b2b2b2-b2b2-4b2b-8b2b-b2b2b2b2b2b2',
+    kind: 'first_retake',
+    startsAt: '2027-01-26T13:00:00.000Z',
+    endsAt: null,
+    capacity: null,
+    seatsTaken: 0,
+    registrationOpensAt: null,
+    registrationClosesAt: null,
+    cancelledAt: '2027-01-02T00:00:00.000Z',
+    roomId: null,
+    roomCode: null,
+    examinerId: null,
+    examinerName: null,
   },
 ];
 
@@ -1427,6 +1460,54 @@ export const handlers = [
     HttpResponse.json(people),
   ),
 
+  http.post(
+    `${PROXY}/institutions/:institutionId/bulk/course-offerings`,
+    async ({ request }) => {
+      const body = (await request.json()) as { dryRun?: boolean };
+      const dryRun = body.dryRun ?? true;
+
+      return HttpResponse.json({
+        dryRun,
+        total: 2,
+        created: 1,
+        skipped: 0,
+        failed: 1,
+        rows: [
+          {
+            line: 2,
+            status: 'created',
+            code: 'OFFERING_CREATED',
+            detail: 'INF/ALG/22 will run in 2026W',
+          },
+          {
+            line: 3,
+            status: 'failed',
+            code: 'COURSE_NOT_FOUND',
+            detail: 'No course has the code NOPE',
+          },
+        ],
+      });
+    },
+  ),
+
+  http.post(`${PROXY}/institutions/:institutionId/bulk/program-members`, () =>
+    HttpResponse.json({
+      dryRun: true,
+      total: 1,
+      created: 1,
+      skipped: 0,
+      failed: 0,
+      rows: [
+        {
+          line: 2,
+          status: 'created',
+          code: 'MEMBERSHIP_CREATED',
+          detail: 'ada@example.com will join INF-BC',
+        },
+      ],
+    }),
+  ),
+
   http.get(
     `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/study-groups`,
     () => HttpResponse.json(studyGroups),
@@ -1450,6 +1531,32 @@ export const handlers = [
   http.delete(
     `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/timetable/:eventId/cancellation`,
     () => HttpResponse.json({ id: 'a2a2a2a2-a2a2-4a2a-8a2a-a2a2a2a2a2a2' }),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/exam-terms`,
+    () => HttpResponse.json(offeringExamTerms),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/exam-terms`,
+    () =>
+      HttpResponse.json({ id: 'b3b3b3b3-b3b3-4b3b-8b3b-b3b3b3b3b3b3' }, { status: 201 }),
+  ),
+
+  http.patch(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/exam-terms/:examTermId`,
+    () => HttpResponse.json({ id: 'b1b1b1b1-b1b1-4b1b-8b1b-b1b1b1b1b1b1' }),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/exam-terms/:examTermId/cancellation`,
+    () => HttpResponse.json({ id: 'b1b1b1b1-b1b1-4b1b-8b1b-b1b1b1b1b1b1' }),
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/exam-terms/:examTermId`,
+    () => new HttpResponse(null, { status: 204 }),
   ),
 
   http.post(

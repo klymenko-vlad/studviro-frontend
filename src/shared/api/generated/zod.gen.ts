@@ -947,7 +947,7 @@ export const zLearningSpaceDto = z.object({
     id: z.uuid(),
     name: z.string(),
     shortName: z.string().nullable(),
-    url: z.string().nullable(),
+    summary: z.string().nullable(),
     visible: z.boolean(),
     offeringId: z.uuid().nullable(),
     courseCode: z.string().nullable(),
@@ -978,7 +978,7 @@ export const zDeadlineSubmissionDto = z.object({
 export const zDeadlineLearningSpaceDto = z.object({
     id: z.uuid(),
     name: z.string(),
-    url: z.string().nullable()
+    brief: z.string().nullable()
 });
 
 export const zDeadlineOfferingDto = z.object({
@@ -1001,14 +1001,13 @@ export const zMyDeadlineResponseDto = z.object({
     id: z.uuid(),
     type: z.enum([
         'assignment',
-        'quiz',
         'forum',
         'resource',
         'workshop',
         'other'
     ]),
     name: z.string(),
-    url: z.string().nullable(),
+    brief: z.string().nullable(),
     opensAt: z.iso.datetime().nullable(),
     dueAt: z.iso.datetime(),
     isOpen: z.boolean(),
@@ -1036,13 +1035,11 @@ export const zAssessmentActivityDto = z.object({
     id: z.uuid(),
     type: z.enum([
         'assignment',
-        'quiz',
         'forum',
         'resource',
         'workshop',
         'other'
     ]),
-    url: z.string().nullable(),
     dueAt: z.iso.datetime().nullable(),
     completionState: z.enum([
         'incomplete',
@@ -1316,6 +1313,63 @@ export const zTimetableEventRefDto = z.object({
     id: z.uuid()
 });
 
+export const zExamTermAdminResponseDto = z.object({
+    id: z.uuid(),
+    kind: z.enum([
+        'regular',
+        'first_retake',
+        'second_retake',
+        'state_exam'
+    ]),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime().nullable(),
+    capacity: z.number().nullable(),
+    seatsTaken: z.number(),
+    registrationOpensAt: z.iso.datetime().nullable(),
+    registrationClosesAt: z.iso.datetime().nullable(),
+    cancelledAt: z.iso.datetime().nullable(),
+    roomId: z.uuid().nullable(),
+    roomCode: z.string().nullable(),
+    examinerId: z.uuid().nullable(),
+    examinerName: z.string().nullable()
+});
+
+export const zCreateExamTermDto = z.object({
+    kind: z.enum([
+        'regular',
+        'first_retake',
+        'second_retake',
+        'state_exam'
+    ]).optional(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime().nullish(),
+    capacity: z.number().gte(0).lte(100000).nullish(),
+    registrationOpensAt: z.iso.datetime().nullish(),
+    registrationClosesAt: z.iso.datetime().nullish(),
+    roomId: z.uuid().nullish(),
+    examinerId: z.uuid().nullish()
+});
+
+export const zExamTermRefDto = z.object({
+    id: z.uuid()
+});
+
+export const zUpdateExamTermDto = z.object({
+    kind: z.enum([
+        'regular',
+        'first_retake',
+        'second_retake',
+        'state_exam'
+    ]).optional(),
+    startsAt: z.iso.datetime().optional(),
+    endsAt: z.iso.datetime().nullish(),
+    capacity: z.number().gte(0).lte(100000).nullish(),
+    registrationOpensAt: z.iso.datetime().nullish(),
+    registrationClosesAt: z.iso.datetime().nullish(),
+    roomId: z.uuid().nullish(),
+    examinerId: z.uuid().nullish()
+});
+
 export const zEnrollmentAvailabilityDto = z.object({
     canEnroll: z.boolean(),
     canWithdraw: z.boolean(),
@@ -1444,6 +1498,31 @@ export const zUpdateAcademicTermDto = z.object({
     endsAt: z.iso.datetime().optional(),
     enrollmentOpensAt: z.iso.datetime().nullish(),
     enrollmentClosesAt: z.iso.datetime().nullish()
+});
+
+export const zBulkImportDto = z.object({
+    text: z.string().min(1).max(2000000),
+    dryRun: z.boolean().optional()
+});
+
+export const zBulkRowResultDto = z.object({
+    line: z.number(),
+    status: z.enum([
+        'created',
+        'skipped',
+        'failed'
+    ]),
+    code: z.string(),
+    detail: z.string()
+});
+
+export const zBulkImportResultDto = z.object({
+    dryRun: z.boolean(),
+    total: z.number(),
+    created: z.number(),
+    skipped: z.number(),
+    failed: z.number(),
+    rows: z.array(zBulkRowResultDto)
 });
 
 export const zProgramResponseDto = z.object({
@@ -2271,6 +2350,48 @@ export const zCancelTimetableEventPath = z.object({
 
 export const zCancelTimetableEventResponse = zTimetableEventRefDto;
 
+export const zListOfferingExamTermsPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListOfferingExamTermsResponse = z.array(zExamTermAdminResponseDto);
+
+export const zCreateExamTermBody = zCreateExamTermDto;
+
+export const zCreateExamTermPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zCreateExamTermResponse = zExamTermRefDto;
+
+export const zRemoveExamTermPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    examTermId: z.string()
+});
+
+export const zRemoveExamTermResponse = z.void();
+
+export const zUpdateExamTermBody = zUpdateExamTermDto;
+
+export const zUpdateExamTermPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    examTermId: z.string()
+});
+
+export const zUpdateExamTermResponse = zExamTermRefDto;
+
+export const zCancelExamTermPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    examTermId: z.string()
+});
+
+export const zCancelExamTermResponse = zExamTermRefDto;
+
 export const zListEnrollableOfferingsPath = z.object({
     institutionId: z.string()
 });
@@ -2325,6 +2446,22 @@ export const zUpdateAcademicTermPath = z.object({
 });
 
 export const zUpdateAcademicTermResponse = zAcademicTermResponseDto;
+
+export const zBulkImportCourseOfferingsBody = zBulkImportDto;
+
+export const zBulkImportCourseOfferingsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zBulkImportCourseOfferingsResponse = zBulkImportResultDto;
+
+export const zBulkImportProgramMembersBody = zBulkImportDto;
+
+export const zBulkImportProgramMembersPath = z.object({
+    institutionId: z.string()
+});
+
+export const zBulkImportProgramMembersResponse = zBulkImportResultDto;
 
 export const zListProgramsPath = z.object({
     institutionId: z.string()

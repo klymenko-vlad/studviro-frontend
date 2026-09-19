@@ -28,7 +28,8 @@
     "people": "People",
     "learning": "Learning",
     "enroll": "Enrol",
-    "catalogue": "Catalogue"
+    "catalogue": "Catalogue",
+    "bulk": "Bulk entry"
   },
   "home": {
     "title": "One academic platform over the systems you already run",
@@ -1491,6 +1492,56 @@
     },
     "nobodyEnrolled": "Nobody is enrolled on this offering yet, so there is nobody to put in a group."
   },
+  "examTermAdmin": {
+    "title": "Exam terms",
+    "description": "When this course is examined. Moving a term or calling it off reaches the students holding a seat.",
+    "empty": "No exam term has been offered for this course yet.",
+    "error": "The exam terms could not be read.",
+    "offer": "Offer term",
+    "offered": "The exam term was offered.",
+    "offerLegend": "Offer an exam term",
+    "editLegend": "Edit this exam term",
+    "save": "Save",
+    "saved": "The exam term was saved.",
+    "edit": "Edit",
+    "editNamed": "Edit the exam term on {label}",
+    "cancelEdit": "Discard",
+    "cancel": "Call off",
+    "cancelNamed": "Call off the exam term on {label}",
+    "cancelled": "The exam term on {label} was called off.",
+    "cancelledBadge": "Called off",
+    "remove": "Remove",
+    "removeNamed": "Remove the exam term on {label}",
+    "removed": "The exam term on {label} was removed.",
+    "when": "{day} {from}–{to}",
+    "whenOpenEnded": "{day} from {from}",
+    "seats": "{taken} of {capacity} seats taken",
+    "seatsUnlimited": "{taken} registered, no seat limit",
+    "window": "Registration {opens} to {closes}",
+    "windowOpen": "Registration is open for as long as the term stands.",
+    "windowAlways": "from the start",
+    "windowUntilExam": "the exam",
+    "field": {
+      "date": "Exam day",
+      "from": "From",
+      "to": "To",
+      "kind": "Attempt",
+      "capacity": "Seats",
+      "noLimit": "No limit",
+      "room": "Room",
+      "noRoom": "No room",
+      "examiner": "Examiner",
+      "noExaminer": "No examiner",
+      "opensOn": "Registration opens",
+      "closesOn": "Registration closes"
+    },
+    "kind": {
+      "regular": "Regular",
+      "first_retake": "First retake",
+      "second_retake": "Second retake",
+      "state_exam": "State exam"
+    }
+  },
   "timetableAdmin": {
     "title": "Timetable",
     "description": "When this course meets. A weekly slot is written as one class per week, so moving or calling off a single week is an ordinary edit.",
@@ -1537,5 +1588,37 @@
       "6": "Saturday"
     },
     "slotWhen": "{weekday} {from}–{to}"
+  },
+  "bulkEntry": {
+    "title": "Bulk entry",
+    "subtitle": "Paste a term's worth of data instead of filling one form at a time.",
+    "description": "Paste from a spreadsheet. Tab, semicolon and comma all work, and the first row names the columns.",
+    "deniedTitle": "You cannot import here",
+    "deniedDescription": "Your role at this institution does not include managing offerings or programmes.",
+    "preview": "Preview",
+    "previewed": "Nothing written",
+    "written": "Written",
+    "apply": "{count, plural, =0 {Apply} one {Apply # row} other {Apply # rows}}",
+    "applied": "{created, plural, one {# row was written.} other {# rows were written.}}",
+    "summary": "{total} rows · {created} to create · {skipped} already there · {failed} refused",
+    "field": {
+      "kind": "What are you importing?",
+      "text": "The data",
+      "columns": "Columns: {columns}"
+    },
+    "kind": {
+      "offerings": "Courses on offer this term",
+      "members": "Students joining a programme"
+    },
+    "status": {
+      "created": "New",
+      "skipped": "Already there",
+      "failed": "Refused"
+    },
+    "column": {
+      "line": "Row",
+      "status": "Status",
+      "detail": "What happens"
+    }
   }
 }
