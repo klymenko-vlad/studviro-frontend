@@ -1452,5 +1452,43 @@
       "since": "Since",
       "standing": "Standing"
     }
+  },
+  "studyGroups": {
+    "title": "Groups",
+    "description": "Seminar and lab groups within this offering. Only somebody enrolled on the course may be in one.",
+    "empty": "No groups on this offering yet.",
+    "error": "The groups could not be read.",
+    "noMembers": "Nobody in this group yet.",
+    "add": "Open group",
+    "created": "The group was opened.",
+    "close": "Close",
+    "closeNamed": "Close group {code}",
+    "closed": "Group {code} was closed.",
+    "remove": "Remove",
+    "removeNamed": "Remove {name} from this group",
+    "memberRemoved": "{name} left the group.",
+    "memberAdded": "They joined the group.",
+    "addTo": "Add somebody to group {code}",
+    "addSomeone": "Add a student",
+    "full": "This group is full.",
+    "everyoneAssigned": "Everybody on the roster is already in this group.",
+    "places": {
+      "capped": "{taken} of {capacity}",
+      "uncapped": "{taken} in the group"
+    },
+    "field": {
+      "code": "Code",
+      "name": "Name",
+      "kind": "Kind",
+      "capacity": "Places"
+    },
+    "kind": {
+      "seminar": "Seminar",
+      "lab": "Lab",
+      "exercise": "Exercise",
+      "project": "Project",
+      "other": "Other"
+    },
+    "nobodyEnrolled": "Nobody is enrolled on this offering yet, so there is nobody to put in a group."
   }
 }

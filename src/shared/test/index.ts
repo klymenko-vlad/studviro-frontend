@@ -30,6 +30,7 @@ export {
   roleAssignments,
   rooms,
   session,
+  studyGroups,
   studyProgress,
   teachingAssignments,
   teachingOfferings,

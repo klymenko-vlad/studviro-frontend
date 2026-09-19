@@ -15,6 +15,7 @@ import { OfferingHeader } from './offering-header';
 import { OfferingResults } from './offering-results';
 import { OfferingRoster } from './offering-roster';
 import { OfferingStaff } from './offering-staff';
+import { OfferingStudyGroups } from './offering-study-groups';
 
 export function CourseOffering({
   institutionId,
@@ -59,6 +60,7 @@ export function CourseOffering({
       {data.viewerRole === 'student' ? null : (
         <>
           <OfferingRoster institutionId={institutionId} offeringId={offeringId} />
+          <OfferingStudyGroups institutionId={institutionId} offeringId={offeringId} />
           <OfferingGradeEntry institutionId={institutionId} offeringId={offeringId} />
         </>
       )}

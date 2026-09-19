@@ -1115,6 +1115,39 @@ export type UpdateProgramMembershipDto = {
     endedAt?: string | null;
 };
 
+export type StudyGroupMemberDto = {
+    userId: string;
+    displayName: string;
+    email: string;
+};
+
+export type StudyGroupResponseDto = {
+    id: string;
+    kind: 'seminar' | 'lab' | 'exercise' | 'project' | 'other';
+    code: string;
+    name: string | null;
+    capacity: number | null;
+    members: Array<StudyGroupMemberDto>;
+};
+
+export type CreateStudyGroupDto = {
+    code: string;
+    kind?: 'seminar' | 'lab' | 'exercise' | 'project' | 'other';
+    name?: string | null;
+    capacity?: number | null;
+};
+
+export type UpdateStudyGroupDto = {
+    code?: string;
+    kind?: 'seminar' | 'lab' | 'exercise' | 'project' | 'other';
+    name?: string | null;
+    capacity?: number | null;
+};
+
+export type AddStudyGroupMemberDto = {
+    userId: string;
+};
+
 export type TeachingAssignmentResponseDto = {
     id: string;
     userId: string;
@@ -4048,6 +4081,241 @@ export type UpdateProgramMembershipResponses = {
 };
 
 export type UpdateProgramMembershipResponse = UpdateProgramMembershipResponses[keyof UpdateProgramMembershipResponses];
+
+export type ListStudyGroupsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/study-groups';
+};
+
+export type ListStudyGroupsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListStudyGroupsError = ListStudyGroupsErrors[keyof ListStudyGroupsErrors];
+
+export type ListStudyGroupsResponses = {
+    200: Array<StudyGroupResponseDto>;
+};
+
+export type ListStudyGroupsResponse = ListStudyGroupsResponses[keyof ListStudyGroupsResponses];
+
+export type CreateStudyGroupData = {
+    body: CreateStudyGroupDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/study-groups';
+};
+
+export type CreateStudyGroupErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateStudyGroupError = CreateStudyGroupErrors[keyof CreateStudyGroupErrors];
+
+export type CreateStudyGroupResponses = {
+    201: unknown;
+};
+
+export type RemoveStudyGroupData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        groupId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/study-groups/{groupId}';
+};
+
+export type RemoveStudyGroupErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveStudyGroupError = RemoveStudyGroupErrors[keyof RemoveStudyGroupErrors];
+
+export type RemoveStudyGroupResponses = {
+    204: void;
+};
+
+export type RemoveStudyGroupResponse = RemoveStudyGroupResponses[keyof RemoveStudyGroupResponses];
+
+export type UpdateStudyGroupData = {
+    body: UpdateStudyGroupDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        groupId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/study-groups/{groupId}';
+};
+
+export type UpdateStudyGroupErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateStudyGroupError = UpdateStudyGroupErrors[keyof UpdateStudyGroupErrors];
+
+export type UpdateStudyGroupResponses = {
+    200: unknown;
+};
+
+export type AddStudyGroupMemberData = {
+    body: AddStudyGroupMemberDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        groupId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/study-groups/{groupId}/members';
+};
+
+export type AddStudyGroupMemberErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type AddStudyGroupMemberError = AddStudyGroupMemberErrors[keyof AddStudyGroupMemberErrors];
+
+export type AddStudyGroupMemberResponses = {
+    204: void;
+};
+
+export type AddStudyGroupMemberResponse = AddStudyGroupMemberResponses[keyof AddStudyGroupMemberResponses];
+
+export type RemoveStudyGroupMemberData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        groupId: string;
+        userId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/study-groups/{groupId}/members/{userId}';
+};
+
+export type RemoveStudyGroupMemberErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveStudyGroupMemberError = RemoveStudyGroupMemberErrors[keyof RemoveStudyGroupMemberErrors];
+
+export type RemoveStudyGroupMemberResponses = {
+    204: void;
+};
+
+export type RemoveStudyGroupMemberResponse = RemoveStudyGroupMemberResponses[keyof RemoveStudyGroupMemberResponses];
 
 export type ListTeachingAssignmentsData = {
     body?: never;

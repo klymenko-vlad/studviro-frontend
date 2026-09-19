@@ -1550,6 +1550,57 @@ export const zUpdateProgramMembershipDto = z.object({
     endedAt: z.iso.datetime().nullish()
 });
 
+export const zStudyGroupMemberDto = z.object({
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string()
+});
+
+export const zStudyGroupResponseDto = z.object({
+    id: z.uuid(),
+    kind: z.enum([
+        'seminar',
+        'lab',
+        'exercise',
+        'project',
+        'other'
+    ]),
+    code: z.string(),
+    name: z.string().nullable(),
+    capacity: z.number().nullable(),
+    members: z.array(zStudyGroupMemberDto)
+});
+
+export const zCreateStudyGroupDto = z.object({
+    code: z.string().min(1).max(64),
+    kind: z.enum([
+        'seminar',
+        'lab',
+        'exercise',
+        'project',
+        'other'
+    ]).optional(),
+    name: z.string().max(200).nullish(),
+    capacity: z.number().gte(0).lte(1000).nullish()
+});
+
+export const zUpdateStudyGroupDto = z.object({
+    code: z.string().min(1).max(64).optional(),
+    kind: z.enum([
+        'seminar',
+        'lab',
+        'exercise',
+        'project',
+        'other'
+    ]).optional(),
+    name: z.string().max(200).nullish(),
+    capacity: z.number().gte(0).lte(1000).nullish()
+});
+
+export const zAddStudyGroupMemberDto = z.object({
+    userId: z.uuid()
+});
+
 export const zTeachingAssignmentResponseDto = z.object({
     id: z.uuid(),
     userId: z.uuid(),
@@ -2213,6 +2264,55 @@ export const zUpdateProgramMembershipPath = z.object({
 });
 
 export const zUpdateProgramMembershipResponse = zProgramMemberResponseDto;
+
+export const zListStudyGroupsPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListStudyGroupsResponse = z.array(zStudyGroupResponseDto);
+
+export const zCreateStudyGroupBody = zCreateStudyGroupDto;
+
+export const zCreateStudyGroupPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zRemoveStudyGroupPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    groupId: z.string()
+});
+
+export const zRemoveStudyGroupResponse = z.void();
+
+export const zUpdateStudyGroupBody = zUpdateStudyGroupDto;
+
+export const zUpdateStudyGroupPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    groupId: z.string()
+});
+
+export const zAddStudyGroupMemberBody = zAddStudyGroupMemberDto;
+
+export const zAddStudyGroupMemberPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    groupId: z.string()
+});
+
+export const zAddStudyGroupMemberResponse = z.void();
+
+export const zRemoveStudyGroupMemberPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    groupId: z.string(),
+    userId: z.string()
+});
+
+export const zRemoveStudyGroupMemberResponse = z.void();
 
 export const zListTeachingAssignmentsPath = z.object({
     institutionId: z.string(),

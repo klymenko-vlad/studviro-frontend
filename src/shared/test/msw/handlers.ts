@@ -27,6 +27,7 @@ import type {
   ProgramResponseDto,
   RoleAssignmentResponseDto,
   RoomResponseDto,
+  StudyGroupResponseDto,
   StudyProgressResponseDto,
   TeachingAssignmentResponseDto,
   TeachingOfferingResponseDto,
@@ -851,6 +852,31 @@ export const learningSpaces: LearningSpaceListResponseDto = {
   ],
 };
 
+export const studyGroups: StudyGroupResponseDto[] = [
+  {
+    id: 'f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f1',
+    kind: 'seminar',
+    code: 'S1',
+    name: 'Monday seminar',
+    capacity: 20,
+    members: [
+      {
+        userId: '11111111-1111-4111-8111-111111111111',
+        displayName: 'Ada Lovelace',
+        email: 'ada@example.com',
+      },
+    ],
+  },
+  {
+    id: 'f2f2f2f2-f2f2-4f2f-8f2f-f2f2f2f2f2f2',
+    kind: 'lab',
+    code: 'L1',
+    name: null,
+    capacity: 0,
+    members: [],
+  },
+];
+
 export const programMembers: ProgramMemberResponseDto[] = [
   {
     id: 'cccccccc-cccc-4ccc-8ccc-ccccccccccd1',
@@ -1359,6 +1385,32 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/people`, () =>
     HttpResponse.json(people),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/study-groups`,
+    () => HttpResponse.json(studyGroups),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/study-groups`,
+    () =>
+      HttpResponse.json({ id: 'f3f3f3f3-f3f3-4f3f-8f3f-f3f3f3f3f3f3' }, { status: 201 }),
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/study-groups/:groupId`,
+    () => new HttpResponse(null, { status: 204 }),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/study-groups/:groupId/members`,
+    () => new HttpResponse(null, { status: 204 }),
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/study-groups/:groupId/members/:userId`,
+    () => new HttpResponse(null, { status: 204 }),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/programs/:programId/members`, () =>
