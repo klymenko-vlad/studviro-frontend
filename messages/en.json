@@ -1053,7 +1053,8 @@
     "noRoles": "No roles",
     "empty": "This institution has no people yet.",
     "errorTitle": "People could not be loaded",
-    "errorDescription": "Try again in a moment."
+    "errorDescription": "Try again in a moment.",
+    "actions": "Actions"
   },
   "invitation": {
     "title": "Accept your invitation",
@@ -1837,7 +1838,20 @@
       "roleGranted": "Role granted",
       "roleRevoked": "Role revoked",
       "enrollmentCorrected": "Enrolment corrected",
-      "examTermCancelled": "Exam term cancelled"
+      "examTermCancelled": "Exam term cancelled",
+      "personalDataErased": "Personal data erased"
     }
+  },
+  "personalData": {
+    "title": "Your personal data",
+    "description": "Take a copy of everything this institution holds about you.",
+    "export": "Download my data",
+    "exported": "Your data was downloaded.",
+    "eraseTitle": "Erase {name}",
+    "eraseWarning": "This cannot be undone. Their sign-in, sessions, contact addresses and files go. Their academic record stays — the grades remain, attached to a row that no longer says who it was.",
+    "typeAddress": "Type {email} to confirm",
+    "erase": "Erase this person",
+    "erased": "{name} was erased.",
+    "cancel": "Never mind"
   }
 }

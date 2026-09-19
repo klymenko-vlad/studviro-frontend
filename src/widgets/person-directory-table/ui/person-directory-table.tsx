@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
+import { usePermissions } from '@/entities/permission';
 import { personQueries } from '@/entities/person';
 import {
   Alert,
@@ -18,10 +19,13 @@ import {
   TableRow,
 } from '@/shared/ui';
 
+import { ErasePersonCell } from './erase-person-cell';
 import { PersonRoleBadges } from './person-role-badges';
 
 export function PersonDirectoryTable({ institutionId }: { institutionId: string }) {
   const t = useTranslations('people');
+  const { can } = usePermissions(institutionId);
+  const mayErase = can('institution:manage');
   const { data, isPending, isError } = useQuery(
     personQueries.listForInstitution({ path: { institutionId } }),
   );
@@ -48,6 +52,11 @@ export function PersonDirectoryTable({ institutionId }: { institutionId: string 
           <TableHead>{t('email')}</TableHead>
           <TableHead>{t('statusColumn')}</TableHead>
           <TableHead>{t('roles')}</TableHead>
+          {mayErase ? (
+            <TableHead>
+              <span className="sr-only">{t('actions')}</span>
+            </TableHead>
+          ) : null}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -63,6 +72,11 @@ export function PersonDirectoryTable({ institutionId }: { institutionId: string 
             <TableCell>
               <PersonRoleBadges roles={person.roles} />
             </TableCell>
+            {mayErase ? (
+              <TableCell className="text-right">
+                <ErasePersonCell institutionId={institutionId} person={person} />
+              </TableCell>
+            ) : null}
           </TableRow>
         ))}
       </TableBody>

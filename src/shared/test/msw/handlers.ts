@@ -1869,6 +1869,57 @@ export const handlers = [
     HttpResponse.json(people),
   ),
 
+  http.get(`${PROXY}/institutions/:institutionId/me/personal-data`, () =>
+    HttpResponse.json({
+      institutionId: '55555555-5555-4555-8555-555555555555',
+      generatedAt: '2026-09-19T12:00:00.000Z',
+      account: {
+        userId: '11111111-1111-4111-8111-111111111111',
+        email: 'ada@example.com',
+        displayName: 'Ada Lovelace',
+        locale: 'en',
+        status: 'active',
+        createdAt: '2026-01-01T00:00:00.000Z',
+      },
+      emails: [],
+      externalIdentities: [],
+      sessions: [],
+      passwordResets: [],
+      invitations: [],
+      roles: [],
+      teachingAssignments: [],
+      programMemberships: [],
+      enrollments: [],
+      courseResults: [],
+      examRegistrations: [],
+      studyGroupMemberships: [],
+      assessmentResults: [],
+      activityCompletions: [],
+      submissions: [],
+      notifications: [],
+      files: [],
+    }),
+  ),
+
+  http.delete(`${PROXY}/institutions/:institutionId/people/:userId/personal-data`, () =>
+    HttpResponse.json({
+      erasureId: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaf',
+      erasedAt: '2026-09-19T12:00:00.000Z',
+      tally: {
+        refreshTokens: 2,
+        passwordResetTokens: 0,
+        userEmails: 1,
+        externalIdentities: 0,
+        invitations: 0,
+        submissionFiles: 3,
+        storedObjects: 3,
+        conflictNotes: 0,
+        assessmentFeedback: 1,
+        submissionNotes: 1,
+      },
+    }),
+  ),
+
   http.get(`${PROXY}/institutions/:institutionId/search`, () =>
     HttpResponse.json(searchResults),
   ),

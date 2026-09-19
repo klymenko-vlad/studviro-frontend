@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
+import { ExportMyData } from '@/features/personal-data';
 import type { Institution } from '@/entities/institution';
 import { usePermissions } from '@/entities/permission';
 import { Link } from '@/shared/config';
@@ -56,6 +57,13 @@ export function InstitutionRow({ institution }: { institution: Institution }) {
             </Link>
           </Button>
         ) : null}
+
+        {/*
+          Self-service, and deliberately next to the institution it applies
+          to: the export is scoped to one institution's record of the person,
+          not to the whole account.
+        */}
+        <ExportMyData institutionId={institution.id} />
       </div>
     </li>
   );

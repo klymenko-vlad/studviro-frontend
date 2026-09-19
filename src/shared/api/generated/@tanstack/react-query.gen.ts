@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { Audit, Auth, Catalogue, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, RoleAssignments, Schedule, Scheduling, Search, Users } from '../sdk.gen';
-import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, AddStudyGroupMemberData, AddStudyGroupMemberError, AddStudyGroupMemberResponse, AdmitToProgramData, AdmitToProgramError, AssignTeacherData, AssignTeacherError, BulkImportCourseOfferingsData, BulkImportCourseOfferingsError, BulkImportCourseOfferingsResponse, BulkImportProgramMembersData, BulkImportProgramMembersError, BulkImportProgramMembersResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, CancelExamTermData, CancelExamTermError, CancelExamTermResponse, CancelTimetableEventData, CancelTimetableEventError, CancelTimetableEventResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateAcademicTermData, CreateAcademicTermError, CreateAcademicTermResponse, CreateAssignmentData, CreateAssignmentError, CreateAssignmentResponse, CreateCourseData, CreateCourseError, CreateCourseOfferingData, CreateCourseOfferingError, CreateCourseOfferingResponse, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateExamTermData, CreateExamTermError, CreateExamTermResponse, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateLearningMaterialData, CreateLearningMaterialError, CreateLearningMaterialResponse, CreateLearningSpaceData, CreateLearningSpaceError, CreateLearningSpaceResponse, CreateMaterialUploadTicketData, CreateMaterialUploadTicketError, CreateMaterialUploadTicketResponse, CreateOrgUnitData, CreateOrgUnitError, CreateOrgUnitResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateResponse, CreateRoomData, CreateRoomError, CreateRoomResponse, CreateStudyGroupData, CreateStudyGroupError, CreateSubmissionUploadTicketData, CreateSubmissionUploadTicketError, CreateSubmissionUploadTicketResponse, CreateTimetableEventData, CreateTimetableEventError, CreateTimetableEventResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetAssignmentData, GetAssignmentError, GetAssignmentResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetLearningMaterialDownloadUrlData, GetLearningMaterialDownloadUrlError, GetLearningMaterialDownloadUrlResponse, GetLearningSpaceData, GetLearningSpaceError, GetLearningSpaceResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSubmissionFileDownloadUrlData, GetSubmissionFileDownloadUrlError, GetSubmissionFileDownloadUrlResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListAcademicTermsData, ListAcademicTermsError, ListAcademicTermsResponse, ListAssignmentsData, ListAssignmentsError, ListAssignmentsResponse, ListAssignmentSubmissionsData, ListAssignmentSubmissionsError, ListAssignmentSubmissionsResponse, ListAuditEventsData, ListAuditEventsError, ListAuditEventsResponse, ListCourseOfferingsData, ListCourseOfferingsError, ListCourseOfferingsResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListLearningMaterialsData, ListLearningMaterialsError, ListLearningMaterialsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMySubmissionsData, ListMySubmissionsError, ListMySubmissionsResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingExamTermsData, ListOfferingExamTermsError, ListOfferingExamTermsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOfferingTimetableData, ListOfferingTimetableError, ListOfferingTimetableResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramMembersData, ListProgramMembersError, ListProgramMembersResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListRoomsData, ListRoomsError, ListRoomsResponse, ListStudyGroupsData, ListStudyGroupsError, ListStudyGroupsResponse, ListTeachingAssignmentsData, ListTeachingAssignmentsError, ListTeachingAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MarkSubmissionData, MarkSubmissionError, MarkSubmissionResponse, MeData, MeError, MeResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveAcademicTermData, RemoveAcademicTermError, RemoveAcademicTermResponse, RemoveAssignmentData, RemoveAssignmentError, RemoveAssignmentResponse, RemoveCourseData, RemoveCourseError, RemoveCourseOfferingData, RemoveCourseOfferingError, RemoveCourseOfferingResponse, RemoveCourseResponse, RemoveData, RemoveError, RemoveExamTermData, RemoveExamTermError, RemoveExamTermResponse, RemoveLearningMaterialData, RemoveLearningMaterialError, RemoveLearningMaterialResponse, RemoveOrgUnitData, RemoveOrgUnitError, RemoveOrgUnitResponse, RemoveProgramData, RemoveProgramError, RemoveProgramMembershipData, RemoveProgramMembershipError, RemoveProgramMembershipResponse, RemoveProgramResponse, RemoveResponse, RemoveRoomData, RemoveRoomError, RemoveRoomResponse, RemoveStudyGroupData, RemoveStudyGroupError, RemoveStudyGroupMemberData, RemoveStudyGroupMemberError, RemoveStudyGroupMemberResponse, RemoveStudyGroupResponse, RemoveTimetableEventData, RemoveTimetableEventError, RemoveTimetableEventResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, RestoreTimetableEventData, RestoreTimetableEventError, RestoreTimetableEventResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SearchData, SearchError, SearchResponse, SubmitAssignmentData, SubmitAssignmentError, SubmitAssignmentResponse, UnassignTeacherData, UnassignTeacherError, UnassignTeacherResponse, UpdateAcademicTermData, UpdateAcademicTermError, UpdateAcademicTermResponse, UpdateAssignmentData, UpdateAssignmentError, UpdateAssignmentResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateExamTermData, UpdateExamTermError, UpdateExamTermResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateLearningMaterialData, UpdateLearningMaterialError, UpdateLearningMaterialResponse, UpdateLearningSpaceData, UpdateLearningSpaceError, UpdateLearningSpaceResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateOrgUnitData, UpdateOrgUnitError, UpdateOrgUnitResponse, UpdateProgramData, UpdateProgramError, UpdateProgramMembershipData, UpdateProgramMembershipError, UpdateProgramMembershipResponse, UpdateProgramResponse, UpdateRoomData, UpdateRoomError, UpdateRoomResponse, UpdateStudyGroupData, UpdateStudyGroupError, UpdateTimetableEventData, UpdateTimetableEventError, UpdateTimetableEventResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
+import { Audit, Auth, Catalogue, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, Privacy, RoleAssignments, Schedule, Scheduling, Search, Users } from '../sdk.gen';
+import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, AddStudyGroupMemberData, AddStudyGroupMemberError, AddStudyGroupMemberResponse, AdmitToProgramData, AdmitToProgramError, AssignTeacherData, AssignTeacherError, BulkImportCourseOfferingsData, BulkImportCourseOfferingsError, BulkImportCourseOfferingsResponse, BulkImportProgramMembersData, BulkImportProgramMembersError, BulkImportProgramMembersResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, CancelExamTermData, CancelExamTermError, CancelExamTermResponse, CancelTimetableEventData, CancelTimetableEventError, CancelTimetableEventResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateAcademicTermData, CreateAcademicTermError, CreateAcademicTermResponse, CreateAssignmentData, CreateAssignmentError, CreateAssignmentResponse, CreateCourseData, CreateCourseError, CreateCourseOfferingData, CreateCourseOfferingError, CreateCourseOfferingResponse, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateExamTermData, CreateExamTermError, CreateExamTermResponse, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateLearningMaterialData, CreateLearningMaterialError, CreateLearningMaterialResponse, CreateLearningSpaceData, CreateLearningSpaceError, CreateLearningSpaceResponse, CreateMaterialUploadTicketData, CreateMaterialUploadTicketError, CreateMaterialUploadTicketResponse, CreateOrgUnitData, CreateOrgUnitError, CreateOrgUnitResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateResponse, CreateRoomData, CreateRoomError, CreateRoomResponse, CreateStudyGroupData, CreateStudyGroupError, CreateSubmissionUploadTicketData, CreateSubmissionUploadTicketError, CreateSubmissionUploadTicketResponse, CreateTimetableEventData, CreateTimetableEventError, CreateTimetableEventResponse, ErasePersonalDataData, ErasePersonalDataError, ErasePersonalDataResponse, ExportMyPersonalDataData, ExportMyPersonalDataError, ExportMyPersonalDataResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetAssignmentData, GetAssignmentError, GetAssignmentResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetLearningMaterialDownloadUrlData, GetLearningMaterialDownloadUrlError, GetLearningMaterialDownloadUrlResponse, GetLearningSpaceData, GetLearningSpaceError, GetLearningSpaceResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSubmissionFileDownloadUrlData, GetSubmissionFileDownloadUrlError, GetSubmissionFileDownloadUrlResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ListAcademicTermsData, ListAcademicTermsError, ListAcademicTermsResponse, ListAssignmentsData, ListAssignmentsError, ListAssignmentsResponse, ListAssignmentSubmissionsData, ListAssignmentSubmissionsError, ListAssignmentSubmissionsResponse, ListAuditEventsData, ListAuditEventsError, ListAuditEventsResponse, ListCourseOfferingsData, ListCourseOfferingsError, ListCourseOfferingsResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListLearningMaterialsData, ListLearningMaterialsError, ListLearningMaterialsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMySubmissionsData, ListMySubmissionsError, ListMySubmissionsResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingExamTermsData, ListOfferingExamTermsError, ListOfferingExamTermsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOfferingTimetableData, ListOfferingTimetableError, ListOfferingTimetableResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramMembersData, ListProgramMembersError, ListProgramMembersResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListRoomsData, ListRoomsError, ListRoomsResponse, ListStudyGroupsData, ListStudyGroupsError, ListStudyGroupsResponse, ListTeachingAssignmentsData, ListTeachingAssignmentsError, ListTeachingAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MarkSubmissionData, MarkSubmissionError, MarkSubmissionResponse, MeData, MeError, MeResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveAcademicTermData, RemoveAcademicTermError, RemoveAcademicTermResponse, RemoveAssignmentData, RemoveAssignmentError, RemoveAssignmentResponse, RemoveCourseData, RemoveCourseError, RemoveCourseOfferingData, RemoveCourseOfferingError, RemoveCourseOfferingResponse, RemoveCourseResponse, RemoveData, RemoveError, RemoveExamTermData, RemoveExamTermError, RemoveExamTermResponse, RemoveLearningMaterialData, RemoveLearningMaterialError, RemoveLearningMaterialResponse, RemoveOrgUnitData, RemoveOrgUnitError, RemoveOrgUnitResponse, RemoveProgramData, RemoveProgramError, RemoveProgramMembershipData, RemoveProgramMembershipError, RemoveProgramMembershipResponse, RemoveProgramResponse, RemoveResponse, RemoveRoomData, RemoveRoomError, RemoveRoomResponse, RemoveStudyGroupData, RemoveStudyGroupError, RemoveStudyGroupMemberData, RemoveStudyGroupMemberError, RemoveStudyGroupMemberResponse, RemoveStudyGroupResponse, RemoveTimetableEventData, RemoveTimetableEventError, RemoveTimetableEventResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, RestoreTimetableEventData, RestoreTimetableEventError, RestoreTimetableEventResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SearchData, SearchError, SearchResponse, SubmitAssignmentData, SubmitAssignmentError, SubmitAssignmentResponse, UnassignTeacherData, UnassignTeacherError, UnassignTeacherResponse, UpdateAcademicTermData, UpdateAcademicTermError, UpdateAcademicTermResponse, UpdateAssignmentData, UpdateAssignmentError, UpdateAssignmentResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateExamTermData, UpdateExamTermError, UpdateExamTermResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateLearningMaterialData, UpdateLearningMaterialError, UpdateLearningMaterialResponse, UpdateLearningSpaceData, UpdateLearningSpaceError, UpdateLearningSpaceResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateOrgUnitData, UpdateOrgUnitError, UpdateOrgUnitResponse, UpdateProgramData, UpdateProgramError, UpdateProgramMembershipData, UpdateProgramMembershipError, UpdateProgramMembershipResponse, UpdateProgramResponse, UpdateRoomData, UpdateRoomError, UpdateRoomResponse, UpdateStudyGroupData, UpdateStudyGroupError, UpdateTimetableEventData, UpdateTimetableEventError, UpdateTimetableEventResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
 
 /**
  * Create an account and start a session
@@ -1490,14 +1490,16 @@ export const createDemoRequestMutation = (options?: Partial<Options<CreateDemoRe
     return mutationOptions;
 };
 
-export const listMyTimetableEventsQueryKey = (options: Options<ListMyTimetableEventsData>) => createQueryKey('listMyTimetableEvents', options);
+export const exportMyPersonalDataQueryKey = (options: Options<ExportMyPersonalDataData>) => createQueryKey('exportMyPersonalData', options);
 
 /**
- * List the current user’s timetable events overlapping a date range
+ * Take a copy of everything this institution holds about you
+ *
+ * One document covering the account, the sign-in trail, the academic record, the learning record, notifications and the storage keys of your files.
  */
-export const listMyTimetableEventsOptions = (options: Options<ListMyTimetableEventsData>) => queryOptions<ListMyTimetableEventsResponse, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ReturnType<typeof listMyTimetableEventsQueryKey>>({
+export const exportMyPersonalDataOptions = (options: Options<ExportMyPersonalDataData>) => queryOptions<ExportMyPersonalDataResponse, ExportMyPersonalDataError, ExportMyPersonalDataResponse, ReturnType<typeof exportMyPersonalDataQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Schedule.listMyTimetableEvents({
+        const { data } = await Privacy.exportMyPersonalData({
             ...options,
             ...queryKey[0],
             signal,
@@ -1505,328 +1507,18 @@ export const listMyTimetableEventsOptions = (options: Options<ListMyTimetableEve
         });
         return data;
     },
-    queryKey: listMyTimetableEventsQueryKey(options)
-});
-
-export const listMyExamTermsQueryKey = (options: Options<ListMyExamTermsData>) => createQueryKey('listMyExamTerms', options);
-
-/**
- * List the exam terms of the courses the current user attends or teaches
- */
-export const listMyExamTermsOptions = (options: Options<ListMyExamTermsData>) => queryOptions<ListMyExamTermsResponse, ListMyExamTermsError, ListMyExamTermsResponse, ReturnType<typeof listMyExamTermsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Schedule.listMyExamTerms({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listMyExamTermsQueryKey(options)
+    queryKey: exportMyPersonalDataQueryKey(options)
 });
 
 /**
- * Register the current user for an exam term
- */
-export const registerForExamTermMutation = (options?: Partial<Options<RegisterForExamTermData>>): UseMutationOptions<RegisterForExamTermResponse, RegisterForExamTermError, Options<RegisterForExamTermData>> => {
-    const mutationOptions: UseMutationOptions<RegisterForExamTermResponse, RegisterForExamTermError, Options<RegisterForExamTermData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Schedule.registerForExamTerm({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Cancel the current user’s registration for an exam term
- */
-export const cancelExamRegistrationMutation = (options?: Partial<Options<CancelExamRegistrationData>>): UseMutationOptions<CancelExamRegistrationResponse, CancelExamRegistrationError, Options<CancelExamRegistrationData>> => {
-    const mutationOptions: UseMutationOptions<CancelExamRegistrationResponse, CancelExamRegistrationError, Options<CancelExamRegistrationData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Schedule.cancelExamRegistration({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const listOfferingTimetableQueryKey = (options: Options<ListOfferingTimetableData>) => createQueryKey('listOfferingTimetable', options);
-
-/**
- * Every class scheduled for this offering, in time order
- */
-export const listOfferingTimetableOptions = (options: Options<ListOfferingTimetableData>) => queryOptions<ListOfferingTimetableResponse, ListOfferingTimetableError, ListOfferingTimetableResponse, ReturnType<typeof listOfferingTimetableQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Scheduling.listOfferingTimetable({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listOfferingTimetableQueryKey(options)
-});
-
-/**
- * Schedule a class, once or weekly to the end of term
+ * Anonymise a person and keep their academic record
  *
- * With `repeatWeekly`, one slot becomes a row per week until the term ends, so moving or cancelling a single week is an ordinary edit. A room already booked for any part of the slot is refused.
+ * Irreversible. The account is anonymised, credentials and stored files are destroyed, free text written about the person is cleared, and enrolments, results and registrations stay — pointing at a row that no longer says who they were. Refused while another institution still has an active relationship with them.
  */
-export const createTimetableEventMutation = (options?: Partial<Options<CreateTimetableEventData>>): UseMutationOptions<CreateTimetableEventResponse, CreateTimetableEventError, Options<CreateTimetableEventData>> => {
-    const mutationOptions: UseMutationOptions<CreateTimetableEventResponse, CreateTimetableEventError, Options<CreateTimetableEventData>> = {
+export const erasePersonalDataMutation = (options?: Partial<Options<ErasePersonalDataData>>): UseMutationOptions<ErasePersonalDataResponse, ErasePersonalDataError, Options<ErasePersonalDataData>> => {
+    const mutationOptions: UseMutationOptions<ErasePersonalDataResponse, ErasePersonalDataError, Options<ErasePersonalDataData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await Scheduling.createTimetableEvent({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Remove a class that should never have been scheduled
- *
- * Cancelling says it was called off; removing says it never existed.
- */
-export const removeTimetableEventMutation = (options?: Partial<Options<RemoveTimetableEventData>>): UseMutationOptions<RemoveTimetableEventResponse, RemoveTimetableEventError, Options<RemoveTimetableEventData>> => {
-    const mutationOptions: UseMutationOptions<RemoveTimetableEventResponse, RemoveTimetableEventError, Options<RemoveTimetableEventData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Scheduling.removeTimetableEvent({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Move a single class
- */
-export const updateTimetableEventMutation = (options?: Partial<Options<UpdateTimetableEventData>>): UseMutationOptions<UpdateTimetableEventResponse, UpdateTimetableEventError, Options<UpdateTimetableEventData>> => {
-    const mutationOptions: UseMutationOptions<UpdateTimetableEventResponse, UpdateTimetableEventError, Options<UpdateTimetableEventData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Scheduling.updateTimetableEvent({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Put a cancelled class back on
- */
-export const restoreTimetableEventMutation = (options?: Partial<Options<RestoreTimetableEventData>>): UseMutationOptions<RestoreTimetableEventResponse, RestoreTimetableEventError, Options<RestoreTimetableEventData>> => {
-    const mutationOptions: UseMutationOptions<RestoreTimetableEventResponse, RestoreTimetableEventError, Options<RestoreTimetableEventData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Scheduling.restoreTimetableEvent({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Call a class off, leaving it on the calendar
- *
- * A cancelled class stays visible and struck through: a student who turns up needs to see it was called off, not find nothing where it used to be.
- */
-export const cancelTimetableEventMutation = (options?: Partial<Options<CancelTimetableEventData>>): UseMutationOptions<CancelTimetableEventResponse, CancelTimetableEventError, Options<CancelTimetableEventData>> => {
-    const mutationOptions: UseMutationOptions<CancelTimetableEventResponse, CancelTimetableEventError, Options<CancelTimetableEventData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Scheduling.cancelTimetableEvent({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const listOfferingExamTermsQueryKey = (options: Options<ListOfferingExamTermsData>) => createQueryKey('listOfferingExamTerms', options);
-
-/**
- * Every exam term offered on this course, in time order
- */
-export const listOfferingExamTermsOptions = (options: Options<ListOfferingExamTermsData>) => queryOptions<ListOfferingExamTermsResponse, ListOfferingExamTermsError, ListOfferingExamTermsResponse, ReturnType<typeof listOfferingExamTermsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Scheduling.listOfferingExamTerms({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listOfferingExamTermsQueryKey(options)
-});
-
-/**
- * Offer an exam term
- *
- * The registration window must close before the exam starts, and the examiner must be somebody who teaches the offering.
- */
-export const createExamTermMutation = (options?: Partial<Options<CreateExamTermData>>): UseMutationOptions<CreateExamTermResponse, CreateExamTermError, Options<CreateExamTermData>> => {
-    const mutationOptions: UseMutationOptions<CreateExamTermResponse, CreateExamTermError, Options<CreateExamTermData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Scheduling.createExamTerm({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Remove a term that should never have been offered
- *
- * Cancelling says it was called off; removing says it never existed.
- */
-export const removeExamTermMutation = (options?: Partial<Options<RemoveExamTermData>>): UseMutationOptions<RemoveExamTermResponse, RemoveExamTermError, Options<RemoveExamTermData>> => {
-    const mutationOptions: UseMutationOptions<RemoveExamTermResponse, RemoveExamTermError, Options<RemoveExamTermData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Scheduling.removeExamTerm({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Move a term, or change its capacity or registration window
- *
- * Capacity may not be cut below the seats already held. A cancelled term cannot be changed.
- */
-export const updateExamTermMutation = (options?: Partial<Options<UpdateExamTermData>>): UseMutationOptions<UpdateExamTermResponse, UpdateExamTermError, Options<UpdateExamTermData>> => {
-    const mutationOptions: UseMutationOptions<UpdateExamTermResponse, UpdateExamTermError, Options<UpdateExamTermData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Scheduling.updateExamTerm({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Call a term off, releasing the seats it held
- *
- * A cancelled term stays on the record so that the students who held a seat can see it was called off.
- */
-export const cancelExamTermMutation = (options?: Partial<Options<CancelExamTermData>>): UseMutationOptions<CancelExamTermResponse, CancelExamTermError, Options<CancelExamTermData>> => {
-    const mutationOptions: UseMutationOptions<CancelExamTermResponse, CancelExamTermError, Options<CancelExamTermData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Scheduling.cancelExamTerm({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-export const searchQueryKey = (options: Options<SearchData>) => createQueryKey('search', options);
-
-/**
- * Search everything the caller may see
- *
- * Permission decides what is searched rather than what is filtered afterwards, so a kind the caller cannot read is never queried and an empty result cannot be read as proof that something does not exist.
- */
-export const searchOptions = (options: Options<SearchData>) => queryOptions<SearchResponse, SearchError, SearchResponse, ReturnType<typeof searchQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Search.search({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: searchQueryKey(options)
-});
-
-export const listEnrollableOfferingsQueryKey = (options: Options<ListEnrollableOfferingsData>) => createQueryKey('listEnrollableOfferings', options);
-
-/**
- * List the courses the caller may take, and say why not where they may not
- */
-export const listEnrollableOfferingsOptions = (options: Options<ListEnrollableOfferingsData>) => queryOptions<ListEnrollableOfferingsResponse, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ReturnType<typeof listEnrollableOfferingsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await Courses.listEnrollableOfferings({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: listEnrollableOfferingsQueryKey(options)
-});
-
-/**
- * Ask for a place on a course
- *
- * A request, not a place: the row is `requested` until the registrar’s system acknowledges it, and `active` immediately where no connector can be told.
- */
-export const requestEnrollmentMutation = (options?: Partial<Options<RequestEnrollmentData>>): UseMutationOptions<RequestEnrollmentResponse, RequestEnrollmentError, Options<RequestEnrollmentData>> => {
-    const mutationOptions: UseMutationOptions<RequestEnrollmentResponse, RequestEnrollmentError, Options<RequestEnrollmentData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Courses.requestEnrollment({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
-};
-
-/**
- * Withdraw from a course while the window is still open
- */
-export const withdrawFromCourseMutation = (options?: Partial<Options<WithdrawFromCourseData>>): UseMutationOptions<WithdrawFromCourseResponse, WithdrawFromCourseError, Options<WithdrawFromCourseData>> => {
-    const mutationOptions: UseMutationOptions<WithdrawFromCourseResponse, WithdrawFromCourseError, Options<WithdrawFromCourseData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await Courses.withdrawFromCourse({
+            const { data } = await Privacy.erasePersonalData({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -2366,6 +2058,353 @@ export const unassignTeacherMutation = (options?: Partial<Options<UnassignTeache
     const mutationOptions: UseMutationOptions<UnassignTeacherResponse, UnassignTeacherError, Options<UnassignTeacherData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await Catalogue.unassignTeacher({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listMyTimetableEventsQueryKey = (options: Options<ListMyTimetableEventsData>) => createQueryKey('listMyTimetableEvents', options);
+
+/**
+ * List the current user’s timetable events overlapping a date range
+ */
+export const listMyTimetableEventsOptions = (options: Options<ListMyTimetableEventsData>) => queryOptions<ListMyTimetableEventsResponse, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ReturnType<typeof listMyTimetableEventsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Schedule.listMyTimetableEvents({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyTimetableEventsQueryKey(options)
+});
+
+export const listMyExamTermsQueryKey = (options: Options<ListMyExamTermsData>) => createQueryKey('listMyExamTerms', options);
+
+/**
+ * List the exam terms of the courses the current user attends or teaches
+ */
+export const listMyExamTermsOptions = (options: Options<ListMyExamTermsData>) => queryOptions<ListMyExamTermsResponse, ListMyExamTermsError, ListMyExamTermsResponse, ReturnType<typeof listMyExamTermsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Schedule.listMyExamTerms({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyExamTermsQueryKey(options)
+});
+
+/**
+ * Register the current user for an exam term
+ */
+export const registerForExamTermMutation = (options?: Partial<Options<RegisterForExamTermData>>): UseMutationOptions<RegisterForExamTermResponse, RegisterForExamTermError, Options<RegisterForExamTermData>> => {
+    const mutationOptions: UseMutationOptions<RegisterForExamTermResponse, RegisterForExamTermError, Options<RegisterForExamTermData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Schedule.registerForExamTerm({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Cancel the current user’s registration for an exam term
+ */
+export const cancelExamRegistrationMutation = (options?: Partial<Options<CancelExamRegistrationData>>): UseMutationOptions<CancelExamRegistrationResponse, CancelExamRegistrationError, Options<CancelExamRegistrationData>> => {
+    const mutationOptions: UseMutationOptions<CancelExamRegistrationResponse, CancelExamRegistrationError, Options<CancelExamRegistrationData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Schedule.cancelExamRegistration({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listOfferingTimetableQueryKey = (options: Options<ListOfferingTimetableData>) => createQueryKey('listOfferingTimetable', options);
+
+/**
+ * Every class scheduled for this offering, in time order
+ */
+export const listOfferingTimetableOptions = (options: Options<ListOfferingTimetableData>) => queryOptions<ListOfferingTimetableResponse, ListOfferingTimetableError, ListOfferingTimetableResponse, ReturnType<typeof listOfferingTimetableQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Scheduling.listOfferingTimetable({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listOfferingTimetableQueryKey(options)
+});
+
+/**
+ * Schedule a class, once or weekly to the end of term
+ *
+ * With `repeatWeekly`, one slot becomes a row per week until the term ends, so moving or cancelling a single week is an ordinary edit. A room already booked for any part of the slot is refused.
+ */
+export const createTimetableEventMutation = (options?: Partial<Options<CreateTimetableEventData>>): UseMutationOptions<CreateTimetableEventResponse, CreateTimetableEventError, Options<CreateTimetableEventData>> => {
+    const mutationOptions: UseMutationOptions<CreateTimetableEventResponse, CreateTimetableEventError, Options<CreateTimetableEventData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Scheduling.createTimetableEvent({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Remove a class that should never have been scheduled
+ *
+ * Cancelling says it was called off; removing says it never existed.
+ */
+export const removeTimetableEventMutation = (options?: Partial<Options<RemoveTimetableEventData>>): UseMutationOptions<RemoveTimetableEventResponse, RemoveTimetableEventError, Options<RemoveTimetableEventData>> => {
+    const mutationOptions: UseMutationOptions<RemoveTimetableEventResponse, RemoveTimetableEventError, Options<RemoveTimetableEventData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Scheduling.removeTimetableEvent({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Move a single class
+ */
+export const updateTimetableEventMutation = (options?: Partial<Options<UpdateTimetableEventData>>): UseMutationOptions<UpdateTimetableEventResponse, UpdateTimetableEventError, Options<UpdateTimetableEventData>> => {
+    const mutationOptions: UseMutationOptions<UpdateTimetableEventResponse, UpdateTimetableEventError, Options<UpdateTimetableEventData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Scheduling.updateTimetableEvent({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Put a cancelled class back on
+ */
+export const restoreTimetableEventMutation = (options?: Partial<Options<RestoreTimetableEventData>>): UseMutationOptions<RestoreTimetableEventResponse, RestoreTimetableEventError, Options<RestoreTimetableEventData>> => {
+    const mutationOptions: UseMutationOptions<RestoreTimetableEventResponse, RestoreTimetableEventError, Options<RestoreTimetableEventData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Scheduling.restoreTimetableEvent({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Call a class off, leaving it on the calendar
+ *
+ * A cancelled class stays visible and struck through: a student who turns up needs to see it was called off, not find nothing where it used to be.
+ */
+export const cancelTimetableEventMutation = (options?: Partial<Options<CancelTimetableEventData>>): UseMutationOptions<CancelTimetableEventResponse, CancelTimetableEventError, Options<CancelTimetableEventData>> => {
+    const mutationOptions: UseMutationOptions<CancelTimetableEventResponse, CancelTimetableEventError, Options<CancelTimetableEventData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Scheduling.cancelTimetableEvent({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listOfferingExamTermsQueryKey = (options: Options<ListOfferingExamTermsData>) => createQueryKey('listOfferingExamTerms', options);
+
+/**
+ * Every exam term offered on this course, in time order
+ */
+export const listOfferingExamTermsOptions = (options: Options<ListOfferingExamTermsData>) => queryOptions<ListOfferingExamTermsResponse, ListOfferingExamTermsError, ListOfferingExamTermsResponse, ReturnType<typeof listOfferingExamTermsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Scheduling.listOfferingExamTerms({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listOfferingExamTermsQueryKey(options)
+});
+
+/**
+ * Offer an exam term
+ *
+ * The registration window must close before the exam starts, and the examiner must be somebody who teaches the offering.
+ */
+export const createExamTermMutation = (options?: Partial<Options<CreateExamTermData>>): UseMutationOptions<CreateExamTermResponse, CreateExamTermError, Options<CreateExamTermData>> => {
+    const mutationOptions: UseMutationOptions<CreateExamTermResponse, CreateExamTermError, Options<CreateExamTermData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Scheduling.createExamTerm({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Remove a term that should never have been offered
+ *
+ * Cancelling says it was called off; removing says it never existed.
+ */
+export const removeExamTermMutation = (options?: Partial<Options<RemoveExamTermData>>): UseMutationOptions<RemoveExamTermResponse, RemoveExamTermError, Options<RemoveExamTermData>> => {
+    const mutationOptions: UseMutationOptions<RemoveExamTermResponse, RemoveExamTermError, Options<RemoveExamTermData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Scheduling.removeExamTerm({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Move a term, or change its capacity or registration window
+ *
+ * Capacity may not be cut below the seats already held. A cancelled term cannot be changed.
+ */
+export const updateExamTermMutation = (options?: Partial<Options<UpdateExamTermData>>): UseMutationOptions<UpdateExamTermResponse, UpdateExamTermError, Options<UpdateExamTermData>> => {
+    const mutationOptions: UseMutationOptions<UpdateExamTermResponse, UpdateExamTermError, Options<UpdateExamTermData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Scheduling.updateExamTerm({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Call a term off, releasing the seats it held
+ *
+ * A cancelled term stays on the record so that the students who held a seat can see it was called off.
+ */
+export const cancelExamTermMutation = (options?: Partial<Options<CancelExamTermData>>): UseMutationOptions<CancelExamTermResponse, CancelExamTermError, Options<CancelExamTermData>> => {
+    const mutationOptions: UseMutationOptions<CancelExamTermResponse, CancelExamTermError, Options<CancelExamTermData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Scheduling.cancelExamTerm({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const searchQueryKey = (options: Options<SearchData>) => createQueryKey('search', options);
+
+/**
+ * Search everything the caller may see
+ *
+ * Permission decides what is searched rather than what is filtered afterwards, so a kind the caller cannot read is never queried and an empty result cannot be read as proof that something does not exist.
+ */
+export const searchOptions = (options: Options<SearchData>) => queryOptions<SearchResponse, SearchError, SearchResponse, ReturnType<typeof searchQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Search.search({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: searchQueryKey(options)
+});
+
+export const listEnrollableOfferingsQueryKey = (options: Options<ListEnrollableOfferingsData>) => createQueryKey('listEnrollableOfferings', options);
+
+/**
+ * List the courses the caller may take, and say why not where they may not
+ */
+export const listEnrollableOfferingsOptions = (options: Options<ListEnrollableOfferingsData>) => queryOptions<ListEnrollableOfferingsResponse, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ReturnType<typeof listEnrollableOfferingsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Courses.listEnrollableOfferings({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listEnrollableOfferingsQueryKey(options)
+});
+
+/**
+ * Ask for a place on a course
+ *
+ * A request, not a place: the row is `requested` until the registrar’s system acknowledges it, and `active` immediately where no connector can be told.
+ */
+export const requestEnrollmentMutation = (options?: Partial<Options<RequestEnrollmentData>>): UseMutationOptions<RequestEnrollmentResponse, RequestEnrollmentError, Options<RequestEnrollmentData>> => {
+    const mutationOptions: UseMutationOptions<RequestEnrollmentResponse, RequestEnrollmentError, Options<RequestEnrollmentData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Courses.requestEnrollment({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Withdraw from a course while the window is still open
+ */
+export const withdrawFromCourseMutation = (options?: Partial<Options<WithdrawFromCourseData>>): UseMutationOptions<WithdrawFromCourseResponse, WithdrawFromCourseError, Options<WithdrawFromCourseData>> => {
+    const mutationOptions: UseMutationOptions<WithdrawFromCourseResponse, WithdrawFromCourseError, Options<WithdrawFromCourseData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Courses.withdrawFromCourse({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

@@ -10,6 +10,7 @@ export const AUDIT_ACTIONS: readonly AuditAction[] = [
   'role.revoked',
   'enrollment.corrected',
   'exam_term.cancelled',
+  'personal_data.erased',
 ];
 
 /**
@@ -57,6 +58,7 @@ const LABEL_KEYS: Readonly<Record<AuditAction, string>> = {
   'role.revoked': 'roleRevoked',
   'enrollment.corrected': 'enrollmentCorrected',
   'exam_term.cancelled': 'examTermCancelled',
+  'personal_data.erased': 'personalDataErased',
 };
 
 export function labelKeyFor(action: AuditAction): string {
