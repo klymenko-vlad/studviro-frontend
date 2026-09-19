@@ -892,6 +892,58 @@ export type ExamRegistrationResponseDto = {
     cancelledAt: string | null;
 };
 
+export type TimetableEventResponseDto = {
+    id: string;
+    type: 'lecture' | 'seminar' | 'lab' | 'consultation' | 'exam' | 'other';
+    title: string | null;
+    startsAt: string;
+    endsAt: string;
+    cancelledAt: string | null;
+    roomId: string | null;
+    roomCode: string | null;
+    studyGroupId: string | null;
+    studyGroupCode: string | null;
+};
+
+export type CreateTimetableEventDto = {
+    type?: 'lecture' | 'seminar' | 'lab' | 'consultation' | 'exam' | 'other';
+    title?: string | null;
+    startsAt: string;
+    endsAt: string;
+    roomId?: string | null;
+    /**
+     * Restrict the class to one seminar or lab group.
+     */
+    studyGroupId?: string | null;
+    /**
+     * Repeat the slot every week until the term ends. A university timetables a weekly slot, not one class at a time.
+     */
+    repeatWeekly?: boolean;
+};
+
+export type ScheduledEventsResponseDto = {
+    /**
+     * How many classes were written — one, or a week each to the end of term.
+     */
+    created: number;
+};
+
+export type UpdateTimetableEventDto = {
+    type?: 'lecture' | 'seminar' | 'lab' | 'consultation' | 'exam' | 'other';
+    title?: string | null;
+    startsAt?: string;
+    endsAt?: string;
+    roomId?: string | null;
+    /**
+     * Restrict the class to one seminar or lab group.
+     */
+    studyGroupId?: string | null;
+};
+
+export type TimetableEventRefDto = {
+    id: string;
+};
+
 export type EnrollmentAvailabilityDto = {
     canEnroll: boolean;
     canWithdraw: boolean;
@@ -3238,6 +3290,240 @@ export type CancelExamRegistrationResponses = {
 };
 
 export type CancelExamRegistrationResponse = CancelExamRegistrationResponses[keyof CancelExamRegistrationResponses];
+
+export type ListOfferingTimetableData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/timetable';
+};
+
+export type ListOfferingTimetableErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListOfferingTimetableError = ListOfferingTimetableErrors[keyof ListOfferingTimetableErrors];
+
+export type ListOfferingTimetableResponses = {
+    200: Array<TimetableEventResponseDto>;
+};
+
+export type ListOfferingTimetableResponse = ListOfferingTimetableResponses[keyof ListOfferingTimetableResponses];
+
+export type CreateTimetableEventData = {
+    body: CreateTimetableEventDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/timetable';
+};
+
+export type CreateTimetableEventErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateTimetableEventError = CreateTimetableEventErrors[keyof CreateTimetableEventErrors];
+
+export type CreateTimetableEventResponses = {
+    201: ScheduledEventsResponseDto;
+};
+
+export type CreateTimetableEventResponse = CreateTimetableEventResponses[keyof CreateTimetableEventResponses];
+
+export type RemoveTimetableEventData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        eventId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/timetable/{eventId}';
+};
+
+export type RemoveTimetableEventErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveTimetableEventError = RemoveTimetableEventErrors[keyof RemoveTimetableEventErrors];
+
+export type RemoveTimetableEventResponses = {
+    204: void;
+};
+
+export type RemoveTimetableEventResponse = RemoveTimetableEventResponses[keyof RemoveTimetableEventResponses];
+
+export type UpdateTimetableEventData = {
+    body: UpdateTimetableEventDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        eventId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/timetable/{eventId}';
+};
+
+export type UpdateTimetableEventErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateTimetableEventError = UpdateTimetableEventErrors[keyof UpdateTimetableEventErrors];
+
+export type UpdateTimetableEventResponses = {
+    200: TimetableEventRefDto;
+};
+
+export type UpdateTimetableEventResponse = UpdateTimetableEventResponses[keyof UpdateTimetableEventResponses];
+
+export type RestoreTimetableEventData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        eventId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/timetable/{eventId}/cancellation';
+};
+
+export type RestoreTimetableEventErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RestoreTimetableEventError = RestoreTimetableEventErrors[keyof RestoreTimetableEventErrors];
+
+export type RestoreTimetableEventResponses = {
+    200: TimetableEventRefDto;
+};
+
+export type RestoreTimetableEventResponse = RestoreTimetableEventResponses[keyof RestoreTimetableEventResponses];
+
+export type CancelTimetableEventData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        eventId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/timetable/{eventId}/cancellation';
+};
+
+export type CancelTimetableEventErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CancelTimetableEventError = CancelTimetableEventErrors[keyof CancelTimetableEventErrors];
+
+export type CancelTimetableEventResponses = {
+    200: TimetableEventRefDto;
+};
+
+export type CancelTimetableEventResponse = CancelTimetableEventResponses[keyof CancelTimetableEventResponses];
 
 export type ListEnrollableOfferingsData = {
     body?: never;

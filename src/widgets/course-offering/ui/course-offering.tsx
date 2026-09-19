@@ -16,6 +16,7 @@ import { OfferingResults } from './offering-results';
 import { OfferingRoster } from './offering-roster';
 import { OfferingStaff } from './offering-staff';
 import { OfferingStudyGroups } from './offering-study-groups';
+import { OfferingTimetable } from './offering-timetable';
 
 export function CourseOffering({
   institutionId,
@@ -61,6 +62,7 @@ export function CourseOffering({
         <>
           <OfferingRoster institutionId={institutionId} offeringId={offeringId} />
           <OfferingStudyGroups institutionId={institutionId} offeringId={offeringId} />
+          <OfferingTimetable institutionId={institutionId} offeringId={offeringId} />
           <OfferingGradeEntry institutionId={institutionId} offeringId={offeringId} />
         </>
       )}

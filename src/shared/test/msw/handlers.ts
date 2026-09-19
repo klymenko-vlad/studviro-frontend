@@ -31,6 +31,7 @@ import type {
   StudyProgressResponseDto,
   TeachingAssignmentResponseDto,
   TeachingOfferingResponseDto,
+  TimetableEventResponseDto,
   UserResponseDto,
 } from '@/shared/api';
 
@@ -852,6 +853,45 @@ export const learningSpaces: LearningSpaceListResponseDto = {
   ],
 };
 
+export const offeringTimetable: TimetableEventResponseDto[] = [
+  {
+    id: 'a1a1a1a1-a1a1-4a1a-8a1a-a1a1a1a1a1a1',
+    type: 'lecture',
+    title: 'Algorithms lecture',
+    startsAt: '2026-09-21T09:00:00.000Z',
+    endsAt: '2026-09-21T11:00:00.000Z',
+    cancelledAt: null,
+    roomId: 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee1',
+    roomCode: 'FEI-101',
+    studyGroupId: null,
+    studyGroupCode: null,
+  },
+  {
+    id: 'a2a2a2a2-a2a2-4a2a-8a2a-a2a2a2a2a2a2',
+    type: 'lecture',
+    title: 'Algorithms lecture',
+    startsAt: '2026-09-28T09:00:00.000Z',
+    endsAt: '2026-09-28T11:00:00.000Z',
+    cancelledAt: '2026-09-25T00:00:00.000Z',
+    roomId: 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee1',
+    roomCode: 'FEI-101',
+    studyGroupId: null,
+    studyGroupCode: null,
+  },
+  {
+    id: 'a3a3a3a3-a3a3-4a3a-8a3a-a3a3a3a3a3a3',
+    type: 'seminar',
+    title: null,
+    startsAt: '2026-09-23T13:00:00.000Z',
+    endsAt: '2026-09-23T15:00:00.000Z',
+    cancelledAt: null,
+    roomId: null,
+    roomCode: null,
+    studyGroupId: 'f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f1',
+    studyGroupCode: 'S1',
+  },
+];
+
 export const studyGroups: StudyGroupResponseDto[] = [
   {
     id: 'f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f1',
@@ -1390,6 +1430,26 @@ export const handlers = [
   http.get(
     `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/study-groups`,
     () => HttpResponse.json(studyGroups),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/timetable`,
+    () => HttpResponse.json(offeringTimetable),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/timetable`,
+    () => HttpResponse.json({ created: 7 }, { status: 201 }),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/timetable/:eventId/cancellation`,
+    () => HttpResponse.json({ id: 'a1a1a1a1-a1a1-4a1a-8a1a-a1a1a1a1a1a1' }),
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/timetable/:eventId/cancellation`,
+    () => HttpResponse.json({ id: 'a2a2a2a2-a2a2-4a2a-8a2a-a2a2a2a2a2a2' }),
   ),
 
   http.post(

@@ -1217,6 +1217,67 @@ export const zExamRegistrationResponseDto = z.object({
     cancelledAt: z.iso.datetime().nullable()
 });
 
+export const zTimetableEventResponseDto = z.object({
+    id: z.uuid(),
+    type: z.enum([
+        'lecture',
+        'seminar',
+        'lab',
+        'consultation',
+        'exam',
+        'other'
+    ]),
+    title: z.string().nullable(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+    cancelledAt: z.iso.datetime().nullable(),
+    roomId: z.uuid().nullable(),
+    roomCode: z.string().nullable(),
+    studyGroupId: z.uuid().nullable(),
+    studyGroupCode: z.string().nullable()
+});
+
+export const zCreateTimetableEventDto = z.object({
+    type: z.enum([
+        'lecture',
+        'seminar',
+        'lab',
+        'consultation',
+        'exam',
+        'other'
+    ]).optional(),
+    title: z.string().max(200).nullish(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+    roomId: z.uuid().nullish(),
+    studyGroupId: z.uuid().nullish(),
+    repeatWeekly: z.boolean().optional()
+});
+
+export const zScheduledEventsResponseDto = z.object({
+    created: z.number()
+});
+
+export const zUpdateTimetableEventDto = z.object({
+    type: z.enum([
+        'lecture',
+        'seminar',
+        'lab',
+        'consultation',
+        'exam',
+        'other'
+    ]).optional(),
+    title: z.string().max(200).nullish(),
+    startsAt: z.iso.datetime().optional(),
+    endsAt: z.iso.datetime().optional(),
+    roomId: z.uuid().nullish(),
+    studyGroupId: z.uuid().nullish()
+});
+
+export const zTimetableEventRefDto = z.object({
+    id: z.uuid()
+});
+
 export const zEnrollmentAvailabilityDto = z.object({
     canEnroll: z.boolean(),
     canWithdraw: z.boolean(),
@@ -2093,6 +2154,56 @@ export const zCancelExamRegistrationPath = z.object({
 });
 
 export const zCancelExamRegistrationResponse = zExamRegistrationResponseDto;
+
+export const zListOfferingTimetablePath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListOfferingTimetableResponse = z.array(zTimetableEventResponseDto);
+
+export const zCreateTimetableEventBody = zCreateTimetableEventDto;
+
+export const zCreateTimetableEventPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zCreateTimetableEventResponse = zScheduledEventsResponseDto;
+
+export const zRemoveTimetableEventPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    eventId: z.string()
+});
+
+export const zRemoveTimetableEventResponse = z.void();
+
+export const zUpdateTimetableEventBody = zUpdateTimetableEventDto;
+
+export const zUpdateTimetableEventPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    eventId: z.string()
+});
+
+export const zUpdateTimetableEventResponse = zTimetableEventRefDto;
+
+export const zRestoreTimetableEventPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    eventId: z.string()
+});
+
+export const zRestoreTimetableEventResponse = zTimetableEventRefDto;
+
+export const zCancelTimetableEventPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    eventId: z.string()
+});
+
+export const zCancelTimetableEventResponse = zTimetableEventRefDto;
 
 export const zListEnrollableOfferingsPath = z.object({
     institutionId: z.string()

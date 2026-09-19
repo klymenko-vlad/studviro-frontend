@@ -1490,5 +1490,52 @@
       "other": "Other"
     },
     "nobodyEnrolled": "Nobody is enrolled on this offering yet, so there is nobody to put in a group."
+  },
+  "timetableAdmin": {
+    "title": "Timetable",
+    "description": "When this course meets. A weekly slot is written as one class per week, so moving or calling off a single week is an ordinary edit.",
+    "empty": "Nothing is scheduled for this course yet.",
+    "error": "The timetable could not be read.",
+    "schedule": "Schedule",
+    "scheduled": "{count} classes scheduled.",
+    "cancel": "Call off",
+    "cancelNamed": "Call off the class on {label}",
+    "cancelled": "The class on {label} was called off.",
+    "restore": "Put back",
+    "restoreNamed": "Put the class on {label} back on",
+    "restored": "The class on {label} is back on.",
+    "noRoom": "No room",
+    "occurrences": "{count} weeks",
+    "field": {
+      "date": "First class",
+      "from": "From",
+      "to": "To",
+      "type": "Kind",
+      "room": "Room",
+      "noRoom": "No room",
+      "group": "Who attends",
+      "wholeCourse": "The whole course",
+      "title": "Title",
+      "repeatWeekly": "Every week",
+      "repeatWeeklyDescription": "Repeat this slot weekly until the term ends."
+    },
+    "type": {
+      "lecture": "Lecture",
+      "seminar": "Seminar",
+      "lab": "Lab",
+      "consultation": "Consultation",
+      "exam": "Exam",
+      "other": "Other"
+    },
+    "weekday": {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday"
+    },
+    "slotWhen": "{weekday} {from}–{to}"
   }
 }

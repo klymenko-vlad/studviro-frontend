@@ -27,6 +27,7 @@ export {
   linkedAccounts,
   notifications,
   offeringResults,
+  offeringTimetable,
   roleAssignments,
   rooms,
   session,
