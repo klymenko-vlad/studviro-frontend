@@ -1,9 +1,27 @@
 import { http, HttpResponse } from 'msw';
-import { describe, expect, it } from 'vitest';
+import { toast } from 'sonner';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { errorResponse, renderWithProviders, screen, server } from '@/shared/test';
+import {
+  errorResponse,
+  permissions,
+  renderWithProviders,
+  screen,
+  server,
+  userEvent,
+  waitFor,
+  within,
+} from '@/shared/test';
 
 import { OrgUnitTree } from './org-unit-tree';
+
+vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
+
+/**
+ * The card also carries a create form whose parent select lists every unit by
+ * name, so a bare `getByText` would match the option as well as the node.
+ */
+const tree = async () => within(await screen.findByRole('list', { name: 'Org units' }));
 
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const ORG_UNITS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/org-units`;
@@ -32,10 +50,10 @@ describe('OrgUnitTree', () => {
 
     renderWithProviders(<OrgUnitTree institutionId={INSTITUTION} />);
 
-    expect(
-      await screen.findByText('Faculty of Mathematics and Physics'),
-    ).toBeInTheDocument();
-    expect(screen.getByText('Department of Informatics')).toBeInTheDocument();
+    const listed = await tree();
+
+    expect(listed.getByText('Faculty of Mathematics and Physics')).toBeInTheDocument();
+    expect(listed.getByText('Department of Informatics')).toBeInTheDocument();
   });
 
   it('explains an institution with no org units', async () => {
@@ -75,8 +93,10 @@ describe('OrgUnitTree', () => {
 
       renderWithProviders(<OrgUnitTree institutionId={INSTITUTION} />);
 
-      expect(await screen.findByText('School')).toBeInTheDocument();
-      expect(screen.queryByText('Faculty')).not.toBeInTheDocument();
+      const listed = await tree();
+
+      expect(listed.getByText('School')).toBeInTheDocument();
+      expect(listed.queryByText('Faculty')).not.toBeInTheDocument();
     });
 
     it('keeps the platform’s word where the institution has not chosen one', async () => {
@@ -84,7 +104,94 @@ describe('OrgUnitTree', () => {
 
       renderWithProviders(<OrgUnitTree institutionId={INSTITUTION} />);
 
-      expect(await screen.findByText('University')).toBeInTheDocument();
+      const listed = await tree();
+
+      expect(listed.getByText('University')).toBeInTheDocument();
+    });
+  });
+
+  describe('building the tree (N2)', () => {
+    beforeEach(() => {
+      vi.mocked(toast.success).mockClear();
+      vi.mocked(toast.error).mockClear();
+    });
+
+    const withoutManage = () => {
+      server.use(
+        http.get(`/api/proxy/api/v1/institutions/${INSTITUTION}/me/permissions`, () =>
+          HttpResponse.json({
+            ...permissions,
+            roles: ['registrar'],
+            permissions: ['institution:read', 'role:read'],
+          }),
+        ),
+      );
+    };
+
+    it('adds a unit, offering every existing unit as a possible parent', async () => {
+      server.use(http.get(ORG_UNITS_URL, () => HttpResponse.json([faculty, department])));
+
+      renderWithProviders(<OrgUnitTree institutionId={INSTITUTION} />);
+
+      const parent = await screen.findByLabelText('Sits under');
+      expect(
+        within(parent).getByRole('option', { name: 'Nothing — this is a root unit' }),
+      ).toBeInTheDocument();
+      expect(
+        within(parent).getByRole('option', {
+          name: 'Faculty of Mathematics and Physics',
+        }),
+      ).toBeInTheDocument();
+
+      await userEvent.type(screen.getByLabelText('Code'), 'KPI');
+      await userEvent.type(screen.getByLabelText('Name'), 'Department of Computers');
+      await userEvent.click(screen.getByRole('button', { name: 'Add unit' }));
+
+      await waitFor(() => {
+        expect(toast.success).toHaveBeenCalledWith('New faculty was added.');
+      });
+    });
+
+    it('explains why a unit with children cannot be retired', async () => {
+      server.use(
+        http.get(ORG_UNITS_URL, () => HttpResponse.json([faculty, department])),
+        http.delete(`${ORG_UNITS_URL}/:id`, () =>
+          HttpResponse.json(
+            errorResponse(
+              409,
+              'This unit still has units under it; retire or move those first',
+              'Conflict',
+            ),
+            { status: 409 },
+          ),
+        ),
+      );
+
+      renderWithProviders(<OrgUnitTree institutionId={INSTITUTION} />);
+
+      await userEvent.click(
+        await screen.findByRole('button', {
+          name: 'Retire Faculty of Mathematics and Physics',
+        }),
+      );
+
+      await waitFor(() => {
+        expect(toast.error).toHaveBeenCalledWith(
+          'This unit still has units under it; retire or move those first',
+        );
+      });
+    });
+
+    it('shows the tree but no way to change it without institution:manage', async () => {
+      withoutManage();
+      server.use(http.get(ORG_UNITS_URL, () => HttpResponse.json([faculty])));
+
+      renderWithProviders(<OrgUnitTree institutionId={INSTITUTION} />);
+
+      const listed = await tree();
+      expect(listed.getByText('Faculty of Mathematics and Physics')).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Add unit' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /Retire/ })).not.toBeInTheDocument();
     });
   });
 });

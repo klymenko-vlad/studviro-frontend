@@ -1009,6 +1009,19 @@
       "department": "Department",
       "institute": "Institute",
       "other": "Other"
+    },
+    "add": "Add unit",
+    "created": "{name} was added.",
+    "retire": "Retire",
+    "retireNamed": "Retire {name}",
+    "retired": "{name} was retired.",
+    "field": {
+      "code": "Code",
+      "name": "Name",
+      "type": "Kind",
+      "parent": "Sits under",
+      "noParent": "Nothing — this is a root unit",
+      "parentDescription": "A faculty sits under the university; a department sits under a faculty."
     }
   },
   "people": {
@@ -1311,6 +1324,33 @@
       "upcoming": "Opens later",
       "open": "Open",
       "closed": "Closed"
+    }
+  },
+  "rooms": {
+    "title": "Rooms",
+    "description": "Where teaching happens. A room can belong to a faculty or department, or to none.",
+    "empty": "No rooms yet.",
+    "error": "The rooms could not be read.",
+    "noBuilding": "No building",
+    "seats": "{count} seats",
+    "add": "Add room",
+    "created": "{code} was added.",
+    "retire": "Retire",
+    "retireNamed": "Retire {code}",
+    "retired": "{code} was retired.",
+    "field": {
+      "code": "Code",
+      "name": "Name",
+      "building": "Building",
+      "capacity": "Seats",
+      "orgUnit": "Belongs to",
+      "noOrgUnit": "No unit"
+    },
+    "column": {
+      "code": "Code",
+      "name": "Name",
+      "capacity": "Seats",
+      "actions": "Actions"
     }
   }
 }

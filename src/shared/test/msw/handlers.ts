@@ -23,6 +23,7 @@ import type {
   OfferingResultsResponseDto,
   ProgramResponseDto,
   RoleAssignmentResponseDto,
+  RoomResponseDto,
   StudyProgressResponseDto,
   TeachingOfferingResponseDto,
   UserResponseDto,
@@ -157,6 +158,7 @@ export const permissions: MyPermissionsResponseDto = {
     'grade:read',
     'grade:propose',
     'schedule:read',
+    'schedule:manage',
     'notification:read',
   ],
 };
@@ -844,6 +846,25 @@ export const learningSpaces: LearningSpaceListResponseDto = {
   ],
 };
 
+export const rooms: RoomResponseDto[] = [
+  {
+    id: 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee1',
+    code: 'FEI-101',
+    name: 'Lecture hall',
+    building: 'Blok A',
+    capacity: 120,
+    orgUnitId: null,
+  },
+  {
+    id: 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeee2',
+    code: 'FEI-202',
+    name: null,
+    building: null,
+    capacity: null,
+    orgUnitId: null,
+  },
+];
+
 export const academicTerms: AcademicTermResponseDto[] = [
   {
     id: 'dddddddd-dddd-4ddd-8ddd-ddddddddddd1',
@@ -1247,6 +1268,36 @@ export const handlers = [
 
   http.get(`${PROXY}/institutions/:institutionId/learning-spaces`, () =>
     HttpResponse.json(learningSpaces),
+  ),
+
+  http.get(`${PROXY}/institutions/:institutionId/rooms`, () => HttpResponse.json(rooms)),
+
+  http.post(`${PROXY}/institutions/:institutionId/rooms`, () =>
+    HttpResponse.json(rooms[0], { status: 201 }),
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/rooms/:id`,
+    () => new HttpResponse(null, { status: 204 }),
+  ),
+
+  http.post(`${PROXY}/institutions/:institutionId/org-units`, () =>
+    HttpResponse.json(
+      {
+        id: 'ffffffff-ffff-4fff-8fff-fffffffffff1',
+        institutionId: '55555555-5555-4555-8555-555555555555',
+        parentId: null,
+        type: 'faculty',
+        code: 'NEW',
+        name: 'New faculty',
+      },
+      { status: 201 },
+    ),
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/org-units/:id`,
+    () => new HttpResponse(null, { status: 204 }),
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/academic-terms`, () =>

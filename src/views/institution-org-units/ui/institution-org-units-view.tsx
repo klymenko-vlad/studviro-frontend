@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 
 import { OrgUnitTree } from '@/widgets/org-unit-tree';
+import { Rooms } from '@/widgets/rooms';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui';
 
 export async function InstitutionOrgUnitsView({
@@ -26,6 +27,8 @@ export async function InstitutionOrgUnitsView({
           <OrgUnitTree institutionId={institutionId} />
         </CardContent>
       </Card>
+
+      <Rooms institutionId={institutionId} />
     </main>
   );
 }

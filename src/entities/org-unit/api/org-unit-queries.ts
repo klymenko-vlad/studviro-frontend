@@ -6,3 +6,9 @@ export const orgUnitQueries = {
   detail: apiQueries.getOrgUnitOptions,
   detailKey: apiQueries.getOrgUnitQueryKey,
 } as const;
+
+export const orgUnitMutations = {
+  create: apiQueries.createOrgUnitMutation,
+  update: apiQueries.updateOrgUnitMutation,
+  remove: apiQueries.removeOrgUnitMutation,
+} as const;

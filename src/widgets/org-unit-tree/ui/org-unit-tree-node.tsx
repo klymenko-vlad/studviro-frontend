@@ -1,10 +1,12 @@
 import { useTranslations } from 'next-intl';
 
+import { RetireOrgUnitButton } from '@/features/manage-org-units';
 import {
   useTerminology,
   type TerminologyKey,
 } from '@/entities/institution-configuration';
 import type { OrgUnitNode } from '@/entities/org-unit';
+import { usePermissions } from '@/entities/permission';
 import { Badge } from '@/shared/ui';
 
 /** The three unit types this institution may have its own word for. */
@@ -24,6 +26,7 @@ export function OrgUnitTreeNode({
 }) {
   const t = useTranslations('orgUnits');
   const term = useTerminology(institutionId);
+  const { can } = usePermissions(institutionId);
   const overridable = OVERRIDABLE[node.type];
 
   return (
@@ -37,6 +40,14 @@ export function OrgUnitTreeNode({
         <Badge variant="secondary">
           {overridable === undefined ? t(`type.${node.type}`) : term(overridable)}
         </Badge>
+
+        {can('institution:manage') ? (
+          <RetireOrgUnitButton
+            institutionId={institutionId}
+            orgUnitId={node.id}
+            orgUnitName={node.name}
+          />
+        ) : null}
       </div>
 
       {node.children.length > 0 ? (

@@ -564,12 +564,63 @@ export type OrgUnitResponseDto = {
     name: string;
 };
 
+export type CreateOrgUnitDto = {
+    code: string;
+    name: string;
+    type?: 'university' | 'faculty' | 'department' | 'institute' | 'other';
+    /**
+     * The unit this one sits under. Null makes it a root, such as the university itself.
+     */
+    parentId?: string | null;
+};
+
+export type UpdateOrgUnitDto = {
+    code?: string;
+    name?: string;
+    type?: 'university' | 'faculty' | 'department' | 'institute' | 'other';
+    /**
+     * The unit this one sits under. Null makes it a root, such as the university itself.
+     */
+    parentId?: string | null;
+};
+
 export type PersonDirectoryEntryDto = {
     userId: string;
     email: string;
     displayName: string;
     status: 'invited' | 'active' | 'suspended';
     roles: Array<RoleAssignmentResponseDto>;
+};
+
+export type RoomResponseDto = {
+    id: string;
+    code: string;
+    name: string | null;
+    building: string | null;
+    capacity: number | null;
+    orgUnitId: string | null;
+};
+
+export type CreateRoomDto = {
+    code: string;
+    name?: string | null;
+    building?: string | null;
+    capacity?: number | null;
+    /**
+     * The faculty or department the room belongs to.
+     */
+    orgUnitId?: string | null;
+};
+
+export type UpdateRoomDto = {
+    code?: string;
+    name?: string | null;
+    building?: string | null;
+    capacity?: number | null;
+    /**
+     * The faculty or department the room belongs to.
+     */
+    orgUnitId?: string | null;
 };
 
 export type CreateInvitationDto = {
@@ -2339,6 +2390,87 @@ export type ListOrgUnitsResponses = {
 
 export type ListOrgUnitsResponse = ListOrgUnitsResponses[keyof ListOrgUnitsResponses];
 
+export type CreateOrgUnitData = {
+    body: CreateOrgUnitDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/org-units';
+};
+
+export type CreateOrgUnitErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateOrgUnitError = CreateOrgUnitErrors[keyof CreateOrgUnitErrors];
+
+export type CreateOrgUnitResponses = {
+    201: OrgUnitResponseDto;
+};
+
+export type CreateOrgUnitResponse = CreateOrgUnitResponses[keyof CreateOrgUnitResponses];
+
+export type RemoveOrgUnitData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/org-units/{id}';
+};
+
+export type RemoveOrgUnitErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveOrgUnitError = RemoveOrgUnitErrors[keyof RemoveOrgUnitErrors];
+
+export type RemoveOrgUnitResponses = {
+    204: void;
+};
+
+export type RemoveOrgUnitResponse = RemoveOrgUnitResponses[keyof RemoveOrgUnitResponses];
+
 export type GetOrgUnitData = {
     body?: never;
     path: {
@@ -2376,6 +2508,47 @@ export type GetOrgUnitResponses = {
 
 export type GetOrgUnitResponse = GetOrgUnitResponses[keyof GetOrgUnitResponses];
 
+export type UpdateOrgUnitData = {
+    body: UpdateOrgUnitDto;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/org-units/{id}';
+};
+
+export type UpdateOrgUnitErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateOrgUnitError = UpdateOrgUnitErrors[keyof UpdateOrgUnitErrors];
+
+export type UpdateOrgUnitResponses = {
+    200: OrgUnitResponseDto;
+};
+
+export type UpdateOrgUnitResponse = UpdateOrgUnitResponses[keyof UpdateOrgUnitResponses];
+
 export type ListPeopleData = {
     body?: never;
     path: {
@@ -2407,6 +2580,164 @@ export type ListPeopleResponses = {
 };
 
 export type ListPeopleResponse = ListPeopleResponses[keyof ListPeopleResponses];
+
+export type ListRoomsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/rooms';
+};
+
+export type ListRoomsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListRoomsError = ListRoomsErrors[keyof ListRoomsErrors];
+
+export type ListRoomsResponses = {
+    200: Array<RoomResponseDto>;
+};
+
+export type ListRoomsResponse = ListRoomsResponses[keyof ListRoomsResponses];
+
+export type CreateRoomData = {
+    body: CreateRoomDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/rooms';
+};
+
+export type CreateRoomErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateRoomError = CreateRoomErrors[keyof CreateRoomErrors];
+
+export type CreateRoomResponses = {
+    201: RoomResponseDto;
+};
+
+export type CreateRoomResponse = CreateRoomResponses[keyof CreateRoomResponses];
+
+export type RemoveRoomData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/rooms/{id}';
+};
+
+export type RemoveRoomErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveRoomError = RemoveRoomErrors[keyof RemoveRoomErrors];
+
+export type RemoveRoomResponses = {
+    204: void;
+};
+
+export type RemoveRoomResponse = RemoveRoomResponses[keyof RemoveRoomResponses];
+
+export type UpdateRoomData = {
+    body: UpdateRoomDto;
+    path: {
+        institutionId: string;
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/rooms/{id}';
+};
+
+export type UpdateRoomErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateRoomError = UpdateRoomErrors[keyof UpdateRoomErrors];
+
+export type UpdateRoomResponses = {
+    200: RoomResponseDto;
+};
+
+export type UpdateRoomResponse = UpdateRoomResponses[keyof UpdateRoomResponses];
 
 export type CreateInvitationData = {
     body: CreateInvitationDto;

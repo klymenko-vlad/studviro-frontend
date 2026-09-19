@@ -25,6 +25,7 @@ export {
   notifications,
   offeringResults,
   roleAssignments,
+  rooms,
   session,
   studyProgress,
   teachingOfferings,

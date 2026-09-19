@@ -793,6 +793,32 @@ export const zOrgUnitResponseDto = z.object({
     name: z.string()
 });
 
+export const zCreateOrgUnitDto = z.object({
+    code: z.string().min(1).max(64),
+    name: z.string().min(1).max(200),
+    type: z.enum([
+        'university',
+        'faculty',
+        'department',
+        'institute',
+        'other'
+    ]).optional(),
+    parentId: z.uuid().nullish()
+});
+
+export const zUpdateOrgUnitDto = z.object({
+    code: z.string().min(1).max(64).optional(),
+    name: z.string().min(1).max(200).optional(),
+    type: z.enum([
+        'university',
+        'faculty',
+        'department',
+        'institute',
+        'other'
+    ]).optional(),
+    parentId: z.uuid().nullish()
+});
+
 export const zPersonDirectoryEntryDto = z.object({
     userId: z.uuid(),
     email: z.string(),
@@ -803,6 +829,31 @@ export const zPersonDirectoryEntryDto = z.object({
         'suspended'
     ]),
     roles: z.array(zRoleAssignmentResponseDto)
+});
+
+export const zRoomResponseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string().nullable(),
+    building: z.string().nullable(),
+    capacity: z.number().nullable(),
+    orgUnitId: z.uuid().nullable()
+});
+
+export const zCreateRoomDto = z.object({
+    code: z.string().min(1).max(64),
+    name: z.string().max(200).nullish(),
+    building: z.string().max(200).nullish(),
+    capacity: z.number().gte(0).lte(10000).nullish(),
+    orgUnitId: z.uuid().nullish()
+});
+
+export const zUpdateRoomDto = z.object({
+    code: z.string().min(1).max(64).optional(),
+    name: z.string().max(200).nullish(),
+    building: z.string().max(200).nullish(),
+    capacity: z.number().gte(0).lte(10000).nullish(),
+    orgUnitId: z.uuid().nullish()
 });
 
 export const zCreateInvitationDto = z.object({
@@ -1712,6 +1763,21 @@ export const zListOrgUnitsPath = z.object({
 
 export const zListOrgUnitsResponse = z.array(zOrgUnitResponseDto);
 
+export const zCreateOrgUnitBody = zCreateOrgUnitDto;
+
+export const zCreateOrgUnitPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateOrgUnitResponse = zOrgUnitResponseDto;
+
+export const zRemoveOrgUnitPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zRemoveOrgUnitResponse = z.void();
+
 export const zGetOrgUnitPath = z.object({
     institutionId: z.string(),
     id: z.string()
@@ -1719,11 +1785,50 @@ export const zGetOrgUnitPath = z.object({
 
 export const zGetOrgUnitResponse = zOrgUnitResponseDto;
 
+export const zUpdateOrgUnitBody = zUpdateOrgUnitDto;
+
+export const zUpdateOrgUnitPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zUpdateOrgUnitResponse = zOrgUnitResponseDto;
+
 export const zListPeoplePath = z.object({
     institutionId: z.string()
 });
 
 export const zListPeopleResponse = z.array(zPersonDirectoryEntryDto);
+
+export const zListRoomsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListRoomsResponse = z.array(zRoomResponseDto);
+
+export const zCreateRoomBody = zCreateRoomDto;
+
+export const zCreateRoomPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateRoomResponse = zRoomResponseDto;
+
+export const zRemoveRoomPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zRemoveRoomResponse = z.void();
+
+export const zUpdateRoomBody = zUpdateRoomDto;
+
+export const zUpdateRoomPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zUpdateRoomResponse = zRoomResponseDto;
 
 export const zCreateInvitationBody = zCreateInvitationDto;
 

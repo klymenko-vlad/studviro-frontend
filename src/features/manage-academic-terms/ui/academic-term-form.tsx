@@ -129,11 +129,7 @@ export function AcademicTermForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('field.kind')}</FormLabel>
               <FormControl>
-                <Select
-                  className="w-full"
-                  value={field.value ?? 'semester'}
-                  onValueChange={field.onChange}
-                >
+                <Select value={field.value ?? 'semester'} onValueChange={field.onChange}>
                   {TERM_KINDS.map(kind => (
                     <SelectItem key={kind} value={kind}>
                       {t(`kind.${kind}`)}
