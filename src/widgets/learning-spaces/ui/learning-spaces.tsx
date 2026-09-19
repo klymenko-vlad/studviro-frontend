@@ -5,6 +5,7 @@ import { useFormatter, useTranslations } from 'next-intl';
 
 import { dueDate, isUnlinked, learningSpaceQueries } from '@/entities/learning-space';
 import { toApiError } from '@/shared/api';
+import { institutionRoutes, Link } from '@/shared/config';
 import {
   Alert,
   AlertDescription,
@@ -101,7 +102,14 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
                     <Badge variant="outline">{t('unlinkedBadge')}</Badge>
                   ) : (
                     <>
-                      {space.courseTitle ?? t('none')}
+                      <Link
+                        href={institutionRoutes(institutionId).courseOffering(
+                          space.offeringId ?? '',
+                        )}
+                        className="underline underline-offset-4"
+                      >
+                        {space.courseTitle ?? t('coursePage')}
+                      </Link>
                       <span className="text-muted-foreground block text-xs">
                         {space.courseCode ?? t('none')} · {space.termCode ?? t('none')}
                       </span>

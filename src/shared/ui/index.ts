@@ -31,6 +31,7 @@ export { Input } from './input';
 export { Label } from './label';
 export { ListingCard, ListingNote } from './listing-card';
 export { PasswordInput } from './password-input';
+export { Progress } from './progress';
 export { Select, SelectItem } from './select';
 export { Separator } from './separator';
 export { Skeleton } from './skeleton';

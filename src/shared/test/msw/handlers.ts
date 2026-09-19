@@ -2,6 +2,7 @@ import { http, HttpResponse } from 'msw';
 
 import type {
   AcademicTermResponseDto,
+  AssignmentResponseDto,
   AuthTokensDto,
   CourseOfferingListItemDto,
   CourseOfferingResponseDto,
@@ -13,7 +14,10 @@ import type {
   ExternalIdentityResponseDto,
   InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
+  LearningMaterialResponseDto,
+  LearningSpaceDto,
   LearningSpaceListResponseDto,
+  MarkedSubmissionResponseDto,
   MyAssessmentResultResponseDto,
   MyCourseResponseDto,
   MyCourseResultResponseDto,
@@ -30,9 +34,11 @@ import type {
   RoomResponseDto,
   StudyGroupResponseDto,
   StudyProgressResponseDto,
+  SubmissionResponseDto,
   TeachingAssignmentResponseDto,
   TeachingOfferingResponseDto,
   TimetableEventResponseDto,
+  UploadTicketResponseDto,
   UserResponseDto,
 } from '@/shared/api';
 
@@ -853,6 +859,143 @@ export const learningSpaces: LearningSpaceListResponseDto = {
   ],
 };
 
+export const LEARNING_SPACE_ID = '9a1f0b3c-1111-4111-8111-111111111111';
+export const ASSIGNMENT_ID = 'c1c1c1c1-c1c1-4c1c-8c1c-c1c1c1c1c1c1';
+
+/**
+ * The space the course page asks for. The endpoint filters by `offeringId`, so
+ * the handler echoes whichever offering the caller named rather than pinning
+ * every test to one id.
+ */
+export const offeringLearningSpace: LearningSpaceDto = {
+  id: LEARNING_SPACE_ID,
+  name: 'Algorithms, winter 2026',
+  shortName: 'ALG/WS26',
+  summary: 'Complexity, design techniques and their analysis.',
+  visible: true,
+  offeringId: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1',
+  courseCode: 'ALG',
+  courseTitle: 'Algorithms',
+  termCode: 'WS26',
+  activityCount: 1,
+  nextDueAt: '2026-10-01T21:00:00.000Z',
+};
+
+export const learningMaterials: LearningMaterialResponseDto[] = [
+  {
+    id: 'ba5e0001-0001-4001-8001-000000000001',
+    kind: 'file',
+    title: 'Lecture 1 — slides',
+    description: 'Asymptotics, from the top.',
+    body: null,
+    url: null,
+    filename: 'lecture-01.pdf',
+    contentType: 'application/pdf',
+    sizeBytes: 524_288,
+    position: 0,
+    visible: true,
+  },
+  {
+    id: 'ba5e0001-0001-4001-8001-000000000002',
+    kind: 'link',
+    title: 'The course repository',
+    description: null,
+    body: null,
+    url: 'https://example.org/algorithms',
+    filename: null,
+    contentType: null,
+    sizeBytes: null,
+    position: 1,
+    visible: false,
+  },
+  {
+    id: 'ba5e0001-0001-4001-8001-000000000003',
+    kind: 'text',
+    title: 'How marking works',
+    description: null,
+    body: 'Every assignment is marked out of one hundred.',
+    url: null,
+    filename: null,
+    contentType: null,
+    sizeBytes: null,
+    position: 2,
+    visible: true,
+  },
+];
+
+export const offeringAssignments: AssignmentResponseDto[] = [
+  {
+    id: ASSIGNMENT_ID,
+    learningSpaceId: LEARNING_SPACE_ID,
+    assessmentId: 'c2c2c2c2-c2c2-4c2c-8c2c-c2c2c2c2c2c2',
+    name: 'Assignment 1 — sorting',
+    brief: 'Implement and compare three sorts.',
+    opensAt: '2026-09-21T07:00:00.000Z',
+    dueAt: '2026-10-01T21:00:00.000Z',
+    closesAt: '2026-10-08T21:00:00.000Z',
+    maxAttempts: 2,
+    allowsLateSubmission: true,
+    maxPoints: 100,
+    countsTowardFinalGrade: true,
+    position: 0,
+    visible: true,
+  },
+];
+
+export const uploadTicket: UploadTicketResponseDto = {
+  url: 'https://store.example.test/studviro/upload-object',
+  headers: { 'content-type': 'application/pdf' },
+  key: '55555555-5555-4555-8555-555555555555/materials/object-key',
+  expiresAt: '2026-09-19T12:05:00.000Z',
+  maxBytes: 67_108_864,
+};
+
+export const mySubmissions: SubmissionResponseDto[] = [
+  {
+    id: 'd1d1d1d1-d1d1-4d1d-8d1d-d1d1d1d1d1d1',
+    assignmentId: ASSIGNMENT_ID,
+    state: 'submitted',
+    attempt: 1,
+    submittedAt: '2026-10-02T09:00:00.000Z',
+    // The server decided this, at the moment the row was written. Nothing on
+    // the client recomputes it.
+    isLate: true,
+    notes: 'Sorry — the cluster was down.',
+    student: {
+      id: '11111111-1111-4111-8111-111111111111',
+      displayName: 'Ada Lovelace',
+      email: 'ada@example.com',
+    },
+    files: [
+      {
+        id: 'f1f1f1f1-0001-4001-8001-000000000001',
+        filename: 'sorting.zip',
+        contentType: 'application/zip',
+        sizeBytes: 12_345,
+      },
+    ],
+  },
+];
+
+export const assignmentSubmissions: SubmissionResponseDto[] = [
+  ...mySubmissions,
+  {
+    id: 'd2d2d2d2-d2d2-4d2d-8d2d-d2d2d2d2d2d2',
+    assignmentId: ASSIGNMENT_ID,
+    state: 'submitted',
+    attempt: 1,
+    submittedAt: '2026-09-30T09:00:00.000Z',
+    isLate: false,
+    notes: null,
+    student: {
+      id: '11111111-1111-4111-8111-111111111112',
+      displayName: 'Grace Hopper',
+      email: 'grace@example.com',
+    },
+    files: [],
+  },
+];
+
 export const offeringTimetable: TimetableEventResponseDto[] = [
   {
     id: 'a1a1a1a1-a1a1-4a1a-8a1a-a1a1a1a1a1a1',
@@ -1466,8 +1609,191 @@ export const handlers = [
     () => new HttpResponse(null, { status: 204 }),
   ),
 
-  http.get(`${PROXY}/institutions/:institutionId/learning-spaces`, () =>
-    HttpResponse.json(learningSpaces),
+  http.get(`${PROXY}/institutions/:institutionId/learning-spaces`, ({ request }) => {
+    const offeringId = new URL(request.url, location.origin).searchParams.get(
+      'offeringId',
+    );
+
+    if (offeringId === null) return HttpResponse.json(learningSpaces);
+
+    return HttpResponse.json({
+      total: 1,
+      linked: 1,
+      unlinked: 0,
+      spaces: [{ ...offeringLearningSpace, offeringId }],
+    } satisfies LearningSpaceListResponseDto);
+  }),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/materials`,
+    () => HttpResponse.json(learningMaterials),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/materials/upload-tickets`,
+    () => HttpResponse.json(uploadTicket, { status: 201 }),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/materials`,
+    async ({ request }) => {
+      const body = (await request.json()) as Partial<LearningMaterialResponseDto>;
+
+      return HttpResponse.json(
+        {
+          ...learningMaterials[0]!,
+          id: 'ba5e0001-0001-4001-8001-00000000000f',
+          position: 3,
+          ...body,
+        } satisfies LearningMaterialResponseDto,
+        { status: 201 },
+      );
+    },
+  ),
+
+  http.patch(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/materials/:materialId`,
+    async ({ request }) => {
+      const body = (await request.json()) as Partial<LearningMaterialResponseDto>;
+
+      return HttpResponse.json({ ...learningMaterials[0]!, ...body });
+    },
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/materials/:materialId`,
+    () => new HttpResponse(null, { status: 204 }),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/materials/:materialId/download`,
+    () => HttpResponse.json({ url: 'https://store.example.test/signed-material' }),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/assignments`,
+    () => HttpResponse.json(offeringAssignments),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/assignments`,
+    async ({ request }) => {
+      const body = (await request.json()) as Partial<AssignmentResponseDto>;
+
+      return HttpResponse.json(
+        {
+          ...offeringAssignments[0]!,
+          id: 'c9c9c9c9-c9c9-4c9c-8c9c-c9c9c9c9c9c9',
+          ...body,
+        } satisfies AssignmentResponseDto,
+        { status: 201 },
+      );
+    },
+  ),
+
+  http.patch(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/assignments/:assignmentId`,
+    async ({ request }) => {
+      const body = (await request.json()) as Partial<AssignmentResponseDto>;
+
+      return HttpResponse.json({ ...offeringAssignments[0]!, ...body });
+    },
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/assignments/:assignmentId`,
+    () => new HttpResponse(null, { status: 204 }),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/assignments/:assignmentId/submissions/mine`,
+    () => HttpResponse.json(mySubmissions),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/assignments/:assignmentId/submissions/mine/upload-tickets`,
+    () => HttpResponse.json(uploadTicket, { status: 201 }),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/assignments/:assignmentId/submissions/mine`,
+    () =>
+      HttpResponse.json(
+        {
+          ...mySubmissions[0]!,
+          attempt: 2,
+          isLate: true,
+        } satisfies SubmissionResponseDto,
+        { status: 201 },
+      ),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/assignments/:assignmentId/submissions`,
+    () => HttpResponse.json(assignmentSubmissions),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/assignments/:assignmentId/submissions/:submissionId/files/:fileId/download`,
+    () => HttpResponse.json({ url: 'https://store.example.test/signed-submission' }),
+  ),
+
+  http.put(
+    `${PROXY}/institutions/:institutionId/assignments/:assignmentId/submissions/:submissionId/mark`,
+    async ({ request }) => {
+      const body = (await request.json()) as { points?: number; feedback?: string };
+
+      return HttpResponse.json({
+        submissionId: mySubmissions[0]!.id,
+        state: 'graded',
+        assessmentResultId: 'e1e1e1e1-e1e1-4e1e-8e1e-e1e1e1e1e1e1',
+        points: body.points ?? null,
+        normalizedScore: body.points === undefined ? null : body.points / 100,
+        feedback: body.feedback ?? null,
+        gradedAt: '2026-10-03T09:00:00.000Z',
+      } satisfies MarkedSubmissionResponseDto);
+    },
+  ),
+
+  /** The bytes go straight to the store, so the store is what the test intercepts. */
+  http.put(uploadTicket.url, () => new HttpResponse(null, { status: 200 })),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/learning-spaces`,
+    async ({ request }) => {
+      const body = (await request.json()) as { courseOfferingId: string; name: string };
+
+      return HttpResponse.json(
+        {
+          id: LEARNING_SPACE_ID,
+          courseOfferingId: body.courseOfferingId,
+          name: body.name,
+          shortName: null,
+          summary: null,
+          visible: false,
+          updatedAt: '2026-09-19T09:00:00.000Z',
+        },
+        { status: 201 },
+      );
+    },
+  ),
+
+  http.patch(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId`,
+    async ({ request }) => {
+      const body = (await request.json()) as Record<string, unknown>;
+
+      return HttpResponse.json({
+        id: LEARNING_SPACE_ID,
+        courseOfferingId: offeringLearningSpace.offeringId,
+        name: offeringLearningSpace.name,
+        shortName: offeringLearningSpace.shortName,
+        summary: offeringLearningSpace.summary,
+        visible: offeringLearningSpace.visible,
+        updatedAt: '2026-09-19T09:00:00.000Z',
+        ...body,
+      });
+    },
   ),
 
   http.get(`${PROXY}/institutions/:institutionId/people`, () =>

@@ -1123,7 +1123,8 @@
         "score": "Score",
         "state": "State"
       }
-    }
+    },
+    "coursePage": "Course page"
   },
   "deadlines": {
     "title": "Deadlines",
@@ -1623,5 +1624,167 @@
       "detail": "What happens"
     },
     "rowsLabel": "Import Rows"
+  },
+  "learningSpace": {
+    "title": "Course page",
+    "description": "The page students see for this course: a summary, materials and assignments.",
+    "error": "The course page could not be loaded. Try again in a moment.",
+    "empty": "This course has no course page yet.",
+    "published": "Published",
+    "unpublished": "Unpublished",
+    "created": "Course page opened",
+    "saved": "Course page saved",
+    "create": "Open the course page",
+    "save": "Save the course page",
+    "settingsLabel": "Course page settings",
+    "field": {
+      "name": "Name",
+      "shortName": "Short name",
+      "summary": "Summary",
+      "visible": "Show this page to students",
+      "visibleHint": "A new page is unpublished, so a course can be built before anybody sees it."
+    }
+  },
+  "materials": {
+    "title": "Materials",
+    "description": "Files, links and notes, in the order students read them.",
+    "error": "Materials could not be loaded. Try again in a moment.",
+    "empty": "No materials yet.",
+    "formLabel": "Add a material",
+    "add": "Add the material",
+    "added": "Material added",
+    "removed": "{title} was removed",
+    "remove": "Remove",
+    "removeNamed": "Remove {title}",
+    "hide": "Hide",
+    "hideNamed": "Hide {title}",
+    "show": "Show",
+    "showNamed": "Show {title}",
+    "hidden": "Hidden",
+    "moveUpNamed": "Move {title} up",
+    "moveDownNamed": "Move {title} down",
+    "download": "Download",
+    "downloadNamed": "Download {title}",
+    "unnamedFile": "Unnamed file",
+    "size": "{kilobytes} kB",
+    "kind": {
+      "file": "File",
+      "link": "Link",
+      "text": "Text"
+    },
+    "field": {
+      "kind": "Kind",
+      "title": "Title",
+      "description": "Description",
+      "url": "Address",
+      "body": "Text",
+      "file": "File",
+      "fileHint": "The file is uploaded straight to the store; the server records it once it arrives.",
+      "visible": "Show this material to students"
+    },
+    "upload": {
+      "pickFirst": "Choose a file first",
+      "failed": "The file could not be uploaded. Nothing was added.",
+      "tooLarge": "That file is larger than the store accepts. Nothing was added.",
+      "progressLabel": "Upload progress"
+    }
+  },
+  "assignments": {
+    "title": "Assignments",
+    "description": "What students hand in, when it is due and how many attempts they get.",
+    "error": "Assignments could not be loaded. Try again in a moment.",
+    "empty": "No assignments yet.",
+    "formLabel": "Add an assignment",
+    "editLabel": "Edit {name}",
+    "create": "Add the assignment",
+    "created": "Assignment added",
+    "save": "Save the assignment",
+    "saved": "Assignment saved",
+    "edit": "Edit",
+    "editNamed": "Edit {name}",
+    "cancelEdit": "Stop editing",
+    "remove": "Remove",
+    "removeNamed": "Remove {name}",
+    "removed": "{name} was removed",
+    "hide": "Hide",
+    "hideNamed": "Hide {name}",
+    "show": "Show",
+    "showNamed": "Show {name}",
+    "hidden": "Hidden",
+    "lateAllowed": "Late work accepted",
+    "attempts": "{count, plural, one {# attempt} other {# attempts}}",
+    "attemptsUnlimited": "Unlimited attempts",
+    "points": "{maxPoints} points",
+    "unset": "—",
+    "window": "Opens {opens} · due {due} · closes {closes}",
+    "field": {
+      "name": "Name",
+      "brief": "Brief",
+      "opensAt": "Opens",
+      "dueAt": "Due",
+      "closesAt": "Closes",
+      "maxAttempts": "Attempts allowed",
+      "maxAttemptsHint": "Leave empty for unlimited attempts.",
+      "maxPoints": "Points available",
+      "allowsLate": "Accept work after the due date",
+      "counts": "Counts toward the final grade",
+      "visible": "Show this assignment to students"
+    }
+  },
+  "submissions": {
+    "title": "Your submission",
+    "error": "Your submissions could not be loaded. Try again in a moment.",
+    "none": "You have not handed anything in yet.",
+    "attempt": "Attempt {attempt}",
+    "late": "Late",
+    "onTime": "On time",
+    "handedIn": "Handed in",
+    "handedInOn": "Handed in {on}",
+    "notHandedIn": "Not handed in",
+    "attemptsLeft": "{count, plural, one {# attempt left} other {# attempts left}}",
+    "noAttemptsLeft": "{count, plural, one {You have used your one attempt.} other {You have used all # attempts.}}",
+    "submit": "Hand in",
+    "submitLabel": "Hand in your work",
+    "resubmit": "Hand in again",
+    "resubmitLabel": "Hand in your work again",
+    "pickFirst": "Choose at least one file",
+    "uploadFailed": "{filename} could not be uploaded. Nothing was handed in.",
+    "uploadTooLarge": "{filename} is larger than the store accepts. Nothing was handed in.",
+    "progressLabel": "Upload progress",
+    "downloadNamed": "Download {filename}",
+    "field": {
+      "files": "Files",
+      "notes": "Notes for the marker"
+    },
+    "state": {
+      "draft": "Draft",
+      "submitted": "Handed in",
+      "returned": "Returned",
+      "graded": "Marked"
+    }
+  },
+  "marking": {
+    "error": "Submissions could not be loaded. Try again in a moment.",
+    "empty": "Nobody has handed anything in yet.",
+    "handedInCount": "{count, plural, one {# submission} other {# submissions}}",
+    "tableLabel": "Submissions for {name}",
+    "attempt": "Attempt {attempt}",
+    "late": "Late",
+    "notHandedIn": "Not handed in",
+    "noFiles": "No files",
+    "marked": "{name}'s work was marked",
+    "save": "Save the mark",
+    "formLabel": "Mark {name}'s work",
+    "column": {
+      "student": "Student",
+      "handedIn": "Handed in",
+      "files": "Files",
+      "mark": "Mark"
+    },
+    "field": {
+      "points": "Points",
+      "pointsOf": "Points of {maxPoints}",
+      "feedback": "Feedback"
+    }
   }
 }

@@ -13,6 +13,7 @@ import { OfferingExamTerms } from './offering-exam-terms';
 import { OfferingExams } from './offering-exams';
 import { OfferingGradeEntry } from './offering-grade-entry';
 import { OfferingHeader } from './offering-header';
+import { OfferingLearning } from './offering-learning';
 import { OfferingResults } from './offering-results';
 import { OfferingRoster } from './offering-roster';
 import { OfferingStaff } from './offering-staff';
@@ -68,6 +69,13 @@ export function CourseOffering({
           <OfferingGradeEntry institutionId={institutionId} offeringId={offeringId} />
         </>
       )}
+
+      <OfferingLearning
+        institutionId={institutionId}
+        offeringId={offeringId}
+        courseTitle={data.course.title}
+        viewerRole={data.viewerRole}
+      />
 
       <OfferingResults institutionId={institutionId} offeringId={offeringId} />
 
