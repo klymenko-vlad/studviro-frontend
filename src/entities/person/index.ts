@@ -1,2 +1,3 @@
 export { personQueries } from './api/person-queries';
-export type { Person } from './model/person';
+export { matchPeople, type Person } from './model/person';
+export { PersonPicker } from './ui/person-picker';

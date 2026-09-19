@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { personQueries } from '@/entities/person';
+import { PersonPicker, personQueries } from '@/entities/person';
 import { programMemberMutations, programMemberQueries } from '@/entities/program-member';
 import { toApiError } from '@/shared/api';
 import {
@@ -20,8 +20,6 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Select,
-  SelectItem,
 } from '@/shared/ui';
 
 import { admitFormSchema, toAdmitPayload, type AdmitFormValues } from '../model/schema';
@@ -82,14 +80,13 @@ export function AdmitStudentForm({
             <FormItem>
               <FormLabel>{t('field.person')}</FormLabel>
               <FormControl>
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectItem value="">{t('field.choosePerson')}</SelectItem>
-                  {(people.data ?? []).map(person => (
-                    <SelectItem key={person.userId} value={person.userId}>
-                      {person.displayName}
-                    </SelectItem>
-                  ))}
-                </Select>
+                <PersonPicker
+                  people={people.data ?? []}
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder={t('field.searchPerson')}
+                  emptyLabel={t('field.noPersonMatches')}
+                />
               </FormControl>
               <FormDescription>{t('field.personDescription')}</FormDescription>
               <FormMessage />

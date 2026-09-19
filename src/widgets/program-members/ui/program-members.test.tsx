@@ -39,8 +39,9 @@ const readOnly = () => {
 
 async function choosePerson() {
   const picker = await screen.findByLabelText('Person');
-  await screen.findByRole('option', { name: 'Jana Nováková' });
-  await userEvent.selectOptions(picker, '11111111-1111-4111-8111-111111111111');
+
+  await userEvent.click(picker);
+  await userEvent.click(await screen.findByRole('option', { name: /Jana Nováková/u }));
 }
 
 describe('ProgramMembers', () => {

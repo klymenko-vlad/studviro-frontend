@@ -1492,6 +1492,8 @@
     "field": {
       "person": "Person",
       "choosePerson": "Choose a person",
+      "searchPerson": "Search by name or email",
+      "noPersonMatches": "Nobody here matches that",
       "personDescription": "Anybody who already belongs to this institution. Somebody new arrives by invitation.",
       "role": "Role",
       "isPrimary": "Lead teacher",
@@ -1521,6 +1523,8 @@
     "field": {
       "person": "Person",
       "choosePerson": "Choose a person",
+      "searchPerson": "Search by name or email",
+      "noPersonMatches": "Nobody here matches that",
       "personDescription": "Anybody who already belongs to this institution. Somebody new arrives by invitation.",
       "studyYear": "Year"
     },
