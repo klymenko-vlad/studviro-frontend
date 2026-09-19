@@ -27,7 +27,29 @@ export {
   FormMessage,
   useFormField,
 } from './form';
+export { Avatar, AvatarFallback } from './avatar';
+export {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from './dropdown-menu';
 export { Input } from './input';
+export { Logo, LogoMark } from './logo';
+export {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from './sheet';
 export { Label } from './label';
 export { ListingCard, ListingNote } from './listing-card';
 export { PasswordInput } from './password-input';
