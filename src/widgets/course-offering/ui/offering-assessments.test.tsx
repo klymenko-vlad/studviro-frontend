@@ -37,6 +37,23 @@ describe('OfferingAssessments', () => {
     expect(screen.getByText('Completed')).toBeInTheDocument();
   });
 
+  it('shows the student the feedback written with the mark', async () => {
+    render();
+
+    expect(
+      await screen.findByText(
+        'Good normalisation. Your third-form argument needs a worked example.',
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it('says nothing at all where the marker left no feedback', async () => {
+    render();
+
+    expect(await screen.findByText('Assignment 1')).toBeInTheDocument();
+    expect(screen.queryAllByTestId('assessment-feedback')).toHaveLength(1);
+  });
+
   it('says a column is unmarked rather than inventing a zero', async () => {
     render();
 

@@ -14,7 +14,6 @@ export function AssessmentResultRow({ result }: { result: AssessmentResult }) {
   return (
     <TableRow>
       <TableCell className="align-top">
-        {/* Was a link out to Moodle; the activity lives here now. */}
         <span className="font-medium">{result.name}</span>
 
         {activity?.dueAt == null ? null : (
@@ -27,6 +26,13 @@ export function AssessmentResultRow({ result }: { result: AssessmentResult }) {
 
         {result.countsTowardFinalGrade ? null : (
           <span className="text-muted-foreground block text-xs">{t('notCounted')}</span>
+        )}
+
+        {result.feedback === null || result.feedback === '' ? null : (
+          <span className="mt-2 block text-xs" data-testid="assessment-feedback">
+            <span className="text-muted-foreground block">{t('feedback')}</span>
+            <span className="block whitespace-pre-line">{result.feedback}</span>
+          </span>
         )}
       </TableCell>
 

@@ -1173,6 +1173,7 @@
       "ungraded": "Not marked yet",
       "notCounted": "Does not count toward the final grade",
       "gradedOn": "Marked {on}",
+      "feedback": "Feedback from your marker",
       "dueOn": "Due {on}",
       "completion": {
         "complete": "Completed",

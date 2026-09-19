@@ -396,7 +396,7 @@ export const assessmentResults: MyAssessmentResultResponseDto[] = [
     points: 72,
     maxPoints: 100,
     percentage: 72,
-    feedback: null,
+    feedback: 'Good normalisation. Your third-form argument needs a worked example.',
     gradedAt: localIso(2026, 3, 10, 12),
     countsTowardFinalGrade: true,
     activity: {
