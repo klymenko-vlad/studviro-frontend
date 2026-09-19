@@ -2441,14 +2441,14 @@ export const zCreateBody = zCreateUserDtoWritable;
  */
 export const zCreateResponse = zUserResponseDto;
 
-export const zRemovePath = z.object({
+export const zDeactivateUserPath = z.object({
     id: z.string()
 });
 
 /**
- * The user was soft-deleted.
+ * The account was deactivated.
  */
-export const zRemoveResponse = z.void();
+export const zDeactivateUserResponse = z.void();
 
 export const zFindOnePath = z.object({
     id: z.string()

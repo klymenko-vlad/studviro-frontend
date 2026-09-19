@@ -2168,7 +2168,7 @@ export type CreateResponses = {
 
 export type CreateResponse = CreateResponses[keyof CreateResponses];
 
-export type RemoveData = {
+export type DeactivateUserData = {
     body?: never;
     path: {
         id: string;
@@ -2177,7 +2177,7 @@ export type RemoveData = {
     url: '/api/v1/users/{id}';
 };
 
-export type RemoveErrors = {
+export type DeactivateUserErrors = {
     /**
      * Validation failed or the payload was malformed.
      */
@@ -2196,16 +2196,16 @@ export type RemoveErrors = {
     500: ErrorResponseDto;
 };
 
-export type RemoveError = RemoveErrors[keyof RemoveErrors];
+export type DeactivateUserError = DeactivateUserErrors[keyof DeactivateUserErrors];
 
-export type RemoveResponses = {
+export type DeactivateUserResponses = {
     /**
-     * The user was soft-deleted.
+     * The account was deactivated.
      */
     204: void;
 };
 
-export type RemoveResponse = RemoveResponses[keyof RemoveResponses];
+export type DeactivateUserResponse = DeactivateUserResponses[keyof DeactivateUserResponses];
 
 export type FindOneData = {
     body?: never;
