@@ -99,7 +99,7 @@
     "email": "E-mail",
     "displayName": "Zobrazované meno",
     "password": "Heslo",
-    "passwordHint": "Aspoň 12 znakov.",
+    "passwordHint": "Aspoň 8 znakov.",
     "confirmPassword": "Potvrdiť heslo",
     "passwordMismatch": "Heslá sa nezhodujú",
     "submit": "Vytvoriť používateľa",
@@ -108,7 +108,7 @@
     "placeholder": {
       "email": "jana.kovacova@univerzita.sk",
       "displayName": "Jana Kováčová",
-      "password": "Aspoň 12 znakov",
+      "password": "Aspoň 8 znakov",
       "confirmPassword": "Zopakujte heslo"
     }
   },
@@ -138,7 +138,7 @@
     "signingUp": "Vytvára sa váš účet…",
     "displayName": "Zobrazované meno",
     "confirmPassword": "Potvrdiť heslo",
-    "passwordHint": "Aspoň 12 znakov.",
+    "passwordHint": "Aspoň 8 znakov.",
     "passwordMismatch": "Heslá sa nezhodujú",
     "emailTaken": "Účet s týmto e-mailom už existuje.",
     "noAccount": "Ešte nemáte účet?",
@@ -147,7 +147,7 @@
     "placeholder": {
       "displayName": "Jana Kováčová",
       "email": "jana.kovacova@univerzita.sk",
-      "password": "Aspoň 12 znakov",
+      "password": "Aspoň 8 znakov",
       "confirmPassword": "Zopakujte heslo",
       "currentPassword": "Vaše heslo"
     },
@@ -398,7 +398,14 @@
       "project": "Projekt",
       "other": "Iné"
     },
-    "staffError": "Kto to učí, sa nepodarilo načítať."
+    "staffError": "Kto to učí, sa nepodarilo načítať.",
+    "section": {
+      "overview": "Prehľad",
+      "people": "Ľudia",
+      "schedule": "Rozvrh",
+      "materials": "Materiály",
+      "work": "Hodnotenie"
+    }
   },
   "grades": {
     "title": "Moje známky",
@@ -1170,7 +1177,7 @@
     "invalidDescription": "Mohol vypršať, už byť použitý alebo zle prepísaný. Vyžiadajte si nový.",
     "placeholder": {
       "email": "jana.kovacova@univerzita.sk",
-      "newPassword": "Aspoň 12 znakov",
+      "newPassword": "Aspoň 8 znakov",
       "confirmPassword": "Zopakujte nové heslo"
     },
     "captchaFailed": "Overenie sa nedokončilo. Skúste to znova."
@@ -2001,5 +2008,34 @@
     "solving": "Overuje sa, že nie ste robot…",
     "solved": "Overené.",
     "failed": "Overenie sa nedokončilo. Skúste to znova."
+  },
+  "validation": {
+    "required": "Toto pole je povinné.",
+    "tooShort": "Použite aspoň {min} znakov.",
+    "tooLong": "Použite najviac {max} znakov.",
+    "exactLength": "Použite presne {length} znakov.",
+    "numberTooSmall": "Zadajte {min} alebo viac.",
+    "numberTooBig": "Zadajte {max} alebo menej.",
+    "dateTooEarly": "Vyberte neskorší dátum.",
+    "dateTooLate": "Vyberte skorší dátum.",
+    "selectOne": "Vyberte možnosť.",
+    "tooFewItems": "Vyberte aspoň {min}.",
+    "tooManyItems": "Vyberte najviac {max}.",
+    "fileTooLarge": "Tento súbor je príliš veľký.",
+    "email": "Zadajte e-mailovú adresu, napríklad meno@univerzita.sk.",
+    "url": "Zadajte celú webovú adresu, začínajúcu na https://.",
+    "identifier": "Toto nie je platný identifikátor.",
+    "option": "Vyberte jednu z uvedených možností.",
+    "datetime": "Zadajte dátum a čas.",
+    "date": "Zadajte dátum.",
+    "time": "Zadajte čas.",
+    "pattern": "Toto nie je platná hodnota pre toto pole.",
+    "startsWith": "Musí začínať na {prefix}.",
+    "endsWith": "Musí končiť na {suffix}.",
+    "includes": "Musí obsahovať {text}.",
+    "number": "Zadajte číslo.",
+    "integer": "Zadajte celé číslo.",
+    "multipleOf": "Zadajte násobok čísla {step}.",
+    "invalid": "Skontrolujte túto hodnotu."
   }
 }
