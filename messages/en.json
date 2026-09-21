@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "Studviro",
+    "appName": "StudViro",
     "loading": "Loading…",
     "retry": "Try again",
     "cancel": "Cancel",
@@ -8,7 +8,9 @@
     "appDescription": "The student platform for coursework, schedules and collaboration.",
     "showPassword": "Show password",
     "hidePassword": "Hide password",
-    "skipToContent": "Skip to Content"
+    "skipToContent": "Skip to Content",
+    "loadMore": "Load more",
+    "shownCount": "{count} shown"
   },
   "nav": {
     "account": "Account",
@@ -41,18 +43,18 @@
   },
   "home": {
     "title": "One academic platform your institution runs itself",
-    "subtitle": "The institution enters its own data once. Students, teachers and administrators then read it through one dashboard, one calendar and one course page.",
+    "subtitle": "The institution enters its own data once. Everything after that is one record: the timetable, the coursework, the exam period and the grade, read through whatever permissions a person holds.",
     "signedInCta": "Go to your account",
     "problem": {
-      "title": "Two systems, two logins, two answers",
-      "body": "A timetable lives in one system and a deadline in another. A grade exists as a calculation, a proposal and an official record, and nothing shows a student which one they are looking at. Every question that spans both systems becomes the student's job to assemble.",
+      "title": "The registry is one system, the teaching is another",
+      "body": "A university keeps its programmes, enrolments and grades in one system and runs its teaching in a second. The seam between them is where a deadline goes missing, where a grade is a calculation here and a record there, and where the work of putting the two together lands on the student. StudViro is one system that does both jobs.",
       "one": {
-        "title": "Nothing is migrated",
-        "body": "One record, entered once, read everywhere it matters."
+        "title": "Nothing arrives by import",
+        "body": "The institution enters a term, an offering or a cohort itself, and that entry is the record. There is no nightly job and nothing to reconcile afterwards."
       },
       "two": {
-        "title": "Nothing is guessed",
-        "body": "Every value on screen names the system it came from and when."
+        "title": "Nothing is lost track of",
+        "body": "Every grade published, role granted and enrolment corrected lands in an audit trail with a name and a time on it."
       },
       "three": {
         "title": "Nothing is over-shared",
@@ -64,23 +66,27 @@
       "subtitle": "Shipped and in use, not roadmap.",
       "dashboard": {
         "title": "A dashboard that answers \"what now?\"",
-        "body": "This term's courses, the latest results and the rest of this week on one screen, each item linking through to the detail behind it."
+        "body": "This term's courses, the latest results and the rest of your week on one screen, each item linking through to the thing behind it."
       },
       "calendar": {
-        "title": "One week, both layers",
-        "body": "Classes and exam terms in a single week view, filterable by course and by type, for courses you attend and courses you teach."
+        "title": "One week, three layers",
+        "body": "Classes, exam terms and assignment deadlines in a single week view, filterable by course and by type, for the courses you attend and the ones you teach."
       },
       "course": {
         "title": "A course page with everything on it",
-        "body": "Staff, your own enrolment, study groups and results in one place, instead of four tabs across two systems."
+        "body": "Materials, assignments, staff, study groups, the timetable, the exam terms and your own marks, instead of four tabs across two systems."
+      },
+      "grades": {
+        "title": "Calculated, proposed, official",
+        "body": "The three are shown as what they are rather than blended into one number. A resit sits beside the attempt it follows, an annulled result says so, and a programme standing counts credits earned against credits left."
       },
       "exams": {
         "title": "Exam terms you can act on",
-        "body": "Seats, registration window and examiner, filterable by whether you may register. When you may not, the server says why."
+        "body": "Seats, registration window and examiner, filterable by whether you may register. When you may not, the server says why rather than greying out a button."
       },
-      "sync": {
-        "title": "One record, many views",
-        "body": "Freshness per domain, per-run results, retries and a history, plus an on-demand report of every record where the source and the platform disagree."
+      "registry": {
+        "title": "The year, entered once",
+        "body": "Terms, programmes, courses, offerings, rooms, timetables and exam periods, each behind the permission that owns it. A term's course list or a whole cohort can be pasted in from a spreadsheet."
       }
     }
   },
@@ -95,7 +101,7 @@
     "email": "Email",
     "displayName": "Display name",
     "password": "Password",
-    "passwordHint": "At least 12 characters.",
+    "passwordHint": "At least 8 characters.",
     "confirmPassword": "Confirm password",
     "passwordMismatch": "Passwords do not match",
     "submit": "Create user",
@@ -104,7 +110,7 @@
     "placeholder": {
       "email": "jana.kovacova@university.edu",
       "displayName": "Jana Kováčová",
-      "password": "At least 12 characters",
+      "password": "At least 8 characters",
       "confirmPassword": "Repeat the password"
     }
   },
@@ -134,7 +140,7 @@
     "signingUp": "Creating your account…",
     "displayName": "Display name",
     "confirmPassword": "Confirm password",
-    "passwordHint": "At least 12 characters.",
+    "passwordHint": "At least 8 characters.",
     "passwordMismatch": "Passwords do not match",
     "emailTaken": "An account with this email already exists.",
     "noAccount": "No account yet?",
@@ -143,7 +149,7 @@
     "placeholder": {
       "displayName": "Jana Kováčová",
       "email": "jana.kovacova@university.edu",
-      "password": "At least 12 characters",
+      "password": "At least 8 characters",
       "confirmPassword": "Repeat your password",
       "currentPassword": "Your password"
     },
@@ -170,7 +176,7 @@
     },
     "validUntil": "Until {date}",
     "source": {
-      "platform": "Studviro",
+      "platform": "StudViro",
       "sis": "Student information system",
       "lms": "Learning management system"
     },
@@ -394,7 +400,14 @@
       "project": "Project",
       "other": "Other"
     },
-    "staffError": "Who teaches this could not be read."
+    "staffError": "Who teaches this could not be read.",
+    "section": {
+      "overview": "Overview",
+      "people": "People",
+      "schedule": "Schedule",
+      "materials": "Materials",
+      "work": "Assessment"
+    }
   },
   "grades": {
     "title": "My grades",
@@ -756,15 +769,15 @@
       "subtitle": "The same record, read three ways.",
       "students": {
         "title": "Students",
-        "body": "One timetable, one place to see where a grade came from, and an exam registration that tells you why a seat is out of reach."
+        "body": "One timetable, your coursework and your marks on the record your institution keeps, and an exam registration that tells you why a seat is out of reach."
       },
       "teachers": {
         "title": "Teachers",
-        "body": "The offerings you lead, who is enrolled in each, and your own teaching week, without opening a second system to assemble it."
+        "body": "The offerings you lead, the work handed in against each of them, and your own teaching week, without opening a second system to assemble it."
       },
       "institutions": {
         "title": "Institutions",
-        "body": "Run the whole academic year in one place: the catalogue, enrolment, timetables, exams and grades, with every permission checked at the scope it belongs to."
+        "body": "Run the whole academic year in one place: the catalogue, enrolment, timetables, exams, coursework and grades, with every permission checked at the scope it belongs to."
       }
     },
     "howItWorks": {
@@ -776,11 +789,11 @@
       },
       "import": {
         "title": "2. Fill the year",
-        "body": "Terms, offerings, timetables and exam terms go in once, into 25 canonical tables. Every row is institution-scoped and soft-deleted rather than erased."
+        "body": "Terms, offerings, timetables and exam terms go in once. A term's course list or a whole cohort can be pasted straight from a spreadsheet, with a dry run that shows what would change before anything is written."
       },
       "use": {
         "title": "3. Use one surface",
-        "body": "Students, teachers and registrars each get a dashboard, a calendar and a course page over the same record, showing only what their role permits."
+        "body": "Students, teachers and registrars each get a dashboard, a calendar and a course page over the same record. Teachers set work and mark it there; students read the result there."
       }
     },
     "trust": {
@@ -794,73 +807,85 @@
         "title": "Permissions carry a scope",
         "body": "Every grant names both what it permits and where. Holding the permission to read enrolments never opens a list of someone's classmates."
       },
-      "provenance": {
-        "title": "Every record says where it came from",
-        "body": "Every row is institution-scoped, soft-deleted rather than erased, and carries who changed it and when, so a disputed value can be traced."
+      "audit": {
+        "title": "Every change has a name on it",
+        "body": "Who proposed a grade, who published it, who granted or revoked a role, and when. The trail is readable by an institution administrator and by nobody else."
       },
-      "readOnly": {
-        "title": "Read-only, for now",
-        "body": "Reads are scoped by permission at the scope that grants it. A student reading their own grade and a registrar reading the roster travel different paths on purpose."
+      "privacy": {
+        "title": "Data a person can take with them",
+        "body": "Anybody can export what the institution holds about them. An erasure anonymises the person and keeps the academic record, so a degree does not disappear along with a name."
+      },
+      "accessibility": {
+        "title": "Usable without a mouse",
+        "body": "WCAG 2.2 AA, checked in the test suite rather than claimed: real headings, a skip link, visible focus and contrast that survives both themes."
+      },
+      "hosting": {
+        "title": "Your infrastructure, if you want it",
+        "body": "The API is a Docker image against PostgreSQL and Redis. An institution that needs the student record inside its own network can hold it there."
       }
     },
     "faq": {
       "title": "Questions we are asked",
       "replace": {
         "question": "Does this replace AIS2 and Moodle?",
-        "answer": "That is the point. StudViro is the system of record: the institution enters its own data and there is no upstream. The registry half is built. The learning half (assignments, submissions and marking) is next."
+        "answer": "That is the point. StudViro is the system of record: the institution enters its own data and there is no upstream. Both halves are built. The registry covers programmes, offerings, enrolment, timetables, exams and grades; the teaching side covers course pages, materials, assignments, hand-in and marking."
       },
-      "lms": {
-        "question": "Which systems can you connect today?",
-        "answer": "The registry: programmes, courses, offerings, enrolment, timetables, exams and grades. Course materials, assignments and submissions are the next phase."
+      "migration": {
+        "question": "We have years of data in a system that already runs. What happens to it?",
+        "answer": "Honestly: there is no importer. StudViro reads nothing from anywhere, by design. A one-off import can be written against a real export when somebody needs one, and in the meantime a term goes in by hand or by paste. Ask us about this early rather than late."
+      },
+      "missing": {
+        "question": "What is not in it?",
+        "answer": "Signing in with a university account, because it needs a client registration only your IT can make. Recording an absence. Importing from a system you already run. Quizzes are not missing but ruled out: StudViro takes work in and marks it by hand, and nothing is planned that asks questions."
       },
       "accounts": {
         "question": "How do people get accounts?",
         "answer": "An institution onboards with us. Accounts are invited rather than opened from the public internet, and university single sign-on is on the roadmap."
       },
-      "conflict": {
-        "question": "What happens when two systems disagree?",
-        "answer": "The platform reports it. A reconciliation check names every record that is missing, stale or in conflict, per domain, on demand."
-      },
       "cost": {
         "question": "What does it cost?",
-        "answer": "We do not publish a price. Terms depend on your size and which systems you run, so a conversation is the honest answer."
+        "answer": "We do not publish a price. Terms depend on your size and how much of the year you want to run here, so a conversation is the honest answer."
       }
     },
     "closing": {
-      "title": "See it against your own systems",
-      "body": "Bring one department and one term. We will show you what the platform covers today and what it does not yet.",
+      "title": "See it with a term of your own",
+      "body": "Bring one department and one term. We will run the demo against a shape you recognise, and be explicit about what is not there yet.",
       "cta": "Request a demo"
     },
     "footer": {
       "product": "Product",
       "account": "Account",
       "settings": "Settings",
-      "tagline": "One academic platform over the systems a university already runs.",
+      "tagline": "One academic platform an institution runs itself.",
       "rights": "StudViro"
     }
   },
   "forStudents": {
     "meta": {
       "title": "For students",
-      "description": "One timetable, grades that say where they came from, and exam registration that explains itself."
+      "description": "One timetable, your coursework and your marks in one place, and exam registration that explains itself."
     },
     "hero": {
       "title": "Stop assembling your own timetable",
-      "subtitle": "Your courses, your week and your results in one place, on the record your university keeps."
+      "subtitle": "Your courses, your week, the work you owe and your results in one place, on the record your university keeps."
     },
     "features": {
       "title": "What you get",
       "week": {
         "title": "Your whole week in one view",
-        "body": "Classes and exam terms as two layers of the same week, filterable by course and by type."
+        "body": "Classes, exam terms and assignment deadlines as three layers of the same week, filterable by course and by type."
       },
       "courses": {
         "title": "Your courses, by term",
-        "body": "Every enrolment with its status, and a course page with the staff, your study groups and your results on it."
+        "body": "Every enrolment with its status, and a course page carrying the staff, the materials, your study groups, the work set and your own marks."
+      },
+      "coursework": {
+        "title": "Hand it in here",
+        "body": "Upload against an assignment with a note to whoever marks it, resubmit up to the attempt limit the teacher set, and let the server decide what counts as late instead of arguing about it."
       },
       "grades": {
-        "title": "A grade that explains itself",
-        "body": "Calculated, proposed and official are shown as what they are, each with the system it came from and when it was last seen."
+        "title": "A grade that says which grade it is",
+        "body": "Calculated, proposed and official are shown as what they are rather than blended into one number. An annulled result says so, a resit sits beside the attempt it follows, and your programme standing counts credits earned against credits left."
       },
       "exams": {
         "title": "Registration that gives you a reason",
@@ -868,12 +893,12 @@
       },
       "notifications": {
         "title": "Told once, not five times",
-        "body": "When an exam term is published, moved or cancelled you hear about it, deduplicated to one message per term per day."
+        "body": "An exam term published, moved or cancelled, a grade published or corrected, an enrolment confirmed or refused: you hear about each once, deduplicated to one message per thing per day."
       }
     },
     "roadmap": {
       "title": "Not yet",
-      "body": "Assignment hand-in and course materials are next. Browsing the catalogue and enrolling yourself already works."
+      "body": "Signing in with your university account is not built; for now the institution invites you and you claim the account. Quizzes are not coming at all: StudViro takes work in and marks it by hand."
     },
     "closing": {
       "title": "Ask your university about it",
@@ -884,11 +909,11 @@
   "forTeachers": {
     "meta": {
       "title": "For teachers",
-      "description": "The offerings you lead, who is in them, and your teaching week, in one place."
+      "description": "The offerings you lead, the work handed in against them, and your teaching week, in one place."
     },
     "hero": {
       "title": "Your teaching, without the second login",
-      "subtitle": "The offerings you lead, the students in each of them and your own week, over the same record your students read."
+      "subtitle": "The offerings you lead, the students in each of them, the work they hand in and your own week, over the same record your students read."
     },
     "features": {
       "title": "What you get",
@@ -900,18 +925,26 @@
         "title": "A roster that agrees with itself",
         "body": "The student list and the enrolment count exclude withdrawn and rejected enrolments, and always match."
       },
+      "page": {
+        "title": "Build the course page yourself",
+        "body": "Open a space against the offering, keep it unpublished while you fill it, then add files, links and text in the order you want them read. A hidden material stays invisible until you say otherwise."
+      },
+      "assignments": {
+        "title": "Set work and take it in",
+        "body": "A brief, an open date, a due date, a close date and an attempt policy. The server decides what counts as late, and every assignment opens its own gradebook column."
+      },
+      "grades": {
+        "title": "Mark it, then publish it",
+        "body": "Score against the maximum with written feedback, propose a grade from the course page, and publish it separately if you hold that. A resit is a second attempt beside the first rather than an overwrite."
+      },
       "calendar": {
         "title": "One week, teaching included",
         "body": "The calendar scopes to the offerings you teach as well as the ones you attend."
-      },
-      "course": {
-        "title": "The same course page your students see",
-        "body": "Staff, study groups and exam terms, so a question about a course has one answer rather than two."
       }
     },
     "roadmap": {
       "title": "Not yet",
-      "body": "Entering or proposing a grade, managing an offering and editing its timetable are permissions the platform grants and no screen yet uses. Grading stays in your existing system until that lands."
+      "body": "An absence cannot be recorded: publishing a grade marks a seat attended, and nothing lets you mark one missed or excused. Quizzes are ruled out rather than pending."
     },
     "closing": {
       "title": "See it with your own courses",
@@ -922,33 +955,37 @@
   "forInstitutions": {
     "meta": {
       "title": "For institutions",
-      "description": "One academic platform an institution runs itself: catalogue, enrolment, timetables, exams and grades in one record."
+      "description": "One academic platform an institution runs itself: catalogue, enrolment, timetables, exams, coursework and grades in one record."
     },
     "hero": {
-      "title": "One surface over the systems you already run",
-      "subtitle": "One system of record, not a layer over two others. The institution enters its own data, and every audience reads the same record through the permissions it holds."
+      "title": "The whole academic year, in one system you own",
+      "subtitle": "The institution enters its own data, and every audience reads the same record through the permissions it holds. There is no upstream system to keep in step."
     },
     "features": {
       "title": "What an administrator gets",
-      "connectors": {
+      "roles": {
         "title": "Roles that mean something",
         "body": "Eight canonical roles over a scope tree. A student role derives from an active programme membership and a teacher role from a teaching assignment, so neither is handed out by mistake."
       },
-      "sync": {
-        "title": "Every change, on the record",
-        "body": "Freshness per domain, per-run results, per-record failures, retries and a full run history."
-      },
-      "reconciliation": {
-        "title": "Disagreements, named",
-        "body": "An on-demand report of every record that is missing, stale or in conflict between the source and the platform, per domain."
-      },
-      "roles": {
+      "scopes": {
         "title": "Scoped role administration",
-        "body": "Grant and revoke permissions against a scope, with the hierarchy enforced on the server rather than hinted at in the interface."
+        "body": "Grant and revoke against a scope, with the hierarchy enforced on the server rather than hinted at in the interface. A person can only hand out a role they hold themselves."
+      },
+      "catalogue": {
+        "title": "A catalogue you correct yourself",
+        "body": "Programmes, courses, academic terms and offerings, entered and fixed in place. A course runs at most once per term, and a term that ends before it starts is refused rather than saved."
+      },
+      "scheduling": {
+        "title": "Rooms, timetable, exam period",
+        "body": "Rooms with seat counts that refuse to retire while a class still meets in them; a slot that repeats weekly to the end of term and lets a single week move or be called off; exam terms with a capacity and a registration window."
+      },
+      "bulk": {
+        "title": "A term's worth at a time",
+        "body": "Paste a course list or a cohort from a spreadsheet, tab, semicolon or comma separated. A dry run shows what would change before anything is written."
       },
       "model": {
-        "title": "A canonical model with provenance",
-        "body": "25 institution-scoped tables covering the whole academic year, with soft deletion and keyset pagination throughout."
+        "title": "One canonical model",
+        "body": "One schema for the whole academic year, from org units and rooms to results and notifications, with soft deletion and keyset pagination throughout. Every row belongs to an institution and nothing crosses between them."
       }
     },
     "deployment": {
@@ -961,29 +998,29 @@
         "title": "A generated API contract",
         "body": "The client is generated from a drift-checked OpenAPI document, so the interface and the API cannot disagree."
       },
-      "mock": {
-        "title": "Evaluate without access",
-        "body": "A deterministic generator seeds a realistic synthetic university of around five thousand linked records, so a pilot can start with something to look at."
+      "demo": {
+        "title": "Something to open on day one",
+        "body": "A seed writes about seven thousand linked rows across twenty tables: a synthetic university with faculties, terms, courses, teachers, students, enrolments, timetables and results, so an evaluation starts with a populated system."
       }
     },
     "roadmap": {
-      "title": "On the roadmap, honestly",
-      "subtitle": "Designed, not shipped. Ask about timelines rather than assuming them.",
-      "lms": {
-        "title": "Learning-system integration",
-        "body": "Course materials, assignments, submissions and marking, natively."
-      },
-      "writeback": {
-        "title": "Bulk entry and migration",
-        "body": "Today the platform reads. An exam registration made here does not yet reach your system of record."
-      },
+      "title": "What is missing, named",
+      "subtitle": "Ask about timelines rather than assuming them.",
       "sso": {
         "title": "University single sign-on",
-        "body": "OIDC against your identity provider, blocked on institutional client registration."
+        "body": "OIDC against your identity provider. Blocked on a client registration only your IT department can make."
       },
-      "export": {
-        "title": "Data export and audit",
-        "body": "Personal-data export and a readable audit trail are planned and not yet built."
+      "migration": {
+        "title": "Import from what you run now",
+        "body": "There is no importer. Today the year goes in by hand or by paste. A one-off import can be written against a real export, and that is a conversation to have before a pilot rather than after."
+      },
+      "absence": {
+        "title": "Attendance",
+        "body": "Publishing a grade marks a seat attended. Marking one missed or excused exists in the schema and on no screen."
+      },
+      "slovak": {
+        "title": "Slovak interface",
+        "body": "Both catalogues are fully keyed and the Slovak one is still largely English. The machinery is done; most of the translation is not."
       }
     },
     "closing": {
@@ -995,7 +1032,7 @@
   "contact": {
     "meta": {
       "title": "Request a demo",
-      "description": "Tell us which systems you run and we will show you what StudViro makes of them."
+      "description": "Tell us how your academic year is shaped and we will show you what StudViro covers today."
     },
     "title": "Request a demo",
     "subtitle": "Tell us how your academic year is shaped. We will show you what the platform covers today and what is still roadmap.",
@@ -1007,7 +1044,7 @@
       "role": "Your role",
       "roleHint": "For example: vice-dean for study affairs, registrar, head of IT.",
       "message": "Anything else",
-      "messageHint": "Which systems you run, how many students, what you want to see. Optional.",
+      "messageHint": "How many students, how your year is shaped, what you want to see. Optional.",
       "website": "Leave this field empty",
       "submit": "Request a demo",
       "submitting": "Sending…"
@@ -1142,7 +1179,7 @@
     "invalidDescription": "It may have expired, already been used, or was typed incorrectly. Request a new one.",
     "placeholder": {
       "email": "jana.kovacova@university.edu",
-      "newPassword": "At least 12 characters",
+      "newPassword": "At least 8 characters",
       "confirmPassword": "Repeat the new password"
     },
     "captchaFailed": "The verification check did not finish. Try again."
@@ -1973,5 +2010,34 @@
     "solving": "Checking you are not a robot…",
     "solved": "Verified.",
     "failed": "The verification check did not finish. Try again."
+  },
+  "validation": {
+    "required": "This field is required.",
+    "tooShort": "Use at least {min} characters.",
+    "tooLong": "Use {max} characters or fewer.",
+    "exactLength": "Use exactly {length} characters.",
+    "numberTooSmall": "Enter {min} or more.",
+    "numberTooBig": "Enter {max} or less.",
+    "dateTooEarly": "Choose a later date.",
+    "dateTooLate": "Choose an earlier date.",
+    "selectOne": "Choose an option.",
+    "tooFewItems": "Choose at least {min}.",
+    "tooManyItems": "Choose {max} at most.",
+    "fileTooLarge": "That file is too large.",
+    "email": "Enter an email address, like name@university.edu.",
+    "url": "Enter a full web address, starting with https://.",
+    "identifier": "That is not a valid identifier.",
+    "option": "Choose one of the listed options.",
+    "datetime": "Enter a date and a time.",
+    "date": "Enter a date.",
+    "time": "Enter a time.",
+    "pattern": "That is not a valid value for this field.",
+    "startsWith": "Must start with {prefix}.",
+    "endsWith": "Must end with {suffix}.",
+    "includes": "Must contain {text}.",
+    "number": "Enter a number.",
+    "integer": "Enter a whole number.",
+    "multipleOf": "Enter a multiple of {step}.",
+    "invalid": "Check this value."
   }
 }

@@ -77,16 +77,23 @@ describe('HomeView', () => {
     expect(container.textContent).not.toMatch(/marketing\.|home\./);
   });
 
-  it('describes the learning system as roadmap rather than as shipped', () => {
+  it('names what is missing instead of only what is shipped', () => {
     renderWithProviders(<HomeView signedIn={false} />);
 
-    // Moodle import is Planned in Feature Status; claiming it here would make
-    // the landing page the only place in the product that says otherwise.
-    expect(
-      screen.getByText(
-        /Course materials, assignments and submissions are the next phase/,
-      ),
-    ).toBeInTheDocument();
+    // University sign-on, absence recording and an importer are all absent per
+    // Feature Status. A landing page that lists none of them is the only place
+    // in the product that says otherwise.
+    expect(screen.getByText(/there is no importer/i)).toBeInTheDocument();
+    expect(screen.getByText(/only your IT can make/i)).toBeInTheDocument();
+  });
+
+  it('does not sell the integration that ADR 0024 removed', () => {
+    const { container } = renderWithProviders(<HomeView signedIn={false} />);
+
+    // StudViro is the system of record: there is no connector, no sync run and
+    // nothing to reconcile. This copy claimed all three until 2026-09-21.
+    expect(container.textContent).not.toMatch(/reconcil\w*\s+(report|check)/i);
+    expect(container.textContent).not.toMatch(/connector|sync run|write-back/i);
   });
 });
 

@@ -10,9 +10,9 @@ import {
 } from '@/widgets/marketing';
 import { ROUTES } from '@/shared/config';
 
-const FEATURES = ['connectors', 'sync', 'reconciliation', 'roles', 'model'] as const;
-const DEPLOYMENT = ['containers', 'contract', 'mock'] as const;
-const ROADMAP = ['lms', 'writeback', 'sso', 'export'] as const;
+const FEATURES = ['roles', 'scopes', 'catalogue', 'scheduling', 'bulk', 'model'] as const;
+const DEPLOYMENT = ['containers', 'contract', 'demo'] as const;
+const ROADMAP = ['sso', 'migration', 'absence', 'slovak'] as const;
 const STEPS = ['connect', 'import', 'use'] as const;
 
 export function ForInstitutionsView() {
@@ -58,7 +58,14 @@ export function ForInstitutionsView() {
           <FeatureGrid
             columns={2}
             items={(
-              ['credentials', 'permissions', 'provenance', 'readOnly'] as const
+              [
+                'credentials',
+                'permissions',
+                'audit',
+                'privacy',
+                'accessibility',
+                'hosting',
+              ] as const
             ).map(key => ({
               key,
               title: m(`trust.${key}.title`),

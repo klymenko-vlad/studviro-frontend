@@ -12,10 +12,17 @@ import {
 } from '@/widgets/marketing';
 import { LANDING_ROUTE, ROUTES } from '@/shared/config';
 
-const FEATURES = ['dashboard', 'calendar', 'course', 'exams', 'sync'] as const;
+const FEATURES = [
+  'dashboard',
+  'calendar',
+  'course',
+  'grades',
+  'exams',
+  'registry',
+] as const;
 const PROBLEM_POINTS = ['one', 'two', 'three'] as const;
 const STEPS = ['connect', 'import', 'use'] as const;
-const FAQS = ['replace', 'lms', 'accounts', 'conflict', 'cost'] as const;
+const FAQS = ['replace', 'migration', 'missing', 'accounts', 'cost'] as const;
 const AUDIENCES = [
   { key: 'students', href: ROUTES.forStudents },
   { key: 'teachers', href: ROUTES.forTeachers },
@@ -97,7 +104,14 @@ export function HomeView({ signedIn }: { signedIn: boolean }) {
           <FeatureGrid
             columns={2}
             items={(
-              ['credentials', 'permissions', 'provenance', 'readOnly'] as const
+              [
+                'credentials',
+                'permissions',
+                'audit',
+                'privacy',
+                'accessibility',
+                'hosting',
+              ] as const
             ).map(key => ({
               key,
               title: m(`trust.${key}.title`),

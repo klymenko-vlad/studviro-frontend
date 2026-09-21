@@ -12,7 +12,7 @@ describe('ForInstitutionsView', () => {
 
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'One surface over the systems you already run',
+      'The whole academic year, in one system you own',
     );
   });
 
@@ -44,6 +44,8 @@ describe('ForInstitutionsView', () => {
   it('says what is not built yet', () => {
     renderWithProviders(<ForInstitutionsView />);
 
-    expect(screen.getByRole('heading', { name: /Not yet|roadmap/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /What is missing, named/i }),
+    ).toBeInTheDocument();
   });
 });

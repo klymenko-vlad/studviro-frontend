@@ -9,7 +9,14 @@ import {
 } from '@/widgets/marketing';
 import { ROUTES } from '@/shared/config';
 
-const FEATURES = ['offerings', 'roster', 'calendar', 'course'] as const;
+const FEATURES = [
+  'offerings',
+  'roster',
+  'page',
+  'assignments',
+  'grades',
+  'calendar',
+] as const;
 
 export function ForTeachersView() {
   const t = useTranslations('forTeachers');
