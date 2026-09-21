@@ -14,9 +14,7 @@ export function ContactView({ captchaEnabled = false }: { captchaEnabled?: boole
         <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-10 px-6 py-16 sm:py-20 lg:flex-row lg:gap-16">
           <div className="flex max-w-xl flex-1 flex-col gap-6">
             <div className="flex flex-col gap-3">
-              <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
-                {t('title')}
-              </h1>
+              <h1 className="type-display">{t('title')}</h1>
               <p className="text-muted-foreground text-lg text-pretty">{t('subtitle')}</p>
             </div>
 

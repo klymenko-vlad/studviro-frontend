@@ -15,6 +15,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  PageHeader,
+  PageShell,
+  QueryError,
   Skeleton,
 } from '@/shared/ui';
 
@@ -23,21 +26,18 @@ export function InstitutionSettingsView({ institutionId }: { institutionId: stri
   const { can, isPending: permissionsPending } = usePermissions(institutionId);
   const mayManage = can('institution:manage');
 
-  const { data: configuration, isPending } = useQuery(
-    institutionConfigurationQueries.detail({ path: { institutionId } }),
-  );
+  const {
+    data: configuration,
+    isPending,
+    refetch,
+  } = useQuery(institutionConfigurationQueries.detail({ path: { institutionId } }));
 
   return (
-    <main
-      id="main-content"
-      className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-6 py-12"
-    >
-      <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
-        <p className="text-muted-foreground text-pretty">
-          {configuration ? configuration.name : t('subtitle')}
-        </p>
-      </header>
+    <PageShell width="detail">
+      <PageHeader
+        title={t('title')}
+        description={configuration ? configuration.name : t('subtitle')}
+      />
 
       {!permissionsPending && !mayManage ? (
         <Alert>
@@ -62,15 +62,16 @@ export function InstitutionSettingsView({ institutionId }: { institutionId: stri
                   configuration={configuration}
                 />
               ) : (
-                <Alert variant="destructive">
-                  <AlertTitle>{t('errorTitle')}</AlertTitle>
-                  <AlertDescription>{t('errorDescription')}</AlertDescription>
-                </Alert>
+                <QueryError
+                  onRetry={refetch}
+                  title={t('errorTitle')}
+                  description={t('errorDescription')}
+                />
               )}
             </CardContent>
           </Card>
         </>
       ) : null}
-    </main>
+    </PageShell>
   );
 }

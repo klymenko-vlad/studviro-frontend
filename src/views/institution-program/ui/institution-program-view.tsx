@@ -6,7 +6,14 @@ import { useTranslations } from 'next-intl';
 import { ProgramMembers } from '@/widgets/program-members';
 import { catalogueQueries } from '@/entities/catalogue';
 import { useTerminology } from '@/entities/institution-configuration';
-import { Alert, AlertDescription, AlertTitle, Badge, Skeleton } from '@/shared/ui';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Badge,
+  PageShell,
+  Skeleton,
+} from '@/shared/ui';
 
 export function InstitutionProgramView({
   institutionId,
@@ -22,10 +29,7 @@ export function InstitutionProgramView({
   const program = programs.data?.find(candidate => candidate.id === programId);
 
   return (
-    <main
-      id="main-content"
-      className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-6 py-12"
-    >
+    <PageShell width="detail">
       {programs.isPending ? (
         <Skeleton className="h-16 w-full" data-testid="program-loading" />
       ) : program === undefined ? (
@@ -36,7 +40,7 @@ export function InstitutionProgramView({
       ) : (
         <>
           <header className="flex flex-col gap-2">
-            <h1 className="text-3xl font-semibold tracking-tight">{program.name}</h1>
+            <h1 className="type-title">{program.name}</h1>
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-muted-foreground font-mono text-xs">
                 {program.code}
@@ -54,6 +58,6 @@ export function InstitutionProgramView({
           <ProgramMembers institutionId={institutionId} programId={programId} />
         </>
       )}
-    </main>
+    </PageShell>
   );
 }

@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 
 import { PersonDirectoryTable } from '@/widgets/person-directory-table';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui';
+import { Card, CardContent, PageHeader, PageShell } from '@/shared/ui';
 
 export async function InstitutionPeopleView({
   institutionId,
@@ -11,24 +11,14 @@ export async function InstitutionPeopleView({
   const t = await getTranslations('people');
 
   return (
-    <main
-      id="main-content"
-      className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-6 py-12"
-    >
-      <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
-        <p className="text-muted-foreground text-pretty">{t('subtitle')}</p>
-      </header>
+    <PageShell width="detail">
+      <PageHeader title={t('title')} description={t('subtitle')} />
 
       <Card>
-        <CardHeader>
-          <CardTitle>{t('title')}</CardTitle>
-          <CardDescription>{t('subtitle')}</CardDescription>
-        </CardHeader>
         <CardContent>
           <PersonDirectoryTable institutionId={institutionId} />
         </CardContent>
       </Card>
-    </main>
+    </PageShell>
   );
 }

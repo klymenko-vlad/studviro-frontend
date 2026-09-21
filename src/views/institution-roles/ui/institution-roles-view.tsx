@@ -17,6 +17,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  PageHeader,
+  PageShell,
 } from '@/shared/ui';
 
 export function InstitutionRolesView({ institutionId }: { institutionId: string }) {
@@ -28,16 +30,11 @@ export function InstitutionRolesView({ institutionId }: { institutionId: string 
   const mayAssign = can('role:assign');
 
   return (
-    <main
-      id="main-content"
-      className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-6 py-12"
-    >
-      <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
-        <p className="text-muted-foreground text-pretty">
-          {institution ? institution.name : t('subtitle')}
-        </p>
-      </header>
+    <PageShell width="detail">
+      <PageHeader
+        title={t('title')}
+        description={institution ? institution.name : t('subtitle')}
+      />
 
       {!isPending && !mayAssign ? (
         <Alert>
@@ -79,6 +76,6 @@ export function InstitutionRolesView({ institutionId }: { institutionId: string 
           </CardContent>
         </Card>
       ) : null}
-    </main>
+    </PageShell>
   );
 }
