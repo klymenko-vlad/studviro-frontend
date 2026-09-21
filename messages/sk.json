@@ -8,7 +8,9 @@
     "appDescription": "Študentská platforma pre štúdium, rozvrh a spoluprácu.",
     "showPassword": "Zobraziť heslo",
     "hidePassword": "Skryť heslo",
-    "skipToContent": "Preskočiť na obsah"
+    "skipToContent": "Preskočiť na obsah",
+    "loadMore": "Načítať ďalšie",
+    "shownCount": "Zobrazených: {count}"
   },
   "nav": {
     "account": "Účet",
