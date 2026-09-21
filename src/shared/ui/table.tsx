@@ -16,6 +16,11 @@ import { cn } from '@/shared/lib';
  *
  * `scroll-affordance-x` is the visible cue that there is more to the side —
  * the reason a five-column table is usable on a phone at all.
+ *
+ * `tabular-nums` is on the table rather than on each numeric column: in a
+ * grid of credits, capacities and counts, proportional digits do not line up
+ * between rows, and remembering the utility per column is how that gets
+ * missed. Short text labels are unharmed by lining figures.
  */
 function Table({
   className,
@@ -33,7 +38,7 @@ function Table({
     >
       <table
         data-slot="table"
-        className={cn('w-full caption-bottom text-sm', className)}
+        className={cn('w-full caption-bottom text-sm tabular-nums', className)}
         {...props}
       >
         <caption className="sr-only">{label}</caption>
