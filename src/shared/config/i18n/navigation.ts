@@ -8,4 +8,4 @@
  * means switching strategies again touches this file and nothing else.
  */
 export { default as Link } from 'next/link';
-export { redirect, usePathname, useRouter } from 'next/navigation';
+export { redirect, usePathname, useRouter, useSearchParams } from 'next/navigation';

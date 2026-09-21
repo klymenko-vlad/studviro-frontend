@@ -7,7 +7,7 @@ export {
   negotiateLocale,
   type AppLocale,
 } from './i18n';
-export { Link, redirect, usePathname, useRouter } from './i18n';
+export { Link, redirect, usePathname, useRouter, useSearchParams } from './i18n';
 export {
   institutionRoutes,
   IS_SECURE_ORIGIN,

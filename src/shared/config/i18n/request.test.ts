@@ -64,7 +64,7 @@ describe('request config', () => {
 
     const { messages } = await resolve();
 
-    expect(messages['common']).toMatchObject({ appName: 'Studviro' });
+    expect(messages['common']).toMatchObject({ appName: 'StudViro' });
     expect(messages['auth']).toHaveProperty('signIn', 'Prihlásiť sa');
   });
 });

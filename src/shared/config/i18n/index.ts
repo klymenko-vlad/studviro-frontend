@@ -7,4 +7,4 @@ export {
   negotiateLocale,
   type AppLocale,
 } from './routing';
-export { Link, redirect, usePathname, useRouter } from './navigation';
+export { Link, redirect, usePathname, useRouter, useSearchParams } from './navigation';
