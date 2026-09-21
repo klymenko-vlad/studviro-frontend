@@ -11,12 +11,13 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
   Table,
   TableBody,
   TableHead,
   TableHeader,
   TableRow,
+  TableSkeleton,
 } from '@/shared/ui';
 
 export function OfferingAssessments({
@@ -43,11 +44,11 @@ export function OfferingAssessments({
 
       <CardContent className="text-sm">
         {isPending ? (
-          <Skeleton className="h-24 w-full" data-testid="offering-assessments-loading" />
+          <TableSkeleton rows={4} data-testid="offering-assessments-loading" />
         ) : isError ? (
           <p className="text-muted-foreground">{t('error')}</p>
         ) : data.length === 0 ? (
-          <p className="text-muted-foreground">{t('empty')}</p>
+          <EmptyState size="inline" title={t('empty')} />
         ) : (
           <Table label={t('panel')}>
             <TableHeader>

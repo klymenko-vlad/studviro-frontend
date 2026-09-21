@@ -11,7 +11,7 @@ export default function NotFound() {
       id="main-content"
       className="flex flex-1 flex-col items-center justify-center gap-4 p-8 text-center"
     >
-      <h1 className="text-2xl font-semibold">{t('notFoundTitle')}</h1>
+      <h1 className="type-title text-2xl">{t('notFoundTitle')}</h1>
       <p className="text-muted-foreground max-w-prose">{t('notFoundDescription')}</p>
       <Button asChild>
         <Link href="/">{t('backHome')}</Link>

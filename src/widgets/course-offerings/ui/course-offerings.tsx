@@ -21,13 +21,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
+  TableSkeleton,
 } from '@/shared/ui';
 
 export function CourseOfferings({ institutionId }: { institutionId: string }) {
@@ -48,11 +49,11 @@ export function CourseOfferings({ institutionId }: { institutionId: string }) {
         {manageable ? <OfferingForm institutionId={institutionId} /> : null}
 
         {offerings.isPending ? (
-          <Skeleton className="h-24 w-full" data-testid="offerings-loading" />
+          <TableSkeleton rows={5} data-testid="offerings-loading" />
         ) : offerings.isError ? (
           <p className="text-muted-foreground text-sm">{t('error')}</p>
         ) : offerings.data.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('empty')}</p>
+          <EmptyState size="inline" title={t('empty')} />
         ) : (
           <Table label={t('title')} data-testid="offerings-table">
             <TableHeader>

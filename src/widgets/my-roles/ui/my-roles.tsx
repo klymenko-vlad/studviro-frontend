@@ -14,7 +14,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  ListSkeleton,
 } from '@/shared/ui';
 
 import { RoleAssignmentItem } from './role-assignment-item';
@@ -34,9 +34,7 @@ export function MyRoles() {
       </CardHeader>
 
       <CardContent>
-        {isPending ? (
-          <Skeleton className="h-16 w-full" data-testid="my-roles-loading" />
-        ) : null}
+        {isPending ? <ListSkeleton items={2} data-testid="my-roles-loading" /> : null}
 
         {isError ? (
           <Alert variant="destructive">

@@ -14,13 +14,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
+  TableSkeleton,
 } from '@/shared/ui';
 
 export function Catalogue({ institutionId }: { institutionId: string }) {
@@ -44,7 +44,7 @@ export function Catalogue({ institutionId }: { institutionId: string }) {
           ) : null}
 
           {programs.isPending ? (
-            <Skeleton className="h-24 w-full" data-testid="programs-loading" />
+            <TableSkeleton rows={4} data-testid="programs-loading" />
           ) : programs.isError ? (
             <p className="text-muted-foreground text-sm">{t('programs.error')}</p>
           ) : programs.data.length === 0 ? (
@@ -90,7 +90,7 @@ export function Catalogue({ institutionId }: { institutionId: string }) {
           ) : null}
 
           {courses.isPending ? (
-            <Skeleton className="h-24 w-full" data-testid="courses-loading" />
+            <TableSkeleton rows={4} data-testid="courses-loading" />
           ) : courses.isError ? (
             <p className="text-muted-foreground text-sm">{t('courses.error')}</p>
           ) : courses.data.length === 0 ? (

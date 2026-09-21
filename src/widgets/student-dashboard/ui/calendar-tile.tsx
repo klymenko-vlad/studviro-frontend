@@ -18,7 +18,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
+  ListSkeleton,
+  QueryError,
 } from '@/shared/ui';
 
 const SHOWN = 4;
@@ -37,7 +39,7 @@ export function CalendarTile({
     from: now.toISOString(),
     to: addWeeks(startOfWeek(now), 1).toISOString(),
   }));
-  const { data, isPending, isError } = useQuery(
+  const { data, isPending, isError, refetch } = useQuery(
     timetableEventQueries.list({ path: { institutionId }, query: range }),
   );
 
@@ -50,11 +52,11 @@ export function CalendarTile({
 
       <CardContent className="flex flex-col gap-4">
         {isPending ? (
-          <Skeleton className="h-24 w-full" data-testid="dashboard-calendar-loading" />
+          <ListSkeleton items={2} data-testid="dashboard-calendar-loading" />
         ) : isError ? (
-          <p className="text-destructive text-sm">{t('calendar.error')}</p>
+          <QueryError title={t('calendar.error')} onRetry={refetch} />
         ) : data.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('calendar.empty')}</p>
+          <EmptyState size="inline" title={t('calendar.empty')} />
         ) : (
           <>
             <p className="text-sm" data-testid="dashboard-calendar-summary">

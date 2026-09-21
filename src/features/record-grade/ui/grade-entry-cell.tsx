@@ -72,7 +72,7 @@ export function GradeEntryCell({
       </Label>
       <select
         id={selectId}
-        className="border-input bg-background focus-visible:ring-ring h-9 rounded-md border px-2 text-sm focus-visible:ring-2 focus-visible:outline-none"
+        className="border-input bg-background focus-visible:ring-ring/50 h-9 rounded-md border px-2 text-sm outline-none focus-visible:ring-[3px]"
         value={grade}
         disabled={record.isPending}
         onChange={event => {

@@ -16,13 +16,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
+  TableSkeleton,
 } from '@/shared/ui';
 
 export function LearningSpaces({ institutionId }: { institutionId: string }) {
@@ -32,8 +32,7 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
     learningSpaceQueries.list({ path: { institutionId } }),
   );
 
-  if (isPending)
-    return <Skeleton className="h-64 w-full" data-testid="learning-loading" />;
+  if (isPending) return <TableSkeleton rows={4} data-testid="learning-loading" />;
 
   if (error) {
     return (

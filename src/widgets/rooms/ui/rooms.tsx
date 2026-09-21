@@ -13,13 +13,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
+  TableSkeleton,
 } from '@/shared/ui';
 
 export function Rooms({ institutionId }: { institutionId: string }) {
@@ -39,11 +40,11 @@ export function Rooms({ institutionId }: { institutionId: string }) {
         {manageable ? <RoomForm institutionId={institutionId} /> : null}
 
         {rooms.isPending ? (
-          <Skeleton className="h-24 w-full" data-testid="rooms-loading" />
+          <TableSkeleton rows={3} data-testid="rooms-loading" />
         ) : rooms.isError ? (
           <p className="text-muted-foreground text-sm">{t('error')}</p>
         ) : rooms.data.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('empty')}</p>
+          <EmptyState size="inline" title={t('empty')} />
         ) : (
           <Table label={t('title')} data-testid="rooms-table">
             <TableHeader>

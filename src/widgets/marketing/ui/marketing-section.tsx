@@ -29,9 +29,7 @@ export function MarketingSection({
       <div className={cn('mx-auto flex w-full max-w-5xl flex-col gap-10', className)}>
         {title === undefined ? null : (
           <div className="flex max-w-2xl flex-col gap-3">
-            <Heading className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              {title}
-            </Heading>
+            <Heading className="type-title text-balance sm:text-4xl">{title}</Heading>
             {subtitle === undefined ? null : (
               <p className="text-muted-foreground text-lg text-pretty">{subtitle}</p>
             )}

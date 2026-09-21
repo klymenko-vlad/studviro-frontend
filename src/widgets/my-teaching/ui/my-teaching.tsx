@@ -7,32 +7,32 @@ import {
   groupTeachingByTerm,
   teachingOfferingQueries,
 } from '@/entities/teaching-offering';
-import { Alert, AlertDescription, AlertTitle, Skeleton } from '@/shared/ui';
+import { EmptyState, ListSkeleton, QueryError } from '@/shared/ui';
 
 import { TeachingTermSection } from './teaching-term-section';
 
 export function MyTeaching({ institutionId }: { institutionId: string }) {
   const t = useTranslations('myTeaching');
-  const { data, isPending, isError } = useQuery(
+  const { data, isPending, isError, refetch } = useQuery(
     teachingOfferingQueries.list({ path: { institutionId } }),
   );
 
-  if (isPending)
-    return <Skeleton className="h-64 w-full" data-testid="my-teaching-loading" />;
+  if (isPending) return <ListSkeleton items={3} data-testid="my-teaching-loading" />;
 
   if (isError) {
     return (
-      <Alert variant="destructive">
-        <AlertTitle>{t('errorTitle')}</AlertTitle>
-        <AlertDescription>{t('errorDescription')}</AlertDescription>
-      </Alert>
+      <QueryError
+        onRetry={refetch}
+        title={t('errorTitle')}
+        description={t('errorDescription')}
+      />
     );
   }
 
   const groups = groupTeachingByTerm(data);
 
   if (groups.length === 0) {
-    return <p className="text-muted-foreground text-sm">{t('empty')}</p>;
+    return <EmptyState size="inline" title={t('empty')} />;
   }
 
   return (

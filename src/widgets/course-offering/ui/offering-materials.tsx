@@ -18,7 +18,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
+  ListSkeleton,
 } from '@/shared/ui';
 
 export function OfferingMaterials({
@@ -50,11 +51,11 @@ export function OfferingMaterials({
         ) : null}
 
         {materials.isPending ? (
-          <Skeleton className="h-20 w-full" data-testid="offering-materials-loading" />
+          <ListSkeleton items={2} data-testid="offering-materials-loading" />
         ) : materials.isError ? (
           <p className="text-muted-foreground text-sm">{t('error')}</p>
         ) : materials.data.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('empty')}</p>
+          <EmptyState size="inline" title={t('empty')} />
         ) : (
           <ul className="flex flex-col gap-4" aria-label={t('title')}>
             {materials.data.map(material => (

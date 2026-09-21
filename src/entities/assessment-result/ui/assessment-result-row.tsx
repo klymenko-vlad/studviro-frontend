@@ -36,7 +36,7 @@ export function AssessmentResultRow({ result }: { result: AssessmentResult }) {
         )}
       </TableCell>
 
-      <TableCell className="align-top tabular-nums">
+      <TableCell className="align-top">
         {result.points === null ? (
           <span className="text-muted-foreground">{t('ungraded')}</span>
         ) : (

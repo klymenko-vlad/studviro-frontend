@@ -42,9 +42,7 @@ export function CalendarDaySection({
               />
             ) : item.kind === 'deadline' ? (
               <div className="flex flex-col gap-1.5" data-testid="calendar-deadline">
-                <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-                  {t('deadlineLayer')}
-                </p>
+                <p className="text-muted-foreground type-eyebrow">{t('deadlineLayer')}</p>
                 <DeadlineCard
                   deadline={item.deadline}
                   href={courseOfferingHref(institutionId, item.deadline.offering.id)}
@@ -52,9 +50,7 @@ export function CalendarDaySection({
               </div>
             ) : (
               <div className="flex flex-col gap-1.5" data-testid="calendar-exam">
-                <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-                  {t('examLayer')}
-                </p>
+                <p className="text-muted-foreground type-eyebrow">{t('examLayer')}</p>
                 <ExamTermCard
                   term={item.term}
                   href={courseOfferingHref(institutionId, item.term.offering.id)}

@@ -17,7 +17,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
+  ListSkeleton,
 } from '@/shared/ui';
 
 export function OfferingExamTerms({
@@ -75,11 +76,11 @@ export function OfferingExamTerms({
         ) : null}
 
         {terms.isPending ? (
-          <Skeleton className="h-20 w-full" data-testid="offering-exam-terms-loading" />
+          <ListSkeleton items={2} data-testid="offering-exam-terms-loading" />
         ) : terms.isError ? (
           <p className="text-muted-foreground text-sm">{t('error')}</p>
         ) : terms.data.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('empty')}</p>
+          <EmptyState size="inline" title={t('empty')} />
         ) : (
           <ul className="flex flex-col gap-5" aria-label={t('title')}>
             {terms.data.map(term => (

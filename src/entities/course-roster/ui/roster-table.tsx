@@ -13,10 +13,10 @@ import {
 import type { RosterStudent } from '../model/course-roster';
 
 const STATUS_VARIANT = {
-  active: 'default',
+  active: 'success',
   completed: 'secondary',
-  requested: 'outline',
-  provisioning: 'outline',
+  requested: 'warning',
+  provisioning: 'warning',
   withdrawn: 'secondary',
   rejected: 'destructive',
 } as const;

@@ -22,7 +22,7 @@ import {
   timetableEventQueries,
   type TimetableEventType,
 } from '@/entities/timetable-event';
-import { Alert, AlertDescription, AlertTitle, Button, Skeleton } from '@/shared/ui';
+import { Button, EmptyState, ListSkeleton, QueryError } from '@/shared/ui';
 
 import { groupCalendarItems } from '../model/calendar-items';
 import { CalendarDaySection } from './calendar-day-section';
@@ -57,7 +57,7 @@ export function MyCalendar({
   const range = { from: from.toISOString(), to: to.toISOString() };
   const offeringId = offeringFilterValue(offering);
 
-  const { data, isPending, isError } = useQuery(
+  const { data, isPending, isError, refetch } = useQuery(
     timetableEventQueries.list({
       path: { institutionId },
       query: {
@@ -169,14 +169,15 @@ export function MyCalendar({
       </ScheduleFilters>
 
       {isPending ? (
-        <Skeleton className="h-64 w-full" data-testid="my-calendar-loading" />
+        <ListSkeleton items={3} data-testid="my-calendar-loading" />
       ) : isError ? (
-        <Alert variant="destructive">
-          <AlertTitle>{t('errorTitle')}</AlertTitle>
-          <AlertDescription>{t('errorDescription')}</AlertDescription>
-        </Alert>
+        <QueryError
+          onRetry={refetch}
+          title={t('errorTitle')}
+          description={t('errorDescription')}
+        />
       ) : days.length === 0 ? (
-        <p className="text-muted-foreground text-sm">{t('empty')}</p>
+        <EmptyState size="inline" title={t('empty')} />
       ) : (
         days.map(entry => (
           <CalendarDaySection

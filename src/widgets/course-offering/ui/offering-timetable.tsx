@@ -17,7 +17,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
+  ListSkeleton,
 } from '@/shared/ui';
 
 export function OfferingTimetable({
@@ -62,11 +63,11 @@ export function OfferingTimetable({
         ) : null}
 
         {events.isPending ? (
-          <Skeleton className="h-20 w-full" data-testid="offering-timetable-loading" />
+          <ListSkeleton items={2} data-testid="offering-timetable-loading" />
         ) : events.isError ? (
           <p className="text-muted-foreground text-sm">{t('error')}</p>
         ) : events.data.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('empty')}</p>
+          <EmptyState size="inline" title={t('empty')} />
         ) : (
           <ul className="flex flex-col gap-5" aria-label={t('title')}>
             {bySlot(events.data, timeZone).map(slot => {

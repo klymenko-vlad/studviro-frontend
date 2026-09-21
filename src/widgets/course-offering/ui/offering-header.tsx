@@ -11,9 +11,7 @@ export function OfferingHeader({ offering }: { offering: CourseOffering }) {
     <header className="flex flex-col gap-3">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex flex-col gap-1">
-          <h1 className="text-3xl font-semibold tracking-tight">
-            {offering.course.title}
-          </h1>
+          <h1 className="type-title">{offering.course.title}</h1>
           <p className="text-muted-foreground font-mono text-sm">
             {offering.course.code}
           </p>

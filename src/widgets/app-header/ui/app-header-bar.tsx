@@ -32,12 +32,15 @@ export function AppHeaderBar({
   const marketing = useTranslations('marketing');
 
   return (
-    <header className="bg-background/80 border-border/60 sticky top-0 z-40 border-b backdrop-blur-md">
+    <header
+      data-translucent
+      className="bg-background/80 border-border/60 sticky top-0 z-40 border-b backdrop-blur-md"
+    >
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-2 px-6">
         <Link
           href={ROUTES.home}
           aria-label={t('home')}
-          className="focus-visible:ring-ring rounded-md focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="focus-visible:ring-ring/50 rounded-md outline-none focus-visible:ring-[3px]"
         >
           <Logo />
         </Link>

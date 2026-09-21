@@ -14,7 +14,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
+  ListSkeleton,
+  QueryError,
 } from '@/shared/ui';
 
 const SHOWN = 4;
@@ -33,7 +35,7 @@ export function DeadlinesTile({
     from: now.toISOString(),
     to: addDays(now, HORIZON_DAYS).toISOString(),
   }));
-  const { data, isPending, isError } = useQuery(
+  const { data, isPending, isError, refetch } = useQuery(
     deadlineQueries.list({ path: { institutionId }, query: range }),
   );
 
@@ -48,11 +50,11 @@ export function DeadlinesTile({
 
       <CardContent className="flex flex-col gap-4">
         {isPending ? (
-          <Skeleton className="h-24 w-full" data-testid="dashboard-deadlines-loading" />
+          <ListSkeleton items={2} data-testid="dashboard-deadlines-loading" />
         ) : isError ? (
-          <p className="text-destructive text-sm">{t('deadlines.error')}</p>
+          <QueryError title={t('deadlines.error')} onRetry={refetch} />
         ) : due.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('deadlines.empty')}</p>
+          <EmptyState size="inline" title={t('deadlines.empty')} />
         ) : (
           <>
             <p className="text-sm" data-testid="dashboard-deadlines-summary">

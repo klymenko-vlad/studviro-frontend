@@ -10,13 +10,14 @@ import { useTerminology } from '@/entities/institution-configuration';
 import { submissionQueries } from '@/entities/submission';
 import {
   Badge,
-  Skeleton,
+  EmptyState,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
+  TableSkeleton,
 } from '@/shared/ui';
 
 /** Every submission on the assignment, for whoever may propose a grade. */
@@ -39,13 +40,13 @@ export function OfferingMarking({
   );
 
   if (submissions.isPending)
-    return <Skeleton className="h-16 w-full" data-testid="offering-marking-loading" />;
+    return <TableSkeleton rows={3} data-testid="offering-marking-loading" />;
 
   if (submissions.isError)
     return <p className="text-muted-foreground text-sm">{t('error')}</p>;
 
   if (submissions.data.length === 0)
-    return <p className="text-muted-foreground text-sm">{t('empty')}</p>;
+    return <EmptyState size="inline" title={t('empty')} />;
 
   return (
     <div className="flex flex-col gap-2">

@@ -12,14 +12,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
+  ListSkeleton,
+  QueryError,
 } from '@/shared/ui';
 
 const SHOWN = 4;
 
 export function GradesTile({ institutionId }: { institutionId: string }) {
   const t = useTranslations('dashboard');
-  const { data, isPending, isError } = useQuery(
+  const { data, isPending, isError, refetch } = useQuery(
     courseResultQueries.list({ path: { institutionId } }),
   );
 
@@ -35,11 +37,11 @@ export function GradesTile({ institutionId }: { institutionId: string }) {
 
       <CardContent className="flex flex-col gap-4">
         {isPending ? (
-          <Skeleton className="h-24 w-full" data-testid="dashboard-grades-loading" />
+          <ListSkeleton items={2} data-testid="dashboard-grades-loading" />
         ) : isError ? (
-          <p className="text-destructive text-sm">{t('grades.error')}</p>
+          <QueryError title={t('grades.error')} onRetry={refetch} />
         ) : data.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('grades.empty')}</p>
+          <EmptyState size="inline" title={t('grades.empty')} />
         ) : (
           <>
             {progress === null ? null : (

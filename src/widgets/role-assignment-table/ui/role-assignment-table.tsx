@@ -5,39 +5,37 @@ import { useTranslations } from 'next-intl';
 
 import { roleAssignmentQueries } from '@/entities/role-assignment';
 import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-  Skeleton,
+  EmptyState,
+  QueryError,
   Table,
   TableBody,
   TableHead,
   TableHeader,
   TableRow,
+  TableSkeleton,
 } from '@/shared/ui';
 
 import { RoleAssignmentRow } from './role-assignment-row';
 
 export function RoleAssignmentTable({ institutionId }: { institutionId: string }) {
   const t = useTranslations('roleAdmin');
-  const { data, isPending, isError } = useQuery(
+  const { data, isPending, isError, refetch } = useQuery(
     roleAssignmentQueries.listForInstitution({ path: { institutionId } }),
   );
 
-  if (isPending)
-    return <Skeleton className="h-24 w-full" data-testid="role-table-loading" />;
+  if (isPending) return <TableSkeleton rows={4} data-testid="role-table-loading" />;
 
   if (isError) {
     return (
-      <Alert variant="destructive">
-        <AlertTitle>{t('errorTitle')}</AlertTitle>
-        <AlertDescription>{t('errorDescription')}</AlertDescription>
-      </Alert>
+      <QueryError
+        onRetry={refetch}
+        title={t('errorTitle')}
+        description={t('errorDescription')}
+      />
     );
   }
 
-  if (data.length === 0)
-    return <p className="text-muted-foreground text-sm">{t('empty')}</p>;
+  if (data.length === 0) return <EmptyState size="inline" title={t('empty')} />;
 
   return (
     <Table label={t('tableLabel')}>

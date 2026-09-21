@@ -17,7 +17,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
+  ListSkeleton,
 } from '@/shared/ui';
 
 import { OfferingMarking } from './offering-marking';
@@ -78,11 +79,11 @@ export function OfferingAssignments({
         ) : null}
 
         {assignments.isPending ? (
-          <Skeleton className="h-20 w-full" data-testid="offering-assignments-loading" />
+          <ListSkeleton items={2} data-testid="offering-assignments-loading" />
         ) : assignments.isError ? (
           <p className="text-muted-foreground text-sm">{t('error')}</p>
         ) : assignments.data.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('empty')}</p>
+          <EmptyState size="inline" title={t('empty')} />
         ) : (
           <ul className="flex flex-col gap-6" aria-label={t('title')}>
             {assignments.data.map(assignment => (

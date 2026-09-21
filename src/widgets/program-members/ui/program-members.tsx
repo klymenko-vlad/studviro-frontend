@@ -21,13 +21,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
+  TableSkeleton,
 } from '@/shared/ui';
 
 export function ProgramMembers({
@@ -63,11 +64,11 @@ export function ProgramMembers({
         ) : null}
 
         {members.isPending ? (
-          <Skeleton className="h-24 w-full" data-testid="program-members-loading" />
+          <TableSkeleton rows={4} data-testid="program-members-loading" />
         ) : members.isError ? (
           <p className="text-muted-foreground text-sm">{t('error')}</p>
         ) : members.data.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('empty')}</p>
+          <EmptyState size="inline" title={t('empty')} />
         ) : (
           <Table label={t('title')} data-testid="program-members-table">
             <TableHeader>

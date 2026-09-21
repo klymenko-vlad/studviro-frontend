@@ -19,8 +19,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  EmptyState,
+  ListSkeleton,
   Separator,
-  Skeleton,
 } from '@/shared/ui';
 
 export function OfferingStudyGroups({
@@ -57,11 +58,11 @@ export function OfferingStudyGroups({
         ) : null}
 
         {groups.isPending ? (
-          <Skeleton className="h-20 w-full" data-testid="study-groups-loading" />
+          <ListSkeleton items={2} data-testid="study-groups-loading" />
         ) : groups.isError ? (
           <p className="text-muted-foreground text-sm">{t('error')}</p>
         ) : groups.data.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('empty')}</p>
+          <EmptyState size="inline" title={t('empty')} />
         ) : (
           <ul className="flex flex-col gap-6" aria-label={t('title')}>
             {groups.data.map(group => (

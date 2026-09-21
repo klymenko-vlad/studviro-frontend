@@ -28,14 +28,10 @@ export function MarketingHero({
     <section className="px-6 pt-16 pb-14 sm:pt-24 sm:pb-20">
       <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-6 text-center">
         {eyebrow === undefined ? null : (
-          <p className="text-muted-foreground text-sm font-medium tracking-wide uppercase">
-            {eyebrow}
-          </p>
+          <p className="text-muted-foreground type-eyebrow">{eyebrow}</p>
         )}
 
-        <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-6xl">
-          {title}
-        </h1>
+        <h1 className="type-display">{title}</h1>
 
         <p className="text-muted-foreground max-w-2xl text-lg text-pretty sm:text-xl">
           {subtitle}

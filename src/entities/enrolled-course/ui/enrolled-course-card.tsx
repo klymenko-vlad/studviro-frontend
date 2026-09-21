@@ -6,10 +6,10 @@ import { Badge, Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
 import { primaryTeacher, type EnrolledCourse } from '../model/enrolled-course';
 
 const STATUS_VARIANT = {
-  active: 'default',
+  active: 'success',
   completed: 'secondary',
-  requested: 'outline',
-  provisioning: 'outline',
+  requested: 'warning',
+  provisioning: 'warning',
   withdrawn: 'secondary',
   rejected: 'destructive',
 } as const;

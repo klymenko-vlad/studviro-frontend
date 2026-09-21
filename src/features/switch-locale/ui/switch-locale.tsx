@@ -24,7 +24,7 @@ export function LocaleMenuItems() {
 
   return (
     <>
-      <DropdownMenuLabel className="text-muted-foreground px-2 pt-1 pb-1 text-xs font-medium tracking-wide uppercase">
+      <DropdownMenuLabel className="text-muted-foreground type-eyebrow px-2 pt-1 pb-1">
         {t('label')}
       </DropdownMenuLabel>
       <DropdownMenuRadioGroup

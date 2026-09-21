@@ -10,24 +10,25 @@ import {
   EnrollableOfferingCard,
   enrollableOfferingQueries,
 } from '@/entities/enrollable-offering';
-import { Alert, AlertDescription, AlertTitle, Skeleton, Switch } from '@/shared/ui';
+import { ListSkeleton, QueryError, Switch } from '@/shared/ui';
 
 export function EnrollableCourses({ institutionId }: { institutionId: string }) {
   const t = useTranslations('enrollment');
   const [actionableOnly, setActionableOnly] = useState(false);
-  const { data, isPending, isError } = useQuery(
+  const { data, isPending, isError, refetch } = useQuery(
     enrollableOfferingQueries.list({ path: { institutionId } }),
   );
 
   if (isPending)
-    return <Skeleton className="h-64 w-full" data-testid="enrollable-courses-loading" />;
+    return <ListSkeleton items={3} data-testid="enrollable-courses-loading" />;
 
   if (isError)
     return (
-      <Alert variant="destructive">
-        <AlertTitle>{t('errorTitle')}</AlertTitle>
-        <AlertDescription>{t('errorDescription')}</AlertDescription>
-      </Alert>
+      <QueryError
+        onRetry={refetch}
+        title={t('errorTitle')}
+        description={t('errorDescription')}
+      />
     );
 
   const visible = actionableOnly ? actionableOfferings(data) : data;

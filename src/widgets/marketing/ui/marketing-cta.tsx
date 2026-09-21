@@ -16,9 +16,7 @@ export function MarketingCta({
   return (
     <section className="px-6 py-16 sm:py-20">
       <div className="bg-card mx-auto flex w-full max-w-5xl flex-col items-start gap-5 rounded-xl border p-8 sm:p-12">
-        <h2 className="text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
-          {title}
-        </h2>
+        <h2 className="type-title text-2xl text-balance sm:text-3xl">{title}</h2>
         <p className="text-muted-foreground max-w-2xl text-pretty">{body}</p>
         <Button asChild size="lg">
           <Link href={ROUTES.contact}>

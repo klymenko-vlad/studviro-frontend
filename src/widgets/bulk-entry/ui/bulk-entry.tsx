@@ -205,8 +205,8 @@ function BulkResult({ result }: { result: BulkImportResultDto }) {
                     row.status === 'failed'
                       ? 'destructive'
                       : row.status === 'skipped'
-                        ? 'outline'
-                        : 'secondary'
+                        ? 'warning'
+                        : 'success'
                   }
                 >
                   {t(`status.${row.status}`)}

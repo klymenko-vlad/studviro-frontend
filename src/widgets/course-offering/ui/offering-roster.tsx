@@ -6,7 +6,15 @@ import {
   enrolledStudents,
   RosterTable,
 } from '@/entities/course-roster';
-import { Card, CardContent, CardHeader, CardTitle, Skeleton } from '@/shared/ui';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  EmptyState,
+  QueryError,
+  TableSkeleton,
+} from '@/shared/ui';
 
 export function OfferingRoster({
   institutionId,
@@ -16,7 +24,7 @@ export function OfferingRoster({
   offeringId: string;
 }) {
   const t = useTranslations('roster');
-  const { data, isPending, isError } = useQuery(
+  const { data, isPending, isError, refetch } = useQuery(
     courseRosterQueries.detail({ path: { institutionId, offeringId } }),
   );
 
@@ -42,11 +50,15 @@ export function OfferingRoster({
 
       <CardContent className="text-sm">
         {isPending ? (
-          <Skeleton className="h-24 w-full" data-testid="offering-roster-loading" />
+          <TableSkeleton rows={4} data-testid="offering-roster-loading" />
         ) : isError ? (
-          <p className="text-muted-foreground">{t('errorDescription')}</p>
+          <QueryError
+            onRetry={refetch}
+            title={t('errorTitle')}
+            description={t('errorDescription')}
+          />
         ) : data.students.length === 0 ? (
-          <p className="text-muted-foreground">{t('empty')}</p>
+          <EmptyState size="inline" title={t('empty')} />
         ) : (
           <RosterTable students={data.students} caption={t('tableCaption')} />
         )}

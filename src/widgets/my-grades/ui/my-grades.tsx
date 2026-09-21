@@ -4,34 +4,34 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
 import { courseResultQueries, groupResultsByTerm } from '@/entities/course-result';
-import { Alert, AlertDescription, AlertTitle, Skeleton } from '@/shared/ui';
+import { EmptyState, ListSkeleton, QueryError } from '@/shared/ui';
 
 import { ProgrammeStandingCard } from './programme-standing';
 import { TermResultsSection } from './term-results-section';
 
 export function MyGrades({ institutionId }: { institutionId: string }) {
   const t = useTranslations('grades');
-  const { data, isPending, isError } = useQuery(
+  const { data, isPending, isError, refetch } = useQuery(
     courseResultQueries.list({ path: { institutionId } }),
   );
   const summary = useQuery(courseResultQueries.summary({ path: { institutionId } }));
 
-  if (isPending)
-    return <Skeleton className="h-64 w-full" data-testid="my-grades-loading" />;
+  if (isPending) return <ListSkeleton items={3} data-testid="my-grades-loading" />;
 
   if (isError) {
     return (
-      <Alert variant="destructive">
-        <AlertTitle>{t('errorTitle')}</AlertTitle>
-        <AlertDescription>{t('errorDescription')}</AlertDescription>
-      </Alert>
+      <QueryError
+        onRetry={refetch}
+        title={t('errorTitle')}
+        description={t('errorDescription')}
+      />
     );
   }
 
   const groups = groupResultsByTerm(data);
 
   if (groups.length === 0) {
-    return <p className="text-muted-foreground text-sm">{t('empty')}</p>;
+    return <EmptyState size="inline" title={t('empty')} />;
   }
 
   const progress = summary.data ?? null;

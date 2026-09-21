@@ -17,7 +17,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
+  ListSkeleton,
 } from '@/shared/ui';
 
 import { OfferingAssignments } from './offering-assignments';
@@ -59,7 +60,7 @@ export function OfferingLearning({
 
         <CardContent className="flex flex-col gap-4">
           {spaces.isPending ? (
-            <Skeleton className="h-20 w-full" data-testid="offering-learning-loading" />
+            <ListSkeleton items={2} data-testid="offering-learning-loading" />
           ) : spaces.isError ? (
             <p className="text-muted-foreground text-sm">{t('error')}</p>
           ) : space === null ? (
@@ -70,7 +71,7 @@ export function OfferingLearning({
                 defaultName={courseTitle}
               />
             ) : (
-              <p className="text-muted-foreground text-sm">{t('empty')}</p>
+              <EmptyState size="inline" title={t('empty')} />
             )
           ) : (
             <>

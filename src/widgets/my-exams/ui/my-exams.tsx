@@ -19,7 +19,7 @@ import {
   splitExamTerms,
   type ExamTermKind,
 } from '@/entities/exam-term';
-import { Alert, AlertDescription, AlertTitle, Skeleton } from '@/shared/ui';
+import { ListSkeleton, QueryError } from '@/shared/ui';
 
 import { ExamTermSection } from './exam-term-section';
 
@@ -38,7 +38,7 @@ export function MyExams({
   const [kind, setKind] = useState<string>(ALL_KINDS);
   const [actionableOnly, setActionableOnly] = useState(false);
 
-  const { data, isPending, isError } = useQuery(
+  const { data, isPending, isError, refetch } = useQuery(
     examTermQueries.list({
       path: { institutionId },
       query: {
@@ -82,10 +82,11 @@ export function MyExams({
     return (
       <div className="flex flex-col gap-8">
         {filters}
-        <Alert variant="destructive">
-          <AlertTitle>{t('errorTitle')}</AlertTitle>
-          <AlertDescription>{t('errorDescription')}</AlertDescription>
-        </Alert>
+        <QueryError
+          onRetry={refetch}
+          title={t('errorTitle')}
+          description={t('errorDescription')}
+        />
       </div>
     );
 
@@ -93,7 +94,7 @@ export function MyExams({
     return (
       <div className="flex flex-col gap-8">
         {filters}
-        <Skeleton className="h-64 w-full" data-testid="my-exams-loading" />
+        <ListSkeleton items={3} data-testid="my-exams-loading" />
       </div>
     );
 

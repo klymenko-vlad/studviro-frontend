@@ -96,6 +96,15 @@ const ORDER: NavKey[] = [
   'settings',
 ];
 
+/**
+ * The second row of one sticky chrome layer, not a separate bar: the same
+ * translucent material as the header, offset by its height, with the page
+ * passing underneath. The header's own `border-b` is the seam between the two
+ * rows; `chrome-edge` is the soft outer edge of the stack, which is what a
+ * hard 1px rule used to be.
+ */
+const CHROME = 'chrome-edge bg-background/80 sticky top-14 z-30 backdrop-blur-md';
+
 export function InstitutionNav({ institutionId }: { institutionId: string }) {
   const t = useTranslations('nav');
   const pathname = usePathname();
@@ -105,7 +114,14 @@ export function InstitutionNav({ institutionId }: { institutionId: string }) {
 
   if (isPending) {
     return (
-      <Skeleton className="h-9 w-full max-w-md" data-testid="institution-nav-loading" />
+      <div data-translucent className={CHROME}>
+        <div className="mx-auto w-full max-w-6xl px-6 py-2">
+          <Skeleton
+            className="h-[1.875rem] w-full max-w-md"
+            data-testid="institution-nav-loading"
+          />
+        </div>
+      </div>
     );
   }
 
@@ -119,7 +135,7 @@ export function InstitutionNav({ institutionId }: { institutionId: string }) {
   });
 
   return (
-    <nav aria-label={t('institutionLabel')} className="border-border/60 border-b">
+    <nav data-translucent aria-label={t('institutionLabel')} className={CHROME}>
       <ul className="mx-auto flex w-full max-w-6xl flex-wrap gap-1 px-6 py-2">
         {visible.map(key => {
           const href = routes[key];
@@ -136,7 +152,7 @@ export function InstitutionNav({ institutionId }: { institutionId: string }) {
                 href={href}
                 aria-current={current ? 'page' : undefined}
                 className={cn(
-                  'ring-offset-background focus-visible:ring-ring inline-flex rounded-md px-3 py-1.5 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+                  'focus-visible:ring-ring/50 inline-flex rounded-md px-3 py-1.5 text-sm transition-[color,background-color] duration-100 ease-out outline-none focus-visible:ring-[3px] active:scale-[0.98]',
                   current
                     ? 'bg-secondary text-secondary-foreground font-medium'
                     : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50',

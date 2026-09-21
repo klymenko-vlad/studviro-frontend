@@ -16,13 +16,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
+  TableSkeleton,
 } from '@/shared/ui';
 
 export function AcademicTerms({ institutionId }: { institutionId: string }) {
@@ -46,11 +47,11 @@ export function AcademicTerms({ institutionId }: { institutionId: string }) {
         {manageable ? <AcademicTermForm institutionId={institutionId} /> : null}
 
         {terms.isPending ? (
-          <Skeleton className="h-24 w-full" data-testid="academic-terms-loading" />
+          <TableSkeleton rows={4} data-testid="academic-terms-loading" />
         ) : terms.isError ? (
           <p className="text-muted-foreground text-sm">{t('error')}</p>
         ) : terms.data.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('empty')}</p>
+          <EmptyState size="inline" title={t('empty')} />
         ) : (
           <Table label={t('title')} data-testid="academic-terms-table">
             <TableHeader>

@@ -7,7 +7,7 @@ import type { TeachingOffering } from '../model/teaching-offering';
 
 const STATUS_VARIANT = {
   planned: 'outline',
-  open: 'default',
+  open: 'success',
   running: 'default',
   closed: 'secondary',
   cancelled: 'destructive',

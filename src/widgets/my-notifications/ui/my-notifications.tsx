@@ -14,27 +14,26 @@ import {
   unreadCount,
 } from '@/entities/notification';
 import { institutionRoutes } from '@/shared/config';
-import { Alert, AlertDescription, AlertTitle, Skeleton } from '@/shared/ui';
+import { EmptyState, ListSkeleton, QueryError } from '@/shared/ui';
 
 export function MyNotifications({ institutionId }: { institutionId: string }) {
   const t = useTranslations('notifications');
-  const { data, isPending, isError } = useQuery(
+  const { data, isPending, isError, refetch } = useQuery(
     notificationQueries.list({ path: { institutionId } }),
   );
 
-  if (isPending)
-    return <Skeleton className="h-64 w-full" data-testid="my-notifications-loading" />;
+  if (isPending) return <ListSkeleton items={4} data-testid="my-notifications-loading" />;
 
   if (isError)
     return (
-      <Alert variant="destructive">
-        <AlertTitle>{t('errorTitle')}</AlertTitle>
-        <AlertDescription>{t('errorDescription')}</AlertDescription>
-      </Alert>
+      <QueryError
+        onRetry={refetch}
+        title={t('errorTitle')}
+        description={t('errorDescription')}
+      />
     );
 
-  if (data.length === 0)
-    return <p className="text-muted-foreground text-sm">{t('empty')}</p>;
+  if (data.length === 0) return <EmptyState size="inline" title={t('empty')} />;
 
   const unread = unreadCount(data);
 

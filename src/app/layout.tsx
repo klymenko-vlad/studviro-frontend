@@ -101,7 +101,7 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
             */}
             <a
               href="#main-content"
-              className="bg-background focus-visible:ring-ring sr-only rounded-md border text-sm font-medium shadow-md focus-visible:not-sr-only focus-visible:fixed focus-visible:top-3 focus-visible:left-3 focus-visible:z-50 focus-visible:px-4 focus-visible:py-2 focus-visible:ring-2"
+              className="bg-background focus-visible:ring-ring/50 sr-only rounded-md border text-sm font-medium shadow-md outline-none focus-visible:not-sr-only focus-visible:fixed focus-visible:top-3 focus-visible:left-3 focus-visible:z-50 focus-visible:px-4 focus-visible:py-2 focus-visible:ring-[3px]"
             >
               {t('skipToContent')}
             </a>

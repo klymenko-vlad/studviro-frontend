@@ -16,7 +16,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  EmptyState,
+  ListSkeleton,
+  QueryError,
 } from '@/shared/ui';
 
 const SHOWN = 4;
@@ -24,7 +26,7 @@ const SHOWN = 4;
 export function CoursesTile({ institutionId }: { institutionId: string }) {
   const t = useTranslations('dashboard');
   const format = useFormatter();
-  const { data, isPending, isError } = useQuery(
+  const { data, isPending, isError, refetch } = useQuery(
     enrolledCourseQueries.list({ path: { institutionId } }),
   );
 
@@ -48,11 +50,11 @@ export function CoursesTile({ institutionId }: { institutionId: string }) {
 
       <CardContent className="flex flex-col gap-4">
         {isPending ? (
-          <Skeleton className="h-24 w-full" data-testid="dashboard-courses-loading" />
+          <ListSkeleton items={2} data-testid="dashboard-courses-loading" />
         ) : isError ? (
-          <p className="text-destructive text-sm">{t('courses.error')}</p>
+          <QueryError title={t('courses.error')} onRetry={refetch} />
         ) : term === null || term === undefined ? (
-          <p className="text-muted-foreground text-sm">{t('courses.empty')}</p>
+          <EmptyState size="inline" title={t('courses.empty')} />
         ) : (
           <>
             <p className="text-sm" data-testid="dashboard-courses-summary">

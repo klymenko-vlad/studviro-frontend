@@ -26,7 +26,7 @@ export default async function SignInPage({ searchParams }: PageProps<'/sign-in'>
       className="flex flex-1 flex-col items-center justify-center gap-6 p-8"
     >
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-semibold">{t('signInTitle')}</h1>
+        <h1 className="type-title text-2xl">{t('signInTitle')}</h1>
         <p className="text-muted-foreground">{t('signInSubtitle')}</p>
       </div>
 

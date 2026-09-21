@@ -13,13 +13,14 @@ import {
 } from '@/entities/offering-result';
 import {
   Badge,
-  Skeleton,
+  EmptyState,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
+  TableSkeleton,
 } from '@/shared/ui';
 
 export function OfferingGrades({
@@ -36,13 +37,13 @@ export function OfferingGrades({
   );
 
   if (results.isPending)
-    return <Skeleton className="h-48 w-full" data-testid="offering-grades-loading" />;
+    return <TableSkeleton rows={4} data-testid="offering-grades-loading" />;
 
   if (results.isError)
     return <p className="text-muted-foreground text-sm">{t('error')}</p>;
 
   if (results.data.students.length === 0)
-    return <p className="text-muted-foreground text-sm">{t('empty')}</p>;
+    return <EmptyState size="inline" title={t('empty')} />;
 
   return (
     <div className="flex flex-col gap-3" data-testid="offering-grades">

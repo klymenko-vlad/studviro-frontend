@@ -16,7 +16,7 @@ export function PersonRoleBadges({ roles }: { roles: Person['roles'] }) {
       {roles.map((role, index) => (
         <Badge
           key={`${role.role}-${role.scopeType}-${role.scopeId}-${index}`}
-          variant={role.source === 'derived' ? 'secondary' : 'default'}
+          variant={role.source === 'derived' ? 'secondary' : 'outline'}
         >
           {labels(`role.${role.role}`)}
         </Badge>

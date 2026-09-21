@@ -5,7 +5,14 @@ import { ExamRegistrationButton } from '@/features/exam-registration';
 import { ExamTermCard, examTermQueries } from '@/entities/exam-term';
 import { usePermissions } from '@/entities/permission';
 import { institutionRoutes, Link } from '@/shared/config';
-import { Card, CardContent, CardHeader, CardTitle, Skeleton } from '@/shared/ui';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  ListSkeleton,
+  QueryError,
+} from '@/shared/ui';
 
 export function OfferingExams({
   institutionId,
@@ -16,7 +23,7 @@ export function OfferingExams({
 }) {
   const t = useTranslations('exams');
   const { can } = usePermissions(institutionId);
-  const { data, isPending, isError } = useQuery({
+  const { data, isPending, isError, refetch } = useQuery({
     ...examTermQueries.list({ path: { institutionId }, query: { offeringId } }),
     enabled: can('schedule:read'),
   });
@@ -37,9 +44,13 @@ export function OfferingExams({
 
       <CardContent className="flex flex-col gap-4 text-sm">
         {isPending ? (
-          <Skeleton className="h-24 w-full" data-testid="offering-exams-loading" />
+          <ListSkeleton items={2} data-testid="offering-exams-loading" />
         ) : isError ? (
-          <p className="text-muted-foreground">{t('errorDescription')}</p>
+          <QueryError
+            onRetry={refetch}
+            title={t('errorTitle')}
+            description={t('errorDescription')}
+          />
         ) : data.length === 0 ? (
           <p className="text-muted-foreground">{t('noOfferingExams')}</p>
         ) : (
