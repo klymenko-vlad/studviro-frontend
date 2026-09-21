@@ -1,9 +1,21 @@
 import { http, HttpResponse } from 'msw';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
+import type * as SharedConfig from '@/shared/config';
 import { permissions, renderWithProviders, screen, server } from '@/shared/test';
 
 import { CourseOfferingView } from './course-offering-view';
+
+// `OfferingTabs` keeps the open section in the query string, which needs the
+// app router that no test tree mounts.
+const search = vi.hoisted(() => ({ value: new URLSearchParams() }));
+
+vi.mock('@/shared/config', async importOriginal => ({
+  ...(await importOriginal<typeof SharedConfig>()),
+  useRouter: () => ({ replace: vi.fn(), push: vi.fn(), refresh: vi.fn() }),
+  usePathname: () => '/institutions/x/courses/y',
+  useSearchParams: () => search.value,
+}));
 
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const OFFERING = 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1';

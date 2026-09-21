@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { CourseOffering } from '@/widgets/course-offering';
 import { usePermissions } from '@/entities/permission';
 import { Link } from '@/shared/config';
-import { Alert, AlertDescription, AlertTitle, Button } from '@/shared/ui';
+import { Alert, AlertDescription, AlertTitle, Button, PageShell } from '@/shared/ui';
 
 export function CourseOfferingView({
   institutionId,
@@ -18,10 +18,7 @@ export function CourseOfferingView({
   const { can, isPending } = usePermissions(institutionId);
 
   return (
-    <main
-      id="main-content"
-      className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-6 py-12"
-    >
+    <PageShell>
       <Button variant="ghost" size="sm" className="self-start" asChild>
         <Link href={`/institutions/${institutionId}/courses`}>{t('backToCourses')}</Link>
       </Button>
@@ -34,6 +31,6 @@ export function CourseOfferingView({
           <AlertDescription>{t('deniedDescription')}</AlertDescription>
         </Alert>
       )}
-    </main>
+    </PageShell>
   );
 }

@@ -18,6 +18,7 @@ import { OfferingResults } from './offering-results';
 import { OfferingRoster } from './offering-roster';
 import { OfferingStaff } from './offering-staff';
 import { OfferingStudyGroups } from './offering-study-groups';
+import { OfferingTabs } from './offering-tabs';
 import { OfferingTimetable } from './offering-timetable';
 
 export function CourseOffering({
@@ -47,43 +48,98 @@ export function CourseOffering({
     );
   }
 
+  const teaching = data.viewerRole !== 'student';
+
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       <OfferingHeader offering={data} />
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <OfferingStaff
-          offering={data}
-          institutionId={institutionId}
-          offeringId={offeringId}
-        />
-        <OfferingEnrollment offering={data} />
-      </div>
-
-      {data.viewerRole === 'student' ? null : (
-        <>
-          <OfferingRoster institutionId={institutionId} offeringId={offeringId} />
-          <OfferingStudyGroups institutionId={institutionId} offeringId={offeringId} />
-          <OfferingTimetable institutionId={institutionId} offeringId={offeringId} />
-          <OfferingExamTerms institutionId={institutionId} offeringId={offeringId} />
-          <OfferingGradeEntry institutionId={institutionId} offeringId={offeringId} />
-        </>
-      )}
-
-      <OfferingLearning
-        institutionId={institutionId}
-        offeringId={offeringId}
-        courseTitle={data.course.title}
-        viewerRole={data.viewerRole}
+      <OfferingTabs
+        sections={[
+          {
+            key: 'overview',
+            content: (
+              <div className="grid gap-6 lg:grid-cols-2">
+                <OfferingStaff
+                  offering={data}
+                  institutionId={institutionId}
+                  offeringId={offeringId}
+                />
+                <OfferingEnrollment offering={data} />
+              </div>
+            ),
+          },
+          ...(teaching
+            ? ([
+                {
+                  key: 'people',
+                  content: (
+                    <>
+                      <OfferingRoster
+                        institutionId={institutionId}
+                        offeringId={offeringId}
+                      />
+                      <OfferingStudyGroups
+                        institutionId={institutionId}
+                        offeringId={offeringId}
+                      />
+                    </>
+                  ),
+                },
+              ] as const)
+            : []),
+          {
+            key: 'schedule',
+            content: (
+              <>
+                {teaching ? (
+                  <>
+                    <OfferingTimetable
+                      institutionId={institutionId}
+                      offeringId={offeringId}
+                    />
+                    <OfferingExamTerms
+                      institutionId={institutionId}
+                      offeringId={offeringId}
+                    />
+                  </>
+                ) : (
+                  <OfferingExams institutionId={institutionId} offeringId={offeringId} />
+                )}
+              </>
+            ),
+          },
+          {
+            key: 'materials',
+            content: (
+              <OfferingLearning
+                institutionId={institutionId}
+                offeringId={offeringId}
+                courseTitle={data.course.title}
+                viewerRole={data.viewerRole}
+              />
+            ),
+          },
+          {
+            key: 'work',
+            content: (
+              <>
+                {teaching ? (
+                  <OfferingGradeEntry
+                    institutionId={institutionId}
+                    offeringId={offeringId}
+                  />
+                ) : null}
+                <OfferingResults institutionId={institutionId} offeringId={offeringId} />
+                <OfferingAssessments
+                  institutionId={institutionId}
+                  offeringId={offeringId}
+                />
+              </>
+            ),
+          },
+        ]}
       />
-
-      <OfferingResults institutionId={institutionId} offeringId={offeringId} />
-
-      <OfferingAssessments institutionId={institutionId} offeringId={offeringId} />
-
-      {data.viewerRole === 'student' ? (
-        <OfferingExams institutionId={institutionId} offeringId={offeringId} />
-      ) : null}
     </div>
   );
 }
