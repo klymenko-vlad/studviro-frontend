@@ -6,81 +6,81 @@
     "cancel": "Zrušiť",
     "save": "Uložiť",
     "appDescription": "Študentská platforma pre štúdium, rozvrh a spoluprácu.",
-    "showPassword": "Show password",
-    "hidePassword": "Hide password",
-    "skipToContent": "Skip to Content"
+    "showPassword": "Zobraziť heslo",
+    "hidePassword": "Skryť heslo",
+    "skipToContent": "Preskočiť na obsah"
   },
   "nav": {
-    "account": "Account",
-    "signIn": "Sign in",
-    "signUp": "Sign up",
-    "institutionLabel": "Institution sections",
-    "dashboard": "Dashboard",
-    "courses": "Courses",
-    "grades": "Grades",
-    "calendar": "Calendar",
-    "roles": "Roles",
-    "settings": "Settings",
-    "exams": "Exams",
-    "teaching": "Teaching",
-    "notifications": "Notifications",
-    "createInstitution": "Create institution",
-    "orgUnits": "Org units",
-    "people": "People",
-    "learning": "Course pages",
-    "enroll": "Enrol",
-    "catalogue": "Catalogue",
-    "bulk": "Bulk entry",
-    "search": "Search",
+    "account": "Účet",
+    "signIn": "Prihlásiť sa",
+    "signUp": "Zaregistrovať sa",
+    "institutionLabel": "Sekcie inštitúcie",
+    "dashboard": "Prehľad",
+    "courses": "Predmety",
+    "grades": "Známky",
+    "calendar": "Kalendár",
+    "roles": "Roly",
+    "settings": "Nastavenia",
+    "exams": "Skúšky",
+    "teaching": "Výučba",
+    "notifications": "Oznámenia",
+    "createInstitution": "Vytvoriť inštitúciu",
+    "orgUnits": "Útvary",
+    "people": "Ľudia",
+    "learning": "Stránky predmetov",
+    "enroll": "Zapísať sa",
+    "catalogue": "Katalóg",
+    "bulk": "Hromadné zadávanie",
+    "search": "Vyhľadávanie",
     "audit": "Audit",
-    "home": "StudViro home",
+    "home": "StudViro – úvod",
     "menu": "Menu",
-    "menuDescription": "Product links and account actions.",
-    "accountMenu": "Account menu",
-    "preferences": "Theme and language"
+    "menuDescription": "Odkazy na produkt a akcie účtu.",
+    "accountMenu": "Menu účtu",
+    "preferences": "Motív a jazyk"
   },
   "home": {
-    "title": "One academic platform your institution runs itself",
-    "subtitle": "The institution enters its own data once. Students, teachers and administrators then read it through one dashboard, one calendar and one course page.",
-    "signedInCta": "Go to your account",
+    "title": "Jedna akademická platforma, ktorú si inštitúcia vedie sama",
+    "subtitle": "Inštitúcia zadá svoje údaje raz. Študenti, učitelia a správcovia ich potom čítajú cez jeden prehľad, jeden kalendár a jednu stránku predmetu.",
+    "signedInCta": "Prejsť na účet",
     "problem": {
-      "title": "Two systems, two logins, two answers",
-      "body": "A timetable lives in one system and a deadline in another. A grade exists as a calculation, a proposal and an official record, and nothing shows a student which one they are looking at. Every question that spans both systems becomes the student's job to assemble.",
+      "title": "Dva systémy, dve prihlásenia, dve odpovede",
+      "body": "Rozvrh žije v jednom systéme a termín odovzdania v druhom. Známka existuje ako výpočet, návrh aj oficiálny záznam a nič študentovi neukáže, na ktorú z nich sa práve pozerá. Každá otázka, ktorá sa týka oboch systémov, sa stáva prácou študenta.",
       "one": {
-        "title": "Nothing is migrated",
-        "body": "One record, entered once, read everywhere it matters."
+        "title": "Nič sa nemigruje",
+        "body": "Jeden záznam, zadaný raz, čitateľný všade, kde na ňom záleží."
       },
       "two": {
-        "title": "Nothing is guessed",
-        "body": "Every value on screen names the system it came from and when."
+        "title": "Nič sa nehádá",
+        "body": "Každá hodnota na obrazovke pomenuje systém, z ktorého pochádza, a kedy."
       },
       "three": {
-        "title": "Nothing is over-shared",
-        "body": "What a person sees is decided by a scoped permission, on the server."
+        "title": "Nič sa nezdieľa nad rámec",
+        "body": "Čo človek vidí, rozhoduje oprávnenie s rozsahom, a rozhoduje sa to na serveri."
       }
     },
     "features": {
-      "title": "What it does today",
-      "subtitle": "Shipped and in use, not roadmap.",
+      "title": "Čo to dnes robí",
+      "subtitle": "Dodané a používané, nie plán do budúcna.",
       "dashboard": {
-        "title": "A dashboard that answers \"what now?\"",
-        "body": "This term's courses, the latest results and the rest of this week on one screen, each item linking through to the detail behind it."
+        "title": "Prehľad, ktorý odpovie na otázku „čo teraz?“",
+        "body": "Predmety tohto semestra, najnovšie výsledky a zvyšok týždňa na jednej obrazovke, pričom každá položka vedie na detail za ňou."
       },
       "calendar": {
-        "title": "One week, both layers",
-        "body": "Classes and exam terms in a single week view, filterable by course and by type, for courses you attend and courses you teach."
+        "title": "Jeden týždeň, obe vrstvy",
+        "body": "Hodiny a skúškové termíny v jednom týždennom zobrazení, filtrovateľné podľa predmetu a typu, pre predmety, ktoré navštevujete, aj tie, ktoré učíte."
       },
       "course": {
-        "title": "A course page with everything on it",
-        "body": "Staff, your own enrolment, study groups and results in one place, instead of four tabs across two systems."
+        "title": "Stránka predmetu so všetkým na nej",
+        "body": "Vyučujúci, váš zápis, študijné skupiny a výsledky na jednom mieste namiesto štyroch záložiek v dvoch systémoch."
       },
       "exams": {
-        "title": "Exam terms you can act on",
-        "body": "Seats, registration window and examiner, filterable by whether you may register. When you may not, the server says why."
+        "title": "Skúškové termíny, s ktorými sa dá niečo robiť",
+        "body": "Miesta, okno na prihlásenie a skúšajúci, filtrovateľné podľa toho, či sa smiete prihlásiť. Keď nesmiete, server povie prečo."
       },
       "sync": {
-        "title": "One record, many views",
-        "body": "Freshness per domain, per-run results, retries and a history, plus an on-demand report of every record where the source and the platform disagree."
+        "title": "Jeden záznam, veľa pohľadov",
+        "body": "Aktuálnosť podľa oblastí, výsledky jednotlivých behov, opakovania a história, plus správa na požiadanie o každom zázname, kde si zdroj a platforma protirečia."
       }
     }
   },
@@ -129,25 +129,25 @@
     "invalidCredentials": "Tento e-mail a heslo nezodpovedajú žiadnemu účtu.",
     "signInTitle": "Prihlásenie",
     "signInSubtitle": "Vitajte späť.",
-    "signUpTitle": "Create your account",
-    "signUpSubtitle": "One account for every institution you belong to.",
-    "signingUp": "Creating your account…",
-    "displayName": "Display name",
-    "confirmPassword": "Confirm password",
-    "passwordHint": "At least 12 characters.",
-    "passwordMismatch": "Passwords do not match",
-    "emailTaken": "An account with this email already exists.",
-    "noAccount": "No account yet?",
-    "haveAccount": "Already have an account?",
-    "forgotPassword": "Forgot password?",
+    "signUpTitle": "Vytvorte si účet",
+    "signUpSubtitle": "Jeden účet pre všetky inštitúcie, do ktorých patríte.",
+    "signingUp": "Vytvára sa váš účet…",
+    "displayName": "Zobrazované meno",
+    "confirmPassword": "Potvrdiť heslo",
+    "passwordHint": "Aspoň 12 znakov.",
+    "passwordMismatch": "Heslá sa nezhodujú",
+    "emailTaken": "Účet s týmto e-mailom už existuje.",
+    "noAccount": "Ešte nemáte účet?",
+    "haveAccount": "Už máte účet?",
+    "forgotPassword": "Zabudli ste heslo?",
     "placeholder": {
       "displayName": "Jana Kováčová",
-      "email": "jana.kovacova@university.edu",
-      "password": "At least 12 characters",
-      "confirmPassword": "Repeat your password",
-      "currentPassword": "Your password"
+      "email": "jana.kovacova@univerzita.sk",
+      "password": "Aspoň 12 znakov",
+      "confirmPassword": "Zopakujte heslo",
+      "currentPassword": "Vaše heslo"
     },
-    "captchaFailed": "The verification check did not finish. Try again."
+    "captchaFailed": "Overenie sa nedokončilo. Skúste to znova."
   },
   "account": {
     "title": "Účet",
@@ -397,29 +397,29 @@
     "staffError": "Who teaches this could not be read."
   },
   "grades": {
-    "title": "My grades",
-    "subtitle": "Every result recorded for you, with the grade that counts and where it came from.",
-    "overview": "{credits} credits earned · weighted average {average}",
-    "overviewWithoutAverage": "{credits} credits earned",
-    "termSummary": "{results, plural, one {# result} other {# results}} · {credits} credits earned · from {starts}",
-    "empty": "No result has been recorded for you yet.",
-    "credits": "{count} credits",
-    "attempt": "Attempt {attempt}",
-    "noGrade": "Not graded",
+    "title": "Moje známky",
+    "subtitle": "Všetky výsledky zaznamenané pre vás, so známkou, ktorá platí, a s jej pôvodom.",
+    "overview": "Získané kredity: {credits} · vážený priemer {average}",
+    "overviewWithoutAverage": "Získané kredity: {credits}",
+    "termSummary": "{results, plural, one {# výsledok} few {# výsledky} other {# výsledkov}} · získané kredity: {credits} · od {starts}",
+    "empty": "Zatiaľ pre vás nebol zaznamenaný žiadny výsledok.",
+    "credits": "{count} kreditov",
+    "attempt": "Pokus {attempt}",
+    "noGrade": "Nehodnotené",
     "none": "—",
     "effectiveGrade": "{grade}, {kind}",
-    "calculatedValue": "{grade} · {points} points",
-    "gradeOn": "{grade} on {on}",
-    "offeringPanel": "My result",
-    "noOfferingResult": "No result has been recorded for this course yet.",
-    "deniedTitle": "Grades are not yours to see",
-    "deniedDescription": "You need permission to read grades in this institution.",
-    "errorTitle": "Grades could not be loaded",
-    "errorDescription": "Your results are unavailable right now. Try again in a moment.",
+    "calculatedValue": "{grade} · {points} bodov",
+    "gradeOn": "{grade} dňa {on}",
+    "offeringPanel": "Môj výsledok",
+    "noOfferingResult": "Pre tento predmet zatiaľ nebol zaznamenaný žiadny výsledok.",
+    "deniedTitle": "Známky nie sú pre vaše oči",
+    "deniedDescription": "Na čítanie známok v tejto inštitúcii potrebujete oprávnenie.",
+    "errorTitle": "Známky sa nepodarilo načítať",
+    "errorDescription": "Vaše výsledky sú momentálne nedostupné. Skúste to o chvíľu znova.",
     "kind": {
-      "calculated": "Calculated",
-      "proposed": "Proposed",
-      "official": "Official"
+      "calculated": "Vypočítaná",
+      "proposed": "Navrhnutá",
+      "official": "Oficiálna"
     },
     "grade": {
       "A": "A",
@@ -428,74 +428,74 @@
       "D": "D",
       "E": "E",
       "FX": "FX",
-      "passed": "Passed",
-      "failed": "Failed"
+      "passed": "Prospel",
+      "failed": "Neprospel"
     },
     "status": {
-      "calculated": "Calculated",
-      "proposed": "Proposed",
-      "official": "Official",
-      "corrected": "Corrected",
-      "annulled": "Annulled",
-      "disputed": "Disputed"
+      "calculated": "Vypočítaná",
+      "proposed": "Navrhnutá",
+      "official": "Oficiálna",
+      "corrected": "Opravená",
+      "annulled": "Zrušená",
+      "disputed": "Rozporovaná"
     },
     "sourceSystem": {
-      "platform": "This platform",
-      "sis": "Student information system",
-      "lms": "Learning management system"
+      "platform": "Táto platforma",
+      "sis": "Študijný informačný systém",
+      "lms": "Systém na riadenie výučby"
     },
     "syncStatus": {
-      "in_sync": "In sync",
-      "pending": "Pending",
-      "conflict": "Conflict",
-      "failed": "Failed"
+      "in_sync": "Zosúladené",
+      "pending": "Čaká sa",
+      "conflict": "Konflikt",
+      "failed": "Zlyhalo"
     },
-    "awaitingRetake": "{courses, plural, one {# course is awaiting a resit} other {# courses are awaiting a resit}}",
-    "annulledNote": "The registrar struck this result. It counts towards nothing.",
-    "noStanding": "No standing",
+    "awaitingRetake": "{courses, plural, one {# predmet čaká na opravný termín} few {# predmety čakajú na opravný termín} other {# predmetov čaká na opravný termín}}",
+    "annulledNote": "Študijné oddelenie tento výsledok zrušilo. Nezapočítava sa nikam.",
+    "noStanding": "Bez stavu",
     "standing": {
-      "title": "Where you are in your programme",
-      "year": "Year {year}",
-      "creditsComplete": "Credits complete",
-      "barLabel": "Progress through {name}",
-      "measured": "{earned} of {required} credits · {percent}% · {remaining} to go",
-      "noTarget": "{earned} credits earned. This programme has no recorded length, so there is nothing to measure against yet."
+      "title": "Kde ste vo svojom programe",
+      "year": "Ročník {year}",
+      "creditsComplete": "Kredity splnené",
+      "barLabel": "Postup v programe {name}",
+      "measured": "{earned} z {required} kreditov · {percent} % · zostáva {remaining}",
+      "noTarget": "Získané kredity: {earned}. Tento program nemá zaznamenanú dĺžku, takže zatiaľ niet voči čomu merať."
     }
   },
   "dashboard": {
-    "title": "Dashboard",
-    "subtitle": "Where your studies stand in this institution today.",
-    "deniedTitle": "Nothing to show yet",
-    "deniedDescription": "You hold a role here, but not one that lets you read courses or grades.",
+    "title": "Prehľad",
+    "subtitle": "Ako dnes vyzerá vaše štúdium v tejto inštitúcii.",
+    "deniedTitle": "Zatiaľ niet čo zobraziť",
+    "deniedDescription": "Máte tu rolu, ale nie takú, ktorá by vám dovoľovala čítať predmety alebo známky.",
     "courses": {
-      "title": "Current courses",
-      "description": "The term you are enrolled in.",
-      "term": "{term} · from {starts}",
-      "summary": "{courses, plural, one {# course} other {# courses}} · {credits} credits",
-      "more": "and {count, plural, one {# more} other {# more}}",
-      "empty": "You are not enrolled in any course yet.",
-      "error": "Your courses are unavailable right now.",
-      "link": "All my courses"
+      "title": "Aktuálne predmety",
+      "description": "Semester, v ktorom máte zápis.",
+      "term": "{term} · od {starts}",
+      "summary": "{courses, plural, one {# predmet} few {# predmety} other {# predmetov}} · {credits} kreditov",
+      "more": "a {count, plural, one {# ďalší} few {# ďalšie} other {# ďalších}}",
+      "empty": "Zatiaľ nemáte zápis na žiadny predmet.",
+      "error": "Vaše predmety sú momentálne nedostupné.",
+      "link": "Všetky moje predmety"
     },
     "calendar": {
-      "title": "This week",
-      "description": "What is scheduled for you next.",
-      "summary": "{events, plural, one {# event} other {# events}} left this week",
-      "empty": "Nothing is scheduled for the rest of this week.",
-      "error": "Your schedule is unavailable right now.",
-      "link": "Full calendar",
-      "cancelled": "Cancelled"
+      "title": "Tento týždeň",
+      "description": "Čo vás čaká najbližšie.",
+      "summary": "Do konca týždňa {events, plural, one {# udalosť} few {# udalosti} other {# udalostí}}",
+      "empty": "Do konca tohto týždňa nie je naplánované nič.",
+      "error": "Váš rozvrh je momentálne nedostupný.",
+      "link": "Celý kalendár",
+      "cancelled": "Zrušené"
     },
     "grades": {
-      "title": "Results",
-      "description": "Everything recorded for you so far.",
-      "summary": "{credits} credits earned · weighted average {average}",
-      "summaryWithoutAverage": "{credits} credits earned",
-      "published": "{published} of {total} results are official.",
-      "pending": "Not graded",
-      "empty": "No result has been recorded for you yet.",
-      "error": "Your results are unavailable right now.",
-      "link": "All my grades"
+      "title": "Výsledky",
+      "description": "Všetko, čo pre vás bolo doteraz zaznamenané.",
+      "summary": "Získané kredity: {credits} · vážený priemer {average}",
+      "summaryWithoutAverage": "Získané kredity: {credits}",
+      "published": "Oficiálnych výsledkov: {published} z {total}.",
+      "pending": "Nehodnotené",
+      "empty": "Zatiaľ pre vás nebol zaznamenaný žiadny výsledok.",
+      "error": "Vaše výsledky sú momentálne nedostupné.",
+      "link": "Všetky moje známky"
     },
     "grade": {
       "A": "A",
@@ -504,186 +504,186 @@
       "D": "D",
       "E": "E",
       "FX": "FX",
-      "passed": "Passed",
-      "failed": "Failed"
+      "passed": "Prospel",
+      "failed": "Neprospel"
     },
     "deadlines": {
-      "title": "Deadlines",
-      "description": "What falls due in your courses next.",
-      "summary": "{deadlines, plural, one {# deadline} other {# deadlines}} in the next two weeks",
-      "empty": "Nothing falls due in the next two weeks.",
-      "error": "Your deadlines are unavailable right now.",
-      "link": "Open the calendar",
-      "due": "Due {date}"
+      "title": "Termíny odovzdania",
+      "description": "Čo vás najbližšie čaká odovzdať.",
+      "summary": "V najbližších dvoch týždňoch {deadlines, plural, one {# termín} few {# termíny} other {# termínov}}",
+      "empty": "V najbližších dvoch týždňoch nič nekončí.",
+      "error": "Vaše termíny sú momentálne nedostupné.",
+      "link": "Otvoriť kalendár",
+      "due": "Termín {date}"
     }
   },
   "calendar": {
-    "title": "Calendar",
-    "subtitle": "Your classes for the week.",
-    "empty": "Nothing is scheduled for this week.",
-    "errorTitle": "The calendar could not be loaded",
-    "errorDescription": "Your schedule is unavailable right now. Try again in a moment.",
-    "deniedTitle": "Not available to you",
-    "deniedDescription": "You need permission to read the timetable in this institution.",
+    "title": "Kalendár",
+    "subtitle": "Vaše hodiny na tento týždeň.",
+    "empty": "Na tento týždeň nie je naplánované nič.",
+    "errorTitle": "Kalendár sa nepodarilo načítať",
+    "errorDescription": "Váš rozvrh je momentálne nedostupný. Skúste to o chvíľu znova.",
+    "deniedTitle": "Nie je vám dostupné",
+    "deniedDescription": "Na čítanie rozvrhu v tejto inštitúcii potrebujete oprávnenie.",
     "week": "{from} – {to}",
-    "weekSummary": "{events, plural, one {# event} other {# events}} this week",
-    "previousWeek": "Previous week",
-    "nextWeek": "Next week",
-    "thisWeek": "This week",
+    "weekSummary": "Tento týždeň {events, plural, one {# udalosť} few {# udalosti} other {# udalostí}}",
+    "previousWeek": "Predchádzajúci týždeň",
+    "nextWeek": "Nasledujúci týždeň",
+    "thisWeek": "Tento týždeň",
     "time": "{from} – {to}",
     "duration": "{minutes} min",
-    "room": "Room {room}",
-    "roomIn": "Room {room}, {building}",
-    "noRoom": "No room recorded",
-    "group": "Group {group}",
-    "cancelled": "Cancelled",
-    "today": "Today",
+    "room": "Miestnosť {room}",
+    "roomIn": "Miestnosť {room}, {building}",
+    "noRoom": "Miestnosť nie je uvedená",
+    "group": "Skupina {group}",
+    "cancelled": "Zrušené",
+    "today": "Dnes",
     "type": {
-      "lecture": "Lecture",
-      "seminar": "Seminar",
-      "lab": "Lab",
-      "consultation": "Consultation",
-      "exam": "Exam",
-      "other": "Other"
+      "lecture": "Prednáška",
+      "seminar": "Seminár",
+      "lab": "Cvičenie",
+      "consultation": "Konzultácia",
+      "exam": "Skúška",
+      "other": "Iné"
     },
     "attendance": {
-      "enrolled": "Enrolled",
-      "teaching": "You teach this"
+      "enrolled": "Zapísané",
+      "teaching": "Túto hodinu učíte"
     },
-    "filters": "Filter the calendar",
-    "filterCourse": "Course",
-    "filterType": "Type",
-    "allCourses": "All courses",
-    "allTypes": "All types",
-    "showExams": "Show exam terms",
-    "examLayer": "Exam term",
-    "showDeadlines": "Show deadlines",
-    "deadlineLayer": "Deadline"
+    "filters": "Filtrovať kalendár",
+    "filterCourse": "Predmet",
+    "filterType": "Typ",
+    "allCourses": "Všetky predmety",
+    "allTypes": "Všetky typy",
+    "showExams": "Zobraziť skúškové termíny",
+    "examLayer": "Skúškový termín",
+    "showDeadlines": "Zobraziť termíny odovzdania",
+    "deadlineLayer": "Termín odovzdania"
   },
   "exams": {
-    "title": "Exams",
-    "subtitle": "Exam terms for the courses you attend.",
-    "upcoming": "Upcoming",
-    "past": "Past",
-    "empty": "No exam terms have been scheduled for your courses.",
-    "errorTitle": "The exams could not be loaded",
-    "errorDescription": "Your exam terms are unavailable right now. Try again in a moment.",
-    "deniedTitle": "Not available to you",
-    "deniedDescription": "You need permission to read the schedule in this institution.",
-    "summary": "{terms, plural, one {# exam term} other {# exam terms}} ahead of you",
-    "until": "until {time}",
-    "room": "Room {room}",
-    "roomIn": "Room {room}, {building}",
-    "noRoom": "No room recorded",
-    "examiner": "Examiner: {examiner}",
-    "noExaminer": "No examiner recorded",
-    "seats": "{seats} of {capacity} seats free",
-    "seatsFull": "Full",
-    "seatsUnknown": "No seat limit recorded",
-    "registered": "You are registered",
-    "cancelled": "Cancelled",
-    "offeringPanel": "Exam terms",
-    "noOfferingExams": "No exam terms have been scheduled for this course.",
-    "seeAll": "See all exams",
+    "title": "Skúšky",
+    "subtitle": "Skúškové termíny predmetov, ktoré navštevujete.",
+    "upcoming": "Nadchádzajúce",
+    "past": "Minulé",
+    "empty": "Pre vaše predmety nie sú vypísané žiadne skúškové termíny.",
+    "errorTitle": "Skúšky sa nepodarilo načítať",
+    "errorDescription": "Vaše skúškové termíny sú momentálne nedostupné. Skúste to o chvíľu znova.",
+    "deniedTitle": "Nie je vám dostupné",
+    "deniedDescription": "Na čítanie rozvrhu v tejto inštitúcii potrebujete oprávnenie.",
+    "summary": "{terms, plural, one {# skúškový termín} few {# skúškové termíny} other {# skúškových termínov}} pred vami",
+    "until": "do {time}",
+    "room": "Miestnosť {room}",
+    "roomIn": "Miestnosť {room}, {building}",
+    "noRoom": "Miestnosť nie je uvedená",
+    "examiner": "Skúšajúci: {examiner}",
+    "noExaminer": "Skúšajúci nie je uvedený",
+    "seats": "Voľných miest: {seats} z {capacity}",
+    "seatsFull": "Obsadené",
+    "seatsUnknown": "Kapacita nie je uvedená",
+    "registered": "Ste prihlásení",
+    "cancelled": "Zrušené",
+    "offeringPanel": "Skúškové termíny",
+    "noOfferingExams": "Pre tento predmet nie sú vypísané žiadne skúškové termíny.",
+    "seeAll": "Zobraziť všetky skúšky",
     "kind": {
-      "regular": "Regular",
-      "first_retake": "First retake",
-      "second_retake": "Second retake",
-      "state_exam": "State exam"
+      "regular": "Riadny termín",
+      "first_retake": "Prvý opravný termín",
+      "second_retake": "Druhý opravný termín",
+      "state_exam": "Štátna skúška"
     },
     "attendance": {
-      "enrolled": "Enrolled",
-      "teaching": "You examine this"
+      "enrolled": "Zapísané",
+      "teaching": "Túto skúšku skúšate"
     },
     "registration": {
-      "opensOn": "Registration opens {date}",
-      "closesOn": "Registration closes {date}",
-      "openUntilFurtherNotice": "Registration is open",
-      "closedNow": "Registration is closed"
+      "opensOn": "Prihlasovanie sa otvára {date}",
+      "closesOn": "Prihlasovanie sa zatvára {date}",
+      "openUntilFurtherNotice": "Prihlasovanie je otvorené",
+      "closedNow": "Prihlasovanie je zatvorené"
     },
-    "register": "Register",
-    "cancelRegistration": "Cancel registration",
-    "full": "No seats left",
-    "registerSucceeded": "You are registered for this exam term.",
-    "cancelSucceeded": "Your registration has been cancelled.",
-    "filters": "Filter the exams",
-    "filterCourse": "Course",
-    "filterKind": "Kind",
-    "allCourses": "All courses",
-    "allKinds": "All kinds",
-    "actionableOnly": "Only what I can act on",
-    "emptyForFilters": "No exam term matches these filters.",
+    "register": "Prihlásiť sa",
+    "cancelRegistration": "Zrušiť prihlásenie",
+    "full": "Nezostali voľné miesta",
+    "registerSucceeded": "Ste prihlásení na tento skúškový termín.",
+    "cancelSucceeded": "Vaše prihlásenie bolo zrušené.",
+    "filters": "Filtrovať skúšky",
+    "filterCourse": "Predmet",
+    "filterKind": "Druh",
+    "allCourses": "Všetky predmety",
+    "allKinds": "Všetky druhy",
+    "actionableOnly": "Len to, s čím môžem niečo robiť",
+    "emptyForFilters": "Týmto filtrom nezodpovedá žiadny skúškový termín.",
     "blocked": {
-      "teaching": "You examine this term, so there is no seat to take.",
-      "cancelled": "This term was cancelled, so registration is no longer possible.",
-      "full": "Every seat is taken.",
-      "other_term_registered": "You are registered for another term of this course. Cancel that one first.",
-      "attempt_not_earned": "A retake is only open once you have failed the attempt before it."
+      "teaching": "Na tomto termíne skúšate, takže niet miesta, ktoré by ste obsadili.",
+      "cancelled": "Tento termín bol zrušený, prihlásiť sa naň už nedá.",
+      "full": "Všetky miesta sú obsadené.",
+      "other_term_registered": "Ste prihlásení na iný termín tohto predmetu. Najprv zrušte ten.",
+      "attempt_not_earned": "Opravný termín sa otvorí až vtedy, keď na predchádzajúcom pokuse neuspejete."
     },
     "delivery": {
       "not_relayed": {
-        "label": "Registered in StudViro",
-        "description": "This institution's system is not notified automatically. Check with the study department if the registration has to be recorded there too."
+        "label": "Prihlásené v StudViro",
+        "description": "Systém tejto inštitúcie sa neupozorňuje automaticky. Overte si na študijnom oddelení, či treba prihlásenie zaevidovať aj tam."
       },
       "sending": {
-        "label": "Sending to the university",
-        "description": "Registered here. The university's system has not confirmed it yet."
+        "label": "Odosiela sa na univerzitu",
+        "description": "Prihlásené tu. Systém univerzity to zatiaľ nepotvrdil."
       },
       "relayed": {
-        "label": "Confirmed by the university",
-        "description": "The university's system accepted the registration and assigned it an identifier."
+        "label": "Potvrdené univerzitou",
+        "description": "Systém univerzity prihlásenie prijal a pridelil mu identifikátor."
       },
       "refused": {
-        "label": "Refused by the university",
-        "description": "The university's system would not accept this registration, so it was withdrawn here too."
+        "label": "Odmietnuté univerzitou",
+        "description": "Systém univerzity toto prihlásenie neprijal, preto bolo zrušené aj tu."
       },
       "stuck": {
-        "label": "Not confirmed",
-        "description": "The university's system could not be reached. The registration stands here; an administrator has to settle it."
+        "label": "Nepotvrdené",
+        "description": "Systém univerzity sa nepodarilo kontaktovať. Prihlásenie tu platí; musí ho doriešiť správca."
       }
     },
-    "cancelledRegistration": "You cancelled this registration"
+    "cancelledRegistration": "Toto prihlásenie ste zrušili"
   },
   "notifications": {
-    "title": "Notifications",
-    "subtitle": "What changed in your courses, newest first.",
-    "summary": "{count, plural, =0 {Nothing unread} one {# unread notification} other {# unread notifications}}",
-    "empty": "Nothing has changed in your courses yet.",
-    "unread": "Unread",
-    "occurrences": "{count, plural, one {# change} other {# changes}}",
-    "markRead": "Mark as read",
-    "markAllRead": "Mark all as read",
-    "markAllReadSucceeded": "Every notification is marked as read.",
-    "startsAt": "Starts {date}",
-    "movedTo": "Moved from {from} to {to}",
-    "unknownCourse": "Unknown course",
-    "errorTitle": "Notifications could not be loaded",
-    "errorDescription": "Something went wrong while loading your notifications. Try again in a moment.",
-    "deniedTitle": "You cannot see notifications here",
-    "deniedDescription": "Your role at this institution does not include reading notifications.",
+    "title": "Oznámenia",
+    "subtitle": "Čo sa zmenilo vo vašich predmetoch, od najnovšieho.",
+    "summary": "{count, plural, =0 {Nič neprečítané} one {# neprečítané oznámenie} few {# neprečítané oznámenia} other {# neprečítaných oznámení}}",
+    "empty": "Vo vašich predmetoch sa zatiaľ nič nezmenilo.",
+    "unread": "Neprečítané",
+    "occurrences": "{count, plural, one {# zmena} few {# zmeny} other {# zmien}}",
+    "markRead": "Označiť ako prečítané",
+    "markAllRead": "Označiť všetky ako prečítané",
+    "markAllReadSucceeded": "Všetky oznámenia sú označené ako prečítané.",
+    "startsAt": "Začína {date}",
+    "movedTo": "Presunuté z {from} na {to}",
+    "unknownCourse": "Neznámy predmet",
+    "errorTitle": "Oznámenia sa nepodarilo načítať",
+    "errorDescription": "Pri načítaní vašich oznámení sa niečo pokazilo. Skúste to o chvíľu znova.",
+    "deniedTitle": "Oznámenia tu nevidíte",
+    "deniedDescription": "Vaša rola v tejto inštitúcii nezahŕňa čítanie oznámení.",
     "type": {
-      "exam_term_published": "New exam term",
-      "exam_term_rescheduled": "Exam term moved",
-      "exam_term_cancelled": "Exam term cancelled",
-      "assignment_due_published": "New assignment deadline",
-      "assignment_due_rescheduled": "Assignment deadline moved",
-      "grade_published": "Grade published",
-      "grade_corrected": "Grade corrected",
-      "enrollment_confirmed": "Place in the course confirmed",
-      "enrollment_rejected": "Course enrolment refused",
-      "timetable_event_rescheduled": "Class moved",
-      "timetable_event_cancelled": "Class cancelled",
-      "exam_registration_confirmed": "You registered for an exam",
-      "exam_registration_cancelled": "You cancelled an exam registration",
-      "exam_registration_refused": "The university refused your exam registration",
-      "submission_marked": "Assignment marked"
+      "exam_term_published": "Nový skúškový termín",
+      "exam_term_rescheduled": "Skúškový termín presunutý",
+      "exam_term_cancelled": "Skúškový termín zrušený",
+      "assignment_due_published": "Nový termín odovzdania",
+      "assignment_due_rescheduled": "Termín odovzdania presunutý",
+      "grade_published": "Známka zverejnená",
+      "grade_corrected": "Známka opravená",
+      "enrollment_confirmed": "Miesto na predmete potvrdené",
+      "enrollment_rejected": "Zápis na predmet odmietnutý",
+      "timetable_event_rescheduled": "Hodina presunutá",
+      "timetable_event_cancelled": "Hodina zrušená",
+      "exam_registration_confirmed": "Prihlásili ste sa na skúšku",
+      "exam_registration_cancelled": "Zrušili ste prihlásenie na skúšku",
+      "exam_registration_refused": "Univerzita odmietla vaše prihlásenie na skúšku",
+      "submission_marked": "Zadanie ohodnotené"
     },
-    "dueAt": "Due {date}",
-    "dueMovedTo": "Deadline moved from {from} to {to}",
-    "gradeIs": "Grade: {grade}",
-    "gradeChanged": "Grade changed from {from} to {to}",
-    "attempt": "Attempt {attempt}",
-    "reason": "Reason: {reason}"
+    "dueAt": "Termín {date}",
+    "dueMovedTo": "Termín presunutý z {from} na {to}",
+    "gradeIs": "Známka: {grade}",
+    "gradeChanged": "Známka zmenená z {from} na {to}",
+    "attempt": "Pokus {attempt}",
+    "reason": "Dôvod: {reason}"
   },
   "myTeaching": {
     "title": "My teaching",
@@ -740,299 +740,299 @@
   },
   "marketing": {
     "nav": {
-      "forStudents": "For students",
-      "forTeachers": "For teachers",
-      "forInstitutions": "For institutions",
-      "contact": "Contact",
-      "sectionLabel": "Product"
+      "forStudents": "Pre študentov",
+      "forTeachers": "Pre učiteľov",
+      "forInstitutions": "Pre inštitúcie",
+      "contact": "Kontakt",
+      "sectionLabel": "Produkt"
     },
     "cta": {
-      "requestDemo": "Request a demo",
-      "signIn": "Sign in",
-      "readMore": "Read more"
+      "requestDemo": "Vyžiadať ukážku",
+      "signIn": "Prihlásiť sa",
+      "readMore": "Čítať ďalej"
     },
     "audiences": {
-      "title": "Built for the three people who use it",
-      "subtitle": "The same record, read three ways.",
+      "title": "Postavené pre troch ľudí, ktorí ho používajú",
+      "subtitle": "Ten istý záznam, čítaný tromi spôsobmi.",
       "students": {
-        "title": "Students",
-        "body": "One timetable, one place to see where a grade came from, and an exam registration that tells you why a seat is out of reach."
+        "title": "Študenti",
+        "body": "Jeden rozvrh, jedno miesto, kde vidíte, odkiaľ známka pochádza, a prihlasovanie na skúšku, ktoré vám povie, prečo je miesto mimo dosahu."
       },
       "teachers": {
-        "title": "Teachers",
-        "body": "The offerings you lead, who is enrolled in each, and your own teaching week, without opening a second system to assemble it."
+        "title": "Učitelia",
+        "body": "Predmety, ktoré vediete, kto je na každom z nich zapísaný, a váš vlastný týždeň výučby – bez otvárania druhého systému, aby ste si to poskladali."
       },
       "institutions": {
-        "title": "Institutions",
-        "body": "Run the whole academic year in one place: the catalogue, enrolment, timetables, exams and grades, with every permission checked at the scope it belongs to."
+        "title": "Inštitúcie",
+        "body": "Celý akademický rok na jednom mieste: katalóg, zápisy, rozvrhy, skúšky a známky, s každým oprávnením overeným v rozsahu, do ktorého patrí."
       }
     },
     "howItWorks": {
-      "title": "How it works",
-      "subtitle": "Three steps, and no migration.",
+      "title": "Ako to funguje",
+      "subtitle": "Tri kroky a žiadna migrácia.",
       "connect": {
-        "title": "1. Set up the institution",
-        "body": "An administrator creates the institution, its org units and its first administrator, then enters the programmes and courses it offers."
+        "title": "1. Nastavte inštitúciu",
+        "body": "Správca vytvorí inštitúciu, jej útvary a prvého správcu, potom zadá programy a predmety, ktoré ponúka."
       },
       "import": {
-        "title": "2. Fill the year",
-        "body": "Terms, offerings, timetables and exam terms go in once, into 25 canonical tables. Every row is institution-scoped and soft-deleted rather than erased."
+        "title": "2. Naplňte rok",
+        "body": "Semestre, inštancie predmetov, rozvrhy a skúškové termíny sa zadajú raz, do 25 kanonických tabuliek. Každý riadok patrí inštitúcii a namiesto vymazania sa označí ako zmazaný."
       },
       "use": {
-        "title": "3. Use one surface",
-        "body": "Students, teachers and registrars each get a dashboard, a calendar and a course page over the same record, showing only what their role permits."
+        "title": "3. Používajte jeden povrch",
+        "body": "Študenti, učitelia aj študijné oddelenie dostanú prehľad, kalendár a stránku predmetu nad tým istým záznamom – a vidia len to, čo im dovoľuje ich rola."
       }
     },
     "trust": {
-      "title": "What we do with your data",
-      "subtitle": "The parts a registrar asks about first.",
+      "title": "Čo robíme s vašimi údajmi",
+      "subtitle": "To, na čo sa študijné oddelenie pýta ako na prvé.",
       "credentials": {
-        "title": "Credentials are write-only",
-        "body": "Passwords are argon2. Sessions rotate. Nothing sensitive is echoed back, not even to an administrator."
+        "title": "Prihlasovacie údaje sa dajú len zapísať",
+        "body": "Heslá sú argon2. Relácie sa obmieňajú. Nič citlivé sa nevracia späť, ani správcovi."
       },
       "permissions": {
-        "title": "Permissions carry a scope",
-        "body": "Every grant names both what it permits and where. Holding the permission to read enrolments never opens a list of someone's classmates."
+        "title": "Oprávnenia majú rozsah",
+        "body": "Každé pridelenie hovorí, čo dovoľuje aj kde. Oprávnenie čítať zápisy nikdy neotvorí zoznam niekoho spolužiakov."
       },
       "provenance": {
-        "title": "Every record says where it came from",
-        "body": "Every row is institution-scoped, soft-deleted rather than erased, and carries who changed it and when, so a disputed value can be traced."
+        "title": "Každý záznam hovorí, odkiaľ pochádza",
+        "body": "Každý riadok patrí inštitúcii, namiesto vymazania sa označí ako zmazaný a nesie, kto ho zmenil a kedy – aby sa sporná hodnota dala dohľadať."
       },
       "readOnly": {
-        "title": "Read-only, for now",
-        "body": "Reads are scoped by permission at the scope that grants it. A student reading their own grade and a registrar reading the roster travel different paths on purpose."
+        "title": "Zatiaľ len na čítanie",
+        "body": "Čítanie je obmedzené oprávnením v rozsahu, ktorý ho udeľuje. Študent čítajúci svoju známku a študijné oddelenie čítajúce zoznam idú zámerne inou cestou."
       }
     },
     "faq": {
-      "title": "Questions we are asked",
+      "title": "Otázky, ktoré nám kladú",
       "replace": {
-        "question": "Does this replace AIS2 and Moodle?",
-        "answer": "That is the point. StudViro is the system of record: the institution enters its own data and there is no upstream. The registry half is built. The learning half (assignments, submissions and marking) is next."
+        "question": "Nahrádza to AIS2 a Moodle?",
+        "answer": "O to práve ide. StudViro je systém, v ktorom údaje žijú: inštitúcia zadáva vlastné údaje a niet nadradeného systému. Evidenčná polovica je hotová. Výučbová polovica (zadania, odovzdávanie a hodnotenie) je na rade."
       },
       "lms": {
-        "question": "Which systems can you connect today?",
-        "answer": "The registry: programmes, courses, offerings, enrolment, timetables, exams and grades. Course materials, assignments and submissions are the next phase."
+        "question": "Ktoré systémy viete dnes prepojiť?",
+        "answer": "Evidenciu: programy, predmety, inštancie predmetov, zápisy, rozvrhy, skúšky a známky. Študijné materiály, zadania a odovzdávanie sú ďalšia fáza."
       },
       "accounts": {
-        "question": "How do people get accounts?",
-        "answer": "An institution onboards with us. Accounts are invited rather than opened from the public internet, and university single sign-on is on the roadmap."
+        "question": "Ako ľudia získajú účty?",
+        "answer": "Inštitúcia sa u nás zaregistruje. Účty vznikajú na pozvanie, nie z verejného internetu, a univerzitné jednotné prihlásenie je v pláne."
       },
       "conflict": {
-        "question": "What happens when two systems disagree?",
-        "answer": "The platform reports it. A reconciliation check names every record that is missing, stale or in conflict, per domain, on demand."
+        "question": "Čo sa stane, keď si dva systémy protirečia?",
+        "answer": "Platforma to oznámi. Kontrola zosúladenia na požiadanie pomenuje každý záznam, ktorý chýba, je zastaraný alebo v konflikte, a to podľa oblastí."
       },
       "cost": {
-        "question": "What does it cost?",
-        "answer": "We do not publish a price. Terms depend on your size and which systems you run, so a conversation is the honest answer."
+        "question": "Koľko to stojí?",
+        "answer": "Cenu nezverejňujeme. Podmienky závisia od vašej veľkosti a od toho, aké systémy prevádzkujete, takže poctivou odpoveďou je rozhovor."
       }
     },
     "closing": {
-      "title": "See it against your own systems",
-      "body": "Bring one department and one term. We will show you what the platform covers today and what it does not yet.",
-      "cta": "Request a demo"
+      "title": "Pozrite si to na vašich vlastných systémoch",
+      "body": "Prineste jednu katedru a jeden semester. Ukážeme vám, čo platforma dnes pokrýva a čo ešte nie.",
+      "cta": "Vyžiadať ukážku"
     },
     "footer": {
-      "product": "Product",
-      "account": "Account",
-      "settings": "Settings",
-      "tagline": "One academic platform over the systems a university already runs.",
+      "product": "Produkt",
+      "account": "Účet",
+      "settings": "Nastavenia",
+      "tagline": "Jedna akademická platforma nad systémami, ktoré univerzita už prevádzkuje.",
       "rights": "StudViro"
     }
   },
   "forStudents": {
     "meta": {
-      "title": "For students",
-      "description": "One timetable, grades that say where they came from, and exam registration that explains itself."
+      "title": "Pre študentov",
+      "description": "Jeden rozvrh, známky, ktoré povedia, odkiaľ pochádzajú, a prihlasovanie na skúšky, ktoré sa vysvetlí samo."
     },
     "hero": {
-      "title": "Stop assembling your own timetable",
-      "subtitle": "Your courses, your week and your results in one place, on the record your university keeps."
+      "title": "Prestaňte si skladať rozvrh sami",
+      "subtitle": "Vaše predmety, váš týždeň a vaše výsledky na jednom mieste, nad záznamom, ktorý vedie vaša univerzita."
     },
     "features": {
-      "title": "What you get",
+      "title": "Čo získate",
       "week": {
-        "title": "Your whole week in one view",
-        "body": "Classes and exam terms as two layers of the same week, filterable by course and by type."
+        "title": "Celý váš týždeň v jednom pohľade",
+        "body": "Hodiny a skúškové termíny ako dve vrstvy toho istého týždňa, filtrovateľné podľa predmetu a typu."
       },
       "courses": {
-        "title": "Your courses, by term",
-        "body": "Every enrolment with its status, and a course page with the staff, your study groups and your results on it."
+        "title": "Vaše predmety podľa semestrov",
+        "body": "Každý zápis so svojím stavom a stránka predmetu s vyučujúcimi, vašimi študijnými skupinami a vašimi výsledkami."
       },
       "grades": {
-        "title": "A grade that explains itself",
-        "body": "Calculated, proposed and official are shown as what they are, each with the system it came from and when it was last seen."
+        "title": "Známka, ktorá sa vysvetlí sama",
+        "body": "Vypočítaná, navrhnutá a oficiálna sú zobrazené ako to, čím sú – každá so systémom, z ktorého pochádza, a s časom, kedy bola naposledy videná."
       },
       "exams": {
-        "title": "Registration that gives you a reason",
-        "body": "Register and cancel from any exam term. When you cannot, the server answers why instead of greying out a button."
+        "title": "Prihlasovanie, ktoré vám dá dôvod",
+        "body": "Prihláste sa a odhláste z ktoréhokoľvek skúškového termínu. Keď nemôžete, server odpovie prečo, namiesto zošednutého tlačidla."
       },
       "notifications": {
-        "title": "Told once, not five times",
-        "body": "When an exam term is published, moved or cancelled you hear about it, deduplicated to one message per term per day."
+        "title": "Povedané raz, nie päťkrát",
+        "body": "Keď sa skúškový termín vypíše, presunie alebo zruší, dozviete sa to – zlúčené do jednej správy na termín a deň."
       }
     },
     "roadmap": {
-      "title": "Not yet",
-      "body": "Assignment hand-in and course materials are next. Browsing the catalogue and enrolling yourself already works."
+      "title": "Zatiaľ nie",
+      "body": "Odovzdávanie zadaní a študijné materiály sú na rade. Prezeranie katalógu a vlastný zápis už fungujú."
     },
     "closing": {
-      "title": "Ask your university about it",
-      "body": "StudViro is deployed by an institution, not signed up for individually. If your university is evaluating it, this is the page to send them.",
-      "cta": "Request a demo"
+      "title": "Opýtajte sa na to svojej univerzity",
+      "body": "StudViro nasadzuje inštitúcia, nie sa naň registruje jednotlivec. Ak ho vaša univerzita zvažuje, toto je stránka, ktorú jej pošlite.",
+      "cta": "Vyžiadať ukážku"
     }
   },
   "forTeachers": {
     "meta": {
-      "title": "For teachers",
-      "description": "The offerings you lead, who is in them, and your teaching week, in one place."
+      "title": "Pre učiteľov",
+      "description": "Predmety, ktoré vediete, kto je na nich a váš týždeň výučby – na jednom mieste."
     },
     "hero": {
-      "title": "Your teaching, without the second login",
-      "subtitle": "The offerings you lead, the students in each of them and your own week, over the same record your students read."
+      "title": "Vaša výučba bez druhého prihlásenia",
+      "subtitle": "Predmety, ktoré vediete, študenti na každom z nich a váš vlastný týždeň – nad tým istým záznamom, ktorý čítajú vaši študenti."
     },
     "features": {
-      "title": "What you get",
+      "title": "Čo získate",
       "offerings": {
-        "title": "Everything you lead, by term",
-        "body": "Your teaching assignments with your role on each and how many students are actually enrolled."
+        "title": "Všetko, čo vediete, podľa semestrov",
+        "body": "Vaše pridelenia výučby s vašou rolou na každom z nich a s tým, koľko študentov je naozaj zapísaných."
       },
       "roster": {
-        "title": "A roster that agrees with itself",
-        "body": "The student list and the enrolment count exclude withdrawn and rejected enrolments, and always match."
+        "title": "Zoznam, ktorý si neprotirečí",
+        "body": "Zoznam študentov aj počet zapísaných vynechávajú zrušené a odmietnuté zápisy a vždy sa zhodujú."
       },
       "calendar": {
-        "title": "One week, teaching included",
-        "body": "The calendar scopes to the offerings you teach as well as the ones you attend."
+        "title": "Jeden týždeň vrátane výučby",
+        "body": "Kalendár zahŕňa predmety, ktoré učíte, rovnako ako tie, ktoré navštevujete."
       },
       "course": {
-        "title": "The same course page your students see",
-        "body": "Staff, study groups and exam terms, so a question about a course has one answer rather than two."
+        "title": "Tá istá stránka predmetu, akú vidia vaši študenti",
+        "body": "Vyučujúci, študijné skupiny a skúškové termíny, aby otázka o predmete mala jednu odpoveď, nie dve."
       }
     },
     "roadmap": {
-      "title": "Not yet",
-      "body": "Entering or proposing a grade, managing an offering and editing its timetable are permissions the platform grants and no screen yet uses. Grading stays in your existing system until that lands."
+      "title": "Zatiaľ nie",
+      "body": "Zadanie alebo návrh známky, správa inštancie predmetu a úprava jej rozvrhu sú oprávnenia, ktoré platforma udeľuje a zatiaľ ich nepoužíva žiadna obrazovka. Hodnotenie zostáva vo vašom doterajšom systéme, kým to nepríde."
     },
     "closing": {
-      "title": "See it with your own courses",
-      "body": "A demo runs against a populated institution, so you can look at an offering you recognise.",
-      "cta": "Request a demo"
+      "title": "Pozrite si to na vlastných predmetoch",
+      "body": "Ukážka beží nad naplnenou inštitúciou, takže sa môžete pozrieť na predmet, ktorý poznáte.",
+      "cta": "Vyžiadať ukážku"
     }
   },
   "forInstitutions": {
     "meta": {
-      "title": "For institutions",
-      "description": "One academic platform an institution runs itself: catalogue, enrolment, timetables, exams and grades in one record."
+      "title": "Pre inštitúcie",
+      "description": "Jedna akademická platforma, ktorú si inštitúcia vedie sama: katalóg, zápisy, rozvrhy, skúšky a známky v jednom zázname."
     },
     "hero": {
-      "title": "One surface over the systems you already run",
-      "subtitle": "One system of record, not a layer over two others. The institution enters its own data, and every audience reads the same record through the permissions it holds."
+      "title": "Jeden povrch nad systémami, ktoré už prevádzkujete",
+      "subtitle": "Jeden systém, v ktorom údaje žijú, nie vrstva nad dvoma inými. Inštitúcia zadáva vlastné údaje a každé publikum číta ten istý záznam cez oprávnenia, ktoré má."
     },
     "features": {
-      "title": "What an administrator gets",
+      "title": "Čo získa správca",
       "connectors": {
-        "title": "Roles that mean something",
-        "body": "Eight canonical roles over a scope tree. A student role derives from an active programme membership and a teacher role from a teaching assignment, so neither is handed out by mistake."
+        "title": "Roly, ktoré niečo znamenajú",
+        "body": "Osem kanonických rol nad stromom rozsahov. Rola študenta vyplýva z aktívneho členstva v programe a rola učiteľa z pridelenia výučby, takže ani jedna sa neudelí omylom."
       },
       "sync": {
-        "title": "Every change, on the record",
-        "body": "Freshness per domain, per-run results, per-record failures, retries and a full run history."
+        "title": "Každá zmena v zázname",
+        "body": "Aktuálnosť podľa oblastí, výsledky jednotlivých behov, zlyhania po záznamoch, opakovania a úplná história behov."
       },
       "reconciliation": {
-        "title": "Disagreements, named",
-        "body": "An on-demand report of every record that is missing, stale or in conflict between the source and the platform, per domain."
+        "title": "Pomenované nezhody",
+        "body": "Správa na požiadanie o každom zázname, ktorý medzi zdrojom a platformou chýba, je zastaraný alebo v konflikte, a to podľa oblastí."
       },
       "roles": {
-        "title": "Scoped role administration",
-        "body": "Grant and revoke permissions against a scope, with the hierarchy enforced on the server rather than hinted at in the interface."
+        "title": "Správa rol s rozsahom",
+        "body": "Udeľujte a odoberajte oprávnenia voči rozsahu, pričom hierarchiu vynucuje server, nie iba náznak v rozhraní."
       },
       "model": {
-        "title": "A canonical model with provenance",
-        "body": "25 institution-scoped tables covering the whole academic year, with soft deletion and keyset pagination throughout."
+        "title": "Kanonický model s pôvodom údajov",
+        "body": "25 tabuliek patriacich inštitúcii, ktoré pokrývajú celý akademický rok, so zmazaním na úrovni príznaku a stránkovaním podľa kľúča."
       }
     },
     "deployment": {
-      "title": "How it runs",
+      "title": "Ako to beží",
       "containers": {
-        "title": "Containers you host",
-        "body": "A NestJS API on PostgreSQL and Redis, with migrations gated on startup so a replica never serves a schema it is behind."
+        "title": "Kontajnery, ktoré hostíte vy",
+        "body": "API v NestJS nad PostgreSQL a Redis, s migráciami overenými pri štarte, aby replika nikdy neobsluhovala schému, za ktorou zaostáva."
       },
       "contract": {
-        "title": "A generated API contract",
-        "body": "The client is generated from a drift-checked OpenAPI document, so the interface and the API cannot disagree."
+        "title": "Generovaná zmluva API",
+        "body": "Klient sa generuje z dokumentu OpenAPI kontrolovaného na odchýlky, takže rozhranie a API si nemôžu protirečiť."
       },
       "mock": {
-        "title": "Evaluate without access",
-        "body": "A deterministic generator seeds a realistic synthetic university of around five thousand linked records, so a pilot can start with something to look at."
+        "title": "Vyskúšajte si to bez prístupov",
+        "body": "Deterministický generátor naplní realistickú syntetickú univerzitu s približne piatimi tisíckami prepojených záznamov, takže pilot môže začať s niečím, na čo sa dá pozerať."
       }
     },
     "roadmap": {
-      "title": "On the roadmap, honestly",
-      "subtitle": "Designed, not shipped. Ask about timelines rather than assuming them.",
+      "title": "V pláne, na rovinu",
+      "subtitle": "Navrhnuté, nie dodané. Pýtajte sa na termíny, nepredpokladajte ich.",
       "lms": {
-        "title": "Learning-system integration",
-        "body": "Course materials, assignments, submissions and marking, natively."
+        "title": "Prepojenie s výučbovým systémom",
+        "body": "Študijné materiály, zadania, odovzdávanie a hodnotenie, natívne."
       },
       "writeback": {
-        "title": "Bulk entry and migration",
-        "body": "Today the platform reads. An exam registration made here does not yet reach your system of record."
+        "title": "Hromadné zadávanie a migrácia",
+        "body": "Dnes platforma číta. Prihlásenie na skúšku vykonané tu sa zatiaľ nedostane do vášho evidenčného systému."
       },
       "sso": {
-        "title": "University single sign-on",
-        "body": "OIDC against your identity provider, blocked on institutional client registration."
+        "title": "Univerzitné jednotné prihlásenie",
+        "body": "OIDC voči vášmu poskytovateľovi identít, zablokované na registrácii klienta zo strany inštitúcie."
       },
       "export": {
-        "title": "Data export and audit",
-        "body": "Personal-data export and a readable audit trail are planned and not yet built."
+        "title": "Export údajov a audit",
+        "body": "Export osobných údajov a čitateľná audítorská stopa sú v pláne a zatiaľ nie sú hotové."
       }
     },
     "closing": {
-      "title": "Bring one department and one term",
-      "body": "The most useful demo runs against a scope you recognise. Tell us how your year is shaped and we will show you what the platform covers.",
-      "cta": "Request a demo"
+      "title": "Prineste jednu katedru a jeden semester",
+      "body": "Najužitočnejšia ukážka beží nad rozsahom, ktorý poznáte. Povedzte nám, ako je usporiadaný váš rok, a ukážeme vám, čo platforma pokrýva.",
+      "cta": "Vyžiadať ukážku"
     }
   },
   "contact": {
     "meta": {
-      "title": "Request a demo",
-      "description": "Tell us which systems you run and we will show you what StudViro makes of them."
+      "title": "Vyžiadať ukážku",
+      "description": "Povedzte nám, aké systémy prevádzkujete, a my vám ukážeme, čo z nich StudViro urobí."
     },
-    "title": "Request a demo",
-    "subtitle": "Tell us how your academic year is shaped. We will show you what the platform covers today and what is still roadmap.",
+    "title": "Vyžiadať ukážku",
+    "subtitle": "Povedzte nám, ako je usporiadaný váš akademický rok. Ukážeme vám, čo platforma dnes pokrýva a čo je ešte plán.",
     "form": {
-      "institutionName": "Institution",
-      "institutionNameHint": "The university, faculty or department you are asking on behalf of.",
-      "contactName": "Your name",
-      "email": "Work email",
-      "role": "Your role",
-      "roleHint": "For example: vice-dean for study affairs, registrar, head of IT.",
-      "message": "Anything else",
-      "messageHint": "Which systems you run, how many students, what you want to see. Optional.",
-      "website": "Leave this field empty",
-      "submit": "Request a demo",
-      "submitting": "Sending…"
+      "institutionName": "Inštitúcia",
+      "institutionNameHint": "Univerzita, fakulta alebo katedra, v mene ktorej sa pýtate.",
+      "contactName": "Vaše meno",
+      "email": "Pracovný e-mail",
+      "role": "Vaša rola",
+      "roleHint": "Napríklad: prodekan pre štúdium, študijné oddelenie, vedúci IT.",
+      "message": "Čokoľvek ďalšie",
+      "messageHint": "Aké systémy prevádzkujete, koľko máte študentov, čo chcete vidieť. Nepovinné.",
+      "website": "Toto pole nechajte prázdne",
+      "submit": "Vyžiadať ukážku",
+      "submitting": "Odosiela sa…"
     },
     "success": {
-      "title": "Thank you, your request is in",
-      "body": "We read every one of these ourselves and will reply to the address you gave us."
+      "title": "Ďakujeme, vašu žiadosť máme",
+      "body": "Každú z nich čítame osobne a odpovieme na adresu, ktorú ste nám dali."
     },
     "errors": {
-      "rateLimited": "That is a few too many requests in a row. Try again in a minute.",
-      "failed": "We could not send that. Try again, or write to us directly.",
-      "captchaFailed": "The verification check did not finish. Try again."
+      "rateLimited": "To je o niečo priveľa žiadostí za sebou. Skúste to o minútu znova.",
+      "failed": "Nepodarilo sa nám to odoslať. Skúste to znova alebo nám napíšte priamo.",
+      "captchaFailed": "Overenie sa nedokončilo. Skúste to znova."
     },
     "aside": {
-      "title": "What happens next",
-      "one": "We reply by email, usually within a couple of working days.",
-      "two": "A demo runs against a populated institution, not a slide deck.",
-      "three": "We will be explicit about what is shipped and what is still roadmap."
+      "title": "Čo bude nasledovať",
+      "one": "Odpovedáme e-mailom, zvyčajne do niekoľkých pracovných dní.",
+      "two": "Ukážka beží nad naplnenou inštitúciou, nie nad prezentáciou.",
+      "three": "Budeme otvorení v tom, čo je hotové a čo je ešte plán."
     },
     "placeholder": {
-      "institutionName": "Technical University of Košice",
+      "institutionName": "Technická univerzita v Košiciach",
       "contactName": "Jana Kováčová",
-      "email": "jana.kovacova@university.edu",
-      "role": "Registrar",
-      "message": "We run Moodle and a homegrown SIS for 4 000 students."
+      "email": "jana.kovacova@univerzita.sk",
+      "role": "Študijné oddelenie",
+      "message": "Prevádzkujeme Moodle a vlastný študijný systém pre 4 000 študentov."
     }
   },
   "createInstitution": {
@@ -1194,37 +1194,37 @@
     "coursePage": "Course page"
   },
   "deadlines": {
-    "title": "Deadlines",
-    "dueAt": "Due {time}",
-    "dueOn": "Due {date}",
-    "inSpace": "In {space}",
+    "title": "Termíny odovzdania",
+    "dueAt": "Termín {time}",
+    "dueOn": "Termín {date}",
+    "inSpace": "V predmete {space}",
     "state": {
-      "open": "Open",
-      "upcoming": "Not open yet",
-      "overdue": "Past due",
-      "handedIn": "Handed in",
-      "missed": "Missed"
+      "open": "Otvorené",
+      "upcoming": "Ešte neotvorené",
+      "overdue": "Po termíne",
+      "handedIn": "Odovzdané",
+      "missed": "Zmeškané"
     },
     "type": {
-      "assignment": "Assignment",
-      "quiz": "Quiz",
-      "forum": "Forum",
-      "resource": "Resource",
-      "workshop": "Peer review",
-      "other": "Activity"
+      "assignment": "Zadanie",
+      "quiz": "Test",
+      "forum": "Fórum",
+      "resource": "Materiál",
+      "workshop": "Vzájomné hodnotenie",
+      "other": "Aktivita"
     },
     "attendance": {
-      "teaching": "You teach this"
+      "teaching": "Toto učíte"
     },
     "submission": {
-      "handedIn": "Handed in {when}",
-      "handedInLate": "Handed in late, {when}",
-      "notHandedIn": "Nothing handed in",
+      "handedIn": "Odovzdané {when}",
+      "handedInLate": "Odovzdané po termíne, {when}",
+      "notHandedIn": "Nič nebolo odovzdané",
       "state": {
-        "draft": "Draft",
-        "submitted": "Submitted",
-        "returned": "Returned",
-        "graded": "Graded"
+        "draft": "Koncept",
+        "submitted": "Odovzdané",
+        "returned": "Vrátené",
+        "graded": "Ohodnotené"
       }
     }
   },
@@ -1912,23 +1912,23 @@
     }
   },
   "search": {
-    "title": "Search",
-    "subtitle": "Courses, programmes, people, rooms: everything you are allowed to see.",
-    "label": "What are you looking for?",
-    "placeholder": "A course code, a name, a room…",
-    "hint": "At least two characters.",
-    "searching": "Searching…",
-    "error": "The search could not be run.",
-    "nothing": "Nothing matches “{query}”.",
-    "truncated": "There are more matches than shown. Try a longer query.",
-    "notSearched": "Not searched, because your role does not include reading them:",
+    "title": "Vyhľadávanie",
+    "subtitle": "Predmety, programy, ľudia, miestnosti – všetko, čo smiete vidieť.",
+    "label": "Čo hľadáte?",
+    "placeholder": "Kód predmetu, meno, miestnosť…",
+    "hint": "Aspoň dva znaky.",
+    "searching": "Vyhľadáva sa…",
+    "error": "Vyhľadávanie sa nepodarilo spustiť.",
+    "nothing": "Dopytu „{query}“ nič nezodpovedá.",
+    "truncated": "Zhôd je viac, než sa zobrazuje. Skúste dlhší dopyt.",
+    "notSearched": "Nevyhľadávalo sa v nich, lebo vaša rola nezahŕňa ich čítanie:",
     "kind": {
-      "course": "Courses",
-      "offering": "On offer",
-      "program": "Programmes",
-      "person": "People",
-      "orgUnit": "Org units",
-      "room": "Rooms"
+      "course": "Predmety",
+      "offering": "V ponuke",
+      "program": "Programy",
+      "person": "Ľudia",
+      "orgUnit": "Útvary",
+      "room": "Miestnosti"
     }
   },
   "audit": {
@@ -1969,9 +1969,9 @@
     "cancel": "Never mind"
   },
   "captcha": {
-    "idle": "This form is protected by a verification check your browser completes for you.",
-    "solving": "Checking you are not a robot…",
-    "solved": "Verified.",
-    "failed": "The verification check did not finish. Try again."
+    "idle": "Tento formulár chráni overenie, ktoré za vás dokončí prehliadač.",
+    "solving": "Overuje sa, že nie ste robot…",
+    "solved": "Overené.",
+    "failed": "Overenie sa nedokončilo. Skúste to znova."
   }
 }
