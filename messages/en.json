@@ -674,7 +674,8 @@
       "timetable_event_cancelled": "Class cancelled",
       "exam_registration_confirmed": "You registered for an exam",
       "exam_registration_cancelled": "You cancelled an exam registration",
-      "exam_registration_refused": "The university refused your exam registration"
+      "exam_registration_refused": "The university refused your exam registration",
+      "submission_marked": "Assignment marked"
     },
     "dueAt": "Due {date}",
     "dueMovedTo": "Deadline moved from {from} to {to}",

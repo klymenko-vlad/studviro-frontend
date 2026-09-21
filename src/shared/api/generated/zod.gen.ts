@@ -754,7 +754,8 @@ export const zNotificationResponseDto = z.object({
         'timetable_event_cancelled',
         'exam_registration_confirmed',
         'exam_registration_cancelled',
-        'exam_registration_refused'
+        'exam_registration_refused',
+        'submission_marked'
     ]),
     occurredAt: z.iso.datetime(),
     occurrenceCount: z.number(),
@@ -1563,7 +1564,8 @@ export const zExportedNotificationDto = z.object({
         'timetable_event_cancelled',
         'exam_registration_confirmed',
         'exam_registration_cancelled',
-        'exam_registration_refused'
+        'exam_registration_refused',
+        'submission_marked'
     ]),
     occurredAt: z.iso.datetime(),
     payload: z.record(z.string(), z.unknown()),

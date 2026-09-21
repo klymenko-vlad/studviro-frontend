@@ -70,6 +70,21 @@ describe('NotificationCard', () => {
     expect(screen.getByText('Place in the course confirmed')).toBeInTheDocument();
   });
 
+  it('names the assignment and the points when work comes back marked', () => {
+    card({
+      type: 'submission_marked',
+      activityName: 'Assignment 1 — sorting',
+      grade: '17.5 / 20',
+      startsAt: null,
+    });
+
+    expect(screen.getByText('Assignment marked')).toBeInTheDocument();
+    expect(screen.getByText('Assignment 1 — sorting')).toBeInTheDocument();
+    expect(screen.getByTestId('notification-grade')).toHaveTextContent(
+      'Grade: 17.5 / 20',
+    );
+  });
+
   it('shows no grade line for a notification that carries none', () => {
     card({ type: 'exam_term_published' });
 
