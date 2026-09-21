@@ -97,4 +97,53 @@ describe('PersonDirectoryTable', () => {
 
     expect(await screen.findByText('People could not be loaded')).toBeInTheDocument();
   });
+
+  it('says how many people have arrived, and stops there when that is all', async () => {
+    server.use(
+      http.get(PEOPLE_URL, () =>
+        HttpResponse.json({
+          items: [admin, student],
+          meta: { limit: 100, hasNextPage: false, nextCursor: null },
+        }),
+      ),
+    );
+
+    renderWithProviders(<PersonDirectoryTable institutionId={INSTITUTION} />);
+
+    expect(await screen.findByText('2 shown')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Load more' })).not.toBeInTheDocument();
+  });
+
+  it('fetches the next page on request and appends it', async () => {
+    server.use(
+      http.get(PEOPLE_URL, ({ request }) => {
+        const cursor = new URL(request.url).searchParams.get('cursor');
+
+        return cursor
+          ? HttpResponse.json({
+              items: [student],
+              meta: { limit: 1, hasNextPage: false, nextCursor: null },
+            })
+          : HttpResponse.json({
+              items: [admin],
+              meta: { limit: 1, hasNextPage: true, nextCursor: 'page-2' },
+            });
+      }),
+    );
+
+    const { user } = renderWithProviders(
+      <PersonDirectoryTable institutionId={INSTITUTION} />,
+    );
+
+    expect(await screen.findByText('Ada Admin')).toBeInTheDocument();
+    expect(screen.queryByText('Sam Student')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Load more' }));
+
+    expect(await screen.findByText('Sam Student')).toBeInTheDocument();
+    // The first page is still on screen — a page is appended, not swapped.
+    expect(screen.getByText('Ada Admin')).toBeInTheDocument();
+    expect(await screen.findByText('2 shown')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Load more' })).not.toBeInTheDocument();
+  });
 });
