@@ -1017,10 +1017,6 @@
       "absence": {
         "title": "Dochádzka",
         "body": "Zverejnenie známky označí miesto ako absolvované. Označiť ho ako zmeškané alebo ospravedlnené existuje v schéme a na žiadnej obrazovke."
-      },
-      "slovak": {
-        "title": "Slovenské rozhranie",
-        "body": "Oba katalógy sú úplne okľúčované a slovenský je stále prevažne anglický. Mechanika je hotová, väčšina prekladu nie."
       }
     },
     "closing": {

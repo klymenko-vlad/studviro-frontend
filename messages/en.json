@@ -1017,10 +1017,6 @@
       "absence": {
         "title": "Attendance",
         "body": "Publishing a grade marks a seat attended. Marking one missed or excused exists in the schema and on no screen."
-      },
-      "slovak": {
-        "title": "Slovak interface",
-        "body": "Both catalogues are fully keyed and the Slovak one is still largely English. The machinery is done; most of the translation is not."
       }
     },
     "closing": {

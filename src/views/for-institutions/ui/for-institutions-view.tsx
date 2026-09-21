@@ -12,7 +12,7 @@ import { ROUTES } from '@/shared/config';
 
 const FEATURES = ['roles', 'scopes', 'catalogue', 'scheduling', 'bulk', 'model'] as const;
 const DEPLOYMENT = ['containers', 'contract', 'demo'] as const;
-const ROADMAP = ['sso', 'migration', 'absence', 'slovak'] as const;
+const ROADMAP = ['sso', 'migration', 'absence'] as const;
 const STEPS = ['connect', 'import', 'use'] as const;
 
 export function ForInstitutionsView() {
