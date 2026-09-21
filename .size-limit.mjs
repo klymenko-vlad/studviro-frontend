@@ -157,6 +157,26 @@ const budgets = [
     //
     // 8.26 kB of headroom. That is thin, and the next person to need room should
     // expect to find it by shipping less rather than by narrowing anything.
+    //
+    // The captcha then spent 5.18 kB of it — measured at **552.05 kB**, still
+    // under the ceiling, which is why this number is unchanged. Two things it
+    // cost more than that before they were fixed, both worth knowing:
+    //
+    //   - Reading the captcha state with `useQuery` added **13.6 kB**. The
+    //     three auth routes had no client query at all, so the first one pulled
+    //     React Query's observer machinery into their chunks. Whether a
+    //     deployment asks for a captcha is fixed at deploy, so it is read on the
+    //     server and passed as a prop instead — cheaper *and* the right shape.
+    //   - Importing that server read through `entities/captcha`'s public API
+    //     added **19 kB**, because the barrel also re-exports two `'use client'`
+    //     modules and a Server Component importing it drags both into the
+    //     client graph. It lives in `shared/auth` beside `getCurrentUser` now.
+    //     **This is a general trap**: any server-only read added to a slice
+    //     whose barrel exports client code will do the same thing.
+    //
+    // The solver itself is hand-written against ALTCHA's protocol rather than
+    // adopting the `altcha` web component, for the reason the typeahead above
+    // gives: at ~12 kB gzipped the widget alone would have breached this.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
     limit: '555 kB',

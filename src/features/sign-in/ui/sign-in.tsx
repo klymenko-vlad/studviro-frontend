@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { CaptchaNotice, useCaptcha } from '@/entities/captcha';
 import { sessionApi } from '@/entities/session';
 import { toApiError } from '@/shared/api';
 import { LANDING_ROUTE, useRouter } from '@/shared/config';
@@ -27,11 +28,14 @@ import { signInSchema, type SignInFormValues } from '../model/sign-in';
 interface SignInProps {
   /** Where to land after signing in. Defaults to the account page. */
   next?: string | undefined;
+  /** Read on the server, because it is fixed at deploy. */
+  captchaEnabled?: boolean;
 }
 
-export function SignIn({ next }: SignInProps) {
+export function SignIn({ next, captchaEnabled = false }: SignInProps) {
   const t = useTranslations('auth');
   const router = useRouter();
+  const captcha = useCaptcha(captchaEnabled);
 
   const form = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
@@ -67,11 +71,16 @@ export function SignIn({ next }: SignInProps) {
     },
   });
 
-  const onSubmit = form.handleSubmit(values => {
-    mutation.mutate(values);
+  const onSubmit = form.handleSubmit(async values => {
+    try {
+      mutation.mutate({ ...values, captcha: await captcha.solve() });
+    } catch {
+      toast.error(t('captchaFailed'));
+    }
   });
 
-  const pending = form.formState.isSubmitting || mutation.isPending;
+  const pending =
+    form.formState.isSubmitting || mutation.isPending || captcha.status === 'solving';
 
   return (
     <Form {...form}>
@@ -116,6 +125,8 @@ export function SignIn({ next }: SignInProps) {
             </FormItem>
           )}
         />
+
+        <CaptchaNotice enabled={captcha.enabled} status={captcha.status} />
 
         <Button type="submit" disabled={pending}>
           {pending ? (

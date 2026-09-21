@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { CaptchaNotice, useCaptcha } from '@/entities/captcha';
 import { apiQueries, toApiError } from '@/shared/api';
 import { Link, ROUTES } from '@/shared/config';
 import {
@@ -29,8 +30,14 @@ import {
   type RequestPasswordResetFormValues,
 } from '../model/schema';
 
-export function RequestPasswordResetForm() {
+export function RequestPasswordResetForm({
+  captchaEnabled = false,
+}: {
+  /** Read on the server, because it is fixed at deploy. */
+  captchaEnabled?: boolean;
+} = {}) {
   const t = useTranslations('passwordReset');
+  const captcha = useCaptcha(captchaEnabled);
   const [devToken, setDevToken] = useState<string | undefined>(undefined);
 
   const form = useForm<RequestPasswordResetFormValues>({
@@ -48,11 +55,16 @@ export function RequestPasswordResetForm() {
     },
   });
 
-  const onSubmit = form.handleSubmit(values => {
-    mutation.mutate({ body: values });
+  const onSubmit = form.handleSubmit(async values => {
+    try {
+      mutation.mutate({ body: { ...values, captcha: await captcha.solve() } });
+    } catch {
+      toast.error(t('captchaFailed'));
+    }
   });
 
-  const pending = form.formState.isSubmitting || mutation.isPending;
+  const pending =
+    form.formState.isSubmitting || mutation.isPending || captcha.status === 'solving';
 
   if (mutation.isSuccess) {
     return (
@@ -102,6 +114,8 @@ export function RequestPasswordResetForm() {
             </FormItem>
           )}
         />
+
+        <CaptchaNotice enabled={captcha.enabled} status={captcha.status} />
 
         <Button type="submit" disabled={pending}>
           {pending ? <LoaderCircle className="animate-spin" aria-hidden /> : null}

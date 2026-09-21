@@ -7,6 +7,10 @@ export type ClientOptions = {
 export type CreateUserDto = {
     email: string;
     displayName: string;
+    /**
+     * A solved captcha challenge, base64. Required when `GET /captcha` reports the captcha enabled.
+     */
+    captcha?: string;
 };
 
 export type UserResponseDto = {
@@ -51,6 +55,10 @@ export type ErrorResponseDto = {
 
 export type LoginDto = {
     email: string;
+    /**
+     * A solved captcha challenge, base64. Required when `GET /captcha` reports the captcha enabled.
+     */
+    captcha?: string;
 };
 
 export type RefreshTokenDto = {
@@ -59,6 +67,10 @@ export type RefreshTokenDto = {
 
 export type RequestPasswordResetDto = {
     email: string;
+    /**
+     * A solved captcha challenge, base64. Required when `GET /captcha` reports the captcha enabled.
+     */
+    captcha?: string;
 };
 
 export type PasswordResetAcceptedDto = {
@@ -1029,6 +1041,10 @@ export type CreateDemoRequestDto = {
     email: string;
     role: string;
     message?: string;
+    /**
+     * A solved captcha challenge, base64. Required when `GET /captcha` reports the captcha enabled.
+     */
+    captcha?: string;
 };
 
 export type DemoRequestAcceptedDto = {
@@ -1744,6 +1760,33 @@ export type SearchResultsDto = {
     truncated: boolean;
 };
 
+export type CaptchaStateDto = {
+    /**
+     * Whether this deployment asks for a captcha at all
+     */
+    enabled: boolean;
+};
+
+export type CaptchaChallengeDto = {
+    algorithm: 'SHA-256';
+    /**
+     * The SHA-256 the client has to find the input of
+     */
+    challenge: string;
+    /**
+     * Prefixed to the number being searched for. Carries its expiry
+     */
+    salt: string;
+    /**
+     * The largest number the answer can be
+     */
+    maxnumber: number;
+    /**
+     * Proves this server issued the challenge
+     */
+    signature: string;
+};
+
 export type EnrollmentAvailabilityDto = {
     canEnroll: boolean;
     canWithdraw: boolean;
@@ -1799,6 +1842,10 @@ export type CreateUserDtoWritable = {
     email: string;
     displayName: string;
     password: string;
+    /**
+     * A solved captcha challenge, base64. Required when `GET /captcha` reports the captcha enabled.
+     */
+    captcha?: string;
 };
 
 export type LoginDtoWritable = {
@@ -1809,6 +1856,10 @@ export type LoginDtoWritable = {
      * a caller probe the current policy without an account.
      */
     password: string;
+    /**
+     * A solved captcha challenge, base64. Required when `GET /captcha` reports the captcha enabled.
+     */
+    captcha?: string;
 };
 
 export type CreateDemoRequestDtoWritable = {
@@ -1821,6 +1872,10 @@ export type CreateDemoRequestDtoWritable = {
      * Leave empty.
      */
     website?: string;
+    /**
+     * A solved captcha challenge, base64. Required when `GET /captcha` reports the captcha enabled.
+     */
+    captcha?: string;
 };
 
 export type RegisterData = {
@@ -6397,6 +6452,66 @@ export type SearchResponses = {
 };
 
 export type SearchResponse = SearchResponses[keyof SearchResponses];
+
+export type GetCaptchaStateData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/captcha';
+};
+
+export type GetCaptchaStateErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetCaptchaStateError = GetCaptchaStateErrors[keyof GetCaptchaStateErrors];
+
+export type GetCaptchaStateResponses = {
+    200: CaptchaStateDto;
+};
+
+export type GetCaptchaStateResponse = GetCaptchaStateResponses[keyof GetCaptchaStateResponses];
+
+export type CreateCaptchaChallengeData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/captcha/challenge';
+};
+
+export type CreateCaptchaChallengeErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateCaptchaChallengeError = CreateCaptchaChallengeErrors[keyof CreateCaptchaChallengeErrors];
+
+export type CreateCaptchaChallengeResponses = {
+    200: CaptchaChallengeDto;
+};
+
+export type CreateCaptchaChallengeResponse = CreateCaptchaChallengeResponses[keyof CreateCaptchaChallengeResponses];
 
 export type ListEnrollableOfferingsData = {
     body?: never;

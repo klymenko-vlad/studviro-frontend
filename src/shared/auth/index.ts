@@ -14,6 +14,7 @@
  * the Edge runtime.
  */
 export { apiOrigin } from './api-origin';
+export { captchaEnabled } from './captcha-state';
 export {
   clearSession,
   forbidden,

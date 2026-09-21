@@ -146,7 +146,8 @@
       "password": "At least 12 characters",
       "confirmPassword": "Repeat your password",
       "currentPassword": "Your password"
-    }
+    },
+    "captchaFailed": "The verification check did not finish. Try again."
   },
   "account": {
     "title": "Account",
@@ -1017,7 +1018,8 @@
     },
     "errors": {
       "rateLimited": "That is a few too many requests in a row. Try again in a minute.",
-      "failed": "We could not send that. Try again, or write to us directly."
+      "failed": "We could not send that. Try again, or write to us directly.",
+      "captchaFailed": "The verification check did not finish. Try again."
     },
     "aside": {
       "title": "What happens next",
@@ -1142,7 +1144,8 @@
       "email": "jana.kovacova@university.edu",
       "newPassword": "At least 12 characters",
       "confirmPassword": "Repeat the new password"
-    }
+    },
+    "captchaFailed": "The verification check did not finish. Try again."
   },
   "learning": {
     "title": "Course pages",
@@ -1964,5 +1967,11 @@
     "erase": "Erase this person",
     "erased": "{name} was erased.",
     "cancel": "Never mind"
+  },
+  "captcha": {
+    "idle": "This form is protected by a verification check your browser completes for you.",
+    "solving": "Checking you are not a robot…",
+    "solved": "Verified.",
+    "failed": "The verification check did not finish. Try again."
   }
 }

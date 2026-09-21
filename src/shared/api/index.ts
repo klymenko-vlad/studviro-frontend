@@ -432,6 +432,7 @@ export const apiSchemas = {
 export type {
   AcademicTermResponseDto,
   AuthTokensDto,
+  CaptchaChallengeDto,
   CreateDemoRequestDto,
   CreateDemoRequestDtoWritable,
   CreateInvitationDto,

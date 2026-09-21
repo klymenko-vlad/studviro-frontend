@@ -4,7 +4,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { AcceptInvitationForm } from '@/features/accept-invitation';
 import { SignUp } from '@/features/sign-up';
-import { getCurrentUser, safeNext } from '@/shared/auth';
+import { captchaEnabled, getCurrentUser, safeNext } from '@/shared/auth';
 import { LANDING_ROUTE, Link, ROUTES } from '@/shared/config';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -49,7 +49,7 @@ export default async function SignUpPage({ searchParams }: PageProps<'/sign-up'>
         <p className="text-muted-foreground">{t('signUpSubtitle')}</p>
       </div>
 
-      <SignUp next={safeNext(next)} />
+      <SignUp next={safeNext(next)} captchaEnabled={await captchaEnabled()} />
 
       <p className="text-muted-foreground text-sm">
         {t('haveAccount')}{' '}

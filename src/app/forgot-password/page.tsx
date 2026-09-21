@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import { RequestPasswordResetForm } from '@/features/request-password-reset';
-import { getCurrentUser } from '@/shared/auth';
+import { captchaEnabled, getCurrentUser } from '@/shared/auth';
 import { LANDING_ROUTE, Link, ROUTES } from '@/shared/config';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -27,7 +27,7 @@ export default async function ForgotPasswordPage() {
         <p className="text-muted-foreground">{t('requestSubtitle')}</p>
       </div>
 
-      <RequestPasswordResetForm />
+      <RequestPasswordResetForm captchaEnabled={await captchaEnabled()} />
 
       <p className="text-muted-foreground text-sm">
         <Link

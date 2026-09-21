@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { CaptchaNotice, useCaptcha } from '@/entities/captcha';
 import { apiQueries, toApiError } from '@/shared/api';
 import {
   Button,
@@ -29,8 +30,16 @@ import {
 
 const TOO_MANY_REQUESTS = 429;
 
-export function RequestDemo({ onSubmitted }: { onSubmitted?: () => void }) {
+export function RequestDemo({
+  onSubmitted,
+  captchaEnabled = false,
+}: {
+  onSubmitted?: () => void;
+  /** Read on the server, because it is fixed at deploy. */
+  captchaEnabled?: boolean;
+}) {
   const t = useTranslations('contact');
+  const captcha = useCaptcha(captchaEnabled);
 
   const form = useForm<RequestDemoFormValues>({
     resolver: zodResolver(requestDemoSchema),
@@ -58,10 +67,15 @@ export function RequestDemo({ onSubmitted }: { onSubmitted?: () => void }) {
     },
   });
 
-  const onSubmit = form.handleSubmit(values => {
-    mutation.mutate({ body: values });
+  const onSubmit = form.handleSubmit(async values => {
+    try {
+      mutation.mutate({ body: { ...values, captcha: await captcha.solve() } });
+    } catch {
+      toast.error(t('errors.captchaFailed'));
+    }
   });
-  const pending = form.formState.isSubmitting || mutation.isPending;
+  const pending =
+    form.formState.isSubmitting || mutation.isPending || captcha.status === 'solving';
 
   return (
     <Form {...form}>
@@ -173,6 +187,8 @@ export function RequestDemo({ onSubmitted }: { onSubmitted?: () => void }) {
             </FormItem>
           )}
         />
+
+        <CaptchaNotice enabled={captcha.enabled} status={captcha.status} />
 
         <Button type="submit" disabled={pending} className="self-start">
           {pending ? (

@@ -4,7 +4,8 @@ import * as z from 'zod';
 
 export const zCreateUserDto = z.object({
     email: z.email(),
-    displayName: z.string().min(1).max(120)
+    displayName: z.string().min(1).max(120),
+    captcha: z.string().optional()
 });
 
 export const zUserResponseDto = z.object({
@@ -37,7 +38,8 @@ export const zErrorResponseDto = z.object({
 });
 
 export const zLoginDto = z.object({
-    email: z.email()
+    email: z.email(),
+    captcha: z.string().optional()
 });
 
 export const zRefreshTokenDto = z.object({
@@ -45,7 +47,8 @@ export const zRefreshTokenDto = z.object({
 });
 
 export const zRequestPasswordResetDto = z.object({
-    email: z.email()
+    email: z.email(),
+    captcha: z.string().optional()
 });
 
 export const zPasswordResetAcceptedDto = z.object({
@@ -1284,7 +1287,8 @@ export const zCreateDemoRequestDto = z.object({
     contactName: z.string().min(1).max(120),
     email: z.email().max(255),
     role: z.string().min(1).max(80),
-    message: z.string().max(2000).optional()
+    message: z.string().max(2000).optional(),
+    captcha: z.string().optional()
 });
 
 export const zDemoRequestAcceptedDto = z.object({
@@ -2287,6 +2291,18 @@ export const zSearchResultsDto = z.object({
     truncated: z.boolean()
 });
 
+export const zCaptchaStateDto = z.object({
+    enabled: z.boolean()
+});
+
+export const zCaptchaChallengeDto = z.object({
+    algorithm: z.enum(['SHA-256']),
+    challenge: z.string(),
+    salt: z.string(),
+    maxnumber: z.number(),
+    signature: z.string()
+});
+
 export const zEnrollmentAvailabilityDto = z.object({
     canEnroll: z.boolean(),
     canWithdraw: z.boolean(),
@@ -2368,12 +2384,14 @@ export const zEnrollmentResponseDto = z.object({
 export const zCreateUserDtoWritable = z.object({
     email: z.email(),
     displayName: z.string().min(1).max(120),
-    password: z.string().min(12).max(128)
+    password: z.string().min(12).max(128),
+    captcha: z.string().optional()
 });
 
 export const zLoginDtoWritable = z.object({
     email: z.email(),
-    password: z.string().min(1).max(128)
+    password: z.string().min(1).max(128),
+    captcha: z.string().optional()
 });
 
 export const zCreateDemoRequestDtoWritable = z.object({
@@ -2382,7 +2400,8 @@ export const zCreateDemoRequestDtoWritable = z.object({
     email: z.email().max(255),
     role: z.string().min(1).max(80),
     message: z.string().max(2000).optional(),
-    website: z.string().max(200).optional()
+    website: z.string().max(200).optional(),
+    captcha: z.string().optional()
 });
 
 export const zRegisterBody = zCreateUserDtoWritable;
@@ -3380,6 +3399,10 @@ export const zSearchQuery = z.object({
 });
 
 export const zSearchResponse = zSearchResultsDto;
+
+export const zGetCaptchaStateResponse = zCaptchaStateDto;
+
+export const zCreateCaptchaChallengeResponse = zCaptchaChallengeDto;
 
 export const zListEnrollableOfferingsPath = z.object({
     institutionId: z.string()

@@ -827,6 +827,19 @@ export function errorResponse(
   };
 }
 
+/**
+ * A challenge whose answer is 7, so a test can solve it in microseconds rather
+ * than hashing through a realistic search space.
+ */
+export const captchaChallenge = {
+  algorithm: 'SHA-256' as const,
+  salt: 'testsalt?expires=4102444800',
+  // sha256('testsalt?expires=41024448007')
+  challenge: '016253c520672bc6781a3237fbbdbd4491e0b401c0b882075e7867e120e6f3e4',
+  maxnumber: 100,
+  signature: 'a-test-signature',
+};
+
 export const learningSpaces: LearningSpaceListResponseDto = {
   total: 2,
   offeringsWithoutPage: 3,
@@ -2208,4 +2221,11 @@ export const handlers = [
   http.get(`${PROXY}/institutions/:institutionId/me/course-results/summary`, () =>
     HttpResponse.json(studyProgress),
   ),
+
+  /**
+   * Whether a deployment asks for a captcha is read on the server and passed
+   * in as a prop, so there is nothing to stub for it — only the challenge a
+   * form takes when it has one to solve.
+   */
+  http.post(`${PROXY}/captcha/challenge`, () => HttpResponse.json(captchaChallenge)),
 ];

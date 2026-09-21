@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import { SignIn } from '@/features/sign-in';
-import { getCurrentUser, safeNext } from '@/shared/auth';
+import { captchaEnabled, getCurrentUser, safeNext } from '@/shared/auth';
 import { LANDING_ROUTE, Link, ROUTES } from '@/shared/config';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -30,7 +30,7 @@ export default async function SignInPage({ searchParams }: PageProps<'/sign-in'>
         <p className="text-muted-foreground">{t('signInSubtitle')}</p>
       </div>
 
-      <SignIn next={safeNext(next)} />
+      <SignIn next={safeNext(next)} captchaEnabled={await captchaEnabled()} />
 
       <p className="text-muted-foreground text-sm">
         <Link

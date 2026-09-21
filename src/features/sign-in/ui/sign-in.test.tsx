@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import type * as SharedConfig from '@/shared/config';
 import {
+  captchaChallenge,
   errorResponse,
   renderWithProviders,
   screen,
@@ -112,5 +113,74 @@ describe('SignIn', () => {
 
     expect(await screen.findByRole('alert')).toBeInTheDocument();
     expect(push).not.toHaveBeenCalled();
+  });
+
+  describe('when the deployment asks for a captcha', () => {
+    it('solves it and sends the answer with the credentials', async () => {
+      let body: Record<string, unknown> | undefined;
+      server.use(
+        http.post('/api/auth/login', async ({ request }) => {
+          body = (await request.json()) as Record<string, unknown>;
+
+          return HttpResponse.json({ user: session.user });
+        }),
+      );
+
+      const { user } = renderWithProviders(<SignIn captchaEnabled />);
+      await screen.findByTestId('captcha-notice');
+      await signIn(user);
+
+      await vi.waitFor(() => {
+        expect(body).toBeDefined();
+      });
+      expect(body).toMatchObject({ email: 'ada@example.com' });
+      expect(typeof body?.['captcha']).toBe('string');
+      expect(
+        JSON.parse(Buffer.from(String(body?.['captcha']), 'base64').toString('utf8')),
+      ).toMatchObject({ challenge: captchaChallenge.challenge, number: 7 });
+    });
+
+    it('tells the person what is happening while their browser hashes', async () => {
+      renderWithProviders(<SignIn captchaEnabled />);
+
+      expect(await screen.findByTestId('captcha-notice')).toHaveTextContent(
+        'This form is protected by a verification check your browser completes for you.',
+      );
+    });
+
+    it('says so rather than submitting when the challenge cannot be fetched', async () => {
+      server.use(
+        http.post(
+          '/api/proxy/api/v1/captcha/challenge',
+          () => new HttpResponse(null, { status: 500 }),
+        ),
+      );
+      let submitted = false;
+      server.use(
+        http.post('/api/auth/login', () => {
+          submitted = true;
+
+          return HttpResponse.json({ user: session.user });
+        }),
+      );
+
+      const { user } = renderWithProviders(<SignIn captchaEnabled />);
+      await screen.findByTestId('captcha-notice');
+      await signIn(user);
+
+      await vi.waitFor(() => {
+        expect(screen.getByTestId('captcha-notice')).toHaveTextContent(
+          'The verification check did not finish. Try again.',
+        );
+      });
+      expect(submitted).toBe(false);
+    });
+  });
+
+  it('shows no verification step at all when the deployment has none', async () => {
+    renderWithProviders(<SignIn />);
+
+    await screen.findByLabelText('Email');
+    expect(screen.queryByTestId('captcha-notice')).not.toBeInTheDocument();
   });
 });

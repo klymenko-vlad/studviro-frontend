@@ -5,7 +5,7 @@ import { RequestDemo } from '@/features/request-demo';
 
 const NEXT_STEPS = ['one', 'two', 'three'] as const;
 
-export function ContactView() {
+export function ContactView({ captchaEnabled = false }: { captchaEnabled?: boolean }) {
   const t = useTranslations('contact');
 
   return (
@@ -20,7 +20,7 @@ export function ContactView() {
               <p className="text-muted-foreground text-lg text-pretty">{t('subtitle')}</p>
             </div>
 
-            <RequestDemo />
+            <RequestDemo captchaEnabled={captchaEnabled} />
           </div>
 
           <aside className="flex flex-col gap-4 lg:max-w-xs">

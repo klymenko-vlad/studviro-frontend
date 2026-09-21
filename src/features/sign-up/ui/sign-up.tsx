@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { CaptchaNotice, useCaptcha } from '@/entities/captcha';
 import { sessionApi } from '@/entities/session';
 import { toApiError } from '@/shared/api';
 import { LANDING_ROUTE, useRouter } from '@/shared/config';
@@ -29,11 +30,14 @@ import { buildSignUpSchema, type SignUpFormValues } from '../model/sign-up';
 interface SignUpProps {
   /** Where to land once the account exists. Defaults to the account page. */
   next?: string | undefined;
+  /** Read on the server, because it is fixed at deploy. */
+  captchaEnabled?: boolean;
 }
 
-export function SignUp({ next }: SignUpProps) {
+export function SignUp({ next, captchaEnabled = false }: SignUpProps) {
   const t = useTranslations('auth');
   const router = useRouter();
+  const captcha = useCaptcha(captchaEnabled);
 
   const schema = useMemo(
     () => buildSignUpSchema({ passwordMismatch: t('passwordMismatch') }),
@@ -71,13 +75,19 @@ export function SignUp({ next }: SignUpProps) {
     },
   });
 
-  const onSubmit = form.handleSubmit(values => {
+  const onSubmit = form.handleSubmit(async values => {
     // `confirmPassword` exists only in the form; the API never sees it.
     const { confirmPassword: _confirmPassword, ...body } = values;
-    mutation.mutate(body);
+
+    try {
+      mutation.mutate({ ...body, captcha: await captcha.solve() });
+    } catch {
+      toast.error(t('captchaFailed'));
+    }
   });
 
-  const pending = form.formState.isSubmitting || mutation.isPending;
+  const pending =
+    form.formState.isSubmitting || mutation.isPending || captcha.status === 'solving';
 
   return (
     <Form {...form}>
@@ -159,6 +169,8 @@ export function SignUp({ next }: SignUpProps) {
             </FormItem>
           )}
         />
+
+        <CaptchaNotice enabled={captcha.enabled} status={captcha.status} />
 
         <Button type="submit" disabled={pending}>
           {pending ? (

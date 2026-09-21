@@ -26,6 +26,7 @@ export {
   institutionConfiguration,
   institutions,
   learningMaterials,
+  captchaChallenge,
   learningSpaces,
   LEARNING_SPACE_ID,
   mySubmissions,

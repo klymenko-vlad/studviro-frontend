@@ -36,11 +36,15 @@ async function unwrap(response: Response): Promise<SessionResponse> {
 }
 
 export const sessionApi = {
-  signIn: async (credentials: { email: string; password: string }) =>
+  signIn: async (credentials: { email: string; password: string; captcha?: string }) =>
     unwrap(await post('login', credentials)),
 
-  signUp: async (details: { email: string; displayName: string; password: string }) =>
-    unwrap(await post('register', details)),
+  signUp: async (details: {
+    email: string;
+    displayName: string;
+    password: string;
+    captcha?: string;
+  }) => unwrap(await post('register', details)),
 
   signOut: async (): Promise<void> => {
     await post('logout');
