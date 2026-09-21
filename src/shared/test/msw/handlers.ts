@@ -1876,9 +1876,23 @@ export const handlers = [
     },
   ),
 
-  http.get(`${PROXY}/institutions/:institutionId/people`, () =>
-    HttpResponse.json(people),
-  ),
+  /**
+   * Paginated and searchable now, so the stub honours `q` — a typeahead test
+   * that filters in the browser would pass against a server that does not.
+   */
+  http.get(`${PROXY}/institutions/:institutionId/people`, ({ request }) => {
+    const search = new URL(request.url).searchParams.get('q')?.toLowerCase() ?? '';
+    const items = search
+      ? people.filter(person =>
+          `${person.displayName} ${person.email}`.toLowerCase().includes(search),
+        )
+      : people;
+
+    return HttpResponse.json({
+      items,
+      meta: { limit: 100, hasNextPage: false, nextCursor: null },
+    });
+  }),
 
   http.get(`${PROXY}/institutions/:institutionId/me/personal-data`, () =>
     HttpResponse.json({

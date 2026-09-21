@@ -50,9 +50,15 @@ const student = {
   ],
 };
 
+/** The endpoint is keyset-paginated; a bare array is no longer its shape. */
+const page = (items: unknown[]) => ({
+  items,
+  meta: { limit: 100, hasNextPage: false, nextCursor: null },
+});
+
 describe('PersonDirectoryTable', () => {
   it('lists a person and their role', async () => {
-    server.use(http.get(PEOPLE_URL, () => HttpResponse.json([admin])));
+    server.use(http.get(PEOPLE_URL, () => HttpResponse.json(page([admin]))));
 
     renderWithProviders(<PersonDirectoryTable institutionId={INSTITUTION} />);
 
@@ -62,7 +68,7 @@ describe('PersonDirectoryTable', () => {
   });
 
   it('shows a derived role alongside a granted one', async () => {
-    server.use(http.get(PEOPLE_URL, () => HttpResponse.json([admin, student])));
+    server.use(http.get(PEOPLE_URL, () => HttpResponse.json(page([admin, student]))));
 
     renderWithProviders(<PersonDirectoryTable institutionId={INSTITUTION} />);
 
@@ -71,7 +77,7 @@ describe('PersonDirectoryTable', () => {
   });
 
   it('explains an institution with nobody in it', async () => {
-    server.use(http.get(PEOPLE_URL, () => HttpResponse.json([])));
+    server.use(http.get(PEOPLE_URL, () => HttpResponse.json(page([]))));
 
     renderWithProviders(<PersonDirectoryTable institutionId={INSTITUTION} />);
 

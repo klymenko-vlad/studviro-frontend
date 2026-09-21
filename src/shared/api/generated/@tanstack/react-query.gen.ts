@@ -937,7 +937,9 @@ export const updateOrgUnitMutation = (options?: Partial<Options<UpdateOrgUnitDat
 export const listPeopleQueryKey = (options: Options<ListPeopleData>) => createQueryKey('listPeople', options);
 
 /**
- * List the people of an institution with their granted and derived roles
+ * A page of the people of an institution, with their granted and derived roles
+ *
+ * Keyset-paginated by name. `q` narrows to a name or an address, so a typeahead asks the server rather than filtering a directory the browser had to download first.
  */
 export const listPeopleOptions = (options: Options<ListPeopleData>) => queryOptions<ListPeopleResponse, ListPeopleError, ListPeopleResponse, ReturnType<typeof listPeopleQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -951,6 +953,38 @@ export const listPeopleOptions = (options: Options<ListPeopleData>) => queryOpti
     },
     queryKey: listPeopleQueryKey(options)
 });
+
+export const listPeopleInfiniteQueryKey = (options: Options<ListPeopleData>): QueryKey<Options<ListPeopleData>> => createQueryKey('listPeople', options, true);
+
+/**
+ * A page of the people of an institution, with their granted and derived roles
+ *
+ * Keyset-paginated by name. `q` narrows to a name or an address, so a typeahead asks the server rather than filtering a directory the browser had to download first.
+ */
+export const listPeopleInfiniteOptions = (options: Options<ListPeopleData>) => {
+    const opts = infiniteQueryOptions<ListPeopleResponse, ListPeopleError, InfiniteData<ListPeopleResponse>, QueryKey<Options<ListPeopleData>>, string | Pick<QueryKey<Options<ListPeopleData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListPeopleData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    cursor: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await People.listPeople({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listPeopleInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
 
 export const listRoomsQueryKey = (options: Options<ListRoomsData>) => createQueryKey('listRooms', options);
 
@@ -2421,7 +2455,7 @@ export const listEnrollableOfferingsOptions = (options: Options<ListEnrollableOf
 /**
  * Ask for a place on a course
  *
- * A request, not a place: the row is `requested` until the registrar’s system acknowledges it, and `active` immediately where no connector can be told.
+ * Asking for a place is getting one: the enrolment comes back `active`. StudViro is the system of record, so there is nobody upstream to approve it. Refused with `OFFERING_FULL` when the last seat goes.
  */
 export const requestEnrollmentMutation = (options?: Partial<Options<RequestEnrollmentData>>): UseMutationOptions<RequestEnrollmentResponse, RequestEnrollmentError, Options<RequestEnrollmentData>> => {
     const mutationOptions: UseMutationOptions<RequestEnrollmentResponse, RequestEnrollmentError, Options<RequestEnrollmentData>> = {

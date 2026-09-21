@@ -889,6 +889,11 @@ export const zPersonDirectoryEntryDto = z.object({
     roles: z.array(zRoleAssignmentResponseDto)
 });
 
+export const zPersonDirectoryPageDto = z.object({
+    items: z.array(zPersonDirectoryEntryDto),
+    meta: zCursorPageMetaDto
+});
+
 export const zRoomResponseDto = z.object({
     id: z.uuid(),
     code: z.string(),
@@ -2744,7 +2749,14 @@ export const zListPeoplePath = z.object({
     institutionId: z.string()
 });
 
-export const zListPeopleResponse = z.array(zPersonDirectoryEntryDto);
+export const zListPeopleQuery = z.object({
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    cursor: z.string().optional(),
+    order: zSortOrder.optional(),
+    q: z.string().max(200).optional()
+});
+
+export const zListPeopleResponse = zPersonDirectoryPageDto;
 
 export const zListRoomsPath = z.object({
     institutionId: z.string()

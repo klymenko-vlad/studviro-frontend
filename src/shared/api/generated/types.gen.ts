@@ -653,6 +653,11 @@ export type PersonDirectoryEntryDto = {
     roles: Array<RoleAssignmentResponseDto>;
 };
 
+export type PersonDirectoryPageDto = {
+    items: Array<PersonDirectoryEntryDto>;
+    meta: CursorPageMetaDto;
+};
+
 export type RoomResponseDto = {
     id: string;
     code: string;
@@ -3427,7 +3432,18 @@ export type ListPeopleData = {
     path: {
         institutionId: string;
     };
-    query?: never;
+    query?: {
+        limit?: number;
+        /**
+         * Opaque cursor from a previous page
+         */
+        cursor?: string;
+        order?: SortOrder;
+        /**
+         * Narrows to people whose name or email contains this
+         */
+        q?: string;
+    };
     url: '/api/v1/institutions/{institutionId}/people';
 };
 
@@ -3449,7 +3465,7 @@ export type ListPeopleErrors = {
 export type ListPeopleError = ListPeopleErrors[keyof ListPeopleErrors];
 
 export type ListPeopleResponses = {
-    200: Array<PersonDirectoryEntryDto>;
+    200: PersonDirectoryPageDto;
 };
 
 export type ListPeopleResponse = ListPeopleResponses[keyof ListPeopleResponses];
