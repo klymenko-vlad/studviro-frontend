@@ -19,6 +19,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  EmptyState,
   Label,
   Select,
   SelectItem,
@@ -46,16 +47,30 @@ export function AuditTrail({ institutionId }: { institutionId: string }) {
     }),
   );
 
-  // Names, so a row reads "Studviro Admin" rather than a uuid. The directory
-  // is already fetched on several screens, so this is usually warm.
-  const people = useQuery(personQueries.listForInstitution({ path: { institutionId } }));
+  // Names, so a row reads "Studviro Admin" rather than a uuid. Only the actors
+  // on this page are resolved: searching a downloaded directory was work
+  // proportional to the institution to label a handful of rows, and missed
+  // anybody past the first page of it.
+  const actorIds = [
+    ...new Set(
+      (events.data?.items ?? [])
+        .map(event => event.actorUserId)
+        .filter((id): id is string => typeof id === 'string'),
+    ),
+  ];
+  const people = useQuery({
+    ...personQueries.byIds(institutionId, actorIds),
+    enabled: actorIds.length > 0,
+  });
   const nameOf = (userId: string | null | undefined) => {
     if (userId === null || userId === undefined) return t('systemActor');
 
-    return (
-      people.data?.find(person => person.userId === userId)?.displayName ??
-      t('unknownActor')
-    );
+    const named = people.data?.items.find(person => person.userId === userId);
+    if (named) return named.displayName;
+
+    // The names arrive a round-trip after the rows, so "unknown actor" would be
+    // a false claim for as long as that takes. Say nothing until it is true.
+    return people.isPending ? '' : t('unknownActor');
   };
 
   return (
@@ -83,7 +98,7 @@ export function AuditTrail({ institutionId }: { institutionId: string }) {
         ) : events.isError ? (
           <p className="text-muted-foreground text-sm">{t('error')}</p>
         ) : events.data.items.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('empty')}</p>
+          <EmptyState size="inline" title={t('empty')} />
         ) : (
           <ul className="flex flex-col gap-4" aria-label={t('title')}>
             {events.data.items.map(event => (

@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   auditEvents,
+  people,
   renderWithProviders,
   screen,
   server,
@@ -36,7 +37,8 @@ describe('AuditTrail', () => {
 
     const list = await screen.findByRole('list', { name: 'Audit trail' });
 
-    expect(within(list).getByText('Jana Nováková')).toBeInTheDocument();
+    // Resolved from the ids on the page, so the name arrives after the rows.
+    expect(await within(list).findByText('Jana Nováková')).toBeInTheDocument();
   });
 
   it('says so when the system acted rather than a person', async () => {
@@ -98,5 +100,26 @@ describe('AuditTrail', () => {
     expect(
       await screen.findByText('The audit trail could not be read.'),
     ).toBeInTheDocument();
+  });
+
+  it('resolves only the actors on the page, not the whole directory', async () => {
+    let asked: URLSearchParams | undefined;
+    server.use(
+      http.get('/api/proxy/api/v1/institutions/:institutionId/people', ({ request }) => {
+        asked = new URL(request.url).searchParams;
+
+        return HttpResponse.json({
+          items: people,
+          meta: { limit: 100, hasNextPage: false, nextCursor: null },
+        });
+      }),
+    );
+
+    render();
+    const list = await screen.findByRole('list', { name: 'Audit trail' });
+    await within(list).findByText('Jana Nováková');
+
+    // The one actor in the fixture, named explicitly — not an unfiltered read.
+    expect(asked?.getAll('userIds')).toEqual(['11111111-1111-4111-8111-111111111111']);
   });
 });

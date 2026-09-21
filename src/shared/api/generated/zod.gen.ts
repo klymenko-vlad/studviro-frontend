@@ -2753,7 +2753,8 @@ export const zListPeopleQuery = z.object({
     limit: z.number().gte(1).lte(100).optional().default(20),
     cursor: z.string().optional(),
     order: zSortOrder.optional(),
-    q: z.string().max(200).optional()
+    q: z.string().max(200).optional(),
+    userIds: z.array(z.uuid()).optional()
 });
 
 export const zListPeopleResponse = zPersonDirectoryPageDto;

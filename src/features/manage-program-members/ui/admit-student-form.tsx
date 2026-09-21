@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -36,7 +37,12 @@ export function AdmitStudentForm({
   const t = useTranslations('programMembers');
   const queryClient = useQueryClient();
 
-  const people = useQuery(personQueries.listForInstitution({ path: { institutionId } }));
+  // Searched on the server: the directory is thousands of names in a real
+  // institution, and filtering it in the browser means sending it there first.
+  const [search, setSearch] = useState('');
+  const people = useQuery(
+    personQueries.page({ path: { institutionId }, query: { q: search } }),
+  );
 
   const form = useForm<AdmitFormValues>({
     resolver: useZodResolver(admitFormSchema),
@@ -81,9 +87,10 @@ export function AdmitStudentForm({
               <FormLabel>{t('field.person')}</FormLabel>
               <FormControl>
                 <PersonPicker
-                  people={people.data ?? []}
+                  people={people.data?.items ?? []}
                   value={field.value}
                   onChange={field.onChange}
+                  onSearchChange={setSearch}
                   placeholder={t('field.searchPerson')}
                   emptyLabel={t('field.noPersonMatches')}
                 />

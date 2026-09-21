@@ -1,77 +1,35 @@
-import { queryOptions } from '@tanstack/react-query';
-
-import { apiQueries, type PersonDirectoryEntryDto } from '@/shared/api';
+import { apiQueries } from '@/shared/api';
 
 /**
- * The endpoint answers with a page now, so there are two shapes here.
+ * Three ways to ask about people, because there are three questions.
  *
- * `page` is the one to reach for: a page of people plus the cursor to continue
- * from, and `q` for a typeahead that filters on the server. Anything that lists
- * people should use it, with `apiQueries.listPeopleInfiniteOptions` behind a
- * load-more.
+ * `page` is one page, narrowed by `q` — what a typeahead wants, so the search
+ * happens on the server rather than over a directory the browser had to
+ * download first.
  *
- * `listForInstitution` is for the callers that genuinely need *everybody* — the
- * audit trail resolves an actor id against it, and a name it cannot find reads
- * as "unknown actor" to somebody auditing their own institution. It walks the
- * cursor to the end and hands back one array, so those screens are correct
- * rather than quietly truncated at the first page.
+ * `infinite` is the same thing behind a load-more. The generated options carry
+ * the request; where the next page starts is this layer's to say, because only
+ * it knows `meta.nextCursor` is the keyset and a null one means the end.
  *
- * That is deliberately not the same thing as the old behaviour: the request is
- * bounded at 100 rows now, and walking is the caller's cost rather than the
- * server's. It is still a directory download, which is the wrong shape for
- * resolving a handful of ids — the audit trail wants an endpoint that resolves
- * the ids on screen. Until it has one, correct and chatty beats fast and wrong.
+ * `byIds` resolves names for ids a screen already holds — the audit trail
+ * labels an actor this way. There used to be a fourth, which walked every page
+ * and handed back the whole directory for exactly that caller; it is gone,
+ * because fetching an institution to label a handful of rows is work
+ * proportional to the wrong thing.
  */
-const PAGE_SIZE = 100;
 
-/**
- * A ceiling, not a limit: without it a cursor bug becomes an infinite loop in
- * the browser rather than a failed request. Fifty pages is 5,000 people.
- */
-const MAX_PAGES = 50;
-
-interface PeoplePage {
-  items: PersonDirectoryEntryDto[];
-  meta: { limit: number; hasNextPage: boolean; nextCursor: string | null };
-}
+/** The server's own cap on `userIds`, so a page of rows resolves in one request. */
+const RESOLVE_LIMIT = 100;
 
 type ListPeopleOptions = Parameters<typeof apiQueries.listPeopleOptions>[0];
 
-async function fetchEveryone(
-  institutionId: string,
-  signal: AbortSignal | undefined,
-): Promise<PersonDirectoryEntryDto[]> {
-  const everyone: PersonDirectoryEntryDto[] = [];
-  let cursor: string | null = null;
-
-  for (let page = 0; page < MAX_PAGES; page += 1) {
-    const query = new URLSearchParams({ limit: String(PAGE_SIZE) });
-    if (cursor !== null) query.set('cursor', cursor);
-
-    const response = await fetch(
-      `/api/proxy/api/v1/institutions/${institutionId}/people?${query.toString()}`,
-      { signal, credentials: 'same-origin' },
-    );
-    if (!response.ok) throw new Error('The people of this institution could not be read');
-
-    const body = (await response.json()) as PeoplePage;
-    everyone.push(...body.items);
-
-    cursor = body.meta.nextCursor;
-    if (cursor === null) break;
-  }
-
-  return everyone;
+interface PeoplePage {
+  meta: { nextCursor: string | null };
 }
 
 export const personQueries = {
   page: apiQueries.listPeopleOptions,
 
-  /**
-   * The directory behind a load-more. The generated options carry the request;
-   * where the next page starts is ours to say, because only this layer knows
-   * that `meta.nextCursor` is the keyset and that a null one means the end.
-   */
   infinite: (options: ListPeopleOptions) => ({
     ...apiQueries.listPeopleInfiniteOptions(options),
     initialPageParam: '',
@@ -79,10 +37,15 @@ export const personQueries = {
       lastPage.meta.nextCursor ?? undefined,
   }),
 
-  listForInstitution: (options: ListPeopleOptions) =>
-    queryOptions({
-      queryKey: apiQueries.listPeopleQueryKey(options),
-      queryFn: ({ signal }) => fetchEveryone(options.path.institutionId, signal),
+  /**
+   * Sorted so the same set of ids is the same query key however the rows were
+   * ordered, and a filter change that does not change the actors re-uses the
+   * answer instead of asking again.
+   */
+  byIds: (institutionId: string, userIds: readonly string[]) =>
+    apiQueries.listPeopleOptions({
+      path: { institutionId },
+      query: { userIds: [...userIds].toSorted(), limit: RESOLVE_LIMIT },
     }),
 
   listForInstitutionKey: apiQueries.listPeopleQueryKey,

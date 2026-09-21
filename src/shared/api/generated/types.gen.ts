@@ -3443,6 +3443,10 @@ export type ListPeopleData = {
          * Narrows to people whose name or email contains this
          */
         q?: string;
+        /**
+         * Answer with only these people. Repeat the parameter or comma-separate.
+         */
+        userIds?: Array<string>;
     };
     url: '/api/v1/institutions/{institutionId}/people';
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import { cn } from '@/shared/lib';
 import { Input } from '@/shared/ui';
@@ -10,10 +10,20 @@ import { matchPeople, type Person } from '../model/person';
 const MAX_SUGGESTIONS = 8;
 
 /**
+ * Long enough that typing a name is one request rather than eight, short enough
+ * that the list has caught up by the time the typist looks at it.
+ */
+const SEARCH_DEBOUNCE_MS = 250;
+
+/**
  * A typeahead over the institution directory, which after a seed is 170-odd
- * names and in a real institution is thousands. The whole list is already in
- * memory — this narrows it rather than fetching, so the picker stays usable
- * without a new endpoint.
+ * names and in a real institution is thousands.
+ *
+ * `onSearchChange` is how the search reaches the server: the caller turns it
+ * into `q` and hands back a narrowed `people`. The debounce lives here rather
+ * than in each caller because the input that needs debouncing is here. Without
+ * a caller supplying it, the picker still narrows whatever list it was given,
+ * which is what the smaller pickers want.
  *
  * Built from `Input` and a plain listbox rather than a combobox primitive: the
  * shared UI barrel is the client bundle, and adopting one would put it on every
@@ -27,12 +37,15 @@ export function PersonPicker({
   emptyLabel,
   disabled,
   id,
+  onSearchChange,
   'aria-describedby': describedBy,
   'aria-invalid': invalid,
 }: {
   people: Person[];
   value: string;
   onChange: (userId: string) => void;
+  /** Called with the typed text, debounced, for a caller that searches server-side. */
+  onSearchChange?: (query: string) => void;
   placeholder: string;
   emptyLabel: string;
   disabled?: boolean;
@@ -51,6 +64,21 @@ export function PersonPicker({
   const [active, setActive] = useState(0);
   const blurTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
+  useEffect(() => {
+    if (!onSearchChange) return undefined;
+
+    const timer = setTimeout(() => {
+      onSearchChange(query);
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [query, onSearchChange]);
+
+  // Narrowed again locally even when the server has already filtered: the
+  // response for the previous keystroke is what is on screen while the next one
+  // is in flight, and showing names that no longer match reads as a broken box.
   const matches = useMemo(
     () => matchPeople(people, query).slice(0, MAX_SUGGESTIONS),
     [people, query],
