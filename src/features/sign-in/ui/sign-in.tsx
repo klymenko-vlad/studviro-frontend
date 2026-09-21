@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -11,6 +10,7 @@ import { CaptchaNotice, useCaptcha } from '@/entities/captcha';
 import { sessionApi } from '@/entities/session';
 import { toApiError } from '@/shared/api';
 import { LANDING_ROUTE, useRouter } from '@/shared/config';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -38,7 +38,7 @@ export function SignIn({ next, captchaEnabled = false }: SignInProps) {
   const captcha = useCaptcha(captchaEnabled);
 
   const form = useForm<SignInFormValues>({
-    resolver: zodResolver(signInSchema),
+    resolver: useZodResolver(signInSchema),
     defaultValues: { email: '', password: '' },
   });
 
@@ -83,7 +83,7 @@ export function SignIn({ next, captchaEnabled = false }: SignInProps) {
     form.formState.isSubmitting || mutation.isPending || captcha.status === 'solving';
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={signInSchema}>
       <form
         onSubmit={onSubmit}
         noValidate

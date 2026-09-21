@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -13,6 +12,7 @@ import {
   teachingAssignmentQueries,
 } from '@/entities/teaching-assignment';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -48,7 +48,7 @@ export function AssignTeacherForm({
   const people = useQuery(personQueries.listForInstitution({ path: { institutionId } }));
 
   const form = useForm<AssignTeacherFormValues>({
-    resolver: zodResolver(assignTeacherFormSchema),
+    resolver: useZodResolver(assignTeacherFormSchema),
     defaultValues: EMPTY,
   });
 
@@ -82,7 +82,7 @@ export function AssignTeacherForm({
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={assignTeacherFormSchema}>
       <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
         <FormField
           control={form.control}

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -11,6 +10,7 @@ import { toast } from 'sonner';
 import { CaptchaNotice, useCaptcha } from '@/entities/captcha';
 import { apiQueries, toApiError } from '@/shared/api';
 import { Link, ROUTES } from '@/shared/config';
+import { useZodResolver } from '@/shared/lib';
 import {
   Alert,
   AlertDescription,
@@ -41,7 +41,7 @@ export function RequestPasswordResetForm({
   const [devToken, setDevToken] = useState<string | undefined>(undefined);
 
   const form = useForm<RequestPasswordResetFormValues>({
-    resolver: zodResolver(requestPasswordResetSchema),
+    resolver: useZodResolver(requestPasswordResetSchema),
     defaultValues: { email: '' },
   });
 
@@ -90,7 +90,7 @@ export function RequestPasswordResetForm({
   }
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={requestPasswordResetSchema}>
       <form
         onSubmit={onSubmit}
         noValidate

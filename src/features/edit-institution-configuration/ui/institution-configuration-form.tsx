@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -15,6 +14,7 @@ import {
   type InstitutionConfiguration,
 } from '@/entities/institution-configuration';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import { Button, Form, Separator } from '@/shared/ui';
 
 import {
@@ -39,7 +39,7 @@ export function InstitutionConfigurationForm({
   const queryClient = useQueryClient();
 
   const form = useForm<InstitutionConfigurationFormValues>({
-    resolver: zodResolver(institutionConfigurationFormSchema),
+    resolver: useZodResolver(institutionConfigurationFormSchema),
     defaultValues: toFormValues(configuration),
   });
 
@@ -71,7 +71,7 @@ export function InstitutionConfigurationForm({
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={institutionConfigurationFormSchema}>
       <form onSubmit={onSubmit} noValidate className="flex flex-col gap-8">
         <section className="flex flex-col gap-4">
           <h3 className="text-sm font-medium">{t('regionalTitle')}</h3>

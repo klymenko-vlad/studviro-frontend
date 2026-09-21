@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -9,6 +8,7 @@ import { toast } from 'sonner';
 
 import { orgUnitMutations, orgUnitQueries } from '@/entities/org-unit';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -39,7 +39,7 @@ export function OrgUnitForm({ institutionId }: { institutionId: string }) {
   const units = useQuery(orgUnitQueries.listForInstitution({ path: { institutionId } }));
 
   const form = useForm<OrgUnitFormValues>({
-    resolver: zodResolver(orgUnitFormSchema),
+    resolver: useZodResolver(orgUnitFormSchema),
     defaultValues: EMPTY,
   });
 
@@ -71,7 +71,7 @@ export function OrgUnitForm({ institutionId }: { institutionId: string }) {
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={orgUnitFormSchema}>
       <form onSubmit={onSubmit} noValidate className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={form.control}

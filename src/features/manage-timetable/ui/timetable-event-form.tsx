@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -14,6 +13,7 @@ import {
 import { roomQueries } from '@/entities/room';
 import { studyGroupQueries } from '@/entities/study-group';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -63,7 +63,7 @@ export function TimetableEventForm({
   );
 
   const form = useForm<TimetableFormValues>({
-    resolver: zodResolver(timetableFormSchema),
+    resolver: useZodResolver(timetableFormSchema),
     defaultValues: EMPTY,
   });
 
@@ -100,7 +100,7 @@ export function TimetableEventForm({
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={timetableFormSchema}>
       <form onSubmit={onSubmit} noValidate className="grid gap-4 sm:grid-cols-3">
         <FormField
           control={form.control}

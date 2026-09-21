@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -13,6 +12,7 @@ import {
   type LearningSpace,
 } from '@/entities/learning-space';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -47,7 +47,7 @@ export function LearningSpaceSettings({
   const queryClient = useQueryClient();
 
   const form = useForm<LearningSpaceFormValues>({
-    resolver: zodResolver(learningSpaceFormSchema),
+    resolver: useZodResolver(learningSpaceFormSchema),
     defaultValues: toFormValues(space),
   });
 
@@ -84,7 +84,7 @@ export function LearningSpaceSettings({
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={learningSpaceFormSchema}>
       <form
         onSubmit={onSubmit}
         noValidate

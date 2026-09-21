@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -9,6 +8,7 @@ import { toast } from 'sonner';
 
 import { submissionMutations, submissionQueries } from '@/entities/submission';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -40,7 +40,7 @@ export function MarkSubmissionForm({
   const queryClient = useQueryClient();
 
   const form = useForm<MarkFormValues>({
-    resolver: zodResolver(markFormSchema),
+    resolver: useZodResolver(markFormSchema),
     defaultValues: { points: '', feedback: '' },
   });
 
@@ -76,7 +76,7 @@ export function MarkSubmissionForm({
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={markFormSchema}>
       <form
         onSubmit={onSubmit}
         noValidate

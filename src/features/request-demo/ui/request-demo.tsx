@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -9,6 +8,7 @@ import { toast } from 'sonner';
 
 import { CaptchaNotice, useCaptcha } from '@/entities/captcha';
 import { apiQueries, toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -42,7 +42,7 @@ export function RequestDemo({
   const captcha = useCaptcha(captchaEnabled);
 
   const form = useForm<RequestDemoFormValues>({
-    resolver: zodResolver(requestDemoSchema),
+    resolver: useZodResolver(requestDemoSchema),
     defaultValues: REQUEST_DEMO_DEFAULTS,
   });
 
@@ -78,7 +78,7 @@ export function RequestDemo({
     form.formState.isSubmitting || mutation.isPending || captcha.status === 'solving';
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={requestDemoSchema}>
       <form onSubmit={onSubmit} noValidate className="flex w-full flex-col gap-5">
         <FormField
           control={form.control}

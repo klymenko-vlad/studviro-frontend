@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -14,6 +13,7 @@ import {
   MATERIAL_KINDS,
 } from '@/entities/learning-material';
 import { toApiError, uploadViaTicket } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -51,7 +51,7 @@ export function MaterialForm({
   const [percent, setPercent] = useState<number | null>(null);
 
   const form = useForm<MaterialFormValues>({
-    resolver: zodResolver(materialFormSchema),
+    resolver: useZodResolver(materialFormSchema),
     defaultValues: EMPTY_MATERIAL,
   });
 
@@ -122,7 +122,7 @@ export function MaterialForm({
   const pending = form.formState.isSubmitting || ticket.isPending || create.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={materialFormSchema}>
       <form
         onSubmit={onSubmit}
         noValidate

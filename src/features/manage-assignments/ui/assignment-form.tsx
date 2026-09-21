@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -13,6 +12,7 @@ import {
   type Assignment,
 } from '@/entities/assignment';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -51,7 +51,7 @@ export function AssignmentForm({
   const editing = assignment !== undefined;
 
   const form = useForm<AssignmentFormValues>({
-    resolver: zodResolver(assignmentFormSchema),
+    resolver: useZodResolver(assignmentFormSchema),
     defaultValues: editing ? toFormValues(assignment) : EMPTY_ASSIGNMENT,
   });
 
@@ -110,7 +110,7 @@ export function AssignmentForm({
   const pending = form.formState.isSubmitting || create.isPending || update.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={assignmentFormSchema}>
       <form
         onSubmit={onSubmit}
         noValidate

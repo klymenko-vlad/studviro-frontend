@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -9,6 +8,7 @@ import { toast } from 'sonner';
 
 import { academicTermMutations, academicTermQueries } from '@/entities/academic-term';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -46,7 +46,7 @@ export function AcademicTermForm({ institutionId }: { institutionId: string }) {
   const queryClient = useQueryClient();
 
   const form = useForm<AcademicTermFormValues>({
-    resolver: zodResolver(academicTermFormSchema),
+    resolver: useZodResolver(academicTermFormSchema),
     defaultValues: EMPTY,
   });
 
@@ -78,7 +78,7 @@ export function AcademicTermForm({ institutionId }: { institutionId: string }) {
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={academicTermFormSchema}>
       <form onSubmit={onSubmit} noValidate className="grid gap-4 sm:grid-cols-2">
         <FormField
           control={form.control}

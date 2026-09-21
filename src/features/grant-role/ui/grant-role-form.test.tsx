@@ -84,7 +84,9 @@ describe('GrantRoleForm', () => {
     await user.type(screen.getByLabelText('Person'), 'not-a-uuid');
     await user.click(screen.getByRole('button', { name: 'Grant role' }));
 
-    expect(await screen.findByText(/UUID|uuid/)).toBeInTheDocument();
+    expect(
+      await screen.findByText('That is not a valid identifier.'),
+    ).toBeInTheDocument();
   });
 
   it('surfaces a duplicate grant on the role field rather than in a toast', async () => {

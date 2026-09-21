@@ -2389,7 +2389,7 @@ export const zEnrollmentResponseDto = z.object({
 export const zCreateUserDtoWritable = z.object({
     email: z.email(),
     displayName: z.string().min(1).max(120),
-    password: z.string().min(12).max(128),
+    password: z.string().min(8).max(128),
     captcha: z.string().optional()
 });
 

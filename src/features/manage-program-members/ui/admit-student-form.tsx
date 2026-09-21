@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -10,6 +9,7 @@ import { toast } from 'sonner';
 import { PersonPicker, personQueries } from '@/entities/person';
 import { programMemberMutations, programMemberQueries } from '@/entities/program-member';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -39,7 +39,7 @@ export function AdmitStudentForm({
   const people = useQuery(personQueries.listForInstitution({ path: { institutionId } }));
 
   const form = useForm<AdmitFormValues>({
-    resolver: zodResolver(admitFormSchema),
+    resolver: useZodResolver(admitFormSchema),
     defaultValues: EMPTY,
   });
 
@@ -71,7 +71,7 @@ export function AdmitStudentForm({
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={admitFormSchema}>
       <form onSubmit={onSubmit} noValidate className="flex flex-wrap items-start gap-4">
         <FormField
           control={form.control}

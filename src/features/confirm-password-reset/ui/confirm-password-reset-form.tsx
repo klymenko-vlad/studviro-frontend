@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -9,6 +8,7 @@ import { useForm } from 'react-hook-form';
 
 import { apiQueries } from '@/shared/api';
 import { ROUTES, useRouter } from '@/shared/config';
+import { useZodResolver } from '@/shared/lib';
 import {
   Alert,
   AlertDescription,
@@ -38,7 +38,7 @@ export function ConfirmPasswordResetForm({ token }: { token: string }) {
   );
 
   const form = useForm<ConfirmPasswordResetFormValues>({
-    resolver: zodResolver(schema),
+    resolver: useZodResolver(schema),
     defaultValues: { password: '', confirmPassword: '' },
   });
 
@@ -56,7 +56,7 @@ export function ConfirmPasswordResetForm({ token }: { token: string }) {
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={schema}>
       <form
         onSubmit={onSubmit}
         noValidate

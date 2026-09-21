@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -10,6 +9,7 @@ import { toast } from 'sonner';
 import { institutionMutations } from '@/entities/institution';
 import { toApiError } from '@/shared/api';
 import { institutionRoutes, useRouter } from '@/shared/config';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -32,7 +32,7 @@ export function CreateInstitutionForm() {
   const router = useRouter();
 
   const form = useForm<CreateInstitutionFormValues>({
-    resolver: zodResolver(createInstitutionFormSchema),
+    resolver: useZodResolver(createInstitutionFormSchema),
     defaultValues: { code: '', name: '', firstAdminUserId: '' },
   });
 
@@ -66,7 +66,7 @@ export function CreateInstitutionForm() {
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={createInstitutionFormSchema}>
       <form
         onSubmit={onSubmit}
         noValidate

@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -15,6 +14,7 @@ import {
   roleAssignmentQueries,
 } from '@/entities/role-assignment';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -46,7 +46,7 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
   );
 
   const form = useForm<GrantRoleFormValues>({
-    resolver: zodResolver(schema),
+    resolver: useZodResolver(schema),
     defaultValues: {
       userId: '',
       role: GRANTABLE_ROLES[0] ?? 'institution_admin',
@@ -96,7 +96,7 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={schema}>
       <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
         <FormField
           control={form.control}

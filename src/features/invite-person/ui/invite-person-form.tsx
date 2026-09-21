@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -15,6 +14,7 @@ import {
   toApiError,
   type CreateInvitationDto,
 } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -40,7 +40,7 @@ export function InvitePersonForm({ institutionId }: { institutionId: string }) {
   const [devToken, setDevToken] = useState<string | undefined>(undefined);
 
   const form = useForm<CreateInvitationDto>({
-    resolver: zodResolver(apiSchemas.zCreateInvitationDto),
+    resolver: useZodResolver(apiSchemas.zCreateInvitationDto),
     defaultValues: {
       address: '',
       role: GRANTABLE_ROLES[0] ?? 'institution_admin',
@@ -67,7 +67,7 @@ export function InvitePersonForm({ institutionId }: { institutionId: string }) {
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={apiSchemas.zCreateInvitationDto}>
       <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
         <FormField
           control={form.control}

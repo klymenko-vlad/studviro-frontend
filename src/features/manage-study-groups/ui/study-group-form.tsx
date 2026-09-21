@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -9,6 +8,7 @@ import { toast } from 'sonner';
 
 import { studyGroupMutations, studyGroupQueries } from '@/entities/study-group';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -42,7 +42,7 @@ export function StudyGroupForm({
   const queryClient = useQueryClient();
 
   const form = useForm<StudyGroupFormValues>({
-    resolver: zodResolver(studyGroupFormSchema),
+    resolver: useZodResolver(studyGroupFormSchema),
     defaultValues: EMPTY,
   });
 
@@ -77,7 +77,7 @@ export function StudyGroupForm({
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={studyGroupFormSchema}>
       <form onSubmit={onSubmit} noValidate className="flex flex-wrap items-start gap-4">
         <FormField
           control={form.control}

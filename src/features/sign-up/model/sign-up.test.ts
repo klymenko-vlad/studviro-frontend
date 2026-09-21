@@ -21,7 +21,7 @@ describe('signUpSchema', () => {
   });
 
   it('inherits the password length rule from the generated API schema', () => {
-    // The backend requires 12 characters; this must fail without us restating it.
+    // The backend requires 8 characters; this must fail without us restating it.
     const result = schema.safeParse({
       ...valid,
       password: 'short',
