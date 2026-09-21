@@ -717,9 +717,14 @@ export type LearningSpaceDto = {
 };
 
 export type LearningSpaceListResponseDto = {
+    /**
+     * Course pages written in this institution
+     */
     total: number;
-    linked: number;
-    unlinked: number;
+    /**
+     * Offerings in this institution that have no course page yet
+     */
+    offeringsWithoutPage: number;
     spaces: Array<LearningSpaceDto>;
 };
 

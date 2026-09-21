@@ -829,8 +829,7 @@ export function errorResponse(
 
 export const learningSpaces: LearningSpaceListResponseDto = {
   total: 2,
-  linked: 1,
-  unlinked: 1,
+  offeringsWithoutPage: 3,
   spaces: [
     {
       id: '9a1f0b3c-1111-4111-8111-111111111111',
@@ -847,7 +846,7 @@ export const learningSpaces: LearningSpaceListResponseDto = {
     },
     {
       id: '9a1f0b3c-3333-4333-8333-333333333333',
-      name: 'A space with no offering behind it',
+      name: 'A page whose course was withdrawn',
       shortName: null,
       summary: null,
       visible: false,
@@ -1687,8 +1686,7 @@ export const handlers = [
 
     return HttpResponse.json({
       total: 1,
-      linked: 1,
-      unlinked: 0,
+      offeringsWithoutPage: 0,
       spaces: [{ ...offeringLearningSpace, offeringId }],
     } satisfies LearningSpaceListResponseDto);
   }),

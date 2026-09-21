@@ -976,8 +976,7 @@ export const zLearningSpaceDto = z.object({
 
 export const zLearningSpaceListResponseDto = z.object({
     total: z.number(),
-    linked: z.number(),
-    unlinked: z.number(),
+    offeringsWithoutPage: z.number(),
     spaces: z.array(zLearningSpaceDto)
 });
 

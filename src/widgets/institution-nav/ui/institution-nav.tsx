@@ -47,10 +47,10 @@ const GATES: Record<NavKey, Permission | null> = {
   calendar: 'schedule:read',
   exams: 'schedule:read',
   notifications: 'notification:read',
-  // The endpoint behind this screen answers to `offering:read`, which every
-  // student holds; the screen itself reports import provenance, so the tab is
-  // offered to the staff who run the imports.
-  learning: 'offering:read',
+  // An index of every course page in the institution, including courses the
+  // caller has nothing to do with. `offering:read` is held by every student,
+  // which offered each of them a tab listing the whole university.
+  learning: 'offering:manage',
   roles: 'role:assign',
   orgUnits: 'role:read',
   people: 'role:read',

@@ -1058,7 +1058,9 @@ export const acceptInvitationMutation = (options?: Partial<Options<AcceptInvitat
 export const listLearningSpacesQueryKey = (options: Options<ListLearningSpacesData>) => createQueryKey('listLearningSpaces', options);
 
 /**
- * List the learning spaces of an institution, or the one on an offering
+ * The course page on an offering, or every course page in the institution
+ *
+ * With `offeringId`, the page on that offering — any reader of the offering may ask. Without it, the whole institution's index, which additionally requires `offering:manage`: the unfiltered list names courses the caller has nothing to do with.
  */
 export const listLearningSpacesOptions = (options: Options<ListLearningSpacesData>) => queryOptions<ListLearningSpacesResponse, ListLearningSpacesError, ListLearningSpacesResponse, ReturnType<typeof listLearningSpacesQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {

@@ -60,20 +60,15 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
       <Card>
         <CardHeader>
           <CardTitle>{t('summaryTitle')}</CardTitle>
-          <CardDescription>
-            {t('summary', { total: data.total, linked: data.linked })}
-          </CardDescription>
+          <CardDescription>{t('summary', { total: data.total })}</CardDescription>
         </CardHeader>
-        {data.unlinked > 0 ? (
-          <CardContent>
-            <Alert>
-              <AlertTitle>{t('unlinkedTitle')}</AlertTitle>
-              <AlertDescription>
-                {t('unlinkedDescription', { unlinked: data.unlinked })}
-              </AlertDescription>
-            </Alert>
-          </CardContent>
-        ) : null}
+        <CardContent>
+          <p className="text-sm">
+            {data.offeringsWithoutPage === 0
+              ? t('everyOfferingHasAPage')
+              : t('offeringsWithoutPage', { count: data.offeringsWithoutPage })}
+          </p>
+        </CardContent>
       </Card>
 
       <Table label={t('summaryTitle')}>

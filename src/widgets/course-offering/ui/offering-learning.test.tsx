@@ -41,7 +41,7 @@ const grant = (granted: string[]) => {
 const noSpace = () => {
   server.use(
     http.get(SPACES_URL, () =>
-      HttpResponse.json({ total: 0, linked: 0, unlinked: 0, spaces: [] }),
+      HttpResponse.json({ total: 0, offeringsWithoutPage: 1, spaces: [] }),
     ),
   );
 };

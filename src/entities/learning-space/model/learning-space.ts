@@ -3,9 +3,9 @@ import type { LearningSpaceDto, LearningSpaceListResponseDto } from '@/shared/ap
 export type LearningSpace = LearningSpaceDto;
 
 /**
- * A space no offering claims. Spaces are authored against an offering (ADR
- * 0028), so this is a leftover of the Moodle import rather than something the
- * authoring screens can produce.
+ * A page whose course is gone. Every page is authored against an offering (ADR
+ * 0028), so this only happens when that offering is later withdrawn — the page
+ * is still there and no longer says which course it is for.
  */
 export function isUnlinked(space: LearningSpace): boolean {
   return space.offeringId === null;

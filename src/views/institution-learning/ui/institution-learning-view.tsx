@@ -20,7 +20,7 @@ export function InstitutionLearningView({ institutionId }: { institutionId: stri
         <p className="text-muted-foreground text-pretty">{t('subtitle')}</p>
       </header>
 
-      {isPending ? null : can('offering:read') ? (
+      {isPending ? null : can('offering:manage') ? (
         <LearningSpaces institutionId={institutionId} />
       ) : (
         <Alert>

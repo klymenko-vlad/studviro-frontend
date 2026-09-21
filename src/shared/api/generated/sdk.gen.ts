@@ -1669,7 +1669,9 @@ export class Invitations {
 
 export class Learning {
     /**
-     * List the learning spaces of an institution, or the one on an offering
+     * The course page on an offering, or every course page in the institution
+     *
+     * With `offeringId`, the page on that offering — any reader of the offering may ask. Without it, the whole institution's index, which additionally requires `offering:manage`: the unfiltered list names courses the caller has nothing to do with.
      */
     public static listLearningSpaces<ThrowOnError extends boolean = false>(options: Options<ListLearningSpacesData, ThrowOnError>): RequestResult<ListLearningSpacesResponses, ListLearningSpacesErrors, ThrowOnError> {
         return (options.client ?? client).get<ListLearningSpacesResponses, ListLearningSpacesErrors, ThrowOnError>({
