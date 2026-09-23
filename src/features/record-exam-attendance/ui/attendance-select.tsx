@@ -39,11 +39,18 @@ export function AttendanceSelect({
     ...offeringExamTermMutations.recordAttendance(),
     onSuccess: async (_, { body }) => {
       toast.success(t(`recorded.${body.status}`, { student: registrant.displayName }));
-      await queryClient.invalidateQueries({
-        queryKey: offeringExamTermQueries.registrantsKey({
-          path: { institutionId, offeringId, examTermId },
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: offeringExamTermQueries.registrantsKey({
+            path: { institutionId, offeringId, examTermId },
+          }),
         }),
-      });
+        queryClient.invalidateQueries({
+          queryKey: offeringExamTermQueries.listKey({
+            path: { institutionId, offeringId },
+          }),
+        }),
+      ]);
     },
     onError: error => {
       setValue(recorded);
