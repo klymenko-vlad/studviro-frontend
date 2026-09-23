@@ -15,7 +15,9 @@ export function enrollmentBlockedNote(
 }
 
 export function canActOnOffering(offering: EnrollableOffering): boolean {
-  return offering.availability.canEnroll || offering.availability.canWithdraw;
+  const { canEnroll, canWithdraw, canJoinWaitlist } = offering.availability;
+
+  return canEnroll || canWithdraw || canJoinWaitlist;
 }
 
 export function actionableOfferings(

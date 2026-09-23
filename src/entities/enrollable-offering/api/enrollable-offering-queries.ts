@@ -8,4 +8,5 @@ export const enrollableOfferingQueries = {
 export const enrollmentMutations = {
   request: apiQueries.requestEnrollmentMutation,
   withdraw: apiQueries.withdrawFromCourseMutation,
+  joinWaitlist: apiQueries.joinCourseWaitlistMutation,
 } as const;

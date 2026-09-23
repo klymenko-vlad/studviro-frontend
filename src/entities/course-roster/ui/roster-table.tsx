@@ -19,6 +19,7 @@ const STATUS_VARIANT = {
   provisioning: 'warning',
   withdrawn: 'secondary',
   rejected: 'destructive',
+  waitlisted: 'warning',
 } as const;
 
 export function RosterTable({

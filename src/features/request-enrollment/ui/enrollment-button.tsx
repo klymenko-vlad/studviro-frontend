@@ -46,7 +46,16 @@ export function EnrollmentButton({
   const withdraw = useMutation({
     ...enrollmentMutations.withdraw(),
     onSuccess: async () => {
-      toast.success(t('withdrawn'));
+      toast.success(waiting ? t('leftWaitlist') : t('withdrawn'));
+      await invalidate();
+    },
+    onError,
+  });
+
+  const queue = useMutation({
+    ...enrollmentMutations.joinWaitlist(),
+    onSuccess: async () => {
+      toast.success(t('waitlisted'));
       await invalidate();
     },
     onError,
@@ -54,9 +63,57 @@ export function EnrollmentButton({
 
   if (!can('course:enroll')) return null;
 
-  const pending = request.isPending || withdraw.isPending;
-  const { canEnroll, canWithdraw } = offering.availability;
+  const pending = request.isPending || withdraw.isPending || queue.isPending;
+  const { canEnroll, canWithdraw, canJoinWaitlist } = offering.availability;
   const held = offering.myEnrollment;
+  const waiting = held?.status === 'waitlisted';
+  const spinner = pending ? <LoaderCircle className="animate-spin" aria-hidden /> : null;
+  const ask = () => {
+    request.mutate({ path: { institutionId }, body: { courseOfferingId: offering.id } });
+  };
+
+  if (waiting)
+    return (
+      <div className="flex flex-wrap gap-2">
+        {canEnroll ? (
+          <Button type="button" size="sm" disabled={pending} onClick={ask}>
+            {spinner}
+            {t('takePlace')}
+          </Button>
+        ) : null}
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          disabled={pending}
+          onClick={() => {
+            withdraw.mutate({ path: { institutionId, id: held.id } });
+          }}
+        >
+          {spinner}
+          {t('leaveWaitlist')}
+        </Button>
+      </div>
+    );
+
+  if (canJoinWaitlist)
+    return (
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        disabled={pending}
+        onClick={() => {
+          queue.mutate({
+            path: { institutionId },
+            body: { courseOfferingId: offering.id },
+          });
+        }}
+      >
+        {spinner}
+        {t('joinWaitlist')}
+      </Button>
+    );
 
   if (canWithdraw && held !== null)
     return (
@@ -75,18 +132,8 @@ export function EnrollmentButton({
     );
 
   return (
-    <Button
-      type="button"
-      size="sm"
-      disabled={pending || !canEnroll}
-      onClick={() => {
-        request.mutate({
-          path: { institutionId },
-          body: { courseOfferingId: offering.id },
-        });
-      }}
-    >
-      {pending ? <LoaderCircle className="animate-spin" aria-hidden /> : null}
+    <Button type="button" size="sm" disabled={pending || !canEnroll} onClick={ask}>
+      {spinner}
       {offering.isFull ? t('full') : t('enroll')}
     </Button>
   );

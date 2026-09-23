@@ -43,6 +43,7 @@ import type {
   TimetableEventResponseDto,
   UploadTicketResponseDto,
   UserResponseDto,
+  WaitingStudentResponseDto,
 } from '@/shared/api';
 
 /**
@@ -1102,6 +1103,23 @@ export const examRegistrants: ExamRegistrantResponseDto[] = [
   },
 ];
 
+export const waitingStudents: WaitingStudentResponseDto[] = [
+  {
+    enrollmentId: 'd1d1d1d1-d1d1-4d1d-8d1d-d1d1d1d1d1d1',
+    userId: '11111111-1111-4111-8111-111111111111',
+    displayName: 'Ada Lovelace',
+    email: 'ada@example.com',
+    waitlistedAt: '2026-01-15T09:00:00.000Z',
+  },
+  {
+    enrollmentId: 'd2d2d2d2-d2d2-4d2d-8d2d-d2d2d2d2d2d2',
+    userId: '22222222-2222-4222-8222-222222222222',
+    displayName: 'Alan Turing',
+    email: 'alan@example.com',
+    waitlistedAt: '2026-01-16T09:00:00.000Z',
+  },
+];
+
 export const studyGroups: StudyGroupResponseDto[] = [
   {
     id: 'f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f1',
@@ -1353,7 +1371,12 @@ export const enrollableOfferings: EnrollableOfferingResponseDto[] = [
     enrollmentOpensAt: '2026-01-10T00:00:00.000Z',
     enrollmentClosesAt: '2099-02-10T00:00:00.000Z',
     windowState: 'open',
-    availability: { canEnroll: true, canWithdraw: false, reason: 'open' },
+    availability: {
+      canEnroll: true,
+      canWithdraw: false,
+      canJoinWaitlist: false,
+      reason: 'open',
+    },
     myEnrollment: null,
     course: {
       id: '77777777-7777-4777-8777-777777777777',
@@ -1376,7 +1399,12 @@ export const enrollableOfferings: EnrollableOfferingResponseDto[] = [
     enrollmentOpensAt: '2026-01-10T00:00:00.000Z',
     enrollmentClosesAt: '2099-02-10T00:00:00.000Z',
     windowState: 'open',
-    availability: { canEnroll: false, canWithdraw: false, reason: 'full' },
+    availability: {
+      canEnroll: false,
+      canWithdraw: false,
+      canJoinWaitlist: true,
+      reason: 'full',
+    },
     myEnrollment: null,
     course: {
       id: 'aaaaaaa3-aaaa-4aaa-8aaa-aaaaaaaaaaa3',
@@ -2239,6 +2267,33 @@ export const handlers = [
       },
       { status: 201 },
     ),
+  ),
+
+  http.post(`${PROXY}/institutions/:institutionId/me/enrollments/waitlist`, () =>
+    HttpResponse.json(
+      {
+        id: 'bbbbbbb3-bbbb-4bbb-8bbb-bbbbbbbbbbb3',
+        courseOfferingId: '99999999-9999-4999-8999-999999999999',
+        status: 'waitlisted',
+        enrolledAt: null,
+        withdrawnAt: null,
+      },
+      { status: 201 },
+    ),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/waitlist`,
+    () => HttpResponse.json(waitingStudents),
+  ),
+
+  http.patch(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/enrollments/:enrollmentId`,
+    async ({ params, request }) => {
+      const { status } = (await request.json()) as { status: string };
+
+      return HttpResponse.json({ id: params['enrollmentId'], status });
+    },
   ),
 
   http.delete(`${PROXY}/institutions/:institutionId/me/enrollments/:id`, () =>

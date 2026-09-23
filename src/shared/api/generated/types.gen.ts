@@ -200,7 +200,7 @@ export type MyCourseTeacherDto = {
 
 export type MyCourseResponseDto = {
     enrollmentId: string;
-    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected' | 'waitlisted';
     requirementType: 'compulsory' | 'optional' | 'elective';
     attempt: number;
     enrolledAt: string | null;
@@ -277,7 +277,7 @@ export type CourseOfferingTeacherDto = {
 
 export type CourseOfferingEnrollmentDto = {
     enrollmentId: string;
-    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected' | 'waitlisted';
     requirementType: 'compulsory' | 'optional' | 'elective';
     attempt: number;
     enrolledAt: string | null;
@@ -325,7 +325,7 @@ export type RosterStudentDto = {
     userId: string;
     displayName: string;
     email: string;
-    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected' | 'waitlisted';
     requirementType: 'compulsory' | 'optional' | 'elective';
     attempt: number;
     enrolledAt: string | null;
@@ -469,7 +469,7 @@ export type OfferingResultStudentDto = {
     userId: string;
     displayName: string;
     email: string;
-    enrollmentStatus: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    enrollmentStatus: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected' | 'waitlisted';
     attempts: Array<OfferingResultAttemptDto>;
     nextAttempt: number;
 };
@@ -1138,7 +1138,7 @@ export type ExportedEnrollmentDto = {
     courseOfferingId: string;
     courseCode: string;
     courseTitle: string;
-    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected' | 'waitlisted';
     requirementType: 'compulsory' | 'optional' | 'elective';
     attempt: number;
     enrolledAt: string | null;
@@ -1424,12 +1424,12 @@ export type CorrectEnrollmentDto = {
     /**
      * The correction verb: a registrar may put an enrolment into any state, including past a full course or back from a mistaken withdrawal.
      */
-    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected' | 'waitlisted';
 };
 
 export type CorrectedEnrollmentResponseDto = {
     id: string;
-    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected' | 'waitlisted';
 };
 
 export type ProgramMemberResponseDto = {
@@ -1811,12 +1811,16 @@ export type CaptchaChallengeDto = {
 export type EnrollmentAvailabilityDto = {
     canEnroll: boolean;
     canWithdraw: boolean;
-    reason: 'open' | 'enrolled' | 'requested' | 'completed' | 'not_open' | 'closed' | 'full' | 'not_a_student';
+    /**
+     * The course is full, and the caller may queue for a place.
+     */
+    canJoinWaitlist: boolean;
+    reason: 'open' | 'enrolled' | 'requested' | 'waitlisted' | 'completed' | 'not_open' | 'closed' | 'full' | 'not_a_student';
 };
 
 export type MyEnrollmentSummaryDto = {
     id: string;
-    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected' | 'waitlisted';
 };
 
 export type EnrollableCourseDto = {
@@ -1854,9 +1858,17 @@ export type RequestEnrollmentDto = {
 export type EnrollmentResponseDto = {
     id: string;
     courseOfferingId: string;
-    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+    status: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected' | 'waitlisted';
     enrolledAt: string | null;
     withdrawnAt: string | null;
+};
+
+export type WaitingStudentResponseDto = {
+    enrollmentId: string;
+    userId: string;
+    displayName: string;
+    email: string | null;
+    waitlistedAt: string | null;
 };
 
 export type CreateUserDtoWritable = {
@@ -2553,7 +2565,7 @@ export type ListMyCoursesData = {
     };
     query?: {
         termId?: string;
-        status?: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected';
+        status?: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected' | 'waitlisted';
     };
     url: '/api/v1/institutions/{institutionId}/me/courses';
 };
@@ -6708,6 +6720,46 @@ export type RequestEnrollmentResponses = {
 
 export type RequestEnrollmentResponse = RequestEnrollmentResponses[keyof RequestEnrollmentResponses];
 
+export type JoinCourseWaitlistData = {
+    body: RequestEnrollmentDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/enrollments/waitlist';
+};
+
+export type JoinCourseWaitlistErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type JoinCourseWaitlistError = JoinCourseWaitlistErrors[keyof JoinCourseWaitlistErrors];
+
+export type JoinCourseWaitlistResponses = {
+    201: EnrollmentResponseDto;
+};
+
+export type JoinCourseWaitlistResponse = JoinCourseWaitlistResponses[keyof JoinCourseWaitlistResponses];
+
 export type WithdrawFromCourseData = {
     body?: never;
     path: {
@@ -6748,3 +6800,40 @@ export type WithdrawFromCourseResponses = {
 };
 
 export type WithdrawFromCourseResponse = WithdrawFromCourseResponses[keyof WithdrawFromCourseResponses];
+
+export type ListCourseWaitlistData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/waitlist';
+};
+
+export type ListCourseWaitlistErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListCourseWaitlistError = ListCourseWaitlistErrors[keyof ListCourseWaitlistErrors];
+
+export type ListCourseWaitlistResponses = {
+    200: Array<WaitingStudentResponseDto>;
+};
+
+export type ListCourseWaitlistResponse = ListCourseWaitlistResponses[keyof ListCourseWaitlistResponses];

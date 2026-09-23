@@ -89,7 +89,12 @@ describe('EnrollableCourses', () => {
         HttpResponse.json([
           {
             ...enrollableOfferings[0],
-            availability: { canEnroll: false, canWithdraw: true, reason: 'enrolled' },
+            availability: {
+              canEnroll: false,
+              canWithdraw: true,
+              canJoinWaitlist: false,
+              reason: 'enrolled',
+            },
             myEnrollment: {
               id: 'bbbbbbb2-bbbb-4bbb-8bbb-bbbbbbbbbbb2',
               status: 'active',
@@ -127,7 +132,73 @@ describe('EnrollableCourses', () => {
     });
   });
 
+  it('offers the waiting list on a full course, and says the student is on it', async () => {
+    render();
+
+    await userEvent.click(
+      await screen.findByRole('button', { name: 'Join the waiting list' }),
+    );
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith(
+        'You are on the waiting list. You will hear when the registrar decides, and you may take a place yourself if one comes free.',
+      );
+    });
+  });
+
+  it('lets a waiting student leave the list, or take a place that came free', async () => {
+    server.use(
+      http.get(`${BASE}/enrollable`, () =>
+        HttpResponse.json([
+          {
+            ...enrollableOfferings[1],
+            availability: {
+              canEnroll: true,
+              canWithdraw: true,
+              canJoinWaitlist: false,
+              reason: 'waitlisted',
+            },
+            myEnrollment: {
+              id: 'bbbbbbb3-bbbb-4bbb-8bbb-bbbbbbbbbbb3',
+              status: 'waitlisted',
+            },
+          },
+        ]),
+      ),
+    );
+    render();
+
+    expect(
+      await screen.findByRole('button', { name: 'Take the place' }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('enrollment-blocked-note')).toHaveTextContent(
+      'You are on the waiting list for this course.',
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: 'Leave the waiting list' }));
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('You left the waiting list.');
+    });
+  });
+
   it('narrows the list to what the caller can act on', async () => {
+    server.use(
+      http.get(`${BASE}/enrollable`, () =>
+        HttpResponse.json([
+          enrollableOfferings[0],
+          {
+            ...enrollableOfferings[1],
+            availability: {
+              canEnroll: false,
+              canWithdraw: false,
+              canJoinWaitlist: false,
+              reason: 'closed',
+            },
+          },
+        ]),
+      ),
+    );
     render();
 
     await screen.findByText('Databases');

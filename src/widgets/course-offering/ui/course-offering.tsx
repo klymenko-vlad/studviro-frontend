@@ -20,6 +20,7 @@ import { OfferingStaff } from './offering-staff';
 import { OfferingStudyGroups } from './offering-study-groups';
 import { OfferingTabs } from './offering-tabs';
 import { OfferingTimetable } from './offering-timetable';
+import { OfferingWaitlist } from './offering-waitlist';
 
 export function CourseOffering({
   institutionId,
@@ -76,6 +77,10 @@ export function CourseOffering({
                   content: (
                     <>
                       <OfferingRoster
+                        institutionId={institutionId}
+                        offeringId={offeringId}
+                      />
+                      <OfferingWaitlist
                         institutionId={institutionId}
                         offeringId={offeringId}
                       />

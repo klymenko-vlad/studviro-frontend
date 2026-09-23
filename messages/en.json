@@ -346,7 +346,8 @@
       "active": "Active",
       "completed": "Completed",
       "withdrawn": "Withdrawn",
-      "rejected": "Rejected"
+      "rejected": "Rejected",
+      "waitlisted": "On the waiting list"
     },
     "requirement": {
       "compulsory": "Compulsory",
@@ -748,7 +749,8 @@
       "active": "Active",
       "completed": "Completed",
       "withdrawn": "Withdrawn",
-      "rejected": "Rejected"
+      "rejected": "Rejected",
+      "waitlisted": "On the waiting list"
     }
   },
   "marketing": {
@@ -1333,7 +1335,8 @@
       "active": "Enrolled",
       "completed": "Completed",
       "withdrawn": "Withdrawn",
-      "rejected": "Refused"
+      "rejected": "Refused",
+      "waitlisted": "On the waiting list"
     },
     "window": {
       "opensOn": "Enrolment opens {date}",
@@ -1345,11 +1348,17 @@
       "enrolled": "You already have a place on this course.",
       "requested": "You have asked for a place and the university has not answered yet.",
       "completed": "You have already completed this course.",
-      "full": "Every place is taken.",
-      "not_a_student": "Only a student of a programme at this institution can take its courses."
+      "full": "Every place is taken. You can join the waiting list.",
+      "not_a_student": "Only a student of a programme at this institution can take its courses.",
+      "waitlisted": "You are on the waiting list for this course."
     },
     "deniedTitle": "You cannot enrol here",
-    "deniedDescription": "Your role at this institution does not include taking courses."
+    "deniedDescription": "Your role at this institution does not include taking courses.",
+    "joinWaitlist": "Join the waiting list",
+    "leaveWaitlist": "Leave the waiting list",
+    "takePlace": "Take the place",
+    "waitlisted": "You are on the waiting list. You will hear when the registrar decides, and you may take a place yourself if one comes free.",
+    "leftWaitlist": "You left the waiting list."
   },
   "catalogue": {
     "title": "Catalogue",
@@ -2059,5 +2068,18 @@
     "integer": "Enter a whole number.",
     "multipleOf": "Enter a multiple of {step}.",
     "invalid": "Check this value."
+  },
+  "courseWaitlist": {
+    "title": "Waiting list",
+    "description": "Students queueing for a place on a full course, first come first served. Admitting one goes past the capacity; either answer reaches the student.",
+    "empty": "Nobody is waiting for a place.",
+    "error": "The waiting list could not be read.",
+    "since": "Waiting since {date}",
+    "admit": "Admit",
+    "admitNamed": "Admit {student}",
+    "refuse": "Refuse",
+    "refuseNamed": "Refuse {student}",
+    "admitted": "{student} was given a place.",
+    "refused": "{student} was refused a place."
   }
 }

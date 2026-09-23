@@ -38,6 +38,7 @@ export {
   notifications,
   offeringResults,
   examRegistrants,
+  waitingStudents,
   offeringExamTerms,
   offeringTimetable,
   roleAssignments,

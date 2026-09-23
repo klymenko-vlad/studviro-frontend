@@ -256,7 +256,8 @@ export const zMyCourseResponseDto = z.object({
         'active',
         'completed',
         'withdrawn',
-        'rejected'
+        'rejected',
+        'waitlisted'
     ]),
     requirementType: z.enum([
         'compulsory',
@@ -368,7 +369,8 @@ export const zCourseOfferingEnrollmentDto = z.object({
         'active',
         'completed',
         'withdrawn',
-        'rejected'
+        'rejected',
+        'waitlisted'
     ]),
     requirementType: z.enum([
         'compulsory',
@@ -443,7 +445,8 @@ export const zRosterStudentDto = z.object({
         'active',
         'completed',
         'withdrawn',
-        'rejected'
+        'rejected',
+        'waitlisted'
     ]),
     requirementType: z.enum([
         'compulsory',
@@ -670,7 +673,8 @@ export const zOfferingResultStudentDto = z.object({
         'active',
         'completed',
         'withdrawn',
-        'rejected'
+        'rejected',
+        'waitlisted'
     ]),
     attempts: z.array(zOfferingResultAttemptDto),
     nextAttempt: z.number()
@@ -1433,7 +1437,8 @@ export const zExportedEnrollmentDto = z.object({
         'active',
         'completed',
         'withdrawn',
-        'rejected'
+        'rejected',
+        'waitlisted'
     ]),
     requirementType: z.enum([
         'compulsory',
@@ -1849,7 +1854,8 @@ export const zCorrectEnrollmentDto = z.object({
         'active',
         'completed',
         'withdrawn',
-        'rejected'
+        'rejected',
+        'waitlisted'
     ])
 });
 
@@ -1861,7 +1867,8 @@ export const zCorrectedEnrollmentResponseDto = z.object({
         'active',
         'completed',
         'withdrawn',
-        'rejected'
+        'rejected',
+        'waitlisted'
     ])
 });
 
@@ -2336,10 +2343,12 @@ export const zCaptchaChallengeDto = z.object({
 export const zEnrollmentAvailabilityDto = z.object({
     canEnroll: z.boolean(),
     canWithdraw: z.boolean(),
+    canJoinWaitlist: z.boolean(),
     reason: z.enum([
         'open',
         'enrolled',
         'requested',
+        'waitlisted',
         'completed',
         'not_open',
         'closed',
@@ -2356,7 +2365,8 @@ export const zMyEnrollmentSummaryDto = z.object({
         'active',
         'completed',
         'withdrawn',
-        'rejected'
+        'rejected',
+        'waitlisted'
     ])
 });
 
@@ -2405,10 +2415,19 @@ export const zEnrollmentResponseDto = z.object({
         'active',
         'completed',
         'withdrawn',
-        'rejected'
+        'rejected',
+        'waitlisted'
     ]),
     enrolledAt: z.iso.datetime().nullable(),
     withdrawnAt: z.iso.datetime().nullable()
+});
+
+export const zWaitingStudentResponseDto = z.object({
+    enrollmentId: z.uuid(),
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string().nullable(),
+    waitlistedAt: z.iso.datetime().nullable()
 });
 
 export const zCreateUserDtoWritable = z.object({
@@ -2589,7 +2608,8 @@ export const zListMyCoursesQuery = z.object({
         'active',
         'completed',
         'withdrawn',
-        'rejected'
+        'rejected',
+        'waitlisted'
     ]).optional()
 });
 
@@ -3481,9 +3501,24 @@ export const zRequestEnrollmentPath = z.object({
 
 export const zRequestEnrollmentResponse = zEnrollmentResponseDto;
 
+export const zJoinCourseWaitlistBody = zRequestEnrollmentDto;
+
+export const zJoinCourseWaitlistPath = z.object({
+    institutionId: z.string()
+});
+
+export const zJoinCourseWaitlistResponse = zEnrollmentResponseDto;
+
 export const zWithdrawFromCoursePath = z.object({
     institutionId: z.string(),
     id: z.string()
 });
 
 export const zWithdrawFromCourseResponse = zEnrollmentResponseDto;
+
+export const zListCourseWaitlistPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListCourseWaitlistResponse = z.array(zWaitingStudentResponseDto);
