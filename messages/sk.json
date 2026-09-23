@@ -1675,6 +1675,29 @@
       "state_exam": "Štátna skúška"
     }
   },
+  "examAttendance": {
+    "show": "Registrants",
+    "hide": "Hide registrants",
+    "showNamed": "Show who registered for the exam on {label}",
+    "hideNamed": "Hide who registered for the exam on {label}",
+    "listLabel": "Registered for the exam on {label}",
+    "empty": "Nobody holds a seat on this term.",
+    "error": "The registrants could not be read.",
+    "notYet": "Attendance can be recorded once the exam has started.",
+    "attendanceOf": "Attendance of {student}",
+    "status": {
+      "registered": "Not recorded",
+      "attended": "Sat the exam",
+      "no_show": "Did not come",
+      "excused": "Excused",
+      "cancelled": "Gave the seat up"
+    },
+    "recorded": {
+      "attended": "{student}: sat the exam.",
+      "no_show": "{student}: did not come.",
+      "excused": "{student}: excused."
+    }
+  },
   "timetableAdmin": {
     "title": "Rozvrh",
     "description": "Kedy sa tento predmet stretáva. Týždenný blok sa zapisuje ako jedna hodina na týždeň, takže presunúť alebo zrušiť jediný týždeň je bežná úprava.",
@@ -1986,6 +2009,7 @@
       "roleRevoked": "Rola odobratá",
       "enrollmentCorrected": "Zápis opravený",
       "examTermCancelled": "Skúškový termín zrušený",
+      "examAttendanceRecorded": "Exam attendance recorded",
       "personalDataErased": "Osobné údaje vymazané"
     }
   },

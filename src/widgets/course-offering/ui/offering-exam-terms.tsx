@@ -21,6 +21,8 @@ import {
   ListSkeleton,
 } from '@/shared/ui';
 
+import { OfferingExamRegistrants } from './offering-exam-registrants';
+
 export function OfferingExamTerms({
   institutionId,
   offeringId,
@@ -36,6 +38,7 @@ export function OfferingExamTerms({
   const { can } = usePermissions(institutionId);
   const readable = can('schedule:read');
   const manageable = can('schedule:manage');
+  const marksExams = can('grade:publish');
 
   const terms = useQuery({
     ...offeringExamTermQueries.list({ path: { institutionId, offeringId } }),
@@ -125,6 +128,15 @@ export function OfferingExamTerms({
 
                 {manageable ? (
                   <ExamTermActions
+                    institutionId={institutionId}
+                    offeringId={offeringId}
+                    term={term}
+                    label={when(term)}
+                  />
+                ) : null}
+
+                {marksExams && !isCancelled(term) ? (
+                  <OfferingExamRegistrants
                     institutionId={institutionId}
                     offeringId={offeringId}
                     term={term}

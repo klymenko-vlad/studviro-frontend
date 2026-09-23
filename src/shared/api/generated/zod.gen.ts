@@ -90,6 +90,7 @@ export const zAuditEventResponseDto = z.object({
         'role.revoked',
         'enrollment.corrected',
         'exam_term.cancelled',
+        'exam_registration.attendance_recorded',
         'personal_data.erased'
     ]),
     subjectType: z.enum([
@@ -97,6 +98,7 @@ export const zAuditEventResponseDto = z.object({
         'role_assignment',
         'enrollment',
         'exam_term',
+        'exam_registration',
         'personal_data_erasure'
     ]),
     subjectId: z.uuid(),
@@ -2265,6 +2267,29 @@ export const zUpdateExamTermDto = z.object({
     examinerId: z.uuid().nullish()
 });
 
+export const zExamRegistrantResponseDto = z.object({
+    id: z.uuid(),
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string().nullable(),
+    status: z.enum([
+        'registered',
+        'cancelled',
+        'attended',
+        'no_show',
+        'excused'
+    ]),
+    registeredAt: z.iso.datetime().nullable()
+});
+
+export const zRecordExamAttendanceDto = z.object({
+    status: z.enum([
+        'attended',
+        'no_show',
+        'excused'
+    ])
+});
+
 export const zSearchHitDto = z.object({
     kind: z.enum([
         'course',
@@ -2499,6 +2524,7 @@ export const zListAuditEventsQuery = z.object({
         'role.revoked',
         'enrollment.corrected',
         'exam_term.cancelled',
+        'exam_registration.attendance_recorded',
         'personal_data.erased'
     ]).optional(),
     subjectType: z.enum([
@@ -2506,6 +2532,7 @@ export const zListAuditEventsQuery = z.object({
         'role_assignment',
         'enrollment',
         'exam_term',
+        'exam_registration',
         'personal_data_erasure'
     ]).optional(),
     subjectId: z.uuid().optional(),
@@ -3402,6 +3429,25 @@ export const zCancelExamTermPath = z.object({
 });
 
 export const zCancelExamTermResponse = zExamTermRefDto;
+
+export const zListExamTermRegistrantsPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    examTermId: z.string()
+});
+
+export const zListExamTermRegistrantsResponse = z.array(zExamRegistrantResponseDto);
+
+export const zRecordExamAttendanceBody = zRecordExamAttendanceDto;
+
+export const zRecordExamAttendancePath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    examTermId: z.string(),
+    registrationId: z.string()
+});
+
+export const zRecordExamAttendanceResponse = zExamRegistrantResponseDto;
 
 export const zSearchPath = z.object({
     institutionId: z.string()

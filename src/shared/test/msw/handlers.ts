@@ -11,6 +11,7 @@ import type {
   CourseRosterResponseDto,
   EnrollableOfferingResponseDto,
   ErrorResponseDto,
+  ExamRegistrantResponseDto,
   ExamTermAdminResponseDto,
   ExternalIdentityResponseDto,
   InstitutionConfigurationResponseDto,
@@ -1082,6 +1083,25 @@ export const offeringExamTerms: ExamTermAdminResponseDto[] = [
   },
 ];
 
+export const examRegistrants: ExamRegistrantResponseDto[] = [
+  {
+    id: 'c1c1c1c1-c1c1-4c1c-8c1c-c1c1c1c1c1c1',
+    userId: '11111111-1111-4111-8111-111111111111',
+    displayName: 'Ada Lovelace',
+    email: 'ada@example.com',
+    status: 'registered',
+    registeredAt: '2026-12-16T08:00:00.000Z',
+  },
+  {
+    id: 'c2c2c2c2-c2c2-4c2c-8c2c-c2c2c2c2c2c2',
+    userId: '22222222-2222-4222-8222-222222222222',
+    displayName: 'Alan Turing',
+    email: 'alan@example.com',
+    status: 'no_show',
+    registeredAt: '2026-12-17T08:00:00.000Z',
+  },
+];
+
 export const studyGroups: StudyGroupResponseDto[] = [
   {
     id: 'f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f1',
@@ -2040,6 +2060,23 @@ export const handlers = [
   http.patch(
     `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/exam-terms/:examTermId`,
     () => HttpResponse.json({ id: 'b1b1b1b1-b1b1-4b1b-8b1b-b1b1b1b1b1b1' }),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/exam-terms/:examTermId/registrations`,
+    () => HttpResponse.json(examRegistrants),
+  ),
+
+  http.put(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/exam-terms/:examTermId/registrations/:registrationId/attendance`,
+    async ({ params, request }) => {
+      const { status } = (await request.json()) as { status: string };
+      const registrant = examRegistrants.find(
+        row => row.id === params['registrationId'],
+      )!;
+
+      return HttpResponse.json({ ...registrant, status });
+    },
   ),
 
   http.post(

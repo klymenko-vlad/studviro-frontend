@@ -110,8 +110,8 @@ export type SortOrder = typeof SortOrder[keyof typeof SortOrder];
 export type AuditEventResponseDto = {
     id: string;
     institutionId: string;
-    action: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled' | 'personal_data.erased';
-    subjectType: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term' | 'personal_data_erasure';
+    action: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled' | 'exam_registration.attendance_recorded' | 'personal_data.erased';
+    subjectType: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term' | 'exam_registration' | 'personal_data_erasure';
     subjectId: string;
     actorUserId?: string | null;
     summary?: string | null;
@@ -1742,6 +1742,22 @@ export type UpdateExamTermDto = {
     examinerId?: string | null;
 };
 
+export type ExamRegistrantResponseDto = {
+    id: string;
+    userId: string;
+    displayName: string;
+    email: string | null;
+    status: 'registered' | 'cancelled' | 'attended' | 'no_show' | 'excused';
+    registeredAt: string | null;
+};
+
+export type RecordExamAttendanceDto = {
+    /**
+     * A no-show spends the attempt; an excused absence does not. Either may be corrected later.
+     */
+    status: 'attended' | 'no_show' | 'excused';
+};
+
 export type SearchHitDto = {
     kind: 'course' | 'offering' | 'program' | 'person' | 'orgUnit' | 'room';
     id: string;
@@ -2323,8 +2339,8 @@ export type ListAuditEventsData = {
          */
         cursor?: string;
         order?: SortOrder;
-        action?: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled' | 'personal_data.erased';
-        subjectType?: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term' | 'personal_data_erasure';
+        action?: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled' | 'exam_registration.attendance_recorded' | 'personal_data.erased';
+        subjectType?: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term' | 'exam_registration' | 'personal_data_erasure';
         subjectId?: string;
         actorUserId?: string;
     };
@@ -6431,6 +6447,87 @@ export type CancelExamTermResponses = {
 };
 
 export type CancelExamTermResponse = CancelExamTermResponses[keyof CancelExamTermResponses];
+
+export type ListExamTermRegistrantsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        examTermId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms/{examTermId}/registrations';
+};
+
+export type ListExamTermRegistrantsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListExamTermRegistrantsError = ListExamTermRegistrantsErrors[keyof ListExamTermRegistrantsErrors];
+
+export type ListExamTermRegistrantsResponses = {
+    200: Array<ExamRegistrantResponseDto>;
+};
+
+export type ListExamTermRegistrantsResponse = ListExamTermRegistrantsResponses[keyof ListExamTermRegistrantsResponses];
+
+export type RecordExamAttendanceData = {
+    body: RecordExamAttendanceDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        examTermId: string;
+        registrationId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms/{examTermId}/registrations/{registrationId}/attendance';
+};
+
+export type RecordExamAttendanceErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RecordExamAttendanceError = RecordExamAttendanceErrors[keyof RecordExamAttendanceErrors];
+
+export type RecordExamAttendanceResponses = {
+    200: ExamRegistrantResponseDto;
+};
+
+export type RecordExamAttendanceResponse = RecordExamAttendanceResponses[keyof RecordExamAttendanceResponses];
 
 export type SearchData = {
     body?: never;
