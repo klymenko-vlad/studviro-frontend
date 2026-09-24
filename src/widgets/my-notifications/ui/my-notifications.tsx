@@ -12,6 +12,7 @@ import {
   notificationQueries,
   sortByNewest,
   unreadCount,
+  type Notification,
 } from '@/entities/notification';
 import { institutionRoutes } from '@/shared/config';
 import { EmptyState, ListSkeleton, QueryError } from '@/shared/ui';
@@ -52,11 +53,7 @@ export function MyNotifications({ institutionId }: { institutionId: string }) {
           <li key={notification.id}>
             <NotificationCard
               notification={notification}
-              href={
-                notification.courseOfferingId === null
-                  ? undefined
-                  : `${institutionRoutes(institutionId).courses}/${notification.courseOfferingId}`
-              }
+              href={hrefOf(institutionId, notification)}
               action={
                 <MarkNotificationReadButton
                   institutionId={institutionId}
@@ -69,4 +66,16 @@ export function MyNotifications({ institutionId }: { institutionId: string }) {
       </ul>
     </div>
   );
+}
+
+/**
+ * A queueing student holds no place, so the course page would refuse them; the
+ * place that came free is taken from the enrolment screen.
+ */
+function hrefOf(institutionId: string, notification: Notification): string | undefined {
+  const routes = institutionRoutes(institutionId);
+  if (notification.type === 'waitlist_place_free') return routes.enroll;
+  if (notification.courseOfferingId === null) return undefined;
+
+  return routes.courseOffering(notification.courseOfferingId);
 }

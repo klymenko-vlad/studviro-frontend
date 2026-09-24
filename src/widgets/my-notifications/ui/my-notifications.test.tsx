@@ -91,6 +91,25 @@ describe('MyNotifications', () => {
     });
   });
 
+  it('sends a queueing student to the enrolment screen when a place comes free', async () => {
+    server.use(
+      http.get(NOTIFICATIONS_URL, () =>
+        HttpResponse.json([{ ...notifications[0], type: 'waitlist_place_free' }]),
+      ),
+    );
+
+    renderWidget();
+
+    expect(
+      await screen.findByText('A place came free on a course you are waiting for'),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Places go to whoever asks first/)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Algorithms' })).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}/enroll`,
+    );
+  });
+
   it('says so when nothing has changed yet', async () => {
     server.use(http.get(NOTIFICATIONS_URL, () => HttpResponse.json([])));
 

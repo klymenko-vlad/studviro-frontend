@@ -690,14 +690,16 @@
       "exam_registration_confirmed": "Prihlásili ste sa na skúšku",
       "exam_registration_cancelled": "Zrušili ste prihlásenie na skúšku",
       "exam_registration_refused": "Univerzita odmietla vaše prihlásenie na skúšku",
-      "submission_marked": "Zadanie ohodnotené"
+      "submission_marked": "Zadanie ohodnotené",
+      "waitlist_place_free": "A place came free on a course you are waiting for"
     },
     "dueAt": "Termín {date}",
     "dueMovedTo": "Termín presunutý z {from} na {to}",
     "gradeIs": "Známka: {grade}",
     "gradeChanged": "Známka zmenená z {from} na {to}",
     "attempt": "Pokus {attempt}",
-    "reason": "Dôvod: {reason}"
+    "reason": "Dôvod: {reason}",
+    "placeFreeHint": "Places go to whoever asks first. Take it from the enrolment screen."
   },
   "myTeaching": {
     "title": "Moja výučba",

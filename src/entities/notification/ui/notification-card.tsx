@@ -139,6 +139,10 @@ export function NotificationCard({
           </p>
         )}
 
+        {notification.type === 'waitlist_place_free' ? (
+          <p className="text-muted-foreground text-sm">{t('placeFreeHint')}</p>
+        ) : null}
+
         {notification.reason === null ? null : (
           <p className="text-destructive text-sm" data-testid="notification-reason">
             {t('reason', { reason: notification.reason })}

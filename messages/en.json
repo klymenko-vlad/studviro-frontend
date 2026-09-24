@@ -690,14 +690,16 @@
       "exam_registration_confirmed": "You registered for an exam",
       "exam_registration_cancelled": "You cancelled an exam registration",
       "exam_registration_refused": "The university refused your exam registration",
-      "submission_marked": "Assignment marked"
+      "submission_marked": "Assignment marked",
+      "waitlist_place_free": "A place came free on a course you are waiting for"
     },
     "dueAt": "Due {date}",
     "dueMovedTo": "Deadline moved from {from} to {to}",
     "gradeIs": "Grade: {grade}",
     "gradeChanged": "Grade changed from {from} to {to}",
     "attempt": "Attempt {attempt}",
-    "reason": "Reason: {reason}"
+    "reason": "Reason: {reason}",
+    "placeFreeHint": "Places go to whoever asks first. Take it from the enrolment screen."
   },
   "myTeaching": {
     "title": "My teaching",
