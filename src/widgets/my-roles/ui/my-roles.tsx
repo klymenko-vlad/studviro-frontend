@@ -51,7 +51,10 @@ export function MyRoles() {
           <ul className="divide-border divide-y">
             {assignments.map(assignment => (
               <RoleAssignmentItem
-                key={assignment.id}
+                key={
+                  assignment.id ??
+                  `${assignment.source}:${assignment.institutionId}:${assignment.role}:${assignment.scopeType}:${assignment.scopeId ?? ''}`
+                }
                 assignment={assignment}
                 institutionName={institutionName(
                   institutions ?? [],
