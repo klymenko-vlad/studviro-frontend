@@ -74,6 +74,43 @@ describe('OfferingAssignments', () => {
     });
   });
 
+  it('writes an edited deadline to the assignment being edited, not to the add form', async () => {
+    let patched: { id: string; body: Record<string, unknown> } | undefined;
+    let posted = 0;
+    server.use(
+      http.patch(`${ASSIGNMENTS_URL}/:id`, async ({ params, request }) => {
+        patched = {
+          id: params['id'] as string,
+          body: (await request.json()) as Record<string, unknown>,
+        };
+        return HttpResponse.json(offeringAssignments[0]);
+      }),
+      http.post(ASSIGNMENTS_URL, () => {
+        posted += 1;
+        return HttpResponse.json(offeringAssignments[0], { status: 201 });
+      }),
+    );
+    const assignment = offeringAssignments[0]!;
+
+    const { user } = render();
+    await user.click(
+      await screen.findByRole('button', { name: `Edit ${assignment.name}` }),
+    );
+    const editor = screen.getByRole('form', { name: `Edit ${assignment.name}` });
+    const due = within(editor).getByLabelText('Due');
+    await user.clear(due);
+    await user.type(due, '2026-10-05T12:00');
+    await user.click(within(editor).getByRole('button', { name: 'Save the assignment' }));
+
+    await waitFor(() => {
+      expect(patched?.id).toBe(assignment.id);
+    });
+    expect(new Date(patched!.body['dueAt'] as string).getUTCDate()).toBe(5);
+    expect(posted).toBe(0);
+    const adder = screen.getByRole('form', { name: 'Add an assignment' });
+    expect(within(adder).getByLabelText('Due')).toHaveValue('');
+  });
+
   it('refuses a window that closes before it falls due, without asking the server', async () => {
     let posted = 0;
 
