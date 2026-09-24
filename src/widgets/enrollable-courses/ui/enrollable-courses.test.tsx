@@ -1,7 +1,10 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { http, HttpResponse } from 'msw';
 import { toast } from 'sonner';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { enrollableOfferingQueries } from '@/entities/enrollable-offering';
+import { QUERY_STALE_TIME } from '@/shared/config';
 import {
   enrollableOfferings,
   errorResponse,
@@ -26,6 +29,27 @@ describe('EnrollableCourses', () => {
   beforeEach(() => {
     vi.mocked(toast.success).mockClear();
     vi.mocked(toast.error).mockClear();
+  });
+
+  it('asks again on every visit, because a place comes free under other people', async () => {
+    const queryClient = new QueryClient({
+      defaultOptions: { queries: { retry: false, staleTime: QUERY_STALE_TIME } },
+    });
+    queryClient.setQueryData(
+      enrollableOfferingQueries.listKey({ path: { institutionId: INSTITUTION } }),
+      enrollableOfferings.map(offering => ({
+        ...offering,
+        course: { ...offering.course, title: `${offering.course.title} (earlier)` },
+      })),
+    );
+
+    renderWithProviders(
+      <QueryClientProvider client={queryClient}>
+        <EnrollableCourses institutionId={INSTITUTION} />
+      </QueryClientProvider>,
+    );
+
+    expect(await screen.findByText('Algorithms')).toBeInTheDocument();
   });
 
   it('lists the courses on offer with the places left on each', async () => {

@@ -15,9 +15,12 @@ import { ListSkeleton, QueryError, Switch } from '@/shared/ui';
 export function EnrollableCourses({ institutionId }: { institutionId: string }) {
   const t = useTranslations('enrollment');
   const [actionableOnly, setActionableOnly] = useState(false);
-  const { data, isPending, isError, refetch } = useQuery(
-    enrollableOfferingQueries.list({ path: { institutionId } }),
-  );
+  // Always asked again on arrival: places are taken and freed by other people,
+  // and a student sent here by "a place came free" must see it free.
+  const { data, isPending, isError, refetch } = useQuery({
+    ...enrollableOfferingQueries.list({ path: { institutionId } }),
+    staleTime: 0,
+  });
 
   if (isPending)
     return <ListSkeleton items={3} data-testid="enrollable-courses-loading" />;
