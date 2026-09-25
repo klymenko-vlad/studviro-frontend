@@ -451,7 +451,6 @@ export const deadlines: MyDeadlineResponseDto[] = [
     learningSpace: {
       id: 'aaaaaaaf-aaaa-4aaa-8aaa-aaaaaaaaaaaf',
       name: 'Databases',
-      brief: null,
     },
     offering: { id: 'aaaaaaa2-aaaa-4aaa-8aaa-aaaaaaaaaaa2' },
     course: {
@@ -990,6 +989,7 @@ export const mySubmissions: SubmissionResponseDto[] = [
         sizeBytes: 12_345,
       },
     ],
+    mark: null,
   },
 ];
 
@@ -1009,6 +1009,12 @@ export const assignmentSubmissions: SubmissionResponseDto[] = [
       email: 'grace@example.com',
     },
     files: [],
+    mark: {
+      points: 15,
+      maxPoints: 20,
+      feedback: 'Tidy, and correct.',
+      markedAt: '2026-10-01T09:00:00.000Z',
+    },
   },
 ];
 

@@ -1066,7 +1066,7 @@ export class Catalogue {
     }
     
     /**
-     * The seminar and lab groups on this offering, with their members
+     * The seminar and lab groups on this offering, with their members, for whoever teaches or administers it
      */
     public static listStudyGroups<ThrowOnError extends boolean = false>(options: Options<ListStudyGroupsData, ThrowOnError>): RequestResult<ListStudyGroupsResponses, ListStudyGroupsErrors, ThrowOnError> {
         return (options.client ?? client).get<ListStudyGroupsResponses, ListStudyGroupsErrors, ThrowOnError>({

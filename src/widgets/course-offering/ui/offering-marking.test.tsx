@@ -53,6 +53,15 @@ describe('OfferingMarking', () => {
     expect(within(table).getAllByText('Late')).toHaveLength(1);
   });
 
+  it('shows the mark already given, so a teacher coming back sees it', async () => {
+    render();
+
+    const form = await screen.findByRole('form', { name: "Mark Grace Hopper's work" });
+
+    expect(within(form).getByLabelText(/points/i)).toHaveValue(15);
+    expect(within(form).getByLabelText(/feedback/i)).toHaveValue('Tidy, and correct.');
+  });
+
   it('records points and feedback for one submission', async () => {
     const { user } = render();
 

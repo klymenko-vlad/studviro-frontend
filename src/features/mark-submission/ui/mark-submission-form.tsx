@@ -29,19 +29,25 @@ export function MarkSubmissionForm({
   submissionId,
   studentName,
   maxPoints,
+  mark,
 }: {
   institutionId: string;
   assignmentId: string;
   submissionId: string;
   studentName: string;
   maxPoints: number | null;
+  /** The mark already given, so coming back to the list shows it rather than a blank. */
+  mark: { points: number | null; feedback: string | null } | null;
 }) {
   const t = useTranslations('marking');
   const queryClient = useQueryClient();
 
   const form = useForm<MarkFormValues>({
     resolver: useZodResolver(markFormSchema),
-    defaultValues: { points: '', feedback: '' },
+    defaultValues: {
+      points: mark?.points === null || mark === null ? '' : String(mark.points),
+      feedback: mark?.feedback ?? '',
+    },
   });
 
   const mutation = useMutation({

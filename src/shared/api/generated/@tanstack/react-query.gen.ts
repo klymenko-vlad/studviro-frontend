@@ -1946,7 +1946,7 @@ export const updateProgramMembershipMutation = (options?: Partial<Options<Update
 export const listStudyGroupsQueryKey = (options: Options<ListStudyGroupsData>) => createQueryKey('listStudyGroups', options);
 
 /**
- * The seminar and lab groups on this offering, with their members
+ * The seminar and lab groups on this offering, with their members, for whoever teaches or administers it
  */
 export const listStudyGroupsOptions = (options: Options<ListStudyGroupsData>) => queryOptions<ListStudyGroupsResponse, ListStudyGroupsError, ListStudyGroupsResponse, ReturnType<typeof listStudyGroupsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {

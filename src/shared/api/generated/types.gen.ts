@@ -918,6 +918,13 @@ export type SubmissionFileResponseDto = {
     sizeBytes: number;
 };
 
+export type SubmissionMarkDto = {
+    points: number | null;
+    maxPoints: number | null;
+    feedback: string | null;
+    markedAt: string | null;
+};
+
 export type SubmissionResponseDto = {
     id: string;
     assignmentId: string;
@@ -928,6 +935,10 @@ export type SubmissionResponseDto = {
     notes: string | null;
     student: SubmissionStudentDto;
     files: Array<SubmissionFileResponseDto>;
+    /**
+     * The mark on this assignment for the author, once one has been given.
+     */
+    mark: SubmissionMarkDto | null;
 };
 
 export type SubmissionFileInputDto = {
@@ -967,7 +978,6 @@ export type DeadlineSubmissionDto = {
 export type DeadlineLearningSpaceDto = {
     id: string;
     name: string;
-    brief: string | null;
 };
 
 export type DeadlineOfferingDto = {

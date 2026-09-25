@@ -112,6 +112,7 @@ export function OfferingMarking({
                   submissionId={submission.id}
                   studentName={submission.student.displayName}
                   maxPoints={assignment.maxPoints}
+                  mark={submission.mark}
                 />
               </TableCell>
             </TableRow>

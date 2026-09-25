@@ -13,7 +13,7 @@ const deadline = (overrides: Partial<Deadline> = {}): Deadline => ({
   isOverdue: false,
   submission: null,
   attendance: 'enrolled',
-  learningSpace: { id: 'space-1', name: 'Programming 2', brief: null },
+  learningSpace: { id: 'space-1', name: 'Programming 2' },
   offering: { id: 'offering-1' },
   course: { id: 'course-1', code: 'INF/PF/22', title: 'Programming 2' },
   term: { id: 'term-1', code: '2026-WS', name: 'Winter 2026' },

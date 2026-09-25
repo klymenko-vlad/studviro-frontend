@@ -1138,6 +1138,13 @@ export const zSubmissionFileResponseDto = z.object({
     sizeBytes: z.number()
 });
 
+export const zSubmissionMarkDto = z.object({
+    points: z.number().nullable(),
+    maxPoints: z.number().nullable(),
+    feedback: z.string().nullable(),
+    markedAt: z.iso.datetime().nullable()
+});
+
 export const zSubmissionResponseDto = z.object({
     id: z.uuid(),
     assignmentId: z.uuid(),
@@ -1152,7 +1159,8 @@ export const zSubmissionResponseDto = z.object({
     isLate: z.boolean(),
     notes: z.string().nullable(),
     student: zSubmissionStudentDto,
-    files: z.array(zSubmissionFileResponseDto)
+    files: z.array(zSubmissionFileResponseDto),
+    mark: zSubmissionMarkDto.nullable()
 });
 
 export const zSubmissionFileInputDto = z.object({
@@ -1198,8 +1206,7 @@ export const zDeadlineSubmissionDto = z.object({
 
 export const zDeadlineLearningSpaceDto = z.object({
     id: z.uuid(),
-    name: z.string(),
-    brief: z.string().nullable()
+    name: z.string()
 });
 
 export const zDeadlineOfferingDto = z.object({
