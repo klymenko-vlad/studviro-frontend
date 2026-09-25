@@ -8,6 +8,8 @@ import {
   ACCESS_TOKEN_COOKIE,
   IS_SECURE_ORIGIN,
   isAppLocale,
+  LEGACY_REFRESH_COOKIE_PATH,
+  LEGACY_REFRESH_TOKEN_COOKIE,
   LOCALE_COOKIE,
   LOCALE_COOKIE_MAX_AGE,
   REFRESH_COOKIE_MAX_AGE,
@@ -114,6 +116,11 @@ export function clearSession(response: NextResponse): NextResponse {
     REFRESH_TOKEN_COOKIE,
     '',
     sessionCookieOptions(REFRESH_COOKIE_PATH, 0),
+  );
+  response.cookies.set(
+    LEGACY_REFRESH_TOKEN_COOKIE,
+    '',
+    sessionCookieOptions(LEGACY_REFRESH_COOKIE_PATH, 0),
   );
 
   return response;

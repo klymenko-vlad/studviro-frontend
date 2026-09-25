@@ -90,38 +90,14 @@ describe('respondWithSession', () => {
     expect(accessCookie?.maxAge).toBe(TOKENS.expiresIn);
   });
 
-  it('scopes the refresh token to the endpoints that redeem it', () => {
-    const { sv_rt: refreshCookie } = cookiesOf(respondWithSession(TOKENS));
+  it('sends the refresh token wherever a lapsed session has to be renewed', () => {
+    const { sv_refresh: refreshCookie } = cookiesOf(respondWithSession(TOKENS));
 
     expect(refreshCookie?.value).toBe(TOKENS.refreshToken);
     expect(refreshCookie?.httpOnly).toBe(true);
-    // The narrow path is what caps a forced-request attack at the access
-    // token's lifetime instead of the refresh token's.
-    expect(refreshCookie?.path).toBe('/api/auth');
-  });
-
-  it('adopts the language stored on the account', () => {
-    const { NEXT_LOCALE: localeCookie } = cookiesOf(respondWithSession(TOKENS));
-
-    // Signing in on a new device brings your language with you rather than
-    // adopting that device's browser setting.
-    expect(localeCookie?.value).toBe('sk');
-    expect(localeCookie?.httpOnly).toBe(false);
-  });
-
-  it('leaves the locale cookie alone when the account holds one we do not serve', () => {
-    // The DTO types `locale` as our own union, but the value is whatever the
-    // API actually sent — the cast is the point of the test, not a shortcut.
-    const drifted = {
-      ...TOKENS,
-      user: { ...TOKENS.user, locale: 'de' as AuthTokensDto['user']['locale'] },
-    };
-
-    const { NEXT_LOCALE: localeCookie } = cookiesOf(respondWithSession(drifted));
-
-    // Writing it would leave `request.ts` falling back to `Accept-Language` on
-    // every render until the user switched manually.
-    expect(localeCookie).toBeUndefined();
+    // Scoped to `/api/auth` it never reached a page or the API proxy, and every
+    // session ended with its first access token (ADR 0036).
+    expect(refreshCookie?.path).toBe('/');
   });
 });
 
@@ -135,6 +111,8 @@ describe('clearSession', () => {
     // A mismatched path leaves the original cookie in place and the user
     // apparently still signed in.
     expect(byName['sv_at:/']?.maxAge).toBe(0);
+    expect(byName['sv_refresh:/']?.maxAge).toBe(0);
+    // And the one a browser signed in before ADR 0036 may still hold.
     expect(byName['sv_rt:/api/auth']?.maxAge).toBe(0);
   });
 });

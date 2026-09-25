@@ -24,3 +24,5 @@ export {
   safeNext,
 } from './auth-route';
 export { getAccessToken, getCurrentUser, type SessionUser } from './session';
+export { isExpired } from './token-expiry';
+export { rotateRefreshToken } from './token-rotation';

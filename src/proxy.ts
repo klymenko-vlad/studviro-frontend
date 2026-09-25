@@ -1,5 +1,8 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
+import type { AuthTokensDto } from '@/shared/api';
+import { isExpired } from '@/shared/auth/token-expiry';
+import { rotateRefreshToken } from '@/shared/auth/token-rotation';
 import { IS_SECURE_ORIGIN, ROUTES } from '@/shared/config/app';
 import {
   buildContentSecurityPolicy,
@@ -12,7 +15,13 @@ import {
   LOCALE_COOKIE_MAX_AGE,
   negotiateLocale,
 } from '@/shared/config/i18n/routing';
-import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from '@/shared/config/session';
+import {
+  ACCESS_TOKEN_COOKIE,
+  REFRESH_COOKIE_MAX_AGE,
+  REFRESH_COOKIE_PATH,
+  REFRESH_TOKEN_COOKIE,
+  sessionCookieOptions,
+} from '@/shared/config/session';
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
@@ -28,13 +37,14 @@ const PROTECTED_PREFIXES = [ROUTES.account, ROUTES.institutions];
 /**
  * Next.js 16 renamed Middleware to Proxy; the contract is unchanged.
  *
- * Keep this cheap. It runs on every matched request, and it is explicitly not a
- * place for session lookups or data fetching — do authorization in the layouts
- * and Route Handlers that actually own the data. The cookie checks below are
- * presence tests, not verification: they exist to avoid rendering a whole
- * authenticated shell for a visitor who is plainly signed out.
+ * Keep this cheap. It runs on every matched request, and it is not a place for
+ * data fetching — do authorization in the layouts and Route Handlers that own the
+ * data. The one call it makes is renewing a lapsed access token, and only here can
+ * that be done safely: a render cannot write cookies, so a render that rotated the
+ * refresh token would lose the new one and the next request would replay the
+ * spent one (ADR 0036).
  */
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl;
 
   /**
@@ -44,9 +54,15 @@ export function proxy(request: NextRequest) {
    */
   const nonce = createNonce();
 
-  const response = requiresSession(pathname)
-    ? guardSession(request, nonce)
-    : forwardWithNonce(request, nonce);
+  const renewal = await renewSession(request);
+
+  const response =
+    requiresSession(pathname) && !hasSession(request)
+      ? redirectToSignIn(request)
+      : forwardWithNonce(request, nonce);
+
+  if (renewal === 'ended') endSession(response);
+  else if (renewal) storeSession(response, renewal);
 
   response.headers.set(
     'content-security-policy',
@@ -85,24 +101,76 @@ function requiresSession(pathname: string): boolean {
 }
 
 /**
- * A signed-out visitor is sent to sign-in; someone holding only a refresh token
- * is let through, because the page's own data fetch will refresh it server-side.
+ * Renews the session when the access token has lapsed or is about to, and writes
+ * the new pair into the request's own cookies so the render and the Route
+ * Handlers behind it read the token that will actually be accepted.
  *
- * The let-through case forwards the nonce like any other render — a protected
- * page runs the same inline theme script as a public one, and returning a bare
- * `next()` here would leave it with a policy it cannot satisfy.
+ * `'ended'` when the API refuses the refresh token: the session is over, and a
+ * protected page sends the visitor to sign in. An API that cannot be reached is
+ * not an ended session — the request goes on and its own data fetch reports it.
  */
-function guardSession(request: NextRequest, nonce: string): NextResponse {
-  const hasSession =
-    request.cookies.has(ACCESS_TOKEN_COOKIE) || request.cookies.has(REFRESH_TOKEN_COOKIE);
+async function renewSession(
+  request: NextRequest,
+): Promise<AuthTokensDto | 'ended' | undefined> {
+  const accessToken = request.cookies.get(ACCESS_TOKEN_COOKIE)?.value;
+  if (accessToken && !isExpired(accessToken)) return undefined;
 
-  if (hasSession) return forwardWithNonce(request, nonce);
+  const refreshToken = request.cookies.get(REFRESH_TOKEN_COOKIE)?.value;
+  if (!refreshToken) return undefined;
 
+  let tokens: AuthTokensDto | undefined;
+  try {
+    tokens = await rotateRefreshToken(refreshToken);
+  } catch {
+    return undefined;
+  }
+
+  if (!tokens) {
+    request.cookies.delete(ACCESS_TOKEN_COOKIE);
+    request.cookies.delete(REFRESH_TOKEN_COOKIE);
+    return 'ended';
+  }
+
+  request.cookies.set(ACCESS_TOKEN_COOKIE, tokens.accessToken);
+  request.cookies.set(REFRESH_TOKEN_COOKIE, tokens.refreshToken);
+
+  return tokens;
+}
+
+function hasSession(request: NextRequest): boolean {
+  return (
+    request.cookies.has(ACCESS_TOKEN_COOKIE) || request.cookies.has(REFRESH_TOKEN_COOKIE)
+  );
+}
+
+function redirectToSignIn(request: NextRequest): NextResponse {
   const signIn = new URL(ROUTES.signIn, request.url);
   // Preserved so the sign-in form can return the user where they were headed.
   signIn.searchParams.set('next', request.nextUrl.pathname);
 
   return NextResponse.redirect(signIn);
+}
+
+function storeSession(response: NextResponse, tokens: AuthTokensDto): void {
+  response.cookies.set(
+    ACCESS_TOKEN_COOKIE,
+    tokens.accessToken,
+    sessionCookieOptions('/', tokens.expiresIn),
+  );
+  response.cookies.set(
+    REFRESH_TOKEN_COOKIE,
+    tokens.refreshToken,
+    sessionCookieOptions(REFRESH_COOKIE_PATH, REFRESH_COOKIE_MAX_AGE),
+  );
+}
+
+function endSession(response: NextResponse): void {
+  response.cookies.set(ACCESS_TOKEN_COOKIE, '', sessionCookieOptions('/', 0));
+  response.cookies.set(
+    REFRESH_TOKEN_COOKIE,
+    '',
+    sessionCookieOptions(REFRESH_COOKIE_PATH, 0),
+  );
 }
 
 /**
