@@ -1935,6 +1935,10 @@
     "uploadTooLarge": "{filename} is larger than the store accepts. Nothing was handed in.",
     "progressLabel": "Upload progress",
     "downloadNamed": "Download {filename}",
+    "mark": "{points} of {maxPoints} points",
+    "markNoMaximum": "{points} points",
+    "markNoPoints": "Marked without points",
+    "feedback": "Feedback",
     "field": {
       "files": "Files",
       "notes": "Notes for the marker"

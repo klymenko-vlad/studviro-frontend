@@ -1274,7 +1274,7 @@ export const zAssessmentActivityDto = z.object({
         'complete',
         'complete_pass',
         'complete_fail'
-    ]),
+    ]).nullable(),
     submission: zAssessmentSubmissionDto.nullable()
 });
 
@@ -1480,7 +1480,7 @@ export const zExportedCourseResultDto = z.object({
         'FX',
         'passed',
         'failed'
-    ]),
+    ]).nullable(),
     proposedGrade: z.enum([
         'A',
         'B',
@@ -1490,7 +1490,7 @@ export const zExportedCourseResultDto = z.object({
         'FX',
         'passed',
         'failed'
-    ]),
+    ]).nullable(),
     proposedAt: z.iso.datetime().nullable(),
     officialGrade: z.enum([
         'A',
@@ -1501,7 +1501,7 @@ export const zExportedCourseResultDto = z.object({
         'FX',
         'passed',
         'failed'
-    ]),
+    ]).nullable(),
     officialRecordedAt: z.iso.datetime().nullable(),
     conflictNote: z.string().nullable()
 });

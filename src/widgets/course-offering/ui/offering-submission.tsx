@@ -77,6 +77,31 @@ export function OfferingSubmission({
                 <p className="text-muted-foreground text-sm">{submission.notes}</p>
               )}
 
+              {submission.mark === null ? null : (
+                <div className="flex flex-col gap-1 text-sm">
+                  <p className="font-medium">
+                    {submission.mark.points === null
+                      ? t('markNoPoints')
+                      : submission.mark.maxPoints === null
+                        ? t('markNoMaximum', { points: submission.mark.points })
+                        : t('mark', {
+                            points: submission.mark.points,
+                            maxPoints: submission.mark.maxPoints,
+                          })}
+                  </p>
+                  {submission.mark.feedback === null ? null : (
+                    <figure className="flex flex-col gap-1">
+                      <figcaption className="text-muted-foreground text-xs">
+                        {t('feedback')}
+                      </figcaption>
+                      <blockquote className="border-border border-l-2 pl-3 whitespace-pre-line">
+                        {submission.mark.feedback}
+                      </blockquote>
+                    </figure>
+                  )}
+                </div>
+              )}
+
               <div className="flex flex-wrap gap-2">
                 {submission.files.map(file => (
                   <SubmissionFileDownload

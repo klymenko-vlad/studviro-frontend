@@ -1935,6 +1935,10 @@
     "uploadTooLarge": "Súbor {filename} je väčší, než úložisko prijíma. Nič sa neodovzdalo.",
     "progressLabel": "Priebeh nahrávania",
     "downloadNamed": "Stiahnuť {filename}",
+    "mark": "{points} of {maxPoints} points",
+    "markNoMaximum": "{points} points",
+    "markNoPoints": "Marked without points",
+    "feedback": "Feedback",
     "field": {
       "files": "Súbory",
       "notes": "Poznámky pre hodnotiteľa"

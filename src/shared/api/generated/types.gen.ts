@@ -1023,7 +1023,7 @@ export type AssessmentActivityDto = {
     id: string;
     type: 'assignment' | 'forum' | 'resource' | 'workshop' | 'other';
     dueAt: string | null;
-    completionState: 'incomplete' | 'complete' | 'complete_pass' | 'complete_fail';
+    completionState: 'incomplete' | 'complete' | 'complete_pass' | 'complete_fail' | null;
     submission: AssessmentSubmissionDto | null;
 };
 
@@ -1161,10 +1161,10 @@ export type ExportedCourseResultDto = {
     status: 'calculated' | 'proposed' | 'official' | 'corrected' | 'annulled' | 'disputed';
     attempt: number;
     calculatedPoints: number | null;
-    calculatedGrade: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed';
-    proposedGrade: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed';
+    calculatedGrade: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed' | null;
+    proposedGrade: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed' | null;
     proposedAt: string | null;
-    officialGrade: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed';
+    officialGrade: 'A' | 'B' | 'C' | 'D' | 'E' | 'FX' | 'passed' | 'failed' | null;
     officialRecordedAt: string | null;
     conflictNote: string | null;
 };

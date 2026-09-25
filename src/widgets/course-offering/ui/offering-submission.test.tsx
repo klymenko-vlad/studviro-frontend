@@ -71,6 +71,32 @@ describe('OfferingSubmission', () => {
     expect(screen.queryByText('Late')).not.toBeInTheDocument();
   });
 
+  it('shows the student the mark and the feedback on their work', async () => {
+    server.use(
+      http.get(MINE_URL, () =>
+        HttpResponse.json([
+          {
+            ...mySubmissions[0]!,
+            state: 'graded',
+            mark: {
+              points: 8,
+              maxPoints: 10,
+              feedback: 'Clear argument; cite the second source.',
+              markedAt: '2026-10-03T09:00:00.000Z',
+            },
+          },
+        ]),
+      ),
+    );
+
+    render();
+
+    expect(await screen.findByText('8 of 10 points')).toBeInTheDocument();
+    expect(
+      screen.getByText('Clear argument; cite the second source.'),
+    ).toBeInTheDocument();
+  });
+
   it('says how many attempts are left under the policy', async () => {
     render();
 
