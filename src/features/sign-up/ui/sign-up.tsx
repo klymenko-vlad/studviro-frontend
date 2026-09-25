@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
@@ -37,6 +37,7 @@ interface SignUpProps {
 export function SignUp({ next, captchaEnabled = false }: SignUpProps) {
   const t = useTranslations('auth');
   const router = useRouter();
+  const queryClient = useQueryClient();
   const captcha = useCaptcha(captchaEnabled);
 
   const schema = useMemo(
@@ -58,6 +59,8 @@ export function SignUp({ next, captchaEnabled = false }: SignUpProps) {
        * first only invalidates the route being left, so the destination would
        * still render the root layout cached while signed out.
        */
+      // Anything cached so far was fetched as somebody else, or as nobody.
+      void queryClient.resetQueries();
       router.push(next ?? LANDING_ROUTE);
       router.refresh();
     },

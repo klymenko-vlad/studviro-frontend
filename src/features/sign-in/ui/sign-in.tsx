@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
@@ -35,6 +35,7 @@ interface SignInProps {
 export function SignIn({ next, captchaEnabled = false }: SignInProps) {
   const t = useTranslations('auth');
   const router = useRouter();
+  const queryClient = useQueryClient();
   const captcha = useCaptcha(captchaEnabled);
 
   const form = useForm<SignInFormValues>({
@@ -53,6 +54,8 @@ export function SignIn({ next, captchaEnabled = false }: SignInProps) {
        * the destination still renders from the stale cache and shows a
        * signed-out header to someone who has just signed in.
        */
+      // Anything cached so far was fetched as somebody else, or as nobody.
+      void queryClient.resetQueries();
       router.push(next ?? LANDING_ROUTE);
       router.refresh();
     },

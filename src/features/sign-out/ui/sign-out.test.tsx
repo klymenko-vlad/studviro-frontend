@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -7,9 +9,20 @@ import { DropdownMenu, DropdownMenuContent } from '@/shared/ui';
 
 import { SignOutMenuItem } from './sign-out';
 
+let client: QueryClient | undefined;
+
+function CaptureClient() {
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    client = queryClient;
+  }, [queryClient]);
+  return null;
+}
+
 function renderOpenMenu() {
   return renderWithProviders(
     <DropdownMenu open>
+      <CaptureClient />
       <DropdownMenuContent>
         <SignOutMenuItem />
       </DropdownMenuContent>
@@ -35,6 +48,18 @@ describe('SignOutMenuItem', () => {
       expect(push).toHaveBeenCalledWith('/');
     });
     expect(refresh).toHaveBeenCalled();
+  });
+
+  it('forgets everything cached for the person signing out', async () => {
+    const { user } = renderOpenMenu();
+    client!.setQueryData(['permissions'], { permissions: ['audit:read'] });
+
+    await user.click(await screen.findByRole('menuitem', { name: /sign out/i }));
+
+    await vi.waitFor(() => {
+      expect(push).toHaveBeenCalledWith('/');
+    });
+    expect(client!.getQueryData(['permissions'])).toBeUndefined();
   });
 
   it('still signs the browser out when the API call fails', async () => {
