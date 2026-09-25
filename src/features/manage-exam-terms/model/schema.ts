@@ -43,6 +43,10 @@ export const examTermFormSchema = apiSchemas.zCreateExamTermDto
       values.opensOn === '' || values.closesOn === '' || values.closesOn > values.opensOn,
     { path: ['closesOn'], message: 'Registration must close after it opens' },
   )
+  .refine(values => values.opensOn === '' || values.opensOn <= values.date, {
+    path: ['opensOn'],
+    message: 'Registration must open before the exam starts',
+  })
   .refine(values => values.closesOn === '' || values.closesOn <= values.date, {
     path: ['closesOn'],
     message: 'Registration must close before the exam starts',

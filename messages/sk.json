@@ -612,7 +612,6 @@
     "registration": {
       "opensOn": "Prihlasovanie sa otvára {date}",
       "closesOn": "Prihlasovanie sa zatvára {date}",
-      "openUntilFurtherNotice": "Prihlasovanie je otvorené",
       "closedNow": "Prihlasovanie je zatvorené"
     },
     "register": "Prihlásiť sa",
@@ -1662,7 +1661,7 @@
     "seats": "Obsadených miest: {taken} z {capacity}",
     "seatsUnlimited": "Prihlásených: {taken}, bez obmedzenia miest",
     "window": "Prihlasovanie {opens} až {closes}",
-    "windowOpen": "Prihlasovanie je otvorené, kým termín platí.",
+    "windowUntilExamStarts": "Registration is open until the exam starts.",
     "windowAlways": "od začiatku",
     "windowUntilExam": "skúška",
     "field": {

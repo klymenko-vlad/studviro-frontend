@@ -145,9 +145,10 @@ describe('examRegistrationLabel', () => {
     });
   });
 
-  it('promises no deadline the source did not give', () => {
+  it('names the exam itself as the deadline when no close date was set', () => {
     expect(examRegistrationLabel(term({ registrationClosesAt: null }))).toEqual({
-      key: 'openUntilFurtherNotice',
+      key: 'closesOn',
+      date: term().startsAt,
     });
   });
 

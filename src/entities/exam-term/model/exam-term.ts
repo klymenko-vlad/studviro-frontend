@@ -32,7 +32,6 @@ export function examSeatsLabelKey(
 export type ExamRegistrationLabel =
   | { key: 'opensOn'; date: string }
   | { key: 'closesOn'; date: string }
-  | { key: 'openUntilFurtherNotice' }
   | { key: 'closedNow' };
 
 export function examRegistrationLabel(term: ExamTerm): ExamRegistrationLabel {
@@ -40,9 +39,7 @@ export function examRegistrationLabel(term: ExamTerm): ExamRegistrationLabel {
     return { key: 'opensOn', date: term.registrationOpensAt };
 
   if (term.registrationState === 'open')
-    return term.registrationClosesAt === null
-      ? { key: 'openUntilFurtherNotice' }
-      : { key: 'closesOn', date: term.registrationClosesAt };
+    return { key: 'closesOn', date: term.registrationClosesAt ?? term.startsAt };
 
   return { key: 'closedNow' };
 }

@@ -612,7 +612,6 @@
     "registration": {
       "opensOn": "Registration opens {date}",
       "closesOn": "Registration closes {date}",
-      "openUntilFurtherNotice": "Registration is open",
       "closedNow": "Registration is closed"
     },
     "register": "Register",
@@ -1662,7 +1661,7 @@
     "seats": "{taken} of {capacity} seats taken",
     "seatsUnlimited": "{taken} registered, no seat limit",
     "window": "Registration {opens} to {closes}",
-    "windowOpen": "Registration is open for as long as the term stands.",
+    "windowUntilExamStarts": "Registration is open until the exam starts.",
     "windowAlways": "from the start",
     "windowUntilExam": "the exam",
     "field": {

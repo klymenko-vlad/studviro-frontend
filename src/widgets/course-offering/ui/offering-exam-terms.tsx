@@ -113,7 +113,7 @@ export function OfferingExamTerms({
 
                 <p className="text-muted-foreground text-xs">
                   {term.registrationOpensAt === null && term.registrationClosesAt === null
-                    ? t('windowOpen')
+                    ? t('windowUntilExamStarts')
                     : t('window', {
                         opens:
                           term.registrationOpensAt === null
