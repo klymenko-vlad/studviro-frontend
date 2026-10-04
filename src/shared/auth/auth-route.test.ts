@@ -51,6 +51,49 @@ describe('isSameOrigin', () => {
     expect(isSameOrigin(request(null))).toBe(false);
   });
 
+  describe('on a host other than the configured one', () => {
+    const PREVIEW = 'studviro-frontend-git-dev-team.vercel.app';
+
+    function servedFrom(origin: string, headers: Record<string, string>): Request {
+      return new Request(`https://${PREVIEW}/api/auth/login`, {
+        method: 'POST',
+        headers: { origin, ...headers },
+      });
+    }
+
+    it('accepts a request from the host it was served on', () => {
+      expect(
+        isSameOrigin(servedFrom(`https://${PREVIEW}`, { 'x-forwarded-host': PREVIEW })),
+      ).toBe(true);
+    });
+
+    it('falls back to the Host header without a forwarding proxy', () => {
+      expect(isSameOrigin(servedFrom(`https://${PREVIEW}`, { host: PREVIEW }))).toBe(
+        true,
+      );
+    });
+
+    it('rejects another origin posting to that host', () => {
+      expect(
+        isSameOrigin(servedFrom('https://evil.example', { 'x-forwarded-host': PREVIEW })),
+      ).toBe(false);
+    });
+
+    it('rejects a lookalike of that host', () => {
+      expect(
+        isSameOrigin(
+          servedFrom(`https://${PREVIEW}.evil.example`, { 'x-forwarded-host': PREVIEW }),
+        ),
+      ).toBe(false);
+    });
+
+    it('rejects a malformed Origin', () => {
+      expect(isSameOrigin(servedFrom('null', { 'x-forwarded-host': PREVIEW }))).toBe(
+        false,
+      );
+    });
+  });
+
   it('accepts its own origin when the configured URL carries a trailing slash', async () => {
     // `NEXT_PUBLIC_APP_URL` is validated as a URL, not an origin, so a trailing
     // slash is legal configuration. Compared as a raw string it would reject

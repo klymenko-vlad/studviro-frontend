@@ -48,8 +48,22 @@ export function isSameOrigin(request: Request): boolean {
   // A same-origin `fetch` always sends Origin; its absence means a non-browser
   // client, which is not what these routes exist for.
   if (!origin) return false;
+  if (origin === APP_ORIGIN) return true;
 
-  return origin === APP_ORIGIN;
+  // A preview deployment is built with the production `NEXT_PUBLIC_APP_URL` but
+  // served on its own host, so the host the request arrived on also counts.
+  const servedHost =
+    request.headers.get('x-forwarded-host') ?? request.headers.get('host');
+
+  return servedHost !== null && hostOf(origin) === servedHost;
+}
+
+function hostOf(origin: string): string | null {
+  try {
+    return new URL(origin).host;
+  } catch {
+    return null;
+  }
 }
 
 export function forbidden(): NextResponse {
