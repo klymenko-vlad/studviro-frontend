@@ -1,4 +1,4 @@
-import { InstitutionNav } from '@/widgets/institution-nav';
+import { InstitutionFrame } from '@/widgets/institution-nav';
 
 export default async function InstitutionLayout({
   children,
@@ -6,10 +6,5 @@ export default async function InstitutionLayout({
 }: LayoutProps<'/institutions/[institutionId]'>) {
   const { institutionId } = await params;
 
-  return (
-    <>
-      <InstitutionNav institutionId={institutionId} />
-      {children}
-    </>
-  );
+  return <InstitutionFrame institutionId={institutionId}>{children}</InstitutionFrame>;
 }

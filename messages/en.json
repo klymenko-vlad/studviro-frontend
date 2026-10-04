@@ -18,13 +18,13 @@
     "signUp": "Sign up",
     "institutionLabel": "Institution sections",
     "dashboard": "Dashboard",
-    "courses": "Courses",
+    "courses": "My courses",
     "grades": "Grades",
     "calendar": "Calendar",
     "roles": "Roles",
     "settings": "Settings",
     "exams": "Exams",
-    "teaching": "Teaching",
+    "teaching": "My teaching",
     "notifications": "Notifications",
     "createInstitution": "Create institution",
     "orgUnits": "Org units",
@@ -39,7 +39,14 @@
     "menu": "Menu",
     "menuDescription": "Product links and account actions.",
     "accountMenu": "Account menu",
-    "preferences": "Theme and language"
+    "preferences": "Theme and language",
+    "sections": "Sections",
+    "sectionsDescription": "Every screen of this institution you can open.",
+    "groups": {
+      "studies": "My studies",
+      "teaching": "Teaching",
+      "administration": "Administration"
+    }
   },
   "home": {
     "title": "One academic platform your institution runs itself",
@@ -536,8 +543,8 @@
     "sections": {
       "administration": {
         "title": "Running the institution",
-        "description": "Where the academic year stands, and the screens you run it from.",
-        "subtitle": "Where the academic year stands, and the screens you run the institution from."
+        "description": "Where the academic year stands and what changed lately.",
+        "subtitle": "Where the academic year stands and what changed lately."
       },
       "teaching": {
         "title": "Teaching",
@@ -582,41 +589,12 @@
       "error": "The academic terms are unavailable right now.",
       "link": "Manage terms"
     },
-    "shortcuts": {
-      "title": "Administration",
-      "description": "The screens your roles let you run.",
-      "catalogue": {
-        "title": "Catalogue",
-        "description": "Terms, programmes, courses and what runs when."
-      },
-      "bulk": {
-        "title": "Bulk entry",
-        "description": "Paste a term of offerings or a cohort from a spreadsheet."
-      },
-      "people": {
-        "title": "People",
-        "description": "Find anyone with a place in the institution."
-      },
-      "roles": {
-        "title": "Roles and invitations",
-        "description": "Grant access and invite new people."
-      },
-      "orgUnits": {
-        "title": "Org units and rooms",
-        "description": "Faculties, departments and the rooms they use."
-      },
-      "learning": {
-        "title": "Course pages",
-        "description": "Every course page across the institution."
-      },
-      "audit": {
-        "title": "Audit trail",
-        "description": "Who changed what, and when."
-      },
-      "settings": {
-        "title": "Settings",
-        "description": "Terminology and the features this institution runs."
-      }
+    "activity": {
+      "title": "Recent changes",
+      "description": "The latest grades, roles and corrections recorded here.",
+      "empty": "Nothing has been recorded yet.",
+      "error": "Recent changes are unavailable right now.",
+      "link": "Open the audit trail"
     }
   },
   "calendar": {

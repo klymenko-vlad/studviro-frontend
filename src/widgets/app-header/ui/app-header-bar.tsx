@@ -15,7 +15,9 @@ import { PreferencesMenu } from './preferences-menu';
  * Sticky, one fixed row, aligned to the same `max-w-6xl` gutter every page
  * uses so the brand sits directly above the page title. It never wraps: what a
  * narrow screen cannot hold goes into the sheet or the account menu rather
- * than onto a second line.
+ * than onto a second line. Beside an institution's sidebar the page is no
+ * longer centred, so the bar spans the window and the brand sits above the
+ * sidebar instead.
  */
 export function AppHeaderBar({
   signedIn,
@@ -36,7 +38,7 @@ export function AppHeaderBar({
       data-translucent
       className="bg-background/80 border-border/60 sticky top-0 z-40 border-b backdrop-blur-md"
     >
-      <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-2 px-6">
+      <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-2 px-6 [body:has([data-institution-frame])_&]:lg:max-w-none">
         <Link
           href={ROUTES.home}
           aria-label={t('home')}

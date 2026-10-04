@@ -8,8 +8,8 @@ import { usePermissions } from '@/entities/permission';
 import { Alert, AlertDescription, AlertTitle } from '@/shared/ui';
 
 import type { DashboardSection } from '../model/sections';
-import { AdminShortcuts } from './admin-shortcuts';
 import { CalendarTile } from './calendar-tile';
+import { RecentActivityTile } from './recent-activity-tile';
 import { StudiesSection } from './studies-section';
 import { TeachingTile } from './teaching-tile';
 import { TermTile } from './term-tile';
@@ -46,9 +46,9 @@ export function InstitutionDashboard({
 
   const render: Record<DashboardSection, () => ReactNode> = {
     administration: () => (
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+      <div className="grid gap-6 lg:grid-cols-2">
         <TermTile institutionId={institutionId} canManageTerms={can('course:manage')} />
-        <AdminShortcuts institutionId={institutionId} />
+        {can('audit:read') ? <RecentActivityTile institutionId={institutionId} /> : null}
       </div>
     ),
     teaching: () => (
