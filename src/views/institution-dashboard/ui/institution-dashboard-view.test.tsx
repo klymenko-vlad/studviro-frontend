@@ -68,7 +68,7 @@ describe('InstitutionDashboardView', () => {
     expect(screen.getByText('Results')).toBeInTheDocument();
     expect(screen.getByText('This week')).toBeInTheDocument();
     expect(screen.queryByText('My teaching')).not.toBeInTheDocument();
-    expect(screen.queryByText('Administration')).not.toBeInTheDocument();
+    expect(screen.queryByText('Recent changes')).not.toBeInTheDocument();
   });
 
   it('gives a teacher their teaching rather than a student’s tiles', async () => {
@@ -86,10 +86,12 @@ describe('InstitutionDashboardView', () => {
   });
 
   it('gives an administrator the institution rather than a student’s tiles', async () => {
+    signInAs(['institution_admin'], [...permissions.permissions, 'audit:read']);
+
     renderWithProviders(<InstitutionDashboardView institutionId={INSTITUTION} />);
 
     expect(await screen.findByText('Academic term')).toBeInTheDocument();
-    expect(screen.getByText('Administration')).toBeInTheDocument();
+    expect(screen.getByText('Recent changes')).toBeInTheDocument();
     expect(screen.queryByText('Current courses')).not.toBeInTheDocument();
     expect(screen.queryByText('Results')).not.toBeInTheDocument();
     expect(screen.queryByText('My teaching')).not.toBeInTheDocument();
