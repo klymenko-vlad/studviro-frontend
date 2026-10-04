@@ -42,6 +42,10 @@ export type ErrorResponseDto = {
     statusCode: number;
     error: string;
     /**
+     * Stable, machine-readable reason. Branch on this, not on `message`.
+     */
+    code?: string;
+    /**
      * A single message, or one entry per failed validation constraint.
      */
     message: string | Array<string>;
@@ -59,6 +63,13 @@ export type LoginDto = {
      * A solved captcha challenge, base64. Required when `GET /captcha` reports the captcha enabled.
      */
     captcha?: string;
+};
+
+export type TwoFactorLoginDto = {
+    /**
+     * A six-digit authenticator code, or a recovery code.
+     */
+    code: string;
 };
 
 export type RefreshTokenDto = {
@@ -82,6 +93,62 @@ export type PasswordResetAcceptedDto = {
 
 export type ConfirmPasswordResetDto = {
     password: string;
+};
+
+export type ChangePasswordDto = {
+    currentPassword: string;
+    newPassword: string;
+};
+
+export type SessionDto = {
+    id: string;
+    /**
+     * The session this request was made from.
+     */
+    current: boolean;
+    userAgent?: string | null;
+    ipAddress?: string | null;
+    signedInAt: string;
+    /**
+     * When its token last rotated.
+     */
+    lastActiveAt: string;
+};
+
+export type TwoFactorStatusDto = {
+    enabled: boolean;
+    enabledAt?: string | null;
+    recoveryCodesRemaining: number;
+};
+
+export type CurrentPasswordDto = {
+    currentPassword: string;
+};
+
+export type TwoFactorSetupDto = {
+    /**
+     * Base32, for typing into an app that cannot scan.
+     */
+    secret: string;
+    otpauthUri: string;
+    /**
+     * The otpauth URI as an SVG QR code, in a data URL.
+     */
+    qrCodeDataUrl: string;
+};
+
+export type TwoFactorCodeDto = {
+    /**
+     * A six-digit authenticator code, or a recovery code.
+     */
+    code: string;
+};
+
+export type RecoveryCodesDto = {
+    /**
+     * Shown once. Each works a single time.
+     */
+    recoveryCodes: Array<string>;
 };
 
 export type UpdateMeDto = {
@@ -1254,6 +1321,8 @@ export type PersonalDataExportDto = {
 export type ErasureTallyDto = {
     refreshTokens: number;
     passwordResetTokens: number;
+    twoFactorCredentials: number;
+    recoveryCodes: number;
     userEmails: number;
     externalIdentities: number;
     invitations: number;
@@ -1905,6 +1974,14 @@ export type LoginDtoWritable = {
     captcha?: string;
 };
 
+export type TwoFactorLoginDtoWritable = {
+    /**
+     * A six-digit authenticator code, or a recovery code.
+     */
+    code: string;
+    challengeToken: string;
+};
+
 export type CreateDemoRequestDtoWritable = {
     institutionName: string;
     contactName: string;
@@ -1984,6 +2061,36 @@ export type LoginResponses = {
 };
 
 export type LoginResponse = LoginResponses[keyof LoginResponses];
+
+export type CompleteTwoFactorLoginData = {
+    body: TwoFactorLoginDtoWritable;
+    path?: never;
+    query?: never;
+    url: '/api/v1/auth/login/two-factor';
+};
+
+export type CompleteTwoFactorLoginErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CompleteTwoFactorLoginError = CompleteTwoFactorLoginErrors[keyof CompleteTwoFactorLoginErrors];
+
+export type CompleteTwoFactorLoginResponses = {
+    200: AuthTokensDto;
+};
+
+export type CompleteTwoFactorLoginResponse = CompleteTwoFactorLoginResponses[keyof CompleteTwoFactorLoginResponses];
 
 export type RefreshData = {
     body: RefreshTokenDto;
@@ -2135,6 +2242,290 @@ export type ConfirmPasswordResetResponses = {
 };
 
 export type ConfirmPasswordResetResponse = ConfirmPasswordResetResponses[keyof ConfirmPasswordResetResponses];
+
+export type ChangeMyPasswordData = {
+    body: ChangePasswordDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/password';
+};
+
+export type ChangeMyPasswordErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ChangeMyPasswordError = ChangeMyPasswordErrors[keyof ChangeMyPasswordErrors];
+
+export type ChangeMyPasswordResponses = {
+    200: AuthTokensDto;
+};
+
+export type ChangeMyPasswordResponse = ChangeMyPasswordResponses[keyof ChangeMyPasswordResponses];
+
+export type RevokeMyOtherSessionsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/sessions';
+};
+
+export type RevokeMyOtherSessionsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RevokeMyOtherSessionsError = RevokeMyOtherSessionsErrors[keyof RevokeMyOtherSessionsErrors];
+
+export type RevokeMyOtherSessionsResponses = {
+    204: void;
+};
+
+export type RevokeMyOtherSessionsResponse = RevokeMyOtherSessionsResponses[keyof RevokeMyOtherSessionsResponses];
+
+export type ListMySessionsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/sessions';
+};
+
+export type ListMySessionsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMySessionsError = ListMySessionsErrors[keyof ListMySessionsErrors];
+
+export type ListMySessionsResponses = {
+    200: Array<SessionDto>;
+};
+
+export type ListMySessionsResponse = ListMySessionsResponses[keyof ListMySessionsResponses];
+
+export type RevokeMySessionData = {
+    body?: never;
+    path: {
+        sessionId: string;
+    };
+    query?: never;
+    url: '/api/v1/users/me/sessions/{sessionId}';
+};
+
+export type RevokeMySessionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RevokeMySessionError = RevokeMySessionErrors[keyof RevokeMySessionErrors];
+
+export type RevokeMySessionResponses = {
+    204: void;
+};
+
+export type RevokeMySessionResponse = RevokeMySessionResponses[keyof RevokeMySessionResponses];
+
+export type GetMyTwoFactorStatusData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/two-factor';
+};
+
+export type GetMyTwoFactorStatusErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetMyTwoFactorStatusError = GetMyTwoFactorStatusErrors[keyof GetMyTwoFactorStatusErrors];
+
+export type GetMyTwoFactorStatusResponses = {
+    200: TwoFactorStatusDto;
+};
+
+export type GetMyTwoFactorStatusResponse = GetMyTwoFactorStatusResponses[keyof GetMyTwoFactorStatusResponses];
+
+export type BeginTwoFactorSetupData = {
+    body: CurrentPasswordDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/two-factor/setup';
+};
+
+export type BeginTwoFactorSetupErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type BeginTwoFactorSetupError = BeginTwoFactorSetupErrors[keyof BeginTwoFactorSetupErrors];
+
+export type BeginTwoFactorSetupResponses = {
+    200: TwoFactorSetupDto;
+};
+
+export type BeginTwoFactorSetupResponse = BeginTwoFactorSetupResponses[keyof BeginTwoFactorSetupResponses];
+
+export type EnableTwoFactorData = {
+    body: TwoFactorCodeDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/two-factor/enable';
+};
+
+export type EnableTwoFactorErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type EnableTwoFactorError = EnableTwoFactorErrors[keyof EnableTwoFactorErrors];
+
+export type EnableTwoFactorResponses = {
+    200: RecoveryCodesDto;
+};
+
+export type EnableTwoFactorResponse = EnableTwoFactorResponses[keyof EnableTwoFactorResponses];
+
+export type DisableTwoFactorData = {
+    body: CurrentPasswordDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/two-factor/disable';
+};
+
+export type DisableTwoFactorErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type DisableTwoFactorError = DisableTwoFactorErrors[keyof DisableTwoFactorErrors];
+
+export type DisableTwoFactorResponses = {
+    204: void;
+};
+
+export type DisableTwoFactorResponse = DisableTwoFactorResponses[keyof DisableTwoFactorResponses];
+
+export type RegenerateRecoveryCodesData = {
+    body: CurrentPasswordDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/two-factor/recovery-codes';
+};
+
+export type RegenerateRecoveryCodesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RegenerateRecoveryCodesError = RegenerateRecoveryCodesErrors[keyof RegenerateRecoveryCodesErrors];
+
+export type RegenerateRecoveryCodesResponses = {
+    200: RecoveryCodesDto;
+};
+
+export type RegenerateRecoveryCodesResponse = RegenerateRecoveryCodesResponses[keyof RegenerateRecoveryCodesResponses];
 
 export type FindMeData = {
     body?: never;

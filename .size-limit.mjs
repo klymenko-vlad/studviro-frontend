@@ -189,9 +189,17 @@ const budgets = [
     // make room, and a grid of eight text-only links is markedly harder to scan.
     // The rest is two new tiles and the composition; no dependency, no new
     // `shared/ui` primitive.
+    //
+    // Raised from 565 kB to 580 kB for account settings and two-step
+    // verification: a settings page with profile, password, authenticator and
+    // session cards, and a second step on `/sign-in`. Measured at **576.16 kB**
+    // against a 560.45 kB baseline, +15.71 kB: 9.3 kB is the settings route, about
+    // 1.4 kB the code step on the sign-in route, the rest generated schemas and
+    // shared chunks. `next/image` for the QR code cost another 5.68 kB and was
+    // dropped; the code is a data URL, so an SVG `<image>` shows it for nothing.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '565 kB',
+    limit: '580 kB',
     gzip: true,
   },
 ];

@@ -49,9 +49,11 @@ function request(
     cookies?: Record<string, string>;
     acceptLanguage?: string;
     nonceHeader?: string;
+    userAgent?: string;
   } = {},
 ): NextRequest {
   const headers = new Headers();
+  if (options.userAgent) headers.set('user-agent', options.userAgent);
   if (options.acceptLanguage) headers.set('accept-language', options.acceptLanguage);
   if (options.nonceHeader) headers.set('x-nonce', options.nonceHeader);
 
@@ -201,6 +203,23 @@ describe('protected routes', () => {
 
 describe('session renewal', () => {
   const refreshed = () => vi.fn(() => Promise.resolve(Response.json(RENEWED)));
+
+  it('renews on behalf of the browser, so the session keeps naming its device', async () => {
+    const fetchMock = refreshed();
+    vi.stubGlobal('fetch', fetchMock);
+
+    await proxy(
+      request('/account', {
+        cookies: { sv_at: LAPSED_TOKEN, sv_refresh: 'device-refresh-token' },
+        userAgent: 'Mozilla/5.0 (X11; Linux x86_64) Firefox/130.0',
+      }),
+    );
+
+    const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+    expect(new Headers(init.headers).get('user-agent')).toBe(
+      'Mozilla/5.0 (X11; Linux x86_64) Firefox/130.0',
+    );
+  });
 
   it('renews a lapsed access token before a protected page renders', async () => {
     const fetchMock = refreshed();

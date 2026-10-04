@@ -35,12 +35,14 @@ import type {
   RoleAssignmentResponseDto,
   RoomResponseDto,
   SearchResultsDto,
+  SessionDto,
   StudyGroupResponseDto,
   StudyProgressResponseDto,
   SubmissionResponseDto,
   TeachingAssignmentResponseDto,
   TeachingOfferingResponseDto,
   TimetableEventResponseDto,
+  TwoFactorStatusDto,
   UploadTicketResponseDto,
   UserResponseDto,
   WaitingStudentResponseDto,
@@ -87,6 +89,32 @@ export const session: AuthTokensDto = {
   expiresIn: 900,
   tokenType: 'Bearer',
   user: users[0]!,
+};
+
+export const accountSessions: SessionDto[] = [
+  {
+    id: 'a1a1a1a1-0000-4000-8000-000000000001',
+    current: true,
+    userAgent: 'Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0',
+    ipAddress: null,
+    signedInAt: '2026-10-01T08:00:00.000Z',
+    lastActiveAt: '2026-10-04T09:00:00.000Z',
+  },
+  {
+    id: 'a1a1a1a1-0000-4000-8000-000000000002',
+    current: false,
+    userAgent:
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1',
+    ipAddress: null,
+    signedInAt: '2026-09-20T08:00:00.000Z',
+    lastActiveAt: '2026-10-02T18:00:00.000Z',
+  },
+];
+
+export const twoFactorOff: TwoFactorStatusDto = {
+  enabled: false,
+  enabledAt: null,
+  recoveryCodesRemaining: 0,
 };
 
 export const roleAssignments: RoleAssignmentResponseDto[] = [
@@ -1556,6 +1584,8 @@ export const handlers = [
 
   http.get(`${PROXY}/users/me/roles`, () => HttpResponse.json(roleAssignments)),
   http.get(`${PROXY}/users/me/identities`, () => HttpResponse.json(linkedAccounts)),
+  http.get(`${PROXY}/users/me/sessions`, () => HttpResponse.json(accountSessions)),
+  http.get(`${PROXY}/users/me/two-factor`, () => HttpResponse.json(twoFactorOff)),
 
   http.get(`${PROXY}/institutions`, () => HttpResponse.json(institutions)),
 
@@ -1987,6 +2017,8 @@ export const handlers = [
       tally: {
         refreshTokens: 2,
         passwordResetTokens: 0,
+        twoFactorCredentials: 0,
+        recoveryCodes: 0,
         userEmails: 1,
         externalIdentities: 0,
         invitations: 0,

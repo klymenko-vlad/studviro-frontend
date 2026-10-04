@@ -18,6 +18,7 @@ const cookieStore = vi.hoisted(() => {
 
 vi.mock('next/headers', () => ({
   cookies: () => Promise.resolve(cookieStore),
+  headers: () => Promise.resolve(new Headers({ 'user-agent': 'Test Browser' })),
 }));
 
 /**

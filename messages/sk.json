@@ -46,7 +46,8 @@
       "studies": "My studies",
       "teaching": "Teaching",
       "administration": "Administration"
-    }
+    },
+    "accountSettings": "Account settings"
   },
   "home": {
     "title": "Jedna akademická platforma, ktorú si inštitúcia vedie sama",
@@ -160,7 +161,23 @@
       "confirmPassword": "Zopakujte heslo",
       "currentPassword": "Vaše heslo"
     },
-    "captchaFailed": "Overenie sa nedokončilo. Skúste to znova."
+    "captchaFailed": "Overenie sa nedokončilo. Skúste to znova.",
+    "twoFactor": {
+      "title": "Two-step verification",
+      "description": "Enter the six-digit code from your authenticator app.",
+      "recoveryDescription": "Enter one of the recovery codes you saved when you turned this on. Each one works once.",
+      "codeLabel": "Authenticator code",
+      "recoveryLabel": "Recovery code",
+      "useRecoveryCode": "Lost your phone? Use a recovery code",
+      "useAuthenticator": "Use your authenticator app instead",
+      "verify": "Verify",
+      "verifying": "Verifying…",
+      "back": "Back to sign in",
+      "invalidCode": "That code is not valid. Check it and try again.",
+      "expiredTitle": "This sign-in has expired",
+      "expiredDescription": "It took too long, or too many codes were wrong. Enter your password again.",
+      "startAgain": "Sign in again"
+    }
   },
   "account": {
     "title": "Účet",
@@ -196,7 +213,8 @@
       "myCourses": "Moje predmety",
       "myGrades": "Moje známky",
       "dashboard": "Prehľad"
-    }
+    },
+    "settingsLink": "Settings and security"
   },
   "roles": {
     "role": {
@@ -2152,5 +2170,87 @@
     "refuseNamed": "Refuse {student}",
     "admitted": "{student} was given a place.",
     "refused": "{student} was refused a place."
+  },
+  "accountSettings": {
+    "title": "Account settings",
+    "subtitle": "Your profile, your password, and how you sign in.",
+    "profile": {
+      "title": "Profile",
+      "description": "How you appear to teachers, students and staff.",
+      "email": "Email",
+      "displayName": "Display name",
+      "save": "Save changes",
+      "saved": "Your profile was updated."
+    },
+    "password": {
+      "title": "Password",
+      "description": "Changing it signs you out everywhere else.",
+      "current": "Current password",
+      "new": "New password",
+      "confirm": "Confirm new password",
+      "hint": "At least 8 characters. A short phrase is easier to remember than a jumble.",
+      "submit": "Change password",
+      "changed": "Your password was changed. Every other session was signed out.",
+      "incorrect": "That is not your current password.",
+      "unchanged": "Choose a password different from the current one.",
+      "mismatch": "Passwords do not match"
+    },
+    "twoFactor": {
+      "title": "Two-step verification",
+      "description": "Ask for a code from your phone as well as your password when you sign in.",
+      "offDescription": "Off. Anyone with your password can sign in as you.",
+      "setUp": "Turn on two-step verification",
+      "on": "On",
+      "onSince": "On since {date}",
+      "codesRemaining": "{count, plural, =0 {No recovery codes left} one {# recovery code left} other {# recovery codes left}}",
+      "codesLow": "Running low",
+      "regenerate": "Get new recovery codes",
+      "disable": "Turn off",
+      "continue": "Continue",
+      "cancel": "Cancel",
+      "password": "Password",
+      "incorrectPassword": "That is not your password.",
+      "startPrompt": "Confirm your password to start.",
+      "regeneratePrompt": "Your current recovery codes will stop working. Confirm your password to continue.",
+      "disablePrompt": "Signing in will need only your password. Confirm it to turn two-step verification off.",
+      "enabled": "Two-step verification is on.",
+      "disabled": "Two-step verification is off.",
+      "errorTitle": "Two-step verification settings could not be loaded",
+      "pair": {
+        "stepInstall": "Install an authenticator app, such as Google Authenticator, Microsoft Authenticator or 1Password.",
+        "stepScan": "Scan this QR code with it, or type the key in by hand.",
+        "stepConfirm": "Enter the six-digit code the app shows.",
+        "qrAlt": "QR code to scan with your authenticator app",
+        "manualTitle": "Key for typing in",
+        "codeLabel": "Code from the app",
+        "submit": "Turn on",
+        "cancel": "Cancel",
+        "invalidCode": "That code did not match. Check the time on your phone and try the newest code."
+      },
+      "recoveryCodes": {
+        "title": "Save your recovery codes",
+        "description": "If you lose your phone, each of these lets you sign in once. They will not be shown again, so keep them somewhere safe, such as a password manager.",
+        "listLabel": "Recovery codes",
+        "copy": "Copy",
+        "copied": "Recovery codes copied.",
+        "copyFailed": "Could not copy. Download them instead.",
+        "download": "Download",
+        "done": "I have saved them"
+      }
+    },
+    "sessions": {
+      "title": "Where you are signed in",
+      "description": "Sign out of a device you no longer use or do not recognise.",
+      "device": "{browser} on {system}",
+      "unknownDevice": "Unknown device",
+      "thisDevice": "This device",
+      "activity": "Signed in {signedIn} · active {lastActive}",
+      "signOut": "Sign out",
+      "signOutDevice": "Sign out {device}",
+      "signOutOthers": "Sign out all other sessions",
+      "signedOut": "That session was signed out.",
+      "signedOutOthers": "Every other session was signed out.",
+      "errorTitle": "Your sessions could not be loaded"
+    }
   }
 }

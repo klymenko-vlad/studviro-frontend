@@ -24,5 +24,10 @@ export {
   safeNext,
 } from './auth-route';
 export { getAccessToken, getCurrentUser, type SessionUser } from './session';
+export { userAgentHeader } from './client-context';
 export { isExpired } from './token-expiry';
+export {
+  holdTwoFactorChallenge,
+  releaseTwoFactorChallenge,
+} from './two-factor-challenge';
 export { rotateRefreshToken } from './token-rotation';

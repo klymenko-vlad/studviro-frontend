@@ -5,6 +5,8 @@
 export { expectNoAxeViolations, renderAndAudit } from './axe';
 export { renderWithProviders, screen, userEvent, waitFor, within } from './render';
 export {
+  accountSessions,
+  twoFactorOff,
   academicTerms,
   adminOfferings,
   assessmentResults,

@@ -46,6 +46,12 @@ export const sessionApi = {
     captcha?: string;
   }) => unwrap(await post('register', details)),
 
+  completeTwoFactor: async (answer: { code: string }) =>
+    unwrap(await post('login/two-factor', answer)),
+
+  changePassword: async (change: { currentPassword: string; newPassword: string }) =>
+    unwrap(await post('password', change)),
+
   signOut: async (): Promise<void> => {
     await post('logout');
   },

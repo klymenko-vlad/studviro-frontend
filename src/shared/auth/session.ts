@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { cache } from 'react';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 
 import type { AuthTokensDto } from '@/shared/api';
 import {
@@ -33,7 +33,10 @@ export const getAccessToken = cache(async (): Promise<string | undefined> => {
   const refreshToken = store.get(REFRESH_TOKEN_COOKIE)?.value;
   if (!refreshToken) return undefined;
 
-  const refreshed = await rotateRefreshToken(refreshToken);
+  const refreshed = await rotateRefreshToken(
+    refreshToken,
+    (await headers()).get('user-agent'),
+  );
   if (!refreshed) return undefined;
 
   await persist(refreshed);

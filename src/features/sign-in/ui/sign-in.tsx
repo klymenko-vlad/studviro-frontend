@@ -1,6 +1,7 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
@@ -9,7 +10,6 @@ import { toast } from 'sonner';
 import { CaptchaNotice, useCaptcha } from '@/entities/captcha';
 import { sessionApi } from '@/entities/session';
 import { toApiError } from '@/shared/api';
-import { LANDING_ROUTE, useRouter } from '@/shared/config';
 import { useZodResolver } from '@/shared/lib';
 import {
   Button,
@@ -24,6 +24,9 @@ import {
 } from '@/shared/ui';
 
 import { signInSchema, type SignInFormValues } from '../model/sign-in';
+import { TWO_FACTOR_REQUIRED } from '../model/two-factor';
+import { useSignedIn } from '../model/use-signed-in';
+import { TwoFactorStep } from './two-factor-step';
 
 interface SignInProps {
   /** Where to land after signing in. Defaults to the account page. */
@@ -34,8 +37,8 @@ interface SignInProps {
 
 export function SignIn({ next, captchaEnabled = false }: SignInProps) {
   const t = useTranslations('auth');
-  const router = useRouter();
-  const queryClient = useQueryClient();
+  const signedIn = useSignedIn(next);
+  const [challenged, setChallenged] = useState(false);
   const captcha = useCaptcha(captchaEnabled);
 
   const form = useForm<SignInFormValues>({
@@ -45,22 +48,14 @@ export function SignIn({ next, captchaEnabled = false }: SignInProps) {
 
   const mutation = useMutation({
     mutationFn: sessionApi.signIn,
-    onSuccess: () => {
-      /**
-       * `push` before `refresh`, and both are needed. The session cookies were
-       * set by the response we just received, so every cached RSC payload —
-       * including the root layout that renders the header — was produced while
-       * signed out. Refreshing first only invalidates the route being left;
-       * the destination still renders from the stale cache and shows a
-       * signed-out header to someone who has just signed in.
-       */
-      // Anything cached so far was fetched as somebody else, or as nobody.
-      void queryClient.resetQueries();
-      router.push(next ?? LANDING_ROUTE);
-      router.refresh();
-    },
+    onSuccess: signedIn,
     onError: error => {
       const apiError = toApiError(error);
+
+      if (apiError.code === TWO_FACTOR_REQUIRED) {
+        setChallenged(true);
+        return;
+      }
 
       // The backend answers 401 for both a wrong password and an unknown email,
       // on purpose. Echoing that one message keeps the frontend from leaking
@@ -84,6 +79,18 @@ export function SignIn({ next, captchaEnabled = false }: SignInProps) {
 
   const pending =
     form.formState.isSubmitting || mutation.isPending || captcha.status === 'solving';
+
+  if (challenged) {
+    return (
+      <TwoFactorStep
+        onSignedIn={signedIn}
+        onRestart={() => {
+          form.resetField('password');
+          setChallenged(false);
+        }}
+      />
+    );
+  }
 
   return (
     <Form {...form} schema={signInSchema}>

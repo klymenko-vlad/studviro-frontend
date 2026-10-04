@@ -1,6 +1,6 @@
 'use client';
 
-import { CirclePlus, UserRound } from 'lucide-react';
+import { CirclePlus, Settings, UserRound } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { SignOutMenuItem } from '@/features/sign-out';
@@ -82,6 +82,13 @@ export function AccountMenu({
             <Link href={ROUTES.account}>
               <UserRound aria-hidden className="text-muted-foreground" />
               {t('account')}
+            </Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem asChild>
+            <Link href={ROUTES.accountSettings}>
+              <Settings aria-hidden className="text-muted-foreground" />
+              {t('accountSettings')}
             </Link>
           </DropdownMenuItem>
 

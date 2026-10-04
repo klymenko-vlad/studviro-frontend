@@ -29,6 +29,7 @@ export const ROUTES = {
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password',
   account: '/account',
+  accountSettings: '/account/settings',
   institutions: '/institutions',
   createInstitution: '/institutions/new',
 } as const;

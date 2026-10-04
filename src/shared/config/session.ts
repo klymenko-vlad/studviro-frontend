@@ -14,6 +14,11 @@ import { IS_SECURE_ORIGIN } from './app';
 export const ACCESS_TOKEN_COOKIE = 'sv_at';
 export const REFRESH_TOKEN_COOKIE = 'sv_refresh';
 
+/** The half-finished sign-in between a correct password and a second factor. */
+export const TWO_FACTOR_CHALLENGE_COOKIE = 'sv_2fa';
+export const TWO_FACTOR_CHALLENGE_PATH = '/api/auth/login';
+export const TWO_FACTOR_CHALLENGE_MAX_AGE = 60 * 5;
+
 /**
  * Sent on every request, because every request is somewhere a lapsed access token
  * has to be renewed: `src/proxy.ts` renews it before a page renders, and the API

@@ -4,7 +4,7 @@ import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOption
 
 import { client } from '../client.gen';
 import { Audit, Auth, Catalogue, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, Privacy, RoleAssignments, Schedule, Scheduling, Search, Users } from '../sdk.gen';
-import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, AddStudyGroupMemberData, AddStudyGroupMemberError, AddStudyGroupMemberResponse, AdmitToProgramData, AdmitToProgramError, AssignTeacherData, AssignTeacherError, BulkImportCourseOfferingsData, BulkImportCourseOfferingsError, BulkImportCourseOfferingsResponse, BulkImportProgramMembersData, BulkImportProgramMembersError, BulkImportProgramMembersResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, CancelExamTermData, CancelExamTermError, CancelExamTermResponse, CancelTimetableEventData, CancelTimetableEventError, CancelTimetableEventResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateAcademicTermData, CreateAcademicTermError, CreateAcademicTermResponse, CreateAssignmentData, CreateAssignmentError, CreateAssignmentResponse, CreateCaptchaChallengeData, CreateCaptchaChallengeError, CreateCaptchaChallengeResponse, CreateCourseData, CreateCourseError, CreateCourseOfferingData, CreateCourseOfferingError, CreateCourseOfferingResponse, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateExamTermData, CreateExamTermError, CreateExamTermResponse, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateLearningMaterialData, CreateLearningMaterialError, CreateLearningMaterialResponse, CreateLearningSpaceData, CreateLearningSpaceError, CreateLearningSpaceResponse, CreateMaterialUploadTicketData, CreateMaterialUploadTicketError, CreateMaterialUploadTicketResponse, CreateOrgUnitData, CreateOrgUnitError, CreateOrgUnitResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateResponse, CreateRoomData, CreateRoomError, CreateRoomResponse, CreateStudyGroupData, CreateStudyGroupError, CreateSubmissionUploadTicketData, CreateSubmissionUploadTicketError, CreateSubmissionUploadTicketResponse, CreateTimetableEventData, CreateTimetableEventError, CreateTimetableEventResponse, DeactivateUserData, DeactivateUserError, DeactivateUserResponse, ErasePersonalDataData, ErasePersonalDataError, ErasePersonalDataResponse, ExportMyPersonalDataData, ExportMyPersonalDataError, ExportMyPersonalDataResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetAssignmentData, GetAssignmentError, GetAssignmentResponse, GetCaptchaStateData, GetCaptchaStateError, GetCaptchaStateResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetLearningMaterialDownloadUrlData, GetLearningMaterialDownloadUrlError, GetLearningMaterialDownloadUrlResponse, GetLearningSpaceData, GetLearningSpaceError, GetLearningSpaceResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSubmissionFileDownloadUrlData, GetSubmissionFileDownloadUrlError, GetSubmissionFileDownloadUrlResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, JoinCourseWaitlistData, JoinCourseWaitlistError, JoinCourseWaitlistResponse, ListAcademicTermsData, ListAcademicTermsError, ListAcademicTermsResponse, ListAssignmentsData, ListAssignmentsError, ListAssignmentsResponse, ListAssignmentSubmissionsData, ListAssignmentSubmissionsError, ListAssignmentSubmissionsResponse, ListAuditEventsData, ListAuditEventsError, ListAuditEventsResponse, ListCourseOfferingsData, ListCourseOfferingsError, ListCourseOfferingsResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListCourseWaitlistData, ListCourseWaitlistError, ListCourseWaitlistResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListExamTermRegistrantsData, ListExamTermRegistrantsError, ListExamTermRegistrantsResponse, ListLearningMaterialsData, ListLearningMaterialsError, ListLearningMaterialsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMySubmissionsData, ListMySubmissionsError, ListMySubmissionsResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingExamTermsData, ListOfferingExamTermsError, ListOfferingExamTermsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOfferingTimetableData, ListOfferingTimetableError, ListOfferingTimetableResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramMembersData, ListProgramMembersError, ListProgramMembersResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListRoomsData, ListRoomsError, ListRoomsResponse, ListStudyGroupsData, ListStudyGroupsError, ListStudyGroupsResponse, ListTeachingAssignmentsData, ListTeachingAssignmentsError, ListTeachingAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MarkSubmissionData, MarkSubmissionError, MarkSubmissionResponse, MeData, MeError, MeResponse, RecordExamAttendanceData, RecordExamAttendanceError, RecordExamAttendanceResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveAcademicTermData, RemoveAcademicTermError, RemoveAcademicTermResponse, RemoveAssignmentData, RemoveAssignmentError, RemoveAssignmentResponse, RemoveCourseData, RemoveCourseError, RemoveCourseOfferingData, RemoveCourseOfferingError, RemoveCourseOfferingResponse, RemoveCourseResponse, RemoveExamTermData, RemoveExamTermError, RemoveExamTermResponse, RemoveLearningMaterialData, RemoveLearningMaterialError, RemoveLearningMaterialResponse, RemoveOrgUnitData, RemoveOrgUnitError, RemoveOrgUnitResponse, RemoveProgramData, RemoveProgramError, RemoveProgramMembershipData, RemoveProgramMembershipError, RemoveProgramMembershipResponse, RemoveProgramResponse, RemoveRoomData, RemoveRoomError, RemoveRoomResponse, RemoveStudyGroupData, RemoveStudyGroupError, RemoveStudyGroupMemberData, RemoveStudyGroupMemberError, RemoveStudyGroupMemberResponse, RemoveStudyGroupResponse, RemoveTimetableEventData, RemoveTimetableEventError, RemoveTimetableEventResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, RestoreTimetableEventData, RestoreTimetableEventError, RestoreTimetableEventResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SearchData, SearchError, SearchResponse, SubmitAssignmentData, SubmitAssignmentError, SubmitAssignmentResponse, UnassignTeacherData, UnassignTeacherError, UnassignTeacherResponse, UpdateAcademicTermData, UpdateAcademicTermError, UpdateAcademicTermResponse, UpdateAssignmentData, UpdateAssignmentError, UpdateAssignmentResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateExamTermData, UpdateExamTermError, UpdateExamTermResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateLearningMaterialData, UpdateLearningMaterialError, UpdateLearningMaterialResponse, UpdateLearningSpaceData, UpdateLearningSpaceError, UpdateLearningSpaceResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateOrgUnitData, UpdateOrgUnitError, UpdateOrgUnitResponse, UpdateProgramData, UpdateProgramError, UpdateProgramMembershipData, UpdateProgramMembershipError, UpdateProgramMembershipResponse, UpdateProgramResponse, UpdateRoomData, UpdateRoomError, UpdateRoomResponse, UpdateStudyGroupData, UpdateStudyGroupError, UpdateTimetableEventData, UpdateTimetableEventError, UpdateTimetableEventResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
+import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, AddStudyGroupMemberData, AddStudyGroupMemberError, AddStudyGroupMemberResponse, AdmitToProgramData, AdmitToProgramError, AssignTeacherData, AssignTeacherError, BeginTwoFactorSetupData, BeginTwoFactorSetupError, BeginTwoFactorSetupResponse, BulkImportCourseOfferingsData, BulkImportCourseOfferingsError, BulkImportCourseOfferingsResponse, BulkImportProgramMembersData, BulkImportProgramMembersError, BulkImportProgramMembersResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, CancelExamTermData, CancelExamTermError, CancelExamTermResponse, CancelTimetableEventData, CancelTimetableEventError, CancelTimetableEventResponse, ChangeMyPasswordData, ChangeMyPasswordError, ChangeMyPasswordResponse, CompleteTwoFactorLoginData, CompleteTwoFactorLoginError, CompleteTwoFactorLoginResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateAcademicTermData, CreateAcademicTermError, CreateAcademicTermResponse, CreateAssignmentData, CreateAssignmentError, CreateAssignmentResponse, CreateCaptchaChallengeData, CreateCaptchaChallengeError, CreateCaptchaChallengeResponse, CreateCourseData, CreateCourseError, CreateCourseOfferingData, CreateCourseOfferingError, CreateCourseOfferingResponse, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateError, CreateExamTermData, CreateExamTermError, CreateExamTermResponse, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateLearningMaterialData, CreateLearningMaterialError, CreateLearningMaterialResponse, CreateLearningSpaceData, CreateLearningSpaceError, CreateLearningSpaceResponse, CreateMaterialUploadTicketData, CreateMaterialUploadTicketError, CreateMaterialUploadTicketResponse, CreateOrgUnitData, CreateOrgUnitError, CreateOrgUnitResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateResponse, CreateRoomData, CreateRoomError, CreateRoomResponse, CreateStudyGroupData, CreateStudyGroupError, CreateSubmissionUploadTicketData, CreateSubmissionUploadTicketError, CreateSubmissionUploadTicketResponse, CreateTimetableEventData, CreateTimetableEventError, CreateTimetableEventResponse, DeactivateUserData, DeactivateUserError, DeactivateUserResponse, DisableTwoFactorData, DisableTwoFactorError, DisableTwoFactorResponse, EnableTwoFactorData, EnableTwoFactorError, EnableTwoFactorResponse, ErasePersonalDataData, ErasePersonalDataError, ErasePersonalDataResponse, ExportMyPersonalDataData, ExportMyPersonalDataError, ExportMyPersonalDataResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetAssignmentData, GetAssignmentError, GetAssignmentResponse, GetCaptchaStateData, GetCaptchaStateError, GetCaptchaStateResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetLearningMaterialDownloadUrlData, GetLearningMaterialDownloadUrlError, GetLearningMaterialDownloadUrlResponse, GetLearningSpaceData, GetLearningSpaceError, GetLearningSpaceResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetMyTwoFactorStatusData, GetMyTwoFactorStatusError, GetMyTwoFactorStatusResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSubmissionFileDownloadUrlData, GetSubmissionFileDownloadUrlError, GetSubmissionFileDownloadUrlResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, JoinCourseWaitlistData, JoinCourseWaitlistError, JoinCourseWaitlistResponse, ListAcademicTermsData, ListAcademicTermsError, ListAcademicTermsResponse, ListAssignmentsData, ListAssignmentsError, ListAssignmentsResponse, ListAssignmentSubmissionsData, ListAssignmentSubmissionsError, ListAssignmentSubmissionsResponse, ListAuditEventsData, ListAuditEventsError, ListAuditEventsResponse, ListCourseOfferingsData, ListCourseOfferingsError, ListCourseOfferingsResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListCourseWaitlistData, ListCourseWaitlistError, ListCourseWaitlistResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListExamTermRegistrantsData, ListExamTermRegistrantsError, ListExamTermRegistrantsResponse, ListLearningMaterialsData, ListLearningMaterialsError, ListLearningMaterialsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMySessionsData, ListMySessionsError, ListMySessionsResponse, ListMySubmissionsData, ListMySubmissionsError, ListMySubmissionsResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingExamTermsData, ListOfferingExamTermsError, ListOfferingExamTermsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOfferingTimetableData, ListOfferingTimetableError, ListOfferingTimetableResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramMembersData, ListProgramMembersError, ListProgramMembersResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListRoomsData, ListRoomsError, ListRoomsResponse, ListStudyGroupsData, ListStudyGroupsError, ListStudyGroupsResponse, ListTeachingAssignmentsData, ListTeachingAssignmentsError, ListTeachingAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MarkSubmissionData, MarkSubmissionError, MarkSubmissionResponse, MeData, MeError, MeResponse, RecordExamAttendanceData, RecordExamAttendanceError, RecordExamAttendanceResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegenerateRecoveryCodesData, RegenerateRecoveryCodesError, RegenerateRecoveryCodesResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveAcademicTermData, RemoveAcademicTermError, RemoveAcademicTermResponse, RemoveAssignmentData, RemoveAssignmentError, RemoveAssignmentResponse, RemoveCourseData, RemoveCourseError, RemoveCourseOfferingData, RemoveCourseOfferingError, RemoveCourseOfferingResponse, RemoveCourseResponse, RemoveExamTermData, RemoveExamTermError, RemoveExamTermResponse, RemoveLearningMaterialData, RemoveLearningMaterialError, RemoveLearningMaterialResponse, RemoveOrgUnitData, RemoveOrgUnitError, RemoveOrgUnitResponse, RemoveProgramData, RemoveProgramError, RemoveProgramMembershipData, RemoveProgramMembershipError, RemoveProgramMembershipResponse, RemoveProgramResponse, RemoveRoomData, RemoveRoomError, RemoveRoomResponse, RemoveStudyGroupData, RemoveStudyGroupError, RemoveStudyGroupMemberData, RemoveStudyGroupMemberError, RemoveStudyGroupMemberResponse, RemoveStudyGroupResponse, RemoveTimetableEventData, RemoveTimetableEventError, RemoveTimetableEventResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, RestoreTimetableEventData, RestoreTimetableEventError, RestoreTimetableEventResponse, RevokeMyOtherSessionsData, RevokeMyOtherSessionsError, RevokeMyOtherSessionsResponse, RevokeMySessionData, RevokeMySessionError, RevokeMySessionResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SearchData, SearchError, SearchResponse, SubmitAssignmentData, SubmitAssignmentError, SubmitAssignmentResponse, UnassignTeacherData, UnassignTeacherError, UnassignTeacherResponse, UpdateAcademicTermData, UpdateAcademicTermError, UpdateAcademicTermResponse, UpdateAssignmentData, UpdateAssignmentError, UpdateAssignmentResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateExamTermData, UpdateExamTermError, UpdateExamTermResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateLearningMaterialData, UpdateLearningMaterialError, UpdateLearningMaterialResponse, UpdateLearningSpaceData, UpdateLearningSpaceError, UpdateLearningSpaceResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateOrgUnitData, UpdateOrgUnitError, UpdateOrgUnitResponse, UpdateProgramData, UpdateProgramError, UpdateProgramMembershipData, UpdateProgramMembershipError, UpdateProgramMembershipResponse, UpdateProgramResponse, UpdateRoomData, UpdateRoomError, UpdateRoomResponse, UpdateStudyGroupData, UpdateStudyGroupError, UpdateTimetableEventData, UpdateTimetableEventError, UpdateTimetableEventResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
 
 /**
  * Create an account and start a session
@@ -30,6 +30,23 @@ export const loginMutation = (options?: Partial<Options<LoginData>>): UseMutatio
     const mutationOptions: UseMutationOptions<LoginResponse, LoginError, Options<LoginData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await Auth.login({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Finish a sign-in with an authenticator or recovery code
+ */
+export const completeTwoFactorLoginMutation = (options?: Partial<Options<CompleteTwoFactorLoginData>>): UseMutationOptions<CompleteTwoFactorLoginResponse, CompleteTwoFactorLoginError, Options<CompleteTwoFactorLoginData>> => {
+    const mutationOptions: UseMutationOptions<CompleteTwoFactorLoginResponse, CompleteTwoFactorLoginError, Options<CompleteTwoFactorLoginData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Auth.completeTwoFactorLogin({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -166,6 +183,161 @@ export const confirmPasswordResetMutation = (options?: Partial<Options<ConfirmPa
     const mutationOptions: UseMutationOptions<ConfirmPasswordResetResponse, ConfirmPasswordResetError, Options<ConfirmPasswordResetData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await Auth.confirmPasswordReset({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Change the password and sign out every other session
+ */
+export const changeMyPasswordMutation = (options?: Partial<Options<ChangeMyPasswordData>>): UseMutationOptions<ChangeMyPasswordResponse, ChangeMyPasswordError, Options<ChangeMyPasswordData>> => {
+    const mutationOptions: UseMutationOptions<ChangeMyPasswordResponse, ChangeMyPasswordError, Options<ChangeMyPasswordData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Users.changeMyPassword({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Sign out every session but this one
+ */
+export const revokeMyOtherSessionsMutation = (options?: Partial<Options<RevokeMyOtherSessionsData>>): UseMutationOptions<RevokeMyOtherSessionsResponse, RevokeMyOtherSessionsError, Options<RevokeMyOtherSessionsData>> => {
+    const mutationOptions: UseMutationOptions<RevokeMyOtherSessionsResponse, RevokeMyOtherSessionsError, Options<RevokeMyOtherSessionsData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Users.revokeMyOtherSessions({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listMySessionsQueryKey = (options?: Options<ListMySessionsData>) => createQueryKey('listMySessions', options);
+
+/**
+ * The places this account is signed in
+ */
+export const listMySessionsOptions = (options?: Options<ListMySessionsData>) => queryOptions<ListMySessionsResponse, ListMySessionsError, ListMySessionsResponse, ReturnType<typeof listMySessionsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Users.listMySessions({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMySessionsQueryKey(options)
+});
+
+/**
+ * Sign out one session
+ */
+export const revokeMySessionMutation = (options?: Partial<Options<RevokeMySessionData>>): UseMutationOptions<RevokeMySessionResponse, RevokeMySessionError, Options<RevokeMySessionData>> => {
+    const mutationOptions: UseMutationOptions<RevokeMySessionResponse, RevokeMySessionError, Options<RevokeMySessionData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Users.revokeMySession({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getMyTwoFactorStatusQueryKey = (options?: Options<GetMyTwoFactorStatusData>) => createQueryKey('getMyTwoFactorStatus', options);
+
+/**
+ * Whether two-factor authentication is on
+ */
+export const getMyTwoFactorStatusOptions = (options?: Options<GetMyTwoFactorStatusData>) => queryOptions<GetMyTwoFactorStatusResponse, GetMyTwoFactorStatusError, GetMyTwoFactorStatusResponse, ReturnType<typeof getMyTwoFactorStatusQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Users.getMyTwoFactorStatus({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getMyTwoFactorStatusQueryKey(options)
+});
+
+/**
+ * Start pairing an authenticator app
+ */
+export const beginTwoFactorSetupMutation = (options?: Partial<Options<BeginTwoFactorSetupData>>): UseMutationOptions<BeginTwoFactorSetupResponse, BeginTwoFactorSetupError, Options<BeginTwoFactorSetupData>> => {
+    const mutationOptions: UseMutationOptions<BeginTwoFactorSetupResponse, BeginTwoFactorSetupError, Options<BeginTwoFactorSetupData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Users.beginTwoFactorSetup({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Confirm the pairing with a code and turn two-factor on
+ */
+export const enableTwoFactorMutation = (options?: Partial<Options<EnableTwoFactorData>>): UseMutationOptions<EnableTwoFactorResponse, EnableTwoFactorError, Options<EnableTwoFactorData>> => {
+    const mutationOptions: UseMutationOptions<EnableTwoFactorResponse, EnableTwoFactorError, Options<EnableTwoFactorData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Users.enableTwoFactor({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Turn two-factor authentication off
+ */
+export const disableTwoFactorMutation = (options?: Partial<Options<DisableTwoFactorData>>): UseMutationOptions<DisableTwoFactorResponse, DisableTwoFactorError, Options<DisableTwoFactorData>> => {
+    const mutationOptions: UseMutationOptions<DisableTwoFactorResponse, DisableTwoFactorError, Options<DisableTwoFactorData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Users.disableTwoFactor({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Replace every recovery code with a new set
+ */
+export const regenerateRecoveryCodesMutation = (options?: Partial<Options<RegenerateRecoveryCodesData>>): UseMutationOptions<RegenerateRecoveryCodesResponse, RegenerateRecoveryCodesError, Options<RegenerateRecoveryCodesData>> => {
+    const mutationOptions: UseMutationOptions<RegenerateRecoveryCodesResponse, RegenerateRecoveryCodesError, Options<RegenerateRecoveryCodesData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Users.regenerateRecoveryCodes({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

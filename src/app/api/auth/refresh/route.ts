@@ -23,7 +23,10 @@ export async function POST(request: Request): Promise<NextResponse> {
   }
 
   // Shared with every other renewal in the process: see `rotateRefreshToken`.
-  const tokens = await rotateRefreshToken(refreshToken);
+  const tokens = await rotateRefreshToken(
+    refreshToken,
+    request.headers.get('user-agent'),
+  );
 
   if (!tokens) {
     /**

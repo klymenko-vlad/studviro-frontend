@@ -21,6 +21,19 @@ describe('toApiError', () => {
     expect(error.isClientError).toBe(true);
   });
 
+  it('prefers the domain code to the HTTP reason, so callers can branch on it', () => {
+    const error = toApiError({
+      statusCode: 400,
+      error: 'Bad Request',
+      code: 'CURRENT_PASSWORD_INCORRECT',
+      message: 'The current password is incorrect',
+      path: '/api/v1/users/me/password',
+      timestamp: '2026-01-01T00:00:00.000Z',
+    });
+
+    expect(error.code).toBe('CURRENT_PASSWORD_INCORRECT');
+  });
+
   it('surfaces the first validation message and keeps the rest', () => {
     const error = toApiError({
       statusCode: 400,

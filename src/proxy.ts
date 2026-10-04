@@ -120,7 +120,7 @@ async function renewSession(
 
   let tokens: AuthTokensDto | undefined;
   try {
-    tokens = await rotateRefreshToken(refreshToken);
+    tokens = await rotateRefreshToken(refreshToken, request.headers.get('user-agent'));
   } catch {
     return undefined;
   }

@@ -114,6 +114,10 @@ describe('AppHeaderBar', () => {
       'href',
       '/account',
     );
+    expect(screen.getByRole('menuitem', { name: 'Account settings' })).toHaveAttribute(
+      'href',
+      '/account/settings',
+    );
     expect(screen.getByRole('menuitem', { name: 'Sign out' })).toBeInTheDocument();
   });
 

@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import type { AuthTokensDto } from '@/shared/api';
 
 import { apiOrigin } from './api-origin';
+import { userAgentHeader } from './client-context';
 
 /**
  * How long a finished rotation is remembered. Requests that left the browser with
@@ -44,10 +45,13 @@ function forget(now: number): void {
   }
 }
 
-async function exchange(refreshToken: string): Promise<AuthTokensDto | undefined> {
+async function exchange(
+  refreshToken: string,
+  userAgent: string | null,
+): Promise<AuthTokensDto | undefined> {
   const response = await fetch(`${apiOrigin()}/api/v1/auth/refresh`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...userAgentHeader(userAgent) },
     body: JSON.stringify({ refreshToken }),
     cache: 'no-store',
   });
@@ -68,6 +72,7 @@ async function exchange(refreshToken: string): Promise<AuthTokensDto | undefined
  */
 export function rotateRefreshToken(
   refreshToken: string,
+  userAgent: string | null = null,
   now = Date.now(),
 ): Promise<AuthTokensDto | undefined> {
   forget(now);
@@ -77,7 +82,7 @@ export function rotateRefreshToken(
   if (pending) return pending.result;
 
   const rotation: { result: Promise<AuthTokensDto | undefined>; settledAt?: number } = {
-    result: exchange(refreshToken).then(
+    result: exchange(refreshToken, userAgent).then(
       tokens => {
         rotation.settledAt = Date.now();
         return tokens;

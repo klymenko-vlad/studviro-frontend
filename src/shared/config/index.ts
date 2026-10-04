@@ -31,6 +31,9 @@ export {
   REFRESH_COOKIE_PATH,
   REFRESH_TOKEN_COOKIE,
   sessionCookieOptions,
+  TWO_FACTOR_CHALLENGE_COOKIE,
+  TWO_FACTOR_CHALLENGE_MAX_AGE,
+  TWO_FACTOR_CHALLENGE_PATH,
 } from './session';
 export {
   allFlags,

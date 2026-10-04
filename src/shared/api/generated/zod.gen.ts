@@ -28,6 +28,7 @@ export const zAuthTokensDto = z.object({
 export const zErrorResponseDto = z.object({
     statusCode: z.number(),
     error: z.string(),
+    code: z.string().optional(),
     message: z.union([
         z.string(),
         z.array(z.string())
@@ -40,6 +41,10 @@ export const zErrorResponseDto = z.object({
 export const zLoginDto = z.object({
     email: z.email(),
     captcha: z.string().optional()
+});
+
+export const zTwoFactorLoginDto = z.object({
+    code: z.string().min(6).max(32)
 });
 
 export const zRefreshTokenDto = z.object({
@@ -57,6 +62,44 @@ export const zPasswordResetAcceptedDto = z.object({
 
 export const zConfirmPasswordResetDto = z.object({
     password: z.string().min(8).max(128)
+});
+
+export const zChangePasswordDto = z.object({
+    currentPassword: z.string().min(1).max(128),
+    newPassword: z.string().min(8).max(128)
+});
+
+export const zSessionDto = z.object({
+    id: z.uuid(),
+    current: z.boolean(),
+    userAgent: z.string().nullish(),
+    ipAddress: z.string().nullish(),
+    signedInAt: z.iso.datetime(),
+    lastActiveAt: z.iso.datetime()
+});
+
+export const zTwoFactorStatusDto = z.object({
+    enabled: z.boolean(),
+    enabledAt: z.iso.datetime().nullish(),
+    recoveryCodesRemaining: z.number().gte(0)
+});
+
+export const zCurrentPasswordDto = z.object({
+    currentPassword: z.string().min(1).max(128)
+});
+
+export const zTwoFactorSetupDto = z.object({
+    secret: z.string(),
+    otpauthUri: z.string(),
+    qrCodeDataUrl: z.string()
+});
+
+export const zTwoFactorCodeDto = z.object({
+    code: z.string().min(6).max(32)
+});
+
+export const zRecoveryCodesDto = z.object({
+    recoveryCodes: z.array(z.string())
 });
 
 export const zUpdateMeDto = z.object({
@@ -1622,6 +1665,8 @@ export const zPersonalDataExportDto = z.object({
 export const zErasureTallyDto = z.object({
     refreshTokens: z.number(),
     passwordResetTokens: z.number(),
+    twoFactorCredentials: z.number(),
+    recoveryCodes: z.number(),
     userEmails: z.number(),
     externalIdentities: z.number(),
     invitations: z.number(),
@@ -2452,6 +2497,11 @@ export const zLoginDtoWritable = z.object({
     captcha: z.string().optional()
 });
 
+export const zTwoFactorLoginDtoWritable = z.object({
+    code: z.string().min(6).max(32),
+    challengeToken: z.string().min(1).max(256)
+});
+
 export const zCreateDemoRequestDtoWritable = z.object({
     institutionName: z.string().min(2).max(200),
     contactName: z.string().min(1).max(120),
@@ -2469,6 +2519,10 @@ export const zRegisterResponse = zAuthTokensDto;
 export const zLoginBody = zLoginDtoWritable;
 
 export const zLoginResponse = zAuthTokensDto;
+
+export const zCompleteTwoFactorLoginBody = zTwoFactorLoginDtoWritable;
+
+export const zCompleteTwoFactorLoginResponse = zAuthTokensDto;
 
 export const zRefreshBody = zRefreshTokenDto;
 
@@ -2496,6 +2550,38 @@ export const zConfirmPasswordResetPath = z.object({
  * The password was reset.
  */
 export const zConfirmPasswordResetResponse = z.void();
+
+export const zChangeMyPasswordBody = zChangePasswordDto;
+
+export const zChangeMyPasswordResponse = zAuthTokensDto;
+
+export const zRevokeMyOtherSessionsResponse = z.void();
+
+export const zListMySessionsResponse = z.array(zSessionDto);
+
+export const zRevokeMySessionPath = z.object({
+    sessionId: z.string()
+});
+
+export const zRevokeMySessionResponse = z.void();
+
+export const zGetMyTwoFactorStatusResponse = zTwoFactorStatusDto;
+
+export const zBeginTwoFactorSetupBody = zCurrentPasswordDto;
+
+export const zBeginTwoFactorSetupResponse = zTwoFactorSetupDto;
+
+export const zEnableTwoFactorBody = zTwoFactorCodeDto;
+
+export const zEnableTwoFactorResponse = zRecoveryCodesDto;
+
+export const zDisableTwoFactorBody = zCurrentPasswordDto;
+
+export const zDisableTwoFactorResponse = z.void();
+
+export const zRegenerateRecoveryCodesBody = zCurrentPasswordDto;
+
+export const zRegenerateRecoveryCodesResponse = zRecoveryCodesDto;
 
 export const zFindMeResponse = zUserResponseDto;
 

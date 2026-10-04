@@ -44,6 +44,18 @@ function isTraversalFree(path: string[]): boolean {
   return path.every(segment => segment !== '' && segment !== '.' && segment !== '..');
 }
 
+const TOKEN_ISSUING_PATHS = [
+  ['api', 'v1', 'auth'],
+  ['api', 'v1', 'users', 'me', 'password'],
+];
+
+/** Their responses carry a token pair, which `/api/auth/*` exists to keep out of the browser. */
+function issuesTokens(path: string[]): boolean {
+  return TOKEN_ISSUING_PATHS.some(prefix =>
+    prefix.every((segment, index) => path[index] === segment),
+  );
+}
+
 async function handle(
   request: Request,
   context: { params: Promise<{ path: string[] }> },
@@ -55,6 +67,9 @@ async function handle(
   const { path } = await context.params;
   if (!isTraversalFree(path)) {
     return NextResponse.json({ message: 'Invalid path' }, { status: 400 });
+  }
+  if (issuesTokens(path)) {
+    return NextResponse.json({ message: 'Not found' }, { status: 404 });
   }
 
   const search = new URL(request.url).search;
