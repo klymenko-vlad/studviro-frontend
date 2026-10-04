@@ -10,7 +10,7 @@ import {
   timetableEvents,
 } from '@/shared/test';
 
-import { StudentDashboard } from './student-dashboard';
+import { StudiesSection } from './studies-section';
 
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const COURSES_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/courses`;
@@ -24,7 +24,7 @@ function renderDashboard(props?: {
   canReadSchedule?: boolean;
 }) {
   return renderWithProviders(
-    <StudentDashboard
+    <StudiesSection
       institutionId={INSTITUTION}
       canReadCourses={props?.canReadCourses ?? true}
       canReadGrades={props?.canReadGrades ?? true}
@@ -33,7 +33,7 @@ function renderDashboard(props?: {
   );
 }
 
-describe('StudentDashboard', () => {
+describe('StudiesSection', () => {
   it('summarises the current term rather than every term enrolled', async () => {
     renderDashboard();
 
@@ -182,5 +182,23 @@ describe('StudentDashboard', () => {
       await screen.findByText('Your courses are unavailable right now.'),
     ).toBeInTheDocument();
     expect(await screen.findByTestId('dashboard-grades-summary')).toBeInTheDocument();
+  });
+});
+
+describe('StudiesSection beside a teaching section', () => {
+  it('leaves the week to the section that already shows it', async () => {
+    renderWithProviders(
+      <StudiesSection
+        institutionId={INSTITUTION}
+        canReadCourses
+        canReadGrades
+        canReadSchedule
+        showWeek={false}
+      />,
+    );
+
+    expect(await screen.findByText('Current courses')).toBeInTheDocument();
+    expect(screen.getByText('Deadlines')).toBeInTheDocument();
+    expect(screen.queryByText('This week')).not.toBeInTheDocument();
   });
 });

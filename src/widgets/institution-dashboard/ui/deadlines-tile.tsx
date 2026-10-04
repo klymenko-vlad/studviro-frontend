@@ -19,6 +19,8 @@ import {
   QueryError,
 } from '@/shared/ui';
 
+import { useTileHeading } from './tile-heading';
+
 const SHOWN = 4;
 const HORIZON_DAYS = 14;
 
@@ -30,6 +32,7 @@ export function DeadlinesTile({
   now?: Date;
 }) {
   const t = useTranslations('dashboard');
+  const heading = useTileHeading();
   const format = useFormatter();
   const [range] = useState(() => ({
     from: now.toISOString(),
@@ -44,7 +47,7 @@ export function DeadlinesTile({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('deadlines.title')}</CardTitle>
+        <CardTitle as={heading}>{t('deadlines.title')}</CardTitle>
         <CardDescription>{t('deadlines.description')}</CardDescription>
       </CardHeader>
 

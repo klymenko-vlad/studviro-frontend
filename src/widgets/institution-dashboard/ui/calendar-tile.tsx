@@ -23,6 +23,8 @@ import {
   QueryError,
 } from '@/shared/ui';
 
+import { useTileHeading } from './tile-heading';
+
 const SHOWN = 4;
 
 export function CalendarTile({
@@ -33,6 +35,7 @@ export function CalendarTile({
   now?: Date;
 }) {
   const t = useTranslations('dashboard');
+  const heading = useTileHeading();
   const format = useFormatter();
   // Pinned once: a range recomputed per render is a new query key per render.
   const [range] = useState(() => ({
@@ -46,7 +49,7 @@ export function CalendarTile({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('calendar.title')}</CardTitle>
+        <CardTitle as={heading}>{t('calendar.title')}</CardTitle>
         <CardDescription>{t('calendar.description')}</CardDescription>
       </CardHeader>
 

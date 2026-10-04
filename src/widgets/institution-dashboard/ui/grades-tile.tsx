@@ -17,10 +17,13 @@ import {
   QueryError,
 } from '@/shared/ui';
 
+import { useTileHeading } from './tile-heading';
+
 const SHOWN = 4;
 
 export function GradesTile({ institutionId }: { institutionId: string }) {
   const t = useTranslations('dashboard');
+  const heading = useTileHeading();
   const { data, isPending, isError, refetch } = useQuery(
     courseResultQueries.list({ path: { institutionId } }),
   );
@@ -31,7 +34,7 @@ export function GradesTile({ institutionId }: { institutionId: string }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('grades.title')}</CardTitle>
+        <CardTitle as={heading}>{t('grades.title')}</CardTitle>
         <CardDescription>{t('grades.description')}</CardDescription>
       </CardHeader>
 

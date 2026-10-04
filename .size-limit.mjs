@@ -177,9 +177,21 @@ const budgets = [
     // The solver itself is hand-written against ALTCHA's protocol rather than
     // adopting the `altcha` web component, for the reason the typeahead above
     // gives: at ~12 kB gzipped the widget alone would have breached this.
+    //
+    // Raised from 555 kB to 565 kB when the dashboard stopped being a student's
+    // dashboard for everybody. It is now built from the roles a person holds: an
+    // administrator gets the running term and shortcuts to the screens they run,
+    // a teacher gets the courses they teach, a student keeps their four tiles.
+    // Measured at **558.04 kB** against a 551.1 kB baseline, +6.94 kB. Of that,
+    // 1.6 kB is the nine `lucide-react` icons on the administration shortcuts and
+    // the teaching rows — measured by building without them, at 556.43 kB, which
+    // still breaches 555 kB. The icons were kept: dropping them alone does not
+    // make room, and a grid of eight text-only links is markedly harder to scan.
+    // The rest is two new tiles and the composition; no dependency, no new
+    // `shared/ui` primitive.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '555 kB',
+    limit: '565 kB',
     gzip: true,
   },
 ];

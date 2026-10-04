@@ -259,7 +259,7 @@ broken tree and watching it fail):
 | Public landing | `views/home/ui/home-view.test.tsx`                                   |
 | Form           | `views/contact/ui/contact-view.test.tsx`                             |
 | Table          | `views/institution-catalogue/ui/institution-catalogue-view.test.tsx` |
-| Dashboard      | `views/student-dashboard/ui/student-dashboard-view.test.tsx`         |
+| Dashboard      | `views/institution-dashboard/ui/institution-dashboard-view.test.tsx` |
 
 The next screen gets one for free — a one-line `await renderAndAudit(<TheView … />, settle)`.
 

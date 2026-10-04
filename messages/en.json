@@ -529,6 +529,94 @@
       "error": "Your deadlines are unavailable right now.",
       "link": "Open the calendar",
       "due": "Due {date}"
+    },
+    "rolesLabel": "You are here as",
+    "noRoleTitle": "No dashboard for you here yet",
+    "noRoleDescription": "You have a place in this institution, but no role that comes with a dashboard. An administrator can grant you one on the Roles screen.",
+    "sections": {
+      "administration": {
+        "title": "Running the institution",
+        "description": "Where the academic year stands, and the screens you run it from.",
+        "subtitle": "Where the academic year stands, and the screens you run the institution from."
+      },
+      "teaching": {
+        "title": "Teaching",
+        "description": "The courses you teach and your week.",
+        "subtitle": "The courses you teach this term and the week ahead."
+      },
+      "studies": {
+        "title": "Studies",
+        "description": "Your courses, results and deadlines.",
+        "subtitle": "Where your studies stand in this institution today."
+      }
+    },
+    "teaching": {
+      "title": "My teaching",
+      "description": "The course offerings you teach.",
+      "term": "{term} · from {starts}",
+      "summary": "{offerings, plural, one {# course} other {# courses}} · {students, plural, one {# student} other {# students}}",
+      "students": "{count, plural, one {# student} other {# students}}",
+      "empty": "You are not assigned to teach any course yet.",
+      "error": "Your teaching is unavailable right now.",
+      "link": "All my teaching"
+    },
+    "term": {
+      "title": "Academic term",
+      "description": "The term running now, or the next to start.",
+      "running": "Running now.",
+      "upcoming": "Starts next.",
+      "dates": "{starts} – {ends}",
+      "progressLabel": "Share of the term gone",
+      "week": "Week {week} of {weeks}",
+      "enrollment": "Enrolment",
+      "window": {
+        "open": "Open",
+        "upcoming": "Not open yet",
+        "closed": "Closed",
+        "none": "No self-service window"
+      },
+      "closes": "until {date}",
+      "opens": "from {date}",
+      "next": "Next: {term}, from {starts}",
+      "empty": "No current or upcoming term is on the books. Open one in the catalogue.",
+      "error": "The academic terms are unavailable right now.",
+      "link": "Manage terms"
+    },
+    "shortcuts": {
+      "title": "Administration",
+      "description": "The screens your roles let you run.",
+      "catalogue": {
+        "title": "Catalogue",
+        "description": "Terms, programmes, courses and what runs when."
+      },
+      "bulk": {
+        "title": "Bulk entry",
+        "description": "Paste a term of offerings or a cohort from a spreadsheet."
+      },
+      "people": {
+        "title": "People",
+        "description": "Find anyone with a place in the institution."
+      },
+      "roles": {
+        "title": "Roles and invitations",
+        "description": "Grant access and invite new people."
+      },
+      "orgUnits": {
+        "title": "Org units and rooms",
+        "description": "Faculties, departments and the rooms they use."
+      },
+      "learning": {
+        "title": "Course pages",
+        "description": "Every course page across the institution."
+      },
+      "audit": {
+        "title": "Audit trail",
+        "description": "Who changed what, and when."
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "Terminology and the features this institution runs."
+      }
     }
   },
   "calendar": {

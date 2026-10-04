@@ -1,4 +1,4 @@
-import { StudentDashboardView } from '@/views/student-dashboard';
+import { InstitutionDashboardView } from '@/views/institution-dashboard';
 
 export default async function InstitutionDashboardPage({
   params,
@@ -7,5 +7,5 @@ export default async function InstitutionDashboardPage({
 }) {
   const { institutionId } = await params;
 
-  return <StudentDashboardView institutionId={institutionId} />;
+  return <InstitutionDashboardView institutionId={institutionId} />;
 }
