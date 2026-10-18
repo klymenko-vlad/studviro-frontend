@@ -19,6 +19,12 @@ export const env = createEnv({
      * a separate variable from the public one.
      */
     API_INTERNAL_URL: z.url().optional(),
+    /**
+     * The object store the browser uploads to, as the browser reaches it: the
+     * backend's `STORAGE_ENDPOINT`, or the bucket's own URL on AWS. It is the
+     * only cross-origin destination the Content Security Policy allows.
+     */
+    STORAGE_PUBLIC_URL: z.url().optional(),
     ANALYZE: z
       .enum(['true', 'false'])
       .default('false')
@@ -42,6 +48,7 @@ export const env = createEnv({
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     API_INTERNAL_URL: process.env['API_INTERNAL_URL'],
+    STORAGE_PUBLIC_URL: process.env['STORAGE_PUBLIC_URL'],
     ANALYZE: process.env['ANALYZE'],
     NEXT_PUBLIC_API_URL: process.env['NEXT_PUBLIC_API_URL'],
     NEXT_PUBLIC_APP_URL: process.env['NEXT_PUBLIC_APP_URL'],

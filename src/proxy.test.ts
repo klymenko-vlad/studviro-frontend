@@ -12,6 +12,7 @@ vi.mock('@/env', () => ({
     API_INTERNAL_URL: undefined,
     NEXT_PUBLIC_API_URL: 'http://localhost:3000',
     NEXT_PUBLIC_APP_URL: 'http://localhost:3001',
+    STORAGE_PUBLIC_URL: 'http://localhost:9000',
   },
 }));
 
@@ -89,6 +90,14 @@ describe('security headers', () => {
 
     expect(response.headers.get('content-security-policy')).toContain(
       `default-src 'self'`,
+    );
+  });
+
+  it('lets the page upload to the configured object store', async () => {
+    const response = await proxy(request('/'));
+
+    expect(response.headers.get('content-security-policy')).toContain(
+      `connect-src 'self' http://localhost:9000`,
     );
   });
 

@@ -48,11 +48,47 @@ describe('buildContentSecurityPolicy', () => {
     expect(production).not.toContain('sha256-');
   });
 
-  it('allows no cross-origin fetch destination at all', () => {
+  it('allows no cross-origin fetch destination when no object store is configured', () => {
     // Browser-side API calls go through the same-origin BFF at /api/proxy, so
     // an injected script has nowhere off-origin to send what it steals.
     expect(parse(production)['connect-src']).toBe(`'self'`);
   });
+
+  it('lets the browser write to the object store and nowhere else', () => {
+    const csp = buildContentSecurityPolicy({
+      isProduction: true,
+      isSecureOrigin: true,
+      nonce: 'test-nonce',
+      storageOrigin: 'https://files.example.org',
+    });
+
+    expect(parse(csp)['connect-src']).toBe(`'self' https://files.example.org`);
+  });
+
+  it('reduces a configured store URL to its origin', () => {
+    const csp = buildContentSecurityPolicy({
+      isProduction: false,
+      isSecureOrigin: false,
+      nonce: 'test-nonce',
+      storageOrigin: 'http://localhost:9000/studviro/some/key?X-Amz-Signature=abc',
+    });
+
+    expect(parse(csp)['connect-src']).toBe(`'self' http://localhost:9000`);
+  });
+
+  it.each(['not a url', 'javascript:alert(1)', 'http://a.example; script-src *'])(
+    'refuses %j as a store origin rather than widening the policy',
+    storageOrigin => {
+      expect(() =>
+        buildContentSecurityPolicy({
+          isProduction: true,
+          isSecureOrigin: true,
+          nonce: 'test-nonce',
+          storageOrigin,
+        }),
+      ).toThrow();
+    },
+  );
 
   it.each(['frame-ancestors', 'object-src'])('locks down %s', directive => {
     expect(parse(production)[directive]).toBe(`'none'`);

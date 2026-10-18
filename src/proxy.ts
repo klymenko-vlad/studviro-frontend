@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { env } from '@/env';
 
 import type { AuthTokensDto } from '@/shared/api';
 import { isExpired } from '@/shared/auth/token-expiry';
@@ -70,6 +71,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
       isProduction: IS_PRODUCTION,
       isSecureOrigin: IS_SECURE_ORIGIN,
       nonce,
+      storageOrigin: env.STORAGE_PUBLIC_URL,
     }),
   );
 

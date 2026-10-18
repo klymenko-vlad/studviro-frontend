@@ -42,8 +42,11 @@ export function buildContentSecurityPolicy(options: {
   isProduction: boolean;
   isSecureOrigin: boolean;
   nonce: string;
+  storageOrigin?: string | undefined;
 }): string {
-  const { isProduction, isSecureOrigin, nonce } = options;
+  const { isProduction, isSecureOrigin, nonce, storageOrigin } = options;
+  const connectSources = ["'self'"];
+  if (storageOrigin !== undefined) connectSources.push(toHttpOrigin(storageOrigin));
 
   const directives = [
     `default-src 'self'`,
@@ -54,12 +57,12 @@ export function buildContentSecurityPolicy(options: {
     `img-src 'self' blob: data:`,
     `font-src 'self' data:`,
     /**
-     * `'self'` and nothing else. Browser-side API calls go through the BFF at
-     * `/api/proxy`, which is same-origin — so the API's own origin never needs
-     * to be reachable from the page, and an injected script has no allowed
-     * destination to exfiltrate to.
+     * `'self'` plus the object store, and nothing else. Browser-side API calls
+     * go through the BFF at `/api/proxy`, which is same-origin. The one
+     * cross-origin write is a file upload: the browser `PUT`s the bytes straight
+     * to a presigned store URL (ADR 0027), so that origin has to be reachable.
      */
-    `connect-src 'self'`,
+    `connect-src ${connectSources.join(' ')}`,
     `frame-ancestors 'none'`,
     `object-src 'none'`,
     `base-uri 'self'`,
@@ -77,6 +80,18 @@ export function buildContentSecurityPolicy(options: {
   if (isProduction && isSecureOrigin) directives.push('upgrade-insecure-requests');
 
   return directives.join('; ');
+}
+
+/**
+ * Throws on anything but an http(s) URL, so a mistyped variable fails the
+ * request loudly instead of quietly widening the policy.
+ */
+function toHttpOrigin(url: string): string {
+  const { origin, protocol } = new URL(url);
+  if (protocol !== 'https:' && protocol !== 'http:') {
+    throw new Error(`Object store origin must be http(s), got ${protocol}`);
+  }
+  return origin;
 }
 
 /**
