@@ -85,26 +85,29 @@ export function MyCalendar({
 
   const day = { day: 'numeric', month: 'short' } as const;
   const lastDay = addDays(from, 6);
+  const isThisWeek = from.getTime() === startOfWeek(today).getTime();
+  const dates = { from: format.dateTime(from, day), to: format.dateTime(lastDay, day) };
+
   const days = groupCalendarItems(
     data ?? [],
     showExams ? (exams.data ?? []) : [],
     showDeadlines ? (deadlines.data ?? []) : [],
     timeZone,
   );
+  const eventCount = days.reduce((n, d) => n + d.items.length, 0);
 
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
           <p className="font-medium" data-testid="calendar-week">
-            {t('week', {
-              from: format.dateTime(from, day),
-              to: format.dateTime(lastDay, day),
-            })}
+            {t('week', dates)}
           </p>
           {isPending || isError ? null : (
             <p className="text-muted-foreground text-sm">
-              {t('weekSummary', { events: days.reduce((n, d) => n + d.items.length, 0) })}
+              {isThisWeek
+                ? t('weekSummary', { events: eventCount })
+                : t('eventCount', { events: eventCount })}
             </p>
           )}
         </div>
@@ -177,7 +180,10 @@ export function MyCalendar({
           description={t('errorDescription')}
         />
       ) : days.length === 0 ? (
-        <EmptyState size="inline" title={t('empty')} />
+        <EmptyState
+          size="inline"
+          title={isThisWeek ? t('empty') : t('emptyWeek', dates)}
+        />
       ) : (
         days.map(entry => (
           <CalendarDaySection

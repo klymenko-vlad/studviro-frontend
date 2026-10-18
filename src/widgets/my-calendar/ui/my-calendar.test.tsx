@@ -115,6 +115,32 @@ describe('MyCalendar', () => {
     ).toBeInTheDocument();
   });
 
+  it('says "this week" only of the week containing today', async () => {
+    renderCalendar();
+
+    expect(await screen.findByText(/events? this week$/)).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name: 'Next week' }));
+
+    expect(await screen.findByTestId('calendar-week')).toHaveTextContent('Mar 9');
+    expect(screen.queryByText(/this week/)).not.toBeInTheDocument();
+  });
+
+  it('names the dates of an empty week other than this one', async () => {
+    server.use(
+      http.get(EVENTS_URL, () => HttpResponse.json([])),
+      http.get(DEADLINES_URL, () => HttpResponse.json([])),
+    );
+
+    renderCalendar();
+    await userEvent.click(await screen.findByRole('button', { name: 'Next week' }));
+
+    expect(
+      await screen.findByText('Nothing is scheduled for Mar 9 – Mar 15.'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('0 events')).toBeInTheDocument();
+  });
+
   it('shows an exam term of the week beside the classes, as its own layer', async () => {
     server.use(http.get(EXAMS_URL, () => HttpResponse.json([examTermFixtures[0]])));
 
