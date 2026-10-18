@@ -49,10 +49,17 @@ const TOKEN_ISSUING_PATHS = [
   ['api', 'v1', 'users', 'me', 'password'],
 ];
 
+/** Under `auth/` but answering with no session token: the forgot-password flow. */
+const TOKENLESS_AUTH_PATHS = [['api', 'v1', 'auth', 'password-reset']];
+
+const startsWith = (path: string[]) => (prefix: string[]) =>
+  prefix.every((segment, index) => path[index] === segment);
+
 /** Their responses carry a token pair, which `/api/auth/*` exists to keep out of the browser. */
 function issuesTokens(path: string[]): boolean {
-  return TOKEN_ISSUING_PATHS.some(prefix =>
-    prefix.every((segment, index) => path[index] === segment),
+  return (
+    TOKEN_ISSUING_PATHS.some(startsWith(path)) &&
+    !TOKENLESS_AUTH_PATHS.some(startsWith(path))
   );
 }
 

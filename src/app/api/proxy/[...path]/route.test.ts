@@ -54,6 +54,17 @@ describe('token-issuing paths', () => {
     expect(response.status).toBe(404);
   });
 
+  it.each([
+    [['api', 'v1', 'auth', 'password-reset', 'request']],
+    [['api', 'v1', 'auth', 'password-reset', 'some-token', 'confirm']],
+  ])('forwards %o, which answers with no session token', async path => {
+    // Refused along with the rest of `auth/*`, the forgot-password form answered
+    // its usual "check your inbox" while nothing reached the API.
+    await expect(
+      POST(request('POST', 'http://localhost:3001'), context(path)),
+    ).rejects.toThrow();
+  });
+
   it('still forwards the rest of the account', async () => {
     await expect(
       GET(
