@@ -36,18 +36,18 @@
     "search": "Vyhľadávanie",
     "audit": "Audit",
     "home": "StudViro – úvod",
-    "menu": "Menu",
+    "menu": "Ponuka",
     "menuDescription": "Odkazy na produkt a akcie účtu.",
     "accountMenu": "Menu účtu",
     "preferences": "Motív a jazyk",
-    "sections": "Sections",
-    "sectionsDescription": "Every screen of this institution you can open.",
+    "sections": "Sekcie",
+    "sectionsDescription": "Všetky obrazovky tejto inštitúcie, ktoré môžete otvoriť.",
     "groups": {
-      "studies": "My studies",
-      "teaching": "Teaching",
-      "administration": "Administration"
+      "studies": "Moje štúdium",
+      "teaching": "Výučba",
+      "administration": "Správa"
     },
-    "accountSettings": "Account settings"
+    "accountSettings": "Nastavenia účtu"
   },
   "home": {
     "title": "Jedna akademická platforma, ktorú si inštitúcia vedie sama",
@@ -163,20 +163,20 @@
     },
     "captchaFailed": "Overenie sa nedokončilo. Skúste to znova.",
     "twoFactor": {
-      "title": "Two-step verification",
-      "description": "Enter the six-digit code from your authenticator app.",
-      "recoveryDescription": "Enter one of the recovery codes you saved when you turned this on. Each one works once.",
-      "codeLabel": "Authenticator code",
-      "recoveryLabel": "Recovery code",
-      "useRecoveryCode": "Lost your phone? Use a recovery code",
-      "useAuthenticator": "Use your authenticator app instead",
-      "verify": "Verify",
-      "verifying": "Verifying…",
-      "back": "Back to sign in",
-      "invalidCode": "That code is not valid. Check it and try again.",
-      "expiredTitle": "This sign-in has expired",
-      "expiredDescription": "It took too long, or too many codes were wrong. Enter your password again.",
-      "startAgain": "Sign in again"
+      "title": "Dvojstupňové overenie",
+      "description": "Zadajte šesťmiestny kód z overovacej aplikácie.",
+      "recoveryDescription": "Zadajte jeden z obnovovacích kódov, ktoré ste si uložili pri zapnutí overenia. Každý funguje raz.",
+      "codeLabel": "Kód z overovacej aplikácie",
+      "recoveryLabel": "Obnovovací kód",
+      "useRecoveryCode": "Stratili ste telefón? Použite obnovovací kód",
+      "useAuthenticator": "Použiť radšej overovaciu aplikáciu",
+      "verify": "Overiť",
+      "verifying": "Overuje sa…",
+      "back": "Späť na prihlásenie",
+      "invalidCode": "Tento kód nie je platný. Skontrolujte ho a skúste to znova.",
+      "expiredTitle": "Platnosť tohto prihlásenia vypršala",
+      "expiredDescription": "Trvalo to príliš dlho alebo bolo zadaných priveľa nesprávnych kódov. Zadajte znova heslo.",
+      "startAgain": "Prihlásiť sa znova"
     }
   },
   "account": {
@@ -214,7 +214,7 @@
       "myGrades": "Moje známky",
       "dashboard": "Prehľad"
     },
-    "settingsLink": "Settings and security"
+    "settingsLink": "Nastavenia a zabezpečenie"
   },
   "roles": {
     "role": {
@@ -372,7 +372,7 @@
       "completed": "Ukončený",
       "withdrawn": "Zrušený",
       "rejected": "Odmietnutý",
-      "waitlisted": "On the waiting list"
+      "waitlisted": "V poradovníku"
     },
     "requirement": {
       "compulsory": "Povinný",
@@ -391,7 +391,7 @@
     "studyGroups": "Moje študijné skupiny",
     "noStudyGroups": "Nemáte vlastnú študijnú skupinu.",
     "credits": "{count} kreditov",
-    "language": "Vyučuje sa v jazyku {language}",
+    "language": "Jazyk výučby: {language}",
     "capacity": "Kapacita {capacity}",
     "termRange": "{starts} — {ends}",
     "deniedTitle": "Tento predmet nie je pre vaše oči",
@@ -555,64 +555,64 @@
       "link": "Otvoriť kalendár",
       "due": "Termín {date}"
     },
-    "rolesLabel": "You are here as",
-    "noRoleTitle": "No dashboard for you here yet",
-    "noRoleDescription": "You have a place in this institution, but no role that comes with a dashboard. An administrator can grant you one on the Roles screen.",
+    "rolesLabel": "Ste tu ako",
+    "noRoleTitle": "Zatiaľ tu pre vás nie je prehľad",
+    "noRoleDescription": "V tejto inštitúcii máte miesto, ale žiadnu rolu, ku ktorej patrí prehľad. Správca vám ju môže prideliť na obrazovke Roly.",
     "sections": {
       "administration": {
-        "title": "Running the institution",
-        "description": "Where the academic year stands and what changed lately.",
-        "subtitle": "Where the academic year stands and what changed lately."
+        "title": "Chod inštitúcie",
+        "description": "Kde je akademický rok a čo sa naposledy zmenilo.",
+        "subtitle": "Kde je akademický rok a čo sa naposledy zmenilo."
       },
       "teaching": {
-        "title": "Teaching",
-        "description": "The courses you teach and your week.",
-        "subtitle": "The courses you teach this term and the week ahead."
+        "title": "Výučba",
+        "description": "Predmety, ktoré učíte, a váš týždeň.",
+        "subtitle": "Predmety, ktoré učíte v tomto semestri, a nasledujúci týždeň."
       },
       "studies": {
-        "title": "Studies",
-        "description": "Your courses, results and deadlines.",
-        "subtitle": "Where your studies stand in this institution today."
+        "title": "Štúdium",
+        "description": "Vaše predmety, výsledky a termíny.",
+        "subtitle": "Ako dnes stojí vaše štúdium v tejto inštitúcii."
       }
     },
     "teaching": {
-      "title": "My teaching",
-      "description": "The course offerings you teach.",
-      "term": "{term} · from {starts}",
-      "summary": "{offerings, plural, one {# course} other {# courses}} · {students, plural, one {# student} other {# students}}",
-      "students": "{count, plural, one {# student} other {# students}}",
-      "empty": "You are not assigned to teach any course yet.",
-      "error": "Your teaching is unavailable right now.",
-      "link": "All my teaching"
+      "title": "Moja výučba",
+      "description": "Predmety, ktoré vyučujete.",
+      "term": "{term} · od {starts}",
+      "summary": "{offerings, plural, one {# predmet} few {# predmety} other {# predmetov}} · {students, plural, one {# študent} few {# študenti} other {# študentov}}",
+      "students": "{count, plural, one {# študent} few {# študenti} other {# študentov}}",
+      "empty": "Zatiaľ nemáte pridelenú výučbu žiadneho predmetu.",
+      "error": "Vaša výučba je momentálne nedostupná.",
+      "link": "Celá moja výučba"
     },
     "term": {
-      "title": "Academic term",
-      "description": "The term running now, or the next to start.",
-      "running": "Running now.",
-      "upcoming": "Starts next.",
+      "title": "Akademické obdobie",
+      "description": "Obdobie, ktoré práve prebieha, alebo nasledujúce.",
+      "running": "Práve prebieha.",
+      "upcoming": "Začína ako ďalšie.",
       "dates": "{starts} – {ends}",
-      "progressLabel": "Share of the term gone",
-      "week": "Week {week} of {weeks}",
-      "enrollment": "Enrolment",
+      "progressLabel": "Uplynutá časť obdobia",
+      "week": "Týždeň {week} z {weeks}",
+      "enrollment": "Zápis",
       "window": {
-        "open": "Open",
-        "upcoming": "Not open yet",
-        "closed": "Closed",
-        "none": "No self-service window"
+        "open": "Otvorený",
+        "upcoming": "Ešte neotvorený",
+        "closed": "Uzavretý",
+        "none": "Bez samoobslužného okna"
       },
-      "closes": "until {date}",
-      "opens": "from {date}",
-      "next": "Next: {term}, from {starts}",
-      "empty": "No current or upcoming term is on the books. Open one in the catalogue.",
-      "error": "The academic terms are unavailable right now.",
-      "link": "Manage terms"
+      "closes": "do {date}",
+      "opens": "od {date}",
+      "next": "Ďalšie: {term}, od {starts}",
+      "empty": "Nie je evidované žiadne prebiehajúce ani nadchádzajúce obdobie. Otvorte ho v katalógu.",
+      "error": "Akademické obdobia sú momentálne nedostupné.",
+      "link": "Spravovať obdobia"
     },
     "activity": {
-      "title": "Recent changes",
-      "description": "The latest grades, roles and corrections recorded here.",
-      "empty": "Nothing has been recorded yet.",
-      "error": "Recent changes are unavailable right now.",
-      "link": "Open the audit trail"
+      "title": "Posledné zmeny",
+      "description": "Naposledy zaznamenané známky, roly a opravy.",
+      "empty": "Zatiaľ nebolo nič zaznamenané.",
+      "error": "Posledné zmeny sú momentálne nedostupné.",
+      "link": "Otvoriť audítorskú stopu"
     }
   },
   "calendar": {
@@ -791,7 +791,7 @@
       "exam_registration_cancelled": "Zrušili ste prihlásenie na skúšku",
       "exam_registration_refused": "Univerzita odmietla vaše prihlásenie na skúšku",
       "submission_marked": "Zadanie ohodnotené",
-      "waitlist_place_free": "A place came free on a course you are waiting for"
+      "waitlist_place_free": "V predmete, na ktorý čakáte, sa uvoľnilo miesto"
     },
     "dueAt": "Termín {date}",
     "dueMovedTo": "Termín presunutý z {from} na {to}",
@@ -799,7 +799,7 @@
     "gradeChanged": "Známka zmenená z {from} na {to}",
     "attempt": "Pokus {attempt}",
     "reason": "Dôvod: {reason}",
-    "placeFreeHint": "Places go to whoever asks first. Take it from the enrolment screen."
+    "placeFreeHint": "Miesto dostane ten, kto oň požiada prvý. Zoberte si ho na obrazovke zápisu."
   },
   "myTeaching": {
     "title": "Moja výučba",
@@ -852,7 +852,7 @@
       "completed": "Ukončený",
       "withdrawn": "Zrušený",
       "rejected": "Odmietnutý",
-      "waitlisted": "On the waiting list"
+      "waitlisted": "V poradovníku"
     }
   },
   "marketing": {
@@ -1438,7 +1438,7 @@
       "completed": "Ukončené",
       "withdrawn": "Zrušené",
       "rejected": "Odmietnuté",
-      "waitlisted": "On the waiting list"
+      "waitlisted": "V poradovníku"
     },
     "window": {
       "opensOn": "Zápis sa otvára {date}",
@@ -1452,15 +1452,15 @@
       "completed": "Tento predmet ste už absolvovali.",
       "full": "Všetky miesta sú obsadené.",
       "not_a_student": "Predmety tejto inštitúcie si môže zapísať len študent niektorého z jej programov.",
-      "waitlisted": "You are on the waiting list for this course."
+      "waitlisted": "Na tento predmet ste v poradovníku."
     },
     "deniedTitle": "Tu sa zapísať nemôžete",
     "deniedDescription": "Vaša rola v tejto inštitúcii nezahŕňa zapisovanie si predmetov.",
-    "joinWaitlist": "Join the waiting list",
-    "leaveWaitlist": "Leave the waiting list",
-    "takePlace": "Take the place",
-    "waitlisted": "You are on the waiting list. You will hear when the registrar decides, and you may take a place yourself if one comes free.",
-    "leftWaitlist": "You left the waiting list."
+    "joinWaitlist": "Zaradiť sa do poradovníka",
+    "leaveWaitlist": "Odísť z poradovníka",
+    "takePlace": "Zobrať miesto",
+    "waitlisted": "Ste v poradovníku. Dozviete sa, keď študijné oddelenie rozhodne, a ak sa miesto uvoľní, môžete si ho zobrať sami.",
+    "leftWaitlist": "Odišli ste z poradovníka."
   },
   "catalogue": {
     "title": "Katalóg",
@@ -1762,7 +1762,7 @@
     "seats": "Obsadených miest: {taken} z {capacity}",
     "seatsUnlimited": "Prihlásených: {taken}, bez obmedzenia miest",
     "window": "Prihlasovanie {opens} až {closes}",
-    "windowUntilExamStarts": "Registration is open until the exam starts.",
+    "windowUntilExamStarts": "Prihlasovanie je otvorené do začiatku skúšky.",
     "windowAlways": "od začiatku",
     "windowUntilExam": "skúška",
     "field": {
@@ -1787,26 +1787,26 @@
     }
   },
   "examAttendance": {
-    "show": "Registrants",
-    "hide": "Hide registrants",
-    "showNamed": "Show who registered for the exam on {label}",
-    "hideNamed": "Hide who registered for the exam on {label}",
-    "listLabel": "Registered for the exam on {label}",
-    "empty": "Nobody holds a seat on this term.",
-    "error": "The registrants could not be read.",
-    "notYet": "Attendance can be recorded once the exam has started.",
-    "attendanceOf": "Attendance of {student}",
+    "show": "Prihlásení",
+    "hide": "Skryť prihlásených",
+    "showNamed": "Zobraziť, kto sa prihlásil na skúšku {label}",
+    "hideNamed": "Skryť, kto sa prihlásil na skúšku {label}",
+    "listLabel": "Prihlásení na skúšku {label}",
+    "empty": "Na tento termín nie je nikto prihlásený.",
+    "error": "Prihlásených sa nepodarilo načítať.",
+    "notYet": "Účasť sa dá zaznamenať, keď sa skúška začne.",
+    "attendanceOf": "Účasť: {student}",
     "status": {
-      "registered": "Not recorded",
-      "attended": "Sat the exam",
-      "no_show": "Did not come",
-      "excused": "Excused",
-      "cancelled": "Gave the seat up"
+      "registered": "Nezaznamenané",
+      "attended": "Zúčastnil sa",
+      "no_show": "Neprišiel",
+      "excused": "Ospravedlnený",
+      "cancelled": "Vzdal sa miesta"
     },
     "recorded": {
-      "attended": "{student}: sat the exam.",
-      "no_show": "{student}: did not come.",
-      "excused": "{student}: excused."
+      "attended": "{student}: zúčastnil sa skúšky.",
+      "no_show": "{student}: neprišiel.",
+      "excused": "{student}: ospravedlnený."
     }
   },
   "timetableAdmin": {
@@ -2036,10 +2036,10 @@
     "uploadTooLarge": "Súbor {filename} je väčší, než úložisko prijíma. Nič sa neodovzdalo.",
     "progressLabel": "Priebeh nahrávania",
     "downloadNamed": "Stiahnuť {filename}",
-    "mark": "{points} of {maxPoints} points",
-    "markNoMaximum": "{points} points",
-    "markNoPoints": "Marked without points",
-    "feedback": "Feedback",
+    "mark": "{points} zo {maxPoints} bodov",
+    "markNoMaximum": "{points} bodov",
+    "markNoPoints": "Ohodnotené bez bodov",
+    "feedback": "Spätná väzba",
     "field": {
       "files": "Súbory",
       "notes": "Poznámky pre hodnotiteľa"
@@ -2124,7 +2124,7 @@
       "roleRevoked": "Rola odobratá",
       "enrollmentCorrected": "Zápis opravený",
       "examTermCancelled": "Skúškový termín zrušený",
-      "examAttendanceRecorded": "Exam attendance recorded",
+      "examAttendanceRecorded": "Zaznamenaná účasť na skúške",
       "personalDataErased": "Osobné údaje vymazané"
     }
   },
@@ -2176,98 +2176,98 @@
     "invalid": "Skontrolujte túto hodnotu."
   },
   "courseWaitlist": {
-    "title": "Waiting list",
-    "description": "Students queueing for a place on a full course, first come first served. Admitting one goes past the capacity; either answer reaches the student.",
-    "empty": "Nobody is waiting for a place.",
-    "error": "The waiting list could not be read.",
-    "since": "Waiting since {date}",
-    "admit": "Admit",
-    "admitNamed": "Admit {student}",
-    "refuse": "Refuse",
-    "refuseNamed": "Refuse {student}",
-    "admitted": "{student} was given a place.",
-    "refused": "{student} was refused a place."
+    "title": "Poradovník",
+    "description": "Študenti, ktorí čakajú na miesto v plnom predmete, v poradí, v akom prišli. Prijatie prekročí kapacitu; obe odpovede dostane študent.",
+    "empty": "Nikto nečaká na miesto.",
+    "error": "Poradovník sa nepodarilo načítať.",
+    "since": "Čaká od {date}",
+    "admit": "Prijať",
+    "admitNamed": "Prijať: {student}",
+    "refuse": "Odmietnuť",
+    "refuseNamed": "Odmietnuť: {student}",
+    "admitted": "{student} dostal miesto.",
+    "refused": "{student} miesto nedostal."
   },
   "accountSettings": {
-    "title": "Account settings",
-    "subtitle": "Your profile, your password, and how you sign in.",
+    "title": "Nastavenia účtu",
+    "subtitle": "Váš profil, heslo a spôsob prihlasovania.",
     "profile": {
-      "title": "Profile",
-      "description": "How you appear to teachers, students and staff.",
-      "email": "Email",
-      "displayName": "Display name",
-      "save": "Save changes",
-      "saved": "Your profile was updated."
+      "title": "Profil",
+      "description": "Ako vás vidia učitelia, študenti a zamestnanci.",
+      "email": "E-mail",
+      "displayName": "Zobrazované meno",
+      "save": "Uložiť zmeny",
+      "saved": "Profil bol aktualizovaný."
     },
     "password": {
-      "title": "Password",
-      "description": "Changing it signs you out everywhere else.",
-      "current": "Current password",
-      "new": "New password",
-      "confirm": "Confirm new password",
-      "hint": "At least 8 characters. A short phrase is easier to remember than a jumble.",
-      "submit": "Change password",
-      "changed": "Your password was changed. Every other session was signed out.",
-      "incorrect": "That is not your current password.",
-      "unchanged": "Choose a password different from the current one.",
-      "mismatch": "Passwords do not match"
+      "title": "Heslo",
+      "description": "Zmena hesla vás odhlási na všetkých ostatných miestach.",
+      "current": "Súčasné heslo",
+      "new": "Nové heslo",
+      "confirm": "Potvrďte nové heslo",
+      "hint": "Aspoň 8 znakov. Krátka veta sa pamätá ľahšie ako zmäť znakov.",
+      "submit": "Zmeniť heslo",
+      "changed": "Heslo bolo zmenené. Všetky ostatné relácie boli odhlásené.",
+      "incorrect": "Toto nie je vaše súčasné heslo.",
+      "unchanged": "Zvoľte heslo odlišné od súčasného.",
+      "mismatch": "Heslá sa nezhodujú"
     },
     "twoFactor": {
-      "title": "Two-step verification",
-      "description": "Ask for a code from your phone as well as your password when you sign in.",
-      "offDescription": "Off. Anyone with your password can sign in as you.",
-      "setUp": "Turn on two-step verification",
-      "on": "On",
-      "onSince": "On since {date}",
-      "codesRemaining": "{count, plural, =0 {No recovery codes left} one {# recovery code left} other {# recovery codes left}}",
-      "codesLow": "Running low",
-      "regenerate": "Get new recovery codes",
-      "disable": "Turn off",
-      "continue": "Continue",
-      "cancel": "Cancel",
-      "password": "Password",
-      "incorrectPassword": "That is not your password.",
-      "startPrompt": "Confirm your password to start.",
-      "regeneratePrompt": "Your current recovery codes will stop working. Confirm your password to continue.",
-      "disablePrompt": "Signing in will need only your password. Confirm it to turn two-step verification off.",
-      "enabled": "Two-step verification is on.",
-      "disabled": "Two-step verification is off.",
-      "errorTitle": "Two-step verification settings could not be loaded",
+      "title": "Dvojstupňové overenie",
+      "description": "Pri prihlásení si okrem hesla vyžiadať aj kód z telefónu.",
+      "offDescription": "Vypnuté. Ktokoľvek s vaším heslom sa môže prihlásiť za vás.",
+      "setUp": "Zapnúť dvojstupňové overenie",
+      "on": "Zapnuté",
+      "onSince": "Zapnuté od {date}",
+      "codesRemaining": "{count, plural, =0 {Nezostal žiadny obnovovací kód} one {Zostáva # obnovovací kód} few {Zostávajú # obnovovacie kódy} other {Zostáva # obnovovacích kódov}}",
+      "codesLow": "Dochádzajú",
+      "regenerate": "Získať nové obnovovacie kódy",
+      "disable": "Vypnúť",
+      "continue": "Pokračovať",
+      "cancel": "Zrušiť",
+      "password": "Heslo",
+      "incorrectPassword": "Toto nie je vaše heslo.",
+      "startPrompt": "Na začatie potvrďte heslo.",
+      "regeneratePrompt": "Súčasné obnovovacie kódy prestanú platiť. Na pokračovanie potvrďte heslo.",
+      "disablePrompt": "Na prihlásenie bude stačiť len heslo. Potvrďte ho, aby sa dvojstupňové overenie vyplo.",
+      "enabled": "Dvojstupňové overenie je zapnuté.",
+      "disabled": "Dvojstupňové overenie je vypnuté.",
+      "errorTitle": "Nastavenia dvojstupňového overenia sa nepodarilo načítať",
       "pair": {
-        "stepInstall": "Install an authenticator app, such as Google Authenticator, Microsoft Authenticator or 1Password.",
-        "stepScan": "Scan this QR code with it, or type the key in by hand.",
-        "stepConfirm": "Enter the six-digit code the app shows.",
-        "qrAlt": "QR code to scan with your authenticator app",
-        "manualTitle": "Key for typing in",
-        "codeLabel": "Code from the app",
-        "submit": "Turn on",
-        "cancel": "Cancel",
-        "invalidCode": "That code did not match. Check the time on your phone and try the newest code."
+        "stepInstall": "Nainštalujte si overovaciu aplikáciu, napríklad Google Authenticator, Microsoft Authenticator alebo 1Password.",
+        "stepScan": "Naskenujte v nej tento QR kód alebo kľúč zadajte ručne.",
+        "stepConfirm": "Zadajte šesťmiestny kód, ktorý aplikácia zobrazí.",
+        "qrAlt": "QR kód na naskenovanie overovacou aplikáciou",
+        "manualTitle": "Kľúč na ručné zadanie",
+        "codeLabel": "Kód z aplikácie",
+        "submit": "Zapnúť",
+        "cancel": "Zrušiť",
+        "invalidCode": "Kód sa nezhoduje. Skontrolujte čas v telefóne a skúste najnovší kód."
       },
       "recoveryCodes": {
-        "title": "Save your recovery codes",
-        "description": "If you lose your phone, each of these lets you sign in once. They will not be shown again, so keep them somewhere safe, such as a password manager.",
-        "listLabel": "Recovery codes",
-        "copy": "Copy",
-        "copied": "Recovery codes copied.",
-        "copyFailed": "Could not copy. Download them instead.",
-        "download": "Download",
-        "done": "I have saved them"
+        "title": "Uložte si obnovovacie kódy",
+        "description": "Ak stratíte telefón, každý z nich vám umožní prihlásiť sa raz. Znova sa nezobrazia, preto ich uložte na bezpečné miesto, napríklad do správcu hesiel.",
+        "listLabel": "Obnovovacie kódy",
+        "copy": "Kopírovať",
+        "copied": "Obnovovacie kódy boli skopírované.",
+        "copyFailed": "Kopírovanie zlyhalo. Stiahnite si ich namiesto toho.",
+        "download": "Stiahnuť",
+        "done": "Uložil(a) som si ich"
       }
     },
     "sessions": {
-      "title": "Where you are signed in",
-      "description": "Sign out of a device you no longer use or do not recognise.",
-      "device": "{browser} on {system}",
-      "unknownDevice": "Unknown device",
-      "thisDevice": "This device",
-      "activity": "Signed in {signedIn} · active {lastActive}",
-      "signOut": "Sign out",
-      "signOutDevice": "Sign out {device}",
-      "signOutOthers": "Sign out all other sessions",
-      "signedOut": "That session was signed out.",
-      "signedOutOthers": "Every other session was signed out.",
-      "errorTitle": "Your sessions could not be loaded"
+      "title": "Kde ste prihlásení",
+      "description": "Odhláste sa zo zariadenia, ktoré už nepoužívate alebo nepoznáte.",
+      "device": "{browser} v systéme {system}",
+      "unknownDevice": "Neznáme zariadenie",
+      "thisDevice": "Toto zariadenie",
+      "activity": "Prihlásenie {signedIn} · aktivita {lastActive}",
+      "signOut": "Odhlásiť",
+      "signOutDevice": "Odhlásiť {device}",
+      "signOutOthers": "Odhlásiť všetky ostatné relácie",
+      "signedOut": "Relácia bola odhlásená.",
+      "signedOutOthers": "Všetky ostatné relácie boli odhlásené.",
+      "errorTitle": "Relácie sa nepodarilo načítať"
     }
   }
 }

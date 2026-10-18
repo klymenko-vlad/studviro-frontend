@@ -57,6 +57,7 @@ const IDENTICAL_BY_DESIGN = new Set([
   'dashboard.grade.D',
   'dashboard.grade.E',
   'dashboard.grade.FX',
+  'dashboard.term.dates',
   'examTermAdmin.when',
   'gradeEntry.grade.A',
   'gradeEntry.grade.B',
