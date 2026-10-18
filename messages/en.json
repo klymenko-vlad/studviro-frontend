@@ -432,7 +432,8 @@
       "people": "People",
       "schedule": "Schedule",
       "materials": "Materials",
-      "work": "Assessment"
+      "work": "Assessment",
+      "discussion": "Discussion"
     }
   },
   "grades": {
@@ -791,7 +792,9 @@
       "exam_registration_cancelled": "You cancelled an exam registration",
       "exam_registration_refused": "The university refused your exam registration",
       "submission_marked": "Assignment marked",
-      "waitlist_place_free": "A place came free on a course you are waiting for"
+      "waitlist_place_free": "A place came free on a course you are waiting for",
+      "discussion_thread_started": "New thread in your course",
+      "discussion_reply": "New reply in a discussion"
     },
     "dueAt": "Due {date}",
     "dueMovedTo": "Deadline moved from {from} to {to}",
@@ -2125,7 +2128,9 @@
       "enrollmentCorrected": "Enrolment corrected",
       "examTermCancelled": "Exam term cancelled",
       "examAttendanceRecorded": "Exam attendance recorded",
-      "personalDataErased": "Personal data erased"
+      "personalDataErased": "Personal data erased",
+      "discussionHidden": "Discussion post hidden",
+      "discussionRestored": "Discussion post restored"
     }
   },
   "personalData": {
@@ -2269,5 +2274,38 @@
       "signedOutOthers": "Every other session was signed out.",
       "errorTitle": "Your sessions could not be loaded"
     }
+  },
+  "discussion": {
+    "title": "Discussion",
+    "description": "Questions and answers among the people of this course. Teachers can hide posts that do not belong here.",
+    "empty": "Nobody has started a thread yet.",
+    "error": "The discussion could not be loaded.",
+    "threadMeta": "{name} · {count, plural, one {# post} other {# posts}} · last activity {date}",
+    "hiddenBadge": "Hidden",
+    "untitled": "Untitled thread",
+    "newThread": "New thread",
+    "titleLabel": "Title",
+    "bodyLabel": "Message",
+    "replyLabel": "Your reply",
+    "start": "Start thread",
+    "reply": "Reply",
+    "cancel": "Cancel",
+    "back": "All threads",
+    "started": "Thread started.",
+    "replied": "Reply posted.",
+    "deletedPost": "This post was deleted.",
+    "hiddenPost": "A teacher hid this post.",
+    "hiddenThreadNotice": "This thread is hidden from students and takes no replies until it is restored.",
+    "delete": "Delete",
+    "confirmDelete": "Delete for good",
+    "deleted": "Post deleted.",
+    "hide": "Hide",
+    "restore": "Restore",
+    "hideThread": "Hide thread",
+    "restoreThread": "Restore thread",
+    "hiddenDone": "Hidden from students.",
+    "restoredDone": "Visible again.",
+    "notFound": "This thread is no longer available.",
+    "teacherBadge": "Teacher"
   }
 }

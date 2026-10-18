@@ -110,6 +110,30 @@ describe('MyNotifications', () => {
     );
   });
 
+  it('takes a discussion reply straight to its thread', async () => {
+    server.use(
+      http.get(NOTIFICATIONS_URL, () =>
+        HttpResponse.json([
+          {
+            ...notifications[0],
+            type: 'discussion_reply',
+            threadTitle: 'Question 3',
+            discussionThreadId: '99999999-9999-4999-8999-999999999999',
+          },
+        ]),
+      ),
+    );
+
+    renderWidget();
+
+    expect(await screen.findByText('New reply in a discussion')).toBeInTheDocument();
+    expect(screen.getByText('Question 3')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Algorithms' })).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}/courses/${notifications[0]!.courseOfferingId}?section=discussion&thread=99999999-9999-4999-8999-999999999999`,
+    );
+  });
+
   it('says so when nothing has changed yet', async () => {
     server.use(http.get(NOTIFICATIONS_URL, () => HttpResponse.json([])));
 

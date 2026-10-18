@@ -24,6 +24,8 @@ const notification = (overrides: Partial<Notification>): Notification =>
     attempt: null,
     eventTitle: null,
     reason: null,
+    threadTitle: null,
+    discussionThreadId: null,
     ...overrides,
   }) satisfies Notification;
 

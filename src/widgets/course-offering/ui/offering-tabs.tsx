@@ -6,7 +6,8 @@ import { useTranslations } from 'next-intl';
 import { usePathname, useRouter, useSearchParams } from '@/shared/config';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui';
 
-export type OfferingSection = 'overview' | 'people' | 'schedule' | 'materials' | 'work';
+export type OfferingSection =
+  'overview' | 'people' | 'schedule' | 'materials' | 'work' | 'discussion';
 
 /**
  * The open section is deep-linkable: `?section=` seeds which tab opens, and

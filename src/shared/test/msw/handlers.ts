@@ -372,6 +372,8 @@ export const notifications: NotificationResponseDto[] = [
     attempt: null,
     eventTitle: null,
     reason: null,
+    threadTitle: null,
+    discussionThreadId: null,
   },
   {
     id: 'eeeeeee2-eeee-4eee-8eee-eeeeeeeeeee2',
@@ -394,6 +396,8 @@ export const notifications: NotificationResponseDto[] = [
     attempt: null,
     eventTitle: null,
     reason: null,
+    threadTitle: null,
+    discussionThreadId: null,
   },
   {
     id: 'eeeeeee3-eeee-4eee-8eee-eeeeeeeeeee3',
@@ -416,6 +420,8 @@ export const notifications: NotificationResponseDto[] = [
     attempt: null,
     eventTitle: null,
     reason: null,
+    threadTitle: null,
+    discussionThreadId: null,
   },
 ];
 
@@ -2021,6 +2027,7 @@ export const handlers = [
         refreshTokens: 2,
         passwordResetTokens: 0,
         calendarFeeds: 0,
+        discussionPosts: 0,
         twoFactorCredentials: 0,
         recoveryCodes: 0,
         userEmails: 1,

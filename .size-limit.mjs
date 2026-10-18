@@ -197,9 +197,18 @@ const budgets = [
     // 1.4 kB the code step on the sign-in route, the rest generated schemas and
     // shared chunks. `next/image` for the QR code cost another 5.68 kB and was
     // dropped; the code is a data URL, so an SVG `<image>` shows it for nothing.
+    //
+    // Raised from 580 kB to 595 kB on 2026-10-18 for three student features, of
+    // which the first two fitted under the old ceiling and the third did not:
+    // the calendar subscription card (+2.19 kB), times on the institution's own
+    // clock (+0.83 kB), and the course discussion (+5.76 kB: thread list, thread
+    // view, the two forms, moderation buttons and their generated schemas).
+    // Measured at **585.04 kB**. The discussion adds no dependency and no
+    // `shared/ui` primitive; lazy-loading its tab would move bytes between
+    // chunks this glob already sums, not remove them. About 10 kB of headroom.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '580 kB',
+    limit: '595 kB',
     gzip: true,
   },
 ];

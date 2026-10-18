@@ -61,6 +61,8 @@ const LABEL_KEYS: Readonly<Record<AuditAction, string>> = {
   'exam_term.cancelled': 'examTermCancelled',
   'exam_registration.attendance_recorded': 'examAttendanceRecorded',
   'personal_data.erased': 'personalDataErased',
+  'discussion.hidden': 'discussionHidden',
+  'discussion.restored': 'discussionRestored',
 };
 
 export function labelKeyFor(action: AuditAction): string {

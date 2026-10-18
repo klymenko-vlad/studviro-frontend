@@ -177,8 +177,8 @@ export type SortOrder = typeof SortOrder[keyof typeof SortOrder];
 export type AuditEventResponseDto = {
     id: string;
     institutionId: string;
-    action: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled' | 'exam_registration.attendance_recorded' | 'personal_data.erased';
-    subjectType: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term' | 'exam_registration' | 'personal_data_erasure';
+    action: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled' | 'exam_registration.attendance_recorded' | 'personal_data.erased' | 'discussion.hidden' | 'discussion.restored';
+    subjectType: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term' | 'exam_registration' | 'personal_data_erasure' | 'discussion_thread' | 'discussion_post';
     subjectId: string;
     actorUserId?: string | null;
     summary?: string | null;
@@ -579,7 +579,7 @@ export type RecordedGradeResponseDto = {
 
 export type NotificationResponseDto = {
     id: string;
-    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free';
+    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free' | 'discussion_thread_started' | 'discussion_reply';
     occurredAt: string;
     occurrenceCount: number;
     readAt: string | null;
@@ -601,6 +601,8 @@ export type NotificationResponseDto = {
      * Why the source system refused, when it did.
      */
     reason: string | null;
+    threadTitle: string | null;
+    discussionThreadId: string | null;
 };
 
 export type UnreadNotificationsResponseDto = {
@@ -1286,8 +1288,18 @@ export type ExportedSubmissionDto = {
     files: Array<ExportedFileDto>;
 };
 
+export type ExportedDiscussionPostDto = {
+    id: string;
+    threadId: string;
+    threadTitle: string;
+    courseOfferingId: string;
+    body: string;
+    hiddenAt: string | null;
+    createdAt: string;
+};
+
 export type ExportedNotificationDto = {
-    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free';
+    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free' | 'discussion_thread_started' | 'discussion_reply';
     occurredAt: string;
     payload: {
         [key: string]: unknown;
@@ -1314,6 +1326,7 @@ export type PersonalDataExportDto = {
     assessmentResults: Array<ExportedAssessmentResultDto>;
     activityCompletions: Array<ExportedActivityCompletionDto>;
     submissions: Array<ExportedSubmissionDto>;
+    discussionPosts: Array<ExportedDiscussionPostDto>;
     notifications: Array<ExportedNotificationDto>;
     files: Array<ExportedFileDto>;
 };
@@ -1332,6 +1345,7 @@ export type ErasureTallyDto = {
     conflictNotes: number;
     assessmentFeedback: number;
     submissionNotes: number;
+    discussionPosts: number;
 };
 
 export type PersonalDataErasureResponseDto = {
@@ -1852,6 +1866,81 @@ export type IssuedCalendarFeedDto = {
      */
     url: string;
     createdAt: string;
+};
+
+export type DiscussionAuthorDto = {
+    id: string;
+    displayName: string;
+};
+
+export type DiscussionThreadSummaryDto = {
+    id: string;
+    title: string;
+    author: DiscussionAuthorDto;
+    createdAt: string;
+    lastActivityAt: string;
+    postCount: number;
+    /**
+     * Hidden by a moderator.
+     */
+    hidden: boolean;
+};
+
+export type DiscussionThreadListDto = {
+    canModerate: boolean;
+    threads: Array<DiscussionThreadSummaryDto>;
+};
+
+export type CreateDiscussionThreadDto = {
+    title: string;
+    body: string;
+};
+
+export type DiscussionPostAuthorDto = {
+    id: string;
+    displayName: string;
+    /**
+     * Teaches this course offering.
+     */
+    isTeacher: boolean;
+};
+
+export type DiscussionPostDto = {
+    id: string;
+    author: DiscussionPostAuthorDto;
+    /**
+     * Null when deleted, or hidden from a reader who cannot restore it.
+     */
+    body: string | null;
+    state: 'visible' | 'hidden' | 'deleted';
+    mine: boolean;
+    createdAt: string;
+};
+
+export type DiscussionThreadDto = {
+    id: string;
+    title: string;
+    author: DiscussionAuthorDto;
+    createdAt: string;
+    lastActivityAt: string;
+    postCount: number;
+    /**
+     * Hidden by a moderator.
+     */
+    hidden: boolean;
+    canModerate: boolean;
+    posts: Array<DiscussionPostDto>;
+};
+
+export type CreateDiscussionPostDto = {
+    body: string;
+};
+
+export type DiscussionVisibilityDto = {
+    /**
+     * True hides the item from students; false restores it.
+     */
+    hidden: boolean;
 };
 
 export type SearchHitDto = {
@@ -2769,8 +2858,8 @@ export type ListAuditEventsData = {
          */
         cursor?: string;
         order?: SortOrder;
-        action?: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled' | 'exam_registration.attendance_recorded' | 'personal_data.erased';
-        subjectType?: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term' | 'exam_registration' | 'personal_data_erasure';
+        action?: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled' | 'exam_registration.attendance_recorded' | 'personal_data.erased' | 'discussion.hidden' | 'discussion.restored';
+        subjectType?: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term' | 'exam_registration' | 'personal_data_erasure' | 'discussion_thread' | 'discussion_post';
         subjectId?: string;
         actorUserId?: string;
     };
@@ -7122,6 +7211,276 @@ export type GetCalendarFeedResponses = {
 };
 
 export type GetCalendarFeedResponse = GetCalendarFeedResponses[keyof GetCalendarFeedResponses];
+
+export type ListDiscussionThreadsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads';
+};
+
+export type ListDiscussionThreadsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListDiscussionThreadsError = ListDiscussionThreadsErrors[keyof ListDiscussionThreadsErrors];
+
+export type ListDiscussionThreadsResponses = {
+    200: DiscussionThreadListDto;
+};
+
+export type ListDiscussionThreadsResponse = ListDiscussionThreadsResponses[keyof ListDiscussionThreadsResponses];
+
+export type StartDiscussionThreadData = {
+    body: CreateDiscussionThreadDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads';
+};
+
+export type StartDiscussionThreadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type StartDiscussionThreadError = StartDiscussionThreadErrors[keyof StartDiscussionThreadErrors];
+
+export type StartDiscussionThreadResponses = {
+    201: DiscussionThreadDto;
+};
+
+export type StartDiscussionThreadResponse = StartDiscussionThreadResponses[keyof StartDiscussionThreadResponses];
+
+export type GetDiscussionThreadData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}';
+};
+
+export type GetDiscussionThreadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetDiscussionThreadError = GetDiscussionThreadErrors[keyof GetDiscussionThreadErrors];
+
+export type GetDiscussionThreadResponses = {
+    200: DiscussionThreadDto;
+};
+
+export type GetDiscussionThreadResponse = GetDiscussionThreadResponses[keyof GetDiscussionThreadResponses];
+
+export type ReplyToDiscussionThreadData = {
+    body: CreateDiscussionPostDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts';
+};
+
+export type ReplyToDiscussionThreadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ReplyToDiscussionThreadError = ReplyToDiscussionThreadErrors[keyof ReplyToDiscussionThreadErrors];
+
+export type ReplyToDiscussionThreadResponses = {
+    201: DiscussionThreadDto;
+};
+
+export type ReplyToDiscussionThreadResponse = ReplyToDiscussionThreadResponses[keyof ReplyToDiscussionThreadResponses];
+
+export type DeleteDiscussionPostData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+        postId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}';
+};
+
+export type DeleteDiscussionPostErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type DeleteDiscussionPostError = DeleteDiscussionPostErrors[keyof DeleteDiscussionPostErrors];
+
+export type DeleteDiscussionPostResponses = {
+    204: void;
+};
+
+export type DeleteDiscussionPostResponse = DeleteDiscussionPostResponses[keyof DeleteDiscussionPostResponses];
+
+export type SetDiscussionThreadVisibilityData = {
+    body: DiscussionVisibilityDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/visibility';
+};
+
+export type SetDiscussionThreadVisibilityErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type SetDiscussionThreadVisibilityError = SetDiscussionThreadVisibilityErrors[keyof SetDiscussionThreadVisibilityErrors];
+
+export type SetDiscussionThreadVisibilityResponses = {
+    204: void;
+};
+
+export type SetDiscussionThreadVisibilityResponse = SetDiscussionThreadVisibilityResponses[keyof SetDiscussionThreadVisibilityResponses];
+
+export type SetDiscussionPostVisibilityData = {
+    body: DiscussionVisibilityDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+        postId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}/visibility';
+};
+
+export type SetDiscussionPostVisibilityErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type SetDiscussionPostVisibilityError = SetDiscussionPostVisibilityErrors[keyof SetDiscussionPostVisibilityErrors];
+
+export type SetDiscussionPostVisibilityResponses = {
+    204: void;
+};
+
+export type SetDiscussionPostVisibilityResponse = SetDiscussionPostVisibilityResponses[keyof SetDiscussionPostVisibilityResponses];
 
 export type SearchData = {
     body?: never;

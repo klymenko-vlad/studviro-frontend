@@ -134,7 +134,9 @@ export const zAuditEventResponseDto = z.object({
         'enrollment.corrected',
         'exam_term.cancelled',
         'exam_registration.attendance_recorded',
-        'personal_data.erased'
+        'personal_data.erased',
+        'discussion.hidden',
+        'discussion.restored'
     ]),
     subjectType: z.enum([
         'course_result',
@@ -142,7 +144,9 @@ export const zAuditEventResponseDto = z.object({
         'enrollment',
         'exam_term',
         'exam_registration',
-        'personal_data_erasure'
+        'personal_data_erasure',
+        'discussion_thread',
+        'discussion_post'
     ]),
     subjectId: z.uuid(),
     actorUserId: z.uuid().nullish(),
@@ -808,7 +812,9 @@ export const zNotificationResponseDto = z.object({
         'exam_registration_cancelled',
         'exam_registration_refused',
         'submission_marked',
-        'waitlist_place_free'
+        'waitlist_place_free',
+        'discussion_thread_started',
+        'discussion_reply'
     ]),
     occurredAt: z.iso.datetime(),
     occurrenceCount: z.number(),
@@ -827,7 +833,9 @@ export const zNotificationResponseDto = z.object({
     previousGrade: z.string().nullable(),
     attempt: z.number().nullable(),
     eventTitle: z.string().nullable(),
-    reason: z.string().nullable()
+    reason: z.string().nullable(),
+    threadTitle: z.string().nullable(),
+    discussionThreadId: z.uuid().nullable()
 });
 
 export const zUnreadNotificationsResponseDto = z.object({
@@ -1615,6 +1623,16 @@ export const zExportedSubmissionDto = z.object({
     files: z.array(zExportedFileDto)
 });
 
+export const zExportedDiscussionPostDto = z.object({
+    id: z.uuid(),
+    threadId: z.uuid(),
+    threadTitle: z.string(),
+    courseOfferingId: z.uuid(),
+    body: z.string(),
+    hiddenAt: z.iso.datetime().nullable(),
+    createdAt: z.iso.datetime()
+});
+
 export const zExportedNotificationDto = z.object({
     type: z.enum([
         'exam_term_published',
@@ -1632,7 +1650,9 @@ export const zExportedNotificationDto = z.object({
         'exam_registration_cancelled',
         'exam_registration_refused',
         'submission_marked',
-        'waitlist_place_free'
+        'waitlist_place_free',
+        'discussion_thread_started',
+        'discussion_reply'
     ]),
     occurredAt: z.iso.datetime(),
     payload: z.record(z.string(), z.unknown()),
@@ -1658,6 +1678,7 @@ export const zPersonalDataExportDto = z.object({
     assessmentResults: z.array(zExportedAssessmentResultDto),
     activityCompletions: z.array(zExportedActivityCompletionDto),
     submissions: z.array(zExportedSubmissionDto),
+    discussionPosts: z.array(zExportedDiscussionPostDto),
     notifications: z.array(zExportedNotificationDto),
     files: z.array(zExportedFileDto)
 });
@@ -1675,7 +1696,8 @@ export const zErasureTallyDto = z.object({
     storedObjects: z.number(),
     conflictNotes: z.number(),
     assessmentFeedback: z.number(),
-    submissionNotes: z.number()
+    submissionNotes: z.number(),
+    discussionPosts: z.number()
 });
 
 export const zPersonalDataErasureResponseDto = z.object({
@@ -2362,6 +2384,70 @@ export const zIssuedCalendarFeedDto = z.object({
     createdAt: z.iso.datetime()
 });
 
+export const zDiscussionAuthorDto = z.object({
+    id: z.uuid(),
+    displayName: z.string()
+});
+
+export const zDiscussionThreadSummaryDto = z.object({
+    id: z.uuid(),
+    title: z.string(),
+    author: zDiscussionAuthorDto,
+    createdAt: z.iso.datetime(),
+    lastActivityAt: z.iso.datetime(),
+    postCount: z.number(),
+    hidden: z.boolean()
+});
+
+export const zDiscussionThreadListDto = z.object({
+    canModerate: z.boolean(),
+    threads: z.array(zDiscussionThreadSummaryDto)
+});
+
+export const zCreateDiscussionThreadDto = z.object({
+    title: z.string().min(1).max(200),
+    body: z.string().min(1).max(10000)
+});
+
+export const zDiscussionPostAuthorDto = z.object({
+    id: z.uuid(),
+    displayName: z.string(),
+    isTeacher: z.boolean()
+});
+
+export const zDiscussionPostDto = z.object({
+    id: z.uuid(),
+    author: zDiscussionPostAuthorDto,
+    body: z.string().nullable(),
+    state: z.enum([
+        'visible',
+        'hidden',
+        'deleted'
+    ]),
+    mine: z.boolean(),
+    createdAt: z.iso.datetime()
+});
+
+export const zDiscussionThreadDto = z.object({
+    id: z.uuid(),
+    title: z.string(),
+    author: zDiscussionAuthorDto,
+    createdAt: z.iso.datetime(),
+    lastActivityAt: z.iso.datetime(),
+    postCount: z.number(),
+    hidden: z.boolean(),
+    canModerate: z.boolean(),
+    posts: z.array(zDiscussionPostDto)
+});
+
+export const zCreateDiscussionPostDto = z.object({
+    body: z.string().min(1).max(10000)
+});
+
+export const zDiscussionVisibilityDto = z.object({
+    hidden: z.boolean()
+});
+
 export const zSearchHitDto = z.object({
     kind: z.enum([
         'course',
@@ -2650,7 +2736,9 @@ export const zListAuditEventsQuery = z.object({
         'enrollment.corrected',
         'exam_term.cancelled',
         'exam_registration.attendance_recorded',
-        'personal_data.erased'
+        'personal_data.erased',
+        'discussion.hidden',
+        'discussion.restored'
     ]).optional(),
     subjectType: z.enum([
         'course_result',
@@ -2658,7 +2746,9 @@ export const zListAuditEventsQuery = z.object({
         'enrollment',
         'exam_term',
         'exam_registration',
-        'personal_data_erasure'
+        'personal_data_erasure',
+        'discussion_thread',
+        'discussion_post'
     ]).optional(),
     subjectId: z.uuid().optional(),
     actorUserId: z.uuid().optional()
@@ -3604,6 +3694,70 @@ export const zGetCalendarFeedPath = z.object({
 });
 
 export const zGetCalendarFeedResponse = z.string();
+
+export const zListDiscussionThreadsPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListDiscussionThreadsResponse = zDiscussionThreadListDto;
+
+export const zStartDiscussionThreadBody = zCreateDiscussionThreadDto;
+
+export const zStartDiscussionThreadPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zStartDiscussionThreadResponse = zDiscussionThreadDto;
+
+export const zGetDiscussionThreadPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string()
+});
+
+export const zGetDiscussionThreadResponse = zDiscussionThreadDto;
+
+export const zReplyToDiscussionThreadBody = zCreateDiscussionPostDto;
+
+export const zReplyToDiscussionThreadPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string()
+});
+
+export const zReplyToDiscussionThreadResponse = zDiscussionThreadDto;
+
+export const zDeleteDiscussionPostPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string(),
+    postId: z.string()
+});
+
+export const zDeleteDiscussionPostResponse = z.void();
+
+export const zSetDiscussionThreadVisibilityBody = zDiscussionVisibilityDto;
+
+export const zSetDiscussionThreadVisibilityPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string()
+});
+
+export const zSetDiscussionThreadVisibilityResponse = z.void();
+
+export const zSetDiscussionPostVisibilityBody = zDiscussionVisibilityDto;
+
+export const zSetDiscussionPostVisibilityPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string(),
+    postId: z.string()
+});
+
+export const zSetDiscussionPostVisibilityResponse = z.void();
 
 export const zSearchPath = z.object({
     institutionId: z.string()

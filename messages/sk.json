@@ -432,7 +432,8 @@
       "people": "Ľudia",
       "schedule": "Rozvrh",
       "materials": "Materiály",
-      "work": "Hodnotenie"
+      "work": "Hodnotenie",
+      "discussion": "Diskusia"
     }
   },
   "grades": {
@@ -791,7 +792,9 @@
       "exam_registration_cancelled": "Zrušili ste prihlásenie na skúšku",
       "exam_registration_refused": "Univerzita odmietla vaše prihlásenie na skúšku",
       "submission_marked": "Zadanie ohodnotené",
-      "waitlist_place_free": "V predmete, na ktorý čakáte, sa uvoľnilo miesto"
+      "waitlist_place_free": "V predmete, na ktorý čakáte, sa uvoľnilo miesto",
+      "discussion_thread_started": "Nová téma vo vašom predmete",
+      "discussion_reply": "Nová odpoveď v diskusii"
     },
     "dueAt": "Termín {date}",
     "dueMovedTo": "Termín presunutý z {from} na {to}",
@@ -2125,7 +2128,9 @@
       "enrollmentCorrected": "Zápis opravený",
       "examTermCancelled": "Skúškový termín zrušený",
       "examAttendanceRecorded": "Zaznamenaná účasť na skúške",
-      "personalDataErased": "Osobné údaje vymazané"
+      "personalDataErased": "Osobné údaje vymazané",
+      "discussionHidden": "Skrytý príspevok v diskusii",
+      "discussionRestored": "Obnovený príspevok v diskusii"
     }
   },
   "personalData": {
@@ -2269,5 +2274,38 @@
       "signedOutOthers": "Všetky ostatné relácie boli odhlásené.",
       "errorTitle": "Relácie sa nepodarilo načítať"
     }
+  },
+  "discussion": {
+    "title": "Diskusia",
+    "description": "Otázky a odpovede medzi ľuďmi tohto predmetu. Vyučujúci môže skryť príspevky, ktoré sem nepatria.",
+    "empty": "Zatiaľ nikto nezačal tému.",
+    "error": "Diskusiu sa nepodarilo načítať.",
+    "threadMeta": "{name} · {count, plural, one {# príspevok} few {# príspevky} other {# príspevkov}} · posledná aktivita {date}",
+    "hiddenBadge": "Skryté",
+    "untitled": "Téma bez názvu",
+    "newThread": "Nová téma",
+    "titleLabel": "Názov",
+    "bodyLabel": "Správa",
+    "replyLabel": "Vaša odpoveď",
+    "start": "Začať tému",
+    "reply": "Odpovedať",
+    "cancel": "Zrušiť",
+    "back": "Všetky témy",
+    "started": "Téma bola založená.",
+    "replied": "Odpoveď bola pridaná.",
+    "deletedPost": "Tento príspevok bol odstránený.",
+    "hiddenPost": "Vyučujúci tento príspevok skryl.",
+    "hiddenThreadNotice": "Táto téma je pred študentmi skrytá a kým ju neobnovíte, nedá sa na ňu odpovedať.",
+    "delete": "Odstrániť",
+    "confirmDelete": "Natrvalo odstrániť",
+    "deleted": "Príspevok bol odstránený.",
+    "hide": "Skryť",
+    "restore": "Obnoviť",
+    "hideThread": "Skryť tému",
+    "restoreThread": "Obnoviť tému",
+    "hiddenDone": "Skryté pred študentmi.",
+    "restoredDone": "Opäť viditeľné.",
+    "notFound": "Táto téma už nie je dostupná.",
+    "teacherBadge": "Vyučujúci"
   }
 }

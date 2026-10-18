@@ -113,6 +113,10 @@ export function NotificationCard({
           </p>
         )}
 
+        {notification.threadTitle === null ? null : (
+          <p className="text-sm font-medium">{notification.threadTitle}</p>
+        )}
+
         {notification.eventTitle === null ? null : (
           <p className="text-sm font-medium">{notification.eventTitle}</p>
         )}

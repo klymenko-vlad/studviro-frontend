@@ -8,6 +8,7 @@ import { toApiError } from '@/shared/api';
 import { Alert, AlertDescription, AlertTitle, Skeleton } from '@/shared/ui';
 
 import { OfferingAssessments } from './offering-assessments';
+import { OfferingDiscussion } from './offering-discussion';
 import { OfferingEnrollment } from './offering-enrollment';
 import { OfferingExamTerms } from './offering-exam-terms';
 import { OfferingExams } from './offering-exams';
@@ -141,6 +142,12 @@ export function CourseOffering({
                   offeringId={offeringId}
                 />
               </>
+            ),
+          },
+          {
+            key: 'discussion',
+            content: (
+              <OfferingDiscussion institutionId={institutionId} offeringId={offeringId} />
             ),
           },
         ]}

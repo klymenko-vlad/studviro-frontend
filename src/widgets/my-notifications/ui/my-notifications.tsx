@@ -77,5 +77,10 @@ function hrefOf(institutionId: string, notification: Notification): string | und
   if (notification.type === 'waitlist_place_free') return routes.enroll;
   if (notification.courseOfferingId === null) return undefined;
 
-  return routes.courseOffering(notification.courseOfferingId);
+  const course = routes.courseOffering(notification.courseOfferingId);
+  if (notification.discussionThreadId !== null) {
+    return `${course}?section=discussion&thread=${notification.discussionThreadId}`;
+  }
+
+  return course;
 }
