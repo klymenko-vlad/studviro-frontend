@@ -658,7 +658,22 @@
     "showExams": "Show exam terms",
     "examLayer": "Exam term",
     "showDeadlines": "Show deadlines",
-    "deadlineLayer": "Deadline"
+    "deadlineLayer": "Deadline",
+    "subscription": {
+      "title": "Use in another calendar",
+      "description": "Add your classes, the exams you registered for and your deadlines to Google Calendar, Outlook or Apple Calendar.",
+      "download": "Download .ics",
+      "create": "Create subscription link",
+      "urlLabel": "Subscription link",
+      "copy": "Copy link",
+      "copied": "Link copied",
+      "copyFailed": "The link could not be copied. Select it and copy it by hand.",
+      "shownOnce": "The link is shown only now. Paste it into your calendar app as a subscription (in Google Calendar: Other calendars → From URL). Anyone with the link can read your timetable; replace it if it leaks.",
+      "active": "A subscription link is active since {date}.",
+      "replace": "Replace link",
+      "turnOff": "Turn off",
+      "turnedOff": "The subscription link no longer works"
+    }
   },
   "exams": {
     "title": "Exams",

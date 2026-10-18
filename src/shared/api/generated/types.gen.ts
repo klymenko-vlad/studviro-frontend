@@ -1320,6 +1320,7 @@ export type PersonalDataExportDto = {
 
 export type ErasureTallyDto = {
     refreshTokens: number;
+    calendarFeeds: number;
     passwordResetTokens: number;
     twoFactorCredentials: number;
     recoveryCodes: number;
@@ -1835,6 +1836,22 @@ export type RecordExamAttendanceDto = {
      * A no-show spends the attempt; an excused absence does not. Either may be corrected later.
      */
     status: 'attended' | 'no_show' | 'excused';
+};
+
+export type CalendarFeedStatusDto = {
+    /**
+     * Whether a subscription URL is live.
+     */
+    active: boolean;
+    createdAt: string | null;
+};
+
+export type IssuedCalendarFeedDto = {
+    /**
+     * The subscription URL. Shown once: only a hash is kept, so a lost URL is replaced, not recovered.
+     */
+    url: string;
+    createdAt: string;
 };
 
 export type SearchHitDto = {
@@ -6941,6 +6958,170 @@ export type RecordExamAttendanceResponses = {
 };
 
 export type RecordExamAttendanceResponse = RecordExamAttendanceResponses[keyof RecordExamAttendanceResponses];
+
+export type DownloadMyCalendarData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/calendar.ics';
+};
+
+export type DownloadMyCalendarErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type DownloadMyCalendarError = DownloadMyCalendarErrors[keyof DownloadMyCalendarErrors];
+
+export type DownloadMyCalendarResponses = {
+    200: string;
+};
+
+export type DownloadMyCalendarResponse = DownloadMyCalendarResponses[keyof DownloadMyCalendarResponses];
+
+export type RevokeMyCalendarFeedData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/calendar-feed';
+};
+
+export type RevokeMyCalendarFeedErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RevokeMyCalendarFeedError = RevokeMyCalendarFeedErrors[keyof RevokeMyCalendarFeedErrors];
+
+export type RevokeMyCalendarFeedResponses = {
+    204: void;
+};
+
+export type RevokeMyCalendarFeedResponse = RevokeMyCalendarFeedResponses[keyof RevokeMyCalendarFeedResponses];
+
+export type GetMyCalendarFeedData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/calendar-feed';
+};
+
+export type GetMyCalendarFeedErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetMyCalendarFeedError = GetMyCalendarFeedErrors[keyof GetMyCalendarFeedErrors];
+
+export type GetMyCalendarFeedResponses = {
+    200: CalendarFeedStatusDto;
+};
+
+export type GetMyCalendarFeedResponse = GetMyCalendarFeedResponses[keyof GetMyCalendarFeedResponses];
+
+export type IssueMyCalendarFeedData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/calendar-feed';
+};
+
+export type IssueMyCalendarFeedErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type IssueMyCalendarFeedError = IssueMyCalendarFeedErrors[keyof IssueMyCalendarFeedErrors];
+
+export type IssueMyCalendarFeedResponses = {
+    201: IssuedCalendarFeedDto;
+};
+
+export type IssueMyCalendarFeedResponse = IssueMyCalendarFeedResponses[keyof IssueMyCalendarFeedResponses];
+
+export type GetCalendarFeedData = {
+    body?: never;
+    path: {
+        token: string;
+    };
+    query?: never;
+    url: '/api/v1/calendar-feeds/{token}';
+};
+
+export type GetCalendarFeedErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetCalendarFeedError = GetCalendarFeedErrors[keyof GetCalendarFeedErrors];
+
+export type GetCalendarFeedResponses = {
+    200: string;
+};
+
+export type GetCalendarFeedResponse = GetCalendarFeedResponses[keyof GetCalendarFeedResponses];
 
 export type SearchData = {
     body?: never;

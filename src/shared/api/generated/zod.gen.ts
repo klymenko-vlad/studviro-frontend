@@ -1664,6 +1664,7 @@ export const zPersonalDataExportDto = z.object({
 
 export const zErasureTallyDto = z.object({
     refreshTokens: z.number(),
+    calendarFeeds: z.number(),
     passwordResetTokens: z.number(),
     twoFactorCredentials: z.number(),
     recoveryCodes: z.number(),
@@ -2349,6 +2350,16 @@ export const zRecordExamAttendanceDto = z.object({
         'no_show',
         'excused'
     ])
+});
+
+export const zCalendarFeedStatusDto = z.object({
+    active: z.boolean(),
+    createdAt: z.iso.datetime().nullable()
+});
+
+export const zIssuedCalendarFeedDto = z.object({
+    url: z.url(),
+    createdAt: z.iso.datetime()
 });
 
 export const zSearchHitDto = z.object({
@@ -3563,6 +3574,36 @@ export const zRecordExamAttendancePath = z.object({
 });
 
 export const zRecordExamAttendanceResponse = zExamRegistrantResponseDto;
+
+export const zDownloadMyCalendarPath = z.object({
+    institutionId: z.string()
+});
+
+export const zDownloadMyCalendarResponse = z.string();
+
+export const zRevokeMyCalendarFeedPath = z.object({
+    institutionId: z.string()
+});
+
+export const zRevokeMyCalendarFeedResponse = z.void();
+
+export const zGetMyCalendarFeedPath = z.object({
+    institutionId: z.string()
+});
+
+export const zGetMyCalendarFeedResponse = zCalendarFeedStatusDto;
+
+export const zIssueMyCalendarFeedPath = z.object({
+    institutionId: z.string()
+});
+
+export const zIssueMyCalendarFeedResponse = zIssuedCalendarFeedDto;
+
+export const zGetCalendarFeedPath = z.object({
+    token: z.string()
+});
+
+export const zGetCalendarFeedResponse = z.string();
 
 export const zSearchPath = z.object({
     institutionId: z.string()

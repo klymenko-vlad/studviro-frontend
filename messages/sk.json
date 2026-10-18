@@ -658,7 +658,22 @@
     "showExams": "Zobraziť skúškové termíny",
     "examLayer": "Skúškový termín",
     "showDeadlines": "Zobraziť termíny odovzdania",
-    "deadlineLayer": "Termín odovzdania"
+    "deadlineLayer": "Termín odovzdania",
+    "subscription": {
+      "title": "Použitie v inom kalendári",
+      "description": "Pridajte si hodiny, skúšky, na ktoré ste prihlásení, a termíny odovzdania do Google Kalendára, Outlooku alebo Kalendára Apple.",
+      "download": "Stiahnuť .ics",
+      "create": "Vytvoriť odkaz na odber",
+      "urlLabel": "Odkaz na odber",
+      "copy": "Kopírovať odkaz",
+      "copied": "Odkaz bol skopírovaný",
+      "copyFailed": "Odkaz sa nepodarilo skopírovať. Označte ho a skopírujte ručne.",
+      "shownOnce": "Odkaz sa zobrazí len teraz. Vložte ho do kalendárovej aplikácie ako odber (v Google Kalendári: Ďalšie kalendáre → Z webovej adresy). Ktokoľvek s odkazom vidí váš rozvrh; ak unikne, nahraďte ho.",
+      "active": "Odkaz na odber je aktívny od {date}.",
+      "replace": "Nahradiť odkaz",
+      "turnOff": "Vypnúť",
+      "turnedOff": "Odkaz na odber prestal platiť"
+    }
   },
   "exams": {
     "title": "Skúšky",

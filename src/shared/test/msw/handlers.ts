@@ -1692,6 +1692,9 @@ export const handlers = [
       }),
   ),
 
+  http.get(`${PROXY}/institutions/:institutionId/me/calendar-feed`, () =>
+    HttpResponse.json({ active: false, createdAt: null }),
+  ),
   http.get(`${PROXY}/institutions/:institutionId/me/timetable-events`, ({ request }) => {
     const query = new URL(request.url, location.origin).searchParams;
     const offeringId = query.get('offeringId');
@@ -2017,6 +2020,7 @@ export const handlers = [
       tally: {
         refreshTokens: 2,
         passwordResetTokens: 0,
+        calendarFeeds: 0,
         twoFactorCredentials: 0,
         recoveryCodes: 0,
         userEmails: 1,
