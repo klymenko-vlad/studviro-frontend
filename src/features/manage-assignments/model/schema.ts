@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import type { Assignment } from '@/entities/assignment';
 import { apiSchemas } from '@/shared/api';
+import { toWallTime, wallTimeToInstant } from '@/shared/lib';
 
 const moment = z.union([
   z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/u, 'Use a date and a time'),
@@ -63,16 +64,30 @@ export const EMPTY_ASSIGNMENT: AssignmentFormValues = {
   visible: false,
 };
 
-const toLocalInput = (iso: string | null) => (iso === null ? '' : iso.slice(0, 16));
-const toInstant = (value: string) => (value === '' ? null : `${value}:00.000Z`);
+function toLocalInput(iso: string | null, timeZone: string): string {
+  if (iso === null) return '';
+  const { date, time } = toWallTime(iso, timeZone);
 
-export function toFormValues(assignment: Assignment): AssignmentFormValues {
+  return `${date}T${time}`;
+}
+
+function toInstant(value: string, timeZone: string): string | null {
+  if (value === '') return null;
+  const [date = '', time = ''] = value.split('T');
+
+  return wallTimeToInstant(date, time.slice(0, 5), timeZone);
+}
+
+export function toFormValues(
+  assignment: Assignment,
+  timeZone: string,
+): AssignmentFormValues {
   return {
     name: assignment.name,
     brief: assignment.brief ?? '',
-    opensAt: toLocalInput(assignment.opensAt),
-    dueAt: toLocalInput(assignment.dueAt),
-    closesAt: toLocalInput(assignment.closesAt),
+    opensAt: toLocalInput(assignment.opensAt, timeZone),
+    dueAt: toLocalInput(assignment.dueAt, timeZone),
+    closesAt: toLocalInput(assignment.closesAt, timeZone),
     maxAttempts: assignment.maxAttempts === null ? '' : String(assignment.maxAttempts),
     allowsLateSubmission: assignment.allowsLateSubmission,
     maxPoints: assignment.maxPoints === null ? '' : String(assignment.maxPoints),
@@ -81,13 +96,13 @@ export function toFormValues(assignment: Assignment): AssignmentFormValues {
   };
 }
 
-export function toAssignmentPayload(values: AssignmentFormValues) {
+export function toAssignmentPayload(values: AssignmentFormValues, timeZone: string) {
   return {
     name: values.name,
     brief: values.brief === '' ? null : values.brief,
-    opensAt: toInstant(values.opensAt),
-    dueAt: toInstant(values.dueAt),
-    closesAt: toInstant(values.closesAt),
+    opensAt: toInstant(values.opensAt, timeZone),
+    dueAt: toInstant(values.dueAt, timeZone),
+    closesAt: toInstant(values.closesAt, timeZone),
     maxAttempts: values.maxAttempts === '' ? null : Number(values.maxAttempts),
     allowsLateSubmission: values.allowsLateSubmission,
     maxPoints: values.maxPoints === '' ? null : Number(values.maxPoints),

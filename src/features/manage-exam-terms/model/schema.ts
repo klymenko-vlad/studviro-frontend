@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import type { OfferingExamTerm } from '@/entities/offering-exam-term';
 import { apiSchemas } from '@/shared/api';
+import { toWallTime, wallTimeToInstant } from '@/shared/lib';
 
 const time = z.string().regex(/^\d{2}:\d{2}$/u, 'Use a time like 09:00');
 const day = z.string().regex(/^\d{4}-\d{2}-\d{2}$/u, 'Use a date');
@@ -68,29 +69,38 @@ export const EMPTY_EXAM_TERM: ExamTermFormValues = {
   examinerId: '',
 };
 
-export function toFormValues(term: OfferingExamTerm): ExamTermFormValues {
+export function toFormValues(
+  term: OfferingExamTerm,
+  timeZone: string,
+): ExamTermFormValues {
+  const starts = toWallTime(term.startsAt, timeZone);
+  const dayOf = (iso: string | null) =>
+    iso === null ? '' : toWallTime(iso, timeZone).date;
+
   return {
     kind: term.kind,
-    date: term.startsAt.slice(0, 10),
-    from: term.startsAt.slice(11, 16),
-    to: (term.endsAt ?? term.startsAt).slice(11, 16),
+    date: starts.date,
+    from: starts.time,
+    to: toWallTime(term.endsAt ?? term.startsAt, timeZone).time,
     capacity: term.capacity === null ? '' : String(term.capacity),
-    opensOn: term.registrationOpensAt?.slice(0, 10) ?? '',
-    closesOn: term.registrationClosesAt?.slice(0, 10) ?? '',
+    opensOn: dayOf(term.registrationOpensAt),
+    closesOn: dayOf(term.registrationClosesAt),
     roomId: term.roomId ?? '',
     examinerId: term.examinerId ?? '',
   };
 }
 
-export function toExamTermPayload(values: ExamTermFormValues) {
+export function toExamTermPayload(values: ExamTermFormValues, timeZone: string) {
+  const startOfDay = (day: string) =>
+    day === '' ? null : wallTimeToInstant(day, '00:00', timeZone);
+
   return {
     kind: values.kind,
-    startsAt: `${values.date}T${values.from}:00.000Z`,
-    endsAt: `${values.date}T${values.to}:00.000Z`,
+    startsAt: wallTimeToInstant(values.date, values.from, timeZone),
+    endsAt: wallTimeToInstant(values.date, values.to, timeZone),
     capacity: values.capacity === '' ? null : Number(values.capacity),
-    registrationOpensAt: values.opensOn === '' ? null : `${values.opensOn}T00:00:00.000Z`,
-    registrationClosesAt:
-      values.closesOn === '' ? null : `${values.closesOn}T00:00:00.000Z`,
+    registrationOpensAt: startOfDay(values.opensOn),
+    registrationClosesAt: startOfDay(values.closesOn),
     roomId: values.roomId === '' ? null : values.roomId,
     examinerId: values.examinerId === '' ? null : values.examinerId,
   };

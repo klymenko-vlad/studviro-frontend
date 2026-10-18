@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { apiSchemas } from '@/shared/api';
+import { wallTimeToInstant } from '@/shared/lib';
 
 const time = z.string().regex(/^\d{2}:\d{2}$/u, 'Use a time like 09:00');
 
@@ -38,12 +39,12 @@ export type TimetableFormValues = z.infer<typeof timetableFormSchema>;
 export const TIMETABLE_EVENT_TYPES =
   apiSchemas.zCreateTimetableEventDto.shape.type.unwrap().options;
 
-export function toCreatePayload(values: TimetableFormValues) {
+export function toCreatePayload(values: TimetableFormValues, timeZone: string) {
   return {
     type: values.type,
     title: values.title === '' ? null : values.title,
-    startsAt: `${values.date}T${values.from}:00.000Z`,
-    endsAt: `${values.date}T${values.to}:00.000Z`,
+    startsAt: wallTimeToInstant(values.date, values.from, timeZone),
+    endsAt: wallTimeToInstant(values.date, values.to, timeZone),
     roomId: values.roomId === '' ? null : values.roomId,
     studyGroupId: values.studyGroupId === '' ? null : values.studyGroupId,
     repeatWeekly: values.repeatWeekly,

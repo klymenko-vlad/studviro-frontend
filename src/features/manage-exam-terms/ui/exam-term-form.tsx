@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTimeZone, useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -14,6 +14,7 @@ import {
 import { roomQueries } from '@/entities/room';
 import { teachingAssignmentQueries } from '@/entities/teaching-assignment';
 import { toApiError } from '@/shared/api';
+import { DEFAULT_TIME_ZONE } from '@/shared/config';
 import { useZodResolver } from '@/shared/lib';
 import {
   Button,
@@ -53,6 +54,7 @@ export function ExamTermForm({
   onDone?: () => void;
 }) {
   const t = useTranslations('examTermAdmin');
+  const timeZone = useTimeZone() ?? DEFAULT_TIME_ZONE;
   const queryClient = useQueryClient();
 
   const rooms = useQuery(roomQueries.list({ path: { institutionId } }));
@@ -62,7 +64,7 @@ export function ExamTermForm({
 
   const form = useForm<ExamTermFormValues>({
     resolver: useZodResolver(examTermFormSchema),
-    defaultValues: term ? toFormValues(term) : EMPTY_EXAM_TERM,
+    defaultValues: term ? toFormValues(term, timeZone) : EMPTY_EXAM_TERM,
   });
 
   const settled = {
@@ -92,7 +94,7 @@ export function ExamTermForm({
   const update = useMutation({ ...offeringExamTermMutations.update(), ...settled });
 
   const onSubmit = form.handleSubmit(values => {
-    const body = toExamTermPayload(values);
+    const body = toExamTermPayload(values, timeZone);
 
     if (term) {
       update.mutate({ path: { institutionId, offeringId, examTermId: term.id }, body });

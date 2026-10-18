@@ -4,6 +4,12 @@ export const DEFAULT_LOCALE = 'en' satisfies (typeof LOCALES)[number];
 export type AppLocale = (typeof LOCALES)[number];
 
 /**
+ * Outside an institution's screens there is no institution clock to follow;
+ * inside them `InstitutionTimeZone` switches to the institution's own.
+ */
+export const DEFAULT_TIME_ZONE = 'Europe/Bratislava';
+
+/**
  * Cookie the resolved locale is cached in. Read by `request.ts` on every render
  * and by `src/proxy.ts`; written by the locale switcher and by sign-in, which
  * replaces it with the value stored on the account.

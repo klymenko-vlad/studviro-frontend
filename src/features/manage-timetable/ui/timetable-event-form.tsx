@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTimeZone, useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -13,6 +13,7 @@ import {
 import { roomQueries } from '@/entities/room';
 import { studyGroupQueries } from '@/entities/study-group';
 import { toApiError } from '@/shared/api';
+import { DEFAULT_TIME_ZONE } from '@/shared/config';
 import { useZodResolver } from '@/shared/lib';
 import {
   Button,
@@ -55,6 +56,7 @@ export function TimetableEventForm({
   offeringId: string;
 }) {
   const t = useTranslations('timetableAdmin');
+  const timeZone = useTimeZone() ?? DEFAULT_TIME_ZONE;
   const queryClient = useQueryClient();
 
   const rooms = useQuery(roomQueries.list({ path: { institutionId } }));
@@ -93,7 +95,7 @@ export function TimetableEventForm({
   const onSubmit = form.handleSubmit(values => {
     mutation.mutate({
       path: { institutionId, offeringId },
-      body: toCreatePayload(values),
+      body: toCreatePayload(values, timeZone),
     });
   });
 

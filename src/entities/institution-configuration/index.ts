@@ -14,3 +14,4 @@ export {
   terminologyKeys,
   type InstitutionConfiguration,
 } from './model/institution-configuration';
+export { InstitutionTimeZone } from './ui/institution-time-zone';

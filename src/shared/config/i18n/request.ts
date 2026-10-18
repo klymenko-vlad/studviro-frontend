@@ -1,7 +1,12 @@
 import { cookies, headers } from 'next/headers';
 import { getRequestConfig } from 'next-intl/server';
 
-import { isAppLocale, LOCALE_COOKIE, negotiateLocale } from './routing';
+import {
+  DEFAULT_TIME_ZONE,
+  isAppLocale,
+  LOCALE_COOKIE,
+  negotiateLocale,
+} from './routing';
 
 /**
  * Resolves the locale and loads its catalogue for every server render.
@@ -29,8 +34,8 @@ export default getRequestConfig(async () => {
         default: Record<string, unknown>;
       }
     ).default,
-    // Pin these so a server in UTC and a browser in Kyiv format dates identically.
-    timeZone: 'Europe/Kyiv',
+    // Pinned so a server in UTC and a browser elsewhere format dates identically.
+    timeZone: DEFAULT_TIME_ZONE,
     now: new Date(),
   };
 });

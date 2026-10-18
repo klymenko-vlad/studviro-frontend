@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTimeZone, useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -12,6 +12,7 @@ import {
   type Assignment,
 } from '@/entities/assignment';
 import { toApiError } from '@/shared/api';
+import { DEFAULT_TIME_ZONE } from '@/shared/config';
 import { useZodResolver } from '@/shared/lib';
 import {
   Button,
@@ -47,12 +48,13 @@ export function AssignmentForm({
   onDone?: () => void;
 }) {
   const t = useTranslations('assignments');
+  const timeZone = useTimeZone() ?? DEFAULT_TIME_ZONE;
   const queryClient = useQueryClient();
   const editing = assignment !== undefined;
 
   const form = useForm<AssignmentFormValues>({
     resolver: useZodResolver(assignmentFormSchema),
-    defaultValues: editing ? toFormValues(assignment) : EMPTY_ASSIGNMENT,
+    defaultValues: editing ? toFormValues(assignment, timeZone) : EMPTY_ASSIGNMENT,
   });
 
   const settle = async () => {
@@ -94,7 +96,7 @@ export function AssignmentForm({
   });
 
   const onSubmit = form.handleSubmit(values => {
-    const body = toAssignmentPayload(values);
+    const body = toAssignmentPayload(values, timeZone);
 
     if (editing) {
       update.mutate({
