@@ -2195,7 +2195,7 @@
   },
   "accountSettings": {
     "title": "Account settings",
-    "subtitle": "Your profile, your password, and how you sign in.",
+    "subtitle": "Your profile, your password, how you sign in, and what reaches your inbox.",
     "profile": {
       "title": "Profile",
       "description": "How you appear to teachers, students and staff.",
@@ -2273,6 +2273,34 @@
       "signedOut": "That session was signed out.",
       "signedOutOthers": "Every other session was signed out.",
       "errorTitle": "Your sessions could not be loaded"
+    },
+    "notificationMail": {
+      "title": "E-mail notifications",
+      "description": "Get a copy by e-mail of what you have not read in the app within five minutes. Everything stays in the app either way.",
+      "saved": "Your e-mail choices were saved.",
+      "loadError": "Your e-mail choices could not be loaded",
+      "groups": {
+        "exams": {
+          "label": "Exams",
+          "hint": "New, moved or cancelled terms, and your registrations."
+        },
+        "coursework": {
+          "label": "Assignments and grades",
+          "hint": "New deadlines, marked work, published grades."
+        },
+        "enrolment": {
+          "label": "Enrolment",
+          "hint": "A place confirmed or refused, a place come free."
+        },
+        "timetable": {
+          "label": "Timetable",
+          "hint": "A class moved or cancelled."
+        },
+        "discussion": {
+          "label": "Discussion",
+          "hint": "New threads and replies in your courses."
+        }
+      }
     }
   },
   "discussion": {

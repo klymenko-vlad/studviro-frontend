@@ -609,6 +609,17 @@ export type UnreadNotificationsResponseDto = {
     unreadCount: number;
 };
 
+export type NotificationPreferencesResponseDto = {
+    emailTypes: Array<'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free' | 'discussion_thread_started' | 'discussion_reply'>;
+};
+
+export type UpdateNotificationPreferencesDto = {
+    /**
+     * Every notification type that should also arrive by e-mail. Types left out stay in the application only.
+     */
+    emailTypes: Array<'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free' | 'discussion_thread_started' | 'discussion_reply'>;
+};
+
 export type ExternalIdentityResponseDto = {
     id: string;
     institutionId: string;
@@ -3564,6 +3575,66 @@ export type MarkMyNotificationReadResponses = {
 };
 
 export type MarkMyNotificationReadResponse = MarkMyNotificationReadResponses[keyof MarkMyNotificationReadResponses];
+
+export type GetMyNotificationPreferencesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/notification-preferences';
+};
+
+export type GetMyNotificationPreferencesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetMyNotificationPreferencesError = GetMyNotificationPreferencesErrors[keyof GetMyNotificationPreferencesErrors];
+
+export type GetMyNotificationPreferencesResponses = {
+    200: NotificationPreferencesResponseDto;
+};
+
+export type GetMyNotificationPreferencesResponse = GetMyNotificationPreferencesResponses[keyof GetMyNotificationPreferencesResponses];
+
+export type UpdateMyNotificationPreferencesData = {
+    body: UpdateNotificationPreferencesDto;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me/notification-preferences';
+};
+
+export type UpdateMyNotificationPreferencesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateMyNotificationPreferencesError = UpdateMyNotificationPreferencesErrors[keyof UpdateMyNotificationPreferencesErrors];
+
+export type UpdateMyNotificationPreferencesResponses = {
+    200: NotificationPreferencesResponseDto;
+};
+
+export type UpdateMyNotificationPreferencesResponse = UpdateMyNotificationPreferencesResponses[keyof UpdateMyNotificationPreferencesResponses];
 
 export type ListMyIdentitiesData = {
     body?: never;

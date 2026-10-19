@@ -842,6 +842,52 @@ export const zUnreadNotificationsResponseDto = z.object({
     unreadCount: z.number()
 });
 
+export const zNotificationPreferencesResponseDto = z.object({
+    emailTypes: z.array(z.enum([
+        'exam_term_published',
+        'exam_term_rescheduled',
+        'exam_term_cancelled',
+        'assignment_due_published',
+        'assignment_due_rescheduled',
+        'grade_published',
+        'grade_corrected',
+        'enrollment_confirmed',
+        'enrollment_rejected',
+        'timetable_event_rescheduled',
+        'timetable_event_cancelled',
+        'exam_registration_confirmed',
+        'exam_registration_cancelled',
+        'exam_registration_refused',
+        'submission_marked',
+        'waitlist_place_free',
+        'discussion_thread_started',
+        'discussion_reply'
+    ]))
+});
+
+export const zUpdateNotificationPreferencesDto = z.object({
+    emailTypes: z.array(z.enum([
+        'exam_term_published',
+        'exam_term_rescheduled',
+        'exam_term_cancelled',
+        'assignment_due_published',
+        'assignment_due_rescheduled',
+        'grade_published',
+        'grade_corrected',
+        'enrollment_confirmed',
+        'enrollment_rejected',
+        'timetable_event_rescheduled',
+        'timetable_event_cancelled',
+        'exam_registration_confirmed',
+        'exam_registration_cancelled',
+        'exam_registration_refused',
+        'submission_marked',
+        'waitlist_place_free',
+        'discussion_thread_started',
+        'discussion_reply'
+    ]))
+});
+
 export const zExternalIdentityResponseDto = z.object({
     id: z.uuid(),
     institutionId: z.uuid(),
@@ -2922,6 +2968,12 @@ export const zMarkMyNotificationReadPath = z.object({
 });
 
 export const zMarkMyNotificationReadResponse = zNotificationResponseDto;
+
+export const zGetMyNotificationPreferencesResponse = zNotificationPreferencesResponseDto;
+
+export const zUpdateMyNotificationPreferencesBody = zUpdateNotificationPreferencesDto;
+
+export const zUpdateMyNotificationPreferencesResponse = zNotificationPreferencesResponseDto;
 
 export const zListMyIdentitiesResponse = z.array(zExternalIdentityResponseDto);
 

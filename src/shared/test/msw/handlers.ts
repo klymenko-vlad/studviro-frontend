@@ -1591,6 +1591,12 @@ export const handlers = [
   http.get(`${PROXY}/users/me/roles`, () => HttpResponse.json(roleAssignments)),
   http.get(`${PROXY}/users/me/identities`, () => HttpResponse.json(linkedAccounts)),
   http.get(`${PROXY}/users/me/sessions`, () => HttpResponse.json(accountSessions)),
+  http.get(`${PROXY}/users/me/notification-preferences`, () =>
+    HttpResponse.json({ emailTypes: ['grade_published', 'grade_corrected'] }),
+  ),
+  http.put(`${PROXY}/users/me/notification-preferences`, async ({ request }) =>
+    HttpResponse.json(await request.json()),
+  ),
   http.get(`${PROXY}/users/me/two-factor`, () => HttpResponse.json(twoFactorOff)),
 
   http.get(`${PROXY}/institutions`, () => HttpResponse.json(institutions)),

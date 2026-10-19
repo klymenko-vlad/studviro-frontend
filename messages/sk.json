@@ -2195,7 +2195,7 @@
   },
   "accountSettings": {
     "title": "Nastavenia účtu",
-    "subtitle": "Váš profil, heslo a spôsob prihlasovania.",
+    "subtitle": "Váš profil, heslo, spôsob prihlasovania a čo vám príde e-mailom.",
     "profile": {
       "title": "Profil",
       "description": "Ako vás vidia učitelia, študenti a zamestnanci.",
@@ -2273,6 +2273,34 @@
       "signedOut": "Relácia bola odhlásená.",
       "signedOutOthers": "Všetky ostatné relácie boli odhlásené.",
       "errorTitle": "Relácie sa nepodarilo načítať"
+    },
+    "notificationMail": {
+      "title": "Oznámenia e-mailom",
+      "description": "Kópiu toho, čo si v aplikácii neprečítate do piatich minút, dostanete aj e-mailom. V aplikácii zostáva všetko tak či tak.",
+      "saved": "Nastavenie e-mailov je uložené.",
+      "loadError": "Nastavenie e-mailov sa nepodarilo načítať",
+      "groups": {
+        "exams": {
+          "label": "Skúšky",
+          "hint": "Nové, presunuté alebo zrušené termíny a vaše prihlásenia."
+        },
+        "coursework": {
+          "label": "Zadania a známky",
+          "hint": "Nové termíny odovzdania, ohodnotené práce, zverejnené známky."
+        },
+        "enrolment": {
+          "label": "Zápis",
+          "hint": "Potvrdené alebo odmietnuté miesto, uvoľnené miesto."
+        },
+        "timetable": {
+          "label": "Rozvrh",
+          "hint": "Presunutá alebo zrušená hodina."
+        },
+        "discussion": {
+          "label": "Diskusia",
+          "hint": "Nové témy a odpovede vo vašich predmetoch."
+        }
+      }
     }
   },
   "discussion": {
