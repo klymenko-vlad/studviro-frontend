@@ -101,6 +101,7 @@ export function OfferingMarking({
                           submissionId={submission.id}
                           fileId={file.id}
                           filename={file.filename}
+                          scanStatus={file.scanStatus}
                         />
                       ))}
                 </div>

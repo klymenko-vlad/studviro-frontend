@@ -2353,9 +2353,17 @@
     "uploading": "Nahrávajú sa súbory…"
   },
   "uploads": {
-    "infected": "Súbor obsahuje škodlivý kód a bol odstránený. Nič sa neuložilo.",
-    "scanUnavailable": "Súbor sa teraz nepodarilo skontrolovať antivírusom. Skúste to o chvíľu znova.",
+    "infected": "Tento súbor obsahoval škodlivý kód a bol odstránený.",
     "tooLarge": "Súbor je väčší, ako je povolené.",
     "typeNotAllowed": "Tento druh súboru sa neprijíma."
+  },
+  "fileScan": {
+    "pending": "Zatiaľ nekontrolované antivírusom",
+    "pendingHint": "Antivírus tento súbor ešte neskontroloval. Urobí to, hneď ako bude dostupný.",
+    "infected": "Odstránené: obsahovalo škodlivý kód",
+    "confirmTitle": "Súbor ešte nebol skontrolovaný",
+    "confirmBody": "Antivírus tento súbor zatiaľ neskontroloval. Otvorte ho, len ak dôverujete tomu, kto ho nahral.",
+    "downloadAnyway": "Stiahnuť aj tak",
+    "cancel": "Zrušiť"
   }
 }

@@ -2353,9 +2353,17 @@
     "uploading": "Uploading files…"
   },
   "uploads": {
-    "infected": "The file contains malware and was deleted. Nothing was saved.",
-    "scanUnavailable": "The file could not be checked for malware right now. Try again in a moment.",
+    "infected": "This file contained malware and was deleted.",
     "tooLarge": "The file is larger than the limit.",
     "typeNotAllowed": "This kind of file is not accepted."
+  },
+  "fileScan": {
+    "pending": "Not yet checked for malware",
+    "pendingHint": "The antivirus has not checked this file yet. It will as soon as the scanner is available.",
+    "infected": "Removed: contained malware",
+    "confirmTitle": "This file has not been checked yet",
+    "confirmBody": "The antivirus has not scanned this file yet. Open it only if you trust the person who uploaded it.",
+    "downloadAnyway": "Download anyway",
+    "cancel": "Cancel"
   }
 }

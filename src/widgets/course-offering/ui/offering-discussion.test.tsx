@@ -317,6 +317,7 @@ describe('OfferingDiscussion', () => {
                     filename: 'graf.png',
                     contentType: 'image/png',
                     sizeBytes: 20480,
+                    scanStatus: 'clean',
                   },
                 ],
               },
@@ -331,6 +332,91 @@ describe('OfferingDiscussion', () => {
     expect(
       await screen.findByRole('button', { name: 'Download graf.png' }),
     ).toBeInTheDocument();
+  });
+
+  it('marks an unchecked file and asks before downloading it', async () => {
+    search.value = `section=discussion&thread=${THREAD}`;
+    const [first, second] = thread().posts;
+    const ATTACHMENT = '99999999-9999-4999-8999-999999999998';
+    const opened = vi.spyOn(window, 'open').mockReturnValue(null);
+    server.use(
+      http.get(`${BASE}/${THREAD}`, () =>
+        HttpResponse.json(
+          thread({
+            posts: [
+              {
+                ...first,
+                attachments: [
+                  {
+                    id: ATTACHMENT,
+                    filename: 'notes.pdf',
+                    contentType: 'application/pdf',
+                    sizeBytes: 2048,
+                    scanStatus: 'pending',
+                  },
+                ],
+              },
+              second,
+            ],
+          }),
+        ),
+      ),
+      http.get(`${BASE}/${THREAD}/posts/:postId/attachments/${ATTACHMENT}/download`, () =>
+        HttpResponse.json({ url: 'https://store.example.org/notes.pdf' }),
+      ),
+    );
+
+    const { user } = renderDiscussion();
+    expect(await screen.findByText('Not yet checked for malware')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Download notes.pdf' }));
+    expect(
+      screen.getByRole('dialog', { name: 'This file has not been checked yet' }),
+    ).toBeInTheDocument();
+    expect(opened).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole('button', { name: 'Download anyway' }));
+    await vi.waitFor(() => {
+      expect(opened).toHaveBeenCalledWith(
+        'https://store.example.org/notes.pdf',
+        '_blank',
+        'noopener,noreferrer',
+      );
+    });
+    opened.mockRestore();
+  });
+
+  it('offers no download for a file removed as malware', async () => {
+    search.value = `section=discussion&thread=${THREAD}`;
+    const [first, second] = thread().posts;
+    server.use(
+      http.get(`${BASE}/${THREAD}`, () =>
+        HttpResponse.json(
+          thread({
+            posts: [
+              {
+                ...first,
+                attachments: [
+                  {
+                    id: '99999999-9999-4999-8999-999999999997',
+                    filename: 'evil.zip',
+                    contentType: 'application/zip',
+                    sizeBytes: 2048,
+                    scanStatus: 'infected',
+                  },
+                ],
+              },
+              second,
+            ],
+          }),
+        ),
+      ),
+    );
+
+    renderDiscussion();
+    expect(await screen.findByText('Removed: contained malware')).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Download evil.zip' }),
+    ).not.toBeInTheDocument();
   });
 
   it('asks before deleting for good', async () => {

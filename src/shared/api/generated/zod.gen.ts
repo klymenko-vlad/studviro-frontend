@@ -1131,6 +1131,12 @@ export const zLearningMaterialResponseDto = z.object({
     filename: z.string().nullable(),
     contentType: z.string().nullable(),
     sizeBytes: z.number().nullable(),
+    scanStatus: z.enum([
+        'unscanned',
+        'pending',
+        'clean',
+        'infected'
+    ]),
     position: z.number(),
     visible: z.boolean()
 });
@@ -1232,7 +1238,13 @@ export const zSubmissionFileResponseDto = z.object({
     id: z.uuid(),
     filename: z.string(),
     contentType: z.string(),
-    sizeBytes: z.number()
+    sizeBytes: z.number(),
+    scanStatus: z.enum([
+        'unscanned',
+        'pending',
+        'clean',
+        'infected'
+    ])
 });
 
 export const zSubmissionMarkDto = z.object({
@@ -2471,7 +2483,13 @@ export const zDiscussionAttachmentDto = z.object({
     id: z.uuid(),
     filename: z.string(),
     contentType: z.string(),
-    sizeBytes: z.number()
+    sizeBytes: z.number(),
+    scanStatus: z.enum([
+        'unscanned',
+        'pending',
+        'clean',
+        'infected'
+    ])
 });
 
 export const zDiscussionPostDto = z.object({

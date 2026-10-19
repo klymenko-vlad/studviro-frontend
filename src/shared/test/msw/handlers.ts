@@ -943,6 +943,7 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     sizeBytes: 524_288,
     position: 0,
     visible: true,
+    scanStatus: 'clean',
   },
   {
     id: 'ba5e0001-0001-4001-8001-000000000002',
@@ -956,6 +957,7 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     sizeBytes: null,
     position: 1,
     visible: false,
+    scanStatus: 'clean',
   },
   {
     id: 'ba5e0001-0001-4001-8001-000000000003',
@@ -969,6 +971,7 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     sizeBytes: null,
     position: 2,
     visible: true,
+    scanStatus: 'clean',
   },
 ];
 
@@ -1021,6 +1024,7 @@ export const mySubmissions: SubmissionResponseDto[] = [
         filename: 'sorting.zip',
         contentType: 'application/zip',
         sizeBytes: 12_345,
+        scanStatus: 'clean',
       },
     ],
     mark: null,

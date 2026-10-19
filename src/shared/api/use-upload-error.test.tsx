@@ -14,16 +14,10 @@ function Described({ code }: { code: string }) {
 }
 
 describe('useUploadErrorMessage', () => {
-  it('words a malware refusal so the person knows what happened', () => {
+  it('words the download refusal of a file deleted for malware', () => {
     renderWithProviders(<Described code="FILE_INFECTED" />);
 
     expect(screen.getByText(/malware and was deleted/)).toBeInTheDocument();
-  });
-
-  it('tells the person to retry when the scanner is away', () => {
-    renderWithProviders(<Described code="MALWARE_SCAN_UNAVAILABLE" />);
-
-    expect(screen.getByText(/Try again in a moment/)).toBeInTheDocument();
   });
 
   it('passes any other message through', () => {

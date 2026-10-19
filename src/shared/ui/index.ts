@@ -66,3 +66,8 @@ export { Switch } from './switch';
 export { Textarea } from './textarea';
 export { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
 export { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './table';
+export {
+  FileScanBadge,
+  useUnscannedDownloadConfirm,
+  type FileScanStatus,
+} from './file-scan';

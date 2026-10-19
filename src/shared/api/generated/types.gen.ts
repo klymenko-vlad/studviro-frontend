@@ -866,6 +866,10 @@ export type LearningMaterialResponseDto = {
     filename: string | null;
     contentType: string | null;
     sizeBytes: number | null;
+    /**
+     * `pending`: usable, not yet checked for malware. `clean`: checked. `infected`: deleted, cannot be downloaded. `unscanned`: uploaded while scanning was off.
+     */
+    scanStatus: 'unscanned' | 'pending' | 'clean' | 'infected';
     position: number;
     visible: boolean;
 };
@@ -996,6 +1000,10 @@ export type SubmissionFileResponseDto = {
     filename: string;
     contentType: string;
     sizeBytes: number;
+    /**
+     * `pending`: usable, not yet checked for malware. `clean`: checked. `infected`: deleted, cannot be downloaded. `unscanned`: uploaded while scanning was off.
+     */
+    scanStatus: 'unscanned' | 'pending' | 'clean' | 'infected';
 };
 
 export type SubmissionMarkDto = {
@@ -1930,6 +1938,10 @@ export type DiscussionAttachmentDto = {
     filename: string;
     contentType: string;
     sizeBytes: number;
+    /**
+     * `pending`: usable, not yet checked for malware. `clean`: checked. `infected`: deleted, cannot be downloaded. `unscanned`: uploaded while scanning was off.
+     */
+    scanStatus: 'unscanned' | 'pending' | 'clean' | 'infected';
 };
 
 export type DiscussionPostDto = {

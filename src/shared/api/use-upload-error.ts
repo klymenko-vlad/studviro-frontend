@@ -6,7 +6,6 @@ import { toApiError } from './error';
 
 const TRANSLATED = {
   FILE_INFECTED: 'infected',
-  MALWARE_SCAN_UNAVAILABLE: 'scanUnavailable',
   FILE_TOO_LARGE: 'tooLarge',
   FILE_TYPE_NOT_ALLOWED: 'typeNotAllowed',
 } as const;

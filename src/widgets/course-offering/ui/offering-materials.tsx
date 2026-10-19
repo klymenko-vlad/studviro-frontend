@@ -108,6 +108,7 @@ export function OfferingMaterials({
                       spaceId={spaceId}
                       materialId={material.id}
                       title={material.title}
+                      scanStatus={material.scanStatus}
                     />
                   </div>
                 ) : null}

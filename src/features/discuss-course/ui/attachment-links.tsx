@@ -12,7 +12,7 @@ import {
   type DiscussionPost,
 } from '@/entities/discussion';
 import { toApiError } from '@/shared/api';
-import { Button } from '@/shared/ui';
+import { Button, FileScanBadge, useUnscannedDownloadConfirm } from '@/shared/ui';
 
 export function AttachmentLinks({
   address,
@@ -27,6 +27,7 @@ export function AttachmentLinks({
   const format = useFormatter();
   const queryClient = useQueryClient();
   const [pending, setPending] = useState<string | null>(null);
+  const { confirmThen, dialog } = useUnscannedDownloadConfirm();
 
   if (post.attachments.length === 0) return null;
 
@@ -52,25 +53,33 @@ export function AttachmentLinks({
       aria-label={t('attachmentsOf', { name: post.author.displayName })}
     >
       {post.attachments.map(attachment => (
-        <li key={attachment.id}>
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
-            disabled={pending === attachment.id}
-            aria-label={t('downloadNamed', { filename: attachment.filename })}
-            onClick={() => {
-              void open(attachment.id);
-            }}
-          >
-            <Paperclip aria-hidden />
-            <span className="max-w-56 truncate">{attachment.filename}</span>
-            <span className="text-muted-foreground text-xs">
-              {format.number(Math.max(1, Math.round(attachment.sizeBytes / 1024)))} kB
+        <li key={attachment.id} className="flex items-center gap-2">
+          {attachment.scanStatus === 'infected' ? (
+            <span className="text-muted-foreground text-sm line-through">
+              {attachment.filename}
             </span>
-          </Button>
+          ) : (
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              disabled={pending === attachment.id}
+              aria-label={t('downloadNamed', { filename: attachment.filename })}
+              onClick={() => {
+                confirmThen(attachment.scanStatus, () => void open(attachment.id));
+              }}
+            >
+              <Paperclip aria-hidden />
+              <span className="max-w-56 truncate">{attachment.filename}</span>
+              <span className="text-muted-foreground text-xs">
+                {format.number(Math.max(1, Math.round(attachment.sizeBytes / 1024)))} kB
+              </span>
+            </Button>
+          )}
+          <FileScanBadge status={attachment.scanStatus} />
         </li>
       ))}
+      {dialog}
     </ul>
   );
 }
