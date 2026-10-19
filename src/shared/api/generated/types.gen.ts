@@ -1902,7 +1902,16 @@ export type DiscussionThreadListDto = {
     threads: Array<DiscussionThreadSummaryDto>;
 };
 
+export type DiscussionAttachmentClaimDto = {
+    /**
+     * The key from an attachment upload ticket.
+     */
+    storageKey: string;
+    filename: string;
+};
+
 export type CreateDiscussionThreadDto = {
+    attachments?: Array<DiscussionAttachmentClaimDto>;
     title: string;
     body: string;
 };
@@ -1914,6 +1923,13 @@ export type DiscussionPostAuthorDto = {
      * Teaches this course offering.
      */
     isTeacher: boolean;
+};
+
+export type DiscussionAttachmentDto = {
+    id: string;
+    filename: string;
+    contentType: string;
+    sizeBytes: number;
 };
 
 export type DiscussionPostDto = {
@@ -1930,6 +1946,10 @@ export type DiscussionPostDto = {
      * When the author last changed the text; null if never.
      */
     editedAt: string | null;
+    /**
+     * Empty when the text is withheld from this reader.
+     */
+    attachments: Array<DiscussionAttachmentDto>;
 };
 
 export type DiscussionThreadDto = {
@@ -1948,11 +1968,16 @@ export type DiscussionThreadDto = {
 };
 
 export type CreateDiscussionPostDto = {
+    attachments?: Array<DiscussionAttachmentClaimDto>;
     body: string;
 };
 
 export type EditDiscussionThreadDto = {
     title: string;
+};
+
+export type EditDiscussionPostDto = {
+    body: string;
 };
 
 export type DiscussionVisibilityDto = {
@@ -7365,6 +7390,87 @@ export type StartDiscussionThreadResponses = {
 
 export type StartDiscussionThreadResponse = StartDiscussionThreadResponses[keyof StartDiscussionThreadResponses];
 
+export type CreateDiscussionAttachmentTicketData = {
+    body: RequestUploadTicketDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/attachment-tickets';
+};
+
+export type CreateDiscussionAttachmentTicketErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateDiscussionAttachmentTicketError = CreateDiscussionAttachmentTicketErrors[keyof CreateDiscussionAttachmentTicketErrors];
+
+export type CreateDiscussionAttachmentTicketResponses = {
+    201: UploadTicketResponseDto;
+};
+
+export type CreateDiscussionAttachmentTicketResponse = CreateDiscussionAttachmentTicketResponses[keyof CreateDiscussionAttachmentTicketResponses];
+
+export type GetDiscussionAttachmentDownloadUrlData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+        postId: string;
+        attachmentId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}/attachments/{attachmentId}/download';
+};
+
+export type GetDiscussionAttachmentDownloadUrlErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetDiscussionAttachmentDownloadUrlError = GetDiscussionAttachmentDownloadUrlErrors[keyof GetDiscussionAttachmentDownloadUrlErrors];
+
+export type GetDiscussionAttachmentDownloadUrlResponses = {
+    200: DownloadUrlResponseDto;
+};
+
+export type GetDiscussionAttachmentDownloadUrlResponse = GetDiscussionAttachmentDownloadUrlResponses[keyof GetDiscussionAttachmentDownloadUrlResponses];
+
 export type GetDiscussionThreadData = {
     body?: never;
     path: {
@@ -7527,7 +7633,7 @@ export type DeleteDiscussionPostResponses = {
 export type DeleteDiscussionPostResponse = DeleteDiscussionPostResponses[keyof DeleteDiscussionPostResponses];
 
 export type EditDiscussionPostData = {
-    body: CreateDiscussionPostDto;
+    body: EditDiscussionPostDto;
     path: {
         institutionId: string;
         offeringId: string;

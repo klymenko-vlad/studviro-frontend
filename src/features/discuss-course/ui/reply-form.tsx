@@ -25,7 +25,13 @@ import {
 } from '@/shared/ui';
 
 import { replyFormSchema, type ReplyFormValues } from '../model/schema';
+import {
+  AttachmentUploadError,
+  useAttachments,
+  withFiles,
+} from '../model/use-attachments';
 import { useRefreshDiscussion } from '../model/use-refresh-discussion';
+import { AttachmentPicker } from './attachment-picker';
 
 export function ReplyForm({
   address,
@@ -42,6 +48,22 @@ export function ReplyForm({
     defaultValues: { body: '' },
   });
 
+  const uploads = useAttachments(address);
+
+  const uploadOrSay = async () => {
+    try {
+      return await uploads.uploadAll();
+    } catch (error) {
+      if (!(error instanceof AttachmentUploadError)) throw error;
+      toast.error(
+        t(error.tooLarge ? 'uploadTooLarge' : 'uploadFailed', {
+          filename: error.filename,
+        }),
+      );
+      return null;
+    }
+  };
+
   const mutation = useMutation({
     ...discussionMutations.reply(),
     onSuccess: async thread => {
@@ -50,6 +72,7 @@ export function ReplyForm({
         thread,
       );
       form.reset({ body: '' });
+      uploads.reset();
       toast.success(t('replied'));
       await refresh();
     },
@@ -57,11 +80,14 @@ export function ReplyForm({
       toast.error(toApiError(error).message);
     },
   });
+  const busy = uploads.uploading || mutation.isPending;
 
-  const onSubmit = form.handleSubmit(values => {
+  const onSubmit = form.handleSubmit(async values => {
+    const attachments = await uploadOrSay();
+    if (attachments === null) return;
     mutation.mutate({
       path: { ...address, threadId },
-      body: { body: values.body.trim() },
+      body: { body: values.body.trim(), ...withFiles(attachments) },
     });
   });
 
@@ -81,11 +107,15 @@ export function ReplyForm({
             </FormItem>
           )}
         />
+        <AttachmentPicker
+          files={uploads.files}
+          onAdd={uploads.add}
+          onRemove={uploads.remove}
+          disabled={busy}
+        />
         <div>
-          <Button type="submit" disabled={mutation.isPending}>
-            {mutation.isPending ? (
-              <LoaderCircle className="animate-spin" aria-hidden />
-            ) : null}
+          <Button type="submit" disabled={busy}>
+            {busy ? <LoaderCircle className="animate-spin" aria-hidden /> : null}
             {t('reply')}
           </Button>
         </div>

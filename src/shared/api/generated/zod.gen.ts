@@ -2450,7 +2450,13 @@ export const zDiscussionThreadListDto = z.object({
     threads: z.array(zDiscussionThreadSummaryDto)
 });
 
+export const zDiscussionAttachmentClaimDto = z.object({
+    storageKey: z.string().min(1).max(1024),
+    filename: z.string().min(1).max(255)
+});
+
 export const zCreateDiscussionThreadDto = z.object({
+    attachments: z.array(zDiscussionAttachmentClaimDto).max(3).optional(),
     title: z.string().min(1).max(200),
     body: z.string().min(1).max(10000)
 });
@@ -2459,6 +2465,13 @@ export const zDiscussionPostAuthorDto = z.object({
     id: z.uuid(),
     displayName: z.string(),
     isTeacher: z.boolean()
+});
+
+export const zDiscussionAttachmentDto = z.object({
+    id: z.uuid(),
+    filename: z.string(),
+    contentType: z.string(),
+    sizeBytes: z.number()
 });
 
 export const zDiscussionPostDto = z.object({
@@ -2472,7 +2485,8 @@ export const zDiscussionPostDto = z.object({
     ]),
     mine: z.boolean(),
     createdAt: z.iso.datetime(),
-    editedAt: z.iso.datetime().nullable()
+    editedAt: z.iso.datetime().nullable(),
+    attachments: z.array(zDiscussionAttachmentDto)
 });
 
 export const zDiscussionThreadDto = z.object({
@@ -2488,11 +2502,16 @@ export const zDiscussionThreadDto = z.object({
 });
 
 export const zCreateDiscussionPostDto = z.object({
+    attachments: z.array(zDiscussionAttachmentClaimDto).max(3).optional(),
     body: z.string().min(1).max(10000)
 });
 
 export const zEditDiscussionThreadDto = z.object({
     title: z.string().min(1).max(200)
+});
+
+export const zEditDiscussionPostDto = z.object({
+    body: z.string().min(1).max(10000)
 });
 
 export const zDiscussionVisibilityDto = z.object({
@@ -3768,6 +3787,25 @@ export const zStartDiscussionThreadPath = z.object({
 
 export const zStartDiscussionThreadResponse = zDiscussionThreadDto;
 
+export const zCreateDiscussionAttachmentTicketBody = zRequestUploadTicketDto;
+
+export const zCreateDiscussionAttachmentTicketPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zCreateDiscussionAttachmentTicketResponse = zUploadTicketResponseDto;
+
+export const zGetDiscussionAttachmentDownloadUrlPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string(),
+    postId: z.string(),
+    attachmentId: z.string()
+});
+
+export const zGetDiscussionAttachmentDownloadUrlResponse = zDownloadUrlResponseDto;
+
 export const zGetDiscussionThreadPath = z.object({
     institutionId: z.string(),
     offeringId: z.string(),
@@ -3805,7 +3843,7 @@ export const zDeleteDiscussionPostPath = z.object({
 
 export const zDeleteDiscussionPostResponse = z.void();
 
-export const zEditDiscussionPostBody = zCreateDiscussionPostDto;
+export const zEditDiscussionPostBody = zEditDiscussionPostDto;
 
 export const zEditDiscussionPostPath = z.object({
     institutionId: z.string(),

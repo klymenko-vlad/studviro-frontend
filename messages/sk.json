@@ -2341,6 +2341,15 @@
     "saved": "Príspevok je upravený.",
     "rename": "Premenovať",
     "renamed": "Téma je premenovaná.",
-    "editLabel": "Úprava príspevku"
+    "editLabel": "Úprava príspevku",
+    "attachLabel": "Prílohy",
+    "attachHint": "Najviac 3 súbory, každý do 10 MB: obrázky, PDF, dokumenty Office, text alebo ZIP.",
+    "removeAttachment": "Odstrániť {filename}",
+    "attachmentsOf": "Súbory, ktoré priložil(a) {name}",
+    "downloadNamed": "Stiahnuť {filename}",
+    "uploadFailed": "Súbor {filename} sa nepodarilo nahrať. Nič sa neuverejnilo.",
+    "uploadTooLarge": "Súbor {filename} je väčší ako 10 MB.",
+    "tooManyFiles": "Príspevok môže mať najviac 3 súbory.",
+    "uploading": "Nahrávajú sa súbory…"
   }
 }

@@ -46,6 +46,7 @@ const thread = (overrides: object = {}) => ({
       mine: true,
       createdAt: '2026-10-20T08:00:00.000Z',
       editedAt: null,
+      attachments: [],
     },
     {
       id: '88888888-8888-4888-8888-888888888882',
@@ -59,6 +60,7 @@ const thread = (overrides: object = {}) => ({
       mine: false,
       createdAt: '2026-10-20T09:00:00.000Z',
       editedAt: null,
+      attachments: [],
     },
   ],
   ...overrides,
@@ -143,6 +145,7 @@ describe('OfferingDiscussion', () => {
                 mine: true,
                 createdAt: '2026-10-20T10:00:00.000Z',
                 editedAt: null,
+                attachments: [],
               },
             ],
           }),
@@ -233,6 +236,101 @@ describe('OfferingDiscussion', () => {
       await screen.findByRole('heading', { name: 'Question 3: stability' }),
     ).toBeInTheDocument();
     expect(sent).toEqual({ title: 'Question 3: stability' });
+  });
+
+  it('uploads chosen files before posting the reply that names them', async () => {
+    search.value = `section=discussion&thread=${THREAD}`;
+    const order: string[] = [];
+    let sent: { attachments?: unknown[] } | undefined;
+    server.use(
+      http.get(`${BASE}/${THREAD}`, () => HttpResponse.json(thread())),
+      http.post(`${BASE}/attachment-tickets`, async ({ request }) => {
+        order.push('ticket');
+        const { filename } = (await request.json()) as { filename: string };
+        return HttpResponse.json(
+          {
+            url: 'https://store.example.org/put',
+            headers: { 'content-type': 'image/png' },
+            key: `institutions/${INSTITUTION}/discussion/k/${filename}`,
+            expiresAt: '2026-10-20T12:00:00.000Z',
+            maxBytes: 10 * 1024 * 1024,
+          },
+          { status: 201 },
+        );
+      }),
+      http.put('https://store.example.org/put', () => {
+        order.push('put');
+        return new HttpResponse(null, { status: 200 });
+      }),
+      http.post(`${BASE}/${THREAD}/posts`, async ({ request }) => {
+        order.push('reply');
+        sent = (await request.json()) as { attachments?: unknown[] };
+        return HttpResponse.json(thread(), { status: 201 });
+      }),
+    );
+
+    const { user } = renderDiscussion();
+    await user.type(await screen.findByLabelText(/^Your reply/), 'See the graph.');
+    await user.upload(
+      screen.getByLabelText('Attachments'),
+      new File(['png'], 'graf.png', { type: 'image/png' }),
+    );
+    expect(screen.getByText('graf.png')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Reply' }));
+
+    await vi.waitFor(() => {
+      expect(order).toEqual(['ticket', 'put', 'reply']);
+    });
+    expect(sent?.attachments).toEqual([
+      {
+        storageKey: `institutions/${INSTITUTION}/discussion/k/graf.png`,
+        filename: 'graf.png',
+      },
+    ]);
+  });
+
+  it('refuses a file over 10 MB before uploading anything', async () => {
+    search.value = `section=discussion&thread=${THREAD}`;
+    server.use(http.get(`${BASE}/${THREAD}`, () => HttpResponse.json(thread())));
+
+    const { user } = renderDiscussion();
+    const big = new File(['x'], 'video.png', { type: 'image/png' });
+    Object.defineProperty(big, 'size', { value: 11 * 1024 * 1024 });
+    await user.upload(await screen.findByLabelText('Attachments'), big);
+
+    expect(screen.queryByText('video.png')).not.toBeInTheDocument();
+  });
+
+  it('offers the files of a post for download', async () => {
+    search.value = `section=discussion&thread=${THREAD}`;
+    const [first, second] = thread().posts;
+    server.use(
+      http.get(`${BASE}/${THREAD}`, () =>
+        HttpResponse.json(
+          thread({
+            posts: [
+              {
+                ...first,
+                attachments: [
+                  {
+                    id: '99999999-9999-4999-8999-999999999999',
+                    filename: 'graf.png',
+                    contentType: 'image/png',
+                    sizeBytes: 20480,
+                  },
+                ],
+              },
+              second,
+            ],
+          }),
+        ),
+      ),
+    );
+
+    renderDiscussion();
+    expect(
+      await screen.findByRole('button', { name: 'Download graf.png' }),
+    ).toBeInTheDocument();
   });
 
   it('asks before deleting for good', async () => {

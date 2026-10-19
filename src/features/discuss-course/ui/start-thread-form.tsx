@@ -22,7 +22,13 @@ import {
 } from '@/shared/ui';
 
 import { threadFormSchema, type ThreadFormValues } from '../model/schema';
+import {
+  AttachmentUploadError,
+  useAttachments,
+  withFiles,
+} from '../model/use-attachments';
 import { useRefreshDiscussion } from '../model/use-refresh-discussion';
+import { AttachmentPicker } from './attachment-picker';
 
 export function StartThreadForm({
   address,
@@ -40,9 +46,26 @@ export function StartThreadForm({
     defaultValues: { title: '', body: '' },
   });
 
+  const uploads = useAttachments(address);
+
+  const uploadOrSay = async () => {
+    try {
+      return await uploads.uploadAll();
+    } catch (error) {
+      if (!(error instanceof AttachmentUploadError)) throw error;
+      toast.error(
+        t(error.tooLarge ? 'uploadTooLarge' : 'uploadFailed', {
+          filename: error.filename,
+        }),
+      );
+      return null;
+    }
+  };
+
   const mutation = useMutation({
     ...discussionMutations.start(),
     onSuccess: async thread => {
+      uploads.reset();
       toast.success(t('started'));
       await refresh();
       onStarted(thread.id);
@@ -51,11 +74,18 @@ export function StartThreadForm({
       toast.error(toApiError(error).message);
     },
   });
+  const busy = uploads.uploading || mutation.isPending;
 
-  const onSubmit = form.handleSubmit(values => {
+  const onSubmit = form.handleSubmit(async values => {
+    const attachments = await uploadOrSay();
+    if (attachments === null) return;
     mutation.mutate({
       path: address,
-      body: { title: values.title.trim(), body: values.body.trim() },
+      body: {
+        title: values.title.trim(),
+        body: values.body.trim(),
+        ...withFiles(attachments),
+      },
     });
   });
 
@@ -93,11 +123,15 @@ export function StartThreadForm({
             </FormItem>
           )}
         />
+        <AttachmentPicker
+          files={uploads.files}
+          onAdd={uploads.add}
+          onRemove={uploads.remove}
+          disabled={busy}
+        />
         <div className="flex flex-wrap gap-2">
-          <Button type="submit" disabled={mutation.isPending}>
-            {mutation.isPending ? (
-              <LoaderCircle className="animate-spin" aria-hidden />
-            ) : null}
+          <Button type="submit" disabled={busy}>
+            {busy ? <LoaderCircle className="animate-spin" aria-hidden /> : null}
             {t('start')}
           </Button>
           <Button type="button" variant="ghost" onClick={onCancel}>

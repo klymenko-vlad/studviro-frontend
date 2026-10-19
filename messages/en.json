@@ -2341,6 +2341,15 @@
     "saved": "Post updated.",
     "rename": "Rename",
     "renamed": "Thread renamed.",
-    "editLabel": "Edit your post"
+    "editLabel": "Edit your post",
+    "attachLabel": "Attachments",
+    "attachHint": "Up to 3 files, 10 MB each: images, PDF, Office documents, text or ZIP.",
+    "removeAttachment": "Remove {filename}",
+    "attachmentsOf": "Files attached by {name}",
+    "downloadNamed": "Download {filename}",
+    "uploadFailed": "{filename} could not be uploaded. Nothing was posted.",
+    "uploadTooLarge": "{filename} is larger than 10 MB.",
+    "tooManyFiles": "A post carries at most 3 files.",
+    "uploading": "Uploading files…"
   }
 }

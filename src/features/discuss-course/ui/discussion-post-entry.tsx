@@ -8,6 +8,7 @@ import {
   type DiscussionPost,
 } from '@/entities/discussion';
 
+import { AttachmentLinks } from './attachment-links';
 import { EditPostForm } from './edit-post-form';
 import { PostActions } from './post-actions';
 
@@ -31,6 +32,7 @@ export function DiscussionPostEntry({
   return (
     <DiscussionPostItem
       post={post}
+      files={<AttachmentLinks address={address} threadId={threadId} post={post} />}
       editor={
         editing ? (
           <EditPostForm

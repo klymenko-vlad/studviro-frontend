@@ -10,10 +10,12 @@ export function DiscussionPostItem({
   post,
   actions,
   editor,
+  files,
 }: {
   post: DiscussionPost;
   actions?: ReactNode;
   editor?: ReactNode;
+  files?: ReactNode;
 }) {
   const t = useTranslations('discussion');
   const format = useFormatter();
@@ -52,6 +54,8 @@ export function DiscussionPostItem({
         ) : (
           <p className="text-sm whitespace-pre-line">{post.body}</p>
         ))}
+
+      {files === undefined || editor !== undefined ? null : files}
 
       {actions === undefined ? null : (
         <div className="flex flex-wrap gap-2">{actions}</div>
