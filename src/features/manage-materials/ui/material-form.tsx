@@ -12,7 +12,7 @@ import {
   learningMaterialQueries,
   MATERIAL_KINDS,
 } from '@/entities/learning-material';
-import { toApiError, uploadViaTicket } from '@/shared/api';
+import { toApiError, uploadViaTicket, useUploadErrorMessage } from '@/shared/api';
 import { useZodResolver } from '@/shared/lib';
 import {
   Button,
@@ -47,6 +47,7 @@ export function MaterialForm({
 }) {
   const t = useTranslations('materials');
   const queryClient = useQueryClient();
+  const describeUploadError = useUploadErrorMessage();
   const [file, setFile] = useState<File | null>(null);
   const [percent, setPercent] = useState<number | null>(null);
 
@@ -108,7 +109,7 @@ export function MaterialForm({
       });
     } catch (error) {
       setPercent(null);
-      toast.error(toApiError(error).message);
+      toast.error(describeUploadError(error));
       return;
     }
 

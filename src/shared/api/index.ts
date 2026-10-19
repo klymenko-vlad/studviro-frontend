@@ -248,6 +248,7 @@ import {
  */
 export { ApiError, toApiError } from './error';
 export { uploadToTicket, uploadViaTicket, type UploadTicket } from './upload';
+export { useUploadErrorMessage } from './use-upload-error';
 export { getQueryClient } from './query-client';
 
 export { client } from './generated/client.gen';

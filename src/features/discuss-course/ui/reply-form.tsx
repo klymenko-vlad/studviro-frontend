@@ -11,7 +11,7 @@ import {
   discussionQueries,
   type DiscussionAddress,
 } from '@/entities/discussion';
-import { toApiError } from '@/shared/api';
+import { useUploadErrorMessage } from '@/shared/api';
 import { useZodResolver } from '@/shared/lib';
 import {
   Button,
@@ -49,6 +49,7 @@ export function ReplyForm({
   });
 
   const uploads = useAttachments(address);
+  const describeUploadError = useUploadErrorMessage();
 
   const uploadOrSay = async () => {
     try {
@@ -77,7 +78,7 @@ export function ReplyForm({
       await refresh();
     },
     onError: error => {
-      toast.error(toApiError(error).message);
+      toast.error(describeUploadError(error));
     },
   });
   const busy = uploads.uploading || mutation.isPending;

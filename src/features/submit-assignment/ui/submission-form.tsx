@@ -7,7 +7,12 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import { submissionMutations, submissionQueries } from '@/entities/submission';
-import { toApiError, uploadViaTicket, type SubmitAssignmentDto } from '@/shared/api';
+import {
+  toApiError,
+  uploadViaTicket,
+  useUploadErrorMessage,
+  type SubmitAssignmentDto,
+} from '@/shared/api';
 import { Button, Input, Label, Progress, Textarea } from '@/shared/ui';
 
 export function SubmissionForm({
@@ -21,6 +26,7 @@ export function SubmissionForm({
 }) {
   const t = useTranslations('submissions');
   const queryClient = useQueryClient();
+  const describeUploadError = useUploadErrorMessage();
   const [files, setFiles] = useState<File[]>([]);
   const [notes, setNotes] = useState('');
   const [percent, setPercent] = useState<number | null>(null);
@@ -77,7 +83,7 @@ export function SubmissionForm({
       });
     } catch (error) {
       setPercent(null);
-      setProblem(toApiError(error).message);
+      setProblem(describeUploadError(error));
       return;
     }
 

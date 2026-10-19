@@ -2351,5 +2351,11 @@
     "uploadTooLarge": "Súbor {filename} je väčší ako 10 MB.",
     "tooManyFiles": "Príspevok môže mať najviac 3 súbory.",
     "uploading": "Nahrávajú sa súbory…"
+  },
+  "uploads": {
+    "infected": "Súbor obsahuje škodlivý kód a bol odstránený. Nič sa neuložilo.",
+    "scanUnavailable": "Súbor sa teraz nepodarilo skontrolovať antivírusom. Skúste to o chvíľu znova.",
+    "tooLarge": "Súbor je väčší, ako je povolené.",
+    "typeNotAllowed": "Tento druh súboru sa neprijíma."
   }
 }

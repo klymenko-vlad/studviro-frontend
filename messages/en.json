@@ -2351,5 +2351,11 @@
     "uploadTooLarge": "{filename} is larger than 10 MB.",
     "tooManyFiles": "A post carries at most 3 files.",
     "uploading": "Uploading files…"
+  },
+  "uploads": {
+    "infected": "The file contains malware and was deleted. Nothing was saved.",
+    "scanUnavailable": "The file could not be checked for malware right now. Try again in a moment.",
+    "tooLarge": "The file is larger than the limit.",
+    "typeNotAllowed": "This kind of file is not accepted."
   }
 }

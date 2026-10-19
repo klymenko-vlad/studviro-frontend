@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { discussionMutations, type DiscussionAddress } from '@/entities/discussion';
-import { toApiError } from '@/shared/api';
+import { useUploadErrorMessage } from '@/shared/api';
 import { useZodResolver } from '@/shared/lib';
 import {
   Button,
@@ -47,6 +47,7 @@ export function StartThreadForm({
   });
 
   const uploads = useAttachments(address);
+  const describeUploadError = useUploadErrorMessage();
 
   const uploadOrSay = async () => {
     try {
@@ -71,7 +72,7 @@ export function StartThreadForm({
       onStarted(thread.id);
     },
     onError: error => {
-      toast.error(toApiError(error).message);
+      toast.error(describeUploadError(error));
     },
   });
   const busy = uploads.uploading || mutation.isPending;
