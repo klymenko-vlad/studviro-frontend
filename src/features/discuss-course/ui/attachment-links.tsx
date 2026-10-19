@@ -66,8 +66,7 @@ export function AttachmentLinks({
             <Paperclip aria-hidden />
             <span className="max-w-56 truncate">{attachment.filename}</span>
             <span className="text-muted-foreground text-xs">
-              {format.number(attachment.sizeBytes / 1024, { maximumFractionDigits: 0 })}{' '}
-              kB
+              {format.number(Math.max(1, Math.round(attachment.sizeBytes / 1024)))} kB
             </span>
           </Button>
         </li>

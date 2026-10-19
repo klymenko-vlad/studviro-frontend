@@ -79,7 +79,7 @@ export function AttachmentPicker({
               <Paperclip className="size-3.5" aria-hidden />
               <span className="max-w-48 truncate">{file.name}</span>
               <span className="text-muted-foreground text-xs">
-                {format.number(file.size / 1024, { maximumFractionDigits: 0 })} kB
+                {format.number(Math.max(1, Math.round(file.size / 1024)))} kB
               </span>
               <Button
                 type="button"
