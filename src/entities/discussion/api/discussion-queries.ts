@@ -10,6 +10,8 @@ export const discussionQueries = {
 export const discussionMutations = {
   start: apiQueries.startDiscussionThreadMutation,
   reply: apiQueries.replyToDiscussionThreadMutation,
+  editPost: apiQueries.editDiscussionPostMutation,
+  renameThread: apiQueries.renameDiscussionThreadMutation,
   deletePost: apiQueries.deleteDiscussionPostMutation,
   setThreadVisibility: apiQueries.setDiscussionThreadVisibilityMutation,
   setPostVisibility: apiQueries.setDiscussionPostVisibilityMutation,

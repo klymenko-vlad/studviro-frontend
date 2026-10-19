@@ -2334,6 +2334,13 @@
     "hiddenDone": "Skryté pred študentmi.",
     "restoredDone": "Opäť viditeľné.",
     "notFound": "Táto téma už nie je dostupná.",
-    "teacherBadge": "Vyučujúci"
+    "teacherBadge": "Vyučujúci",
+    "edit": "Upraviť",
+    "edited": "upravené",
+    "save": "Uložiť",
+    "saved": "Príspevok je upravený.",
+    "rename": "Premenovať",
+    "renamed": "Téma je premenovaná.",
+    "editLabel": "Úprava príspevku"
   }
 }

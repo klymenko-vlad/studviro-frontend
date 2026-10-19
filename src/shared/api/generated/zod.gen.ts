@@ -2471,7 +2471,8 @@ export const zDiscussionPostDto = z.object({
         'deleted'
     ]),
     mine: z.boolean(),
-    createdAt: z.iso.datetime()
+    createdAt: z.iso.datetime(),
+    editedAt: z.iso.datetime().nullable()
 });
 
 export const zDiscussionThreadDto = z.object({
@@ -2488,6 +2489,10 @@ export const zDiscussionThreadDto = z.object({
 
 export const zCreateDiscussionPostDto = z.object({
     body: z.string().min(1).max(10000)
+});
+
+export const zEditDiscussionThreadDto = z.object({
+    title: z.string().min(1).max(200)
 });
 
 export const zDiscussionVisibilityDto = z.object({
@@ -3771,6 +3776,16 @@ export const zGetDiscussionThreadPath = z.object({
 
 export const zGetDiscussionThreadResponse = zDiscussionThreadDto;
 
+export const zRenameDiscussionThreadBody = zEditDiscussionThreadDto;
+
+export const zRenameDiscussionThreadPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string()
+});
+
+export const zRenameDiscussionThreadResponse = zDiscussionThreadDto;
+
 export const zReplyToDiscussionThreadBody = zCreateDiscussionPostDto;
 
 export const zReplyToDiscussionThreadPath = z.object({
@@ -3789,6 +3804,17 @@ export const zDeleteDiscussionPostPath = z.object({
 });
 
 export const zDeleteDiscussionPostResponse = z.void();
+
+export const zEditDiscussionPostBody = zCreateDiscussionPostDto;
+
+export const zEditDiscussionPostPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string(),
+    postId: z.string()
+});
+
+export const zEditDiscussionPostResponse = zDiscussionThreadDto;
 
 export const zSetDiscussionThreadVisibilityBody = zDiscussionVisibilityDto;
 

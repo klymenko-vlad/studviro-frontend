@@ -1926,6 +1926,10 @@ export type DiscussionPostDto = {
     state: 'visible' | 'hidden' | 'deleted';
     mine: boolean;
     createdAt: string;
+    /**
+     * When the author last changed the text; null if never.
+     */
+    editedAt: string | null;
 };
 
 export type DiscussionThreadDto = {
@@ -1945,6 +1949,10 @@ export type DiscussionThreadDto = {
 
 export type CreateDiscussionPostDto = {
     body: string;
+};
+
+export type EditDiscussionThreadDto = {
+    title: string;
 };
 
 export type DiscussionVisibilityDto = {
@@ -7395,6 +7403,48 @@ export type GetDiscussionThreadResponses = {
 
 export type GetDiscussionThreadResponse = GetDiscussionThreadResponses[keyof GetDiscussionThreadResponses];
 
+export type RenameDiscussionThreadData = {
+    body: EditDiscussionThreadDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}';
+};
+
+export type RenameDiscussionThreadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RenameDiscussionThreadError = RenameDiscussionThreadErrors[keyof RenameDiscussionThreadErrors];
+
+export type RenameDiscussionThreadResponses = {
+    200: DiscussionThreadDto;
+};
+
+export type RenameDiscussionThreadResponse = RenameDiscussionThreadResponses[keyof RenameDiscussionThreadResponses];
+
 export type ReplyToDiscussionThreadData = {
     body: CreateDiscussionPostDto;
     path: {
@@ -7475,6 +7525,49 @@ export type DeleteDiscussionPostResponses = {
 };
 
 export type DeleteDiscussionPostResponse = DeleteDiscussionPostResponses[keyof DeleteDiscussionPostResponses];
+
+export type EditDiscussionPostData = {
+    body: CreateDiscussionPostDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+        postId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}';
+};
+
+export type EditDiscussionPostErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type EditDiscussionPostError = EditDiscussionPostErrors[keyof EditDiscussionPostErrors];
+
+export type EditDiscussionPostResponses = {
+    200: DiscussionThreadDto;
+};
+
+export type EditDiscussionPostResponse = EditDiscussionPostResponses[keyof EditDiscussionPostResponses];
 
 export type SetDiscussionThreadVisibilityData = {
     body: DiscussionVisibilityDto;

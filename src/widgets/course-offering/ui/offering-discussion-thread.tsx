@@ -5,15 +5,12 @@ import { ArrowLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import {
-  PostActions,
+  DiscussionPostEntry,
   ReplyForm,
+  ThreadTitle,
   ThreadVisibilityToggle,
 } from '@/features/discuss-course';
-import {
-  DiscussionPostItem,
-  discussionQueries,
-  type DiscussionAddress,
-} from '@/entities/discussion';
+import { discussionQueries, type DiscussionAddress } from '@/entities/discussion';
 import { toApiError } from '@/shared/api';
 import { Alert, AlertDescription, Button, ListSkeleton, QueryError } from '@/shared/ui';
 
@@ -65,9 +62,15 @@ export function DiscussionThreadView({
     <div className="flex flex-col gap-4">
       {back}
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <h3 className="type-heading text-lg font-semibold">
-          {data.title === '' ? t('untitled') : data.title}
-        </h3>
+        <ThreadTitle
+          address={address}
+          threadId={threadId}
+          title={data.title}
+          canRename={
+            !data.hidden &&
+            data.posts.some(post => post.mine && post.author.id === data.author.id)
+          }
+        />
         {data.canModerate ? (
           <ThreadVisibilityToggle
             address={address}
@@ -85,17 +88,12 @@ export function DiscussionThreadView({
 
       <div className="flex flex-col">
         {data.posts.map(post => (
-          <DiscussionPostItem
+          <DiscussionPostEntry
             key={post.id}
+            address={address}
+            threadId={threadId}
             post={post}
-            actions={
-              <PostActions
-                address={address}
-                threadId={threadId}
-                post={post}
-                canModerate={data.canModerate}
-              />
-            }
+            canModerate={data.canModerate}
           />
         ))}
       </div>

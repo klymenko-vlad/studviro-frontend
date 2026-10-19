@@ -24,11 +24,13 @@ export function PostActions({
   threadId,
   post,
   canModerate,
+  onEdit,
 }: {
   address: DiscussionAddress;
   threadId: string;
   post: DiscussionPost;
   canModerate: boolean;
+  onEdit?: () => void;
 }) {
   const t = useTranslations('discussion');
   const refresh = useRefreshDiscussion(address);
@@ -84,16 +86,23 @@ export function PostActions({
             </Button>
           </>
         ) : (
-          <Button
-            type="button"
-            size="sm"
-            variant="ghost"
-            onClick={() => {
-              setConfirming(true);
-            }}
-          >
-            {t('delete')}
-          </Button>
+          <>
+            {onEdit !== undefined && post.state === 'visible' ? (
+              <Button type="button" size="sm" variant="ghost" onClick={onEdit}>
+                {t('edit')}
+              </Button>
+            ) : null}
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              onClick={() => {
+                setConfirming(true);
+              }}
+            >
+              {t('delete')}
+            </Button>
+          </>
         )
       ) : null}
       {canModerate ? (

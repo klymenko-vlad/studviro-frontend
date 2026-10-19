@@ -45,6 +45,7 @@ const thread = (overrides: object = {}) => ({
       state: 'visible',
       mine: true,
       createdAt: '2026-10-20T08:00:00.000Z',
+      editedAt: null,
     },
     {
       id: '88888888-8888-4888-8888-888888888882',
@@ -57,6 +58,7 @@ const thread = (overrides: object = {}) => ({
       state: 'hidden',
       mine: false,
       createdAt: '2026-10-20T09:00:00.000Z',
+      editedAt: null,
     },
   ],
   ...overrides,
@@ -140,6 +142,7 @@ describe('OfferingDiscussion', () => {
                 state: 'visible',
                 mine: true,
                 createdAt: '2026-10-20T10:00:00.000Z',
+                editedAt: null,
               },
             ],
           }),
@@ -154,6 +157,82 @@ describe('OfferingDiscussion', () => {
 
     expect(await screen.findByText('Thanks, got it.')).toBeInTheDocument();
     expect(sent).toEqual({ body: 'Thanks, got it.' });
+  });
+
+  it('edits your own post in place and marks it edited', async () => {
+    search.value = `section=discussion&thread=${THREAD}`;
+    let sent: unknown;
+    server.use(
+      http.get(`${BASE}/${THREAD}`, () => HttpResponse.json(thread())),
+      http.patch(`${BASE}/${THREAD}/posts/:postId`, async ({ request }) => {
+        sent = await request.json();
+        const [first, second] = thread().posts;
+        return HttpResponse.json(
+          thread({
+            posts: [
+              {
+                ...first,
+                body: 'What does stable mean here?',
+                editedAt: '2026-10-20T11:00:00.000Z',
+              },
+              second,
+            ],
+          }),
+        );
+      }),
+    );
+
+    const { user } = renderDiscussion();
+    await user.click(await screen.findByRole('button', { name: 'Edit' }));
+    const editor = screen.getByRole('textbox', { name: 'Edit your post' });
+    expect(editor).toHaveValue('What does stable mean?');
+    await user.clear(editor);
+    await user.type(editor, 'What does stable mean here?');
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(await screen.findByText('What does stable mean here?')).toBeInTheDocument();
+    expect(screen.getByText('edited')).toBeInTheDocument();
+    expect(sent).toEqual({ body: 'What does stable mean here?' });
+  });
+
+  it('offers no edit on somebody else’s post', async () => {
+    search.value = `section=discussion&thread=${THREAD}`;
+    server.use(
+      http.get(`${BASE}/${THREAD}`, () =>
+        HttpResponse.json(
+          thread({ posts: thread().posts.map(post => ({ ...post, mine: false })) }),
+        ),
+      ),
+    );
+
+    renderDiscussion();
+    await screen.findByText('What does stable mean?');
+    expect(screen.queryByRole('button', { name: 'Edit' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Rename' })).not.toBeInTheDocument();
+  });
+
+  it('renames a thread you started', async () => {
+    search.value = `section=discussion&thread=${THREAD}`;
+    let sent: unknown;
+    server.use(
+      http.get(`${BASE}/${THREAD}`, () => HttpResponse.json(thread())),
+      http.patch(`${BASE}/${THREAD}`, async ({ request }) => {
+        sent = await request.json();
+        return HttpResponse.json(thread({ title: 'Question 3: stability' }));
+      }),
+    );
+
+    const { user } = renderDiscussion();
+    await user.click(await screen.findByRole('button', { name: 'Rename' }));
+    const title = screen.getByRole('textbox', { name: 'Title' });
+    await user.clear(title);
+    await user.type(title, 'Question 3: stability');
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(
+      await screen.findByRole('heading', { name: 'Question 3: stability' }),
+    ).toBeInTheDocument();
+    expect(sent).toEqual({ title: 'Question 3: stability' });
   });
 
   it('asks before deleting for good', async () => {

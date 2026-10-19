@@ -2334,6 +2334,13 @@
     "hiddenDone": "Hidden from students.",
     "restoredDone": "Visible again.",
     "notFound": "This thread is no longer available.",
-    "teacherBadge": "Teacher"
+    "teacherBadge": "Teacher",
+    "edit": "Edit",
+    "edited": "edited",
+    "save": "Save",
+    "saved": "Post updated.",
+    "rename": "Rename",
+    "renamed": "Thread renamed.",
+    "editLabel": "Edit your post"
   }
 }

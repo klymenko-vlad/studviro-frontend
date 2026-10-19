@@ -5,12 +5,15 @@ import { Badge } from '@/shared/ui';
 
 import type { DiscussionPost } from '../model/discussion';
 
+/** `editor`, when given, takes the place of the text while its author rewrites it. */
 export function DiscussionPostItem({
   post,
   actions,
+  editor,
 }: {
   post: DiscussionPost;
   actions?: ReactNode;
+  editor?: ReactNode;
 }) {
   const t = useTranslations('discussion');
   const format = useFormatter();
@@ -33,18 +36,22 @@ export function DiscussionPostItem({
             minute: 'numeric',
           })}
         </time>
+        {post.editedAt === null ? null : (
+          <span className="text-muted-foreground text-xs">{t('edited')}</span>
+        )}
         {post.state === 'hidden' ? (
           <Badge variant="secondary">{t('hiddenBadge')}</Badge>
         ) : null}
       </header>
 
-      {post.body === null ? (
-        <p className="text-muted-foreground text-sm italic">
-          {post.state === 'deleted' ? t('deletedPost') : t('hiddenPost')}
-        </p>
-      ) : (
-        <p className="text-sm whitespace-pre-line">{post.body}</p>
-      )}
+      {editor ??
+        (post.body === null ? (
+          <p className="text-muted-foreground text-sm italic">
+            {post.state === 'deleted' ? t('deletedPost') : t('hiddenPost')}
+          </p>
+        ) : (
+          <p className="text-sm whitespace-pre-line">{post.body}</p>
+        ))}
 
       {actions === undefined ? null : (
         <div className="flex flex-wrap gap-2">{actions}</div>
