@@ -692,6 +692,11 @@
       "replace": "Nahradiť odkaz",
       "turnOff": "Vypnúť",
       "turnedOff": "Odkaz na odber prestal platiť"
+    },
+    "viewLabel": "Show the week as",
+    "view": {
+      "week": "Week",
+      "list": "List"
     }
   },
   "exams": {

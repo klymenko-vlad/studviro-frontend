@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import type * as SharedConfig from '@/shared/config';
 import {
   errorResponse,
   examTerms as examTermFixtures,
@@ -13,6 +14,16 @@ import {
 
 import { MyCalendar } from './my-calendar';
 
+const search = vi.hoisted(() => ({ value: new URLSearchParams('view=list') }));
+const replace = vi.hoisted(() => vi.fn());
+
+vi.mock('@/shared/config', async importOriginal => ({
+  ...(await importOriginal<typeof SharedConfig>()),
+  useRouter: () => ({ replace, push: vi.fn(), refresh: vi.fn() }),
+  usePathname: () => '/institutions/x/calendar',
+  useSearchParams: () => search.value,
+}));
+
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const EVENTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/timetable-events`;
 const EXAMS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/exam-terms`;
@@ -23,6 +34,35 @@ const renderCalendar = () =>
   renderWithProviders(<MyCalendar institutionId={INSTITUTION} today={WEDNESDAY} />);
 
 describe('MyCalendar', () => {
+  beforeEach(() => {
+    search.value = new URLSearchParams('view=list');
+    replace.mockReset();
+  });
+
+  it('draws the week as a grid with each class at its time', async () => {
+    search.value = new URLSearchParams('view=week');
+    renderCalendar();
+
+    const grid = await screen.findByTestId('calendar-grid');
+    expect(await within(grid).findAllByRole('link')).not.toHaveLength(0);
+    expect(screen.queryByRole('heading', { level: 2 })).not.toBeInTheDocument();
+  });
+
+  it('switches between the grid and the list, and remembers it in the address', async () => {
+    search.value = new URLSearchParams('view=week');
+    renderCalendar();
+
+    expect(await screen.findByRole('button', { name: 'Week' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'List' }));
+
+    expect(replace).toHaveBeenLastCalledWith('/institutions/x/calendar?view=list', {
+      scroll: false,
+    });
+  });
+
   it('opens on the week containing today', async () => {
     renderCalendar();
 

@@ -2,7 +2,7 @@ import type { Deadline } from '@/entities/deadline';
 import type { ExamTerm } from '@/entities/exam-term';
 import { dayKey, type TimetableEvent } from '@/entities/timetable-event';
 
-type CalendarItem =
+export type CalendarItem =
   | { kind: 'event'; id: string; startsAt: string; event: TimetableEvent }
   | { kind: 'exam'; id: string; startsAt: string; term: ExamTerm }
   | { kind: 'deadline'; id: string; startsAt: string; deadline: Deadline };

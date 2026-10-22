@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { CalendarDays, List } from 'lucide-react';
 import { useFormatter, useTimeZone, useTranslations } from 'next-intl';
 
 import {
@@ -18,14 +19,21 @@ import { examTermQueries } from '@/entities/exam-term';
 import {
   addDays,
   addWeeks,
+  dayKey,
   startOfWeek,
   timetableEventQueries,
   type TimetableEventType,
 } from '@/entities/timetable-event';
+import { usePathname, useRouter, useSearchParams } from '@/shared/config';
+import { cn } from '@/shared/lib';
 import { Button, EmptyState, ListSkeleton, QueryError } from '@/shared/ui';
 
 import { groupCalendarItems } from '../model/calendar-items';
+import { layoutWeek } from '../model/week-layout';
 import { CalendarDaySection } from './calendar-day-section';
+import { CalendarWeekGrid } from './calendar-week-grid';
+
+type View = 'week' | 'list';
 
 const ALL_TYPES = 'all';
 const TYPES: TimetableEventType[] = [
@@ -53,6 +61,20 @@ export function MyCalendar({
   const [showExams, setShowExams] = useState(true);
   const [showDeadlines, setShowDeadlines] = useState(true);
   const to = addWeeks(from, 1);
+
+  // The chosen view lives in `?view=`. Until somebody chooses, a wide screen
+  // gets the grid and a phone the list — seven columns do not fit a phone.
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useSearchParams();
+  const requested = params.get('view');
+  const view: View | null =
+    requested === 'week' || requested === 'list' ? requested : null;
+  const choose = (next: View) => {
+    const query = new URLSearchParams(params.toString());
+    query.set('view', next);
+    router.replace(`${pathname}?${query.toString()}`, { scroll: false });
+  };
 
   const range = { from: from.toISOString(), to: to.toISOString() };
   const offeringId = offeringFilterValue(offering);
@@ -95,6 +117,12 @@ export function MyCalendar({
     timeZone,
   );
   const eventCount = days.reduce((n, d) => n + d.items.length, 0);
+  const weekDates = Array.from({ length: 7 }, (_, index) => addDays(from, index));
+  const week = layoutWeek(
+    days.flatMap(entry => entry.items),
+    weekDates.map(date => dayKey(date, timeZone)),
+    timeZone,
+  );
 
   return (
     <div className="flex flex-col gap-8">
@@ -113,6 +141,41 @@ export function MyCalendar({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
+          <div
+            role="group"
+            aria-label={t('viewLabel')}
+            className="bg-muted mr-2 inline-flex rounded-lg p-[3px]"
+          >
+            {(['week', 'list'] as const).map(option => {
+              const Icon = option === 'week' ? CalendarDays : List;
+              const active =
+                view === option
+                  ? 'bg-card text-foreground shadow-sm'
+                  : view === null
+                    ? option === 'week'
+                      ? 'md:bg-card md:text-foreground md:shadow-sm'
+                      : 'max-md:bg-card max-md:text-foreground max-md:shadow-sm'
+                    : '';
+
+              return (
+                <button
+                  key={option}
+                  type="button"
+                  aria-pressed={view === null ? undefined : view === option}
+                  onClick={() => {
+                    choose(option);
+                  }}
+                  className={cn(
+                    'text-muted-foreground hover:text-foreground focus-visible:ring-ring/50 inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-sm font-medium transition-[color,background-color,box-shadow] duration-300 outline-none focus-visible:ring-[3px]',
+                    active,
+                  )}
+                >
+                  <Icon aria-hidden className="size-4" />
+                  {t(`view.${option}`)}
+                </button>
+              );
+            })}
+          </div>
           <Button
             variant="outline"
             size="sm"
@@ -179,21 +242,39 @@ export function MyCalendar({
           title={t('errorTitle')}
           description={t('errorDescription')}
         />
-      ) : days.length === 0 ? (
-        <EmptyState
-          size="inline"
-          title={isThisWeek ? t('empty') : t('emptyWeek', dates)}
-        />
       ) : (
-        days.map(entry => (
-          <CalendarDaySection
-            key={entry.key}
-            day={entry}
-            institutionId={institutionId}
-            today={today}
-            timeZone={timeZone}
-          />
-        ))
+        <>
+          {view === 'list' ? null : (
+            <div className={cn(view === null && 'hidden md:block')}>
+              <CalendarWeekGrid
+                layout={week}
+                days={weekDates}
+                institutionId={institutionId}
+                timeZone={timeZone}
+              />
+            </div>
+          )}
+          {view === 'week' ? null : (
+            <div className={cn('flex flex-col gap-8', view === null && 'md:hidden')}>
+              {days.length === 0 ? (
+                <EmptyState
+                  size="inline"
+                  title={isThisWeek ? t('empty') : t('emptyWeek', dates)}
+                />
+              ) : (
+                days.map(entry => (
+                  <CalendarDaySection
+                    key={entry.key}
+                    day={entry}
+                    institutionId={institutionId}
+                    today={today}
+                    timeZone={timeZone}
+                  />
+                ))
+              )}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
