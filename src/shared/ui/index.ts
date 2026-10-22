@@ -60,6 +60,7 @@ export {
   SheetTrigger,
 } from './sheet';
 export { Label } from './label';
+export { LinkRow, LinkRowChevron, ToneDot } from './link-row';
 export { ListingCard, ListingNote } from './listing-card';
 export { PageHeader, PageShell } from './page-shell';
 export { PasswordInput } from './password-input';

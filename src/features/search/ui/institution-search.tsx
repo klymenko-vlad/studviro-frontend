@@ -20,7 +20,7 @@ import {
   useRouter,
   useSearchParams,
 } from '@/shared/config';
-import { Badge, Button, Input, Label } from '@/shared/ui';
+import { Badge, Button, Input, Label, LinkRow } from '@/shared/ui';
 
 import { useRecentSearchStore, type OpenedHit } from '../model/recent-search-store';
 
@@ -278,27 +278,25 @@ function ResultGroup({ title, children }: { title: string; children: React.React
 function ResultRow({ hit, onOpen }: { hit: OpenedHit; onOpen?: () => void }) {
   return (
     <li>
-      <Link
-        href={hit.href}
-        onClick={onOpen}
-        className="group hover:bg-secondary/70 focus-visible:ring-ring/50 flex items-center gap-3 rounded-md px-2 py-2 transition-colors duration-300 outline-none focus-visible:ring-[3px]"
-      >
-        <span className="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-2">
-          <span className="font-medium">{hit.title}</span>
-          {hit.subtitle === null ? null : (
-            <span className="text-muted-foreground font-mono text-xs">
-              {hit.subtitle}
-            </span>
-          )}
-          {hit.context === null ? null : (
-            <span className="text-muted-foreground text-xs">{hit.context}</span>
-          )}
-        </span>
-        <ArrowUpRight
-          aria-hidden
-          className="text-muted-foreground size-4 shrink-0 opacity-0 transition-[opacity,translate] duration-500 ease-(--ease-premium) group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100 group-focus-visible:opacity-100"
-        />
-      </Link>
+      <LinkRow asChild>
+        <Link href={hit.href} onClick={onOpen}>
+          <span className="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-2">
+            <span className="font-medium">{hit.title}</span>
+            {hit.subtitle === null ? null : (
+              <span className="text-muted-foreground font-mono text-xs">
+                {hit.subtitle}
+              </span>
+            )}
+            {hit.context === null ? null : (
+              <span className="text-muted-foreground text-xs">{hit.context}</span>
+            )}
+          </span>
+          <ArrowUpRight
+            aria-hidden
+            className="text-muted-foreground size-4 shrink-0 opacity-0 transition-[opacity,translate] duration-500 ease-(--ease-premium) group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100 group-focus-visible:opacity-100"
+          />
+        </Link>
+      </LinkRow>
     </li>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { ChevronRight, ClipboardCheck, FileText, type LucideIcon } from 'lucide-react';
+import { ClipboardCheck, FileText, type LucideIcon } from 'lucide-react';
 import { useFormatter, useTimeZone, useTranslations } from 'next-intl';
 
 import { assignmentQueries } from '@/entities/assignment';
@@ -12,7 +12,14 @@ import { learningSpaceQueries, spaceForOffering } from '@/entities/learning-spac
 import { isCancelled, offeringExamTermQueries } from '@/entities/offering-exam-term';
 import { usePermissions } from '@/entities/permission';
 import { Link } from '@/shared/config';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  LinkRow,
+  LinkRowChevron,
+} from '@/shared/ui';
 
 import { soonest } from '../model/up-next';
 
@@ -143,28 +150,23 @@ function UpNextRow({
 }) {
   return (
     <li>
-      <Link
-        href={href}
-        scroll={false}
-        className="group hover:bg-secondary/70 focus-visible:ring-ring/50 flex items-center gap-3 rounded-md px-2 py-2 text-sm transition-colors duration-300 outline-none focus-visible:ring-[3px]"
-      >
-        <span className="bg-muted text-muted-foreground grid size-8 shrink-0 place-items-center rounded-md">
-          <Icon aria-hidden className="size-4" />
-        </span>
-        <span className="flex min-w-0 flex-1 flex-col">
-          <span className="text-muted-foreground text-xs">{label}</span>
-          <span className="truncate font-medium">{title}</span>
-        </span>
-        {when === undefined ? null : (
-          <span className="text-muted-foreground text-xs whitespace-nowrap tabular-nums">
-            {when}
+      <LinkRow asChild>
+        <Link href={href} scroll={false}>
+          <span className="bg-muted text-muted-foreground grid size-8 shrink-0 place-items-center rounded-md">
+            <Icon aria-hidden className="size-4" />
           </span>
-        )}
-        <ChevronRight
-          aria-hidden
-          className="text-muted-foreground size-4 shrink-0 transition-transform duration-500 ease-(--ease-premium) group-hover:translate-x-0.5 motion-reduce:transition-none"
-        />
-      </Link>
+          <span className="flex min-w-0 flex-1 flex-col">
+            <span className="text-muted-foreground text-xs">{label}</span>
+            <span className="truncate font-medium">{title}</span>
+          </span>
+          {when === undefined ? null : (
+            <span className="text-muted-foreground text-xs whitespace-nowrap tabular-nums">
+              {when}
+            </span>
+          )}
+          <LinkRowChevron />
+        </Link>
+      </LinkRow>
     </li>
   );
 }

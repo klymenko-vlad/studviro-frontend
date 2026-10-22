@@ -1,6 +1,8 @@
 export { enrolledCourseQueries } from './api/enrolled-course-queries';
 export {
   groupByTerm,
+  opensCoursePage,
+  splitByTime,
   primaryTeacher,
   totalCredits,
   type EnrolledCourse,

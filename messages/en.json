@@ -390,6 +390,12 @@
     "tabs": {
       "mine": "My courses",
       "find": "Find courses"
+    },
+    "noCurrent": "You have no courses this term yet.",
+    "findCourses": "Find courses",
+    "earlier": {
+      "title": "Earlier courses",
+      "summary": "{courses, plural, one {# course} other {# courses}} from {terms, plural, one {# earlier term} other {# earlier terms}}"
     }
   },
   "courseOffering": {
