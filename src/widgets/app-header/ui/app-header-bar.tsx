@@ -1,9 +1,10 @@
 import { useTranslations } from 'next-intl';
 
 import { Link, ROUTES } from '@/shared/config';
-import { Button, Logo } from '@/shared/ui';
+import { Button } from '@/shared/ui';
 
 import { AccountMenu } from './account-menu';
+import { BrandLink } from './brand-link';
 import { InstitutionHeaderActions } from './institution-header-actions';
 import { MARKETING_LINKS } from './marketing-links';
 import { MobileMenu } from './mobile-menu';
@@ -40,13 +41,7 @@ export function AppHeaderBar({
       className="scroll-elevate bg-background/70 border-border/60 sticky top-0 z-40 border-b backdrop-blur-xl backdrop-saturate-150"
     >
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-2 px-6 [body:has([data-institution-frame])_&]:lg:max-w-none">
-        <Link
-          href={ROUTES.home}
-          aria-label={t('home')}
-          className="focus-visible:ring-ring/50 rounded-md outline-none focus-visible:ring-[3px]"
-        >
-          <Logo />
-        </Link>
+        <BrandLink signedIn={signedIn} />
 
         {/*
           Marketing navigation belongs to visitors who have not signed in; a

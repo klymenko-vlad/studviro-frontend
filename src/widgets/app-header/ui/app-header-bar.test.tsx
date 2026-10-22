@@ -6,10 +6,15 @@ import { renderWithProviders, screen } from '@/shared/test';
 import { AppHeaderBar } from './app-header-bar';
 
 // `SignOutMenuItem` reaches for the app router, which no test tree mounts.
+const pathname = vi.hoisted(() => ({ value: '/account' }));
+
 vi.mock('@/shared/config', async importOriginal => ({
   ...(await importOriginal<typeof SharedConfig>()),
   useRouter: () => ({ push: vi.fn(), refresh: vi.fn() }),
+  usePathname: () => pathname.value,
 }));
+
+const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 
 const SIGNED_IN = {
   signedIn: true,
@@ -26,12 +31,32 @@ async function openAccountMenu(isPlatformOperator = false) {
 }
 
 describe('AppHeaderBar', () => {
-  it('always links the brand back to the landing page', () => {
+  it('links the brand to the landing page for a visitor', () => {
     renderWithProviders(<AppHeaderBar signedIn={false} />);
 
     expect(screen.getByRole('link', { name: 'StudViro home' })).toHaveAttribute(
       'href',
       '/',
+    );
+  });
+
+  it('links the brand to their institutions for someone signed in', () => {
+    pathname.value = '/account/settings';
+    renderWithProviders(<AppHeaderBar {...SIGNED_IN} />);
+
+    expect(screen.getByRole('link', { name: 'StudViro home' })).toHaveAttribute(
+      'href',
+      '/account',
+    );
+  });
+
+  it('links the brand to the institution’s dashboard from inside it', () => {
+    pathname.value = `/institutions/${INSTITUTION}/courses/abc`;
+    renderWithProviders(<AppHeaderBar {...SIGNED_IN} />);
+
+    expect(screen.getByRole('link', { name: 'StudViro home' })).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}`,
     );
   });
 

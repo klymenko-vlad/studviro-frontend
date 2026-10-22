@@ -10,7 +10,7 @@ import { usePermissions } from '@/entities/permission';
 import { institutionRoutes, Link, usePathname, useRouter } from '@/shared/config';
 import { Button } from '@/shared/ui';
 
-const INSTITUTION_PATH = /^\/institutions\/([0-9a-f-]{36})(?:\/|$)/;
+import { institutionIdIn } from '../model/institution-path';
 
 /**
  * Search and notifications are tools, not places, so inside an institution
@@ -20,7 +20,7 @@ const INSTITUTION_PATH = /^\/institutions\/([0-9a-f-]{36})(?:\/|$)/;
  */
 export function InstitutionHeaderActions() {
   const pathname = usePathname();
-  const institutionId = INSTITUTION_PATH.exec(pathname)?.[1];
+  const institutionId = institutionIdIn(pathname);
 
   if (institutionId === undefined) return null;
   return <Actions institutionId={institutionId} />;
