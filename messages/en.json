@@ -10,7 +10,8 @@
     "hidePassword": "Hide password",
     "skipToContent": "Skip to Content",
     "loadMore": "Load more",
-    "shownCount": "{count} shown"
+    "shownCount": "{count} shown",
+    "breadcrumb": "You are here"
   },
   "nav": {
     "account": "Account",
@@ -393,7 +394,6 @@
   },
   "courseOffering": {
     "title": "Course",
-    "backToCourses": "Back to my courses",
     "staff": "Teaching staff",
     "noStaff": "No teaching staff recorded.",
     "lead": "Course lead",

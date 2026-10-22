@@ -10,7 +10,8 @@
     "hidePassword": "Skryť heslo",
     "skipToContent": "Preskočiť na obsah",
     "loadMore": "Načítať ďalšie",
-    "shownCount": "Zobrazených: {count}"
+    "shownCount": "Zobrazených: {count}",
+    "breadcrumb": "You are here"
   },
   "nav": {
     "account": "Účet",
@@ -393,7 +394,6 @@
   },
   "courseOffering": {
     "title": "Predmet",
-    "backToCourses": "Späť na moje predmety",
     "staff": "Vyučujúci",
     "noStaff": "Nie sú zaznamenaní žiadni vyučujúci.",
     "lead": "Garant predmetu",

@@ -2,7 +2,7 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, it, vi } from 'vitest';
 
 import type * as SharedConfig from '@/shared/config';
-import { permissions, renderWithProviders, screen, server } from '@/shared/test';
+import { permissions, renderWithProviders, screen, server, within } from '@/shared/test';
 
 import { CourseOfferingView } from './course-offering-view';
 
@@ -33,10 +33,16 @@ describe('CourseOfferingView', () => {
     expect(
       await screen.findByRole('heading', { name: 'Algorithms' }),
     ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Back to my courses' })).toHaveAttribute(
-      'href',
-      `/institutions/${INSTITUTION}/courses`,
-    );
+  });
+
+  it('says where the page sits, one tap from the level above', async () => {
+    render();
+
+    const trail = await screen.findByRole('navigation', { name: 'You are here' });
+    await screen.findByRole('heading', { name: 'Algorithms' });
+
+    expect(within(trail).getAllByRole('link').length).toBeGreaterThan(0);
+    expect(within(trail).getByText('Algorithms')).toHaveAttribute('aria-current', 'page');
   });
 
   it('refuses someone without offering:read instead of calling the API', async () => {

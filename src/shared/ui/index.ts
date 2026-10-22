@@ -15,6 +15,13 @@
  */
 export { Alert, AlertDescription, AlertTitle } from './alert';
 export { Badge, badgeVariants } from './badge';
+export {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from './breadcrumb';
 export { Button, buttonVariants } from './button';
 export { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card';
 export {
