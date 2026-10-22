@@ -13,7 +13,8 @@ export function DeadlineCard({ deadline, href }: { deadline: Deadline; href?: st
 
   return (
     <Card
-      className={state === 'overdue' || state === 'handedIn' ? 'opacity-70' : undefined}
+      interactive={href !== undefined}
+      className={state === 'overdue' || state === 'handedIn' ? 'py-1 opacity-70' : 'py-1'}
     >
       <CardContent className="flex flex-col gap-2 py-4">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
@@ -39,7 +40,7 @@ export function DeadlineCard({ deadline, href }: { deadline: Deadline; href?: st
           {href === undefined ? (
             deadline.course.title
           ) : (
-            <Link href={href} className="hover:underline focus-visible:underline">
+            <Link href={href} className="stretched-link">
               {deadline.course.title}
             </Link>
           )}

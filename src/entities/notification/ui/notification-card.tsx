@@ -3,7 +3,6 @@ import { ChevronRight } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
 
 import { Link } from '@/shared/config';
-import { cn } from '@/shared/lib';
 import { Badge, Card, CardContent } from '@/shared/ui';
 
 import { isUnread, type Notification } from '../model/notification';
@@ -66,12 +65,8 @@ export function NotificationCard({
 
   return (
     <Card
-      className={cn(
-        'relative',
-        isUnread(notification) ? 'border-primary/40' : 'opacity-80',
-        href !== undefined &&
-          'hover:bg-accent/40 has-[a:focus-visible]:ring-ring transition-colors has-[a:focus-visible]:ring-2',
-      )}
+      interactive={href !== undefined}
+      className={isUnread(notification) ? 'border-primary/40 py-1' : 'py-1 opacity-80'}
     >
       <CardContent className="flex flex-col gap-2 py-4">
         <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
@@ -86,7 +81,7 @@ export function NotificationCard({
                   onAuxClick={event => {
                     if (event.button === 1) onOpen?.();
                   }}
-                  className="inline-flex items-center gap-1 underline-offset-4 outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:underline"
+                  className="stretched-link inline-flex items-center gap-1"
                 >
                   {t(`type.${notification.type}`)}
                   <ChevronRight className="text-muted-foreground size-4" aria-hidden />

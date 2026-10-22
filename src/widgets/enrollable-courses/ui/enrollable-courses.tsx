@@ -48,7 +48,7 @@ export function EnrollableCourses({ institutionId }: { institutionId: string }) 
           {data.length === 0 ? t('empty') : t('emptyForFilters')}
         </p>
       ) : (
-        <ul className="grid gap-3 md:grid-cols-2">
+        <ul className="stagger grid gap-3 md:grid-cols-2">
           {visible.map(offering => (
             <li key={offering.id}>
               <EnrollableOfferingCard

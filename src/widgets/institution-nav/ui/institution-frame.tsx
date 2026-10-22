@@ -1,30 +1,30 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
-import { PanelLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { useInstitutionFeatures } from '@/entities/institution-configuration';
 import { usePermissions } from '@/entities/permission';
 import { usePathname } from '@/shared/config';
 import {
-  Button,
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
   Skeleton,
 } from '@/shared/ui';
 
+import { bottomTabs } from '../model/bottom-tabs';
 import { visibleNavGroups } from '../model/nav-groups';
+import { BottomTabBar } from './bottom-tab-bar';
 import { currentNavKey, NavLinks } from './nav-links';
 
 /**
  * Every screen of an institution sits beside one grouped sidebar. A wide
- * screen keeps it in view; a narrow one gets a single bar that opens the same
- * groups in a sheet, rather than seventeen tabs wrapped onto four rows.
+ * screen keeps it in view; a phone gets a tab bar at the bottom with the four
+ * screens a person returns to most, and _More_ opens the full grouped list in
+ * a sheet rising from the same edge.
  */
 export function InstitutionFrame({
   institutionId,
@@ -63,49 +63,44 @@ export function InstitutionFrame({
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <div
-          data-translucent
-          className="chrome-edge bg-background/80 sticky top-14 z-30 backdrop-blur-md lg:hidden"
-        >
-          <div className="flex w-full items-center px-4 py-2">
-            <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" disabled={isPending}>
-                  <PanelLeft aria-hidden />
-                  <span>{t('sections')}</span>
-                  {current === undefined ? null : (
-                    <span className="text-muted-foreground font-normal">
-                      · {t(current)}
-                    </span>
-                  )}
-                </Button>
-              </SheetTrigger>
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetContent
+            side="bottom"
+            className="max-h-[80dvh] overflow-y-auto overscroll-contain rounded-t-2xl pb-[env(safe-area-inset-bottom)]"
+          >
+            <SheetHeader>
+              <SheetTitle>{t('sections')}</SheetTitle>
+              <SheetDescription className="sr-only">
+                {t('sectionsDescription')}
+              </SheetDescription>
+            </SheetHeader>
+            <nav aria-label={t('institutionLabel')} className="px-3 pb-6">
+              <NavLinks
+                institutionId={institutionId}
+                groups={groups}
+                onNavigate={() => {
+                  setOpen(false);
+                }}
+              />
+            </nav>
+          </SheetContent>
+        </Sheet>
 
-              <SheetContent
-                side="left"
-                className="w-72 overflow-y-auto overscroll-contain"
-              >
-                <SheetHeader>
-                  <SheetTitle>{t('sections')}</SheetTitle>
-                  <SheetDescription className="sr-only">
-                    {t('sectionsDescription')}
-                  </SheetDescription>
-                </SheetHeader>
-                <nav aria-label={t('institutionLabel')} className="px-3 pb-6">
-                  <NavLinks
-                    institutionId={institutionId}
-                    groups={groups}
-                    onNavigate={() => {
-                      setOpen(false);
-                    }}
-                  />
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
+        <div className="flex flex-1 flex-col pb-[calc(4.25rem+env(safe-area-inset-bottom))] lg:pb-0">
+          {children}
         </div>
 
-        {children}
+        {isPending ? null : (
+          <BottomTabBar
+            institutionId={institutionId}
+            tabs={bottomTabs(groups)}
+            current={current}
+            moreOpen={open}
+            onMore={() => {
+              setOpen(true);
+            }}
+          />
+        )}
       </div>
     </div>
   );

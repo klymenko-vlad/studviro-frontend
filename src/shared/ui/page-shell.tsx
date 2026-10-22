@@ -31,7 +31,7 @@ export function PageShell({
     <main
       id="main-content"
       className={cn(
-        'mx-auto flex w-full flex-1 flex-col gap-8 px-6 py-12',
+        'animate-rise mx-auto flex w-full flex-1 flex-col gap-8 px-6 py-12',
         WIDTHS[width],
         className,
       )}

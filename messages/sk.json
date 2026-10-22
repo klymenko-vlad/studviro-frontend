@@ -42,6 +42,8 @@
     "preferences": "Motív a jazyk",
     "sections": "Sekcie",
     "sectionsDescription": "Všetky obrazovky tejto inštitúcie, ktoré môžete otvoriť.",
+    "more": "More",
+    "tabBarLabel": "Main sections",
     "groups": {
       "studies": "Moje štúdium",
       "teaching": "Výučba",
@@ -2096,6 +2098,11 @@
     "nothing": "Dopytu „{query}“ nič nezodpovedá.",
     "truncated": "Zhôd je viac, než sa zobrazuje. Skúste dlhší dopyt.",
     "notSearched": "Nevyhľadávalo sa v nich, lebo vaša rola nezahŕňa ich čítanie:",
+    "tip": "Try a course code like FEI-P106, a programme, a teacher or a room.",
+    "recentQueries": "Recent searches",
+    "clearRecent": "Clear history",
+    "recentlyOpened": "Recently opened",
+    "yourCourses": "Your courses this term",
     "kind": {
       "course": "Predmety",
       "offering": "V ponuke",

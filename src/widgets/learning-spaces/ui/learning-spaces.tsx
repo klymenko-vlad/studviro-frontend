@@ -84,7 +84,10 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
             const due = dueDate(space);
 
             return (
-              <TableRow key={space.id}>
+              <TableRow
+                key={space.id}
+                className={isUnlinked(space) ? undefined : 'relative cursor-pointer'}
+              >
                 <TableCell>
                   {space.name}
                   <span className="text-muted-foreground block text-xs">
@@ -100,7 +103,7 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
                         href={institutionRoutes(institutionId).courseOffering(
                           space.offeringId ?? '',
                         )}
-                        className="underline underline-offset-4"
+                        className="stretched-link font-medium"
                       >
                         {space.courseTitle ?? t('coursePage')}
                       </Link>

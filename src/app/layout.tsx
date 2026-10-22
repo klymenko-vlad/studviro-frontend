@@ -64,6 +64,8 @@ export async function generateMetadata(): Promise<Metadata> {
  * cookie-set class still wins inside the document.
  */
 export const viewport: Viewport = {
+  // Lets the phone tab bar pad itself above the home indicator.
+  viewportFit: 'cover',
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
     { media: '(prefers-color-scheme: dark)', color: '#090b0f' },

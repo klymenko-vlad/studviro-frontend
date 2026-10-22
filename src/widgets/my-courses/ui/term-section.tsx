@@ -34,7 +34,7 @@ export function TermSection({
         </p>
       </div>
 
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {group.courses.map(course => (
           <li key={course.enrollmentId}>
             <EnrolledCourseCard

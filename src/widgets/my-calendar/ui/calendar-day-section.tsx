@@ -32,7 +32,7 @@ export function CalendarDaySection({
         ) : null}
       </div>
 
-      <ul className="grid gap-3 md:grid-cols-2">
+      <ul className="stagger grid gap-3 md:grid-cols-2">
         {day.items.map(item => (
           <li key={item.id}>
             {item.kind === 'event' ? (

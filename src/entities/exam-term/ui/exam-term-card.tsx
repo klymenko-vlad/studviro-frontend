@@ -27,6 +27,7 @@ export function ExamTermCard({
 
   return (
     <ListingCard
+      interactive={href !== undefined}
       dimmed={term.isCancelled}
       action={action}
       code={term.course.code}
@@ -55,7 +56,7 @@ export function ExamTermCard({
         href === undefined ? (
           term.course.title
         ) : (
-          <Link href={href} className="hover:underline focus-visible:underline">
+          <Link href={href} className="stretched-link">
             {term.course.title}
           </Link>
         )

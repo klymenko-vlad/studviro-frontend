@@ -43,8 +43,12 @@ function renderFrame() {
 }
 
 async function sidebar() {
-  await screen.findByRole('link', { name: 'Dashboard' });
+  await screen.findAllByRole('link', { name: 'Dashboard' });
   return within(screen.getByRole('navigation', { name: 'Institution sections' }));
+}
+
+async function tabBar() {
+  return within(await screen.findByRole('navigation', { name: 'Main sections' }));
 }
 
 describe('InstitutionFrame', () => {
@@ -134,12 +138,11 @@ describe('InstitutionFrame', () => {
     );
   });
 
-  it('opens the same sections in a sheet on a narrow screen, and closes it on navigation', async () => {
+  it('opens every section in a sheet from the tab bar, and closes it on navigation', async () => {
     const user = userEvent.setup();
     renderFrame();
 
-    await sidebar();
-    await user.click(screen.getByRole('button', { name: /Sections/ }));
+    await user.click((await tabBar()).getByRole('button', { name: 'More' }));
 
     const sheet = await screen.findByRole('dialog', { name: 'Sections' });
     await user.click(within(sheet).getByRole('link', { name: 'Catalogue' }));
@@ -147,13 +150,27 @@ describe('InstitutionFrame', () => {
     expect(screen.queryByRole('dialog', { name: 'Sections' })).not.toBeInTheDocument();
   });
 
-  it('names the open screen on the narrow-screen trigger', async () => {
-    pathname.value = `/institutions/${INSTITUTION}/people`;
-
+  it('gives a phone four tabs and marks the open one', async () => {
     renderFrame();
 
-    await sidebar();
-    expect(screen.getByRole('button', { name: /Sections.*People/ })).toBeInTheDocument();
+    const tabs = await tabBar();
+    expect(tabs.getAllByRole('link')).toHaveLength(4);
+    expect(tabs.getByRole('link', { name: 'Dashboard' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+  });
+
+  it('keeps a screen that is not a tab one tap away under More', async () => {
+    pathname.value = `/institutions/${INSTITUTION}/audit`;
+    renderFrame();
+
+    const tabs = await tabBar();
+    expect(tabs.queryByRole('link', { name: 'Audit trail' })).not.toBeInTheDocument();
+    expect(tabs.getByRole('button', { name: 'More' })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
   });
 });
 

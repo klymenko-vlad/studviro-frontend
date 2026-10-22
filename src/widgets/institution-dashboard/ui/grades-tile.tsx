@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
+import { courseOfferingHref } from '@/entities/course-offering';
 import { courseResultQueries, isPublished } from '@/entities/course-result';
 import { Link } from '@/shared/config';
 import {
@@ -18,6 +19,7 @@ import {
 } from '@/shared/ui';
 
 import { useTileHeading } from './tile-heading';
+import { TileLinkRow } from './tile-link-row';
 
 const SHOWN = 4;
 
@@ -58,16 +60,21 @@ export function GradesTile({ institutionId }: { institutionId: string }) {
               </p>
             )}
 
-            <ul className="flex flex-col gap-1 text-sm">
+            <ul className="-mx-2 flex flex-col">
               {data.slice(0, SHOWN).map(result => (
-                <li key={result.id} className="flex justify-between gap-4">
-                  <span className="truncate">{result.course.title}</span>
-                  <span className="text-muted-foreground text-xs">
-                    {result.effective === null
+                <TileLinkRow
+                  key={result.id}
+                  href={courseOfferingHref(institutionId, result.offering.id, {
+                    section: 'work',
+                  })}
+                  code={result.course.code}
+                  title={result.course.title}
+                  figure={
+                    result.effective === null
                       ? t('grades.pending')
-                      : t(`grade.${result.effective.grade}`)}
-                  </span>
-                </li>
+                      : t(`grade.${result.effective.grade}`)
+                  }
+                />
               ))}
             </ul>
 

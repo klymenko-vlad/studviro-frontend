@@ -15,7 +15,7 @@ function Skeleton({ className, ...props }: React.ComponentProps<'div'>) {
       data-slot="skeleton"
       role="status"
       aria-label={t('loading')}
-      className={cn('bg-accent animate-pulse rounded-md', className)}
+      className={cn('shimmer rounded-md', className)}
       {...props}
     />
   );
@@ -37,9 +37,7 @@ function SkeletonGroup({ className, ...props }: React.ComponentProps<'div'>) {
 }
 
 function Bar({ className }: { className?: string }) {
-  return (
-    <div aria-hidden className={cn('bg-accent animate-pulse rounded-md', className)} />
-  );
+  return <div aria-hidden className={cn('shimmer rounded-md', className)} />;
 }
 
 /**

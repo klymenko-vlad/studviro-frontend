@@ -37,7 +37,7 @@ export function TermResultsSection({
         </p>
       </div>
 
-      <ul className="grid gap-4 md:grid-cols-2">
+      <ul className="stagger grid gap-4 md:grid-cols-2">
         {group.results.map(result => (
           <li key={result.id}>
             <CourseResultCard

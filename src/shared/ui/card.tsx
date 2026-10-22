@@ -2,12 +2,23 @@ import * as React from 'react';
 
 import { cn } from '@/shared/lib';
 
-function Card({ className, ...props }: React.ComponentProps<'div'>) {
+/**
+ * Local deviation from upstream shadcn, kept on re-generation: `interactive`
+ * marks a card whose whole surface goes somewhere. Put a `stretched-link` on
+ * the one link inside it, and `relative z-10` on any other control so it stays
+ * clickable above the link.
+ */
+function Card({
+  className,
+  interactive = false,
+  ...props
+}: React.ComponentProps<'div'> & { interactive?: boolean }) {
   return (
     <div
       data-slot="card"
       className={cn(
-        'bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm',
+        'bg-card text-card-foreground relative flex flex-col gap-6 rounded-xl border py-6 shadow-sm',
+        interactive && 'card-interactive',
         className,
       )}
       {...props}

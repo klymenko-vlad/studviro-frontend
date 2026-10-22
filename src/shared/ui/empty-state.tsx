@@ -41,8 +41,8 @@ export function EmptyState({
         <div
           aria-hidden
           className={cn(
-            'text-muted-foreground/60 [&_svg]:size-full',
-            inline ? 'size-5' : 'size-7',
+            'bg-muted text-muted-foreground animate-fade grid place-items-center rounded-xl [&_svg]:size-1/2',
+            inline ? 'size-9' : 'size-12',
           )}
         >
           {icon}

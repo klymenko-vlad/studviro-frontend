@@ -19,7 +19,7 @@ export function ExamTermSection({
         {heading}
       </h2>
 
-      <ul className="grid gap-3 md:grid-cols-2">
+      <ul className="stagger grid gap-3 md:grid-cols-2">
         {terms.map(term => (
           <li key={term.id}>
             <ExamTermCard

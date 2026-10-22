@@ -50,7 +50,7 @@ export function MyNotifications({ institutionId }: { institutionId: string }) {
         />
       </div>
 
-      <ul className="flex flex-col gap-3">
+      <ul className="stagger flex flex-col gap-3">
         {sortByNewest(data).map(notification => (
           <li key={notification.id}>
             <NotificationCard

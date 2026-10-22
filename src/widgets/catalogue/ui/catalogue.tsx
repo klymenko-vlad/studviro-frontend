@@ -60,12 +60,12 @@ export function Catalogue({ institutionId }: { institutionId: string }) {
               </TableHeader>
               <TableBody>
                 {programs.data.map(program => (
-                  <TableRow key={program.id}>
+                  <TableRow key={program.id} className="relative cursor-pointer">
                     <TableCell className="font-mono text-xs">{program.code}</TableCell>
                     <TableCell>
                       <Link
                         href={institutionRoutes(institutionId).program(program.id)}
-                        className="font-medium hover:underline focus-visible:underline"
+                        className="stretched-link font-medium"
                       >
                         {program.name}
                       </Link>

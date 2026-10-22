@@ -24,7 +24,7 @@
   /* Native controls, scrollbars and the `<select>` popup follow the theme. */
   color-scheme: light;
 
-  --radius: 0.625rem;
+  --radius: 0.75rem;
 
   --background: oklch(1 0 0);
   --foreground: oklch(0.15 0.01 265);
@@ -143,6 +143,8 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-tone: var(--tone);
+  --color-tone-soft: var(--tone-soft);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -181,6 +183,188 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  /*
+   * One easing for everything that arrives or settles: a long, soft
+   * deceleration (ease-out-quint). Quick linear motion reads as cheap; this
+   * reads as weight coming to rest.
+   */
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-rise: rise 700ms var(--ease-premium) both;
+  --animate-fade: fade 500ms var(--ease-premium) both;
+
+  /*
+   * Arrivals move `translate`, never `transform`: a finished animation holds
+   * its last frame, and holding `transform` would cancel the hover lift on
+   * every card it brought in.
+   */
+  @keyframes rise {
+    from {
+      opacity: 0;
+      translate: 0 10px;
+    }
+    to {
+      opacity: 1;
+      translate: none;
+    }
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      translate: 0 24px;
+    }
+    to {
+      opacity: 1;
+      translate: none;
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 150% 0;
+    }
+    to {
+      background-position: -50% 0;
+    }
+  }
+
+  @keyframes scroll-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes elevate {
+    to {
+      box-shadow: 0 8px 24px -16px oklch(0 0 0 / 35%);
+      border-color: transparent;
+    }
+  }
+}
+
+/**
+ * Tone — a course's own hue, from its code (`toneOf` in `shared/lib`), passed
+ * as `--hue`. Used sparingly: a dot beside a course's name and its monogram.
+ * Muted on purpose; colour is a label here, not decoration.
+ */
+@utility tone {
+  --tone: oklch(0.62 0.11 var(--hue, 265));
+  --tone-soft: oklch(0.96 0.015 var(--hue, 265));
+
+  .dark & {
+    --tone: oklch(0.72 0.1 var(--hue, 265));
+    --tone-soft: oklch(0.26 0.02 var(--hue, 265));
+  }
+}
+
+/**
+ * A link that makes its whole card the target. The card is `relative`; the
+ * link's `::after` covers it, so a click anywhere on the card follows the link
+ * while the title stays the link's accessible name. Anything else interactive
+ * inside the card sits above it with `relative z-10`.
+ */
+@utility stretched-link {
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+  }
+}
+
+/**
+ * A card that goes somewhere answers the pointer: it rises a little, its
+ * shadow deepens and its edge firms up, slowly enough to feel like weight.
+ * Keyboard focus on the link inside rings the whole card.
+ */
+@utility card-interactive {
+  cursor: pointer;
+  transition:
+    transform 450ms var(--ease-premium),
+    box-shadow 450ms var(--ease-premium),
+    border-color 450ms var(--ease-premium);
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklch, var(--foreground) 14%, var(--border));
+    box-shadow:
+      0 1px 2px oklch(0 0 0 / 4%),
+      0 12px 32px -16px oklch(0 0 0 / 28%);
+  }
+
+  &:active {
+    transform: translateY(0);
+    transition-duration: 150ms;
+  }
+
+  &:has(.stretched-link:focus-visible) {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+
+  & .stretched-link:focus-visible {
+    outline: none;
+  }
+}
+
+/** Children rise in one after another — a list arriving rather than appearing. */
+@utility stagger {
+  & > * {
+    animation: var(--animate-rise);
+  }
+
+  & > :nth-child(2) {
+    animation-delay: 60ms;
+  }
+
+  & > :nth-child(3) {
+    animation-delay: 120ms;
+  }
+
+  & > :nth-child(4) {
+    animation-delay: 180ms;
+  }
+
+  & > :nth-child(5) {
+    animation-delay: 240ms;
+  }
+
+  & > :nth-child(6) {
+    animation-delay: 300ms;
+  }
+
+  & > :nth-child(7) {
+    animation-delay: 360ms;
+  }
+
+  & > :nth-child(8) {
+    animation-delay: 420ms;
+  }
+
+  /* Past the first screenful, items arrive as they are scrolled to instead. */
+  @supports (animation-timeline: view()) {
+    & > :nth-child(n + 9) {
+      animation: reveal var(--ease-premium) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+      animation-delay: 0ms;
+    }
+  }
 }
 
 /**
@@ -287,13 +471,83 @@
   }
 }
 
+/**
+ * Arrives as it scrolls into view, following the scroll itself (`view()`): no
+ * JavaScript, no observer. Eased over the whole entry, so it tracks the hand
+ * rather than snapping. Without scroll timelines the element stands still.
+ */
+@utility reveal {
+  @supports (animation-timeline: view()) {
+    animation: reveal var(--ease-premium) both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+  }
+}
+
+/** A loading bar whose light passes slowly across, rather than a box that blinks. */
+@utility shimmer {
+  background-color: var(--accent);
+  background-image: linear-gradient(
+    100deg,
+    transparent 30%,
+    color-mix(in oklch, var(--background) 55%, transparent) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2.2s ease-in-out infinite;
+}
+
+/**
+ * The floating chrome gains a soft shadow as the page leaves the top, and a
+ * hairline along its foot fills with how far down the page you are.
+ */
+@utility scroll-elevate {
+  @supports (animation-timeline: scroll()) {
+    animation: elevate linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 120px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset-inline: 0;
+      bottom: -1px;
+      height: 1px;
+      transform-origin: 0 50%;
+      background: color-mix(in oklch, var(--primary) 70%, transparent);
+      animation: scroll-progress linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Cards further down a page arrive as they scroll into view. */
+  #main-content [data-slot='card']:not(.stagger [data-slot='card']) {
+    @supports (animation-timeline: view()) {
+      animation: reveal var(--ease-premium) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+
   body {
     @apply bg-background text-foreground;
+    /* One faint light from above, so the page has depth without colour. */
+    background-image: radial-gradient(
+      80rem 32rem at 50% -12rem,
+      color-mix(in oklch, var(--primary) 7%, transparent),
+      transparent 70%
+    );
+    background-attachment: fixed;
     font-family: var(--font-sans), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -339,6 +593,19 @@
       scroll-behavior: auto !important;
     }
 
+    .card-interactive:hover,
+    .card-interactive:active {
+      transform: none;
+    }
+
+    .reveal,
+    .stagger > *,
+    .scroll-elevate,
+    .scroll-elevate::before,
+    #main-content [data-slot='card'] {
+      animation: none !important;
+    }
+
     [data-slot='dialog-content'],
     [data-slot='dialog-overlay'],
     [data-slot='sheet-content'],
@@ -365,6 +632,10 @@
   }
 
   @media (prefers-contrast: more) {
+    body {
+      background-image: none;
+    }
+
     :root {
       --border: oklch(0.55 0.015 265);
       --muted-foreground: oklch(0.38 0.015 265);

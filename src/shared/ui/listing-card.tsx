@@ -21,6 +21,7 @@ export function ListingCard({
   header,
   action,
   dimmed = false,
+  interactive = false,
   children,
 }: {
   title: ReactNode;
@@ -36,10 +37,12 @@ export function ListingCard({
   header?: ReactNode;
   action?: ReactNode;
   dimmed?: boolean;
+  /** The title holds a `stretched-link`, so the whole card follows it. */
+  interactive?: boolean;
   children?: ReactNode;
 }) {
   return (
-    <Card className={cn(dimmed && 'opacity-70')}>
+    <Card interactive={interactive} className={cn('py-1', dimmed && 'opacity-70')}>
       <CardContent className="flex flex-col gap-2 py-4">
         {header}
 
@@ -55,7 +58,9 @@ export function ListingCard({
 
         {children}
 
-        {action === undefined ? null : <div className="flex justify-end">{action}</div>}
+        {action === undefined ? null : (
+          <div className="relative z-10 flex justify-end">{action}</div>
+        )}
       </CardContent>
     </Card>
   );

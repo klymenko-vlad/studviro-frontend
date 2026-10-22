@@ -27,7 +27,7 @@ import { cn } from '@/shared/lib';
 
 import type { NavKey, VisibleNavGroup } from '../model/nav-groups';
 
-const ICONS: Record<NavKey, LucideIcon> = {
+export const NAV_ICONS: Record<NavKey, LucideIcon> = {
   dashboard: LayoutDashboard,
   calendar: CalendarDays,
   notifications: Bell,
@@ -98,7 +98,7 @@ export function NavLinks({
               className="flex flex-col gap-0.5"
             >
               {group.items.map(key => {
-                const Icon = ICONS[key];
+                const Icon = NAV_ICONS[key];
                 const isCurrent = key === current;
 
                 return (
@@ -108,10 +108,10 @@ export function NavLinks({
                       onClick={onNavigate}
                       aria-current={isCurrent ? 'page' : undefined}
                       className={cn(
-                        'focus-visible:ring-ring/50 flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors outline-none focus-visible:ring-[3px] motion-reduce:transition-none',
+                        'focus-visible:ring-ring/50 flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors duration-300 outline-none focus-visible:ring-[3px] motion-reduce:transition-none',
                         isCurrent
                           ? 'bg-secondary text-foreground font-medium'
-                          : 'text-muted-foreground hover:bg-secondary/50 hover:text-foreground',
+                          : 'text-muted-foreground hover:bg-secondary hover:text-foreground',
                       )}
                     >
                       <Icon aria-hidden className="size-4 shrink-0" />

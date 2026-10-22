@@ -206,9 +206,18 @@ const budgets = [
     // Measured at **585.04 kB**. The discussion adds no dependency and no
     // `shared/ui` primitive; lazy-loading its tab would move bytes between
     // chunks this glob already sums, not remove them. About 10 kB of headroom.
+    //
+    // Raised from 595 kB to 605 kB on 2026-10-22 at the product owner's request
+    // for an interface pass: notification and card links that open the item
+    // (+0.8 kB), whole-card links and the motion layer (class strings only — the
+    // animations themselves are CSS), the phone tab bar, and search that starts
+    // from the person's own courses and history (the enrolled and teaching
+    // queries now also load on `/search`, so their schemas count twice in this
+    // sum). Measured at **601.69 kB**. No dependency added. About 3 kB of
+    // headroom: the next step that adds client code must make room first.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '595 kB',
+    limit: '605 kB',
     gzip: true,
   },
 ];
