@@ -6,9 +6,10 @@ import { useFormatter, useTimeZone, useTranslations } from 'next-intl';
 
 import { AssignmentActions, AssignmentForm } from '@/features/manage-assignments';
 import { assignmentQueries, type Assignment } from '@/entities/assignment';
-import { authorsOffering } from '@/entities/course-offering';
+import { authorsOffering, offeringItemAnchor } from '@/entities/course-offering';
 import { usePermissions } from '@/entities/permission';
 import type { CourseOfferingResponseDto } from '@/shared/api';
+import { cn, revealTargetClassName, useRevealHashTarget } from '@/shared/lib';
 import {
   Badge,
   Button,
@@ -46,6 +47,7 @@ export function OfferingAssignments({
   const assignments = useQuery(
     assignmentQueries.list({ path: { institutionId, spaceId } }),
   );
+  useRevealHashTarget(assignments.isSuccess);
 
   const when = (iso: string | null) =>
     iso === null
@@ -87,7 +89,12 @@ export function OfferingAssignments({
         ) : (
           <ul className="flex flex-col gap-6" aria-label={t('title')}>
             {assignments.data.map(assignment => (
-              <li key={assignment.id} className="flex flex-col gap-3">
+              <li
+                key={assignment.id}
+                id={offeringItemAnchor({ kind: 'activity', id: assignment.id })}
+                tabIndex={-1}
+                className={cn('flex flex-col gap-3', revealTargetClassName)}
+              >
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-medium">{assignment.name}</span>
                   {assignment.visible ? null : (

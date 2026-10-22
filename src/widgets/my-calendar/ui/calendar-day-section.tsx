@@ -45,7 +45,12 @@ export function CalendarDaySection({
                 <p className="text-muted-foreground type-eyebrow">{t('deadlineLayer')}</p>
                 <DeadlineCard
                   deadline={item.deadline}
-                  href={courseOfferingHref(institutionId, item.deadline.offering.id)}
+                  href={courseOfferingHref(institutionId, item.deadline.offering.id, {
+                    section: 'materials',
+                    ...(item.deadline.type === 'assignment'
+                      ? { item: { kind: 'activity', id: item.deadline.id } }
+                      : {}),
+                  })}
                 />
               </div>
             ) : (
@@ -53,7 +58,10 @@ export function CalendarDaySection({
                 <p className="text-muted-foreground type-eyebrow">{t('examLayer')}</p>
                 <ExamTermCard
                   term={item.term}
-                  href={courseOfferingHref(institutionId, item.term.offering.id)}
+                  href={courseOfferingHref(institutionId, item.term.offering.id, {
+                    section: 'schedule',
+                    item: { kind: 'exam-term', id: item.term.id },
+                  })}
                 />
               </div>
             )}

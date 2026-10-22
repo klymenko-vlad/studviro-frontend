@@ -15,3 +15,4 @@ export {
   type ValidationMessageKey,
   type ValidationTranslator,
 } from './validation/validation-message';
+export { revealTargetClassName, useRevealHashTarget } from './dom/use-reveal-hash-target';

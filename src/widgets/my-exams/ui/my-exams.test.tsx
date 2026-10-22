@@ -74,14 +74,15 @@ describe('MyExams', () => {
     expect(screen.getByText('You examine this')).toBeInTheDocument();
   });
 
-  it('links an exam to the course it belongs to', async () => {
+  it('links an exam to itself on its course’s schedule', async () => {
     renderExams();
 
     const [link] = await screen.findAllByRole('link', { name: 'Algorithms' });
 
-    expect(link).toHaveAttribute(
-      'href',
-      `/institutions/${INSTITUTION}/courses/aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1`,
+    expect(link?.getAttribute('href')).toMatch(
+      new RegExp(
+        `^/institutions/${INSTITUTION}/courses/aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1\\?section=schedule#exam-term-[0-9a-f-]+$`,
+      ),
     );
   });
 

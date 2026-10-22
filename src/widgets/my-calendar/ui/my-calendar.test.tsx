@@ -8,6 +8,7 @@ import {
   screen,
   server,
   userEvent,
+  within,
 } from '@/shared/test';
 
 import { MyCalendar } from './my-calendar';
@@ -168,6 +169,22 @@ describe('MyCalendar', () => {
     expect(await screen.findByTestId('calendar-deadline')).toBeInTheDocument();
     expect(screen.getByText('Deadline')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Assignment 1' })).toBeInTheDocument();
+  });
+
+  it('links a deadline to its assignment and an exam to its term', async () => {
+    server.use(http.get(EXAMS_URL, () => HttpResponse.json([examTermFixtures[0]])));
+
+    renderCalendar();
+
+    const deadline = await screen.findByTestId('calendar-deadline');
+    const exam = await screen.findByTestId('calendar-exam');
+
+    expect(within(deadline).getByRole('link').getAttribute('href')).toMatch(
+      /\?section=materials#activity-[\w-]+$/,
+    );
+    expect(within(exam).getByRole('link').getAttribute('href')).toMatch(
+      new RegExp(`\\?section=schedule#exam-term-${examTermFixtures[0]!.id}$`),
+    );
   });
 
   it('drops the deadline layer when the reader turns it off', async () => {

@@ -16,8 +16,35 @@ export function authorsOffering(viewerRole: CourseOfferingViewerRole): boolean {
   return viewerRole === 'teacher' || viewerRole === 'administrator';
 }
 
-export function courseOfferingHref(institutionId: string, offeringId: string): string {
-  return `/institutions/${institutionId}/courses/${offeringId}`;
+export type OfferingSection =
+  'overview' | 'people' | 'schedule' | 'materials' | 'work' | 'discussion';
+
+export interface OfferingItem {
+  kind: 'activity' | 'exam-term';
+  id: string;
+}
+
+export interface OfferingTarget {
+  section: OfferingSection;
+  item?: OfferingItem;
+  params?: Record<string, string>;
+}
+
+export function offeringItemAnchor(item: OfferingItem): string {
+  return `${item.kind}-${item.id}`;
+}
+
+export function courseOfferingHref(
+  institutionId: string,
+  offeringId: string,
+  target?: OfferingTarget,
+): string {
+  const page = `/institutions/${institutionId}/courses/${offeringId}`;
+  if (target === undefined) return page;
+
+  const query = new URLSearchParams({ section: target.section, ...target.params });
+  const anchor = target.item === undefined ? '' : `#${offeringItemAnchor(target.item)}`;
+  return `${page}?${query.toString()}${anchor}`;
 }
 
 export function teachersByPrecedence(offering: CourseOffering): CourseOfferingTeacher[] {

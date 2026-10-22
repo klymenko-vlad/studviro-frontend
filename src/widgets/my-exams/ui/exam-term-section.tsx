@@ -24,7 +24,10 @@ export function ExamTermSection({
           <li key={term.id}>
             <ExamTermCard
               term={term}
-              href={courseOfferingHref(institutionId, term.offering.id)}
+              href={courseOfferingHref(institutionId, term.offering.id, {
+                section: 'schedule',
+                item: { kind: 'exam-term', id: term.id },
+              })}
               action={
                 <ExamRegistrationButton institutionId={institutionId} term={term} />
               }

@@ -22,6 +22,31 @@ export function MarkNotificationReadButton({
   notification: Notification;
 }) {
   const t = useTranslations('notifications');
+  const markRead = useMarkNotificationRead(institutionId);
+
+  if (!isUnread(notification)) return null;
+
+  return (
+    <Button
+      type="button"
+      variant="outline"
+      size="sm"
+      disabled={markRead.isPending}
+      onClick={() => {
+        markRead.mutate(notification);
+      }}
+    >
+      {markRead.isPending ? <LoaderCircle className="animate-spin" aria-hidden /> : null}
+      {t('markRead')}
+    </Button>
+  );
+}
+
+/**
+ * Following a notification is reading it, so the card's link marks it read on
+ * the way out; an already-read one costs no request.
+ */
+export function useMarkNotificationRead(institutionId: string) {
   const queryClient = useQueryClient();
 
   const markRead = useMutation({
@@ -34,22 +59,13 @@ export function MarkNotificationReadButton({
     },
   });
 
-  if (!isUnread(notification)) return null;
-
-  return (
-    <Button
-      type="button"
-      variant="outline"
-      size="sm"
-      disabled={markRead.isPending}
-      onClick={() => {
-        markRead.mutate({ path: { institutionId, id: notification.id } });
-      }}
-    >
-      {markRead.isPending ? <LoaderCircle className="animate-spin" aria-hidden /> : null}
-      {t('markRead')}
-    </Button>
-  );
+  return {
+    isPending: markRead.isPending,
+    mutate: (notification: Notification) => {
+      if (!isUnread(notification)) return;
+      markRead.mutate({ path: { institutionId, id: notification.id } });
+    },
+  };
 }
 
 export async function invalidateNotifications(

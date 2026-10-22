@@ -6,22 +6,24 @@ import { useTranslations } from 'next-intl';
 import {
   MarkAllNotificationsReadButton,
   MarkNotificationReadButton,
+  useMarkNotificationRead,
 } from '@/features/mark-notifications-read';
 import {
   NotificationCard,
   notificationQueries,
   sortByNewest,
   unreadCount,
-  type Notification,
 } from '@/entities/notification';
-import { institutionRoutes } from '@/shared/config';
 import { EmptyState, ListSkeleton, QueryError } from '@/shared/ui';
+
+import { notificationHref } from '../model/notification-href';
 
 export function MyNotifications({ institutionId }: { institutionId: string }) {
   const t = useTranslations('notifications');
   const { data, isPending, isError, refetch } = useQuery(
     notificationQueries.list({ path: { institutionId } }),
   );
+  const markRead = useMarkNotificationRead(institutionId);
 
   if (isPending) return <ListSkeleton items={4} data-testid="my-notifications-loading" />;
 
@@ -53,7 +55,10 @@ export function MyNotifications({ institutionId }: { institutionId: string }) {
           <li key={notification.id}>
             <NotificationCard
               notification={notification}
-              href={hrefOf(institutionId, notification)}
+              href={notificationHref(institutionId, notification)}
+              onOpen={() => {
+                markRead.mutate(notification);
+              }}
               action={
                 <MarkNotificationReadButton
                   institutionId={institutionId}
@@ -66,21 +71,4 @@ export function MyNotifications({ institutionId }: { institutionId: string }) {
       </ul>
     </div>
   );
-}
-
-/**
- * A queueing student holds no place, so the course page would refuse them; the
- * place that came free is taken from the enrolment screen.
- */
-function hrefOf(institutionId: string, notification: Notification): string | undefined {
-  const routes = institutionRoutes(institutionId);
-  if (notification.type === 'waitlist_place_free') return routes.enroll;
-  if (notification.courseOfferingId === null) return undefined;
-
-  const course = routes.courseOffering(notification.courseOfferingId);
-  if (notification.discussionThreadId !== null) {
-    return `${course}?section=discussion&thread=${notification.discussionThreadId}`;
-  }
-
-  return course;
 }

@@ -24,9 +24,10 @@ describe('MyNotifications', () => {
     expect(await screen.findByText('Exam term moved')).toBeInTheDocument();
     const headings = screen.getAllByRole('heading', { level: 2 });
     expect(headings[0]).toHaveTextContent('Exam term moved');
-    expect(screen.getByRole('link', { name: 'Algorithms' })).toHaveAttribute(
+    expect(screen.getByText('Algorithms')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Exam term moved' })).toHaveAttribute(
       'href',
-      `/institutions/${INSTITUTION}/courses/${notifications[0]!.courseOfferingId}`,
+      `/institutions/${INSTITUTION}/courses/${notifications[0]!.courseOfferingId}?section=schedule#exam-term-${notifications[0]!.examTermId}`,
     );
   });
 
@@ -73,6 +74,44 @@ describe('MyNotifications', () => {
     });
   });
 
+  it('marks a notification read when it is opened', async () => {
+    let readId: string | undefined;
+    server.use(
+      http.post(`${NOTIFICATIONS_URL}/:id/read`, ({ params }) => {
+        readId = params['id'] as string;
+        return HttpResponse.json({
+          ...notifications[0],
+          readAt: new Date().toISOString(),
+        });
+      }),
+    );
+
+    const { user } = renderWidget();
+    await user.click(await screen.findByRole('link', { name: 'Exam term moved' }));
+
+    await waitFor(() => {
+      expect(readId).toBe(notifications[0]!.id);
+    });
+  });
+
+  it('asks nothing of the server when a read notification is opened', async () => {
+    let posted = false;
+    server.use(
+      http.get(NOTIFICATIONS_URL, () =>
+        HttpResponse.json([{ ...notifications[0], readAt: '2026-01-01T00:00:00.000Z' }]),
+      ),
+      http.post(`${NOTIFICATIONS_URL}/:id/read`, () => {
+        posted = true;
+        return HttpResponse.json({});
+      }),
+    );
+
+    const { user } = renderWidget();
+    await user.click(await screen.findByRole('link', { name: 'Exam term moved' }));
+
+    expect(posted).toBe(false);
+  });
+
   it('marks every notification read at once', async () => {
     let markedAll = false;
     server.use(
@@ -104,10 +143,11 @@ describe('MyNotifications', () => {
       await screen.findByText('A place came free on a course you are waiting for'),
     ).toBeInTheDocument();
     expect(screen.getByText(/Places go to whoever asks first/)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Algorithms' })).toHaveAttribute(
-      'href',
-      `/institutions/${INSTITUTION}/enroll`,
-    );
+    expect(
+      screen.getByRole('link', {
+        name: 'A place came free on a course you are waiting for',
+      }),
+    ).toHaveAttribute('href', `/institutions/${INSTITUTION}/enroll`);
   });
 
   it('takes a discussion reply straight to its thread', async () => {
@@ -128,7 +168,9 @@ describe('MyNotifications', () => {
 
     expect(await screen.findByText('New reply in a discussion')).toBeInTheDocument();
     expect(screen.getByText('Question 3')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Algorithms' })).toHaveAttribute(
+    expect(
+      screen.getByRole('link', { name: 'New reply in a discussion' }),
+    ).toHaveAttribute(
       'href',
       `/institutions/${INSTITUTION}/courses/${notifications[0]!.courseOfferingId}?section=discussion&thread=99999999-9999-4999-8999-999999999999`,
     );

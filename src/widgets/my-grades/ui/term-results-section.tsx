@@ -42,7 +42,9 @@ export function TermResultsSection({
           <li key={result.id}>
             <CourseResultCard
               result={result}
-              href={courseOfferingHref(institutionId, result.offering.id)}
+              href={courseOfferingHref(institutionId, result.offering.id, {
+                section: 'work',
+              })}
             />
           </li>
         ))}

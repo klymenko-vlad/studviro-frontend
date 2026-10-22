@@ -2,9 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
 import { ExamRegistrationButton } from '@/features/exam-registration';
+import { offeringItemAnchor } from '@/entities/course-offering';
 import { ExamTermCard, examTermQueries } from '@/entities/exam-term';
 import { usePermissions } from '@/entities/permission';
 import { institutionRoutes, Link } from '@/shared/config';
+import { revealTargetClassName, useRevealHashTarget } from '@/shared/lib';
 import {
   Card,
   CardContent,
@@ -27,6 +29,7 @@ export function OfferingExams({
     ...examTermQueries.list({ path: { institutionId }, query: { offeringId } }),
     enabled: can('schedule:read'),
   });
+  useRevealHashTarget(data !== undefined);
 
   if (!can('schedule:read')) return null;
 
@@ -56,7 +59,12 @@ export function OfferingExams({
         ) : (
           <ul className="flex flex-col gap-4">
             {data.map(term => (
-              <li key={term.id}>
+              <li
+                key={term.id}
+                id={offeringItemAnchor({ kind: 'exam-term', id: term.id })}
+                tabIndex={-1}
+                className={revealTargetClassName}
+              >
                 <ExamTermCard
                   term={term}
                   action={
