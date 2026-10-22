@@ -43,7 +43,7 @@ export function MyCourses({
   }
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-8 sm:gap-10">
       {current.length === 0 ? (
         <EmptyState
           size="inline"

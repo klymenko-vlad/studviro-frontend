@@ -40,7 +40,7 @@ export function AppHeaderBar({
       data-translucent
       className="scroll-elevate bg-background/70 border-border/60 sticky top-0 z-40 border-b backdrop-blur-xl backdrop-saturate-150"
     >
-      <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-2 px-6 [body:has([data-institution-frame])_&]:lg:max-w-none">
+      <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-2 px-4 sm:px-6 [body:has([data-institution-frame])_&]:lg:max-w-none">
         <BrandLink signedIn={signedIn} />
 
         {/*
