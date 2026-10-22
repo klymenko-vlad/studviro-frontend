@@ -93,7 +93,7 @@ export function InstitutionFrame({
         {isPending ? null : (
           <BottomTabBar
             institutionId={institutionId}
-            tabs={bottomTabs(groups)}
+            {...bottomTabs(groups)}
             current={current}
             moreOpen={open}
             onMore={() => {

@@ -2,7 +2,6 @@
 
 import {
   Award,
-  Bell,
   BookOpen,
   CalendarDays,
   ClipboardCheck,
@@ -14,9 +13,7 @@ import {
   Network,
   Presentation,
   ScrollText,
-  Search,
   Settings,
-  SquarePlus,
   Users,
   type LucideIcon,
 } from 'lucide-react';
@@ -30,10 +27,7 @@ import type { NavKey, VisibleNavGroup } from '../model/nav-groups';
 export const NAV_ICONS: Record<NavKey, LucideIcon> = {
   dashboard: LayoutDashboard,
   calendar: CalendarDays,
-  notifications: Bell,
-  search: Search,
   courses: BookOpen,
-  enroll: SquarePlus,
   grades: Award,
   exams: ClipboardCheck,
   teaching: Presentation,

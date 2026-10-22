@@ -17,8 +17,8 @@
     "signIn": "Sign in",
     "signUp": "Sign up",
     "institutionLabel": "Institution sections",
-    "dashboard": "Dashboard",
-    "courses": "My courses",
+    "dashboard": "Home",
+    "courses": "Courses",
     "grades": "Grades",
     "calendar": "Calendar",
     "roles": "Roles",
@@ -49,7 +49,10 @@
       "teaching": "Teaching",
       "administration": "Administration"
     },
-    "accountSettings": "Account settings"
+    "accountSettings": "Account settings",
+    "openSearch": "Search this institution",
+    "searchPlaceholder": "Search…",
+    "notificationsUnread": "Notifications, {count, plural, one {# unread} other {# unread}}"
   },
   "home": {
     "title": "One academic platform your institution runs itself",
@@ -356,8 +359,8 @@
     }
   },
   "myCourses": {
-    "title": "My courses",
-    "subtitle": "Every course you are enrolled in, newest term first.",
+    "title": "Courses",
+    "subtitle": "The courses you take, and the ones you can still enrol in.",
     "empty": "You are not enrolled in any course yet.",
     "noTeacher": "No teacher recorded",
     "errorTitle": "Courses could not be loaded",
@@ -380,6 +383,10 @@
       "compulsory": "Compulsory",
       "optional": "Optional",
       "elective": "Elective"
+    },
+    "tabs": {
+      "mine": "My courses",
+      "find": "Find courses"
     }
   },
   "courseOffering": {

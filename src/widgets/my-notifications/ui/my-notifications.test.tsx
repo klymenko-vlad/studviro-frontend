@@ -147,7 +147,7 @@ describe('MyNotifications', () => {
       screen.getByRole('link', {
         name: 'A place came free on a course you are waiting for',
       }),
-    ).toHaveAttribute('href', `/institutions/${INSTITUTION}/enroll`);
+    ).toHaveAttribute('href', `/institutions/${INSTITUTION}/courses?tab=find`);
   });
 
   it('takes a discussion reply straight to its thread', async () => {

@@ -1,5 +1,6 @@
-import { EnrollCoursesView } from '@/views/enroll-courses';
+import { institutionRoutes, redirect } from '@/shared/config';
 
+/** Finding a course is a tab of the courses page now; old links land there. */
 export default async function EnrollCoursesPage({
   params,
 }: {
@@ -7,5 +8,5 @@ export default async function EnrollCoursesPage({
 }) {
   const { institutionId } = await params;
 
-  return <EnrollCoursesView institutionId={institutionId} />;
+  redirect(institutionRoutes(institutionId).enroll);
 }

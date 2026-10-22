@@ -44,7 +44,7 @@ export const institutionRoutes = (institutionId: string) => {
     dashboard: base,
     courses: `${base}/courses`,
     courseOffering: (offeringId: string) => `${base}/courses/${offeringId}`,
-    enroll: `${base}/enroll`,
+    enroll: `${base}/courses?tab=find`,
     catalogue: `${base}/catalogue`,
     program: (programId: string) => `${base}/programs/${programId}`,
     teaching: `${base}/teaching`,

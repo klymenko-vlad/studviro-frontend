@@ -35,8 +35,8 @@ function groupsFor(roles: Role[], granted: Permission[], disabled: string[] = []
 describe('visibleNavGroups', () => {
   it('gives a student the general screens and their studies', () => {
     expect(groupsFor(['student'], STUDENT)).toEqual([
-      { key: 'general', items: ['dashboard', 'calendar', 'notifications', 'search'] },
-      { key: 'studies', items: ['courses', 'enroll', 'grades', 'exams'] },
+      { key: 'general', items: ['dashboard', 'calendar'] },
+      { key: 'studies', items: ['courses', 'exams', 'grades'] },
     ]);
   });
 
@@ -87,7 +87,7 @@ describe('visibleNavGroups', () => {
 
   it('drops a group with nothing left in it', () => {
     expect(groupsFor(['registrar'], ['institution:read'])).toEqual([
-      { key: 'general', items: ['dashboard', 'search'] },
+      { key: 'general', items: ['dashboard'] },
     ]);
   });
 

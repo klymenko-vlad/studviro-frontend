@@ -11,18 +11,22 @@ import type { NavKey } from '../model/nav-groups';
 import { NAV_ICONS } from './nav-links';
 
 /**
- * The phone's way round an institution: four screens a thumb can reach, and
- * _More_ for the rest. Sits above the home indicator, never under it.
+ * The phone's way round an institution: the person's own screens, five at
+ * most, with _More_ in the last slot when there are others. Sits above the
+ * home indicator, never under it.
  */
 export function BottomTabBar({
   institutionId,
   tabs,
+  more,
   current,
   moreOpen,
   onMore,
 }: {
   institutionId: string;
   tabs: NavKey[];
+  /** Whether some screens did not fit, so the last slot opens them all. */
+  more: boolean;
   current: NavKey | undefined;
   moreOpen: boolean;
   onMore: () => void;
@@ -48,16 +52,18 @@ export function BottomTabBar({
             />
           </li>
         ))}
-        <li className="flex-1">
-          <Tab
-            icon={Ellipsis}
-            label={t('more')}
-            active={moreOpen || elsewhere}
-            aria-haspopup="dialog"
-            aria-expanded={moreOpen}
-            onClick={onMore}
-          />
-        </li>
+        {more ? (
+          <li className="flex-1">
+            <Tab
+              icon={Ellipsis}
+              label={t('more')}
+              active={moreOpen || elsewhere}
+              aria-haspopup="dialog"
+              aria-expanded={moreOpen}
+              onClick={onMore}
+            />
+          </li>
+        ) : null}
       </ul>
     </nav>
   );

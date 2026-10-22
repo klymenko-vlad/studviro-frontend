@@ -43,7 +43,7 @@ function renderFrame() {
 }
 
 async function sidebar() {
-  await screen.findAllByRole('link', { name: 'Dashboard' });
+  await screen.findAllByRole('link', { name: 'Home' });
   return within(screen.getByRole('navigation', { name: 'Institution sections' }));
 }
 
@@ -60,7 +60,7 @@ describe('InstitutionFrame', () => {
     renderFrame();
 
     expect(screen.getByText('content')).toBeInTheDocument();
-    expect((await sidebar()).getByRole('link', { name: 'Dashboard' })).toHaveAttribute(
+    expect((await sidebar()).getByRole('link', { name: 'Home' })).toHaveAttribute(
       'href',
       `/institutions/${INSTITUTION}`,
     );
@@ -98,7 +98,7 @@ describe('InstitutionFrame', () => {
     const nav = await sidebar();
     const studies = nav.getByRole('list', { name: 'My studies' });
 
-    expect(within(studies).getByRole('link', { name: 'My courses' })).toBeInTheDocument();
+    expect(within(studies).getByRole('link', { name: 'Courses' })).toBeInTheDocument();
     expect(within(studies).getByRole('link', { name: 'Grades' })).toBeInTheDocument();
     expect(nav.queryByRole('list', { name: 'Administration' })).not.toBeInTheDocument();
     expect(nav.queryByRole('link', { name: 'My teaching' })).not.toBeInTheDocument();
@@ -118,7 +118,7 @@ describe('InstitutionFrame', () => {
       'href',
       `/institutions/${INSTITUTION}/teaching`,
     );
-    expect(nav.queryByRole('link', { name: 'My courses' })).not.toBeInTheDocument();
+    expect(nav.queryByRole('link', { name: 'Courses' })).not.toBeInTheDocument();
     expect(nav.queryByRole('link', { name: 'People' })).not.toBeInTheDocument();
   });
 
@@ -133,9 +133,7 @@ describe('InstitutionFrame', () => {
       'aria-current',
       'page',
     );
-    expect(nav.getByRole('link', { name: 'Dashboard' })).not.toHaveAttribute(
-      'aria-current',
-    );
+    expect(nav.getByRole('link', { name: 'Home' })).not.toHaveAttribute('aria-current');
   });
 
   it('opens every section in a sheet from the tab bar, and closes it on navigation', async () => {
@@ -155,7 +153,7 @@ describe('InstitutionFrame', () => {
 
     const tabs = await tabBar();
     expect(tabs.getAllByRole('link')).toHaveLength(4);
-    expect(tabs.getByRole('link', { name: 'Dashboard' })).toHaveAttribute(
+    expect(tabs.getByRole('link', { name: 'Home' })).toHaveAttribute(
       'aria-current',
       'page',
     );
@@ -180,7 +178,7 @@ describe('InstitutionFrame accessibility', () => {
       <InstitutionFrame institutionId={INSTITUTION}>
         <main id="main-content">content</main>
       </InstitutionFrame>,
-      () => screen.findAllByRole('link', { name: 'Dashboard' }),
+      () => screen.findAllByRole('link', { name: 'Home' }),
     );
   });
 });

@@ -4,6 +4,7 @@ import { Link, ROUTES } from '@/shared/config';
 import { Button, Logo } from '@/shared/ui';
 
 import { AccountMenu } from './account-menu';
+import { InstitutionHeaderActions } from './institution-header-actions';
 import { MARKETING_LINKS } from './marketing-links';
 import { MobileMenu } from './mobile-menu';
 import { PreferencesMenu } from './preferences-menu';
@@ -65,6 +66,7 @@ export function AppHeaderBar({
         )}
 
         <div className="ml-auto flex items-center gap-1">
+          {signedIn ? <InstitutionHeaderActions /> : null}
           {signedIn ? (
             <AccountMenu
               displayName={displayName ?? ''}

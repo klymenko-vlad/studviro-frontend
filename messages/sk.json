@@ -49,7 +49,10 @@
       "teaching": "Výučba",
       "administration": "Správa"
     },
-    "accountSettings": "Nastavenia účtu"
+    "accountSettings": "Nastavenia účtu",
+    "openSearch": "Search this institution",
+    "searchPlaceholder": "Search…",
+    "notificationsUnread": "Notifications, {count, plural, one {# unread} other {# unread}}"
   },
   "home": {
     "title": "Jedna akademická platforma, ktorú si inštitúcia vedie sama",
@@ -380,6 +383,10 @@
       "compulsory": "Povinný",
       "optional": "Nepovinný",
       "elective": "Povinne voliteľný"
+    },
+    "tabs": {
+      "mine": "My courses",
+      "find": "Find courses"
     }
   },
   "courseOffering": {

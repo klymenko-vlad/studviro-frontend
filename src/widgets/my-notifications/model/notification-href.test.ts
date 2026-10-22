@@ -82,7 +82,7 @@ describe('notificationHref', () => {
 
   it('sends a place that came free to the enrolment screen, which can take it', () => {
     expect(notificationHref(INSTITUTION, notification('waitlist_place_free'))).toBe(
-      `/institutions/${INSTITUTION}/enroll`,
+      `/institutions/${INSTITUTION}/courses?tab=find`,
     );
   });
 

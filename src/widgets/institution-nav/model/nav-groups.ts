@@ -10,10 +10,7 @@ import {
 export type NavKey =
   | 'dashboard'
   | 'calendar'
-  | 'notifications'
-  | 'search'
   | 'courses'
-  | 'enroll'
   | 'grades'
   | 'exams'
   | 'teaching'
@@ -51,14 +48,14 @@ const EVERYONE = () => true;
  * server's own permission answer, so the nav never offers a door that refuses.
  */
 const GROUPS: NavGroup[] = [
+  // Search and notifications are not places: they live in the header, beside
+  // the account menu, on every screen. Finding a course is a tab of Courses.
   {
     key: 'general',
     for: EVERYONE,
     items: [
       { key: 'dashboard', gate: null },
       { key: 'calendar', gate: 'schedule:read', feature: 'timetable' },
-      { key: 'notifications', gate: 'notification:read' },
-      { key: 'search', gate: 'institution:read' },
     ],
   },
   {
@@ -66,9 +63,8 @@ const GROUPS: NavGroup[] = [
     for: studies,
     items: [
       { key: 'courses', gate: 'enrollment:read' },
-      { key: 'enroll', gate: 'course:enroll', feature: 'courseRegistration' },
-      { key: 'grades', gate: 'grade:read', feature: 'grades' },
       { key: 'exams', gate: 'schedule:read', feature: 'examRegistration' },
+      { key: 'grades', gate: 'grade:read', feature: 'grades' },
     ],
   },
   {
