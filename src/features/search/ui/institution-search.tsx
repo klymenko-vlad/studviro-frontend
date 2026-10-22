@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useId, useState, useSyncExternalStore } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowUpRight, Clock, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -25,6 +25,11 @@ import { Badge, Button, Input, Label } from '@/shared/ui';
 import { useRecentSearchStore, type OpenedHit } from '../model/recent-search-store';
 
 const SUGGESTED = 5;
+const NONE: string[] = [];
+const NO_HITS: OpenedHit[] = [];
+const subscribeNothing = () => () => undefined;
+const browserSnapshot = () => true;
+const serverSnapshot = () => false;
 
 /**
  * One box over everything the caller may see.
@@ -156,8 +161,17 @@ function StartingPoints({
 }) {
   const t = useTranslations('search');
   const { can } = usePermissions(institutionId);
-  const queries = useRecentSearchStore(state => state.queriesFor(institutionId));
-  const opened = useRecentSearchStore(state => state.openedFor(institutionId));
+  // History lives in this browser's storage, which the server cannot read: it
+  // is shown only once the page runs here, so both renders agree.
+  const inBrowser = useSyncExternalStore(
+    subscribeNothing,
+    browserSnapshot,
+    serverSnapshot,
+  );
+  const storedQueries = useRecentSearchStore(state => state.queriesFor(institutionId));
+  const storedOpened = useRecentSearchStore(state => state.openedFor(institutionId));
+  const queries = inBrowser ? storedQueries : NONE;
+  const opened = inBrowser ? storedOpened : NO_HITS;
   const forget = useRecentSearchStore(state => state.forget);
 
   const enrolled = useQuery({
