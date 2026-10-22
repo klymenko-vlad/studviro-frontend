@@ -28,31 +28,31 @@ describe('request config', () => {
   });
 
   it('uses the cookie when it holds a supported locale', async () => {
-    cookieStore.get.mockReturnValue({ value: 'uk' });
+    cookieStore.get.mockReturnValue({ value: 'sk' });
 
-    await expect(resolve()).resolves.toMatchObject({ locale: 'uk' });
+    await expect(resolve()).resolves.toMatchObject({ locale: 'sk' });
   });
 
   it('prefers the cookie over the browser header', async () => {
     cookieStore.get.mockReturnValue({ value: 'en' });
-    headerStore.get.mockReturnValue('uk-UA,uk;q=0.9');
+    headerStore.get.mockReturnValue('sk-SK,sk;q=0.9');
 
     // The cookie is an explicit choice; the header is only a default.
     await expect(resolve()).resolves.toMatchObject({ locale: 'en' });
   });
 
   it('negotiates from Accept-Language when there is no cookie', async () => {
-    headerStore.get.mockReturnValue('uk-UA,uk;q=0.9,en;q=0.5');
+    headerStore.get.mockReturnValue('sk-SK,sk;q=0.9,en;q=0.5');
 
-    await expect(resolve()).resolves.toMatchObject({ locale: 'uk' });
+    await expect(resolve()).resolves.toMatchObject({ locale: 'sk' });
   });
 
   it('ignores a cookie holding an unsupported locale', async () => {
     // The cookie is client-writable, so its value is untrusted input.
     cookieStore.get.mockReturnValue({ value: 'de' });
-    headerStore.get.mockReturnValue('uk');
+    headerStore.get.mockReturnValue('sk');
 
-    await expect(resolve()).resolves.toMatchObject({ locale: 'uk' });
+    await expect(resolve()).resolves.toMatchObject({ locale: 'sk' });
   });
 
   it('falls back to English when nothing indicates a preference', async () => {
@@ -60,11 +60,11 @@ describe('request config', () => {
   });
 
   it('loads the catalogue for the resolved locale', async () => {
-    cookieStore.get.mockReturnValue({ value: 'uk' });
+    cookieStore.get.mockReturnValue({ value: 'sk' });
 
     const { messages } = await resolve();
 
-    expect(messages['common']).toMatchObject({ appName: 'Studviro' });
-    expect(messages['auth']).toHaveProperty('signIn', 'Увійти');
+    expect(messages['common']).toMatchObject({ appName: 'StudViro' });
+    expect(messages['auth']).toHaveProperty('signIn', 'Prihlásiť sa');
   });
 });

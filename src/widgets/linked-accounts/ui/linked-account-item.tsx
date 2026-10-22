@@ -1,7 +1,6 @@
 import { useFormatter, useTranslations } from 'next-intl';
 
 import { issuerHost, type LinkedAccount } from '@/entities/linked-account';
-import { Badge } from '@/shared/ui';
 
 export function LinkedAccountItem({ account }: { account: LinkedAccount }) {
   const t = useTranslations('account');
@@ -23,8 +22,6 @@ export function LinkedAccountItem({ account }: { account: LinkedAccount }) {
         </span>
         <span className="text-muted-foreground text-sm">{lastUsed}</span>
       </div>
-
-      <Badge variant="outline">{t(`source.${account.sourceSystem}`)}</Badge>
     </li>
   );
 }

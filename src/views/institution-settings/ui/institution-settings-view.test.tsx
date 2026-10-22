@@ -38,12 +38,6 @@ describe('InstitutionSettingsView', () => {
     ).toBeInTheDocument();
   });
 
-  it('shows connector health alongside the form', async () => {
-    renderWithProviders(<InstitutionSettingsView institutionId={INSTITUTION} />);
-
-    expect(await screen.findByText('Reachable')).toBeInTheDocument();
-  });
-
   it('withholds everything from someone who may only read, and says why', async () => {
     readOnly();
 

@@ -19,6 +19,79 @@ const MESSAGES_DIR = join(import.meta.dirname, '..', 'messages');
 /** The catalogue every other one is compared against. */
 const REFERENCE_LOCALE = 'en';
 
+/**
+ * Keys whose Slovak value is legitimately the English string.
+ *
+ * The translation pass used "sk equals en" to find what was left. That
+ * heuristic cannot reach zero: a grade letter, a pure format string, a proper
+ * noun, a room code and a word Slovak shares with English are all correct
+ * *because* they are identical. Without this list the next person chases 57
+ * keys that are already right.
+ *
+ * Add to it only when a value is identical on purpose. A key that is merely
+ * not translated yet does not belong here.
+ */
+const IDENTICAL_BY_DESIGN = new Set([
+  'academicTerms.kind.semester',
+  'academicTerms.kind.trimester',
+  'academicTerms.placeholder.academicYear',
+  'academicTerms.range',
+  'account.source.platform',
+  'assignments.placeholder.maxPoints',
+  'assignments.unset',
+  'audit.changed',
+  'auth.placeholder.displayName',
+  'calendar.duration',
+  'calendar.time',
+  'calendar.week',
+  'catalogue.courses.codePlaceholder',
+  'catalogue.programs.codePlaceholder',
+  'common.appName',
+  'contact.placeholder.contactName',
+  'courseOffering.termRange',
+  'createInstitution.placeholder.code',
+  'createUser.placeholder.displayName',
+  'dashboard.grade.A',
+  'dashboard.grade.B',
+  'dashboard.grade.C',
+  'dashboard.grade.D',
+  'dashboard.grade.E',
+  'dashboard.grade.FX',
+  'dashboard.term.dates',
+  'examTermAdmin.when',
+  'gradeEntry.grade.A',
+  'gradeEntry.grade.B',
+  'gradeEntry.grade.C',
+  'gradeEntry.grade.D',
+  'gradeEntry.grade.E',
+  'gradeEntry.grade.FX',
+  'grades.effectiveGrade',
+  'grades.grade.A',
+  'grades.grade.B',
+  'grades.grade.C',
+  'grades.grade.D',
+  'grades.grade.E',
+  'grades.grade.FX',
+  'grades.none',
+  'institutionSettings.placeholder.timezone',
+  'invitation.placeholder.displayName',
+  'learning.none',
+  'learningSpace.placeholder.shortName',
+  'locale.sk',
+  'marketing.footer.rights',
+  'marking.placeholder.points',
+  'materials.field.body',
+  'materials.kind.text',
+  'materials.size',
+  'nav.audit',
+  'nav.menu',
+  'orgUnits.placeholder.code',
+  'programMembers.placeholder.studyYear',
+  'rooms.placeholder.code',
+  'studyGroups.placeholder.code',
+  'timetableAdmin.slotWhen',
+]);
+
 type Catalogue = Record<string, unknown>;
 
 /**
@@ -73,6 +146,7 @@ async function main(): Promise<void> {
   const referenceKeys = new Set(reference.keys());
 
   let problems = 0;
+  const untranslated = new Map<string, number>();
 
   for (const locale of locales.filter(candidate => candidate !== REFERENCE_LOCALE)) {
     const catalogue = await readCatalogue(locale);
@@ -97,6 +171,13 @@ async function main(): Promise<void> {
       'empty values',
       [...catalogue].filter(([, value]) => value === '').map(([key]) => key),
     );
+
+    untranslated.set(
+      locale,
+      [...catalogue].filter(
+        ([key, value]) => !IDENTICAL_BY_DESIGN.has(key) && value === reference.get(key),
+      ).length,
+    );
   }
 
   problems += report(
@@ -113,6 +194,17 @@ async function main(): Promise<void> {
   console.log(
     `✓ ${locales.length} catalogues in sync (${referenceKeys.size} keys each).`,
   );
+
+  // Not a failure: a partly translated catalogue ships and falls back to the
+  // English string. It is reported so the size of the remaining pass is a
+  // number somebody can see rather than a grep somebody has to invent.
+  for (const [locale, count] of untranslated) {
+    console.log(
+      count === 0
+        ? `✓ ${locale}.json fully translated.`
+        : `· ${locale}.json — ${count} key(s) still carry the English string.`,
+    );
+  }
 }
 
 await main();

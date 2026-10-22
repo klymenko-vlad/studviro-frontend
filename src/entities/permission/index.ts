@@ -1,2 +1,3 @@
 export { permissionQueries } from './api/permission-queries';
-export { usePermissions, type Permission } from './model/use-permissions';
+export { runsInstitution, studies, teaches } from './model/audiences';
+export { usePermissions, type Permission, type Role } from './model/use-permissions';

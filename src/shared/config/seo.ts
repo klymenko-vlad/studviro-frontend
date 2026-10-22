@@ -6,5 +6,5 @@ import type { AppLocale } from './i18n/routing';
  */
 export const OG_LOCALES: Record<AppLocale, string> = {
   en: 'en_US',
-  uk: 'uk_UA',
+  sk: 'sk_SK',
 };

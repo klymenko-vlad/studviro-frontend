@@ -3,7 +3,14 @@ import { useTranslations } from 'next-intl';
 
 import { CourseResultCard, courseResultQueries } from '@/entities/course-result';
 import { usePermissions } from '@/entities/permission';
-import { Card, CardContent, CardHeader, CardTitle, Skeleton } from '@/shared/ui';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  ListSkeleton,
+  QueryError,
+} from '@/shared/ui';
 
 export function OfferingResults({
   institutionId,
@@ -14,7 +21,7 @@ export function OfferingResults({
 }) {
   const t = useTranslations('grades');
   const { can } = usePermissions(institutionId);
-  const { data, isPending, isError } = useQuery({
+  const { data, isPending, isError, refetch } = useQuery({
     ...courseResultQueries.list({ path: { institutionId }, query: { offeringId } }),
     enabled: can('grade:read'),
   });
@@ -29,9 +36,13 @@ export function OfferingResults({
 
       <CardContent className="flex flex-col gap-4 text-sm">
         {isPending ? (
-          <Skeleton className="h-24 w-full" data-testid="offering-results-loading" />
+          <ListSkeleton items={2} data-testid="offering-results-loading" />
         ) : isError ? (
-          <p className="text-muted-foreground">{t('errorDescription')}</p>
+          <QueryError
+            onRetry={refetch}
+            title={t('errorTitle')}
+            description={t('errorDescription')}
+          />
         ) : data.length === 0 ? (
           <p className="text-muted-foreground">{t('noOfferingResult')}</p>
         ) : (

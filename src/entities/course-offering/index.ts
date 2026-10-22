@@ -1,5 +1,6 @@
 export { courseOfferingQueries } from './api/course-offering-queries';
 export {
+  authorsOffering,
   courseOfferingHref,
   teachersByPrecedence,
   type CourseOffering,

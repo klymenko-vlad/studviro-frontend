@@ -3,10 +3,11 @@ import { describe, expect, it } from 'vitest';
 import { courseResults } from '@/shared/test';
 
 import {
-  creditsEarned,
   groupResultsByTerm,
+  hasFailed,
+  hasStanding,
   isPublished,
-  weightedAverage,
+  termCredits,
 } from './course-result';
 
 const [official, proposed] = courseResults as [
@@ -42,45 +43,38 @@ describe('course result model', () => {
     expect(isPublished(proposed)).toBe(false);
   });
 
-  it('earns credits only for a published pass', () => {
-    expect(creditsEarned(courseResults)).toBe(6);
-    expect(
-      creditsEarned([{ ...official, effective: { kind: 'official', grade: 'FX' } }]),
-    ).toBe(0);
-    expect(
-      creditsEarned([{ ...official, effective: { kind: 'official', grade: 'failed' } }]),
-    ).toBe(0);
+  it('counts a term’s credits from the passes it holds', () => {
+    expect(termCredits(courseResults)).toBe(6);
   });
 
-  it('weights the average by credits and ignores anything unpublished', () => {
-    const second = {
-      ...official,
-      id: 'second',
-      effective: { kind: 'official', grade: 'C' } as const,
-      course: { ...official.course, credits: 2 },
-    };
-
-    expect(weightedAverage([official, second, proposed])).toBeCloseTo(
-      (1 * 6 + 2 * 2) / 8,
-      5,
-    );
-  });
-
-  it('has no average when nothing is published', () => {
-    expect(weightedAverage([proposed])).toBeNull();
-  });
-
-  it('has no average when a published grade is not on the numeric scale', () => {
+  it('counts no credits for a failed course', () => {
     expect(
-      weightedAverage([
-        { ...official, effective: { kind: 'official', grade: 'passed' } },
+      termCredits([
+        { ...official, effective: { kind: 'official', grade: 'FX', passed: false } },
       ]),
-    ).toBeNull();
+    ).toBe(0);
   });
 
-  it('ignores a published result whose course carries no credits', () => {
+  it('counts no credits for a course with no result yet', () => {
+    expect(termCredits([{ ...official, effective: null }])).toBe(0);
+  });
+
+  it('counts no credits for a grade the registrar has not published', () => {
+    expect(termCredits([proposed])).toBe(0);
+  });
+
+  it('treats a result the server gave no effective grade as having no standing', () => {
+    expect(hasStanding({ ...official, effective: null, isVoided: true })).toBe(false);
+    expect(hasStanding(official)).toBe(true);
+  });
+
+  it('reads pass and fail from the server’s answer rather than deciding again', () => {
+    expect(hasFailed(official)).toBe(false);
     expect(
-      weightedAverage([{ ...official, course: { ...official.course, credits: null } }]),
-    ).toBeNull();
+      hasFailed({
+        ...official,
+        effective: { kind: 'official', grade: 'FX', passed: false },
+      }),
+    ).toBe(true);
   });
 });

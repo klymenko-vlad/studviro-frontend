@@ -5,15 +5,37 @@ import { useQuery } from '@tanstack/react-query';
 import { useFormatter, useTimeZone, useTranslations } from 'next-intl';
 
 import {
+  ALL_COURSES,
+  ChoiceFilter,
+  CourseFilter,
+  courseFilterOptions,
+  offeringFilterValue,
+  ScheduleFilters,
+  ToggleFilter,
+} from '@/features/filter-schedule';
+import { deadlineQueries } from '@/entities/deadline';
+import { examTermQueries } from '@/entities/exam-term';
+import {
   addDays,
   addWeeks,
-  groupEventsByDay,
   startOfWeek,
   timetableEventQueries,
+  type TimetableEventType,
 } from '@/entities/timetable-event';
-import { Alert, AlertDescription, AlertTitle, Button, Skeleton } from '@/shared/ui';
+import { Button, EmptyState, ListSkeleton, QueryError } from '@/shared/ui';
 
+import { groupCalendarItems } from '../model/calendar-items';
 import { CalendarDaySection } from './calendar-day-section';
+
+const ALL_TYPES = 'all';
+const TYPES: TimetableEventType[] = [
+  'lecture',
+  'seminar',
+  'lab',
+  'consultation',
+  'exam',
+  'other',
+];
 
 export function MyCalendar({
   institutionId,
@@ -26,31 +48,66 @@ export function MyCalendar({
   const format = useFormatter();
   const timeZone = useTimeZone() ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
   const [from, setFrom] = useState(() => startOfWeek(today));
+  const [offering, setOffering] = useState<string>(ALL_COURSES);
+  const [type, setType] = useState<string>(ALL_TYPES);
+  const [showExams, setShowExams] = useState(true);
+  const [showDeadlines, setShowDeadlines] = useState(true);
   const to = addWeeks(from, 1);
 
-  const { data, isPending, isError } = useQuery(
+  const range = { from: from.toISOString(), to: to.toISOString() };
+  const offeringId = offeringFilterValue(offering);
+
+  const { data, isPending, isError, refetch } = useQuery(
     timetableEventQueries.list({
       path: { institutionId },
-      query: { from: from.toISOString(), to: to.toISOString() },
+      query: {
+        ...range,
+        offeringId,
+        type: type === ALL_TYPES ? undefined : (type as TimetableEventType),
+      },
     }),
   );
 
+  const exams = useQuery({
+    ...examTermQueries.list({ path: { institutionId }, query: { ...range, offeringId } }),
+    enabled: showExams,
+  });
+
+  const deadlines = useQuery({
+    ...deadlineQueries.list({ path: { institutionId }, query: { ...range, offeringId } }),
+    enabled: showDeadlines,
+  });
+
+  const courses = useQuery({
+    ...timetableEventQueries.list({ path: { institutionId }, query: range }),
+    select: courseFilterOptions,
+  });
+
   const day = { day: 'numeric', month: 'short' } as const;
   const lastDay = addDays(from, 6);
+  const isThisWeek = from.getTime() === startOfWeek(today).getTime();
+  const dates = { from: format.dateTime(from, day), to: format.dateTime(lastDay, day) };
+
+  const days = groupCalendarItems(
+    data ?? [],
+    showExams ? (exams.data ?? []) : [],
+    showDeadlines ? (deadlines.data ?? []) : [],
+    timeZone,
+  );
+  const eventCount = days.reduce((n, d) => n + d.items.length, 0);
 
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
           <p className="font-medium" data-testid="calendar-week">
-            {t('week', {
-              from: format.dateTime(from, day),
-              to: format.dateTime(lastDay, day),
-            })}
+            {t('week', dates)}
           </p>
           {isPending || isError ? null : (
             <p className="text-muted-foreground text-sm">
-              {t('weekSummary', { events: data.length })}
+              {isThisWeek
+                ? t('weekSummary', { events: eventCount })
+                : t('eventCount', { events: eventCount })}
             </p>
           )}
         </div>
@@ -86,17 +143,49 @@ export function MyCalendar({
         </div>
       </div>
 
+      <ScheduleFilters label={t('filters')}>
+        <CourseFilter
+          label={t('filterCourse')}
+          allLabel={t('allCourses')}
+          options={courses.data ?? []}
+          value={offering}
+          onChange={setOffering}
+        />
+        <ChoiceFilter
+          label={t('filterType')}
+          allLabel={t('allTypes')}
+          allValue={ALL_TYPES}
+          options={TYPES.map(value => ({ value, label: t(`type.${value}`) }))}
+          value={type}
+          onChange={setType}
+        />
+        <ToggleFilter
+          label={t('showExams')}
+          checked={showExams}
+          onChange={setShowExams}
+        />
+        <ToggleFilter
+          label={t('showDeadlines')}
+          checked={showDeadlines}
+          onChange={setShowDeadlines}
+        />
+      </ScheduleFilters>
+
       {isPending ? (
-        <Skeleton className="h-64 w-full" data-testid="my-calendar-loading" />
+        <ListSkeleton items={3} data-testid="my-calendar-loading" />
       ) : isError ? (
-        <Alert variant="destructive">
-          <AlertTitle>{t('errorTitle')}</AlertTitle>
-          <AlertDescription>{t('errorDescription')}</AlertDescription>
-        </Alert>
-      ) : data.length === 0 ? (
-        <p className="text-muted-foreground text-sm">{t('empty')}</p>
+        <QueryError
+          onRetry={refetch}
+          title={t('errorTitle')}
+          description={t('errorDescription')}
+        />
+      ) : days.length === 0 ? (
+        <EmptyState
+          size="inline"
+          title={isThisWeek ? t('empty') : t('emptyWeek', dates)}
+        />
       ) : (
-        groupEventsByDay(data, timeZone).map(entry => (
+        days.map(entry => (
           <CalendarDaySection
             key={entry.key}
             day={entry}

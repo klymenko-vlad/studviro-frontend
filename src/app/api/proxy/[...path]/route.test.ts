@@ -42,6 +42,39 @@ describe('path traversal', () => {
   });
 });
 
+describe('token-issuing paths', () => {
+  it.each([
+    [['api', 'v1', 'auth', 'login']],
+    [['api', 'v1', 'auth', 'login', 'two-factor']],
+    [['api', 'v1', 'auth', 'refresh']],
+    [['api', 'v1', 'users', 'me', 'password']],
+  ])('refuses %o, so a token pair never reaches the browser', async path => {
+    const response = await POST(request('POST', 'http://localhost:3001'), context(path));
+
+    expect(response.status).toBe(404);
+  });
+
+  it.each([
+    [['api', 'v1', 'auth', 'password-reset', 'request']],
+    [['api', 'v1', 'auth', 'password-reset', 'some-token', 'confirm']],
+  ])('forwards %o, which answers with no session token', async path => {
+    // Refused along with the rest of `auth/*`, the forgot-password form answered
+    // its usual "check your inbox" while nothing reached the API.
+    await expect(
+      POST(request('POST', 'http://localhost:3001'), context(path)),
+    ).rejects.toThrow();
+  });
+
+  it('still forwards the rest of the account', async () => {
+    await expect(
+      GET(
+        request('GET'),
+        context(['api', 'v1', 'users', 'me', 'passwords-are-not-this']),
+      ),
+    ).rejects.toThrow();
+  });
+});
+
 describe('cross-origin writes', () => {
   it('rejects a write from another origin', async () => {
     const response = await POST(

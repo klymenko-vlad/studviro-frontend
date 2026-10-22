@@ -4,14 +4,46 @@ import * as React from 'react';
 
 import { cn } from '@/shared/lib';
 
-function Table({ className, ...props }: React.ComponentProps<'table'>) {
+/**
+ * Local deviation from upstream shadcn, kept on re-generation.
+ *
+ * `label` is required and does two jobs: it is the table's `<caption>`, and it
+ * names the scroll container. The container is also `tabIndex={0}` with
+ * `role="region"` — a region that scrolls has to be reachable by keyboard
+ * (WCAG 2.1.1), and a focusable region needs an accessible name (4.1.2).
+ * It is focusable at every width rather than only when it overflows, which
+ * would need a measurement in render; the cost is one extra tab stop per table.
+ *
+ * `scroll-affordance-x` is the visible cue that there is more to the side —
+ * the reason a five-column table is usable on a phone at all.
+ *
+ * `tabular-nums` is on the table rather than on each numeric column: in a
+ * grid of credits, capacities and counts, proportional digits do not line up
+ * between rows, and remembering the utility per column is how that gets
+ * missed. Short text labels are unharmed by lining figures.
+ */
+function Table({
+  className,
+  label,
+  children,
+  ...props
+}: React.ComponentProps<'table'> & { label: string }) {
   return (
-    <div data-slot="table-container" className="relative w-full overflow-x-auto">
+    <div
+      data-slot="table-container"
+      role="region"
+      aria-label={label}
+      tabIndex={0}
+      className="scroll-affordance-x focus-visible:ring-ring/50 relative w-full overflow-x-auto rounded-md focus-visible:ring-[3px] focus-visible:outline-none"
+    >
       <table
         data-slot="table"
-        className={cn('w-full caption-bottom text-sm', className)}
+        className={cn('w-full caption-bottom text-sm tabular-nums', className)}
         {...props}
-      />
+      >
+        <caption className="sr-only">{label}</caption>
+        {children}
+      </table>
     </div>
   );
 }

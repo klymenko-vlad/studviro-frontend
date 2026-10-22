@@ -18,6 +18,14 @@ describe('MyCalendarView', () => {
     expect(await screen.findByTestId('calendar-week')).toBeInTheDocument();
   });
 
+  it('offers the calendar to other calendar apps', async () => {
+    renderWithProviders(<MyCalendarView institutionId={INSTITUTION} />);
+
+    expect(
+      await screen.findByRole('heading', { name: 'Use in another calendar' }),
+    ).toBeInTheDocument();
+  });
+
   it('refuses a caller the server does not grant schedule:read', async () => {
     server.use(
       http.get(PERMISSIONS_URL, () =>
@@ -29,5 +37,6 @@ describe('MyCalendarView', () => {
 
     expect(await screen.findByText('Not available to you')).toBeInTheDocument();
     expect(screen.queryByTestId('calendar-week')).not.toBeInTheDocument();
+    expect(screen.queryByText('Use in another calendar')).not.toBeInTheDocument();
   });
 });

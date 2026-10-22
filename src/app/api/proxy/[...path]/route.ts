@@ -44,6 +44,25 @@ function isTraversalFree(path: string[]): boolean {
   return path.every(segment => segment !== '' && segment !== '.' && segment !== '..');
 }
 
+const TOKEN_ISSUING_PATHS = [
+  ['api', 'v1', 'auth'],
+  ['api', 'v1', 'users', 'me', 'password'],
+];
+
+/** Under `auth/` but answering with no session token: the forgot-password flow. */
+const TOKENLESS_AUTH_PATHS = [['api', 'v1', 'auth', 'password-reset']];
+
+const startsWith = (path: string[]) => (prefix: string[]) =>
+  prefix.every((segment, index) => path[index] === segment);
+
+/** Their responses carry a token pair, which `/api/auth/*` exists to keep out of the browser. */
+function issuesTokens(path: string[]): boolean {
+  return (
+    TOKEN_ISSUING_PATHS.some(startsWith(path)) &&
+    !TOKENLESS_AUTH_PATHS.some(startsWith(path))
+  );
+}
+
 async function handle(
   request: Request,
   context: { params: Promise<{ path: string[] }> },
@@ -55,6 +74,9 @@ async function handle(
   const { path } = await context.params;
   if (!isTraversalFree(path)) {
     return NextResponse.json({ message: 'Invalid path' }, { status: 400 });
+  }
+  if (issuesTokens(path)) {
+    return NextResponse.json({ message: 'Not found' }, { status: 404 });
   }
 
   const search = new URL(request.url).search;

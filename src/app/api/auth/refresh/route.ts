@@ -1,13 +1,12 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
-import type { AuthTokensDto } from '@/shared/api';
 import {
-  apiOrigin,
   clearSession,
   forbidden,
   isSameOrigin,
   respondWithSession,
+  rotateRefreshToken,
 } from '@/shared/auth';
 import { REFRESH_TOKEN_COOKIE } from '@/shared/config';
 
@@ -23,14 +22,13 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ message: 'No session' }, { status: 401 });
   }
 
-  const response = await fetch(`${apiOrigin()}/api/v1/auth/refresh`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ refreshToken }),
-    cache: 'no-store',
-  });
+  // Shared with every other renewal in the process: see `rotateRefreshToken`.
+  const tokens = await rotateRefreshToken(
+    refreshToken,
+    request.headers.get('user-agent'),
+  );
 
-  if (!response.ok) {
+  if (!tokens) {
     /**
      * A rejected refresh means the token was revoked, expired, or replayed —
      * in every case the cookies are worthless, and leaving them in place would
@@ -41,5 +39,5 @@ export async function POST(request: Request): Promise<NextResponse> {
     );
   }
 
-  return respondWithSession((await response.json()) as AuthTokensDto);
+  return respondWithSession(tokens);
 }

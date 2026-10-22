@@ -1,4 +1,5 @@
-import { InstitutionNav } from '@/widgets/institution-nav';
+import { InstitutionFrame } from '@/widgets/institution-nav';
+import { InstitutionTimeZone } from '@/entities/institution-configuration';
 
 export default async function InstitutionLayout({
   children,
@@ -7,9 +8,8 @@ export default async function InstitutionLayout({
   const { institutionId } = await params;
 
   return (
-    <>
-      <InstitutionNav institutionId={institutionId} />
-      {children}
-    </>
+    <InstitutionTimeZone institutionId={institutionId}>
+      <InstitutionFrame institutionId={institutionId}>{children}</InstitutionFrame>
+    </InstitutionTimeZone>
   );
 }

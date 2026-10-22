@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -9,12 +8,13 @@ import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import {
-  CANONICAL_ROLES,
+  GRANTABLE_ROLES,
   ROLE_SCOPES,
   roleAssignmentMutations,
   roleAssignmentQueries,
 } from '@/entities/role-assignment';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -26,10 +26,7 @@ import {
   FormMessage,
   Input,
   Select,
-  SelectContent,
   SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from '@/shared/ui';
 
 import { buildGrantRoleFormSchema, type GrantRoleFormValues } from '../model/schema';
@@ -49,8 +46,13 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
   );
 
   const form = useForm<GrantRoleFormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: { userId: '', role: 'student', scopeType: 'institution', scopeId: '' },
+    resolver: useZodResolver(schema),
+    defaultValues: {
+      userId: '',
+      role: GRANTABLE_ROLES[0] ?? 'institution_admin',
+      scopeType: 'institution',
+      scopeId: '',
+    },
   });
 
   const mutation = useMutation({
@@ -94,7 +96,7 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={schema}>
       <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
         <FormField
           control={form.control}
@@ -103,7 +105,7 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
             <FormItem>
               <FormLabel>{t('userId')}</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input placeholder={t('placeholder.userId')} {...field} />
               </FormControl>
               <FormDescription>{t('userIdHint')}</FormDescription>
               <FormMessage />
@@ -117,20 +119,15 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>{t('role')}</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {CANONICAL_ROLES.map(role => (
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  {GRANTABLE_ROLES.map(role => (
                     <SelectItem key={role} value={role}>
                       {labels(`role.${role}`)}
                     </SelectItem>
                   ))}
-                </SelectContent>
-              </Select>
+                </Select>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -142,20 +139,15 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>{t('scopeType')}</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
                   {ROLE_SCOPES.map(scope => (
                     <SelectItem key={scope} value={scope}>
                       {labels(`scope.${scope}`)}
                     </SelectItem>
                   ))}
-                </SelectContent>
-              </Select>
+                </Select>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -169,7 +161,7 @@ export function GrantRoleForm({ institutionId }: { institutionId: string }) {
               <FormItem>
                 <FormLabel>{t('scopeId')}</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input placeholder={t('placeholder.scopeId')} {...field} />
                 </FormControl>
                 <FormDescription>{t('scopeIdHint')}</FormDescription>
                 <FormMessage />

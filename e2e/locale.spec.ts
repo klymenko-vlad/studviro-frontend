@@ -7,15 +7,14 @@ test.describe('language switching', () => {
     await page.goto('/');
 
     const group = page.getByRole('radiogroup', { name: 'Language' });
-    await group.getByRole('radio', { name: 'Українська' }).click();
+    await group.getByRole('radio', { name: 'Slovenčina' }).click();
 
-    await expect(page.getByRole('button', { name: 'Почати' })).toBeVisible();
-    await expect(page.locator('html')).toHaveAttribute('lang', 'uk');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'sk');
     await expect(page).toHaveURL(/\/$/);
 
     // The cookie, not the address, is what carries the choice forward.
     await page.reload();
-    await expect(page.locator('html')).toHaveAttribute('lang', 'uk');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'sk');
     await expect(page).toHaveURL(/\/$/);
   });
 

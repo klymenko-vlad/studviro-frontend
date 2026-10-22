@@ -9,8 +9,6 @@ export const institutionConfigurationFormSchema = z.object({
   timezone: z.string().trim().min(1),
   terminology: z.record(z.string(), z.string().max(MAX_LABEL_LENGTH)),
   features: z.record(z.string(), z.boolean()),
-  academicSystemConnector: z.string(),
-  learningSystemConnector: z.string(),
 });
 
 export type InstitutionConfigurationFormValues = z.infer<

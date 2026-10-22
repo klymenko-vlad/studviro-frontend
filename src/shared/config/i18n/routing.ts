@@ -1,7 +1,13 @@
-export const LOCALES = ['en', 'uk'] as const;
+export const LOCALES = ['en', 'sk'] as const;
 export const DEFAULT_LOCALE = 'en' satisfies (typeof LOCALES)[number];
 
 export type AppLocale = (typeof LOCALES)[number];
+
+/**
+ * Outside an institution's screens there is no institution clock to follow;
+ * inside them `InstitutionTimeZone` switches to the institution's own.
+ */
+export const DEFAULT_TIME_ZONE = 'Europe/Bratislava';
 
 /**
  * Cookie the resolved locale is cached in. Read by `request.ts` on every render
@@ -41,7 +47,7 @@ export function negotiateLocale(acceptLanguage: string | null | undefined): AppL
       /**
        * A `q` that is present but unparseable means a malformed header, not an
        * emphatic preference. Ranking it last is the conservative reading —
-       * defaulting it to 1 would let `en;q=garbage` beat a legitimate `uk;q=0.9`.
+       * defaulting it to 1 would let `en;q=garbage` beat a legitimate `sk;q=0.9`.
        */
       return {
         tag: tag.trim().toLowerCase(),
@@ -52,7 +58,7 @@ export function negotiateLocale(acceptLanguage: string | null | undefined): AppL
     .sort((a, b) => b.quality - a.quality);
 
   for (const { tag } of ranked) {
-    // `uk-UA` and `uk` must both match, but `en` must not match `uk-en-x`.
+    // `sk-SK` and `sk` must both match, but `en` must not match `sk-en-x`.
     const primary = tag.split('-')[0];
     if (isAppLocale(primary)) return primary;
   }

@@ -18,6 +18,7 @@ const cookieStore = vi.hoisted(() => {
 
 vi.mock('next/headers', () => ({
   cookies: () => Promise.resolve(cookieStore),
+  headers: () => Promise.resolve(new Headers({ 'user-agent': 'Test Browser' })),
 }));
 
 /**
@@ -64,8 +65,9 @@ function loadSession() {
 }
 
 describe('getAccessToken', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     cookieStore.jar.clear();
+    (await import('./token-rotation')).forgetRotations();
     vi.resetModules();
     vi.unstubAllGlobals();
   });
@@ -86,7 +88,7 @@ describe('getAccessToken', () => {
     // Inside the skew window: still technically valid, but a request made with
     // it could land after it lapses.
     cookieStore.jar.set('sv_at', tokenExpiringIn(5));
-    cookieStore.jar.set('sv_rt', 'stored-refresh-token');
+    cookieStore.jar.set('sv_refresh', 'stored-refresh-token');
     const fetchMock = vi.fn(() => Promise.resolve(Response.json(REFRESHED)));
     vi.stubGlobal('fetch', fetchMock);
 
@@ -98,7 +100,7 @@ describe('getAccessToken', () => {
 
   it('refreshes with the stored refresh token when the access token has lapsed', async () => {
     cookieStore.jar.set('sv_at', tokenExpiringIn(-60));
-    cookieStore.jar.set('sv_rt', 'stored-refresh-token');
+    cookieStore.jar.set('sv_refresh', 'stored-refresh-token');
     const fetchMock = vi.fn(() => Promise.resolve(Response.json(REFRESHED)));
     vi.stubGlobal('fetch', fetchMock);
 
@@ -112,7 +114,7 @@ describe('getAccessToken', () => {
 
   it('persists the rotated pair so the next request does not rotate again', async () => {
     cookieStore.jar.set('sv_at', tokenExpiringIn(-60));
-    cookieStore.jar.set('sv_rt', 'stored-refresh-token');
+    cookieStore.jar.set('sv_refresh', 'stored-refresh-token');
     vi.stubGlobal(
       'fetch',
       vi.fn(() => Promise.resolve(Response.json(REFRESHED))),
@@ -124,8 +126,26 @@ describe('getAccessToken', () => {
     // Rotation invalidates the old refresh token; failing to store the new one
     // means the next request replays a spent token, which the API reads as a
     // leak and answers by revoking every session.
-    expect(cookieStore.jar.get('sv_rt')).toBe(REFRESHED.refreshToken);
+    expect(cookieStore.jar.get('sv_refresh')).toBe(REFRESHED.refreshToken);
     expect(cookieStore.jar.get('sv_at')).toBe(REFRESHED.accessToken);
+  });
+
+  it('shares one rotation between requests racing with the same cookie', async () => {
+    cookieStore.jar.set('sv_at', tokenExpiringIn(-60));
+    cookieStore.jar.set('sv_refresh', 'stored-refresh-token');
+    const fetchMock = vi.fn(() => Promise.resolve(Response.json(REFRESHED)));
+    vi.stubGlobal('fetch', fetchMock);
+
+    // Two data calls from one page, each its own request: React's `cache` does
+    // not reach across them, and the second must not present the spent token.
+    const [first, second] = await Promise.all([
+      (await loadSession()).getAccessToken(),
+      (vi.resetModules(), await loadSession()).getAccessToken(),
+    ]);
+
+    expect(first).toBe(REFRESHED.accessToken);
+    expect(second).toBe(REFRESHED.accessToken);
+    expect(fetchMock).toHaveBeenCalledOnce();
   });
 
   it('is signed out when there is no refresh token to fall back on', async () => {
@@ -140,7 +160,7 @@ describe('getAccessToken', () => {
   });
 
   it('is signed out when the refresh is rejected', async () => {
-    cookieStore.jar.set('sv_rt', 'revoked-refresh-token');
+    cookieStore.jar.set('sv_refresh', 'revoked-refresh-token');
     vi.stubGlobal(
       'fetch',
       vi.fn(() => Promise.resolve(new Response(null, { status: 401 }))),
@@ -153,7 +173,7 @@ describe('getAccessToken', () => {
 
   it('treats a malformed access token as expired instead of trusting it', async () => {
     cookieStore.jar.set('sv_at', 'not-a-jwt');
-    cookieStore.jar.set('sv_rt', 'stored-refresh-token');
+    cookieStore.jar.set('sv_refresh', 'stored-refresh-token');
     vi.stubGlobal(
       'fetch',
       vi.fn(() => Promise.resolve(Response.json(REFRESHED))),
@@ -167,7 +187,7 @@ describe('getAccessToken', () => {
   it('treats a token with no exp claim as expired', async () => {
     const noExp = `header.${Buffer.from(JSON.stringify({ sub: 'u1' })).toString('base64url')}.sig`;
     cookieStore.jar.set('sv_at', noExp);
-    cookieStore.jar.set('sv_rt', 'stored-refresh-token');
+    cookieStore.jar.set('sv_refresh', 'stored-refresh-token');
     vi.stubGlobal(
       'fetch',
       vi.fn(() => Promise.resolve(Response.json(REFRESHED))),

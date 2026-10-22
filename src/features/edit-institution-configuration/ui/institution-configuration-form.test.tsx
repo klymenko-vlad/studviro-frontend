@@ -95,24 +95,29 @@ describe('InstitutionConfigurationForm', () => {
 
     const { user } = render();
 
-    await user.click(screen.getByRole('switch', { name: 'Fees' }));
+    await user.click(screen.getByRole('switch', { name: 'Grades' }));
     await user.click(screen.getByRole('button', { name: 'Save settings' }));
 
     await waitFor(() => {
       expect(saved).toHaveBeenCalled();
     });
-    expect(saved.mock.calls[0]?.[0]).toMatchObject({ features: { fees: true } });
+    expect(saved.mock.calls[0]?.[0]).toMatchObject({ features: { grades: false } });
   });
 
-  it('offers only the connectors the deployment installed, plus none at all', async () => {
-    const { user } = render();
+  it('will not let an administrator flip a switch that gates nothing', async () => {
+    render();
 
-    await user.click(
-      screen.getByRole('combobox', { name: 'Student information system' }),
+    expect(await screen.findByRole('switch', { name: 'Fees' })).toBeDisabled();
+    expect(screen.getByTestId('feature-unavailable-fees')).toHaveTextContent(
+      /would change nothing/i,
     );
+  });
 
-    expect(await screen.findByRole('option', { name: 'mock-sis' })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: 'Not connected' })).toBeInTheDocument();
+  it('leaves the switches that do gate something usable', async () => {
+    render();
+
+    expect(await screen.findByRole('switch', { name: 'Grades' })).toBeEnabled();
+    expect(screen.queryByTestId('feature-unavailable-grades')).not.toBeInTheDocument();
   });
 
   it('surfaces a rejected time zone on its own field', async () => {

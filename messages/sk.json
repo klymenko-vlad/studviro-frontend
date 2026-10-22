@@ -1,0 +1,2369 @@
+{
+  "common": {
+    "appName": "StudViro",
+    "loading": "Načítava sa…",
+    "retry": "Skúsiť znova",
+    "cancel": "Zrušiť",
+    "save": "Uložiť",
+    "appDescription": "Študentská platforma pre štúdium, rozvrh a spoluprácu.",
+    "showPassword": "Zobraziť heslo",
+    "hidePassword": "Skryť heslo",
+    "skipToContent": "Preskočiť na obsah",
+    "loadMore": "Načítať ďalšie",
+    "shownCount": "Zobrazených: {count}"
+  },
+  "nav": {
+    "account": "Účet",
+    "signIn": "Prihlásiť sa",
+    "signUp": "Zaregistrovať sa",
+    "institutionLabel": "Sekcie inštitúcie",
+    "dashboard": "Prehľad",
+    "courses": "Predmety",
+    "grades": "Známky",
+    "calendar": "Kalendár",
+    "roles": "Roly",
+    "settings": "Nastavenia",
+    "exams": "Skúšky",
+    "teaching": "Výučba",
+    "notifications": "Oznámenia",
+    "createInstitution": "Vytvoriť inštitúciu",
+    "orgUnits": "Útvary",
+    "people": "Ľudia",
+    "learning": "Stránky predmetov",
+    "enroll": "Zapísať sa",
+    "catalogue": "Katalóg",
+    "bulk": "Hromadné zadávanie",
+    "search": "Vyhľadávanie",
+    "audit": "Audit",
+    "home": "StudViro – úvod",
+    "menu": "Ponuka",
+    "menuDescription": "Odkazy na produkt a akcie účtu.",
+    "accountMenu": "Menu účtu",
+    "preferences": "Motív a jazyk",
+    "sections": "Sekcie",
+    "sectionsDescription": "Všetky obrazovky tejto inštitúcie, ktoré môžete otvoriť.",
+    "groups": {
+      "studies": "Moje štúdium",
+      "teaching": "Výučba",
+      "administration": "Správa"
+    },
+    "accountSettings": "Nastavenia účtu"
+  },
+  "home": {
+    "title": "Jedna akademická platforma, ktorú si inštitúcia vedie sama",
+    "subtitle": "Inštitúcia zadá svoje údaje raz. Všetko ostatné je potom jeden záznam: rozvrh, priebežná práca, skúškové obdobie a známka – čítané cez oprávnenia, ktoré kto má.",
+    "signedInCta": "Prejsť na účet",
+    "problem": {
+      "title": "Evidencia je jeden systém, výučba druhý",
+      "body": "Univerzita vedie svoje programy, zápisy a známky v jednom systéme a výučbu prevádzkuje v druhom. Šev medzi nimi je miesto, kde sa stratí termín, kde je známka tu výpočtom a tam záznamom a kde práca s ich poskladaním padne na študenta. StudViro je jeden systém, ktorý robí obe úlohy.",
+      "one": {
+        "title": "Nič neprichádza importom",
+        "body": "Inštitúcia zadá obdobie, inštanciu alebo ročník sama a toto zadanie je záznamom. Niet nočnej úlohy ani ničoho, čo by sa potom muselo zosúlaďovať."
+      },
+      "two": {
+        "title": "Nič sa nestratí z dohľadu",
+        "body": "Každá zverejnená známka, pridelená rola a opravený zápis skončia v audítorskej stope s menom a časom."
+      },
+      "three": {
+        "title": "Nič sa nezdieľa nad rámec",
+        "body": "Čo človek vidí, rozhoduje oprávnenie s rozsahom, a rozhoduje sa to na serveri."
+      }
+    },
+    "features": {
+      "title": "Čo to dnes robí",
+      "subtitle": "Dodané a používané, nie plán do budúcna.",
+      "dashboard": {
+        "title": "Prehľad, ktorý odpovie na otázku „čo teraz?“",
+        "body": "Predmety tohto semestra, najnovšie výsledky a zvyšok vášho týždňa na jednej obrazovke, pričom každá položka vedie na vec za ňou."
+      },
+      "calendar": {
+        "title": "Jeden týždeň, tri vrstvy",
+        "body": "Hodiny, skúškové termíny a termíny odovzdania v jednom týždennom zobrazení, filtrovateľné podľa predmetu a typu, pre predmety, ktoré navštevujete, aj tie, ktoré učíte."
+      },
+      "course": {
+        "title": "Stránka predmetu so všetkým na nej",
+        "body": "Materiály, zadania, vyučujúci, študijné skupiny, rozvrh, skúškové termíny a vaše vlastné hodnotenia namiesto štyroch záložiek v dvoch systémoch."
+      },
+      "grades": {
+        "title": "Vypočítaná, navrhnutá, oficiálna",
+        "body": "Všetky tri sú zobrazené ako to, čím sú, nie zmiešané do jedného čísla. Opravný pokus stojí vedľa toho, po ktorom nasleduje, zrušený výsledok to povie a stav v programe počíta získané kredity oproti tým, čo zostávajú."
+      },
+      "exams": {
+        "title": "Skúškové termíny, s ktorými sa dá niečo robiť",
+        "body": "Miesta, okno na prihlásenie a skúšajúci, filtrovateľné podľa toho, či sa smiete prihlásiť. Keď nesmiete, server povie prečo, namiesto zošednutého tlačidla."
+      },
+      "registry": {
+        "title": "Rok, zadaný raz",
+        "body": "Obdobia, programy, predmety, inštancie, miestnosti, rozvrhy a skúškové obdobia, každé za oprávnením, ktoré ho vlastní. Zoznam predmetov na semester alebo celý ročník sa dá vložiť z tabuľky."
+      }
+    }
+  },
+  "error": {
+    "title": "Niečo sa pokazilo",
+    "description": "Nastala neočakávaná chyba. Tím bol upozornený.",
+    "notFoundTitle": "Stránka sa nenašla",
+    "notFoundDescription": "Stránka, ktorú hľadáte, neexistuje alebo bola presunutá.",
+    "backHome": "Späť na úvod"
+  },
+  "createUser": {
+    "email": "E-mail",
+    "displayName": "Zobrazované meno",
+    "password": "Heslo",
+    "passwordHint": "Aspoň 8 znakov.",
+    "confirmPassword": "Potvrdiť heslo",
+    "passwordMismatch": "Heslá sa nezhodujú",
+    "submit": "Vytvoriť používateľa",
+    "submitting": "Vytvára sa…",
+    "created": "Používateľ bol vytvorený",
+    "placeholder": {
+      "email": "jana.kovacova@univerzita.sk",
+      "displayName": "Jana Kováčová",
+      "password": "Aspoň 8 znakov",
+      "confirmPassword": "Zopakujte heslo"
+    }
+  },
+  "theme": {
+    "label": "Motív",
+    "light": "Svetlý",
+    "dark": "Tmavý",
+    "system": "Systémový"
+  },
+  "locale": {
+    "label": "Jazyk",
+    "en": "Angličtina",
+    "sk": "Slovenčina"
+  },
+  "auth": {
+    "email": "E-mail",
+    "password": "Heslo",
+    "signIn": "Prihlásiť sa",
+    "signingIn": "Prihlasovanie…",
+    "signOut": "Odhlásiť sa",
+    "signUp": "Zaregistrovať sa",
+    "invalidCredentials": "Tento e-mail a heslo nezodpovedajú žiadnemu účtu.",
+    "signInTitle": "Prihlásenie",
+    "signInSubtitle": "Vitajte späť.",
+    "signUpTitle": "Vytvorte si účet",
+    "signUpSubtitle": "Jeden účet pre všetky inštitúcie, do ktorých patríte.",
+    "signingUp": "Vytvára sa váš účet…",
+    "displayName": "Zobrazované meno",
+    "confirmPassword": "Potvrdiť heslo",
+    "passwordHint": "Aspoň 8 znakov.",
+    "passwordMismatch": "Heslá sa nezhodujú",
+    "emailTaken": "Účet s týmto e-mailom už existuje.",
+    "noAccount": "Ešte nemáte účet?",
+    "haveAccount": "Už máte účet?",
+    "forgotPassword": "Zabudli ste heslo?",
+    "placeholder": {
+      "displayName": "Jana Kováčová",
+      "email": "jana.kovacova@univerzita.sk",
+      "password": "Aspoň 8 znakov",
+      "confirmPassword": "Zopakujte heslo",
+      "currentPassword": "Vaše heslo"
+    },
+    "captchaFailed": "Overenie sa nedokončilo. Skúste to znova.",
+    "twoFactor": {
+      "title": "Dvojstupňové overenie",
+      "description": "Zadajte šesťmiestny kód z overovacej aplikácie.",
+      "recoveryDescription": "Zadajte jeden z obnovovacích kódov, ktoré ste si uložili pri zapnutí overenia. Každý funguje raz.",
+      "codeLabel": "Kód z overovacej aplikácie",
+      "recoveryLabel": "Obnovovací kód",
+      "useRecoveryCode": "Stratili ste telefón? Použite obnovovací kód",
+      "useAuthenticator": "Použiť radšej overovaciu aplikáciu",
+      "verify": "Overiť",
+      "verifying": "Overuje sa…",
+      "back": "Späť na prihlásenie",
+      "invalidCode": "Tento kód nie je platný. Skontrolujte ho a skúste to znova.",
+      "expiredTitle": "Platnosť tohto prihlásenia vypršala",
+      "expiredDescription": "Trvalo to príliš dlho alebo bolo zadaných priveľa nesprávnych kódov. Zadajte znova heslo.",
+      "startAgain": "Prihlásiť sa znova"
+    }
+  },
+  "account": {
+    "title": "Účet",
+    "subtitle": "Vaše roly v inštitúciách a účty prepojené s týmto profilom.",
+    "roles": {
+      "title": "Roly",
+      "description": "Čo smiete robiť a kde.",
+      "empty": "Zatiaľ vám nebola priradená žiadna rola.",
+      "errorTitle": "Roly sa nepodarilo načítať",
+      "errorDescription": "Skúste to o chvíľu znova."
+    },
+    "linkedAccounts": {
+      "title": "Prepojené účty",
+      "description": "Univerzitné účty, ktorými sa dá prihlásiť do tohto profilu.",
+      "empty": "Zatiaľ nie je prepojený žiadny univerzitný účet.",
+      "errorTitle": "Prepojené účty sa nepodarilo načítať",
+      "errorDescription": "Skúste to o chvíľu znova.",
+      "lastAuthenticated": "Naposledy použité {date}",
+      "neverUsed": "Zatiaľ nepoužité"
+    },
+    "validUntil": "Do {date}",
+    "source": {
+      "platform": "StudViro",
+      "sis": "Študijný informačný systém",
+      "lms": "Systém na riadenie výučby"
+    },
+    "institutions": {
+      "title": "Inštitúcie",
+      "description": "Kde máte rolu.",
+      "empty": "Zatiaľ nepatríte do žiadnej inštitúcie.",
+      "manageRoles": "Spravovať roly",
+      "manageSettings": "Nastavenia",
+      "myCourses": "Moje predmety",
+      "myGrades": "Moje známky",
+      "dashboard": "Prehľad"
+    },
+    "settingsLink": "Nastavenia a zabezpečenie"
+  },
+  "roles": {
+    "role": {
+      "student": "Študent",
+      "teacher": "Učiteľ",
+      "teaching_assistant": "Asistent učiteľa",
+      "course_coordinator": "Koordinátor predmetu",
+      "program_coordinator": "Koordinátor študijného programu",
+      "registrar": "Študijné oddelenie",
+      "org_unit_manager": "Vedúci útvaru",
+      "institution_admin": "Správca inštitúcie"
+    },
+    "scope": {
+      "institution": "Celá inštitúcia",
+      "org_unit": "Fakulta alebo katedra",
+      "program": "Študijný program",
+      "course_offering": "Inštancia predmetu"
+    }
+  },
+  "roleAdmin": {
+    "title": "Roly a prístup",
+    "subtitle": "Spravujte, kto čo smie robiť v tejto inštitúcii.",
+    "assigned": "Priradené roly",
+    "assignedDescription": "Všetky aktívne roly v tejto inštitúcii.",
+    "grantTitle": "Udeliť rolu",
+    "grantDescription": "Udeľte osobe rolu pre celú inštitúciu alebo v rámci jedného rozsahu.",
+    "userId": "Osoba",
+    "userIdHint": "Identifikátor účtu na platforme, ktorý rolu dostane.",
+    "role": "Rola",
+    "scopeType": "Rozsah",
+    "scopeId": "Identifikátor rozsahu",
+    "scopeIdHint": "Fakulta, študijný program alebo inštancia predmetu, ktorej sa rola týka.",
+    "scopeIdRequired": "Uveďte rozsah, ktorého sa táto rola týka",
+    "scopeIdNotAllowed": "Rola pre celú inštitúciu nemôže uvádzať rozsah",
+    "grant": "Udeliť rolu",
+    "granting": "Udeľuje sa…",
+    "granted": "Rola bola udelená",
+    "revoke": "Odobrať",
+    "revoked": "Rola bola odobratá",
+    "actions": "Akcie",
+    "empty": "V tejto inštitúcii zatiaľ nebola priradená žiadna rola.",
+    "errorTitle": "Roly sa nepodarilo načítať",
+    "errorDescription": "Skúste to o chvíľu znova.",
+    "revokeLabel": "Odobrať rolu {role}",
+    "deniedTitle": "Iba na čítanie",
+    "deniedDescription": "Roly tu vidíte, ale nemôžete ich meniť.",
+    "derived": "Odvodená, riadi sa študijným záznamom",
+    "inviteTitle": "Pozvať osobu",
+    "inviteDescription": "Pošlite e-mailom pozvanie na prevzatie roly.",
+    "inviteAddress": "E-mailová adresa",
+    "invite": "Poslať pozvanie",
+    "inviting": "Odosiela sa…",
+    "invited": "Pozvanie bolo odoslané",
+    "devTokenNotice": "Mimo produkcie sa žiadna pošta neodosiela. Pozývací odkaz: /sign-up?invitation={token}",
+    "tableLabel": "Pridelenia rol",
+    "placeholder": {
+      "userId": "Identifikátor účtu",
+      "scopeId": "Identifikátor fakulty, programu alebo inštancie predmetu",
+      "inviteAddress": "jana.kovacova@univerzita.sk"
+    }
+  },
+  "institutionSettings": {
+    "title": "Nastavenia inštitúcie",
+    "subtitle": "Názvoslovie, jazyk a funkcie tejto inštitúcie.",
+    "configurationTitle": "Konfigurácia",
+    "configurationDescription": "Všetko tu sú dáta, takže druhá univerzita si nevyžaduje zmenu kódu.",
+    "regionalTitle": "Jazyk a čas",
+    "defaultLocale": "Predvolený jazyk",
+    "defaultLocaleHint": "Jazyk, v ktorom začínajú noví členovia.",
+    "timezone": "Časové pásmo",
+    "timezoneHint": "Názov podľa IANA, napríklad Europe/Bratislava.",
+    "terminologyTitle": "Terminológia",
+    "terminologyDescription": "Nahraďte slová, ktoré táto inštitúcia používa. Prázdne pole ponechá slovo platformy.",
+    "terminologyPlaceholder": "Predvolené na platforme",
+    "terminologyLabel": {
+      "academicTerm": "Semester",
+      "course": "Predmet",
+      "courseOffering": "Inštancia predmetu",
+      "credits": "Kredity",
+      "department": "Katedra",
+      "faculty": "Fakulta",
+      "institution": "Inštitúcia",
+      "program": "Študijný program",
+      "student": "Študent",
+      "studentIdentifier": "Identifikátor študenta",
+      "teacher": "Učiteľ"
+    },
+    "featuresTitle": "Funkcie",
+    "featuresDescription": "Zapnite alebo vypnite modul pre túto inštitúciu.",
+    "featureLabel": {
+      "accommodation": "Ubytovanie",
+      "courseRegistration": "Zápis predmetov",
+      "examRegistration": "Prihlasovanie na skúšky",
+      "fees": "Poplatky",
+      "grades": "Známky",
+      "thesis": "Záverečné práce",
+      "timetable": "Rozvrh"
+    },
+    "connector": {
+      "academic": "Študijný informačný systém",
+      "learning": "Systém na riadenie výučby"
+    },
+    "connectorHint": {
+      "academic": "Zdroj pravdy o ľuďoch, predmetoch a výsledkoch.",
+      "learning": "Systém so študijnými zadaniami a aktivitou."
+    },
+    "connectorNone": "Nepripojené",
+    "connectorState": {
+      "healthy": "Dostupný",
+      "unhealthy": "Nedostupný",
+      "none": "Nepripojené"
+    },
+    "capabilityCount": " · {count} operácií",
+    "connectorsErrorDescription": "Skúste to o chvíľu znova.",
+    "save": "Uložiť nastavenia",
+    "saving": "Ukladá sa…",
+    "saved": "Nastavenia boli uložené",
+    "errorTitle": "Nastavenia sa nepodarilo načítať",
+    "errorDescription": "Skúste to o chvíľu znova.",
+    "deniedTitle": "Iba na čítanie",
+    "deniedDescription": "Na zmenu nastavení potrebujete oprávnenie spravovať túto inštitúciu.",
+    "credentialsComplete": "Úplné",
+    "credentialsIncomplete": "Neúplné",
+    "credentialsErrorTitle": "Prihlasovacie údaje sa nepodarilo načítať",
+    "credentialsErrorDescription": "Skúste to o chvíľu znova.",
+    "credentialConfigured": "Nastavené",
+    "credentialNotSet": "Nenastavené",
+    "credentialUpdatedAt": "Naposledy zmenené {date}",
+    "credentialSave": "Uložiť",
+    "credentialClear": "Vymazať",
+    "credentialSaved": "Prihlasovací údaj bol uložený",
+    "credentialCleared": "Prihlasovací údaj bol vymazaný",
+    "credentialValueRequired": "Pred uložením zadajte hodnotu.",
+    "featureNotBuilt": "Zatiaľ nie je hotové. Tento prepínač by nič nezmenil.",
+    "placeholder": {
+      "timezone": "Europe/Bratislava"
+    }
+  },
+  "myCourses": {
+    "title": "Moje predmety",
+    "subtitle": "Všetky predmety, na ktoré máte zápis, od najnovšieho semestra.",
+    "empty": "Zatiaľ nemáte zápis na žiadny predmet.",
+    "noTeacher": "Učiteľ nie je uvedený",
+    "errorTitle": "Predmety sa nepodarilo načítať",
+    "errorDescription": "Zoznam predmetov je momentálne nedostupný. Skúste to o chvíľu znova.",
+    "deniedTitle": "Nie je vám dostupné",
+    "deniedDescription": "Na čítanie zápisov v tejto inštitúcii potrebujete oprávnenie.",
+    "termSummary": "{courses, plural, one {# predmet} few {# predmety} other {# predmetov}} · {credits} kreditov · od {starts}",
+    "credits": "{count} kreditov",
+    "attempt": "Pokus {attempt}",
+    "status": {
+      "requested": "Požiadané",
+      "provisioning": "Pripravuje sa",
+      "active": "Aktívny",
+      "completed": "Ukončený",
+      "withdrawn": "Zrušený",
+      "rejected": "Odmietnutý",
+      "waitlisted": "V poradovníku"
+    },
+    "requirement": {
+      "compulsory": "Povinný",
+      "optional": "Nepovinný",
+      "elective": "Povinne voliteľný"
+    }
+  },
+  "courseOffering": {
+    "title": "Predmet",
+    "backToCourses": "Späť na moje predmety",
+    "staff": "Vyučujúci",
+    "noStaff": "Nie sú zaznamenaní žiadni vyučujúci.",
+    "lead": "Garant predmetu",
+    "enrollment": "Môj zápis",
+    "noEnrollment": "Na tento predmet nemáte zápis.",
+    "studyGroups": "Moje študijné skupiny",
+    "noStudyGroups": "Nemáte vlastnú študijnú skupinu.",
+    "credits": "{count} kreditov",
+    "language": "Jazyk výučby: {language}",
+    "capacity": "Kapacita {capacity}",
+    "termRange": "{starts} — {ends}",
+    "deniedTitle": "Tento predmet nie je pre vaše oči",
+    "deniedDescription": "Predmet môžete otvoriť, len ak ho navštevujete, učíte alebo spravujete túto inštitúciu.",
+    "notFoundTitle": "Predmet sa nenašiel",
+    "notFoundDescription": "Táto inštancia predmetu v tejto inštitúcii neexistuje.",
+    "errorTitle": "Predmet sa nepodarilo načítať",
+    "errorDescription": "Predmet je momentálne nedostupný. Skúste to o chvíľu znova.",
+    "viewerRole": {
+      "student": "Zapísané",
+      "teacher": "Učíte",
+      "administrator": "Správca"
+    },
+    "offeringStatus": {
+      "planned": "Plánovaná",
+      "open": "Otvorená",
+      "running": "Prebieha",
+      "closed": "Uzavretá",
+      "cancelled": "Zrušená"
+    },
+    "teachingRole": {
+      "lecturer": "Prednášajúci",
+      "seminar_leader": "Vedúci seminára",
+      "lab_supervisor": "Vedúci cvičenia",
+      "examiner": "Skúšajúci",
+      "assistant": "Asistent"
+    },
+    "studyGroupKind": {
+      "seminar": "Seminár",
+      "lab": "Cvičenie",
+      "exercise": "Precvičovanie",
+      "project": "Projekt",
+      "other": "Iné"
+    },
+    "staffError": "Kto to učí, sa nepodarilo načítať.",
+    "section": {
+      "overview": "Prehľad",
+      "people": "Ľudia",
+      "schedule": "Rozvrh",
+      "materials": "Materiály",
+      "work": "Hodnotenie",
+      "discussion": "Diskusia"
+    }
+  },
+  "grades": {
+    "title": "Moje známky",
+    "subtitle": "Všetky výsledky zaznamenané pre vás, so známkou, ktorá platí, a s jej pôvodom.",
+    "overview": "Získané kredity: {credits} · vážený priemer {average}",
+    "overviewWithoutAverage": "Získané kredity: {credits}",
+    "termSummary": "{results, plural, one {# výsledok} few {# výsledky} other {# výsledkov}} · získané kredity: {credits} · od {starts}",
+    "empty": "Zatiaľ pre vás nebol zaznamenaný žiadny výsledok.",
+    "credits": "{count} kreditov",
+    "attempt": "Pokus {attempt}",
+    "noGrade": "Nehodnotené",
+    "none": "—",
+    "effectiveGrade": "{grade}, {kind}",
+    "calculatedValue": "{grade} · {points} bodov",
+    "gradeOn": "{grade} dňa {on}",
+    "offeringPanel": "Môj výsledok",
+    "noOfferingResult": "Pre tento predmet zatiaľ nebol zaznamenaný žiadny výsledok.",
+    "deniedTitle": "Známky nie sú pre vaše oči",
+    "deniedDescription": "Na čítanie známok v tejto inštitúcii potrebujete oprávnenie.",
+    "errorTitle": "Známky sa nepodarilo načítať",
+    "errorDescription": "Vaše výsledky sú momentálne nedostupné. Skúste to o chvíľu znova.",
+    "kind": {
+      "calculated": "Vypočítaná",
+      "proposed": "Navrhnutá",
+      "official": "Oficiálna"
+    },
+    "grade": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D",
+      "E": "E",
+      "FX": "FX",
+      "passed": "Prospel",
+      "failed": "Neprospel"
+    },
+    "status": {
+      "calculated": "Vypočítaná",
+      "proposed": "Navrhnutá",
+      "official": "Oficiálna",
+      "corrected": "Opravená",
+      "annulled": "Zrušená",
+      "disputed": "Rozporovaná"
+    },
+    "sourceSystem": {
+      "platform": "Táto platforma",
+      "sis": "Študijný informačný systém",
+      "lms": "Systém na riadenie výučby"
+    },
+    "syncStatus": {
+      "in_sync": "Zosúladené",
+      "pending": "Čaká sa",
+      "conflict": "Konflikt",
+      "failed": "Zlyhalo"
+    },
+    "awaitingRetake": "{courses, plural, one {# predmet čaká na opravný termín} few {# predmety čakajú na opravný termín} other {# predmetov čaká na opravný termín}}",
+    "annulledNote": "Študijné oddelenie tento výsledok zrušilo. Nezapočítava sa nikam.",
+    "noStanding": "Bez stavu",
+    "standing": {
+      "title": "Kde ste vo svojom programe",
+      "year": "Ročník {year}",
+      "creditsComplete": "Kredity splnené",
+      "barLabel": "Postup v programe {name}",
+      "measured": "{earned} z {required} kreditov · {percent} % · zostáva {remaining}",
+      "noTarget": "Získané kredity: {earned}. Tento program nemá zaznamenanú dĺžku, takže zatiaľ niet voči čomu merať."
+    }
+  },
+  "dashboard": {
+    "title": "Prehľad",
+    "subtitle": "Ako dnes vyzerá vaše štúdium v tejto inštitúcii.",
+    "deniedTitle": "Zatiaľ niet čo zobraziť",
+    "deniedDescription": "Máte tu rolu, ale nie takú, ktorá by vám dovoľovala čítať predmety alebo známky.",
+    "courses": {
+      "title": "Aktuálne predmety",
+      "description": "Semester, v ktorom máte zápis.",
+      "term": "{term} · od {starts}",
+      "summary": "{courses, plural, one {# predmet} few {# predmety} other {# predmetov}} · {credits} kreditov",
+      "more": "a {count, plural, one {# ďalší} few {# ďalšie} other {# ďalších}}",
+      "empty": "Zatiaľ nemáte zápis na žiadny predmet.",
+      "error": "Vaše predmety sú momentálne nedostupné.",
+      "link": "Všetky moje predmety"
+    },
+    "calendar": {
+      "title": "Tento týždeň",
+      "description": "Čo vás čaká najbližšie.",
+      "summary": "Do konca týždňa {events, plural, one {# udalosť} few {# udalosti} other {# udalostí}}",
+      "empty": "Do konca tohto týždňa nie je naplánované nič.",
+      "error": "Váš rozvrh je momentálne nedostupný.",
+      "link": "Celý kalendár",
+      "cancelled": "Zrušené"
+    },
+    "grades": {
+      "title": "Výsledky",
+      "description": "Všetko, čo pre vás bolo doteraz zaznamenané.",
+      "summary": "Získané kredity: {credits} · vážený priemer {average}",
+      "summaryWithoutAverage": "Získané kredity: {credits}",
+      "published": "Oficiálnych výsledkov: {published} z {total}.",
+      "pending": "Nehodnotené",
+      "empty": "Zatiaľ pre vás nebol zaznamenaný žiadny výsledok.",
+      "error": "Vaše výsledky sú momentálne nedostupné.",
+      "link": "Všetky moje známky"
+    },
+    "grade": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D",
+      "E": "E",
+      "FX": "FX",
+      "passed": "Prospel",
+      "failed": "Neprospel"
+    },
+    "deadlines": {
+      "title": "Termíny odovzdania",
+      "description": "Čo vás najbližšie čaká odovzdať.",
+      "summary": "V najbližších dvoch týždňoch {deadlines, plural, one {# termín} few {# termíny} other {# termínov}}",
+      "empty": "V najbližších dvoch týždňoch nič nekončí.",
+      "error": "Vaše termíny sú momentálne nedostupné.",
+      "link": "Otvoriť kalendár",
+      "due": "Termín {date}"
+    },
+    "rolesLabel": "Ste tu ako",
+    "noRoleTitle": "Zatiaľ tu pre vás nie je prehľad",
+    "noRoleDescription": "V tejto inštitúcii máte miesto, ale žiadnu rolu, ku ktorej patrí prehľad. Správca vám ju môže prideliť na obrazovke Roly.",
+    "sections": {
+      "administration": {
+        "title": "Chod inštitúcie",
+        "description": "Kde je akademický rok a čo sa naposledy zmenilo.",
+        "subtitle": "Kde je akademický rok a čo sa naposledy zmenilo."
+      },
+      "teaching": {
+        "title": "Výučba",
+        "description": "Predmety, ktoré učíte, a váš týždeň.",
+        "subtitle": "Predmety, ktoré učíte v tomto semestri, a nasledujúci týždeň."
+      },
+      "studies": {
+        "title": "Štúdium",
+        "description": "Vaše predmety, výsledky a termíny.",
+        "subtitle": "Ako dnes stojí vaše štúdium v tejto inštitúcii."
+      }
+    },
+    "teaching": {
+      "title": "Moja výučba",
+      "description": "Predmety, ktoré vyučujete.",
+      "term": "{term} · od {starts}",
+      "summary": "{offerings, plural, one {# predmet} few {# predmety} other {# predmetov}} · {students, plural, one {# študent} few {# študenti} other {# študentov}}",
+      "students": "{count, plural, one {# študent} few {# študenti} other {# študentov}}",
+      "empty": "Zatiaľ nemáte pridelenú výučbu žiadneho predmetu.",
+      "error": "Vaša výučba je momentálne nedostupná.",
+      "link": "Celá moja výučba"
+    },
+    "term": {
+      "title": "Akademické obdobie",
+      "description": "Obdobie, ktoré práve prebieha, alebo nasledujúce.",
+      "running": "Práve prebieha.",
+      "upcoming": "Začína ako ďalšie.",
+      "dates": "{starts} – {ends}",
+      "progressLabel": "Uplynutá časť obdobia",
+      "week": "Týždeň {week} z {weeks}",
+      "enrollment": "Zápis",
+      "window": {
+        "open": "Otvorený",
+        "upcoming": "Ešte neotvorený",
+        "closed": "Uzavretý",
+        "none": "Bez samoobslužného okna"
+      },
+      "closes": "do {date}",
+      "opens": "od {date}",
+      "next": "Ďalšie: {term}, od {starts}",
+      "empty": "Nie je evidované žiadne prebiehajúce ani nadchádzajúce obdobie. Otvorte ho v katalógu.",
+      "error": "Akademické obdobia sú momentálne nedostupné.",
+      "link": "Spravovať obdobia"
+    },
+    "activity": {
+      "title": "Posledné zmeny",
+      "description": "Naposledy zaznamenané známky, roly a opravy.",
+      "empty": "Zatiaľ nebolo nič zaznamenané.",
+      "error": "Posledné zmeny sú momentálne nedostupné.",
+      "link": "Otvoriť audítorskú stopu"
+    }
+  },
+  "calendar": {
+    "title": "Kalendár",
+    "subtitle": "Vaše hodiny po týždňoch.",
+    "empty": "Na tento týždeň nie je naplánované nič.",
+    "emptyWeek": "Na {from} – {to} nie je naplánované nič.",
+    "errorTitle": "Kalendár sa nepodarilo načítať",
+    "errorDescription": "Váš rozvrh je momentálne nedostupný. Skúste to o chvíľu znova.",
+    "deniedTitle": "Nie je vám dostupné",
+    "deniedDescription": "Na čítanie rozvrhu v tejto inštitúcii potrebujete oprávnenie.",
+    "week": "{from} – {to}",
+    "weekSummary": "Tento týždeň {events, plural, one {# udalosť} few {# udalosti} other {# udalostí}}",
+    "eventCount": "{events, plural, one {# udalosť} few {# udalosti} other {# udalostí}}",
+    "previousWeek": "Predchádzajúci týždeň",
+    "nextWeek": "Nasledujúci týždeň",
+    "thisWeek": "Tento týždeň",
+    "time": "{from} – {to}",
+    "duration": "{minutes} min",
+    "room": "Miestnosť {room}",
+    "roomIn": "Miestnosť {room}, {building}",
+    "noRoom": "Miestnosť nie je uvedená",
+    "group": "Skupina {group}",
+    "cancelled": "Zrušené",
+    "today": "Dnes",
+    "type": {
+      "lecture": "Prednáška",
+      "seminar": "Seminár",
+      "lab": "Cvičenie",
+      "consultation": "Konzultácia",
+      "exam": "Skúška",
+      "other": "Iné"
+    },
+    "attendance": {
+      "enrolled": "Zapísané",
+      "teaching": "Túto hodinu učíte"
+    },
+    "filters": "Filtrovať kalendár",
+    "filterCourse": "Predmet",
+    "filterType": "Typ",
+    "allCourses": "Všetky predmety",
+    "allTypes": "Všetky typy",
+    "showExams": "Zobraziť skúškové termíny",
+    "examLayer": "Skúškový termín",
+    "showDeadlines": "Zobraziť termíny odovzdania",
+    "deadlineLayer": "Termín odovzdania",
+    "subscription": {
+      "title": "Použitie v inom kalendári",
+      "description": "Pridajte si hodiny, skúšky, na ktoré ste prihlásení, a termíny odovzdania do Google Kalendára, Outlooku alebo Kalendára Apple.",
+      "download": "Stiahnuť .ics",
+      "create": "Vytvoriť odkaz na odber",
+      "urlLabel": "Odkaz na odber",
+      "copy": "Kopírovať odkaz",
+      "copied": "Odkaz bol skopírovaný",
+      "copyFailed": "Odkaz sa nepodarilo skopírovať. Označte ho a skopírujte ručne.",
+      "shownOnce": "Odkaz sa zobrazí len teraz. Vložte ho do kalendárovej aplikácie ako odber (v Google Kalendári: Ďalšie kalendáre → Z webovej adresy). Ktokoľvek s odkazom vidí váš rozvrh; ak unikne, nahraďte ho.",
+      "active": "Odkaz na odber je aktívny od {date}.",
+      "replace": "Nahradiť odkaz",
+      "turnOff": "Vypnúť",
+      "turnedOff": "Odkaz na odber prestal platiť"
+    }
+  },
+  "exams": {
+    "title": "Skúšky",
+    "subtitle": "Skúškové termíny predmetov, ktoré navštevujete.",
+    "upcoming": "Nadchádzajúce",
+    "past": "Minulé",
+    "empty": "Pre vaše predmety nie sú vypísané žiadne skúškové termíny.",
+    "errorTitle": "Skúšky sa nepodarilo načítať",
+    "errorDescription": "Vaše skúškové termíny sú momentálne nedostupné. Skúste to o chvíľu znova.",
+    "deniedTitle": "Nie je vám dostupné",
+    "deniedDescription": "Na čítanie rozvrhu v tejto inštitúcii potrebujete oprávnenie.",
+    "summary": "{terms, plural, one {# skúškový termín} few {# skúškové termíny} other {# skúškových termínov}} pred vami",
+    "until": "do {time}",
+    "room": "Miestnosť {room}",
+    "roomIn": "Miestnosť {room}, {building}",
+    "noRoom": "Miestnosť nie je uvedená",
+    "examiner": "Skúšajúci: {examiner}",
+    "noExaminer": "Skúšajúci nie je uvedený",
+    "seats": "Voľných miest: {seats} z {capacity}",
+    "seatsFull": "Obsadené",
+    "seatsUnknown": "Kapacita nie je uvedená",
+    "registered": "Ste prihlásení",
+    "cancelled": "Zrušené",
+    "offeringPanel": "Skúškové termíny",
+    "noOfferingExams": "Pre tento predmet nie sú vypísané žiadne skúškové termíny.",
+    "seeAll": "Zobraziť všetky skúšky",
+    "kind": {
+      "regular": "Riadny termín",
+      "first_retake": "Prvý opravný termín",
+      "second_retake": "Druhý opravný termín",
+      "state_exam": "Štátna skúška"
+    },
+    "attendance": {
+      "enrolled": "Zapísané",
+      "teaching": "Túto skúšku skúšate"
+    },
+    "registration": {
+      "opensOn": "Prihlasovanie sa otvára {date}",
+      "closesOn": "Prihlasovanie sa zatvára {date}",
+      "closedNow": "Prihlasovanie je zatvorené"
+    },
+    "register": "Prihlásiť sa",
+    "cancelRegistration": "Zrušiť prihlásenie",
+    "full": "Nezostali voľné miesta",
+    "registerSucceeded": "Ste prihlásení na tento skúškový termín.",
+    "cancelSucceeded": "Vaše prihlásenie bolo zrušené.",
+    "filters": "Filtrovať skúšky",
+    "filterCourse": "Predmet",
+    "filterKind": "Druh",
+    "allCourses": "Všetky predmety",
+    "allKinds": "Všetky druhy",
+    "actionableOnly": "Len to, s čím môžem niečo robiť",
+    "emptyForFilters": "Týmto filtrom nezodpovedá žiadny skúškový termín.",
+    "blocked": {
+      "teaching": "Na tomto termíne skúšate, takže niet miesta, ktoré by ste obsadili.",
+      "cancelled": "Tento termín bol zrušený, prihlásiť sa naň už nedá.",
+      "full": "Všetky miesta sú obsadené.",
+      "other_term_registered": "Ste prihlásení na iný termín tohto predmetu. Najprv zrušte ten.",
+      "attempt_not_earned": "Opravný termín sa otvorí až vtedy, keď na predchádzajúcom pokuse neuspejete."
+    },
+    "delivery": {
+      "not_relayed": {
+        "label": "Prihlásené v StudViro",
+        "description": "Systém tejto inštitúcie sa neupozorňuje automaticky. Overte si na študijnom oddelení, či treba prihlásenie zaevidovať aj tam."
+      },
+      "sending": {
+        "label": "Odosiela sa na univerzitu",
+        "description": "Prihlásené tu. Systém univerzity to zatiaľ nepotvrdil."
+      },
+      "relayed": {
+        "label": "Potvrdené univerzitou",
+        "description": "Systém univerzity prihlásenie prijal a pridelil mu identifikátor."
+      },
+      "refused": {
+        "label": "Odmietnuté univerzitou",
+        "description": "Systém univerzity toto prihlásenie neprijal, preto bolo zrušené aj tu."
+      },
+      "stuck": {
+        "label": "Nepotvrdené",
+        "description": "Systém univerzity sa nepodarilo kontaktovať. Prihlásenie tu platí; musí ho doriešiť správca."
+      }
+    },
+    "cancelledRegistration": "Toto prihlásenie ste zrušili"
+  },
+  "notifications": {
+    "title": "Oznámenia",
+    "subtitle": "Čo sa zmenilo vo vašich predmetoch, od najnovšieho.",
+    "summary": "{count, plural, =0 {Nič neprečítané} one {# neprečítané oznámenie} few {# neprečítané oznámenia} other {# neprečítaných oznámení}}",
+    "empty": "Vo vašich predmetoch sa zatiaľ nič nezmenilo.",
+    "unread": "Neprečítané",
+    "occurrences": "{count, plural, one {# zmena} few {# zmeny} other {# zmien}}",
+    "markRead": "Označiť ako prečítané",
+    "markAllRead": "Označiť všetky ako prečítané",
+    "markAllReadSucceeded": "Všetky oznámenia sú označené ako prečítané.",
+    "startsAt": "Začína {date}",
+    "movedTo": "Presunuté z {from} na {to}",
+    "unknownCourse": "Neznámy predmet",
+    "errorTitle": "Oznámenia sa nepodarilo načítať",
+    "errorDescription": "Pri načítaní vašich oznámení sa niečo pokazilo. Skúste to o chvíľu znova.",
+    "deniedTitle": "Oznámenia tu nevidíte",
+    "deniedDescription": "Vaša rola v tejto inštitúcii nezahŕňa čítanie oznámení.",
+    "type": {
+      "exam_term_published": "Nový skúškový termín",
+      "exam_term_rescheduled": "Skúškový termín presunutý",
+      "exam_term_cancelled": "Skúškový termín zrušený",
+      "assignment_due_published": "Nový termín odovzdania",
+      "assignment_due_rescheduled": "Termín odovzdania presunutý",
+      "grade_published": "Známka zverejnená",
+      "grade_corrected": "Známka opravená",
+      "enrollment_confirmed": "Miesto na predmete potvrdené",
+      "enrollment_rejected": "Zápis na predmet odmietnutý",
+      "timetable_event_rescheduled": "Hodina presunutá",
+      "timetable_event_cancelled": "Hodina zrušená",
+      "exam_registration_confirmed": "Prihlásili ste sa na skúšku",
+      "exam_registration_cancelled": "Zrušili ste prihlásenie na skúšku",
+      "exam_registration_refused": "Univerzita odmietla vaše prihlásenie na skúšku",
+      "submission_marked": "Zadanie ohodnotené",
+      "waitlist_place_free": "V predmete, na ktorý čakáte, sa uvoľnilo miesto",
+      "discussion_thread_started": "Nová téma vo vašom predmete",
+      "discussion_reply": "Nová odpoveď v diskusii"
+    },
+    "dueAt": "Termín {date}",
+    "dueMovedTo": "Termín presunutý z {from} na {to}",
+    "gradeIs": "Známka: {grade}",
+    "gradeChanged": "Známka zmenená z {from} na {to}",
+    "attempt": "Pokus {attempt}",
+    "reason": "Dôvod: {reason}",
+    "placeFreeHint": "Miesto dostane ten, kto oň požiada prvý. Zoberte si ho na obrazovke zápisu."
+  },
+  "myTeaching": {
+    "title": "Moja výučba",
+    "subtitle": "Všetky inštancie predmetov, ktoré učíte, od najnovšieho semestra.",
+    "empty": "Zatiaľ vám nebola pridelená výučba žiadnej inštancie predmetu.",
+    "errorTitle": "Výučbu sa nepodarilo načítať",
+    "errorDescription": "Zoznam vašej výučby je momentálne nedostupný. Skúste to o chvíľu znova.",
+    "deniedTitle": "Nie je vám dostupné",
+    "deniedDescription": "Zoznam výučby vidia len vyučujúci tejto inštitúcie.",
+    "termSummary": "{offerings, plural, one {# inštancia} few {# inštancie} other {# inštancií}} · {students, plural, one {# študent} few {# študenti} other {# študentov}} · od {starts}",
+    "enrolled": "{count, plural, one {# zapísaný študent} few {# zapísaní študenti} other {# zapísaných študentov}}",
+    "ofCapacity": "z {capacity} miest",
+    "credits": "{count} kreditov",
+    "primary": "Hlavný",
+    "role": {
+      "lecturer": "Prednášajúci",
+      "seminar_leader": "Vedúci seminára",
+      "lab_supervisor": "Vedúci cvičenia",
+      "examiner": "Skúšajúci",
+      "assistant": "Asistent"
+    },
+    "offeringStatus": {
+      "planned": "Plánovaná",
+      "open": "Otvorená",
+      "running": "Prebieha",
+      "closed": "Uzavretá",
+      "cancelled": "Zrušená"
+    }
+  },
+  "roster": {
+    "panelTitle": "Zoznam študentov",
+    "tableCaption": "Študenti zapísaní na túto inštanciu predmetu",
+    "empty": "Na túto inštanciu zatiaľ nie je nikto zapísaný.",
+    "errorDescription": "Zoznam je momentálne nedostupný. Skúste to o chvíľu znova.",
+    "summary": "Zapísaných {enrolled} z {total} uvedených",
+    "summaryWithCapacity": "Zapísaných {enrolled} z {total} uvedených · {capacity} miest",
+    "noStudyGroups": "Žiadne",
+    "notEnrolledYet": "Zatiaľ nie",
+    "attempt": "Pokus {attempt}",
+    "column": {
+      "student": "Študent",
+      "status": "Stav",
+      "studyGroups": "Študijné skupiny",
+      "enrolledAt": "Zapísaný"
+    },
+    "status": {
+      "requested": "Požiadané",
+      "provisioning": "Pripravuje sa",
+      "active": "Aktívny",
+      "completed": "Ukončený",
+      "withdrawn": "Zrušený",
+      "rejected": "Odmietnutý",
+      "waitlisted": "V poradovníku"
+    }
+  },
+  "marketing": {
+    "nav": {
+      "forStudents": "Pre študentov",
+      "forTeachers": "Pre učiteľov",
+      "forInstitutions": "Pre inštitúcie",
+      "contact": "Kontakt",
+      "sectionLabel": "Produkt"
+    },
+    "cta": {
+      "requestDemo": "Vyžiadať ukážku",
+      "signIn": "Prihlásiť sa",
+      "readMore": "Čítať ďalej"
+    },
+    "audiences": {
+      "title": "Postavené pre troch ľudí, ktorí ho používajú",
+      "subtitle": "Ten istý záznam, čítaný tromi spôsobmi.",
+      "students": {
+        "title": "Študenti",
+        "body": "Jeden rozvrh, vaša priebežná práca a vaše hodnotenia nad záznamom, ktorý vedie vaša inštitúcia, a prihlasovanie na skúšku, ktoré vám povie, prečo je miesto mimo dosahu."
+      },
+      "teachers": {
+        "title": "Učitelia",
+        "body": "Predmety, ktoré vediete, práca odovzdaná na každom z nich a váš vlastný týždeň výučby – bez otvárania druhého systému, aby ste si to poskladali."
+      },
+      "institutions": {
+        "title": "Inštitúcie",
+        "body": "Celý akademický rok na jednom mieste: katalóg, zápisy, rozvrhy, skúšky, priebežná práca a známky, s každým oprávnením overeným v rozsahu, do ktorého patrí."
+      }
+    },
+    "howItWorks": {
+      "title": "Ako to funguje",
+      "subtitle": "Tri kroky a žiadna migrácia.",
+      "connect": {
+        "title": "1. Nastavte inštitúciu",
+        "body": "Správca vytvorí inštitúciu, jej útvary a prvého správcu, potom zadá programy a predmety, ktoré ponúka."
+      },
+      "import": {
+        "title": "2. Naplňte rok",
+        "body": "Obdobia, inštancie, rozvrhy a skúškové termíny sa zadajú raz. Zoznam predmetov na semester alebo celý ročník sa dá vložiť priamo z tabuľky, so skúšobným behom, ktorý ukáže, čo by sa zmenilo, skôr než sa čokoľvek zapíše."
+      },
+      "use": {
+        "title": "3. Používajte jeden povrch",
+        "body": "Študenti, učitelia aj študijné oddelenie dostanú prehľad, kalendár a stránku predmetu nad tým istým záznamom. Učitelia tam zadávajú prácu a hodnotia ju, študenti tam čítajú výsledok."
+      }
+    },
+    "trust": {
+      "title": "Čo robíme s vašimi údajmi",
+      "subtitle": "To, na čo sa študijné oddelenie pýta ako na prvé.",
+      "credentials": {
+        "title": "Prihlasovacie údaje sa dajú len zapísať",
+        "body": "Heslá sú argon2. Relácie sa obmieňajú. Nič citlivé sa nevracia späť, ani správcovi."
+      },
+      "permissions": {
+        "title": "Oprávnenia majú rozsah",
+        "body": "Každé pridelenie hovorí, čo dovoľuje aj kde. Oprávnenie čítať zápisy nikdy neotvorí zoznam niekoho spolužiakov."
+      },
+      "audit": {
+        "title": "Každá zmena má na sebe meno",
+        "body": "Kto navrhol známku, kto ju zverejnil, kto pridelil alebo odobral rolu a kedy. Stopu smie čítať správca inštitúcie a nikto iný."
+      },
+      "privacy": {
+        "title": "Údaje, ktoré si človek môže vziať so sebou",
+        "body": "Ktokoľvek si môže vyexportovať to, čo o ňom inštitúcia vedie. Vymazanie osobu anonymizuje a študijný záznam ponechá, takže diplom nezmizne spolu s menom."
+      },
+      "accessibility": {
+        "title": "Použiteľné aj bez myši",
+        "body": "WCAG 2.2 AA, overené v testoch, nie iba deklarované: skutočné nadpisy, odkaz na preskočenie, viditeľné zameranie a kontrast, ktorý prežije oba motívy."
+      },
+      "hosting": {
+        "title": "Vaša infraštruktúra, ak chcete",
+        "body": "API je obraz Dockera nad PostgreSQL a Redis. Inštitúcia, ktorá potrebuje mať študijný záznam vo vlastnej sieti, si ho tam môže držať."
+      }
+    },
+    "faq": {
+      "title": "Otázky, ktoré nám kladú",
+      "replace": {
+        "question": "Nahrádza to AIS2 a Moodle?",
+        "answer": "O to práve ide. StudViro je systém, v ktorom údaje žijú: inštitúcia zadáva vlastné údaje a niet nadradeného systému. Obe polovice sú hotové. Evidencia pokrýva programy, inštancie, zápisy, rozvrhy, skúšky a známky; výučbová strana pokrýva stránky predmetov, materiály, zadania, odovzdávanie a hodnotenie."
+      },
+      "migration": {
+        "question": "Máme roky údajov v systéme, ktorý už beží. Čo s nimi?",
+        "answer": "Na rovinu: importér neexistuje. StudViro zámerne nič odnikiaľ nečíta. Jednorazový import sa dá napísať voči skutočnému exportu, keď to niekto potrebuje, a zatiaľ sa semester zadáva ručne alebo vložením. Opýtajte sa nás na to radšej skôr než neskôr."
+      },
+      "missing": {
+        "question": "Čo v tom nie je?",
+        "answer": "Prihlásenie univerzitným účtom, lebo si vyžaduje registráciu klienta, ktorú vie urobiť len vaše IT. Zaznamenanie neprítomnosti. Import zo systému, ktorý už prevádzkujete. Testy nechýbajú, ale sú vylúčené: StudViro prácu preberá a hodnotí ju ručne a nič, čo kladie otázky, sa neplánuje."
+      },
+      "accounts": {
+        "question": "Ako ľudia získajú účty?",
+        "answer": "Inštitúcia sa u nás zaregistruje. Účty vznikajú na pozvanie, nie z verejného internetu, a univerzitné jednotné prihlásenie je v pláne."
+      },
+      "cost": {
+        "question": "Koľko to stojí?",
+        "answer": "Cenu nezverejňujeme. Podmienky závisia od vašej veľkosti a od toho, akú časť roka tu chcete viesť, takže poctivou odpoveďou je rozhovor."
+      }
+    },
+    "closing": {
+      "title": "Pozrite si to na vlastnom semestri",
+      "body": "Prineste jednu katedru a jeden semester. Ukážku spustíme nad podobou, ktorú poznáte, a otvorene povieme, čo tam zatiaľ nie je.",
+      "cta": "Vyžiadať ukážku"
+    },
+    "footer": {
+      "product": "Produkt",
+      "account": "Účet",
+      "settings": "Nastavenia",
+      "tagline": "Jedna akademická platforma, ktorú si inštitúcia vedie sama.",
+      "rights": "StudViro"
+    }
+  },
+  "forStudents": {
+    "meta": {
+      "title": "Pre študentov",
+      "description": "Jeden rozvrh, vaša priebežná práca a vaše hodnotenia na jednom mieste a prihlasovanie na skúšky, ktoré sa vysvetlí samo."
+    },
+    "hero": {
+      "title": "Prestaňte si skladať rozvrh sami",
+      "subtitle": "Vaše predmety, váš týždeň, práca, ktorú dlhujete, a vaše výsledky na jednom mieste – nad záznamom, ktorý vedie vaša univerzita."
+    },
+    "features": {
+      "title": "Čo z toho máte",
+      "week": {
+        "title": "Celý váš týždeň v jednom zobrazení",
+        "body": "Hodiny, skúškové termíny a termíny odovzdania ako tri vrstvy toho istého týždňa, filtrovateľné podľa predmetu a typu."
+      },
+      "courses": {
+        "title": "Vaše predmety podľa semestra",
+        "body": "Každý zápis so svojím stavom a stránka predmetu s vyučujúcimi, materiálmi, vašimi študijnými skupinami, zadanou prácou a vašimi hodnoteniami."
+      },
+      "coursework": {
+        "title": "Odovzdajte to tu",
+        "body": "Nahrajte prácu k zadaniu s poznámkou pre toho, kto ju hodnotí, odovzdajte znova až po limit pokusov, ktorý učiteľ nastavil, a nechajte server rozhodnúť, čo je po termíne, namiesto dohadovania sa o tom."
+      },
+      "grades": {
+        "title": "Známka, ktorá povie, ktorá známka to je",
+        "body": "Vypočítaná, navrhnutá a oficiálna sú zobrazené ako to, čím sú, nie zmiešané do jedného čísla. Zrušený výsledok to povie, opravný pokus stojí vedľa toho, po ktorom nasleduje, a váš stav v programe počíta získané kredity oproti tým, čo zostávajú."
+      },
+      "exams": {
+        "title": "Prihlásenie, ktoré vám dá dôvod",
+        "body": "Prihláste sa a odhláste z ktoréhokoľvek skúškového termínu. Keď nemôžete, server odpovie prečo namiesto zošednutého tlačidla."
+      },
+      "notifications": {
+        "title": "Povedané raz, nie päťkrát",
+        "body": "Skúškový termín vypísaný, presunutý alebo zrušený, známka zverejnená alebo opravená, zápis potvrdený alebo odmietnutý: o každom sa dozviete raz, zlúčené do jednej správy na vec a deň."
+      }
+    },
+    "roadmap": {
+      "title": "Zatiaľ nie",
+      "body": "Prihlásenie univerzitným účtom nie je hotové; zatiaľ vás pozve inštitúcia a vy si účet prevezmete. Testy nebudú vôbec: StudViro prácu preberá a hodnotí ju ručne."
+    },
+    "closing": {
+      "title": "Opýtajte sa na to svojej univerzity",
+      "body": "StudViro nasadzuje inštitúcia, neregistruje sa doň jednotlivec. Ak to vaša univerzita zvažuje, toto je stránka, ktorú jej treba poslať.",
+      "cta": "Vyžiadať demo"
+    }
+  },
+  "forTeachers": {
+    "meta": {
+      "title": "Pre učiteľov",
+      "description": "Predmety, ktoré vediete, práca odovzdaná na nich a váš týždeň výučby – na jednom mieste."
+    },
+    "hero": {
+      "title": "Vaša výučba bez druhého prihlásenia",
+      "subtitle": "Predmety, ktoré vediete, študenti na každom z nich, práca, ktorú odovzdávajú, a váš vlastný týždeň – nad tým istým záznamom, ktorý čítajú vaši študenti."
+    },
+    "features": {
+      "title": "Čo z toho máte",
+      "offerings": {
+        "title": "Všetko, čo vediete, podľa semestra",
+        "body": "Vaše vyučovacie úväzky s rolou pri každom z nich a s tým, koľko študentov je naozaj zapísaných."
+      },
+      "roster": {
+        "title": "Zoznam, ktorý si neprotirečí",
+        "body": "Zoznam študentov aj počet zapísaných vynechávajú odhlásené a zamietnuté zápisy a vždy sa zhodujú."
+      },
+      "page": {
+        "title": "Postavte si stránku predmetu sami",
+        "body": "Otvorte priestor pri inštancii, nechajte ho nezverejnený, kým ho napĺňate, a potom pridávajte súbory, odkazy a text v poradí, v akom sa majú čítať. Skrytý materiál zostane neviditeľný, kým nepoviete inak."
+      },
+      "assignments": {
+        "title": "Zadajte prácu a preberte ju",
+        "body": "Zadanie, dátum otvorenia, termín, dátum uzavretia a politika pokusov. Server rozhoduje, čo je po termíne, a každé zadanie si otvára vlastný stĺpec v hodnotení."
+      },
+      "grades": {
+        "title": "Ohodnoťte to a potom zverejnite",
+        "body": "Bodujte oproti maximu s písomnou spätnou väzbou, navrhnite známku zo stránky predmetu a zverejnite ju osobitne, ak na to máte oprávnenie. Opravný pokus je druhý pokus vedľa prvého, nie jeho prepísanie."
+      },
+      "calendar": {
+        "title": "Jeden týždeň aj s výučbou",
+        "body": "Kalendár sa vzťahuje na ponuky predmetov, ktoré učíte, rovnako ako na tie, ktoré navštevujete."
+      }
+    },
+    "roadmap": {
+      "title": "Zatiaľ nie",
+      "body": "Neprítomnosť sa zaznamenať nedá: zverejnenie známky označí miesto ako absolvované a nič neumožňuje označiť ho ako zmeškané či ospravedlnené. Testy sú vylúčené, nie odložené."
+    },
+    "closing": {
+      "title": "Pozrite si to na vlastných predmetoch",
+      "body": "Demo beží nad naplnenou inštitúciou, takže sa môžete pozrieť na ponuku predmetu, ktorú poznáte.",
+      "cta": "Vyžiadať demo"
+    }
+  },
+  "forInstitutions": {
+    "meta": {
+      "title": "Pre inštitúcie",
+      "description": "Jedna akademická platforma, ktorú si inštitúcia vedie sama: katalóg, zápisy, rozvrhy, skúšky, priebežná práca a známky v jednom zázname."
+    },
+    "hero": {
+      "title": "Celý akademický rok v jednom systéme, ktorý vlastníte",
+      "subtitle": "Inštitúcia zadáva vlastné údaje a každé publikum číta ten istý záznam cez oprávnenia, ktoré má. Niet nadradeného systému, s ktorým by bolo treba držať krok."
+    },
+    "features": {
+      "title": "Čo z toho má správca",
+      "roles": {
+        "title": "Roly, ktoré niečo znamenajú",
+        "body": "Osem kanonických rol nad stromom rozsahov. Rola študenta vyplýva z aktívneho členstva v programe a rola učiteľa z pridelenia výučby, takže ani jedna sa neudelí omylom."
+      },
+      "scopes": {
+        "title": "Správa rol s rozsahom",
+        "body": "Udeľujte a odoberajte voči rozsahu, pričom hierarchiu vynucuje server, nie iba náznak v rozhraní. Človek môže udeliť len rolu, ktorú má sám."
+      },
+      "catalogue": {
+        "title": "Katalóg, ktorý si opravíte sami",
+        "body": "Programy, predmety, akademické obdobia a inštancie, zadané a pevne usadené. Predmet beží najviac raz za obdobie a obdobie, ktoré sa skončí skôr, než sa začne, sa odmietne, nie uloží."
+      },
+      "scheduling": {
+        "title": "Miestnosti, rozvrh, skúškové obdobie",
+        "body": "Miestnosti s počtom miest, ktoré sa odmietnu vyradiť, kým sa v nich ešte učí; blok, ktorý sa opakuje týždenne do konca obdobia a umožní jediný týždeň presunúť alebo zrušiť; skúškové termíny s kapacitou a oknom na prihlásenie."
+      },
+      "bulk": {
+        "title": "Celý semester naraz",
+        "body": "Vložte zoznam predmetov alebo celý ročník z tabuľky, oddelený tabulátorom, bodkočiarkou alebo čiarkou. Skúšobný beh ukáže, čo by sa zmenilo, skôr než sa čokoľvek zapíše."
+      },
+      "model": {
+        "title": "Jeden kanonický model",
+        "body": "Jedna schéma pre celý akademický rok, od útvarov a miestností až po výsledky a oznámenia, so zmazaním na úrovni príznaku a stránkovaním podľa kľúča. Každý riadok patrí inštitúcii a nič medzi nimi neprechádza."
+      }
+    },
+    "deployment": {
+      "title": "Ako to beží",
+      "containers": {
+        "title": "Kontajnery, ktoré hostíte vy",
+        "body": "NestJS API nad PostgreSQL a Redisom, s migráciami kontrolovanými pri štarte, takže replika nikdy neobsluhuje schému, za ktorou zaostáva."
+      },
+      "contract": {
+        "title": "Generovaný kontrakt API",
+        "body": "Klient je generovaný z dokumentu OpenAPI kontrolovaného na odchýlky, takže rozhranie a API si nemôžu protirečiť."
+      },
+      "demo": {
+        "title": "Niečo, čo sa dá otvoriť hneď v prvý deň",
+        "body": "Naplnenie zapíše približne sedemtisíc prepojených riadkov v dvadsiatich tabuľkách: syntetickú univerzitu s fakultami, obdobiami, predmetmi, učiteľmi, študentmi, zápismi, rozvrhmi a výsledkami – aby posudzovanie začínalo nad naplneným systémom."
+      }
+    },
+    "roadmap": {
+      "title": "Čo chýba, pomenované",
+      "subtitle": "Pýtajte sa na termíny, nepredpokladajte ich.",
+      "sso": {
+        "title": "Univerzitné jednotné prihlásenie",
+        "body": "OIDC voči vášmu poskytovateľovi identít. Zablokované na registrácii klienta, ktorú vie urobiť len vaše IT oddelenie."
+      },
+      "migration": {
+        "title": "Import z toho, čo dnes prevádzkujete",
+        "body": "Importér neexistuje. Dnes sa rok zadáva ručne alebo vložením. Jednorazový import sa dá napísať voči skutočnému exportu a je to rozhovor, ktorý treba viesť pred pilotom, nie po ňom."
+      },
+      "absence": {
+        "title": "Dochádzka",
+        "body": "Zverejnenie známky označí miesto ako absolvované. Označiť ho ako zmeškané alebo ospravedlnené existuje v schéme a na žiadnej obrazovke."
+      }
+    },
+    "closing": {
+      "title": "Prineste jedno pracovisko a jeden semester",
+      "body": "Najužitočnejšie demo beží nad rozsahom, ktorý poznáte. Povedzte nám, ako je tvarovaný váš rok, a ukážeme vám, čo platforma pokrýva.",
+      "cta": "Vyžiadať demo"
+    }
+  },
+  "contact": {
+    "meta": {
+      "title": "Vyžiadať ukážku",
+      "description": "Povedzte nám, ako je usporiadaný váš akademický rok, a ukážeme vám, čo StudViro dnes pokrýva."
+    },
+    "title": "Vyžiadať ukážku",
+    "subtitle": "Povedzte nám, ako je usporiadaný váš akademický rok. Ukážeme vám, čo platforma dnes pokrýva a čo je ešte plán.",
+    "form": {
+      "institutionName": "Inštitúcia",
+      "institutionNameHint": "Univerzita, fakulta alebo katedra, v mene ktorej sa pýtate.",
+      "contactName": "Vaše meno",
+      "email": "Pracovný e-mail",
+      "role": "Vaša rola",
+      "roleHint": "Napríklad: prodekan pre štúdium, študijné oddelenie, vedúci IT.",
+      "message": "Čokoľvek ďalšie",
+      "messageHint": "Koľko máte študentov, ako je usporiadaný váš rok, čo chcete vidieť. Nepovinné.",
+      "website": "Toto pole nechajte prázdne",
+      "submit": "Vyžiadať ukážku",
+      "submitting": "Odosiela sa…"
+    },
+    "success": {
+      "title": "Ďakujeme, vašu žiadosť máme",
+      "body": "Každú z nich čítame osobne a odpovieme na adresu, ktorú ste nám dali."
+    },
+    "errors": {
+      "rateLimited": "To je o niečo priveľa žiadostí za sebou. Skúste to o minútu znova.",
+      "failed": "Nepodarilo sa nám to odoslať. Skúste to znova alebo nám napíšte priamo.",
+      "captchaFailed": "Overenie sa nedokončilo. Skúste to znova."
+    },
+    "aside": {
+      "title": "Čo bude nasledovať",
+      "one": "Odpovedáme e-mailom, zvyčajne do niekoľkých pracovných dní.",
+      "two": "Ukážka beží nad naplnenou inštitúciou, nie nad prezentáciou.",
+      "three": "Budeme otvorení v tom, čo je hotové a čo je ešte plán."
+    },
+    "placeholder": {
+      "institutionName": "Technická univerzita v Košiciach",
+      "contactName": "Jana Kováčová",
+      "email": "jana.kovacova@univerzita.sk",
+      "role": "Študijné oddelenie",
+      "message": "Prevádzkujeme Moodle a vlastný študijný systém pre 4 000 študentov."
+    }
+  },
+  "createInstitution": {
+    "pageTitle": "Vytvoriť inštitúciu",
+    "pageDescription": "Zaregistrujte novú inštitúciu a určte účet, ktorý sa stane jej prvým správcom.",
+    "code": "Kód inštitúcie",
+    "codeDescription": "Iba malé písmená, číslice a spojovníky.",
+    "name": "Názov inštitúcie",
+    "firstAdminUserId": "Prvý správca",
+    "firstAdminUserIdDescription": "Identifikátor účtu osoby, ktorá sa stane prvým správcom tejto inštitúcie.",
+    "submit": "Vytvoriť inštitúciu",
+    "created": "{name} bola vytvorená",
+    "placeholder": {
+      "code": "tuke",
+      "name": "Technická univerzita v Košiciach",
+      "firstAdminUserId": "Identifikátor účtu"
+    }
+  },
+  "orgUnits": {
+    "title": "Útvary",
+    "subtitle": "Fakulty a katedry, z ktorých sa táto inštitúcia skladá.",
+    "treeLabel": "Útvary",
+    "empty": "Táto inštitúcia zatiaľ nemá žiadne útvary.",
+    "errorTitle": "Útvary sa nepodarilo načítať",
+    "errorDescription": "Skúste to o chvíľu znova.",
+    "type": {
+      "university": "Univerzita",
+      "faculty": "Fakulta",
+      "department": "Katedra",
+      "institute": "Ústav",
+      "other": "Iné"
+    },
+    "add": "Pridať útvar",
+    "created": "{name} bol pridaný.",
+    "retire": "Vyradiť",
+    "retireNamed": "Vyradiť {name}",
+    "retired": "{name} bol vyradený.",
+    "field": {
+      "code": "Kód",
+      "name": "Názov",
+      "type": "Druh",
+      "parent": "Patrí pod",
+      "noParent": "Pod nič, toto je koreňový útvar",
+      "parentDescription": "Fakulta patrí pod univerzitu, katedra pod fakultu."
+    },
+    "placeholder": {
+      "code": "FEI",
+      "name": "Fakulta elektrotechniky a informatiky"
+    }
+  },
+  "people": {
+    "title": "Ľudia",
+    "subtitle": "Každý, kto má v tejto inštitúcii rolu – pridelenú alebo vyplývajúcu z jeho študijného záznamu.",
+    "name": "Meno",
+    "email": "E-mail",
+    "statusColumn": "Stav",
+    "status": {
+      "invited": "Pozvaný",
+      "active": "Aktívny",
+      "suspended": "Pozastavený"
+    },
+    "roles": "Roly",
+    "noRoles": "Žiadne roly",
+    "empty": "Táto inštitúcia zatiaľ nemá žiadnych ľudí.",
+    "errorTitle": "Ľudí sa nepodarilo načítať",
+    "errorDescription": "Skúste to o chvíľu znova.",
+    "actions": "Akcie"
+  },
+  "invitation": {
+    "title": "Prijmite svoje pozvanie",
+    "subtitle": "Nastavte si heslo a prevezmite svoj účet.",
+    "displayName": "Zobrazované meno",
+    "displayNameHint": "Nechajte prázdne, ak chcete ponechať meno, ktoré je už evidované.",
+    "password": "Heslo",
+    "passwordHint": "Aspoň 8 znakov. Nechajte prázdne, ak sa už viete prihlásiť.",
+    "confirmPassword": "Potvrdiť heslo",
+    "passwordMismatch": "Heslá sa nezhodujú",
+    "submit": "Prijať pozvanie",
+    "submitting": "Prijíma sa…",
+    "invalidTitle": "Tento pozývací odkaz už neplatí",
+    "invalidDescription": "Mohol vypršať, už byť použitý alebo nikdy neexistoval. Požiadajte toho, kto vás pozval, o nový.",
+    "placeholder": {
+      "displayName": "Jana Kováčová",
+      "password": "Aspoň 8 znakov",
+      "confirmPassword": "Zopakujte heslo"
+    }
+  },
+  "passwordReset": {
+    "requestTitle": "Obnovte si heslo",
+    "requestSubtitle": "Pošleme vám na e-mail odkaz na obnovu.",
+    "email": "E-mail",
+    "submit": "Poslať odkaz na obnovu",
+    "submitting": "Odosiela sa…",
+    "requestSentTitle": "Ak k tejto adrese patrí účet, poslali sme odkaz na obnovu",
+    "requestSentDescription": "Pozrite si e-mail, nájdete v ňom odkaz na nastavenie nového hesla. Platí jednu hodinu.",
+    "devTokenHint": "V tomto prostredí nie je nastavené odosielanie pošty.",
+    "devTokenLink": "Pokračovať odkazom na obnovu",
+    "backToSignIn": "Späť na prihlásenie",
+    "confirmTitle": "Nastavte si nové heslo",
+    "confirmSubtitle": "Zvoľte si pre svoj účet nové heslo.",
+    "newPassword": "Nové heslo",
+    "confirmPassword": "Potvrdiť heslo",
+    "passwordMismatch": "Heslá sa nezhodujú",
+    "confirmSubmit": "Nastaviť nové heslo",
+    "confirmSubmitting": "Nastavuje sa heslo…",
+    "invalidTitle": "Tento odkaz na obnovu hesla už neplatí",
+    "invalidDescription": "Mohol vypršať, už byť použitý alebo zle prepísaný. Vyžiadajte si nový.",
+    "placeholder": {
+      "email": "jana.kovacova@univerzita.sk",
+      "newPassword": "Aspoň 8 znakov",
+      "confirmPassword": "Zopakujte nové heslo"
+    },
+    "captchaFailed": "Overenie sa nedokončilo. Skúste to znova."
+  },
+  "learning": {
+    "title": "Stránky predmetov",
+    "subtitle": "Všetky stránky predmetov napísané v tejto inštitúcii a koľko inštancií ju ešte nemá.",
+    "deniedTitle": "Tento zoznam nie je pre vaše oči",
+    "deniedDescription": "Všetky stránky predmetov môže vypísať len ten, kto spravuje inštancie predmetov tejto inštitúcie. Vaše vlastné predmety sú vo vašom prehľade.",
+    "errorTitle": "Stránky predmetov sa nepodarilo načítať",
+    "errorDescription": "Server odpovedal {status}. Skúste to o chvíľu znova.",
+    "emptyTitle": "Zatiaľ nebola napísaná žiadna stránka predmetu",
+    "emptyDescription": "Stránku predmetu otvára z inštancie, do ktorej patrí, ten, kto ju učí alebo spravuje.",
+    "summaryTitle": "Stránky predmetov",
+    "summary": "{total, plural, one {# stránka predmetu} few {# stránky predmetov} other {# stránok predmetov}} v tejto inštitúcii.",
+    "offeringsWithoutPage": "{count, plural, one {# inštancia predmetu nemá} few {# inštancie predmetov nemajú} other {# inštancií predmetov nemá}} zatiaľ stránku.",
+    "everyOfferingHasAPage": "Každá inštancia predmetu má stránku.",
+    "unlinkedBadge": "Predmet zrušený",
+    "none": "—",
+    "column": {
+      "space": "Stránka predmetu",
+      "offering": "Inštancia predmetu",
+      "activities": "Aktivity",
+      "nextDue": "Najbližší termín"
+    },
+    "assessments": {
+      "panel": "Body za priebežnú prácu",
+      "empty": "V tomto predmete pre vás zatiaľ nebolo zaznamenané žiadne hodnotenie.",
+      "error": "Hodnotenia sa nepodarilo načítať. Skúste to o chvíľu znova.",
+      "score": "{points} z {maxPoints}",
+      "percentage": "{percentage} %",
+      "ungraded": "Zatiaľ nehodnotené",
+      "notCounted": "Nezapočítava sa do výslednej známky",
+      "gradedOn": "Ohodnotené {on}",
+      "feedback": "Spätná väzba od hodnotiteľa",
+      "dueOn": "Termín {on}",
+      "completion": {
+        "complete": "Splnené",
+        "complete_pass": "Splnené, prospel",
+        "complete_fail": "Splnené, neprospel",
+        "incomplete": "Nesplnené"
+      },
+      "column": {
+        "assessment": "Hodnotenie",
+        "score": "Body",
+        "state": "Stav"
+      }
+    },
+    "coursePage": "Stránka predmetu"
+  },
+  "deadlines": {
+    "title": "Termíny odovzdania",
+    "dueAt": "Termín {time}",
+    "dueOn": "Termín {date}",
+    "inSpace": "V predmete {space}",
+    "state": {
+      "open": "Otvorené",
+      "upcoming": "Ešte neotvorené",
+      "overdue": "Po termíne",
+      "handedIn": "Odovzdané",
+      "missed": "Zmeškané"
+    },
+    "type": {
+      "assignment": "Zadanie",
+      "quiz": "Test",
+      "forum": "Fórum",
+      "resource": "Materiál",
+      "workshop": "Vzájomné hodnotenie",
+      "other": "Aktivita"
+    },
+    "attendance": {
+      "teaching": "Toto učíte"
+    },
+    "submission": {
+      "handedIn": "Odovzdané {when}",
+      "handedInLate": "Odovzdané po termíne, {when}",
+      "notHandedIn": "Nič nebolo odovzdané",
+      "state": {
+        "draft": "Koncept",
+        "submitted": "Odovzdané",
+        "returned": "Vrátené",
+        "graded": "Ohodnotené"
+      }
+    }
+  },
+  "gradeEntry": {
+    "panelTitle": "Známky",
+    "panelDescription": "Navrhnite známku každému študentovi alebo ju zverejnite. Zverejnená známka je tá, na ktorej študent stojí, a označí jeho miesto ako absolvované.",
+    "error": "Známky tejto inštancie sa nepodarilo načítať.",
+    "empty": "Na tejto inštancii zatiaľ nie je nikto evidovaný.",
+    "mayPublish": "Smiete známku navrhnúť aj zverejniť.",
+    "mayOnlyPropose": "Smiete známku navrhnúť. Zverejniť ju je rozhodnutie niekoho iného.",
+    "saved": "Známka bola zaznamenaná.",
+    "propose": "Navrhnúť",
+    "publish": "Zverejniť",
+    "noGrade": "Vyberte známku",
+    "notGraded": "Nehodnotené",
+    "annulled": "Zrušené",
+    "sourced": "Od univerzity",
+    "sourcedHint": "Táto známka už má hodnotu. Jej zmena nahradí to, čo študent práve vidí.",
+    "attemptNone": "Zatiaľ bez pokusu",
+    "attemptNumber": "Pokus {attempt}",
+    "gradeFor": "Známka pre študenta {student}",
+    "column": {
+      "student": "Študent",
+      "attempt": "Pokus",
+      "standing": "Stav",
+      "record": "Záznam"
+    },
+    "grade": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D",
+      "E": "E",
+      "FX": "FX",
+      "passed": "Prospel",
+      "failed": "Neprospel"
+    }
+  },
+  "terminology": {
+    "institution": "Inštitúcia",
+    "faculty": "Fakulta",
+    "department": "Katedra",
+    "program": "Študijný program",
+    "course": "Predmet",
+    "courseOffering": "Inštancia predmetu",
+    "academicTerm": "Obdobie",
+    "student": "Študent",
+    "teacher": "Učiteľ",
+    "studentIdentifier": "Číslo študenta",
+    "credits": "Kredity"
+  },
+  "enrollment": {
+    "title": "Zapísať sa na predmet",
+    "subtitle": "Predmety v ponuke na tento semester a to, či si ich smiete zapísať.",
+    "enroll": "Zapísať sa",
+    "withdraw": "Zrušiť zápis",
+    "full": "Obsadené",
+    "requested": "Požiadané. Univerzita zatiaľ neodpovedala.",
+    "enrolled": "Na tomto predmete máte miesto.",
+    "withdrawn": "Zápis na tento predmet ste zrušili.",
+    "credits": "{credits} kreditov",
+    "seats": "Voľných miest: {seats} z {capacity}",
+    "seatsFull": "Nezostali voľné miesta",
+    "seatsUnknown": "Počet miest nie je obmedzený",
+    "actionableOnly": "Len predmety, s ktorými môžem niečo robiť",
+    "empty": "Zatiaľ tu nie sú v ponuke žiadne predmety.",
+    "emptyForFilters": "So žiadnym predmetom tu teraz nemôžete nič robiť.",
+    "errorTitle": "Predmety sa nepodarilo načítať",
+    "errorDescription": "Pri načítaní ponuky predmetov sa niečo pokazilo. Skúste to o chvíľu znova.",
+    "status": {
+      "requested": "Požiadané",
+      "provisioning": "Pripravuje sa",
+      "active": "Zapísané",
+      "completed": "Ukončené",
+      "withdrawn": "Zrušené",
+      "rejected": "Odmietnuté",
+      "waitlisted": "V poradovníku"
+    },
+    "window": {
+      "opensOn": "Zápis sa otvára {date}",
+      "closesOn": "Zápis sa zatvára {date}",
+      "openUntilFurtherNotice": "Zápis je otvorený",
+      "closedNow": "Zápis je zatvorený"
+    },
+    "blocked": {
+      "enrolled": "Na tomto predmete už máte miesto.",
+      "requested": "Požiadali ste o miesto a univerzita zatiaľ neodpovedala.",
+      "completed": "Tento predmet ste už absolvovali.",
+      "full": "Všetky miesta sú obsadené.",
+      "not_a_student": "Predmety tejto inštitúcie si môže zapísať len študent niektorého z jej programov.",
+      "waitlisted": "Na tento predmet ste v poradovníku."
+    },
+    "deniedTitle": "Tu sa zapísať nemôžete",
+    "deniedDescription": "Vaša rola v tejto inštitúcii nezahŕňa zapisovanie si predmetov.",
+    "joinWaitlist": "Zaradiť sa do poradovníka",
+    "leaveWaitlist": "Odísť z poradovníka",
+    "takePlace": "Zobrať miesto",
+    "waitlisted": "Ste v poradovníku. Dozviete sa, keď študijné oddelenie rozhodne, a ak sa miesto uvoľní, môžete si ho zobrať sami.",
+    "leftWaitlist": "Odišli ste z poradovníka."
+  },
+  "catalogue": {
+    "title": "Katalóg",
+    "subtitle": "Programy a predmety, ktoré táto inštitúcia ponúka.",
+    "pending": "Čaká na zosúladenie",
+    "deniedTitle": "Katalóg tu nevidíte",
+    "deniedDescription": "Vaša rola v tejto inštitúcii nezahŕňa čítanie katalógu.",
+    "programs": {
+      "title": "Programy",
+      "description": "To, na čo môže byť študent zapísaný.",
+      "empty": "Zatiaľ žiadne programy.",
+      "error": "Programy sa nepodarilo načítať.",
+      "add": "Pridať program",
+      "added": "Program bol pridaný.",
+      "codePlaceholder": "B-INF",
+      "namePlaceholder": "Informatika"
+    },
+    "courses": {
+      "title": "Predmety",
+      "description": "To, z čoho sa program skladá.",
+      "empty": "Zatiaľ žiadne predmety.",
+      "error": "Predmety sa nepodarilo načítať.",
+      "add": "Pridať predmet",
+      "added": "Predmet bol pridaný.",
+      "codePlaceholder": "INF101",
+      "namePlaceholder": "Operačné systémy"
+    },
+    "column": {
+      "code": "Kód",
+      "name": "Názov",
+      "title": "Názov",
+      "credits": "Kredity",
+      "degreeLevel": "Stupeň",
+      "state": "Stav"
+    },
+    "degreeLevel": {
+      "bachelor": "Bakalársky",
+      "master": "Magisterský",
+      "doctoral": "Doktorandský",
+      "other": "Iný"
+    },
+    "studyForm": {
+      "full_time": "Denná",
+      "part_time": "Externá",
+      "distance": "Dištančná"
+    }
+  },
+  "academicTerms": {
+    "title": "Akademické obdobia",
+    "description": "Rok, na ktorom visí inštancia predmetu. Býva tu aj okno na zápis: obdobie bez neho sa na samoobslužný zápis nikdy neotvorí.",
+    "empty": "Zatiaľ žiadne akademické obdobia. Pridajte prvé a katalóg bude mať rok, do ktorého sa usadí.",
+    "error": "Akademické obdobia sa nepodarilo načítať.",
+    "add": "Pridať obdobie",
+    "created": "{name} bolo pridané.",
+    "retire": "Vyradiť",
+    "retireNamed": "Vyradiť {name}",
+    "retired": "{name} bolo vyradené.",
+    "range": "{from} – {to}",
+    "field": {
+      "code": "Kód",
+      "name": "Názov",
+      "academicYear": "Akademický rok",
+      "kind": "Druh",
+      "startsAt": "Začína",
+      "endsAt": "Končí",
+      "enrollmentOpensAt": "Zápis sa otvára",
+      "enrollmentClosesAt": "Zápis sa zatvára",
+      "windowDescription": "Ak necháte obe prázdne, obdobie sa na samoobslužný zápis nikdy neotvorí."
+    },
+    "kind": {
+      "semester": "Semester",
+      "trimester": "Trimester",
+      "summer": "Letné obdobie",
+      "year": "Rok",
+      "other": "Iné"
+    },
+    "column": {
+      "code": "Kód",
+      "name": "Názov",
+      "runs": "Trvanie",
+      "enrollment": "Zápis",
+      "actions": "Akcie"
+    },
+    "window": {
+      "none": "Nikdy sa neotvorí",
+      "upcoming": "Otvorí sa neskôr",
+      "open": "Otvorený",
+      "closed": "Zatvorený"
+    },
+    "placeholder": {
+      "code": "2026Z",
+      "name": "Zimný semester 2026/2027",
+      "academicYear": "2026/2027"
+    }
+  },
+  "rooms": {
+    "title": "Miestnosti",
+    "description": "Kde prebieha výučba. Miestnosť môže patriť fakulte alebo katedre, alebo žiadnej.",
+    "empty": "Zatiaľ žiadne miestnosti.",
+    "error": "Miestnosti sa nepodarilo načítať.",
+    "noBuilding": "Bez budovy",
+    "seats": "{count} miest",
+    "add": "Pridať miestnosť",
+    "created": "{code} bola pridaná.",
+    "retire": "Vyradiť",
+    "retireNamed": "Vyradiť {code}",
+    "retired": "{code} bola vyradená.",
+    "field": {
+      "code": "Kód",
+      "name": "Názov",
+      "building": "Budova",
+      "capacity": "Miesta",
+      "orgUnit": "Patrí pod",
+      "noOrgUnit": "Žiadny útvar"
+    },
+    "column": {
+      "code": "Kód",
+      "name": "Názov",
+      "capacity": "Miesta",
+      "actions": "Akcie"
+    },
+    "placeholder": {
+      "code": "FEI-101",
+      "name": "Prednášková sála A",
+      "building": "Hlavná budova",
+      "capacity": "Bez obmedzenia"
+    }
+  },
+  "offerings": {
+    "title": "Inštancie predmetov",
+    "description": "Čo je v tomto semestri naozaj v ponuke: predmet spárovaný s obdobím, s počtom miest a s tým, kto ho učí.",
+    "empty": "Zatiaľ nie je nič v ponuke.",
+    "error": "Inštancie predmetov sa nepodarilo načítať.",
+    "nothingToOffer": "Najprv pridajte predmet a akademické obdobie; inštancia je spojením týchto dvoch.",
+    "add": "Dať do ponuky",
+    "created": "Inštancia bola pridaná.",
+    "retire": "Vyradiť",
+    "retireNamed": "Vyradiť {label}",
+    "retired": "{label} bolo vyradené.",
+    "full": "Obsadené",
+    "noTeacher": "Bez učiteľa",
+    "places": {
+      "capped": "{enrolled} z {capacity}",
+      "uncapped": "Zapísaných: {enrolled} · bez obmedzenia"
+    },
+    "field": {
+      "course": "Predmet",
+      "chooseCourse": "Vyberte predmet",
+      "term": "Obdobie",
+      "chooseTerm": "Vyberte obdobie",
+      "capacity": "Miesta",
+      "capacityDescription": "Nechajte prázdne, ak nemá byť obmedzenie.",
+      "status": "Stav"
+    },
+    "status": {
+      "planned": "Plánovaná",
+      "open": "Otvorená",
+      "running": "Prebieha",
+      "closed": "Uzavretá",
+      "cancelled": "Zrušená"
+    },
+    "column": {
+      "course": "Predmet",
+      "places": "Miesta",
+      "state": "Stav",
+      "actions": "Akcie"
+    },
+    "placeholder": {
+      "capacity": "Bez obmedzenia"
+    }
+  },
+  "teaching": {
+    "assign": "Prideliť",
+    "assigned": "Túto inštanciu teraz učí.",
+    "unassign": "Odobrať",
+    "unassignNamed": "Odobrať {name} z tejto inštancie",
+    "unassigned": "{name} už túto inštanciu neučí.",
+    "field": {
+      "person": "Osoba",
+      "choosePerson": "Vyberte osobu",
+      "searchPerson": "Hľadajte podľa mena alebo e-mailu",
+      "noPersonMatches": "Nikto tu tomu nezodpovedá",
+      "personDescription": "Ktokoľvek, kto už do tejto inštitúcie patrí. Nový človek prichádza na pozvanie.",
+      "role": "Rola",
+      "isPrimary": "Hlavný vyučujúci",
+      "isPrimaryDescription": "Jeden na inštanciu. Určenie druhého zbaví tejto úlohy prvého."
+    },
+    "role": {
+      "lecturer": "Prednášajúci",
+      "seminar_leader": "Vedúci seminára",
+      "lab_supervisor": "Vedúci cvičenia",
+      "examiner": "Skúšajúci",
+      "assistant": "Asistent"
+    }
+  },
+  "programMembers": {
+    "title": "Študenti tohto programu",
+    "description": "Kto ho študuje a ako je na tom každý z nich.",
+    "studying": "Práve študuje: {count}",
+    "empty": "Na tomto programe zatiaľ nikto nie je.",
+    "error": "Zoznam sa nepodarilo načítať.",
+    "notFoundTitle": "Taký program tu nie je",
+    "notFoundDescription": "Mohol byť vyradený alebo patrí inej inštitúcii.",
+    "admit": "Prijať",
+    "admitted": "Teraz je študentom tohto programu.",
+    "statusChanged": "{name} je teraz v stave {status}.",
+    "statusFor": "Stav študenta {name}",
+    "yearNumber": "Ročník {year}",
+    "field": {
+      "person": "Osoba",
+      "choosePerson": "Vyberte osobu",
+      "searchPerson": "Hľadajte podľa mena alebo e-mailu",
+      "noPersonMatches": "Nikto tu tomu nezodpovedá",
+      "personDescription": "Ktokoľvek, kto už do tejto inštitúcie patrí. Nový človek prichádza na pozvanie.",
+      "studyYear": "Ročník"
+    },
+    "status": {
+      "active": "Študuje",
+      "interrupted": "Prerušené",
+      "graduated": "Absolvoval",
+      "terminated": "Ukončené"
+    },
+    "column": {
+      "student": "Študent",
+      "year": "Ročník",
+      "since": "Od",
+      "standing": "Stav"
+    },
+    "placeholder": {
+      "studyYear": "1"
+    }
+  },
+  "studyGroups": {
+    "title": "Skupiny",
+    "description": "Seminárne a cvičebné skupiny v rámci tejto inštancie. V skupine môže byť len ten, kto má na predmet zápis.",
+    "empty": "Táto inštancia zatiaľ nemá žiadne skupiny.",
+    "error": "Skupiny sa nepodarilo načítať.",
+    "noMembers": "V tejto skupine zatiaľ nikto nie je.",
+    "add": "Otvoriť skupinu",
+    "created": "Skupina bola otvorená.",
+    "close": "Zavrieť",
+    "closeNamed": "Zavrieť skupinu {code}",
+    "closed": "Skupina {code} bola zavretá.",
+    "remove": "Odobrať",
+    "removeNamed": "Odobrať {name} z tejto skupiny",
+    "memberRemoved": "{name} opustil skupinu.",
+    "memberAdded": "Pridali sa do skupiny.",
+    "addTo": "Pridať niekoho do skupiny {code}",
+    "addSomeone": "Pridať študenta",
+    "full": "Táto skupina je plná.",
+    "everyoneAssigned": "Všetci zo zoznamu už v tejto skupine sú.",
+    "places": {
+      "capped": "{taken} z {capacity}",
+      "uncapped": "V skupine: {taken}"
+    },
+    "field": {
+      "code": "Kód",
+      "name": "Názov",
+      "kind": "Druh",
+      "capacity": "Miesta"
+    },
+    "kind": {
+      "seminar": "Seminár",
+      "lab": "Cvičenie",
+      "exercise": "Precvičovanie",
+      "project": "Projekt",
+      "other": "Iné"
+    },
+    "nobodyEnrolled": "Na túto inštanciu zatiaľ nie je nikto zapísaný, takže niet koho zaradiť do skupiny.",
+    "placeholder": {
+      "code": "S1",
+      "name": "Pondelkový seminár",
+      "capacity": "Bez obmedzenia"
+    }
+  },
+  "examTermAdmin": {
+    "title": "Skúškové termíny",
+    "description": "Kedy sa tento predmet skúša. Presun termínu alebo jeho zrušenie sa dozvedia študenti, ktorí majú miesto.",
+    "empty": "Pre tento predmet zatiaľ nebol vypísaný žiadny skúškový termín.",
+    "error": "Skúškové termíny sa nepodarilo načítať.",
+    "offer": "Vypísať termín",
+    "offered": "Skúškový termín bol vypísaný.",
+    "offerLegend": "Vypísať skúškový termín",
+    "editLegend": "Upraviť tento skúškový termín",
+    "save": "Uložiť",
+    "saved": "Skúškový termín bol uložený.",
+    "edit": "Upraviť",
+    "editNamed": "Upraviť skúškový termín {label}",
+    "cancelEdit": "Zahodiť",
+    "cancel": "Zrušiť",
+    "cancelNamed": "Zrušiť skúškový termín {label}",
+    "cancelled": "Skúškový termín {label} bol zrušený.",
+    "cancelledBadge": "Zrušený",
+    "remove": "Odstrániť",
+    "removeNamed": "Odstrániť skúškový termín {label}",
+    "removed": "Skúškový termín {label} bol odstránený.",
+    "when": "{day} {from}–{to}",
+    "whenOpenEnded": "{day} od {from}",
+    "seats": "Obsadených miest: {taken} z {capacity}",
+    "seatsUnlimited": "Prihlásených: {taken}, bez obmedzenia miest",
+    "window": "Prihlasovanie {opens} až {closes}",
+    "windowUntilExamStarts": "Prihlasovanie je otvorené do začiatku skúšky.",
+    "windowAlways": "od začiatku",
+    "windowUntilExam": "skúška",
+    "field": {
+      "date": "Deň skúšky",
+      "from": "Od",
+      "to": "Do",
+      "kind": "Pokus",
+      "capacity": "Miesta",
+      "noLimit": "Bez obmedzenia",
+      "room": "Miestnosť",
+      "noRoom": "Bez miestnosti",
+      "examiner": "Skúšajúci",
+      "noExaminer": "Bez skúšajúceho",
+      "opensOn": "Prihlasovanie sa otvára",
+      "closesOn": "Prihlasovanie sa zatvára"
+    },
+    "kind": {
+      "regular": "Riadny termín",
+      "first_retake": "Prvý opravný termín",
+      "second_retake": "Druhý opravný termín",
+      "state_exam": "Štátna skúška"
+    }
+  },
+  "examAttendance": {
+    "show": "Prihlásení",
+    "hide": "Skryť prihlásených",
+    "showNamed": "Zobraziť, kto sa prihlásil na skúšku {label}",
+    "hideNamed": "Skryť, kto sa prihlásil na skúšku {label}",
+    "listLabel": "Prihlásení na skúšku {label}",
+    "empty": "Na tento termín nie je nikto prihlásený.",
+    "error": "Prihlásených sa nepodarilo načítať.",
+    "notYet": "Účasť sa dá zaznamenať, keď sa skúška začne.",
+    "attendanceOf": "Účasť: {student}",
+    "status": {
+      "registered": "Nezaznamenané",
+      "attended": "Zúčastnil sa",
+      "no_show": "Neprišiel",
+      "excused": "Ospravedlnený",
+      "cancelled": "Vzdal sa miesta"
+    },
+    "recorded": {
+      "attended": "{student}: zúčastnil sa skúšky.",
+      "no_show": "{student}: neprišiel.",
+      "excused": "{student}: ospravedlnený."
+    }
+  },
+  "timetableAdmin": {
+    "title": "Rozvrh",
+    "description": "Kedy sa tento predmet stretáva. Týždenný blok sa zapisuje ako jedna hodina na týždeň, takže presunúť alebo zrušiť jediný týždeň je bežná úprava.",
+    "empty": "Pre tento predmet zatiaľ nie je naplánované nič.",
+    "error": "Rozvrh sa nepodarilo načítať.",
+    "schedule": "Naplánovať",
+    "scheduled": "{count, plural, one {Naplánovaná # hodina.} few {Naplánované # hodiny.} other {Naplánovaných # hodín.}}",
+    "cancel": "Zrušiť",
+    "cancelNamed": "Zrušiť hodinu {label}",
+    "cancelled": "Hodina {label} bola zrušená.",
+    "restore": "Vrátiť späť",
+    "restoreNamed": "Vrátiť hodinu {label} späť",
+    "restored": "Hodina {label} opäť platí.",
+    "noRoom": "Bez miestnosti",
+    "occurrences": "{count, plural, one {# týždeň} few {# týždne} other {# týždňov}}",
+    "field": {
+      "date": "Prvá hodina",
+      "from": "Od",
+      "to": "Do",
+      "type": "Druh",
+      "room": "Miestnosť",
+      "noRoom": "Bez miestnosti",
+      "group": "Kto sa zúčastňuje",
+      "wholeCourse": "Celý predmet",
+      "title": "Názov",
+      "repeatWeekly": "Každý týždeň",
+      "repeatWeeklyDescription": "Opakovať tento blok týždenne až do konca semestra."
+    },
+    "type": {
+      "lecture": "Prednáška",
+      "seminar": "Seminár",
+      "lab": "Cvičenie",
+      "consultation": "Konzultácia",
+      "exam": "Skúška",
+      "other": "Iné"
+    },
+    "weekday": {
+      "0": "Nedeľa",
+      "1": "Pondelok",
+      "2": "Utorok",
+      "3": "Streda",
+      "4": "Štvrtok",
+      "5": "Piatok",
+      "6": "Sobota"
+    },
+    "slotWhen": "{weekday} {from}–{to}",
+    "placeholder": {
+      "title": "Prednáška"
+    }
+  },
+  "bulkEntry": {
+    "title": "Hromadné zadávanie",
+    "subtitle": "Vložte údaje za celý semester namiesto vypĺňania formulára po jednom.",
+    "description": "Vložte údaje z tabuľky. Tabulátor, bodkočiarka aj čiarka fungujú a prvý riadok pomenúva stĺpce.",
+    "deniedTitle": "Tu importovať nemôžete",
+    "deniedDescription": "Vaša rola v tejto inštitúcii nezahŕňa správu inštancií predmetov ani programov.",
+    "preview": "Náhľad",
+    "previewed": "Nič sa nezapísalo",
+    "written": "Zapísané",
+    "apply": "{count, plural, =0 {Použiť} one {Použiť # riadok} few {Použiť # riadky} other {Použiť # riadkov}}",
+    "applied": "{created, plural, one {Zapísal sa # riadok.} few {Zapísali sa # riadky.} other {Zapísalo sa # riadkov.}}",
+    "summary": "{total} riadkov · {created} na vytvorenie · {skipped} už existuje · {failed} odmietnutých",
+    "field": {
+      "kind": "Čo importujete?",
+      "text": "Údaje",
+      "columns": "Stĺpce: {columns}"
+    },
+    "kind": {
+      "offerings": "Predmety v ponuke na tento semester",
+      "members": "Študenti vstupujúci do programu"
+    },
+    "status": {
+      "created": "Nové",
+      "skipped": "Už existuje",
+      "failed": "Odmietnuté"
+    },
+    "column": {
+      "line": "Riadok",
+      "status": "Stav",
+      "detail": "Čo sa stane"
+    },
+    "rowsLabel": "Importované riadky"
+  },
+  "learningSpace": {
+    "title": "Stránka predmetu",
+    "description": "Stránka, ktorú pre tento predmet vidia študenti: zhrnutie, materiály a zadania.",
+    "error": "Stránku predmetu sa nepodarilo načítať. Skúste to o chvíľu znova.",
+    "empty": "Tento predmet zatiaľ nemá stránku.",
+    "published": "Zverejnená",
+    "unpublished": "Nezverejnená",
+    "created": "Stránka predmetu bola otvorená",
+    "saved": "Stránka predmetu bola uložená",
+    "create": "Otvoriť stránku predmetu",
+    "save": "Uložiť stránku predmetu",
+    "settingsLabel": "Nastavenia stránky predmetu",
+    "field": {
+      "name": "Názov",
+      "shortName": "Skratka",
+      "summary": "Zhrnutie",
+      "visible": "Zobraziť túto stránku študentom",
+      "visibleHint": "Nová stránka je nezverejnená, takže sa predmet dá pripraviť skôr, než ho niekto uvidí."
+    },
+    "placeholder": {
+      "name": "Operačné systémy",
+      "shortName": "OS",
+      "summary": "Čo predmet pokrýva, vo vete či dvoch."
+    }
+  },
+  "materials": {
+    "title": "Materiály",
+    "description": "Súbory, odkazy a poznámky v poradí, v akom ich študenti čítajú.",
+    "error": "Materiály sa nepodarilo načítať. Skúste to o chvíľu znova.",
+    "empty": "Zatiaľ žiadne materiály.",
+    "formLabel": "Pridať materiál",
+    "add": "Pridať materiál",
+    "added": "Materiál bol pridaný",
+    "removed": "{title} bol odstránený",
+    "remove": "Odstrániť",
+    "removeNamed": "Odstrániť {title}",
+    "hide": "Skryť",
+    "hideNamed": "Skryť {title}",
+    "show": "Zobraziť",
+    "showNamed": "Zobraziť {title}",
+    "hidden": "Skryté",
+    "moveUpNamed": "Posunúť {title} vyššie",
+    "moveDownNamed": "Posunúť {title} nižšie",
+    "download": "Stiahnuť",
+    "downloadNamed": "Stiahnuť {title}",
+    "unnamedFile": "Súbor bez názvu",
+    "size": "{kilobytes} kB",
+    "kind": {
+      "file": "Súbor",
+      "link": "Odkaz",
+      "text": "Text"
+    },
+    "field": {
+      "kind": "Druh",
+      "title": "Názov",
+      "description": "Popis",
+      "url": "Adresa",
+      "body": "Text",
+      "file": "Súbor",
+      "fileHint": "Súbor sa nahráva priamo do úložiska; server ho zaeviduje, keď dorazí.",
+      "visible": "Zobraziť tento materiál študentom"
+    },
+    "upload": {
+      "pickFirst": "Najprv vyberte súbor",
+      "failed": "Súbor sa nepodarilo nahrať. Nič sa nepridalo.",
+      "tooLarge": "Tento súbor je väčší, než úložisko prijíma. Nič sa nepridalo.",
+      "progressLabel": "Priebeh nahrávania"
+    },
+    "placeholder": {
+      "title": "Prednáška 1: Procesy",
+      "description": "Jeden riadok o tom, čo to je.",
+      "url": "https://example.edu/prednaska-1",
+      "body": "Text, ktorý tu študenti prečítajú."
+    }
+  },
+  "assignments": {
+    "title": "Zadania",
+    "description": "Čo študenti odovzdávajú, dokedy a koľko pokusov majú.",
+    "error": "Zadania sa nepodarilo načítať. Skúste to o chvíľu znova.",
+    "empty": "Zatiaľ žiadne zadania.",
+    "formLabel": "Pridať zadanie",
+    "editLabel": "Upraviť {name}",
+    "create": "Pridať zadanie",
+    "created": "Zadanie bolo pridané",
+    "save": "Uložiť zadanie",
+    "saved": "Zadanie bolo uložené",
+    "edit": "Upraviť",
+    "editNamed": "Upraviť {name}",
+    "cancelEdit": "Skončiť úpravy",
+    "remove": "Odstrániť",
+    "removeNamed": "Odstrániť {name}",
+    "removed": "{name} bolo odstránené",
+    "hide": "Skryť",
+    "hideNamed": "Skryť {name}",
+    "show": "Zobraziť",
+    "showNamed": "Zobraziť {name}",
+    "hidden": "Skryté",
+    "lateAllowed": "Prijíma sa aj po termíne",
+    "attempts": "{count, plural, one {# pokus} few {# pokusy} other {# pokusov}}",
+    "attemptsUnlimited": "Neobmedzený počet pokusov",
+    "points": "{maxPoints} bodov",
+    "unset": "—",
+    "window": "Otvára sa {opens} · termín {due} · zatvára sa {closes}",
+    "field": {
+      "name": "Názov",
+      "brief": "Zadanie",
+      "opensAt": "Otvára sa",
+      "dueAt": "Termín",
+      "closesAt": "Zatvára sa",
+      "maxAttempts": "Povolený počet pokusov",
+      "maxAttemptsHint": "Nechajte prázdne pre neobmedzený počet pokusov.",
+      "maxPoints": "Dostupné body",
+      "allowsLate": "Prijímať prácu aj po termíne",
+      "counts": "Započítava sa do výslednej známky",
+      "visible": "Zobraziť toto zadanie študentom"
+    },
+    "placeholder": {
+      "name": "Zadanie 1: Shell",
+      "brief": "Čo treba odovzdať a ako sa to bude hodnotiť.",
+      "maxAttempts": "Neobmedzene",
+      "maxPoints": "100"
+    }
+  },
+  "submissions": {
+    "title": "Vaše odovzdanie",
+    "error": "Vaše odovzdania sa nepodarilo načítať. Skúste to o chvíľu znova.",
+    "none": "Zatiaľ ste nič neodovzdali.",
+    "attempt": "Pokus {attempt}",
+    "late": "Po termíne",
+    "onTime": "Včas",
+    "handedIn": "Odovzdané",
+    "handedInOn": "Odovzdané {on}",
+    "notHandedIn": "Neodovzdané",
+    "attemptsLeft": "{count, plural, one {Zostáva # pokus} few {Zostávajú # pokusy} other {Zostáva # pokusov}}",
+    "noAttemptsLeft": "{count, plural, one {Svoj jediný pokus ste už využili.} other {Využili ste všetkých # pokusov.}}",
+    "submit": "Odovzdať",
+    "submitLabel": "Odovzdajte svoju prácu",
+    "resubmit": "Odovzdať znova",
+    "resubmitLabel": "Odovzdajte svoju prácu znova",
+    "pickFirst": "Vyberte aspoň jeden súbor",
+    "uploadFailed": "Súbor {filename} sa nepodarilo nahrať. Nič sa neodovzdalo.",
+    "uploadTooLarge": "Súbor {filename} je väčší, než úložisko prijíma. Nič sa neodovzdalo.",
+    "progressLabel": "Priebeh nahrávania",
+    "downloadNamed": "Stiahnuť {filename}",
+    "mark": "{points} zo {maxPoints} bodov",
+    "markNoMaximum": "{points} bodov",
+    "markNoPoints": "Ohodnotené bez bodov",
+    "feedback": "Spätná väzba",
+    "field": {
+      "files": "Súbory",
+      "notes": "Poznámky pre hodnotiteľa"
+    },
+    "state": {
+      "draft": "Koncept",
+      "submitted": "Odovzdané",
+      "returned": "Vrátené",
+      "graded": "Ohodnotené"
+    },
+    "placeholder": {
+      "notes": "Čokoľvek, čo by hodnotiteľ mal vedieť. Nepovinné."
+    }
+  },
+  "marking": {
+    "error": "Odovzdania sa nepodarilo načítať. Skúste to o chvíľu znova.",
+    "empty": "Zatiaľ nikto nič neodovzdal.",
+    "handedInCount": "{count, plural, one {# odovzdanie} few {# odovzdania} other {# odovzdaní}}",
+    "tableLabel": "Odovzdania k zadaniu {name}",
+    "attempt": "Pokus {attempt}",
+    "late": "Po termíne",
+    "notHandedIn": "Neodovzdané",
+    "noFiles": "Žiadne súbory",
+    "marked": "Práca študenta {name} bola ohodnotená",
+    "save": "Uložiť hodnotenie",
+    "formLabel": "Ohodnotiť prácu študenta {name}",
+    "column": {
+      "student": "Študent",
+      "handedIn": "Odovzdané",
+      "files": "Súbory",
+      "mark": "Hodnotenie"
+    },
+    "field": {
+      "points": "Body",
+      "pointsOf": "Body z {maxPoints}",
+      "feedback": "Spätná väzba"
+    },
+    "placeholder": {
+      "points": "0",
+      "feedback": "Čo sa podarilo a čo treba opraviť."
+    }
+  },
+  "search": {
+    "title": "Vyhľadávanie",
+    "subtitle": "Predmety, programy, ľudia, miestnosti – všetko, čo smiete vidieť.",
+    "label": "Čo hľadáte?",
+    "placeholder": "Kód predmetu, meno, miestnosť…",
+    "hint": "Aspoň dva znaky.",
+    "searching": "Vyhľadáva sa…",
+    "error": "Vyhľadávanie sa nepodarilo spustiť.",
+    "nothing": "Dopytu „{query}“ nič nezodpovedá.",
+    "truncated": "Zhôd je viac, než sa zobrazuje. Skúste dlhší dopyt.",
+    "notSearched": "Nevyhľadávalo sa v nich, lebo vaša rola nezahŕňa ich čítanie:",
+    "kind": {
+      "course": "Predmety",
+      "offering": "V ponuke",
+      "program": "Programy",
+      "person": "Ľudia",
+      "orgUnit": "Útvary",
+      "room": "Miestnosti"
+    }
+  },
+  "audit": {
+    "title": "Audítorská stopa",
+    "subtitle": "Kto čo zmenil a aké to bolo predtým.",
+    "description": "Známky, pridelenia rol, opravy zápisov a zrušené skúškové termíny. Čítania sa nezaznamenávajú.",
+    "deniedTitle": "Audítorskú stopu nevidíte",
+    "deniedDescription": "Čítať ju smie len správca inštitúcie.",
+    "filter": "Zobraziť",
+    "allActions": "Všetko",
+    "empty": "Zatiaľ nebolo nič zaznamenané.",
+    "error": "Audítorskú stopu sa nepodarilo načítať.",
+    "moreExist": "Existujú staršie záznamy, než sa tu zobrazujú.",
+    "systemActor": "Systém",
+    "unknownActor": "Niekto, kto už v tejto inštitúcii nie je",
+    "changed": "{before} → {after}",
+    "nothing": "nič",
+    "action": {
+      "gradeProposed": "Známka navrhnutá",
+      "gradePublished": "Známka zverejnená",
+      "roleGranted": "Rola pridelená",
+      "roleRevoked": "Rola odobratá",
+      "enrollmentCorrected": "Zápis opravený",
+      "examTermCancelled": "Skúškový termín zrušený",
+      "examAttendanceRecorded": "Zaznamenaná účasť na skúške",
+      "personalDataErased": "Osobné údaje vymazané",
+      "discussionHidden": "Skrytý príspevok v diskusii",
+      "discussionRestored": "Obnovený príspevok v diskusii"
+    }
+  },
+  "personalData": {
+    "title": "Vaše osobné údaje",
+    "description": "Stiahnite si kópiu všetkého, čo o vás táto inštitúcia vedie.",
+    "export": "Stiahnuť moje údaje",
+    "exported": "Vaše údaje boli stiahnuté.",
+    "eraseTitle": "Vymazať {name}",
+    "eraseWarning": "Toto sa nedá vrátiť. Prihlásenie, relácie, kontaktné adresy a súbory tejto osoby zmiznú. Študijný záznam zostáva: známky ostávajú, pripojené k riadku, ktorý už nehovorí, komu patril.",
+    "typeAddress": "Na potvrdenie napíšte {email}",
+    "erase": "Vymazať túto osobu",
+    "erased": "{name} bol vymazaný.",
+    "cancel": "Radšej nie"
+  },
+  "captcha": {
+    "idle": "Tento formulár chráni overenie, ktoré za vás dokončí prehliadač.",
+    "solving": "Overuje sa, že nie ste robot…",
+    "solved": "Overené.",
+    "failed": "Overenie sa nedokončilo. Skúste to znova."
+  },
+  "validation": {
+    "required": "Toto pole je povinné.",
+    "tooShort": "Použite aspoň {min} znakov.",
+    "tooLong": "Použite najviac {max} znakov.",
+    "exactLength": "Použite presne {length} znakov.",
+    "numberTooSmall": "Zadajte {min} alebo viac.",
+    "numberTooBig": "Zadajte {max} alebo menej.",
+    "dateTooEarly": "Vyberte neskorší dátum.",
+    "dateTooLate": "Vyberte skorší dátum.",
+    "selectOne": "Vyberte možnosť.",
+    "tooFewItems": "Vyberte aspoň {min}.",
+    "tooManyItems": "Vyberte najviac {max}.",
+    "fileTooLarge": "Tento súbor je príliš veľký.",
+    "email": "Zadajte e-mailovú adresu, napríklad meno@univerzita.sk.",
+    "url": "Zadajte celú webovú adresu, začínajúcu na https://.",
+    "identifier": "Toto nie je platný identifikátor.",
+    "option": "Vyberte jednu z uvedených možností.",
+    "datetime": "Zadajte dátum a čas.",
+    "date": "Zadajte dátum.",
+    "time": "Zadajte čas.",
+    "pattern": "Toto nie je platná hodnota pre toto pole.",
+    "startsWith": "Musí začínať na {prefix}.",
+    "endsWith": "Musí končiť na {suffix}.",
+    "includes": "Musí obsahovať {text}.",
+    "number": "Zadajte číslo.",
+    "integer": "Zadajte celé číslo.",
+    "multipleOf": "Zadajte násobok čísla {step}.",
+    "invalid": "Skontrolujte túto hodnotu."
+  },
+  "courseWaitlist": {
+    "title": "Poradovník",
+    "description": "Študenti, ktorí čakajú na miesto v plnom predmete, v poradí, v akom prišli. Prijatie prekročí kapacitu; obe odpovede dostane študent.",
+    "empty": "Nikto nečaká na miesto.",
+    "error": "Poradovník sa nepodarilo načítať.",
+    "since": "Čaká od {date}",
+    "admit": "Prijať",
+    "admitNamed": "Prijať: {student}",
+    "refuse": "Odmietnuť",
+    "refuseNamed": "Odmietnuť: {student}",
+    "admitted": "{student} dostal miesto.",
+    "refused": "{student} miesto nedostal."
+  },
+  "accountSettings": {
+    "title": "Nastavenia účtu",
+    "subtitle": "Váš profil, heslo, spôsob prihlasovania a čo vám príde e-mailom.",
+    "profile": {
+      "title": "Profil",
+      "description": "Ako vás vidia učitelia, študenti a zamestnanci.",
+      "email": "E-mail",
+      "displayName": "Zobrazované meno",
+      "save": "Uložiť zmeny",
+      "saved": "Profil bol aktualizovaný."
+    },
+    "password": {
+      "title": "Heslo",
+      "description": "Zmena hesla vás odhlási na všetkých ostatných miestach.",
+      "current": "Súčasné heslo",
+      "new": "Nové heslo",
+      "confirm": "Potvrďte nové heslo",
+      "hint": "Aspoň 8 znakov. Krátka veta sa pamätá ľahšie ako zmäť znakov.",
+      "submit": "Zmeniť heslo",
+      "changed": "Heslo bolo zmenené. Všetky ostatné relácie boli odhlásené.",
+      "incorrect": "Toto nie je vaše súčasné heslo.",
+      "unchanged": "Zvoľte heslo odlišné od súčasného.",
+      "mismatch": "Heslá sa nezhodujú"
+    },
+    "twoFactor": {
+      "title": "Dvojstupňové overenie",
+      "description": "Pri prihlásení si okrem hesla vyžiadať aj kód z telefónu.",
+      "offDescription": "Vypnuté. Ktokoľvek s vaším heslom sa môže prihlásiť za vás.",
+      "setUp": "Zapnúť dvojstupňové overenie",
+      "on": "Zapnuté",
+      "onSince": "Zapnuté od {date}",
+      "codesRemaining": "{count, plural, =0 {Nezostal žiadny obnovovací kód} one {Zostáva # obnovovací kód} few {Zostávajú # obnovovacie kódy} other {Zostáva # obnovovacích kódov}}",
+      "codesLow": "Dochádzajú",
+      "regenerate": "Získať nové obnovovacie kódy",
+      "disable": "Vypnúť",
+      "continue": "Pokračovať",
+      "cancel": "Zrušiť",
+      "password": "Heslo",
+      "incorrectPassword": "Toto nie je vaše heslo.",
+      "startPrompt": "Na začatie potvrďte heslo.",
+      "regeneratePrompt": "Súčasné obnovovacie kódy prestanú platiť. Na pokračovanie potvrďte heslo.",
+      "disablePrompt": "Na prihlásenie bude stačiť len heslo. Potvrďte ho, aby sa dvojstupňové overenie vyplo.",
+      "enabled": "Dvojstupňové overenie je zapnuté.",
+      "disabled": "Dvojstupňové overenie je vypnuté.",
+      "errorTitle": "Nastavenia dvojstupňového overenia sa nepodarilo načítať",
+      "pair": {
+        "stepInstall": "Nainštalujte si overovaciu aplikáciu, napríklad Google Authenticator, Microsoft Authenticator alebo 1Password.",
+        "stepScan": "Naskenujte v nej tento QR kód alebo kľúč zadajte ručne.",
+        "stepConfirm": "Zadajte šesťmiestny kód, ktorý aplikácia zobrazí.",
+        "qrAlt": "QR kód na naskenovanie overovacou aplikáciou",
+        "manualTitle": "Kľúč na ručné zadanie",
+        "codeLabel": "Kód z aplikácie",
+        "submit": "Zapnúť",
+        "cancel": "Zrušiť",
+        "invalidCode": "Kód sa nezhoduje. Skontrolujte čas v telefóne a skúste najnovší kód."
+      },
+      "recoveryCodes": {
+        "title": "Uložte si obnovovacie kódy",
+        "description": "Ak stratíte telefón, každý z nich vám umožní prihlásiť sa raz. Znova sa nezobrazia, preto ich uložte na bezpečné miesto, napríklad do správcu hesiel.",
+        "listLabel": "Obnovovacie kódy",
+        "copy": "Kopírovať",
+        "copied": "Obnovovacie kódy boli skopírované.",
+        "copyFailed": "Kopírovanie zlyhalo. Stiahnite si ich namiesto toho.",
+        "download": "Stiahnuť",
+        "done": "Uložil(a) som si ich"
+      }
+    },
+    "sessions": {
+      "title": "Kde ste prihlásení",
+      "description": "Odhláste sa zo zariadenia, ktoré už nepoužívate alebo nepoznáte.",
+      "device": "{browser} v systéme {system}",
+      "unknownDevice": "Neznáme zariadenie",
+      "thisDevice": "Toto zariadenie",
+      "activity": "Prihlásenie {signedIn} · aktivita {lastActive}",
+      "signOut": "Odhlásiť",
+      "signOutDevice": "Odhlásiť {device}",
+      "signOutOthers": "Odhlásiť všetky ostatné relácie",
+      "signedOut": "Relácia bola odhlásená.",
+      "signedOutOthers": "Všetky ostatné relácie boli odhlásené.",
+      "errorTitle": "Relácie sa nepodarilo načítať"
+    },
+    "notificationMail": {
+      "title": "Oznámenia e-mailom",
+      "description": "Kópiu toho, čo si v aplikácii neprečítate do piatich minút, dostanete aj e-mailom. V aplikácii zostáva všetko tak či tak.",
+      "saved": "Nastavenie e-mailov je uložené.",
+      "loadError": "Nastavenie e-mailov sa nepodarilo načítať",
+      "groups": {
+        "exams": {
+          "label": "Skúšky",
+          "hint": "Nové, presunuté alebo zrušené termíny a vaše prihlásenia."
+        },
+        "coursework": {
+          "label": "Zadania a známky",
+          "hint": "Nové termíny odovzdania, ohodnotené práce, zverejnené známky."
+        },
+        "enrolment": {
+          "label": "Zápis",
+          "hint": "Potvrdené alebo odmietnuté miesto, uvoľnené miesto."
+        },
+        "timetable": {
+          "label": "Rozvrh",
+          "hint": "Presunutá alebo zrušená hodina."
+        },
+        "discussion": {
+          "label": "Diskusia",
+          "hint": "Nové témy a odpovede vo vašich predmetoch."
+        }
+      }
+    }
+  },
+  "discussion": {
+    "title": "Diskusia",
+    "description": "Otázky a odpovede medzi ľuďmi tohto predmetu. Vyučujúci môže skryť príspevky, ktoré sem nepatria.",
+    "empty": "Zatiaľ nikto nezačal tému.",
+    "error": "Diskusiu sa nepodarilo načítať.",
+    "threadMeta": "{name} · {count, plural, one {# príspevok} few {# príspevky} other {# príspevkov}} · posledná aktivita {date}",
+    "hiddenBadge": "Skryté",
+    "untitled": "Téma bez názvu",
+    "newThread": "Nová téma",
+    "titleLabel": "Názov",
+    "bodyLabel": "Správa",
+    "replyLabel": "Vaša odpoveď",
+    "start": "Začať tému",
+    "reply": "Odpovedať",
+    "cancel": "Zrušiť",
+    "back": "Všetky témy",
+    "started": "Téma bola založená.",
+    "replied": "Odpoveď bola pridaná.",
+    "deletedPost": "Tento príspevok bol odstránený.",
+    "hiddenPost": "Vyučujúci tento príspevok skryl.",
+    "hiddenThreadNotice": "Táto téma je pred študentmi skrytá a kým ju neobnovíte, nedá sa na ňu odpovedať.",
+    "delete": "Odstrániť",
+    "confirmDelete": "Natrvalo odstrániť",
+    "deleted": "Príspevok bol odstránený.",
+    "hide": "Skryť",
+    "restore": "Obnoviť",
+    "hideThread": "Skryť tému",
+    "restoreThread": "Obnoviť tému",
+    "hiddenDone": "Skryté pred študentmi.",
+    "restoredDone": "Opäť viditeľné.",
+    "notFound": "Táto téma už nie je dostupná.",
+    "teacherBadge": "Vyučujúci",
+    "edit": "Upraviť",
+    "edited": "upravené",
+    "save": "Uložiť",
+    "saved": "Príspevok je upravený.",
+    "rename": "Premenovať",
+    "renamed": "Téma je premenovaná.",
+    "editLabel": "Úprava príspevku",
+    "attachLabel": "Prílohy",
+    "attachHint": "Najviac 3 súbory, každý do 10 MB: obrázky, PDF, dokumenty Office, text alebo ZIP.",
+    "removeAttachment": "Odstrániť {filename}",
+    "attachmentsOf": "Súbory, ktoré priložil(a) {name}",
+    "downloadNamed": "Stiahnuť {filename}",
+    "uploadFailed": "Súbor {filename} sa nepodarilo nahrať. Nič sa neuverejnilo.",
+    "uploadTooLarge": "Súbor {filename} je väčší ako 10 MB.",
+    "tooManyFiles": "Príspevok môže mať najviac 3 súbory.",
+    "uploading": "Nahrávajú sa súbory…"
+  },
+  "uploads": {
+    "infected": "Tento súbor obsahoval škodlivý kód a bol odstránený.",
+    "tooLarge": "Súbor je väčší, ako je povolené.",
+    "typeNotAllowed": "Tento druh súboru sa neprijíma."
+  },
+  "fileScan": {
+    "pending": "Zatiaľ nekontrolované antivírusom",
+    "pendingHint": "Antivírus tento súbor ešte neskontroloval. Urobí to, hneď ako bude dostupný.",
+    "infected": "Odstránené: obsahovalo škodlivý kód",
+    "confirmTitle": "Súbor ešte nebol skontrolovaný",
+    "confirmBody": "Antivírus tento súbor zatiaľ neskontroloval. Otvorte ho, len ak dôverujete tomu, kto ho nahral.",
+    "downloadAnyway": "Stiahnuť aj tak",
+    "cancel": "Zrušiť"
+  }
+}

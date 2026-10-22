@@ -34,7 +34,7 @@ describe('GrantRoleForm', () => {
     await waitFor(() => {
       expect(granted).toHaveBeenCalledWith({
         userId: SUBJECT,
-        role: 'student',
+        role: 'course_coordinator',
         scopeType: 'institution',
       });
     });
@@ -45,8 +45,10 @@ describe('GrantRoleForm', () => {
 
     expect(screen.queryByLabelText('Scope identifier')).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole('combobox', { name: 'Scope' }));
-    await user.click(screen.getByRole('option', { name: 'Study programme' }));
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'Scope' }),
+      'Study programme',
+    );
 
     expect(await screen.findByLabelText('Scope identifier')).toBeInTheDocument();
   });
@@ -64,8 +66,10 @@ describe('GrantRoleForm', () => {
     const { user } = renderWithProviders(<GrantRoleForm institutionId={INSTITUTION} />);
 
     await user.type(screen.getByLabelText('Person'), SUBJECT);
-    await user.click(screen.getByRole('combobox', { name: 'Scope' }));
-    await user.click(screen.getByRole('option', { name: 'Study programme' }));
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'Scope' }),
+      'Study programme',
+    );
     await user.click(screen.getByRole('button', { name: 'Grant role' }));
 
     expect(
@@ -80,7 +84,9 @@ describe('GrantRoleForm', () => {
     await user.type(screen.getByLabelText('Person'), 'not-a-uuid');
     await user.click(screen.getByRole('button', { name: 'Grant role' }));
 
-    expect(await screen.findByText(/UUID|uuid/)).toBeInTheDocument();
+    expect(
+      await screen.findByText('That is not a valid identifier.'),
+    ).toBeInTheDocument();
   });
 
   it('surfaces a duplicate grant on the role field rather than in a toast', async () => {

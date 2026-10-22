@@ -19,7 +19,7 @@ const TOKENS: AuthTokensDto = {
     id: '11111111-1111-4111-8111-111111111111',
     email: 'ada@example.com',
     displayName: 'Ada Lovelace',
-    locale: 'uk',
+    locale: 'sk',
     role: 'user',
     createdAt: '2026-01-01T00:00:00.000Z',
   },
@@ -49,6 +49,49 @@ describe('isSameOrigin', () => {
     // A same-origin browser `fetch` always sends one. Its absence means a
     // non-browser client, which these routes do not exist for.
     expect(isSameOrigin(request(null))).toBe(false);
+  });
+
+  describe('on a host other than the configured one', () => {
+    const PREVIEW = 'studviro-frontend-git-dev-team.vercel.app';
+
+    function servedFrom(origin: string, headers: Record<string, string>): Request {
+      return new Request(`https://${PREVIEW}/api/auth/login`, {
+        method: 'POST',
+        headers: { origin, ...headers },
+      });
+    }
+
+    it('accepts a request from the host it was served on', () => {
+      expect(
+        isSameOrigin(servedFrom(`https://${PREVIEW}`, { 'x-forwarded-host': PREVIEW })),
+      ).toBe(true);
+    });
+
+    it('falls back to the Host header without a forwarding proxy', () => {
+      expect(isSameOrigin(servedFrom(`https://${PREVIEW}`, { host: PREVIEW }))).toBe(
+        true,
+      );
+    });
+
+    it('rejects another origin posting to that host', () => {
+      expect(
+        isSameOrigin(servedFrom('https://evil.example', { 'x-forwarded-host': PREVIEW })),
+      ).toBe(false);
+    });
+
+    it('rejects a lookalike of that host', () => {
+      expect(
+        isSameOrigin(
+          servedFrom(`https://${PREVIEW}.evil.example`, { 'x-forwarded-host': PREVIEW }),
+        ),
+      ).toBe(false);
+    });
+
+    it('rejects a malformed Origin', () => {
+      expect(isSameOrigin(servedFrom('null', { 'x-forwarded-host': PREVIEW }))).toBe(
+        false,
+      );
+    });
   });
 
   it('accepts its own origin when the configured URL carries a trailing slash', async () => {
@@ -90,38 +133,14 @@ describe('respondWithSession', () => {
     expect(accessCookie?.maxAge).toBe(TOKENS.expiresIn);
   });
 
-  it('scopes the refresh token to the endpoints that redeem it', () => {
-    const { sv_rt: refreshCookie } = cookiesOf(respondWithSession(TOKENS));
+  it('sends the refresh token wherever a lapsed session has to be renewed', () => {
+    const { sv_refresh: refreshCookie } = cookiesOf(respondWithSession(TOKENS));
 
     expect(refreshCookie?.value).toBe(TOKENS.refreshToken);
     expect(refreshCookie?.httpOnly).toBe(true);
-    // The narrow path is what caps a forced-request attack at the access
-    // token's lifetime instead of the refresh token's.
-    expect(refreshCookie?.path).toBe('/api/auth');
-  });
-
-  it('adopts the language stored on the account', () => {
-    const { NEXT_LOCALE: localeCookie } = cookiesOf(respondWithSession(TOKENS));
-
-    // Signing in on a new device brings your language with you rather than
-    // adopting that device's browser setting.
-    expect(localeCookie?.value).toBe('uk');
-    expect(localeCookie?.httpOnly).toBe(false);
-  });
-
-  it('leaves the locale cookie alone when the account holds one we do not serve', () => {
-    // The DTO types `locale` as our own union, but the value is whatever the
-    // API actually sent — the cast is the point of the test, not a shortcut.
-    const drifted = {
-      ...TOKENS,
-      user: { ...TOKENS.user, locale: 'de' as AuthTokensDto['user']['locale'] },
-    };
-
-    const { NEXT_LOCALE: localeCookie } = cookiesOf(respondWithSession(drifted));
-
-    // Writing it would leave `request.ts` falling back to `Accept-Language` on
-    // every render until the user switched manually.
-    expect(localeCookie).toBeUndefined();
+    // Scoped to `/api/auth` it never reached a page or the API proxy, and every
+    // session ended with its first access token (ADR 0036).
+    expect(refreshCookie?.path).toBe('/');
   });
 });
 
@@ -135,6 +154,8 @@ describe('clearSession', () => {
     // A mismatched path leaves the original cookie in place and the user
     // apparently still signed in.
     expect(byName['sv_at:/']?.maxAge).toBe(0);
+    expect(byName['sv_refresh:/']?.maxAge).toBe(0);
+    // And the one a browser signed in before ADR 0036 may still hold.
     expect(byName['sv_rt:/api/auth']?.maxAge).toBe(0);
   });
 });

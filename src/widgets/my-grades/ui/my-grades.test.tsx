@@ -1,12 +1,22 @@
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
-import { errorResponse, renderWithProviders, screen, server } from '@/shared/test';
+import {
+  errorResponse,
+  renderWithProviders,
+  screen,
+  server,
+  studyProgress,
+  within,
+} from '@/shared/test';
 
 import { MyGrades } from './my-grades';
 
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const RESULTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/course-results`;
+const SUMMARY_URL = `${RESULTS_URL}/summary`;
+
+const render = () => renderWithProviders(<MyGrades institutionId={INSTITUTION} />);
 
 describe('MyGrades', () => {
   it('names every result under the term that produced it', async () => {
@@ -28,17 +38,6 @@ describe('MyGrades', () => {
     expect(await screen.findByText('B · 87.5 points')).toBeInTheDocument();
     expect(screen.getByText('B on Jun 1, 2026')).toBeInTheDocument();
     expect(screen.getByText('A on Jun 10, 2026')).toBeInTheDocument();
-  });
-
-  it('names the system a result came from and flags one out of sync', async () => {
-    renderWithProviders(<MyGrades institutionId={INSTITUTION} />);
-
-    expect(await screen.findByText('Student information system')).toBeInTheDocument();
-    expect(screen.getByText('In sync')).toBeInTheDocument();
-    expect(screen.getByText('Conflict')).toBeInTheDocument();
-    expect(
-      screen.getByText('The source system reports a different mark.'),
-    ).toBeInTheDocument();
   });
 
   it('labels the effective grade with the kind that produced it', async () => {
@@ -81,5 +80,103 @@ describe('MyGrades', () => {
     expect(
       screen.queryByText('No result has been recorded for you yet.'),
     ).not.toBeInTheDocument();
+  });
+
+  describe('the study-progress summary', () => {
+    it('reports the server’s credit total and average rather than computing its own', async () => {
+      render();
+
+      expect(await screen.findByTestId('my-grades-summary')).toHaveTextContent(
+        /6 credits/i,
+      );
+    });
+
+    it('says how many courses are awaiting a resit when any are', async () => {
+      server.use(
+        http.get(SUMMARY_URL, () =>
+          HttpResponse.json({ ...studyProgress, awaitingRetake: 2, failedCourses: 2 }),
+        ),
+      );
+      render();
+
+      expect(await screen.findByTestId('my-grades-retakes')).toHaveTextContent(
+        /2 courses are awaiting a resit/i,
+      );
+    });
+
+    it('stays silent about resits when none are owed', async () => {
+      render();
+
+      await screen.findByTestId('my-grades-summary');
+
+      expect(screen.queryByTestId('my-grades-retakes')).not.toBeInTheDocument();
+    });
+
+    it('still lists the results when the summary itself fails', async () => {
+      server.use(http.get(SUMMARY_URL, () => new HttpResponse(null, { status: 500 })));
+      render();
+
+      expect(await screen.findByText('Algorithms')).toBeInTheDocument();
+      expect(screen.queryByTestId('my-grades-summary')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('where the student is in their programme (U2)', () => {
+    it('measures the credits against the programme rather than just totalling them', async () => {
+      render();
+
+      const panel = await screen.findByTestId('my-grades-standing');
+
+      expect(within(panel).getByText('Informatics')).toBeInTheDocument();
+      expect(
+        within(panel).getByText('6 of 180 credits · 3% · 174 to go'),
+      ).toBeInTheDocument();
+      expect(
+        within(panel).getByRole('progressbar', { name: 'Progress through Informatics' }),
+      ).toHaveAttribute('aria-valuenow', '3');
+    });
+
+    it('invents no bar for a programme with no recorded length', async () => {
+      server.use(
+        http.get(SUMMARY_URL, () =>
+          HttpResponse.json({
+            ...studyProgress,
+            programmes: [
+              {
+                ...studyProgress.programmes[0]!,
+                standardLengthSemesters: null,
+                creditsRequired: null,
+                percentComplete: null,
+                creditsRemaining: null,
+              },
+            ],
+          }),
+        ),
+      );
+
+      render();
+
+      const panel = await screen.findByTestId('my-grades-standing');
+
+      expect(
+        within(panel).getByText(
+          '6 credits earned. This programme has no recorded length, so there is nothing to measure against yet.',
+        ),
+      ).toBeInTheDocument();
+      expect(within(panel).queryByRole('progressbar')).not.toBeInTheDocument();
+    });
+
+    it('says nothing at all when the student is on no programme', async () => {
+      server.use(
+        http.get(SUMMARY_URL, () =>
+          HttpResponse.json({ ...studyProgress, programmes: [] }),
+        ),
+      );
+
+      render();
+      await screen.findByTestId('my-grades-summary');
+
+      expect(screen.queryByTestId('my-grades-standing')).not.toBeInTheDocument();
+    });
   });
 });

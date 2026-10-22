@@ -20,13 +20,13 @@ export function CourseResultCard({
 }) {
   const t = useTranslations('grades');
   const format = useFormatter();
-  const { effective, calculated, proposed, official, provenance } = result;
+  const { effective, calculated, proposed, official } = result;
 
   return (
     <Card>
       <CardHeader className="gap-1">
         <div className="flex flex-wrap items-start justify-between gap-2">
-          <CardTitle className="text-base">
+          <CardTitle as="h3" className="text-base">
             {href === undefined ? (
               result.course.title
             ) : (
@@ -36,7 +36,9 @@ export function CourseResultCard({
             )}
           </CardTitle>
 
-          {effective === null ? (
+          {result.isVoided ? (
+            <Badge variant="destructive">{t('noStanding')}</Badge>
+          ) : effective === null ? (
             <Badge variant="outline">{t('noGrade')}</Badge>
           ) : (
             <Badge
@@ -54,6 +56,12 @@ export function CourseResultCard({
       </CardHeader>
 
       <CardContent className="flex flex-col gap-3 text-sm">
+        {result.isVoided ? (
+          <p className="text-muted-foreground text-sm" data-testid="result-annulled-note">
+            {t('annulledNote')}
+          </p>
+        ) : null}
+
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline">{t(`status.${result.status}`)}</Badge>
           {result.course.credits === null ? null : (
@@ -103,27 +111,6 @@ export function CourseResultCard({
                       dateStyle: 'medium',
                     }),
                   })}
-          </dd>
-
-          <dt className="text-muted-foreground">{t('source')}</dt>
-          <dd className="flex flex-wrap items-center gap-2">
-            <span>{t(`sourceSystem.${provenance.sourceSystem}`)}</span>
-            <Badge
-              variant={
-                provenance.synchronizationStatus === 'in_sync' ? 'outline' : 'destructive'
-              }
-            >
-              {t(`syncStatus.${provenance.synchronizationStatus}`)}
-            </Badge>
-            {provenance.lastSynchronizedAt === null ? null : (
-              <span className="text-muted-foreground text-xs">
-                {t('syncedAt', {
-                  at: format.dateTime(new Date(provenance.lastSynchronizedAt), {
-                    dateStyle: 'medium',
-                  }),
-                })}
-              </span>
-            )}
           </dd>
         </dl>
 

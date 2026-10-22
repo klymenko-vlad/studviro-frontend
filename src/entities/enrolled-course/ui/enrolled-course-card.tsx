@@ -6,12 +6,13 @@ import { Badge, Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
 import { primaryTeacher, type EnrolledCourse } from '../model/enrolled-course';
 
 const STATUS_VARIANT = {
-  active: 'default',
+  active: 'success',
   completed: 'secondary',
-  requested: 'outline',
-  provisioning: 'outline',
+  requested: 'warning',
+  provisioning: 'warning',
   withdrawn: 'secondary',
   rejected: 'destructive',
+  waitlisted: 'warning',
 } as const;
 
 export function EnrolledCourseCard({
@@ -28,7 +29,7 @@ export function EnrolledCourseCard({
     <Card>
       <CardHeader className="gap-1">
         <div className="flex flex-wrap items-start justify-between gap-2">
-          <CardTitle className="text-base">
+          <CardTitle as="h3" className="text-base">
             {href === undefined ? (
               course.course.title
             ) : (

@@ -1,7 +1,13 @@
 import { http, HttpResponse } from 'msw';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
-import { errorResponse, renderWithProviders, screen, server } from '@/shared/test';
+import {
+  errorResponse,
+  renderWithProviders,
+  roleAssignments,
+  screen,
+  server,
+} from '@/shared/test';
 
 import { MyRoles } from './my-roles';
 
@@ -12,7 +18,7 @@ describe('MyRoles', () => {
     renderWithProviders(<MyRoles />);
 
     expect(await screen.findByText('Student')).toBeInTheDocument();
-    expect(screen.getByText('Teaching assistant')).toBeInTheDocument();
+    expect(screen.getByText('Registrar')).toBeInTheDocument();
   });
 
   it('names the scope a role applies to rather than its raw type', async () => {
@@ -26,6 +32,26 @@ describe('MyRoles', () => {
     renderWithProviders(<MyRoles />);
 
     expect(await screen.findByText(/^Until /)).toBeInTheDocument();
+  });
+
+  it('keeps derived roles apart, though none of them has an id', async () => {
+    const derived = { ...roleAssignments[0]!, id: null, source: 'derived' as const };
+    server.use(
+      http.get(ROLES_URL, () =>
+        HttpResponse.json([
+          { ...derived, role: 'student' },
+          { ...derived, role: 'teacher' },
+        ]),
+      ),
+    );
+    const errors = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    renderWithProviders(<MyRoles />);
+
+    expect(await screen.findByText('Teacher')).toBeInTheDocument();
+    expect(screen.getByText('Student')).toBeInTheDocument();
+    expect(errors.mock.calls.flat().join(' ')).not.toContain('same key');
+    errors.mockRestore();
   });
 
   it('explains an empty result instead of rendering a bare list', async () => {

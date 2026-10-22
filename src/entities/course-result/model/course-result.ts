@@ -1,9 +1,9 @@
-import type { MyCourseResultResponseDto } from '@/shared/api';
+import type { MyCourseResultResponseDto, StudyProgressResponseDto } from '@/shared/api';
 
 export type CourseResult = MyCourseResultResponseDto;
+export type StudyProgress = StudyProgressResponseDto;
 export type CourseResultTerm = CourseResult['term'];
 export type CourseResultKind = NonNullable<CourseResult['effective']>['kind'];
-export type CourseResultProvenance = CourseResult['provenance'];
 
 export interface TermResults {
   term: CourseResultTerm;
@@ -23,39 +23,31 @@ export function groupResultsByTerm(results: CourseResult[]): TermResults[] {
   return groups;
 }
 
-const GRADE_POINTS: Record<string, number> = { A: 1, B: 1.5, C: 2, D: 2.5, E: 3, FX: 4 };
-
 export function isPublished(result: CourseResult): boolean {
   return result.effective?.kind === 'official';
 }
 
-export function creditsEarned(results: CourseResult[]): number {
-  return results
-    .filter(
-      result =>
-        isPublished(result) &&
-        result.effective?.grade !== 'FX' &&
-        result.effective?.grade !== 'failed',
-    )
-    .reduce((sum, result) => sum + (result.course.credits ?? 0), 0);
+/**
+ * Whether the result has standing at all. An annulled one carries a grade on
+ * the record and none in the student's standing, which the server already
+ * decided by leaving `effective` null.
+ */
+export function hasStanding(result: CourseResult): boolean {
+  return result.effective !== null;
 }
 
-export function weightedAverage(results: CourseResult[]): number | null {
-  const graded = results.flatMap(result => {
-    const points =
-      result.effective === null ? undefined : GRADE_POINTS[result.effective.grade];
-    const credits = result.course.credits;
+export function hasFailed(result: CourseResult): boolean {
+  return result.effective !== null && !result.effective.passed;
+}
 
-    if (!isPublished(result) || points === undefined || credits === null) return [];
-
-    return [{ points, credits }];
-  });
-
-  const credits = graded.reduce((sum, entry) => sum + entry.credits, 0);
-
-  if (credits === 0) return null;
-
-  const weighted = graded.reduce((sum, entry) => sum + entry.points * entry.credits, 0);
-
-  return weighted / credits;
+/**
+ * Credits within one term, for the per-term heading. The totals that matter —
+ * credits earned, the weighted average, what is awaiting a resit — come from
+ * `GET .../me/course-results/summary`, because pass, fail and the point scale
+ * are the server's rule and the client must not keep a second copy.
+ */
+export function termCredits(results: CourseResult[]): number {
+  return results
+    .filter(result => isPublished(result) && result.effective?.passed === true)
+    .reduce((sum, result) => sum + (result.course.credits ?? 0), 0);
 }

@@ -3,7 +3,7 @@ import { useFormatter, useTranslations } from 'next-intl';
 import { courseOfferingHref } from '@/entities/course-offering';
 import {
   CourseResultCard,
-  creditsEarned,
+  termCredits,
   type TermResults,
 } from '@/entities/course-result';
 
@@ -29,7 +29,7 @@ export function TermResultsSection({
         <p className="text-muted-foreground text-sm">
           {t('termSummary', {
             results: group.results.length,
-            credits: creditsEarned(group.results),
+            credits: termCredits(group.results),
             starts: format.dateTime(new Date(group.term.startsAt), {
               dateStyle: 'medium',
             }),

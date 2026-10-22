@@ -7,6 +7,7 @@ import {
   isSameOrigin,
   relayFailure,
   respondWithSession,
+  userAgentHeader,
 } from '@/shared/auth';
 
 export async function POST(request: Request): Promise<NextResponse> {
@@ -14,7 +15,10 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   const response = await fetch(`${apiOrigin()}/api/v1/auth/register`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...userAgentHeader(request.headers.get('user-agent')),
+    },
     body: await request.text(),
     cache: 'no-store',
   });

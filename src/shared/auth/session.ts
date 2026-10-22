@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { cache } from 'react';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 
 import type { AuthTokensDto } from '@/shared/api';
 import {
@@ -13,54 +13,10 @@ import {
 } from '@/shared/config/session';
 
 import { apiOrigin } from './api-origin';
-
-/** Refresh this many seconds before the token actually lapses. */
-const EXPIRY_SKEW_SECONDS = 30;
+import { isExpired } from './token-expiry';
+import { rotateRefreshToken } from './token-rotation';
 
 export type SessionUser = AuthTokensDto['user'];
-
-/**
- * `exp` read without verifying the signature — deliberately. This decides only
- * *when to bother refreshing*; the API verifies the token on every call, so a
- * forged one buys nothing but a wasted round trip.
- */
-function isExpired(token: string): boolean {
-  const payload = token.split('.')[1];
-  if (!payload) return true;
-
-  try {
-    const { exp } = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as {
-      exp?: number;
-    };
-
-    if (typeof exp !== 'number') return true;
-
-    return exp - EXPIRY_SKEW_SECONDS <= Math.floor(Date.now() / 1000);
-  } catch {
-    return true;
-  }
-}
-
-/**
- * Exchanges the refresh cookie for a new pair.
- *
- * Wrapped in `cache` so a page fanning out ten parallel RSC fetches performs
- * one rotation rather than ten — every request after the first would present an
- * already-rotated token, which the API correctly reads as a leak and answers by
- * revoking every session the user has.
- */
-const rotate = cache(async (refreshToken: string): Promise<AuthTokensDto | undefined> => {
-  const response = await fetch(`${apiOrigin()}/api/v1/auth/refresh`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ refreshToken }),
-    cache: 'no-store',
-  });
-
-  if (!response.ok) return undefined;
-
-  return (await response.json()) as AuthTokensDto;
-});
 
 /**
  * A usable access token, refreshing it first if the stored one has lapsed.
@@ -77,7 +33,10 @@ export const getAccessToken = cache(async (): Promise<string | undefined> => {
   const refreshToken = store.get(REFRESH_TOKEN_COOKIE)?.value;
   if (!refreshToken) return undefined;
 
-  const refreshed = await rotate(refreshToken);
+  const refreshed = await rotateRefreshToken(
+    refreshToken,
+    (await headers()).get('user-agent'),
+  );
   if (!refreshed) return undefined;
 
   await persist(refreshed);
@@ -105,10 +64,11 @@ export const getCurrentUser = cache(async (): Promise<SessionUser | undefined> =
 });
 
 /**
- * Writing cookies is only legal in a Server Action or Route Handler. During an
- * ordinary render Next throws, and that is fine: the rotated token still serves
- * this request, and the write lands on the next mutation or on the Route
- * Handler that browser-side calls go through.
+ * Writing cookies is only legal in a Server Action or Route Handler; during an
+ * ordinary render Next throws. A render should never get here: `src/proxy.ts`
+ * renews a lapsed token before the page renders and hands the render the new
+ * one. If one does, the rotation is shared for a while (`token-rotation.ts`), so
+ * the requests right behind it are handed the same pair rather than spending it.
  */
 async function persist(tokens: AuthTokensDto): Promise<void> {
   try {

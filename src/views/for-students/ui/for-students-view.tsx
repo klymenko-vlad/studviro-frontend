@@ -1,0 +1,62 @@
+import { useTranslations } from 'next-intl';
+
+import {
+  FeatureGrid,
+  MarketingCta,
+  MarketingFooter,
+  MarketingHero,
+  MarketingSection,
+} from '@/widgets/marketing';
+import { ROUTES } from '@/shared/config';
+
+const FEATURES = [
+  'week',
+  'courses',
+  'coursework',
+  'grades',
+  'exams',
+  'notifications',
+] as const;
+
+export function ForStudentsView() {
+  const t = useTranslations('forStudents');
+  const m = useTranslations('marketing');
+
+  return (
+    <>
+      <main id="main-content" className="flex flex-1 flex-col">
+        <MarketingHero
+          eyebrow={m('nav.forStudents')}
+          title={t('hero.title')}
+          subtitle={t('hero.subtitle')}
+          primary={{ href: ROUTES.contact, label: m('cta.requestDemo') }}
+          secondary={{ href: ROUTES.signIn, label: m('cta.signIn') }}
+        />
+
+        <MarketingSection title={t('features.title')} muted>
+          <FeatureGrid
+            items={FEATURES.map(key => ({
+              key,
+              title: t(`features.${key}.title`),
+              body: t(`features.${key}.body`),
+            }))}
+          />
+        </MarketingSection>
+
+        <MarketingSection title={t('roadmap.title')}>
+          <p className="text-muted-foreground max-w-2xl text-pretty">
+            {t('roadmap.body')}
+          </p>
+        </MarketingSection>
+
+        <MarketingCta
+          title={t('closing.title')}
+          body={t('closing.body')}
+          action={t('closing.cta')}
+        />
+      </main>
+
+      <MarketingFooter />
+    </>
+  );
+}

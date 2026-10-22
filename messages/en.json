@@ -1,11 +1,16 @@
 {
   "common": {
-    "appName": "Studviro",
+    "appName": "StudViro",
     "loading": "Loading…",
     "retry": "Try again",
     "cancel": "Cancel",
     "save": "Save",
-    "appDescription": "The student platform for coursework, schedules and collaboration."
+    "appDescription": "The student platform for coursework, schedules and collaboration.",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "skipToContent": "Skip to Content",
+    "loadMore": "Load more",
+    "shownCount": "{count} shown"
   },
   "nav": {
     "account": "Account",
@@ -13,19 +18,85 @@
     "signUp": "Sign up",
     "institutionLabel": "Institution sections",
     "dashboard": "Dashboard",
-    "courses": "Courses",
+    "courses": "My courses",
     "grades": "Grades",
     "calendar": "Calendar",
-    "sync": "Synchronization",
     "roles": "Roles",
-    "settings": "Settings"
+    "settings": "Settings",
+    "exams": "Exams",
+    "teaching": "My teaching",
+    "notifications": "Notifications",
+    "createInstitution": "Create institution",
+    "orgUnits": "Org units",
+    "people": "People",
+    "learning": "Course pages",
+    "enroll": "Enrol",
+    "catalogue": "Catalogue",
+    "bulk": "Bulk entry",
+    "search": "Search",
+    "audit": "Audit",
+    "home": "StudViro home",
+    "menu": "Menu",
+    "menuDescription": "Product links and account actions.",
+    "accountMenu": "Account menu",
+    "preferences": "Theme and language",
+    "sections": "Sections",
+    "sectionsDescription": "Every screen of this institution you can open.",
+    "groups": {
+      "studies": "My studies",
+      "teaching": "Teaching",
+      "administration": "Administration"
+    },
+    "accountSettings": "Account settings"
   },
   "home": {
-    "title": "Studviro",
-    "subtitle": "Your courses, grades and timetable from every university system, in one place.",
-    "getStarted": "Create an account",
-    "signIn": "Sign in",
-    "continue": "Go to your account"
+    "title": "One academic platform your institution runs itself",
+    "subtitle": "The institution enters its own data once. Everything after that is one record: the timetable, the coursework, the exam period and the grade, read through whatever permissions a person holds.",
+    "signedInCta": "Go to your account",
+    "problem": {
+      "title": "The registry is one system, the teaching is another",
+      "body": "A university keeps its programmes, enrolments and grades in one system and runs its teaching in a second. The seam between them is where a deadline goes missing, where a grade is a calculation here and a record there, and where the work of putting the two together lands on the student. StudViro is one system that does both jobs.",
+      "one": {
+        "title": "Nothing arrives by import",
+        "body": "The institution enters a term, an offering or a cohort itself, and that entry is the record. There is no nightly job and nothing to reconcile afterwards."
+      },
+      "two": {
+        "title": "Nothing is lost track of",
+        "body": "Every grade published, role granted and enrolment corrected lands in an audit trail with a name and a time on it."
+      },
+      "three": {
+        "title": "Nothing is over-shared",
+        "body": "What a person sees is decided by a scoped permission, on the server."
+      }
+    },
+    "features": {
+      "title": "What it does today",
+      "subtitle": "Shipped and in use, not roadmap.",
+      "dashboard": {
+        "title": "A dashboard that answers \"what now?\"",
+        "body": "This term's courses, the latest results and the rest of your week on one screen, each item linking through to the thing behind it."
+      },
+      "calendar": {
+        "title": "One week, three layers",
+        "body": "Classes, exam terms and assignment deadlines in a single week view, filterable by course and by type, for the courses you attend and the ones you teach."
+      },
+      "course": {
+        "title": "A course page with everything on it",
+        "body": "Materials, assignments, staff, study groups, the timetable, the exam terms and your own marks, instead of four tabs across two systems."
+      },
+      "grades": {
+        "title": "Calculated, proposed, official",
+        "body": "The three are shown as what they are rather than blended into one number. A resit sits beside the attempt it follows, an annulled result says so, and a programme standing counts credits earned against credits left."
+      },
+      "exams": {
+        "title": "Exam terms you can act on",
+        "body": "Seats, registration window and examiner, filterable by whether you may register. When you may not, the server says why rather than greying out a button."
+      },
+      "registry": {
+        "title": "The year, entered once",
+        "body": "Terms, programmes, courses, offerings, rooms, timetables and exam periods, each behind the permission that owns it. A term's course list or a whole cohort can be pasted in from a spreadsheet."
+      }
+    }
   },
   "error": {
     "title": "Something went wrong",
@@ -38,12 +109,18 @@
     "email": "Email",
     "displayName": "Display name",
     "password": "Password",
-    "passwordHint": "At least 12 characters.",
+    "passwordHint": "At least 8 characters.",
     "confirmPassword": "Confirm password",
     "passwordMismatch": "Passwords do not match",
     "submit": "Create user",
     "submitting": "Creating…",
-    "created": "User created"
+    "created": "User created",
+    "placeholder": {
+      "email": "jana.kovacova@university.edu",
+      "displayName": "Jana Kováčová",
+      "password": "At least 8 characters",
+      "confirmPassword": "Repeat the password"
+    }
   },
   "theme": {
     "label": "Theme",
@@ -54,7 +131,7 @@
   "locale": {
     "label": "Language",
     "en": "English",
-    "uk": "Українська"
+    "sk": "Slovenčina"
   },
   "auth": {
     "email": "Email",
@@ -71,11 +148,36 @@
     "signingUp": "Creating your account…",
     "displayName": "Display name",
     "confirmPassword": "Confirm password",
-    "passwordHint": "At least 12 characters.",
+    "passwordHint": "At least 8 characters.",
     "passwordMismatch": "Passwords do not match",
     "emailTaken": "An account with this email already exists.",
     "noAccount": "No account yet?",
-    "haveAccount": "Already have an account?"
+    "haveAccount": "Already have an account?",
+    "forgotPassword": "Forgot password?",
+    "placeholder": {
+      "displayName": "Jana Kováčová",
+      "email": "jana.kovacova@university.edu",
+      "password": "At least 8 characters",
+      "confirmPassword": "Repeat your password",
+      "currentPassword": "Your password"
+    },
+    "captchaFailed": "The verification check did not finish. Try again.",
+    "twoFactor": {
+      "title": "Two-step verification",
+      "description": "Enter the six-digit code from your authenticator app.",
+      "recoveryDescription": "Enter one of the recovery codes you saved when you turned this on. Each one works once.",
+      "codeLabel": "Authenticator code",
+      "recoveryLabel": "Recovery code",
+      "useRecoveryCode": "Lost your phone? Use a recovery code",
+      "useAuthenticator": "Use your authenticator app instead",
+      "verify": "Verify",
+      "verifying": "Verifying…",
+      "back": "Back to sign in",
+      "invalidCode": "That code is not valid. Check it and try again.",
+      "expiredTitle": "This sign-in has expired",
+      "expiredDescription": "It took too long, or too many codes were wrong. Enter your password again.",
+      "startAgain": "Sign in again"
+    }
   },
   "account": {
     "title": "Account",
@@ -98,7 +200,7 @@
     },
     "validUntil": "Until {date}",
     "source": {
-      "platform": "Studviro",
+      "platform": "StudViro",
       "sis": "Student information system",
       "lms": "Learning management system"
     },
@@ -110,9 +212,9 @@
       "manageSettings": "Settings",
       "myCourses": "My courses",
       "myGrades": "My grades",
-      "monitorSync": "Synchronization",
       "dashboard": "Dashboard"
-    }
+    },
+    "settingsLink": "Settings and security"
   },
   "roles": {
     "role": {
@@ -158,11 +260,25 @@
     "errorDescription": "Try again in a moment.",
     "revokeLabel": "Revoke {role}",
     "deniedTitle": "Read-only",
-    "deniedDescription": "You may see roles here but not change them."
+    "deniedDescription": "You may see roles here but not change them.",
+    "derived": "Derived, follows academic record",
+    "inviteTitle": "Invite a person",
+    "inviteDescription": "Send an invitation to take on a role, by email.",
+    "inviteAddress": "Email address",
+    "invite": "Send invitation",
+    "inviting": "Sending…",
+    "invited": "Invitation sent",
+    "devTokenNotice": "No mail is sent outside production. Invitation link: /sign-up?invitation={token}",
+    "tableLabel": "Role Assignments",
+    "placeholder": {
+      "userId": "Account identifier",
+      "scopeId": "Identifier of the faculty, programme or offering",
+      "inviteAddress": "jana.kovacova@university.edu"
+    }
   },
   "institutionSettings": {
     "title": "Institution settings",
-    "subtitle": "Wording, language, features and connectors for this institution.",
+    "subtitle": "Wording, language and features for this institution.",
     "configurationTitle": "Configuration",
     "configurationDescription": "Everything here is data, so a second university needs no code change.",
     "regionalTitle": "Language and time",
@@ -197,9 +313,6 @@
       "thesis": "Theses",
       "timetable": "Timetable"
     },
-    "connectorsTitle": "Connectors",
-    "connectorsDescription": "Which external systems this institution reads from.",
-    "connectorStatusDescription": "Whether each connector answers, and what it supports.",
     "connector": {
       "academic": "Student information system",
       "learning": "Learning management system"
@@ -215,7 +328,6 @@
       "none": "Not connected"
     },
     "capabilityCount": " · {count} operations",
-    "connectorsErrorTitle": "Connector status could not be loaded",
     "connectorsErrorDescription": "Try again in a moment.",
     "save": "Save settings",
     "saving": "Saving…",
@@ -223,7 +335,23 @@
     "errorTitle": "Settings could not be loaded",
     "errorDescription": "Try again in a moment.",
     "deniedTitle": "Read-only",
-    "deniedDescription": "You need permission to manage this institution to change its settings."
+    "deniedDescription": "You need permission to manage this institution to change its settings.",
+    "credentialsComplete": "Complete",
+    "credentialsIncomplete": "Incomplete",
+    "credentialsErrorTitle": "Credentials could not be loaded",
+    "credentialsErrorDescription": "Try again in a moment.",
+    "credentialConfigured": "Configured",
+    "credentialNotSet": "Not set",
+    "credentialUpdatedAt": "Last changed {date}",
+    "credentialSave": "Save",
+    "credentialClear": "Clear",
+    "credentialSaved": "Credential saved",
+    "credentialCleared": "Credential cleared",
+    "credentialValueRequired": "Enter a value before saving.",
+    "featureNotBuilt": "Not built yet. This switch would change nothing.",
+    "placeholder": {
+      "timezone": "Europe/Bratislava"
+    }
   },
   "myCourses": {
     "title": "My courses",
@@ -243,7 +371,8 @@
       "active": "Active",
       "completed": "Completed",
       "withdrawn": "Withdrawn",
-      "rejected": "Rejected"
+      "rejected": "Rejected",
+      "waitlisted": "On the waiting list"
     },
     "requirement": {
       "compulsory": "Compulsory",
@@ -296,6 +425,15 @@
       "exercise": "Exercise",
       "project": "Project",
       "other": "Other"
+    },
+    "staffError": "Who teaches this could not be read.",
+    "section": {
+      "overview": "Overview",
+      "people": "People",
+      "schedule": "Schedule",
+      "materials": "Materials",
+      "work": "Assessment",
+      "discussion": "Discussion"
     }
   },
   "grades": {
@@ -312,8 +450,6 @@
     "effectiveGrade": "{grade}, {kind}",
     "calculatedValue": "{grade} · {points} points",
     "gradeOn": "{grade} on {on}",
-    "source": "Source",
-    "syncedAt": "synchronized {at}",
     "offeringPanel": "My result",
     "noOfferingResult": "No result has been recorded for this course yet.",
     "deniedTitle": "Grades are not yours to see",
@@ -353,81 +489,17 @@
       "pending": "Pending",
       "conflict": "Conflict",
       "failed": "Failed"
-    }
-  },
-  "sync": {
-    "title": "Synchronization",
-    "subtitle": "How fresh this institution's imported data is, what the last runs did, and how to run one again.",
-    "overviewTitle": "Current state",
-    "deniedTitle": "Synchronization is not yours to see",
-    "deniedDescription": "You need permission to read synchronization in this institution.",
-    "errorTitle": "Synchronization could not be loaded",
-    "errorDescription": "The synchronization state is unavailable right now. Try again in a moment.",
-    "freshness": "Every domain has succeeded at least once, the oldest at {at}.",
-    "freshnessUnknown": "At least one domain has never synchronized successfully.",
-    "freshnessTitle": "Freshness by domain",
-    "freshnessDescription": "What each domain last took in, and when it last succeeded.",
-    "latestTitle": "Latest run",
-    "latestDescription": "What the most recent run did to each domain.",
-    "historyTitle": "Run history",
-    "historyDescription": "The most recent runs, newest first.",
-    "activeTitle": "A run is in flight",
-    "activeDescription": "A synchronization run ({mode}) is queued or running. This page refreshes itself until it finishes.",
-    "failingTitle": "Some domains are failing",
-    "failingDescription": "{count, plural, one {# domain} other {# domains}} last ended in failure. Run synchronization again to retry.",
-    "runNow": "Run synchronization",
-    "starting": "Starting…",
-    "started": "Synchronization run queued",
-    "runDenied": "You may read synchronization here, but not start a run.",
-    "modeLabel": "Mode",
-    "noRuns": "No synchronization run has been recorded yet.",
-    "noState": "No domain has been synchronized yet.",
-    "noDomainResults": "This run recorded no per-domain result.",
-    "never": "Never",
-    "none": "—",
-    "records": "{fetched} fetched · {touched} changed",
-    "recordsFailed": "{failed} failed",
-    "seconds": "{seconds}s",
-    "column": {
-      "domain": "Domain",
-      "status": "Status",
-      "lastSucceeded": "Last succeeded",
-      "sourceUpdated": "Source updated",
-      "queued": "Queued",
-      "mode": "Mode",
-      "records": "Records",
-      "duration": "Duration"
     },
-    "mode": {
-      "incremental": "Incremental",
-      "full": "Full"
-    },
-    "trigger": {
-      "manual": "Manual",
-      "scheduled": "Scheduled"
-    },
-    "status": {
-      "queued": "Queued",
-      "running": "Running",
-      "succeeded": "Succeeded",
-      "partial": "Partial",
-      "failed": "Failed",
-      "skipped": "Skipped"
-    },
-    "domain": {
-      "orgUnits": "Organizational units",
-      "persons": "People",
-      "academicTerms": "Academic terms",
-      "rooms": "Rooms",
-      "programs": "Study programmes",
-      "courses": "Courses",
-      "courseOfferings": "Course offerings",
-      "programMemberships": "Programme memberships",
-      "studyGroups": "Study groups",
-      "enrollments": "Enrolments",
-      "timetableEvents": "Timetable events",
-      "examTerms": "Exam terms",
-      "officialResults": "Official results"
+    "awaitingRetake": "{courses, plural, one {# course is awaiting a resit} other {# courses are awaiting a resit}}",
+    "annulledNote": "The registrar struck this result. It counts towards nothing.",
+    "noStanding": "No standing",
+    "standing": {
+      "title": "Where you are in your programme",
+      "year": "Year {year}",
+      "creditsComplete": "Credits complete",
+      "barLabel": "Progress through {name}",
+      "measured": "{earned} of {required} credits · {percent}% · {remaining} to go",
+      "noTarget": "{earned} credits earned. This programme has no recorded length, so there is nothing to measure against yet."
     }
   },
   "dashboard": {
@@ -474,18 +546,88 @@
       "FX": "FX",
       "passed": "Passed",
       "failed": "Failed"
+    },
+    "deadlines": {
+      "title": "Deadlines",
+      "description": "What falls due in your courses next.",
+      "summary": "{deadlines, plural, one {# deadline} other {# deadlines}} in the next two weeks",
+      "empty": "Nothing falls due in the next two weeks.",
+      "error": "Your deadlines are unavailable right now.",
+      "link": "Open the calendar",
+      "due": "Due {date}"
+    },
+    "rolesLabel": "You are here as",
+    "noRoleTitle": "No dashboard for you here yet",
+    "noRoleDescription": "You have a place in this institution, but no role that comes with a dashboard. An administrator can grant you one on the Roles screen.",
+    "sections": {
+      "administration": {
+        "title": "Running the institution",
+        "description": "Where the academic year stands and what changed lately.",
+        "subtitle": "Where the academic year stands and what changed lately."
+      },
+      "teaching": {
+        "title": "Teaching",
+        "description": "The courses you teach and your week.",
+        "subtitle": "The courses you teach this term and the week ahead."
+      },
+      "studies": {
+        "title": "Studies",
+        "description": "Your courses, results and deadlines.",
+        "subtitle": "Where your studies stand in this institution today."
+      }
+    },
+    "teaching": {
+      "title": "My teaching",
+      "description": "The course offerings you teach.",
+      "term": "{term} · from {starts}",
+      "summary": "{offerings, plural, one {# course} other {# courses}} · {students, plural, one {# student} other {# students}}",
+      "students": "{count, plural, one {# student} other {# students}}",
+      "empty": "You are not assigned to teach any course yet.",
+      "error": "Your teaching is unavailable right now.",
+      "link": "All my teaching"
+    },
+    "term": {
+      "title": "Academic term",
+      "description": "The term running now, or the next to start.",
+      "running": "Running now.",
+      "upcoming": "Starts next.",
+      "dates": "{starts} – {ends}",
+      "progressLabel": "Share of the term gone",
+      "week": "Week {week} of {weeks}",
+      "enrollment": "Enrolment",
+      "window": {
+        "open": "Open",
+        "upcoming": "Not open yet",
+        "closed": "Closed",
+        "none": "No self-service window"
+      },
+      "closes": "until {date}",
+      "opens": "from {date}",
+      "next": "Next: {term}, from {starts}",
+      "empty": "No current or upcoming term is on the books. Open one in the catalogue.",
+      "error": "The academic terms are unavailable right now.",
+      "link": "Manage terms"
+    },
+    "activity": {
+      "title": "Recent changes",
+      "description": "The latest grades, roles and corrections recorded here.",
+      "empty": "Nothing has been recorded yet.",
+      "error": "Recent changes are unavailable right now.",
+      "link": "Open the audit trail"
     }
   },
   "calendar": {
     "title": "Calendar",
-    "subtitle": "Your classes for the week, as the source systems report them.",
+    "subtitle": "Your classes for the week.",
     "empty": "Nothing is scheduled for this week.",
+    "emptyWeek": "Nothing is scheduled for {from} – {to}.",
     "errorTitle": "The calendar could not be loaded",
     "errorDescription": "Your schedule is unavailable right now. Try again in a moment.",
     "deniedTitle": "Not available to you",
     "deniedDescription": "You need permission to read the timetable in this institution.",
     "week": "{from} – {to}",
     "weekSummary": "{events, plural, one {# event} other {# events}} this week",
+    "eventCount": "{events, plural, one {# event} other {# events}}",
     "previousWeek": "Previous week",
     "nextWeek": "Next week",
     "thisWeek": "This week",
@@ -508,6 +650,1720 @@
     "attendance": {
       "enrolled": "Enrolled",
       "teaching": "You teach this"
+    },
+    "filters": "Filter the calendar",
+    "filterCourse": "Course",
+    "filterType": "Type",
+    "allCourses": "All courses",
+    "allTypes": "All types",
+    "showExams": "Show exam terms",
+    "examLayer": "Exam term",
+    "showDeadlines": "Show deadlines",
+    "deadlineLayer": "Deadline",
+    "subscription": {
+      "title": "Use in another calendar",
+      "description": "Add your classes, the exams you registered for and your deadlines to Google Calendar, Outlook or Apple Calendar.",
+      "download": "Download .ics",
+      "create": "Create subscription link",
+      "urlLabel": "Subscription link",
+      "copy": "Copy link",
+      "copied": "Link copied",
+      "copyFailed": "The link could not be copied. Select it and copy it by hand.",
+      "shownOnce": "The link is shown only now. Paste it into your calendar app as a subscription (in Google Calendar: Other calendars → From URL). Anyone with the link can read your timetable; replace it if it leaks.",
+      "active": "A subscription link is active since {date}.",
+      "replace": "Replace link",
+      "turnOff": "Turn off",
+      "turnedOff": "The subscription link no longer works"
     }
+  },
+  "exams": {
+    "title": "Exams",
+    "subtitle": "Exam terms for the courses you attend.",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "empty": "No exam terms have been scheduled for your courses.",
+    "errorTitle": "The exams could not be loaded",
+    "errorDescription": "Your exam terms are unavailable right now. Try again in a moment.",
+    "deniedTitle": "Not available to you",
+    "deniedDescription": "You need permission to read the schedule in this institution.",
+    "summary": "{terms, plural, one {# exam term} other {# exam terms}} ahead of you",
+    "until": "until {time}",
+    "room": "Room {room}",
+    "roomIn": "Room {room}, {building}",
+    "noRoom": "No room recorded",
+    "examiner": "Examiner: {examiner}",
+    "noExaminer": "No examiner recorded",
+    "seats": "{seats} of {capacity} seats free",
+    "seatsFull": "Full",
+    "seatsUnknown": "No seat limit recorded",
+    "registered": "You are registered",
+    "cancelled": "Cancelled",
+    "offeringPanel": "Exam terms",
+    "noOfferingExams": "No exam terms have been scheduled for this course.",
+    "seeAll": "See all exams",
+    "kind": {
+      "regular": "Regular",
+      "first_retake": "First retake",
+      "second_retake": "Second retake",
+      "state_exam": "State exam"
+    },
+    "attendance": {
+      "enrolled": "Enrolled",
+      "teaching": "You examine this"
+    },
+    "registration": {
+      "opensOn": "Registration opens {date}",
+      "closesOn": "Registration closes {date}",
+      "closedNow": "Registration is closed"
+    },
+    "register": "Register",
+    "cancelRegistration": "Cancel registration",
+    "full": "No seats left",
+    "registerSucceeded": "You are registered for this exam term.",
+    "cancelSucceeded": "Your registration has been cancelled.",
+    "filters": "Filter the exams",
+    "filterCourse": "Course",
+    "filterKind": "Kind",
+    "allCourses": "All courses",
+    "allKinds": "All kinds",
+    "actionableOnly": "Only what I can act on",
+    "emptyForFilters": "No exam term matches these filters.",
+    "blocked": {
+      "teaching": "You examine this term, so there is no seat to take.",
+      "cancelled": "This term was cancelled, so registration is no longer possible.",
+      "full": "Every seat is taken.",
+      "other_term_registered": "You are registered for another term of this course. Cancel that one first.",
+      "attempt_not_earned": "A retake is only open once you have failed the attempt before it."
+    },
+    "delivery": {
+      "not_relayed": {
+        "label": "Registered in StudViro",
+        "description": "This institution's system is not notified automatically. Check with the study department if the registration has to be recorded there too."
+      },
+      "sending": {
+        "label": "Sending to the university",
+        "description": "Registered here. The university's system has not confirmed it yet."
+      },
+      "relayed": {
+        "label": "Confirmed by the university",
+        "description": "The university's system accepted the registration and assigned it an identifier."
+      },
+      "refused": {
+        "label": "Refused by the university",
+        "description": "The university's system would not accept this registration, so it was withdrawn here too."
+      },
+      "stuck": {
+        "label": "Not confirmed",
+        "description": "The university's system could not be reached. The registration stands here; an administrator has to settle it."
+      }
+    },
+    "cancelledRegistration": "You cancelled this registration"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "What changed in your courses, newest first.",
+    "summary": "{count, plural, =0 {Nothing unread} one {# unread notification} other {# unread notifications}}",
+    "empty": "Nothing has changed in your courses yet.",
+    "unread": "Unread",
+    "occurrences": "{count, plural, one {# change} other {# changes}}",
+    "markRead": "Mark as read",
+    "markAllRead": "Mark all as read",
+    "markAllReadSucceeded": "Every notification is marked as read.",
+    "startsAt": "Starts {date}",
+    "movedTo": "Moved from {from} to {to}",
+    "unknownCourse": "Unknown course",
+    "errorTitle": "Notifications could not be loaded",
+    "errorDescription": "Something went wrong while loading your notifications. Try again in a moment.",
+    "deniedTitle": "You cannot see notifications here",
+    "deniedDescription": "Your role at this institution does not include reading notifications.",
+    "type": {
+      "exam_term_published": "New exam term",
+      "exam_term_rescheduled": "Exam term moved",
+      "exam_term_cancelled": "Exam term cancelled",
+      "assignment_due_published": "New assignment deadline",
+      "assignment_due_rescheduled": "Assignment deadline moved",
+      "grade_published": "Grade published",
+      "grade_corrected": "Grade corrected",
+      "enrollment_confirmed": "Place in the course confirmed",
+      "enrollment_rejected": "Course enrolment refused",
+      "timetable_event_rescheduled": "Class moved",
+      "timetable_event_cancelled": "Class cancelled",
+      "exam_registration_confirmed": "You registered for an exam",
+      "exam_registration_cancelled": "You cancelled an exam registration",
+      "exam_registration_refused": "The university refused your exam registration",
+      "submission_marked": "Assignment marked",
+      "waitlist_place_free": "A place came free on a course you are waiting for",
+      "discussion_thread_started": "New thread in your course",
+      "discussion_reply": "New reply in a discussion"
+    },
+    "dueAt": "Due {date}",
+    "dueMovedTo": "Deadline moved from {from} to {to}",
+    "gradeIs": "Grade: {grade}",
+    "gradeChanged": "Grade changed from {from} to {to}",
+    "attempt": "Attempt {attempt}",
+    "reason": "Reason: {reason}",
+    "placeFreeHint": "Places go to whoever asks first. Take it from the enrolment screen."
+  },
+  "myTeaching": {
+    "title": "My teaching",
+    "subtitle": "Every course offering you teach, newest term first.",
+    "empty": "You are not assigned to teach any course offering yet.",
+    "errorTitle": "Teaching could not be loaded",
+    "errorDescription": "Your teaching list is unavailable right now. Try again in a moment.",
+    "deniedTitle": "Not available to you",
+    "deniedDescription": "Only teaching staff of this institution can see a teaching list.",
+    "termSummary": "{offerings, plural, one {# offering} other {# offerings}} · {students, plural, one {# student} other {# students}} · from {starts}",
+    "enrolled": "{count, plural, one {# student enrolled} other {# students enrolled}}",
+    "ofCapacity": "of {capacity} places",
+    "credits": "{count} credits",
+    "primary": "Primary",
+    "role": {
+      "lecturer": "Lecturer",
+      "seminar_leader": "Seminar leader",
+      "lab_supervisor": "Lab supervisor",
+      "examiner": "Examiner",
+      "assistant": "Assistant"
+    },
+    "offeringStatus": {
+      "planned": "Planned",
+      "open": "Open",
+      "running": "Running",
+      "closed": "Closed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "roster": {
+    "panelTitle": "Roster",
+    "tableCaption": "Students enrolled in this course offering",
+    "empty": "Nobody is enrolled in this offering yet.",
+    "errorDescription": "The roster is unavailable right now. Try again in a moment.",
+    "summary": "{enrolled} enrolled of {total} listed",
+    "summaryWithCapacity": "{enrolled} enrolled of {total} listed · {capacity} places",
+    "noStudyGroups": "None",
+    "notEnrolledYet": "Not yet",
+    "attempt": "Attempt {attempt}",
+    "column": {
+      "student": "Student",
+      "status": "Status",
+      "studyGroups": "Study groups",
+      "enrolledAt": "Enrolled"
+    },
+    "status": {
+      "requested": "Requested",
+      "provisioning": "Provisioning",
+      "active": "Active",
+      "completed": "Completed",
+      "withdrawn": "Withdrawn",
+      "rejected": "Rejected",
+      "waitlisted": "On the waiting list"
+    }
+  },
+  "marketing": {
+    "nav": {
+      "forStudents": "For students",
+      "forTeachers": "For teachers",
+      "forInstitutions": "For institutions",
+      "contact": "Contact",
+      "sectionLabel": "Product"
+    },
+    "cta": {
+      "requestDemo": "Request a demo",
+      "signIn": "Sign in",
+      "readMore": "Read more"
+    },
+    "audiences": {
+      "title": "Built for the three people who use it",
+      "subtitle": "The same record, read three ways.",
+      "students": {
+        "title": "Students",
+        "body": "One timetable, your coursework and your marks on the record your institution keeps, and an exam registration that tells you why a seat is out of reach."
+      },
+      "teachers": {
+        "title": "Teachers",
+        "body": "The offerings you lead, the work handed in against each of them, and your own teaching week, without opening a second system to assemble it."
+      },
+      "institutions": {
+        "title": "Institutions",
+        "body": "Run the whole academic year in one place: the catalogue, enrolment, timetables, exams, coursework and grades, with every permission checked at the scope it belongs to."
+      }
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "subtitle": "Three steps, and no migration.",
+      "connect": {
+        "title": "1. Set up the institution",
+        "body": "An administrator creates the institution, its org units and its first administrator, then enters the programmes and courses it offers."
+      },
+      "import": {
+        "title": "2. Fill the year",
+        "body": "Terms, offerings, timetables and exam terms go in once. A term's course list or a whole cohort can be pasted straight from a spreadsheet, with a dry run that shows what would change before anything is written."
+      },
+      "use": {
+        "title": "3. Use one surface",
+        "body": "Students, teachers and registrars each get a dashboard, a calendar and a course page over the same record. Teachers set work and mark it there; students read the result there."
+      }
+    },
+    "trust": {
+      "title": "What we do with your data",
+      "subtitle": "The parts a registrar asks about first.",
+      "credentials": {
+        "title": "Credentials are write-only",
+        "body": "Passwords are argon2. Sessions rotate. Nothing sensitive is echoed back, not even to an administrator."
+      },
+      "permissions": {
+        "title": "Permissions carry a scope",
+        "body": "Every grant names both what it permits and where. Holding the permission to read enrolments never opens a list of someone's classmates."
+      },
+      "audit": {
+        "title": "Every change has a name on it",
+        "body": "Who proposed a grade, who published it, who granted or revoked a role, and when. The trail is readable by an institution administrator and by nobody else."
+      },
+      "privacy": {
+        "title": "Data a person can take with them",
+        "body": "Anybody can export what the institution holds about them. An erasure anonymises the person and keeps the academic record, so a degree does not disappear along with a name."
+      },
+      "accessibility": {
+        "title": "Usable without a mouse",
+        "body": "WCAG 2.2 AA, checked in the test suite rather than claimed: real headings, a skip link, visible focus and contrast that survives both themes."
+      },
+      "hosting": {
+        "title": "Your infrastructure, if you want it",
+        "body": "The API is a Docker image against PostgreSQL and Redis. An institution that needs the student record inside its own network can hold it there."
+      }
+    },
+    "faq": {
+      "title": "Questions we are asked",
+      "replace": {
+        "question": "Does this replace AIS2 and Moodle?",
+        "answer": "That is the point. StudViro is the system of record: the institution enters its own data and there is no upstream. Both halves are built. The registry covers programmes, offerings, enrolment, timetables, exams and grades; the teaching side covers course pages, materials, assignments, hand-in and marking."
+      },
+      "migration": {
+        "question": "We have years of data in a system that already runs. What happens to it?",
+        "answer": "Honestly: there is no importer. StudViro reads nothing from anywhere, by design. A one-off import can be written against a real export when somebody needs one, and in the meantime a term goes in by hand or by paste. Ask us about this early rather than late."
+      },
+      "missing": {
+        "question": "What is not in it?",
+        "answer": "Signing in with a university account, because it needs a client registration only your IT can make. Recording an absence. Importing from a system you already run. Quizzes are not missing but ruled out: StudViro takes work in and marks it by hand, and nothing is planned that asks questions."
+      },
+      "accounts": {
+        "question": "How do people get accounts?",
+        "answer": "An institution onboards with us. Accounts are invited rather than opened from the public internet, and university single sign-on is on the roadmap."
+      },
+      "cost": {
+        "question": "What does it cost?",
+        "answer": "We do not publish a price. Terms depend on your size and how much of the year you want to run here, so a conversation is the honest answer."
+      }
+    },
+    "closing": {
+      "title": "See it with a term of your own",
+      "body": "Bring one department and one term. We will run the demo against a shape you recognise, and be explicit about what is not there yet.",
+      "cta": "Request a demo"
+    },
+    "footer": {
+      "product": "Product",
+      "account": "Account",
+      "settings": "Settings",
+      "tagline": "One academic platform an institution runs itself.",
+      "rights": "StudViro"
+    }
+  },
+  "forStudents": {
+    "meta": {
+      "title": "For students",
+      "description": "One timetable, your coursework and your marks in one place, and exam registration that explains itself."
+    },
+    "hero": {
+      "title": "Stop assembling your own timetable",
+      "subtitle": "Your courses, your week, the work you owe and your results in one place, on the record your university keeps."
+    },
+    "features": {
+      "title": "What you get",
+      "week": {
+        "title": "Your whole week in one view",
+        "body": "Classes, exam terms and assignment deadlines as three layers of the same week, filterable by course and by type."
+      },
+      "courses": {
+        "title": "Your courses, by term",
+        "body": "Every enrolment with its status, and a course page carrying the staff, the materials, your study groups, the work set and your own marks."
+      },
+      "coursework": {
+        "title": "Hand it in here",
+        "body": "Upload against an assignment with a note to whoever marks it, resubmit up to the attempt limit the teacher set, and let the server decide what counts as late instead of arguing about it."
+      },
+      "grades": {
+        "title": "A grade that says which grade it is",
+        "body": "Calculated, proposed and official are shown as what they are rather than blended into one number. An annulled result says so, a resit sits beside the attempt it follows, and your programme standing counts credits earned against credits left."
+      },
+      "exams": {
+        "title": "Registration that gives you a reason",
+        "body": "Register and cancel from any exam term. When you cannot, the server answers why instead of greying out a button."
+      },
+      "notifications": {
+        "title": "Told once, not five times",
+        "body": "An exam term published, moved or cancelled, a grade published or corrected, an enrolment confirmed or refused: you hear about each once, deduplicated to one message per thing per day."
+      }
+    },
+    "roadmap": {
+      "title": "Not yet",
+      "body": "Signing in with your university account is not built; for now the institution invites you and you claim the account. Quizzes are not coming at all: StudViro takes work in and marks it by hand."
+    },
+    "closing": {
+      "title": "Ask your university about it",
+      "body": "StudViro is deployed by an institution, not signed up for individually. If your university is evaluating it, this is the page to send them.",
+      "cta": "Request a demo"
+    }
+  },
+  "forTeachers": {
+    "meta": {
+      "title": "For teachers",
+      "description": "The offerings you lead, the work handed in against them, and your teaching week, in one place."
+    },
+    "hero": {
+      "title": "Your teaching, without the second login",
+      "subtitle": "The offerings you lead, the students in each of them, the work they hand in and your own week, over the same record your students read."
+    },
+    "features": {
+      "title": "What you get",
+      "offerings": {
+        "title": "Everything you lead, by term",
+        "body": "Your teaching assignments with your role on each and how many students are actually enrolled."
+      },
+      "roster": {
+        "title": "A roster that agrees with itself",
+        "body": "The student list and the enrolment count exclude withdrawn and rejected enrolments, and always match."
+      },
+      "page": {
+        "title": "Build the course page yourself",
+        "body": "Open a space against the offering, keep it unpublished while you fill it, then add files, links and text in the order you want them read. A hidden material stays invisible until you say otherwise."
+      },
+      "assignments": {
+        "title": "Set work and take it in",
+        "body": "A brief, an open date, a due date, a close date and an attempt policy. The server decides what counts as late, and every assignment opens its own gradebook column."
+      },
+      "grades": {
+        "title": "Mark it, then publish it",
+        "body": "Score against the maximum with written feedback, propose a grade from the course page, and publish it separately if you hold that. A resit is a second attempt beside the first rather than an overwrite."
+      },
+      "calendar": {
+        "title": "One week, teaching included",
+        "body": "The calendar scopes to the offerings you teach as well as the ones you attend."
+      }
+    },
+    "roadmap": {
+      "title": "Not yet",
+      "body": "An absence cannot be recorded: publishing a grade marks a seat attended, and nothing lets you mark one missed or excused. Quizzes are ruled out rather than pending."
+    },
+    "closing": {
+      "title": "See it with your own courses",
+      "body": "A demo runs against a populated institution, so you can look at an offering you recognise.",
+      "cta": "Request a demo"
+    }
+  },
+  "forInstitutions": {
+    "meta": {
+      "title": "For institutions",
+      "description": "One academic platform an institution runs itself: catalogue, enrolment, timetables, exams, coursework and grades in one record."
+    },
+    "hero": {
+      "title": "The whole academic year, in one system you own",
+      "subtitle": "The institution enters its own data, and every audience reads the same record through the permissions it holds. There is no upstream system to keep in step."
+    },
+    "features": {
+      "title": "What an administrator gets",
+      "roles": {
+        "title": "Roles that mean something",
+        "body": "Eight canonical roles over a scope tree. A student role derives from an active programme membership and a teacher role from a teaching assignment, so neither is handed out by mistake."
+      },
+      "scopes": {
+        "title": "Scoped role administration",
+        "body": "Grant and revoke against a scope, with the hierarchy enforced on the server rather than hinted at in the interface. A person can only hand out a role they hold themselves."
+      },
+      "catalogue": {
+        "title": "A catalogue you correct yourself",
+        "body": "Programmes, courses, academic terms and offerings, entered and fixed in place. A course runs at most once per term, and a term that ends before it starts is refused rather than saved."
+      },
+      "scheduling": {
+        "title": "Rooms, timetable, exam period",
+        "body": "Rooms with seat counts that refuse to retire while a class still meets in them; a slot that repeats weekly to the end of term and lets a single week move or be called off; exam terms with a capacity and a registration window."
+      },
+      "bulk": {
+        "title": "A term's worth at a time",
+        "body": "Paste a course list or a cohort from a spreadsheet, tab, semicolon or comma separated. A dry run shows what would change before anything is written."
+      },
+      "model": {
+        "title": "One canonical model",
+        "body": "One schema for the whole academic year, from org units and rooms to results and notifications, with soft deletion and keyset pagination throughout. Every row belongs to an institution and nothing crosses between them."
+      }
+    },
+    "deployment": {
+      "title": "How it runs",
+      "containers": {
+        "title": "Containers you host",
+        "body": "A NestJS API on PostgreSQL and Redis, with migrations gated on startup so a replica never serves a schema it is behind."
+      },
+      "contract": {
+        "title": "A generated API contract",
+        "body": "The client is generated from a drift-checked OpenAPI document, so the interface and the API cannot disagree."
+      },
+      "demo": {
+        "title": "Something to open on day one",
+        "body": "A seed writes about seven thousand linked rows across twenty tables: a synthetic university with faculties, terms, courses, teachers, students, enrolments, timetables and results, so an evaluation starts with a populated system."
+      }
+    },
+    "roadmap": {
+      "title": "What is missing, named",
+      "subtitle": "Ask about timelines rather than assuming them.",
+      "sso": {
+        "title": "University single sign-on",
+        "body": "OIDC against your identity provider. Blocked on a client registration only your IT department can make."
+      },
+      "migration": {
+        "title": "Import from what you run now",
+        "body": "There is no importer. Today the year goes in by hand or by paste. A one-off import can be written against a real export, and that is a conversation to have before a pilot rather than after."
+      },
+      "absence": {
+        "title": "Attendance",
+        "body": "Publishing a grade marks a seat attended. Marking one missed or excused exists in the schema and on no screen."
+      }
+    },
+    "closing": {
+      "title": "Bring one department and one term",
+      "body": "The most useful demo runs against a scope you recognise. Tell us how your year is shaped and we will show you what the platform covers.",
+      "cta": "Request a demo"
+    }
+  },
+  "contact": {
+    "meta": {
+      "title": "Request a demo",
+      "description": "Tell us how your academic year is shaped and we will show you what StudViro covers today."
+    },
+    "title": "Request a demo",
+    "subtitle": "Tell us how your academic year is shaped. We will show you what the platform covers today and what is still roadmap.",
+    "form": {
+      "institutionName": "Institution",
+      "institutionNameHint": "The university, faculty or department you are asking on behalf of.",
+      "contactName": "Your name",
+      "email": "Work email",
+      "role": "Your role",
+      "roleHint": "For example: vice-dean for study affairs, registrar, head of IT.",
+      "message": "Anything else",
+      "messageHint": "How many students, how your year is shaped, what you want to see. Optional.",
+      "website": "Leave this field empty",
+      "submit": "Request a demo",
+      "submitting": "Sending…"
+    },
+    "success": {
+      "title": "Thank you, your request is in",
+      "body": "We read every one of these ourselves and will reply to the address you gave us."
+    },
+    "errors": {
+      "rateLimited": "That is a few too many requests in a row. Try again in a minute.",
+      "failed": "We could not send that. Try again, or write to us directly.",
+      "captchaFailed": "The verification check did not finish. Try again."
+    },
+    "aside": {
+      "title": "What happens next",
+      "one": "We reply by email, usually within a couple of working days.",
+      "two": "A demo runs against a populated institution, not a slide deck.",
+      "three": "We will be explicit about what is shipped and what is still roadmap."
+    },
+    "placeholder": {
+      "institutionName": "Technical University of Košice",
+      "contactName": "Jana Kováčová",
+      "email": "jana.kovacova@university.edu",
+      "role": "Registrar",
+      "message": "We run Moodle and a homegrown SIS for 4 000 students."
+    }
+  },
+  "createInstitution": {
+    "pageTitle": "Create an institution",
+    "pageDescription": "Register a new institution and name the account that becomes its first administrator.",
+    "code": "Institution code",
+    "codeDescription": "Lowercase letters, digits and hyphens only.",
+    "name": "Institution name",
+    "firstAdminUserId": "First administrator",
+    "firstAdminUserIdDescription": "The account id of the person who becomes this institution's first administrator.",
+    "submit": "Create institution",
+    "created": "{name} created",
+    "placeholder": {
+      "code": "tuke",
+      "name": "Technical University of Košice",
+      "firstAdminUserId": "Account identifier"
+    }
+  },
+  "orgUnits": {
+    "title": "Org units",
+    "subtitle": "The faculties and departments that make up this institution.",
+    "treeLabel": "Org units",
+    "empty": "This institution has no org units yet.",
+    "errorTitle": "Org units could not be loaded",
+    "errorDescription": "Try again in a moment.",
+    "type": {
+      "university": "University",
+      "faculty": "Faculty",
+      "department": "Department",
+      "institute": "Institute",
+      "other": "Other"
+    },
+    "add": "Add unit",
+    "created": "{name} was added.",
+    "retire": "Retire",
+    "retireNamed": "Retire {name}",
+    "retired": "{name} was retired.",
+    "field": {
+      "code": "Code",
+      "name": "Name",
+      "type": "Kind",
+      "parent": "Sits under",
+      "noParent": "Nothing, this is a root unit",
+      "parentDescription": "A faculty sits under the university; a department sits under a faculty."
+    },
+    "placeholder": {
+      "code": "FEI",
+      "name": "Faculty of Electrical Engineering and Informatics"
+    }
+  },
+  "people": {
+    "title": "People",
+    "subtitle": "Everyone with a role in this institution, granted or derived from their academic record.",
+    "name": "Name",
+    "email": "Email",
+    "statusColumn": "Status",
+    "status": {
+      "invited": "Invited",
+      "active": "Active",
+      "suspended": "Suspended"
+    },
+    "roles": "Roles",
+    "noRoles": "No roles",
+    "empty": "This institution has no people yet.",
+    "errorTitle": "People could not be loaded",
+    "errorDescription": "Try again in a moment.",
+    "actions": "Actions"
+  },
+  "invitation": {
+    "title": "Accept your invitation",
+    "subtitle": "Set a password to claim your account.",
+    "displayName": "Display name",
+    "displayNameHint": "Leave blank to keep the name already on file.",
+    "password": "Password",
+    "passwordHint": "At least 8 characters. Leave blank if you can already sign in.",
+    "confirmPassword": "Confirm password",
+    "passwordMismatch": "Passwords do not match",
+    "submit": "Accept invitation",
+    "submitting": "Accepting…",
+    "invalidTitle": "This invitation link is no longer valid",
+    "invalidDescription": "It may have expired, already been used, or never existed. Ask whoever invited you to send a new one.",
+    "placeholder": {
+      "displayName": "Jana Kováčová",
+      "password": "At least 8 characters",
+      "confirmPassword": "Repeat the password"
+    }
+  },
+  "passwordReset": {
+    "requestTitle": "Reset your password",
+    "requestSubtitle": "We'll send a reset link to your email.",
+    "email": "Email",
+    "submit": "Send reset link",
+    "submitting": "Sending…",
+    "requestSentTitle": "If that address has an account, we've sent a reset link",
+    "requestSentDescription": "Check your email for a link to set a new password. It expires in one hour.",
+    "devTokenHint": "No mail transport in this environment.",
+    "devTokenLink": "Continue with the reset link",
+    "backToSignIn": "Back to sign in",
+    "confirmTitle": "Set a new password",
+    "confirmSubtitle": "Choose a new password for your account.",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "passwordMismatch": "Passwords do not match",
+    "confirmSubmit": "Set new password",
+    "confirmSubmitting": "Setting password…",
+    "invalidTitle": "This password reset link is no longer valid",
+    "invalidDescription": "It may have expired, already been used, or was typed incorrectly. Request a new one.",
+    "placeholder": {
+      "email": "jana.kovacova@university.edu",
+      "newPassword": "At least 8 characters",
+      "confirmPassword": "Repeat the new password"
+    },
+    "captchaFailed": "The verification check did not finish. Try again."
+  },
+  "learning": {
+    "title": "Course pages",
+    "subtitle": "Every course page written in this institution, and how many offerings are still without one.",
+    "deniedTitle": "This index is not yours to see",
+    "deniedDescription": "Only somebody who administers this institution's course offerings can list every course page. Your own courses are on your dashboard.",
+    "errorTitle": "Course pages could not be loaded",
+    "errorDescription": "The server answered {status}. Try again in a moment.",
+    "emptyTitle": "No course page has been written yet",
+    "emptyDescription": "A course page is opened from the offering it belongs to, by whoever teaches or administers it.",
+    "summaryTitle": "Course pages",
+    "summary": "{total, plural, one {# course page} other {# course pages}} in this institution.",
+    "offeringsWithoutPage": "{count, plural, one {# offering has} other {# offerings have}} no course page yet.",
+    "everyOfferingHasAPage": "Every course offering has a page.",
+    "unlinkedBadge": "Course withdrawn",
+    "none": "—",
+    "column": {
+      "space": "Course page",
+      "offering": "Course offering",
+      "activities": "Activities",
+      "nextDue": "Next deadline"
+    },
+    "assessments": {
+      "panel": "Coursework marks",
+      "empty": "No mark has been recorded for you in this course yet.",
+      "error": "Marks could not be loaded. Try again in a moment.",
+      "score": "{points} of {maxPoints}",
+      "percentage": "{percentage}%",
+      "ungraded": "Not marked yet",
+      "notCounted": "Does not count toward the final grade",
+      "gradedOn": "Marked {on}",
+      "feedback": "Feedback from your marker",
+      "dueOn": "Due {on}",
+      "completion": {
+        "complete": "Completed",
+        "complete_pass": "Completed, passed",
+        "complete_fail": "Completed, failed",
+        "incomplete": "Not completed"
+      },
+      "column": {
+        "assessment": "Assessment",
+        "score": "Score",
+        "state": "State"
+      }
+    },
+    "coursePage": "Course page"
+  },
+  "deadlines": {
+    "title": "Deadlines",
+    "dueAt": "Due {time}",
+    "dueOn": "Due {date}",
+    "inSpace": "In {space}",
+    "state": {
+      "open": "Open",
+      "upcoming": "Not open yet",
+      "overdue": "Past due",
+      "handedIn": "Handed in",
+      "missed": "Missed"
+    },
+    "type": {
+      "assignment": "Assignment",
+      "quiz": "Quiz",
+      "forum": "Forum",
+      "resource": "Resource",
+      "workshop": "Peer review",
+      "other": "Activity"
+    },
+    "attendance": {
+      "teaching": "You teach this"
+    },
+    "submission": {
+      "handedIn": "Handed in {when}",
+      "handedInLate": "Handed in late, {when}",
+      "notHandedIn": "Nothing handed in",
+      "state": {
+        "draft": "Draft",
+        "submitted": "Submitted",
+        "returned": "Returned",
+        "graded": "Graded"
+      }
+    }
+  },
+  "gradeEntry": {
+    "panelTitle": "Grades",
+    "panelDescription": "Propose a grade for each student, or publish one. A published grade is what the student stands on and marks their seat as attended.",
+    "error": "The grades of this offering could not be read.",
+    "empty": "Nobody is recorded in this offering yet.",
+    "mayPublish": "You may propose a grade and publish it.",
+    "mayOnlyPropose": "You may propose a grade. Publishing it is someone else's decision.",
+    "saved": "The grade was recorded.",
+    "propose": "Propose",
+    "publish": "Publish",
+    "noGrade": "Choose a grade",
+    "notGraded": "Not graded",
+    "annulled": "Annulled",
+    "sourced": "From the university",
+    "sourcedHint": "This grade already has a value. Changing it replaces what the student currently sees.",
+    "attemptNone": "No sitting yet",
+    "attemptNumber": "Attempt {attempt}",
+    "gradeFor": "Grade for {student}",
+    "column": {
+      "student": "Student",
+      "attempt": "Attempt",
+      "standing": "Standing",
+      "record": "Record"
+    },
+    "grade": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D",
+      "E": "E",
+      "FX": "FX",
+      "passed": "Passed",
+      "failed": "Failed"
+    }
+  },
+  "terminology": {
+    "institution": "Institution",
+    "faculty": "Faculty",
+    "department": "Department",
+    "program": "Programme",
+    "course": "Course",
+    "courseOffering": "Course offering",
+    "academicTerm": "Term",
+    "student": "Student",
+    "teacher": "Teacher",
+    "studentIdentifier": "Student number",
+    "credits": "Credits"
+  },
+  "enrollment": {
+    "title": "Enrol in a course",
+    "subtitle": "The courses on offer this term, and whether you may take them.",
+    "enroll": "Enrol",
+    "withdraw": "Withdraw",
+    "full": "Full",
+    "requested": "Asked for. The university has not answered yet.",
+    "enrolled": "You have a place on this course.",
+    "withdrawn": "You withdrew from this course.",
+    "credits": "{credits} credits",
+    "seats": "{seats} of {capacity} places left",
+    "seatsFull": "No places left",
+    "seatsUnknown": "No limit on places",
+    "actionableOnly": "Only courses I can act on",
+    "empty": "No courses are on offer here yet.",
+    "emptyForFilters": "No course here is one you can act on right now.",
+    "errorTitle": "Courses could not be loaded",
+    "errorDescription": "Something went wrong while loading the courses on offer. Try again in a moment.",
+    "status": {
+      "requested": "Requested",
+      "provisioning": "Being set up",
+      "active": "Enrolled",
+      "completed": "Completed",
+      "withdrawn": "Withdrawn",
+      "rejected": "Refused",
+      "waitlisted": "On the waiting list"
+    },
+    "window": {
+      "opensOn": "Enrolment opens {date}",
+      "closesOn": "Enrolment closes {date}",
+      "openUntilFurtherNotice": "Enrolment is open",
+      "closedNow": "Enrolment is closed"
+    },
+    "blocked": {
+      "enrolled": "You already have a place on this course.",
+      "requested": "You have asked for a place and the university has not answered yet.",
+      "completed": "You have already completed this course.",
+      "full": "Every place is taken. You can join the waiting list.",
+      "not_a_student": "Only a student of a programme at this institution can take its courses.",
+      "waitlisted": "You are on the waiting list for this course."
+    },
+    "deniedTitle": "You cannot enrol here",
+    "deniedDescription": "Your role at this institution does not include taking courses.",
+    "joinWaitlist": "Join the waiting list",
+    "leaveWaitlist": "Leave the waiting list",
+    "takePlace": "Take the place",
+    "waitlisted": "You are on the waiting list. You will hear when the registrar decides, and you may take a place yourself if one comes free.",
+    "leftWaitlist": "You left the waiting list."
+  },
+  "catalogue": {
+    "title": "Catalogue",
+    "subtitle": "The programmes and courses this institution offers.",
+    "pending": "Awaiting sync",
+    "deniedTitle": "You cannot see the catalogue here",
+    "deniedDescription": "Your role at this institution does not include reading the catalogue.",
+    "programs": {
+      "title": "Programmes",
+      "description": "What a student can be enrolled on.",
+      "empty": "No programmes yet.",
+      "error": "The programmes could not be read.",
+      "add": "Add programme",
+      "added": "The programme was added.",
+      "codePlaceholder": "B-INF",
+      "namePlaceholder": "Informatics"
+    },
+    "courses": {
+      "title": "Courses",
+      "description": "What a programme is made of.",
+      "empty": "No courses yet.",
+      "error": "The courses could not be read.",
+      "add": "Add course",
+      "added": "The course was added.",
+      "codePlaceholder": "INF101",
+      "namePlaceholder": "Operating Systems"
+    },
+    "column": {
+      "code": "Code",
+      "name": "Name",
+      "title": "Title",
+      "credits": "Credits",
+      "degreeLevel": "Degree",
+      "state": "State"
+    },
+    "degreeLevel": {
+      "bachelor": "Bachelor",
+      "master": "Master",
+      "doctoral": "Doctoral",
+      "other": "Other"
+    },
+    "studyForm": {
+      "full_time": "Full time",
+      "part_time": "Part time",
+      "distance": "Distance"
+    }
+  },
+  "academicTerms": {
+    "title": "Academic terms",
+    "description": "The year an offering hangs off. The enrolment window lives here: a term without one never opens for self-service enrolment.",
+    "empty": "No academic terms yet. Add the first one and the catalogue has a year to sit in.",
+    "error": "The academic terms could not be read.",
+    "add": "Add term",
+    "created": "{name} was added.",
+    "retire": "Retire",
+    "retireNamed": "Retire {name}",
+    "retired": "{name} was retired.",
+    "range": "{from} – {to}",
+    "field": {
+      "code": "Code",
+      "name": "Name",
+      "academicYear": "Academic year",
+      "kind": "Kind",
+      "startsAt": "Starts",
+      "endsAt": "Ends",
+      "enrollmentOpensAt": "Enrolment opens",
+      "enrollmentClosesAt": "Enrolment closes",
+      "windowDescription": "Leave both empty and the term never opens for self-service enrolment."
+    },
+    "kind": {
+      "semester": "Semester",
+      "trimester": "Trimester",
+      "summer": "Summer",
+      "year": "Year",
+      "other": "Other"
+    },
+    "column": {
+      "code": "Code",
+      "name": "Name",
+      "runs": "Runs",
+      "enrollment": "Enrolment",
+      "actions": "Actions"
+    },
+    "window": {
+      "none": "Never opens",
+      "upcoming": "Opens later",
+      "open": "Open",
+      "closed": "Closed"
+    },
+    "placeholder": {
+      "code": "2026W",
+      "name": "Winter 2026/2027",
+      "academicYear": "2026/2027"
+    }
+  },
+  "rooms": {
+    "title": "Rooms",
+    "description": "Where teaching happens. A room can belong to a faculty or department, or to none.",
+    "empty": "No rooms yet.",
+    "error": "The rooms could not be read.",
+    "noBuilding": "No building",
+    "seats": "{count} seats",
+    "add": "Add room",
+    "created": "{code} was added.",
+    "retire": "Retire",
+    "retireNamed": "Retire {code}",
+    "retired": "{code} was retired.",
+    "field": {
+      "code": "Code",
+      "name": "Name",
+      "building": "Building",
+      "capacity": "Seats",
+      "orgUnit": "Belongs to",
+      "noOrgUnit": "No unit"
+    },
+    "column": {
+      "code": "Code",
+      "name": "Name",
+      "capacity": "Seats",
+      "actions": "Actions"
+    },
+    "placeholder": {
+      "code": "FEI-101",
+      "name": "Lecture hall A",
+      "building": "Main building",
+      "capacity": "No limit"
+    }
+  },
+  "offerings": {
+    "title": "Course offerings",
+    "description": "What is actually on this term: a course paired with a term, with its places and who teaches it.",
+    "empty": "Nothing is on offer yet.",
+    "error": "The offerings could not be read.",
+    "nothingToOffer": "Add a course and an academic term first; an offering is the pairing of the two.",
+    "add": "Put on offer",
+    "created": "The offering was added.",
+    "retire": "Retire",
+    "retireNamed": "Retire {label}",
+    "retired": "{label} was retired.",
+    "full": "Full",
+    "noTeacher": "No teacher",
+    "places": {
+      "capped": "{enrolled} of {capacity}",
+      "uncapped": "{enrolled} enrolled · no limit"
+    },
+    "field": {
+      "course": "Course",
+      "chooseCourse": "Choose a course",
+      "term": "Term",
+      "chooseTerm": "Choose a term",
+      "capacity": "Places",
+      "capacityDescription": "Leave empty for no limit.",
+      "status": "State"
+    },
+    "status": {
+      "planned": "Planned",
+      "open": "Open",
+      "running": "Running",
+      "closed": "Closed",
+      "cancelled": "Cancelled"
+    },
+    "column": {
+      "course": "Course",
+      "places": "Places",
+      "state": "State",
+      "actions": "Actions"
+    },
+    "placeholder": {
+      "capacity": "No limit"
+    }
+  },
+  "teaching": {
+    "assign": "Assign",
+    "assigned": "They now teach this offering.",
+    "unassign": "Remove",
+    "unassignNamed": "Remove {name} from this offering",
+    "unassigned": "{name} no longer teaches this offering.",
+    "field": {
+      "person": "Person",
+      "choosePerson": "Choose a person",
+      "searchPerson": "Search by name or email",
+      "noPersonMatches": "Nobody here matches that",
+      "personDescription": "Anybody who already belongs to this institution. Somebody new arrives by invitation.",
+      "role": "Role",
+      "isPrimary": "Lead teacher",
+      "isPrimaryDescription": "One per offering. Naming a second stands the first down."
+    },
+    "role": {
+      "lecturer": "Lecturer",
+      "seminar_leader": "Seminar leader",
+      "lab_supervisor": "Lab supervisor",
+      "examiner": "Examiner",
+      "assistant": "Assistant"
+    }
+  },
+  "programMembers": {
+    "title": "Students on this programme",
+    "description": "Who is studying it, and where each of them stands.",
+    "studying": "{count} studying now",
+    "empty": "Nobody is on this programme yet.",
+    "error": "The roll could not be read.",
+    "notFoundTitle": "That programme is not here",
+    "notFoundDescription": "It may have been retired, or it belongs to another institution.",
+    "admit": "Admit",
+    "admitted": "They are now a student of this programme.",
+    "statusChanged": "{name} is now {status}.",
+    "statusFor": "Standing of {name}",
+    "yearNumber": "Year {year}",
+    "field": {
+      "person": "Person",
+      "choosePerson": "Choose a person",
+      "searchPerson": "Search by name or email",
+      "noPersonMatches": "Nobody here matches that",
+      "personDescription": "Anybody who already belongs to this institution. Somebody new arrives by invitation.",
+      "studyYear": "Year"
+    },
+    "status": {
+      "active": "Studying",
+      "interrupted": "Interrupted",
+      "graduated": "Graduated",
+      "terminated": "Terminated"
+    },
+    "column": {
+      "student": "Student",
+      "year": "Year",
+      "since": "Since",
+      "standing": "Standing"
+    },
+    "placeholder": {
+      "studyYear": "1"
+    }
+  },
+  "studyGroups": {
+    "title": "Groups",
+    "description": "Seminar and lab groups within this offering. Only somebody enrolled on the course may be in one.",
+    "empty": "No groups on this offering yet.",
+    "error": "The groups could not be read.",
+    "noMembers": "Nobody in this group yet.",
+    "add": "Open group",
+    "created": "The group was opened.",
+    "close": "Close",
+    "closeNamed": "Close group {code}",
+    "closed": "Group {code} was closed.",
+    "remove": "Remove",
+    "removeNamed": "Remove {name} from this group",
+    "memberRemoved": "{name} left the group.",
+    "memberAdded": "They joined the group.",
+    "addTo": "Add somebody to group {code}",
+    "addSomeone": "Add a student",
+    "full": "This group is full.",
+    "everyoneAssigned": "Everybody on the roster is already in this group.",
+    "places": {
+      "capped": "{taken} of {capacity}",
+      "uncapped": "{taken} in the group"
+    },
+    "field": {
+      "code": "Code",
+      "name": "Name",
+      "kind": "Kind",
+      "capacity": "Places"
+    },
+    "kind": {
+      "seminar": "Seminar",
+      "lab": "Lab",
+      "exercise": "Exercise",
+      "project": "Project",
+      "other": "Other"
+    },
+    "nobodyEnrolled": "Nobody is enrolled on this offering yet, so there is nobody to put in a group.",
+    "placeholder": {
+      "code": "S1",
+      "name": "Monday seminar",
+      "capacity": "No limit"
+    }
+  },
+  "examTermAdmin": {
+    "title": "Exam terms",
+    "description": "When this course is examined. Moving a term or calling it off reaches the students holding a seat.",
+    "empty": "No exam term has been offered for this course yet.",
+    "error": "The exam terms could not be read.",
+    "offer": "Offer term",
+    "offered": "The exam term was offered.",
+    "offerLegend": "Offer an exam term",
+    "editLegend": "Edit this exam term",
+    "save": "Save",
+    "saved": "The exam term was saved.",
+    "edit": "Edit",
+    "editNamed": "Edit the exam term on {label}",
+    "cancelEdit": "Discard",
+    "cancel": "Call off",
+    "cancelNamed": "Call off the exam term on {label}",
+    "cancelled": "The exam term on {label} was called off.",
+    "cancelledBadge": "Called off",
+    "remove": "Remove",
+    "removeNamed": "Remove the exam term on {label}",
+    "removed": "The exam term on {label} was removed.",
+    "when": "{day} {from}–{to}",
+    "whenOpenEnded": "{day} from {from}",
+    "seats": "{taken} of {capacity} seats taken",
+    "seatsUnlimited": "{taken} registered, no seat limit",
+    "window": "Registration {opens} to {closes}",
+    "windowUntilExamStarts": "Registration is open until the exam starts.",
+    "windowAlways": "from the start",
+    "windowUntilExam": "the exam",
+    "field": {
+      "date": "Exam day",
+      "from": "From",
+      "to": "To",
+      "kind": "Attempt",
+      "capacity": "Seats",
+      "noLimit": "No limit",
+      "room": "Room",
+      "noRoom": "No room",
+      "examiner": "Examiner",
+      "noExaminer": "No examiner",
+      "opensOn": "Registration opens",
+      "closesOn": "Registration closes"
+    },
+    "kind": {
+      "regular": "Regular",
+      "first_retake": "First retake",
+      "second_retake": "Second retake",
+      "state_exam": "State exam"
+    }
+  },
+  "examAttendance": {
+    "show": "Registrants",
+    "hide": "Hide registrants",
+    "showNamed": "Show who registered for the exam on {label}",
+    "hideNamed": "Hide who registered for the exam on {label}",
+    "listLabel": "Registered for the exam on {label}",
+    "empty": "Nobody holds a seat on this term.",
+    "error": "The registrants could not be read.",
+    "notYet": "Attendance can be recorded once the exam has started.",
+    "attendanceOf": "Attendance of {student}",
+    "status": {
+      "registered": "Not recorded",
+      "attended": "Sat the exam",
+      "no_show": "Did not come",
+      "excused": "Excused",
+      "cancelled": "Gave the seat up"
+    },
+    "recorded": {
+      "attended": "{student}: sat the exam.",
+      "no_show": "{student}: did not come.",
+      "excused": "{student}: excused."
+    }
+  },
+  "timetableAdmin": {
+    "title": "Timetable",
+    "description": "When this course meets. A weekly slot is written as one class per week, so moving or calling off a single week is an ordinary edit.",
+    "empty": "Nothing is scheduled for this course yet.",
+    "error": "The timetable could not be read.",
+    "schedule": "Schedule",
+    "scheduled": "{count, plural, one {# class scheduled.} other {# classes scheduled.}}",
+    "cancel": "Call off",
+    "cancelNamed": "Call off the class on {label}",
+    "cancelled": "The class on {label} was called off.",
+    "restore": "Put back",
+    "restoreNamed": "Put the class on {label} back on",
+    "restored": "The class on {label} is back on.",
+    "noRoom": "No room",
+    "occurrences": "{count, plural, one {# week} other {# weeks}}",
+    "field": {
+      "date": "First class",
+      "from": "From",
+      "to": "To",
+      "type": "Kind",
+      "room": "Room",
+      "noRoom": "No room",
+      "group": "Who attends",
+      "wholeCourse": "The whole course",
+      "title": "Title",
+      "repeatWeekly": "Every week",
+      "repeatWeeklyDescription": "Repeat this slot weekly until the term ends."
+    },
+    "type": {
+      "lecture": "Lecture",
+      "seminar": "Seminar",
+      "lab": "Lab",
+      "consultation": "Consultation",
+      "exam": "Exam",
+      "other": "Other"
+    },
+    "weekday": {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday"
+    },
+    "slotWhen": "{weekday} {from}–{to}",
+    "placeholder": {
+      "title": "Lecture"
+    }
+  },
+  "bulkEntry": {
+    "title": "Bulk entry",
+    "subtitle": "Paste a term's worth of data instead of filling one form at a time.",
+    "description": "Paste from a spreadsheet. Tab, semicolon and comma all work, and the first row names the columns.",
+    "deniedTitle": "You cannot import here",
+    "deniedDescription": "Your role at this institution does not include managing offerings or programmes.",
+    "preview": "Preview",
+    "previewed": "Nothing written",
+    "written": "Written",
+    "apply": "{count, plural, =0 {Apply} one {Apply # row} other {Apply # rows}}",
+    "applied": "{created, plural, one {# row was written.} other {# rows were written.}}",
+    "summary": "{total} rows · {created} to create · {skipped} already there · {failed} refused",
+    "field": {
+      "kind": "What are you importing?",
+      "text": "The data",
+      "columns": "Columns: {columns}"
+    },
+    "kind": {
+      "offerings": "Courses on offer this term",
+      "members": "Students joining a programme"
+    },
+    "status": {
+      "created": "New",
+      "skipped": "Already there",
+      "failed": "Refused"
+    },
+    "column": {
+      "line": "Row",
+      "status": "Status",
+      "detail": "What happens"
+    },
+    "rowsLabel": "Import Rows"
+  },
+  "learningSpace": {
+    "title": "Course page",
+    "description": "The page students see for this course: a summary, materials and assignments.",
+    "error": "The course page could not be loaded. Try again in a moment.",
+    "empty": "This course has no course page yet.",
+    "published": "Published",
+    "unpublished": "Unpublished",
+    "created": "Course page opened",
+    "saved": "Course page saved",
+    "create": "Open the course page",
+    "save": "Save the course page",
+    "settingsLabel": "Course page settings",
+    "field": {
+      "name": "Name",
+      "shortName": "Short name",
+      "summary": "Summary",
+      "visible": "Show this page to students",
+      "visibleHint": "A new page is unpublished, so a course can be built before anybody sees it."
+    },
+    "placeholder": {
+      "name": "Operating Systems",
+      "shortName": "OS",
+      "summary": "What the course covers, in a sentence or two."
+    }
+  },
+  "materials": {
+    "title": "Materials",
+    "description": "Files, links and notes, in the order students read them.",
+    "error": "Materials could not be loaded. Try again in a moment.",
+    "empty": "No materials yet.",
+    "formLabel": "Add a material",
+    "add": "Add the material",
+    "added": "Material added",
+    "removed": "{title} was removed",
+    "remove": "Remove",
+    "removeNamed": "Remove {title}",
+    "hide": "Hide",
+    "hideNamed": "Hide {title}",
+    "show": "Show",
+    "showNamed": "Show {title}",
+    "hidden": "Hidden",
+    "moveUpNamed": "Move {title} up",
+    "moveDownNamed": "Move {title} down",
+    "download": "Download",
+    "downloadNamed": "Download {title}",
+    "unnamedFile": "Unnamed file",
+    "size": "{kilobytes} kB",
+    "kind": {
+      "file": "File",
+      "link": "Link",
+      "text": "Text"
+    },
+    "field": {
+      "kind": "Kind",
+      "title": "Title",
+      "description": "Description",
+      "url": "Address",
+      "body": "Text",
+      "file": "File",
+      "fileHint": "The file is uploaded straight to the store; the server records it once it arrives.",
+      "visible": "Show this material to students"
+    },
+    "upload": {
+      "pickFirst": "Choose a file first",
+      "failed": "The file could not be uploaded. Nothing was added.",
+      "tooLarge": "That file is larger than the store accepts. Nothing was added.",
+      "progressLabel": "Upload progress"
+    },
+    "placeholder": {
+      "title": "Lecture 1: Processes",
+      "description": "One line about what this is.",
+      "url": "https://example.edu/lecture-1",
+      "body": "The text students will read here."
+    }
+  },
+  "assignments": {
+    "title": "Assignments",
+    "description": "What students hand in, when it is due and how many attempts they get.",
+    "error": "Assignments could not be loaded. Try again in a moment.",
+    "empty": "No assignments yet.",
+    "formLabel": "Add an assignment",
+    "editLabel": "Edit {name}",
+    "create": "Add the assignment",
+    "created": "Assignment added",
+    "save": "Save the assignment",
+    "saved": "Assignment saved",
+    "edit": "Edit",
+    "editNamed": "Edit {name}",
+    "cancelEdit": "Stop editing",
+    "remove": "Remove",
+    "removeNamed": "Remove {name}",
+    "removed": "{name} was removed",
+    "hide": "Hide",
+    "hideNamed": "Hide {name}",
+    "show": "Show",
+    "showNamed": "Show {name}",
+    "hidden": "Hidden",
+    "lateAllowed": "Late work accepted",
+    "attempts": "{count, plural, one {# attempt} other {# attempts}}",
+    "attemptsUnlimited": "Unlimited attempts",
+    "points": "{maxPoints} points",
+    "unset": "—",
+    "window": "Opens {opens} · due {due} · closes {closes}",
+    "field": {
+      "name": "Name",
+      "brief": "Brief",
+      "opensAt": "Opens",
+      "dueAt": "Due",
+      "closesAt": "Closes",
+      "maxAttempts": "Attempts allowed",
+      "maxAttemptsHint": "Leave empty for unlimited attempts.",
+      "maxPoints": "Points available",
+      "allowsLate": "Accept work after the due date",
+      "counts": "Counts toward the final grade",
+      "visible": "Show this assignment to students"
+    },
+    "placeholder": {
+      "name": "Assignment 1: Shell",
+      "brief": "What to hand in, and how it will be marked.",
+      "maxAttempts": "Unlimited",
+      "maxPoints": "100"
+    }
+  },
+  "submissions": {
+    "title": "Your submission",
+    "error": "Your submissions could not be loaded. Try again in a moment.",
+    "none": "You have not handed anything in yet.",
+    "attempt": "Attempt {attempt}",
+    "late": "Late",
+    "onTime": "On time",
+    "handedIn": "Handed in",
+    "handedInOn": "Handed in {on}",
+    "notHandedIn": "Not handed in",
+    "attemptsLeft": "{count, plural, one {# attempt left} other {# attempts left}}",
+    "noAttemptsLeft": "{count, plural, one {You have used your one attempt.} other {You have used all # attempts.}}",
+    "submit": "Hand in",
+    "submitLabel": "Hand in your work",
+    "resubmit": "Hand in again",
+    "resubmitLabel": "Hand in your work again",
+    "pickFirst": "Choose at least one file",
+    "uploadFailed": "{filename} could not be uploaded. Nothing was handed in.",
+    "uploadTooLarge": "{filename} is larger than the store accepts. Nothing was handed in.",
+    "progressLabel": "Upload progress",
+    "downloadNamed": "Download {filename}",
+    "mark": "{points} of {maxPoints} points",
+    "markNoMaximum": "{points} points",
+    "markNoPoints": "Marked without points",
+    "feedback": "Feedback",
+    "field": {
+      "files": "Files",
+      "notes": "Notes for the marker"
+    },
+    "state": {
+      "draft": "Draft",
+      "submitted": "Handed in",
+      "returned": "Returned",
+      "graded": "Marked"
+    },
+    "placeholder": {
+      "notes": "Anything the marker should know. Optional."
+    }
+  },
+  "marking": {
+    "error": "Submissions could not be loaded. Try again in a moment.",
+    "empty": "Nobody has handed anything in yet.",
+    "handedInCount": "{count, plural, one {# submission} other {# submissions}}",
+    "tableLabel": "Submissions for {name}",
+    "attempt": "Attempt {attempt}",
+    "late": "Late",
+    "notHandedIn": "Not handed in",
+    "noFiles": "No files",
+    "marked": "{name}'s work was marked",
+    "save": "Save the mark",
+    "formLabel": "Mark {name}'s work",
+    "column": {
+      "student": "Student",
+      "handedIn": "Handed in",
+      "files": "Files",
+      "mark": "Mark"
+    },
+    "field": {
+      "points": "Points",
+      "pointsOf": "Points of {maxPoints}",
+      "feedback": "Feedback"
+    },
+    "placeholder": {
+      "points": "0",
+      "feedback": "What they did well, and what to fix."
+    }
+  },
+  "search": {
+    "title": "Search",
+    "subtitle": "Courses, programmes, people, rooms: everything you are allowed to see.",
+    "label": "What are you looking for?",
+    "placeholder": "A course code, a name, a room…",
+    "hint": "At least two characters.",
+    "searching": "Searching…",
+    "error": "The search could not be run.",
+    "nothing": "Nothing matches “{query}”.",
+    "truncated": "There are more matches than shown. Try a longer query.",
+    "notSearched": "Not searched, because your role does not include reading them:",
+    "kind": {
+      "course": "Courses",
+      "offering": "On offer",
+      "program": "Programmes",
+      "person": "People",
+      "orgUnit": "Org units",
+      "room": "Rooms"
+    }
+  },
+  "audit": {
+    "title": "Audit trail",
+    "subtitle": "Who changed what, and what it was before.",
+    "description": "Grades, role grants, enrolment corrections and cancelled exam terms. Reads are not recorded.",
+    "deniedTitle": "You cannot see the audit trail",
+    "deniedDescription": "Only an institution administrator may read it.",
+    "filter": "Show",
+    "allActions": "Everything",
+    "empty": "Nothing has been recorded yet.",
+    "error": "The audit trail could not be read.",
+    "moreExist": "Older entries exist than are shown here.",
+    "systemActor": "The system",
+    "unknownActor": "Somebody no longer in this institution",
+    "changed": "{before} → {after}",
+    "nothing": "nothing",
+    "action": {
+      "gradeProposed": "Grade proposed",
+      "gradePublished": "Grade published",
+      "roleGranted": "Role granted",
+      "roleRevoked": "Role revoked",
+      "enrollmentCorrected": "Enrolment corrected",
+      "examTermCancelled": "Exam term cancelled",
+      "examAttendanceRecorded": "Exam attendance recorded",
+      "personalDataErased": "Personal data erased",
+      "discussionHidden": "Discussion post hidden",
+      "discussionRestored": "Discussion post restored"
+    }
+  },
+  "personalData": {
+    "title": "Your personal data",
+    "description": "Take a copy of everything this institution holds about you.",
+    "export": "Download my data",
+    "exported": "Your data was downloaded.",
+    "eraseTitle": "Erase {name}",
+    "eraseWarning": "This cannot be undone. Their sign-in, sessions, contact addresses and files go. Their academic record stays: the grades remain, attached to a row that no longer says who it was.",
+    "typeAddress": "Type {email} to confirm",
+    "erase": "Erase this person",
+    "erased": "{name} was erased.",
+    "cancel": "Never mind"
+  },
+  "captcha": {
+    "idle": "This form is protected by a verification check your browser completes for you.",
+    "solving": "Checking you are not a robot…",
+    "solved": "Verified.",
+    "failed": "The verification check did not finish. Try again."
+  },
+  "validation": {
+    "required": "This field is required.",
+    "tooShort": "Use at least {min} characters.",
+    "tooLong": "Use {max} characters or fewer.",
+    "exactLength": "Use exactly {length} characters.",
+    "numberTooSmall": "Enter {min} or more.",
+    "numberTooBig": "Enter {max} or less.",
+    "dateTooEarly": "Choose a later date.",
+    "dateTooLate": "Choose an earlier date.",
+    "selectOne": "Choose an option.",
+    "tooFewItems": "Choose at least {min}.",
+    "tooManyItems": "Choose {max} at most.",
+    "fileTooLarge": "That file is too large.",
+    "email": "Enter an email address, like name@university.edu.",
+    "url": "Enter a full web address, starting with https://.",
+    "identifier": "That is not a valid identifier.",
+    "option": "Choose one of the listed options.",
+    "datetime": "Enter a date and a time.",
+    "date": "Enter a date.",
+    "time": "Enter a time.",
+    "pattern": "That is not a valid value for this field.",
+    "startsWith": "Must start with {prefix}.",
+    "endsWith": "Must end with {suffix}.",
+    "includes": "Must contain {text}.",
+    "number": "Enter a number.",
+    "integer": "Enter a whole number.",
+    "multipleOf": "Enter a multiple of {step}.",
+    "invalid": "Check this value."
+  },
+  "courseWaitlist": {
+    "title": "Waiting list",
+    "description": "Students queueing for a place on a full course, first come first served. Admitting one goes past the capacity; either answer reaches the student.",
+    "empty": "Nobody is waiting for a place.",
+    "error": "The waiting list could not be read.",
+    "since": "Waiting since {date}",
+    "admit": "Admit",
+    "admitNamed": "Admit {student}",
+    "refuse": "Refuse",
+    "refuseNamed": "Refuse {student}",
+    "admitted": "{student} was given a place.",
+    "refused": "{student} was refused a place."
+  },
+  "accountSettings": {
+    "title": "Account settings",
+    "subtitle": "Your profile, your password, how you sign in, and what reaches your inbox.",
+    "profile": {
+      "title": "Profile",
+      "description": "How you appear to teachers, students and staff.",
+      "email": "Email",
+      "displayName": "Display name",
+      "save": "Save changes",
+      "saved": "Your profile was updated."
+    },
+    "password": {
+      "title": "Password",
+      "description": "Changing it signs you out everywhere else.",
+      "current": "Current password",
+      "new": "New password",
+      "confirm": "Confirm new password",
+      "hint": "At least 8 characters. A short phrase is easier to remember than a jumble.",
+      "submit": "Change password",
+      "changed": "Your password was changed. Every other session was signed out.",
+      "incorrect": "That is not your current password.",
+      "unchanged": "Choose a password different from the current one.",
+      "mismatch": "Passwords do not match"
+    },
+    "twoFactor": {
+      "title": "Two-step verification",
+      "description": "Ask for a code from your phone as well as your password when you sign in.",
+      "offDescription": "Off. Anyone with your password can sign in as you.",
+      "setUp": "Turn on two-step verification",
+      "on": "On",
+      "onSince": "On since {date}",
+      "codesRemaining": "{count, plural, =0 {No recovery codes left} one {# recovery code left} other {# recovery codes left}}",
+      "codesLow": "Running low",
+      "regenerate": "Get new recovery codes",
+      "disable": "Turn off",
+      "continue": "Continue",
+      "cancel": "Cancel",
+      "password": "Password",
+      "incorrectPassword": "That is not your password.",
+      "startPrompt": "Confirm your password to start.",
+      "regeneratePrompt": "Your current recovery codes will stop working. Confirm your password to continue.",
+      "disablePrompt": "Signing in will need only your password. Confirm it to turn two-step verification off.",
+      "enabled": "Two-step verification is on.",
+      "disabled": "Two-step verification is off.",
+      "errorTitle": "Two-step verification settings could not be loaded",
+      "pair": {
+        "stepInstall": "Install an authenticator app, such as Google Authenticator, Microsoft Authenticator or 1Password.",
+        "stepScan": "Scan this QR code with it, or type the key in by hand.",
+        "stepConfirm": "Enter the six-digit code the app shows.",
+        "qrAlt": "QR code to scan with your authenticator app",
+        "manualTitle": "Key for typing in",
+        "codeLabel": "Code from the app",
+        "submit": "Turn on",
+        "cancel": "Cancel",
+        "invalidCode": "That code did not match. Check the time on your phone and try the newest code."
+      },
+      "recoveryCodes": {
+        "title": "Save your recovery codes",
+        "description": "If you lose your phone, each of these lets you sign in once. They will not be shown again, so keep them somewhere safe, such as a password manager.",
+        "listLabel": "Recovery codes",
+        "copy": "Copy",
+        "copied": "Recovery codes copied.",
+        "copyFailed": "Could not copy. Download them instead.",
+        "download": "Download",
+        "done": "I have saved them"
+      }
+    },
+    "sessions": {
+      "title": "Where you are signed in",
+      "description": "Sign out of a device you no longer use or do not recognise.",
+      "device": "{browser} on {system}",
+      "unknownDevice": "Unknown device",
+      "thisDevice": "This device",
+      "activity": "Signed in {signedIn} · active {lastActive}",
+      "signOut": "Sign out",
+      "signOutDevice": "Sign out {device}",
+      "signOutOthers": "Sign out all other sessions",
+      "signedOut": "That session was signed out.",
+      "signedOutOthers": "Every other session was signed out.",
+      "errorTitle": "Your sessions could not be loaded"
+    },
+    "notificationMail": {
+      "title": "E-mail notifications",
+      "description": "Get a copy by e-mail of what you have not read in the app within five minutes. Everything stays in the app either way.",
+      "saved": "Your e-mail choices were saved.",
+      "loadError": "Your e-mail choices could not be loaded",
+      "groups": {
+        "exams": {
+          "label": "Exams",
+          "hint": "New, moved or cancelled terms, and your registrations."
+        },
+        "coursework": {
+          "label": "Assignments and grades",
+          "hint": "New deadlines, marked work, published grades."
+        },
+        "enrolment": {
+          "label": "Enrolment",
+          "hint": "A place confirmed or refused, a place come free."
+        },
+        "timetable": {
+          "label": "Timetable",
+          "hint": "A class moved or cancelled."
+        },
+        "discussion": {
+          "label": "Discussion",
+          "hint": "New threads and replies in your courses."
+        }
+      }
+    }
+  },
+  "discussion": {
+    "title": "Discussion",
+    "description": "Questions and answers among the people of this course. Teachers can hide posts that do not belong here.",
+    "empty": "Nobody has started a thread yet.",
+    "error": "The discussion could not be loaded.",
+    "threadMeta": "{name} · {count, plural, one {# post} other {# posts}} · last activity {date}",
+    "hiddenBadge": "Hidden",
+    "untitled": "Untitled thread",
+    "newThread": "New thread",
+    "titleLabel": "Title",
+    "bodyLabel": "Message",
+    "replyLabel": "Your reply",
+    "start": "Start thread",
+    "reply": "Reply",
+    "cancel": "Cancel",
+    "back": "All threads",
+    "started": "Thread started.",
+    "replied": "Reply posted.",
+    "deletedPost": "This post was deleted.",
+    "hiddenPost": "A teacher hid this post.",
+    "hiddenThreadNotice": "This thread is hidden from students and takes no replies until it is restored.",
+    "delete": "Delete",
+    "confirmDelete": "Delete for good",
+    "deleted": "Post deleted.",
+    "hide": "Hide",
+    "restore": "Restore",
+    "hideThread": "Hide thread",
+    "restoreThread": "Restore thread",
+    "hiddenDone": "Hidden from students.",
+    "restoredDone": "Visible again.",
+    "notFound": "This thread is no longer available.",
+    "teacherBadge": "Teacher",
+    "edit": "Edit",
+    "edited": "edited",
+    "save": "Save",
+    "saved": "Post updated.",
+    "rename": "Rename",
+    "renamed": "Thread renamed.",
+    "editLabel": "Edit your post",
+    "attachLabel": "Attachments",
+    "attachHint": "Up to 3 files, 10 MB each: images, PDF, Office documents, text or ZIP.",
+    "removeAttachment": "Remove {filename}",
+    "attachmentsOf": "Files attached by {name}",
+    "downloadNamed": "Download {filename}",
+    "uploadFailed": "{filename} could not be uploaded. Nothing was posted.",
+    "uploadTooLarge": "{filename} is larger than 10 MB.",
+    "tooManyFiles": "A post carries at most 3 files.",
+    "uploading": "Uploading files…"
+  },
+  "uploads": {
+    "infected": "This file contained malware and was deleted.",
+    "tooLarge": "The file is larger than the limit.",
+    "typeNotAllowed": "This kind of file is not accepted."
+  },
+  "fileScan": {
+    "pending": "Not yet checked for malware",
+    "pendingHint": "The antivirus has not checked this file yet. It will as soon as the scanner is available.",
+    "infected": "Removed: contained malware",
+    "confirmTitle": "This file has not been checked yet",
+    "confirmBody": "The antivirus has not scanned this file yet. Open it only if you trust the person who uploaded it.",
+    "downloadAnyway": "Download anyway",
+    "cancel": "Cancel"
   }
 }

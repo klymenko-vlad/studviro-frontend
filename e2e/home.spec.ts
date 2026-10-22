@@ -6,29 +6,32 @@ test.describe('home page', () => {
   test('renders the landing content in the default locale', async ({ page }) => {
     await page.goto('/');
 
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Studviro');
-    await expect(page.getByRole('button', { name: 'Get started' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+      'One academic platform your institution runs itself',
+    );
+    await expect(
+      page.getByRole('link', { name: 'Request a demo' }).first(),
+    ).toBeVisible();
     await expect(page).toHaveURL(/\/$/);
   });
 
   test('serves the language named by the browser, with no URL of its own', async ({
     browser,
   }) => {
-    const context = await browser.newContext({ locale: 'uk-UA' });
+    const context = await browser.newContext({ locale: 'sk-SK' });
     const page = await context.newPage();
 
     await page.goto('/');
 
-    await expect(page.getByRole('button', { name: 'Почати' })).toBeVisible();
-    await expect(page.locator('html')).toHaveAttribute('lang', 'uk');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'sk');
     // The whole point of ADR 0007: the language changed, the address did not.
     await expect(page).toHaveURL(/\/$/);
 
     await context.close();
   });
 
-  test('has no /uk route left to serve', async ({ page }) => {
-    const response = await page.goto('/uk');
+  test('has no /sk route left to serve', async ({ page }) => {
+    const response = await page.goto('/sk');
 
     expect(response?.status()).toBe(404);
   });

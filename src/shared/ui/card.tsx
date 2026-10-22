@@ -28,9 +28,20 @@ function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
+/**
+ * Local deviation from upstream shadcn, kept on re-generation: a card title is
+ * a section heading, so it renders as one (WCAG 1.3.1). `h2` is the default
+ * because most cards sit directly under the page `h1`; pass `as="h3"` for a
+ * card nested inside a section that already has an `h2`, so the outline never
+ * skips a level.
+ */
+function CardTitle({
+  className,
+  as: Comp = 'h2',
+  ...props
+}: React.ComponentProps<'h2'> & { as?: 'h2' | 'h3' | 'h4' }) {
   return (
-    <div
+    <Comp
       data-slot="card-title"
       className={cn('leading-none font-semibold', className)}
       {...props}

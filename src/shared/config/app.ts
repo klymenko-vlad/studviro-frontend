@@ -20,10 +20,18 @@ export const IS_SECURE_ORIGIN = env.NEXT_PUBLIC_APP_URL.startsWith('https:');
  */
 export const ROUTES = {
   home: '/',
+  forStudents: '/for-students',
+  forTeachers: '/for-teachers',
+  forInstitutions: '/for-institutions',
+  contact: '/contact',
   signIn: '/sign-in',
   signUp: '/sign-up',
+  forgotPassword: '/forgot-password',
+  resetPassword: '/reset-password',
   account: '/account',
+  accountSettings: '/account/settings',
   institutions: '/institutions',
+  createInstitution: '/institutions/new',
 } as const;
 
 /** Where a visitor lands once they hold a session. */
@@ -35,10 +43,22 @@ export const institutionRoutes = (institutionId: string) => {
   return {
     dashboard: base,
     courses: `${base}/courses`,
+    courseOffering: (offeringId: string) => `${base}/courses/${offeringId}`,
+    enroll: `${base}/enroll`,
+    catalogue: `${base}/catalogue`,
+    program: (programId: string) => `${base}/programs/${programId}`,
+    teaching: `${base}/teaching`,
     grades: `${base}/grades`,
     calendar: `${base}/calendar`,
-    sync: `${base}/sync`,
+    exams: `${base}/exams`,
+    notifications: `${base}/notifications`,
+    learning: `${base}/learning`,
     roles: `${base}/roles`,
+    orgUnits: `${base}/org-units`,
+    people: `${base}/people`,
+    search: `${base}/search`,
+    audit: `${base}/audit`,
+    bulk: `${base}/bulk`,
     settings: `${base}/settings`,
   } as const;
 };

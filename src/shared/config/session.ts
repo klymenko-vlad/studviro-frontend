@@ -12,15 +12,29 @@ import { IS_SECURE_ORIGIN } from './app';
  * reaches is bundled into the Edge runtime.
  */
 export const ACCESS_TOKEN_COOKIE = 'sv_at';
-export const REFRESH_TOKEN_COOKIE = 'sv_rt';
+export const REFRESH_TOKEN_COOKIE = 'sv_refresh';
+
+/** The half-finished sign-in between a correct password and a second factor. */
+export const TWO_FACTOR_CHALLENGE_COOKIE = 'sv_2fa';
+export const TWO_FACTOR_CHALLENGE_PATH = '/api/auth/login';
+export const TWO_FACTOR_CHALLENGE_MAX_AGE = 60 * 5;
 
 /**
- * The refresh cookie is scoped to the only routes that redeem it. An XSS that
- * can force requests still cannot make the browser attach the refresh token to
- * an ordinary page load or API proxy call, which limits it to the access
- * token's lifetime rather than the refresh token's.
+ * Sent on every request, because every request is somewhere a lapsed access token
+ * has to be renewed: `src/proxy.ts` renews it before a page renders, and the API
+ * proxy before it forwards a call. Scoped to `/api/auth` it reached neither, and
+ * every session ended when its fifteen-minute access token did (ADR 0036).
  */
-export const REFRESH_COOKIE_PATH = '/api/auth';
+export const REFRESH_COOKIE_PATH = '/';
+
+/**
+ * Where the refresh token used to live, under the name it used to have. Cleared on
+ * sign-out so a browser that signed in before ADR 0036 is not left holding one.
+ * A different name, not just a different path: a response can carry only one
+ * cookie per name, and it has to set the new one and clear the old one at once.
+ */
+export const LEGACY_REFRESH_TOKEN_COOKIE = 'sv_rt';
+export const LEGACY_REFRESH_COOKIE_PATH = '/api/auth';
 
 /**
  * A refresh token outlives its cookie only if the server says so; keeping this

@@ -1,7 +1,6 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
@@ -15,6 +14,7 @@ import {
   type InstitutionConfiguration,
 } from '@/entities/institution-configuration';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import { Button, Form, Separator } from '@/shared/ui';
 
 import {
@@ -22,7 +22,6 @@ import {
   type InstitutionConfigurationFormValues,
 } from '../model/schema';
 import { toFormValues, toUpdatePayload } from '../model/to-update-payload';
-import { ConnectorFields } from './connector-fields';
 import { FeatureFields } from './feature-fields';
 import { RegionalFields } from './regional-fields';
 import { TerminologyFields } from './terminology-fields';
@@ -39,12 +38,8 @@ export function InstitutionConfigurationForm({
   const t = useTranslations('institutionSettings');
   const queryClient = useQueryClient();
 
-  const { data: connectorStatuses = [] } = useQuery(
-    institutionConfigurationQueries.connectors({ path: { institutionId } }),
-  );
-
   const form = useForm<InstitutionConfigurationFormValues>({
-    resolver: zodResolver(institutionConfigurationFormSchema),
+    resolver: useZodResolver(institutionConfigurationFormSchema),
     defaultValues: toFormValues(configuration),
   });
 
@@ -55,11 +50,6 @@ export function InstitutionConfigurationForm({
       form.reset(toFormValues(saved));
       await queryClient.invalidateQueries({
         queryKey: institutionConfigurationQueries.detailKey({ path: { institutionId } }),
-      });
-      await queryClient.invalidateQueries({
-        queryKey: institutionConfigurationQueries.connectorsKey({
-          path: { institutionId },
-        }),
       });
     },
     onError: error => {
@@ -81,7 +71,7 @@ export function InstitutionConfigurationForm({
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={institutionConfigurationFormSchema}>
       <form onSubmit={onSubmit} noValidate className="flex flex-col gap-8">
         <section className="flex flex-col gap-4">
           <h3 className="text-sm font-medium">{t('regionalTitle')}</h3>
@@ -101,15 +91,10 @@ export function InstitutionConfigurationForm({
         <section className="flex flex-col gap-4">
           <h3 className="text-sm font-medium">{t('featuresTitle')}</h3>
           <p className="text-muted-foreground text-sm">{t('featuresDescription')}</p>
-          <FeatureFields flags={featureFlags(configuration)} />
-        </section>
-
-        <Separator />
-
-        <section className="flex flex-col gap-4">
-          <h3 className="text-sm font-medium">{t('connectorsTitle')}</h3>
-          <p className="text-muted-foreground text-sm">{t('connectorsDescription')}</p>
-          <ConnectorFields statuses={connectorStatuses} />
+          <FeatureFields
+            flags={featureFlags(configuration)}
+            implemented={configuration.implementedFeatures}
+          />
         </section>
 
         <Button type="submit" disabled={pending} className="self-start">

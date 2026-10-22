@@ -21,6 +21,9 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* Native controls, scrollbars and the `<select>` popup follow the theme. */
+  color-scheme: light;
+
   --radius: 0.625rem;
 
   --background: oklch(1 0 0);
@@ -47,13 +50,19 @@
   --destructive: oklch(0.58 0.21 25);
   --destructive-foreground: oklch(0.99 0 0);
 
-  --success: oklch(0.65 0.17 150);
+  --success: oklch(0.54 0.17 150);
   --success-foreground: oklch(0.99 0 0);
   --warning: oklch(0.75 0.16 85);
   --warning-foreground: oklch(0.21 0.012 265);
 
   --border: oklch(0.92 0.005 265);
-  --input: oklch(0.92 0.005 265);
+  /**
+   * `--input` is the boundary of a form control, which WCAG 1.4.11 treats as
+   * information required to identify a user interface component: 3:1 against
+   * the surface behind it. `--border`, which only separates decorative
+   * surfaces, is exempt and stays light.
+   */
+  --input: oklch(0.65 0.012 265);
   --ring: oklch(0.55 0.19 265);
 
   --chart-1: oklch(0.55 0.19 265);
@@ -73,6 +82,8 @@
 }
 
 .dark {
+  color-scheme: dark;
+
   --background: oklch(0.15 0.01 265);
   --foreground: oklch(0.97 0.003 265);
 
@@ -103,7 +114,8 @@
   --warning-foreground: oklch(0.15 0.01 265);
 
   --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 16%);
+  /* See the note in `:root` — 3:1 against both `--background` and `--card`. */
+  --input: oklch(1 0 0 / 38%);
   --ring: oklch(0.65 0.18 265);
 
   --chart-1: oklch(0.65 0.18 265);
@@ -171,6 +183,110 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/**
+ * Elevation. Four levels, in order, so a new primitive picks from a list rather
+ * than guessing: a surface that floats higher carries a deeper shadow.
+ *
+ *   shadow-xs  inset chrome — a `Select` trigger, an outline `Button`
+ *   shadow-sm  a resting surface in the page flow — `Card`
+ *   shadow-md  a small floating surface — `Popover`, `DropdownMenu`
+ *   shadow-lg  a large floating surface — `Dialog`, `Sheet`, a submenu
+ *
+ * A floating surface is also painted `bg-popover`, never `bg-background`: in
+ * dark mode `--background` is the recessed colour and would place a modal
+ * *below* the cards it covers.
+ */
+
+/**
+ * Tracking is size-specific. The same optical spacing that reads correctly at
+ * 30px reads loose at 60px and cramped at 20px, so each step of the scale
+ * carries its own tracking and leading rather than one `tracking-tight`
+ * everywhere. Applied by `PageHeader` and the marketing sections, not by hand.
+ */
+@utility type-display {
+  font-size: var(--text-4xl);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+  text-wrap: balance;
+
+  @variant sm {
+    font-size: var(--text-6xl);
+  }
+}
+
+@utility type-title {
+  font-size: var(--text-3xl);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+@utility type-section {
+  font-size: var(--text-lg);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+
+@utility type-eyebrow {
+  font-size: var(--text-xs);
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+/**
+ * The visible affordance on a horizontally scrolling region — a table too wide
+ * for a phone. The `local` gradients are painted with the content and slide out
+ * of view as it scrolls; the `scroll` shadows are fixed to the box, so a shadow
+ * shows exactly on the edge that still has content behind it. No JavaScript and
+ * no measurement.
+ */
+@utility scroll-affordance-x {
+  background:
+    linear-gradient(to right, var(--card) 40%, transparent) 0 0 / 2.5rem 100% no-repeat
+      local,
+    linear-gradient(to left, var(--card) 40%, transparent) 100% 0 / 2.5rem 100% no-repeat
+      local,
+    radial-gradient(farthest-side at 0 50%, oklch(0 0 0 / 22%), transparent) 0 0 / 0.75rem
+      100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, oklch(0 0 0 / 22%), transparent) 100% 0 /
+      0.75rem 100% no-repeat scroll;
+}
+
+.dark .scroll-affordance-x {
+  background:
+    linear-gradient(to right, var(--card) 40%, transparent) 0 0 / 2.5rem 100% no-repeat
+      local,
+    linear-gradient(to left, var(--card) 40%, transparent) 100% 0 / 2.5rem 100% no-repeat
+      local,
+    radial-gradient(farthest-side at 0 50%, oklch(1 0 0 / 22%), transparent) 0 0 / 0.75rem
+      100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, oklch(1 0 0 / 22%), transparent) 100% 0 /
+      0.75rem 100% no-repeat scroll;
+}
+
+/**
+ * The seam where content passes under the floating chrome. A hard 1px rule
+ * reads as a boundary between two bars; a short fade reads as one material
+ * with the page sliding beneath it. Sits outside the layer's own box so the
+ * chrome keeps its exact height.
+ */
+@utility chrome-edge {
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    height: 1.5rem;
+    pointer-events: none;
+    background: linear-gradient(to bottom, var(--background), transparent);
+    mask-image: linear-gradient(to bottom, black, transparent);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -183,13 +299,36 @@
     text-rendering: optimizeLegibility;
   }
 
+  /**
+   * A press has to be answered on touch-down, and the browser's 300ms
+   * double-tap wait is the one latency on the input path we can simply delete.
+   * The grey flash it replaces is the platform's own feedback; ours is the
+   * `active:` state on the primitive, which fires on the same frame.
+   */
+  a,
+  button,
+  label,
+  summary,
+  [role='button'],
+  [role='menuitem'],
+  [role='tab'] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   /* Keyboard focus must always be visible; pointer focus need not be. */
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }
 
-  /* Respect users who have asked the OS to reduce motion. */
+  /**
+   * Reduced motion is not *no feedback* — it is a non-vestibular equivalent.
+   * Translation, scale and spring overshoot go; the opacity and colour changes
+   * that tell a person something answered them stay, shortened. Without the
+   * second rule a toast teleports and a menu appears with no indication that
+   * anything happened.
+   */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -198,6 +337,55 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
+    }
+
+    [data-slot='dialog-content'],
+    [data-slot='dialog-overlay'],
+    [data-slot='sheet-content'],
+    [data-slot='sheet-overlay'],
+    [data-slot='popover-content'],
+    [data-slot='dropdown-menu-content'],
+    [data-slot='tooltip-content'] {
+      transition: opacity 150ms ease !important;
+      transform: none !important;
+    }
+  }
+
+  /**
+   * The header is the only translucent surface in the product and it is always
+   * on screen, so the two preferences that govern translucency have to be
+   * answered: frost it solid for one, and give every surface a defined border
+   * against a near-solid background for the other.
+   */
+  @media (prefers-reduced-transparency: reduce) {
+    [data-translucent] {
+      background-color: var(--background);
+      backdrop-filter: none;
+    }
+  }
+
+  @media (prefers-contrast: more) {
+    :root {
+      --border: oklch(0.55 0.015 265);
+      --muted-foreground: oklch(0.38 0.015 265);
+    }
+
+    .dark {
+      --border: oklch(1 0 0 / 55%);
+      --muted-foreground: oklch(0.86 0.012 265);
+    }
+
+    [data-translucent] {
+      background-color: var(--background);
+      backdrop-filter: none;
+    }
+
+    [data-slot='card'],
+    [data-slot='dialog-content'],
+    [data-slot='sheet-content'],
+    [data-slot='popover-content'],
+    [data-slot='dropdown-menu-content'] {
+      border-color: var(--foreground);
     }
   }
 }

@@ -10,7 +10,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Skeleton,
+  ListSkeleton,
 } from '@/shared/ui';
 
 import { InstitutionRow } from './institution-row';
@@ -30,7 +30,7 @@ export function MyInstitutions() {
 
       <CardContent>
         {isPending ? (
-          <Skeleton className="h-16 w-full" data-testid="my-institutions-loading" />
+          <ListSkeleton items={2} data-testid="my-institutions-loading" />
         ) : null}
 
         {!isPending && institutions.length === 0 ? (

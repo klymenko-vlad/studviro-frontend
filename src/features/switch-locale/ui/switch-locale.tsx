@@ -4,50 +4,54 @@ import { useTransition } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { LOCALES, type AppLocale } from '@/shared/config';
-import { Button } from '@/shared/ui';
+import {
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+} from '@/shared/ui';
 
 import { switchLocale } from '../model/switch-locale';
 
-interface SwitchLocaleProps {
-  className?: string;
-}
-
 /**
- * Rendered as a radiogroup rather than a cycling button: a single toggle gives a
- * screen-reader user no way to know which of the languages is active. Mirrors
- * `features/theme-toggle` so the two controls behave identically.
+ * Menu radio items rather than a pair of always-visible buttons: the language
+ * is chosen roughly once, so it belongs in the account menu next to the theme.
+ * Mirrors `features/theme-toggle` so the two behave identically.
  */
-export function SwitchLocale({ className }: SwitchLocaleProps) {
+export function LocaleMenuItems() {
   const t = useTranslations('locale');
   const active = useLocale();
   const [isPending, startTransition] = useTransition();
 
   return (
-    <div
-      role="radiogroup"
-      aria-label={t('label')}
-      className={`border-border inline-flex gap-1 rounded-lg border p-1 ${className ?? ''}`}
-    >
-      {LOCALES.map(locale => (
-        <Button
-          key={locale}
-          role="radio"
-          aria-checked={active === locale}
-          // The label names the language in that language, so someone who
-          // cannot read the current one can still find their own.
-          aria-label={t(locale)}
-          variant={active === locale ? 'secondary' : 'ghost'}
-          size="sm"
-          disabled={isPending}
-          onClick={() => {
-            startTransition(async () => {
-              await switchLocale(locale satisfies AppLocale);
-            });
-          }}
-        >
-          {t(locale)}
-        </Button>
-      ))}
-    </div>
+    <>
+      <DropdownMenuLabel className="text-muted-foreground type-eyebrow px-2 pt-1 pb-1">
+        {t('label')}
+      </DropdownMenuLabel>
+      <DropdownMenuRadioGroup
+        value={active}
+        onValueChange={value => {
+          startTransition(async () => {
+            await switchLocale(value as AppLocale);
+          });
+        }}
+      >
+        {LOCALES.map(locale => (
+          <DropdownMenuRadioItem
+            key={locale}
+            value={locale}
+            disabled={isPending}
+            indicator="check"
+          >
+            <span
+              aria-hidden
+              className="text-muted-foreground w-4 text-center text-[0.625rem] font-semibold tracking-wider uppercase"
+            >
+              {locale}
+            </span>
+            {t(locale)}
+          </DropdownMenuRadioItem>
+        ))}
+      </DropdownMenuRadioGroup>
+    </>
   );
 }

@@ -12,6 +12,15 @@ describe('AccountView', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Account');
   });
 
+  it('leads to the settings and security page', () => {
+    renderWithProviders(<AccountView />);
+
+    expect(screen.getByRole('link', { name: 'Settings and security' })).toHaveAttribute(
+      'href',
+      '/account/settings',
+    );
+  });
+
   it('composes both account sections', async () => {
     renderWithProviders(<AccountView />);
 

@@ -1,4 +1,4 @@
-import { useFormatter, useTranslations } from 'next-intl';
+import { useFormatter, useLocale, useTranslations } from 'next-intl';
 
 import type { CourseOffering } from '@/entities/course-offering';
 import { Badge } from '@/shared/ui';
@@ -6,14 +6,13 @@ import { Badge } from '@/shared/ui';
 export function OfferingHeader({ offering }: { offering: CourseOffering }) {
   const t = useTranslations('courseOffering');
   const format = useFormatter();
+  const locale = useLocale();
 
   return (
     <header className="flex flex-col gap-3">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex flex-col gap-1">
-          <h1 className="text-3xl font-semibold tracking-tight">
-            {offering.course.title}
-          </h1>
+          <h1 className="type-title">{offering.course.title}</h1>
           <p className="text-muted-foreground font-mono text-sm">
             {offering.course.code}
           </p>
@@ -33,7 +32,9 @@ export function OfferingHeader({ offering }: { offering: CourseOffering }) {
         )}
         {offering.offering.language === null ? null : (
           <Badge variant="outline">
-            {t('language', { language: offering.offering.language })}
+            {t('language', {
+              language: languageName(offering.offering.language, locale),
+            })}
           </Badge>
         )}
         {offering.offering.capacity === null ? null : (
@@ -57,4 +58,12 @@ export function OfferingHeader({ offering }: { offering: CourseOffering }) {
       )}
     </header>
   );
+}
+
+function languageName(code: string, locale: string): string {
+  try {
+    return new Intl.DisplayNames([locale], { type: 'language' }).of(code) ?? code;
+  } catch {
+    return code;
+  }
 }

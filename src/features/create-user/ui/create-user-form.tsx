@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -10,6 +9,7 @@ import { toast } from 'sonner';
 
 import { userMutations, userQueries } from '@/entities/user';
 import { toApiError } from '@/shared/api';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -20,6 +20,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  PasswordInput,
 } from '@/shared/ui';
 
 import { buildCreateUserFormSchema, type CreateUserFormValues } from '../model/schema';
@@ -43,7 +44,7 @@ export function CreateUserForm({ onCreated }: { onCreated?: () => void }) {
   );
 
   const form = useForm<CreateUserFormValues>({
-    resolver: zodResolver(schema),
+    resolver: useZodResolver(schema),
     defaultValues: { email: '', displayName: '', password: '', confirmPassword: '' },
   });
 
@@ -84,7 +85,7 @@ export function CreateUserForm({ onCreated }: { onCreated?: () => void }) {
   const pending = form.formState.isSubmitting || mutation.isPending;
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={schema}>
       <form
         onSubmit={onSubmit}
         noValidate
@@ -97,7 +98,12 @@ export function CreateUserForm({ onCreated }: { onCreated?: () => void }) {
             <FormItem>
               <FormLabel>{t('email')}</FormLabel>
               <FormControl>
-                <Input type="email" autoComplete="email" {...field} />
+                <Input
+                  type="email"
+                  autoComplete="email"
+                  placeholder={t('placeholder.email')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -111,7 +117,11 @@ export function CreateUserForm({ onCreated }: { onCreated?: () => void }) {
             <FormItem>
               <FormLabel>{t('displayName')}</FormLabel>
               <FormControl>
-                <Input autoComplete="name" {...field} />
+                <Input
+                  autoComplete="name"
+                  placeholder={t('placeholder.displayName')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -125,7 +135,11 @@ export function CreateUserForm({ onCreated }: { onCreated?: () => void }) {
             <FormItem>
               <FormLabel>{t('password')}</FormLabel>
               <FormControl>
-                <Input type="password" autoComplete="new-password" {...field} />
+                <PasswordInput
+                  autoComplete="new-password"
+                  placeholder={t('placeholder.password')}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>{t('passwordHint')}</FormDescription>
               <FormMessage />
@@ -140,7 +154,11 @@ export function CreateUserForm({ onCreated }: { onCreated?: () => void }) {
             <FormItem>
               <FormLabel>{t('confirmPassword')}</FormLabel>
               <FormControl>
-                <Input type="password" autoComplete="new-password" {...field} />
+                <PasswordInput
+                  autoComplete="new-password"
+                  placeholder={t('placeholder.confirmPassword')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

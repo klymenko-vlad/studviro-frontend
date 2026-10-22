@@ -81,7 +81,7 @@ export function toApiError(error: unknown, status = 0): ApiError {
       status: error.statusCode,
       // Only `statusCode`/`message` are guaranteed by the guard; a hand-rolled
       // 4xx body can omit the rest without making the payload unusable.
-      code: error.error ?? 'UNKNOWN',
+      code: error.code ?? error.error ?? 'UNKNOWN',
       requestId: error.requestId,
       details: messages,
     });

@@ -2,39 +2,33 @@
 
 import * as z from 'zod';
 
-export const zStartSyncRunDto = z.object({
-    mode: z.enum(['incremental', 'full']).optional().default('incremental')
+export const zCreateUserDto = z.object({
+    email: z.email(),
+    displayName: z.string().min(1).max(120),
+    captcha: z.string().optional()
 });
 
-export const zSyncRunResponseDto = z.object({
+export const zUserResponseDto = z.object({
     id: z.uuid(),
-    institutionId: z.uuid(),
-    connectorName: z.string(),
-    mode: z.enum(['incremental', 'full']),
-    trigger: z.enum(['manual', 'scheduled']),
-    status: z.enum([
-        'queued',
-        'running',
-        'succeeded',
-        'partial',
-        'failed'
-    ]),
-    queuedAt: z.iso.datetime(),
-    startedAt: z.iso.datetime().nullable(),
-    finishedAt: z.iso.datetime().nullable(),
-    fetched: z.number(),
-    created: z.number(),
-    updated: z.number(),
-    deleted: z.number(),
-    skipped: z.number(),
-    failed: z.number(),
-    errorCode: z.string().nullable(),
-    errorMessage: z.string().nullable()
+    email: z.string(),
+    displayName: z.string(),
+    locale: z.enum(['en', 'sk']),
+    role: z.enum(['user', 'admin']),
+    createdAt: z.iso.datetime()
+});
+
+export const zAuthTokensDto = z.object({
+    accessToken: z.string(),
+    refreshToken: z.string(),
+    expiresIn: z.number(),
+    tokenType: z.string(),
+    user: zUserResponseDto
 });
 
 export const zErrorResponseDto = z.object({
     statusCode: z.number(),
     error: z.string(),
+    code: z.string().optional(),
     message: z.union([
         z.string(),
         z.array(z.string())
@@ -44,147 +38,73 @@ export const zErrorResponseDto = z.object({
     timestamp: z.iso.datetime()
 });
 
-export const zSyncDomainResultResponseDto = z.object({
-    domain: z.enum([
-        'orgUnits',
-        'persons',
-        'academicTerms',
-        'rooms',
-        'programs',
-        'courses',
-        'courseOfferings',
-        'programMemberships',
-        'studyGroups',
-        'enrollments',
-        'timetableEvents',
-        'examTerms',
-        'officialResults'
-    ]),
-    status: z.enum([
-        'succeeded',
-        'partial',
-        'failed',
-        'skipped'
-    ]),
-    fetched: z.number(),
-    created: z.number(),
-    updated: z.number(),
-    deleted: z.number(),
-    skipped: z.number(),
-    failed: z.number(),
-    durationMs: z.number(),
-    watermark: z.iso.datetime().nullable(),
-    errorMessage: z.string().nullable()
+export const zLoginDto = z.object({
+    email: z.email(),
+    captcha: z.string().optional()
 });
 
-export const zSyncRunDetailResponseDto = z.object({
-    run: zSyncRunResponseDto,
-    domains: z.array(zSyncDomainResultResponseDto)
+export const zTwoFactorLoginDto = z.object({
+    code: z.string().min(6).max(32)
 });
 
-export const zSyncWatermarkResponseDto = z.object({
-    domain: z.enum([
-        'orgUnits',
-        'persons',
-        'academicTerms',
-        'rooms',
-        'programs',
-        'courses',
-        'courseOfferings',
-        'programMemberships',
-        'studyGroups',
-        'enrollments',
-        'timetableEvents',
-        'examTerms',
-        'officialResults'
-    ]),
-    connectorName: z.string(),
-    sourceUpdatedAt: z.iso.datetime().nullable(),
-    lastStatus: z.enum([
-        'succeeded',
-        'partial',
-        'failed',
-        'skipped'
-    ]),
-    lastAttemptedAt: z.iso.datetime().nullable(),
-    lastSucceededAt: z.iso.datetime().nullable(),
-    lastErrorMessage: z.string().nullable()
+export const zRefreshTokenDto = z.object({
+    refreshToken: z.string().min(1).max(4096)
 });
 
-export const zConnectorStatusResponseDto = z.object({
-    kind: z.enum(['academic', 'learning']),
-    name: z.string().nullable(),
-    installed: z.boolean(),
-    healthy: z.boolean(),
-    checkedAt: z.iso.datetime().nullable(),
-    detail: z.string().nullable(),
-    capabilities: z.array(z.string()),
-    alternatives: z.array(z.string())
+export const zRequestPasswordResetDto = z.object({
+    email: z.email(),
+    captcha: z.string().optional()
 });
 
-export const zInstitutionResponseDto = z.object({
+export const zPasswordResetAcceptedDto = z.object({
+    devToken: z.string().optional()
+});
+
+export const zConfirmPasswordResetDto = z.object({
+    password: z.string().min(8).max(128)
+});
+
+export const zChangePasswordDto = z.object({
+    currentPassword: z.string().min(1).max(128),
+    newPassword: z.string().min(8).max(128)
+});
+
+export const zSessionDto = z.object({
     id: z.uuid(),
-    code: z.string(),
-    name: z.string(),
-    defaultLocale: z.string(),
-    timezone: z.string()
+    current: z.boolean(),
+    userAgent: z.string().nullish(),
+    ipAddress: z.string().nullish(),
+    signedInAt: z.iso.datetime(),
+    lastActiveAt: z.iso.datetime()
 });
 
-export const zInstitutionConnectorsDto = z.object({
-    academicSystem: z.string().nullable(),
-    learningSystem: z.string().nullable()
+export const zTwoFactorStatusDto = z.object({
+    enabled: z.boolean(),
+    enabledAt: z.iso.datetime().nullish(),
+    recoveryCodesRemaining: z.number().gte(0)
 });
 
-export const zInstitutionConfigurationResponseDto = z.object({
-    institutionId: z.uuid(),
-    code: z.string(),
-    name: z.string(),
-    defaultLocale: z.string(),
-    timezone: z.string(),
-    terminology: z.record(z.string(), z.string().nullable()),
-    features: z.record(z.string(), z.boolean()),
-    connectors: zInstitutionConnectorsDto
+export const zCurrentPasswordDto = z.object({
+    currentPassword: z.string().min(1).max(128)
 });
 
-export const zUpdateInstitutionConfigurationDto = z.object({
-    defaultLocale: z.enum(['en', 'uk']).optional(),
-    timezone: z.string().optional(),
-    terminology: z.record(z.string(), z.string().nullable()).optional(),
-    features: z.record(z.string(), z.boolean()).optional(),
-    academicSystemConnector: z.string().max(64).nullish(),
-    learningSystemConnector: z.string().max(64).nullish()
+export const zTwoFactorSetupDto = z.object({
+    secret: z.string(),
+    otpauthUri: z.string(),
+    qrCodeDataUrl: z.string()
 });
 
-export const zExternalIdentityResponseDto = z.object({
-    id: z.uuid(),
-    institutionId: z.uuid(),
-    sourceSystem: z.enum([
-        'platform',
-        'sis',
-        'lms'
-    ]),
-    issuer: z.string(),
-    externalUsername: z.string().nullish(),
-    lastAuthenticatedAt: z.iso.datetime().nullish()
+export const zTwoFactorCodeDto = z.object({
+    code: z.string().min(6).max(32)
 });
 
-export const zUserResponseDto = z.object({
-    id: z.uuid(),
-    email: z.string(),
-    displayName: z.string(),
-    locale: z.enum(['en', 'uk']),
-    role: z.enum(['user', 'admin']),
-    createdAt: z.iso.datetime()
+export const zRecoveryCodesDto = z.object({
+    recoveryCodes: z.array(z.string())
 });
 
 export const zUpdateMeDto = z.object({
     displayName: z.string().min(1).max(120).optional(),
-    locale: z.enum(['en', 'uk']).optional()
-});
-
-export const zCreateUserDto = z.object({
-    email: z.email(),
-    displayName: z.string().min(1).max(120)
+    locale: z.enum(['en', 'sk']).optional()
 });
 
 export const zPageMetaDto = z.object({
@@ -203,24 +123,53 @@ export const zUserResponseDtoPage = z.object({
 
 export const zSortOrder = z.enum(['asc', 'desc']);
 
-export const zAuthTokensDto = z.object({
-    accessToken: z.string(),
-    refreshToken: z.string(),
-    expiresIn: z.number(),
-    tokenType: z.string(),
-    user: zUserResponseDto
+export const zAuditEventResponseDto = z.object({
+    id: z.uuid(),
+    institutionId: z.uuid(),
+    action: z.enum([
+        'grade.proposed',
+        'grade.published',
+        'role.granted',
+        'role.revoked',
+        'enrollment.corrected',
+        'exam_term.cancelled',
+        'exam_registration.attendance_recorded',
+        'personal_data.erased',
+        'discussion.hidden',
+        'discussion.restored'
+    ]),
+    subjectType: z.enum([
+        'course_result',
+        'role_assignment',
+        'enrollment',
+        'exam_term',
+        'exam_registration',
+        'personal_data_erasure',
+        'discussion_thread',
+        'discussion_post'
+    ]),
+    subjectId: z.uuid(),
+    actorUserId: z.uuid().nullish(),
+    summary: z.string().nullish(),
+    before: z.record(z.string(), z.unknown()).nullish(),
+    after: z.record(z.string(), z.unknown()).nullish(),
+    requestId: z.string().nullish(),
+    occurredAt: z.iso.datetime()
 });
 
-export const zLoginDto = z.object({
-    email: z.email()
+export const zCursorPageMetaDto = z.object({
+    limit: z.number(),
+    hasNextPage: z.boolean(),
+    nextCursor: z.string().nullable()
 });
 
-export const zRefreshTokenDto = z.object({
-    refreshToken: z.string().min(1).max(4096)
+export const zAuditEventPageDto = z.object({
+    items: z.array(zAuditEventResponseDto),
+    meta: zCursorPageMetaDto
 });
 
 export const zRoleAssignmentResponseDto = z.object({
-    id: z.uuid(),
+    id: z.uuid().nullish(),
     institutionId: z.uuid(),
     userId: z.uuid(),
     role: z.enum([
@@ -241,15 +190,14 @@ export const zRoleAssignmentResponseDto = z.object({
     ]),
     scopeId: z.uuid().nullish(),
     validFrom: z.iso.datetime().nullish(),
-    validUntil: z.iso.datetime().nullish()
+    validUntil: z.iso.datetime().nullish(),
+    source: z.enum(['granted', 'derived']),
+    revocable: z.boolean()
 });
 
 export const zGrantRoleDto = z.object({
     userId: z.uuid(),
     role: z.enum([
-        'student',
-        'teacher',
-        'teaching_assistant',
         'course_coordinator',
         'program_coordinator',
         'registrar',
@@ -293,12 +241,14 @@ export const zMyPermissionsResponseDto = z.object({
         'grade:publish',
         'schedule:read',
         'schedule:manage',
+        'notification:read',
+        'exam:register',
+        'course:enroll',
         'role:read',
         'role:assign',
         'institution:read',
         'institution:manage',
-        'sync:read',
-        'sync:run'
+        'audit:read'
     ]))
 });
 
@@ -353,7 +303,8 @@ export const zMyCourseResponseDto = z.object({
         'active',
         'completed',
         'withdrawn',
-        'rejected'
+        'rejected',
+        'waitlisted'
     ]),
     requirementType: z.enum([
         'compulsory',
@@ -366,6 +317,52 @@ export const zMyCourseResponseDto = z.object({
     course: zMyCourseCourseDto,
     term: zMyCourseTermDto,
     teachers: z.array(zMyCourseTeacherDto)
+});
+
+export const zTeachingOfferingOfferingDto = z.object({
+    id: z.uuid(),
+    status: z.enum([
+        'planned',
+        'open',
+        'running',
+        'closed',
+        'cancelled'
+    ]),
+    language: z.string().nullable(),
+    capacity: z.number().nullable()
+});
+
+export const zTeachingOfferingCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string(),
+    description: z.string().nullable(),
+    credits: z.number().nullable()
+});
+
+export const zTeachingOfferingTermDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string(),
+    academicYear: z.string(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime()
+});
+
+export const zTeachingOfferingResponseDto = z.object({
+    assignmentId: z.uuid(),
+    role: z.enum([
+        'lecturer',
+        'seminar_leader',
+        'lab_supervisor',
+        'examiner',
+        'assistant'
+    ]),
+    isPrimary: z.boolean(),
+    enrolledCount: z.number(),
+    offering: zTeachingOfferingOfferingDto,
+    course: zTeachingOfferingCourseDto,
+    term: zTeachingOfferingTermDto
 });
 
 export const zCourseOfferingSummaryDto = z.object({
@@ -419,7 +416,8 @@ export const zCourseOfferingEnrollmentDto = z.object({
         'active',
         'completed',
         'withdrawn',
-        'rejected'
+        'rejected',
+        'waitlisted'
     ]),
     requirementType: z.enum([
         'compulsory',
@@ -458,6 +456,62 @@ export const zCourseOfferingResponseDto = z.object({
     ])
 });
 
+export const zCourseRosterOfferingDto = z.object({
+    id: z.uuid(),
+    capacity: z.number().nullable()
+});
+
+export const zCourseRosterCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string(),
+    credits: z.number().nullable()
+});
+
+export const zRosterStudyGroupDto = z.object({
+    id: z.uuid(),
+    kind: z.enum([
+        'seminar',
+        'lab',
+        'exercise',
+        'project',
+        'other'
+    ]),
+    code: z.string(),
+    name: z.string().nullable()
+});
+
+export const zRosterStudentDto = z.object({
+    enrollmentId: z.uuid(),
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string(),
+    status: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected',
+        'waitlisted'
+    ]),
+    requirementType: z.enum([
+        'compulsory',
+        'optional',
+        'elective'
+    ]),
+    attempt: z.number(),
+    enrolledAt: z.iso.datetime().nullable(),
+    studyGroups: z.array(zRosterStudyGroupDto)
+});
+
+export const zCourseRosterResponseDto = z.object({
+    offering: zCourseRosterOfferingDto,
+    course: zCourseRosterCourseDto,
+    viewerRole: z.enum(['teacher', 'administrator']),
+    students: z.array(zRosterStudentDto)
+});
+
 export const zEffectiveCourseGradeDto = z.object({
     kind: z.enum([
         'calculated',
@@ -473,7 +527,8 @@ export const zEffectiveCourseGradeDto = z.object({
         'FX',
         'passed',
         'failed'
-    ])
+    ]),
+    passed: z.boolean()
 });
 
 export const zCalculatedCourseResultDto = z.object({
@@ -518,23 +573,6 @@ export const zOfficialCourseResultDto = z.object({
     recordedAt: z.iso.datetime().nullable()
 });
 
-export const zCourseResultProvenanceDto = z.object({
-    sourceSystem: z.enum([
-        'platform',
-        'sis',
-        'lms'
-    ]),
-    externalId: z.string().nullable(),
-    sourceUpdatedAt: z.iso.datetime().nullable(),
-    lastSynchronizedAt: z.iso.datetime().nullable(),
-    synchronizationStatus: z.enum([
-        'in_sync',
-        'pending',
-        'conflict',
-        'failed'
-    ])
-});
-
 export const zMyCourseResultOfferingDto = z.object({
     id: z.uuid()
 });
@@ -567,14 +605,1523 @@ export const zMyCourseResultResponseDto = z.object({
     attempt: z.number(),
     conflictNote: z.string().nullable(),
     effective: zEffectiveCourseGradeDto.nullable(),
+    isVoided: z.boolean(),
     calculated: zCalculatedCourseResultDto,
     proposed: zProposedCourseResultDto,
     official: zOfficialCourseResultDto,
-    provenance: zCourseResultProvenanceDto,
     enrollmentId: z.uuid(),
     offering: zMyCourseResultOfferingDto,
     course: zMyCourseResultCourseDto,
     term: zMyCourseResultTermDto
+});
+
+export const zProgrammeStandingDto = z.object({
+    programId: z.uuid(),
+    programCode: z.string(),
+    programName: z.string(),
+    studyYear: z.number().nullable(),
+    standardLengthSemesters: z.number().nullable(),
+    creditsRequired: z.number().nullable(),
+    creditsEarned: z.number(),
+    percentComplete: z.number().nullable(),
+    creditsRemaining: z.number().nullable(),
+    creditsComplete: z.boolean()
+});
+
+export const zStudyProgressResponseDto = z.object({
+    gradedCourses: z.number(),
+    passedCourses: z.number(),
+    failedCourses: z.number(),
+    creditsEarned: z.number(),
+    creditsAttempted: z.number(),
+    weightedAverage: z.number().nullable(),
+    awaitingRetake: z.number(),
+    programmes: z.array(zProgrammeStandingDto)
+});
+
+export const zOfferingResultsOfferingDto = z.object({
+    id: z.uuid()
+});
+
+export const zOfferingResultsCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string(),
+    credits: z.number().nullable()
+});
+
+export const zOfferingCalculatedStageDto = z.object({
+    grade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    points: z.number().nullable()
+});
+
+export const zOfferingProposedStageDto = z.object({
+    grade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    at: z.iso.datetime().nullable()
+});
+
+export const zOfferingOfficialStageDto = z.object({
+    grade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    recordedAt: z.iso.datetime().nullable()
+});
+
+export const zOfferingResultAttemptDto = z.object({
+    id: z.uuid(),
+    attempt: z.number(),
+    status: z.enum([
+        'calculated',
+        'proposed',
+        'official',
+        'corrected',
+        'annulled',
+        'disputed'
+    ]),
+    isVoided: z.boolean(),
+    calculated: zOfferingCalculatedStageDto,
+    proposed: zOfferingProposedStageDto,
+    official: zOfferingOfficialStageDto
+});
+
+export const zOfferingResultStudentDto = z.object({
+    enrollmentId: z.uuid(),
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string(),
+    enrollmentStatus: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected',
+        'waitlisted'
+    ]),
+    attempts: z.array(zOfferingResultAttemptDto),
+    nextAttempt: z.number()
+});
+
+export const zOfferingResultsResponseDto = z.object({
+    offering: zOfferingResultsOfferingDto,
+    course: zOfferingResultsCourseDto,
+    viewerRole: z.enum(['teacher', 'administrator']),
+    canPublish: z.boolean(),
+    students: z.array(zOfferingResultStudentDto)
+});
+
+export const zRecordGradeDto = z.object({
+    attempt: z.number().gte(1).optional(),
+    proposedGrade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullish(),
+    officialGrade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullish(),
+    conflictNote: z.string().max(500).nullish()
+});
+
+export const zRecordedGradeResponseDto = z.object({
+    id: z.uuid(),
+    enrollmentId: z.uuid(),
+    attempt: z.number(),
+    status: z.enum([
+        'calculated',
+        'proposed',
+        'official',
+        'corrected',
+        'annulled',
+        'disputed'
+    ]),
+    proposedGrade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    officialGrade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable()
+});
+
+export const zNotificationResponseDto = z.object({
+    id: z.uuid(),
+    type: z.enum([
+        'exam_term_published',
+        'exam_term_rescheduled',
+        'exam_term_cancelled',
+        'assignment_due_published',
+        'assignment_due_rescheduled',
+        'grade_published',
+        'grade_corrected',
+        'enrollment_confirmed',
+        'enrollment_rejected',
+        'timetable_event_rescheduled',
+        'timetable_event_cancelled',
+        'exam_registration_confirmed',
+        'exam_registration_cancelled',
+        'exam_registration_refused',
+        'submission_marked',
+        'waitlist_place_free',
+        'discussion_thread_started',
+        'discussion_reply'
+    ]),
+    occurredAt: z.iso.datetime(),
+    occurrenceCount: z.number(),
+    readAt: z.iso.datetime().nullable(),
+    examTermId: z.uuid().nullable(),
+    courseOfferingId: z.uuid().nullable(),
+    learningActivityId: z.uuid().nullable(),
+    courseCode: z.string().nullable(),
+    courseTitle: z.string().nullable(),
+    startsAt: z.iso.datetime().nullable(),
+    previousStartsAt: z.iso.datetime().nullable(),
+    dueAt: z.iso.datetime().nullable(),
+    previousDueAt: z.iso.datetime().nullable(),
+    activityName: z.string().nullable(),
+    grade: z.string().nullable(),
+    previousGrade: z.string().nullable(),
+    attempt: z.number().nullable(),
+    eventTitle: z.string().nullable(),
+    reason: z.string().nullable(),
+    threadTitle: z.string().nullable(),
+    discussionThreadId: z.uuid().nullable()
+});
+
+export const zUnreadNotificationsResponseDto = z.object({
+    unreadCount: z.number()
+});
+
+export const zNotificationPreferencesResponseDto = z.object({
+    emailTypes: z.array(z.enum([
+        'exam_term_published',
+        'exam_term_rescheduled',
+        'exam_term_cancelled',
+        'assignment_due_published',
+        'assignment_due_rescheduled',
+        'grade_published',
+        'grade_corrected',
+        'enrollment_confirmed',
+        'enrollment_rejected',
+        'timetable_event_rescheduled',
+        'timetable_event_cancelled',
+        'exam_registration_confirmed',
+        'exam_registration_cancelled',
+        'exam_registration_refused',
+        'submission_marked',
+        'waitlist_place_free',
+        'discussion_thread_started',
+        'discussion_reply'
+    ]))
+});
+
+export const zUpdateNotificationPreferencesDto = z.object({
+    emailTypes: z.array(z.enum([
+        'exam_term_published',
+        'exam_term_rescheduled',
+        'exam_term_cancelled',
+        'assignment_due_published',
+        'assignment_due_rescheduled',
+        'grade_published',
+        'grade_corrected',
+        'enrollment_confirmed',
+        'enrollment_rejected',
+        'timetable_event_rescheduled',
+        'timetable_event_cancelled',
+        'exam_registration_confirmed',
+        'exam_registration_cancelled',
+        'exam_registration_refused',
+        'submission_marked',
+        'waitlist_place_free',
+        'discussion_thread_started',
+        'discussion_reply'
+    ]))
+});
+
+export const zExternalIdentityResponseDto = z.object({
+    id: z.uuid(),
+    institutionId: z.uuid(),
+    issuer: z.string(),
+    externalUsername: z.string().nullish(),
+    lastAuthenticatedAt: z.iso.datetime().nullish()
+});
+
+export const zCreateInstitutionDto = z.object({
+    code: z.string().min(2).max(32).regex(/^[a-z0-9-]+$/),
+    name: z.string().min(1).max(200),
+    defaultLocale: z.enum(['en', 'sk']).optional(),
+    timezone: z.string().optional(),
+    firstAdminUserId: z.uuid().optional(),
+    firstAdminEmail: z.email().optional()
+});
+
+export const zInstitutionResponseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string(),
+    defaultLocale: z.string(),
+    timezone: z.string(),
+    firstAdminInvitationDevToken: z.string().optional()
+});
+
+export const zInstitutionConfigurationResponseDto = z.object({
+    institutionId: z.uuid(),
+    code: z.string(),
+    name: z.string(),
+    defaultLocale: z.string(),
+    timezone: z.string(),
+    terminology: z.record(z.string(), z.string().nullable()),
+    features: z.record(z.string(), z.boolean()),
+    implementedFeatures: z.array(z.enum([
+        'courseRegistration',
+        'examRegistration',
+        'timetable',
+        'grades',
+        'thesis',
+        'accommodation',
+        'fees'
+    ]))
+});
+
+export const zUpdateInstitutionConfigurationDto = z.object({
+    defaultLocale: z.enum(['en', 'sk']).optional(),
+    timezone: z.string().optional(),
+    terminology: z.record(z.string(), z.string().nullable()).optional(),
+    features: z.record(z.string(), z.boolean()).optional()
+});
+
+export const zOrgUnitResponseDto = z.object({
+    id: z.uuid(),
+    institutionId: z.uuid(),
+    parentId: z.uuid().nullish(),
+    type: z.enum([
+        'university',
+        'faculty',
+        'department',
+        'institute',
+        'other'
+    ]),
+    code: z.string(),
+    name: z.string()
+});
+
+export const zCreateOrgUnitDto = z.object({
+    code: z.string().min(1).max(64),
+    name: z.string().min(1).max(200),
+    type: z.enum([
+        'university',
+        'faculty',
+        'department',
+        'institute',
+        'other'
+    ]).optional(),
+    parentId: z.uuid().nullish()
+});
+
+export const zUpdateOrgUnitDto = z.object({
+    code: z.string().min(1).max(64).optional(),
+    name: z.string().min(1).max(200).optional(),
+    type: z.enum([
+        'university',
+        'faculty',
+        'department',
+        'institute',
+        'other'
+    ]).optional(),
+    parentId: z.uuid().nullish()
+});
+
+export const zPersonDirectoryEntryDto = z.object({
+    userId: z.uuid(),
+    email: z.string(),
+    displayName: z.string(),
+    status: z.enum([
+        'invited',
+        'active',
+        'suspended'
+    ]),
+    roles: z.array(zRoleAssignmentResponseDto)
+});
+
+export const zPersonDirectoryPageDto = z.object({
+    items: z.array(zPersonDirectoryEntryDto),
+    meta: zCursorPageMetaDto
+});
+
+export const zRoomResponseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string().nullable(),
+    building: z.string().nullable(),
+    capacity: z.number().nullable(),
+    orgUnitId: z.uuid().nullable()
+});
+
+export const zCreateRoomDto = z.object({
+    code: z.string().min(1).max(64),
+    name: z.string().max(200).nullish(),
+    building: z.string().max(200).nullish(),
+    capacity: z.number().gte(0).lte(10000).nullish(),
+    orgUnitId: z.uuid().nullish()
+});
+
+export const zUpdateRoomDto = z.object({
+    code: z.string().min(1).max(64).optional(),
+    name: z.string().max(200).nullish(),
+    building: z.string().max(200).nullish(),
+    capacity: z.number().gte(0).lte(10000).nullish(),
+    orgUnitId: z.uuid().nullish()
+});
+
+export const zCreateInvitationDto = z.object({
+    address: z.email(),
+    role: z.enum([
+        'course_coordinator',
+        'program_coordinator',
+        'registrar',
+        'org_unit_manager',
+        'institution_admin'
+    ]),
+    scopeType: z.enum([
+        'institution',
+        'org_unit',
+        'program',
+        'course_offering'
+    ]),
+    scopeId: z.uuid().optional()
+});
+
+export const zInvitationResponseDto = z.object({
+    id: z.uuid(),
+    institutionId: z.uuid(),
+    address: z.string(),
+    role: z.enum([
+        'student',
+        'teacher',
+        'teaching_assistant',
+        'course_coordinator',
+        'program_coordinator',
+        'registrar',
+        'org_unit_manager',
+        'institution_admin'
+    ]),
+    scopeType: z.enum([
+        'institution',
+        'program',
+        'org_unit',
+        'course_offering'
+    ]),
+    scopeId: z.uuid().nullish(),
+    expiresAt: z.iso.datetime(),
+    devToken: z.string().optional()
+});
+
+export const zAcceptInvitationDto = z.object({
+    displayName: z.string().min(1).max(200).optional(),
+    password: z.string().min(8).max(128).optional(),
+    locale: z.enum(['en', 'sk']).optional()
+});
+
+export const zLearningSpaceDto = z.object({
+    id: z.uuid(),
+    name: z.string(),
+    shortName: z.string().nullable(),
+    summary: z.string().nullable(),
+    visible: z.boolean(),
+    offeringId: z.uuid().nullable(),
+    courseCode: z.string().nullable(),
+    courseTitle: z.string().nullable(),
+    termCode: z.string().nullable(),
+    activityCount: z.number(),
+    nextDueAt: z.iso.datetime().nullable()
+});
+
+export const zLearningSpaceListResponseDto = z.object({
+    total: z.number(),
+    offeringsWithoutPage: z.number(),
+    spaces: z.array(zLearningSpaceDto)
+});
+
+export const zCreateLearningSpaceDto = z.object({
+    courseOfferingId: z.uuid(),
+    name: z.string().min(1).max(200),
+    shortName: z.string().max(64).nullish(),
+    summary: z.string().max(4000).nullish(),
+    visible: z.boolean().optional()
+});
+
+export const zLearningSpaceDetailResponseDto = z.object({
+    id: z.uuid(),
+    courseOfferingId: z.uuid().nullable(),
+    name: z.string(),
+    shortName: z.string().nullable(),
+    summary: z.string().nullable(),
+    visible: z.boolean(),
+    updatedAt: z.iso.datetime()
+});
+
+export const zUpdateLearningSpaceDto = z.object({
+    name: z.string().min(1).max(200).optional(),
+    shortName: z.string().max(64).nullish(),
+    summary: z.string().max(4000).nullish(),
+    visible: z.boolean().optional()
+});
+
+export const zLearningMaterialResponseDto = z.object({
+    id: z.uuid(),
+    kind: z.enum([
+        'file',
+        'link',
+        'text'
+    ]),
+    title: z.string(),
+    description: z.string().nullable(),
+    body: z.string().nullable(),
+    url: z.string().nullable(),
+    filename: z.string().nullable(),
+    contentType: z.string().nullable(),
+    sizeBytes: z.number().nullable(),
+    scanStatus: z.enum([
+        'unscanned',
+        'pending',
+        'clean',
+        'infected'
+    ]),
+    position: z.number(),
+    visible: z.boolean()
+});
+
+export const zRequestUploadTicketDto = z.object({
+    filename: z.string().min(1).max(255),
+    contentType: z.string().min(1).max(255)
+});
+
+export const zUploadTicketResponseDto = z.object({
+    url: z.string(),
+    headers: z.record(z.string(), z.string()),
+    key: z.string(),
+    expiresAt: z.iso.datetime(),
+    maxBytes: z.number()
+});
+
+export const zCreateLearningMaterialDto = z.object({
+    kind: z.enum([
+        'file',
+        'link',
+        'text'
+    ]),
+    title: z.string().min(1).max(200),
+    description: z.string().max(2000).nullish(),
+    body: z.string().max(20000).nullish(),
+    url: z.string().max(2048).nullish(),
+    storageKey: z.string().max(1024).nullish(),
+    filename: z.string().max(255).nullish(),
+    visible: z.boolean().optional()
+});
+
+export const zUpdateLearningMaterialDto = z.object({
+    title: z.string().min(1).max(200).optional(),
+    description: z.string().max(2000).nullish(),
+    body: z.string().max(20000).nullish(),
+    url: z.string().max(2048).nullish(),
+    storageKey: z.string().max(1024).nullish(),
+    filename: z.string().max(255).nullish(),
+    visible: z.boolean().optional(),
+    position: z.number().gte(0).optional()
+});
+
+export const zDownloadUrlResponseDto = z.object({
+    url: z.string()
+});
+
+export const zAssignmentResponseDto = z.object({
+    id: z.uuid(),
+    learningSpaceId: z.uuid(),
+    assessmentId: z.uuid(),
+    name: z.string(),
+    brief: z.string().nullable(),
+    opensAt: z.iso.datetime().nullable(),
+    dueAt: z.iso.datetime().nullable(),
+    closesAt: z.iso.datetime().nullable(),
+    maxAttempts: z.number().nullable(),
+    allowsLateSubmission: z.boolean(),
+    maxPoints: z.number().nullable(),
+    countsTowardFinalGrade: z.boolean(),
+    position: z.number().nullable(),
+    visible: z.boolean()
+});
+
+export const zCreateAssignmentDto = z.object({
+    name: z.string().min(1).max(200),
+    brief: z.string().max(20000).nullish(),
+    opensAt: z.iso.datetime().nullish(),
+    dueAt: z.iso.datetime().nullish(),
+    closesAt: z.iso.datetime().nullish(),
+    maxAttempts: z.number().gte(1).lte(100).nullish(),
+    allowsLateSubmission: z.boolean().optional(),
+    maxPoints: z.number().gte(0).lte(100000).nullish(),
+    countsTowardFinalGrade: z.boolean().optional(),
+    visible: z.boolean().optional()
+});
+
+export const zUpdateAssignmentDto = z.object({
+    name: z.string().min(1).max(200).optional(),
+    brief: z.string().max(20000).nullish(),
+    opensAt: z.iso.datetime().nullish(),
+    dueAt: z.iso.datetime().nullish(),
+    closesAt: z.iso.datetime().nullish(),
+    maxAttempts: z.number().gte(1).lte(100).nullish(),
+    allowsLateSubmission: z.boolean().optional(),
+    maxPoints: z.number().gte(0).lte(100000).nullish(),
+    countsTowardFinalGrade: z.boolean().optional(),
+    visible: z.boolean().optional(),
+    position: z.number().gte(0).optional()
+});
+
+export const zSubmissionStudentDto = z.object({
+    id: z.uuid(),
+    displayName: z.string(),
+    email: z.string()
+});
+
+export const zSubmissionFileResponseDto = z.object({
+    id: z.uuid(),
+    filename: z.string(),
+    contentType: z.string(),
+    sizeBytes: z.number(),
+    scanStatus: z.enum([
+        'unscanned',
+        'pending',
+        'clean',
+        'infected'
+    ])
+});
+
+export const zSubmissionMarkDto = z.object({
+    points: z.number().nullable(),
+    maxPoints: z.number().nullable(),
+    feedback: z.string().nullable(),
+    markedAt: z.iso.datetime().nullable()
+});
+
+export const zSubmissionResponseDto = z.object({
+    id: z.uuid(),
+    assignmentId: z.uuid(),
+    state: z.enum([
+        'draft',
+        'submitted',
+        'returned',
+        'graded'
+    ]),
+    attempt: z.number(),
+    submittedAt: z.iso.datetime().nullable(),
+    isLate: z.boolean(),
+    notes: z.string().nullable(),
+    student: zSubmissionStudentDto,
+    files: z.array(zSubmissionFileResponseDto),
+    mark: zSubmissionMarkDto.nullable()
+});
+
+export const zSubmissionFileInputDto = z.object({
+    storageKey: z.string().min(1).max(1024),
+    filename: z.string().min(1).max(255)
+});
+
+export const zSubmitAssignmentDto = z.object({
+    files: z.array(zSubmissionFileInputDto),
+    notes: z.string().max(4000).nullish()
+});
+
+export const zMarkSubmissionDto = z.object({
+    points: z.number().gte(0).lte(100000).nullish(),
+    feedback: z.string().max(10000).nullish()
+});
+
+export const zMarkedSubmissionResponseDto = z.object({
+    submissionId: z.uuid(),
+    state: z.enum([
+        'draft',
+        'submitted',
+        'returned',
+        'graded'
+    ]),
+    assessmentResultId: z.uuid(),
+    points: z.number().nullable(),
+    normalizedScore: z.number().nullable(),
+    feedback: z.string().nullable(),
+    gradedAt: z.iso.datetime().nullable()
+});
+
+export const zDeadlineSubmissionDto = z.object({
+    state: z.enum([
+        'draft',
+        'submitted',
+        'returned',
+        'graded'
+    ]),
+    submittedAt: z.iso.datetime().nullable(),
+    isLate: z.boolean()
+});
+
+export const zDeadlineLearningSpaceDto = z.object({
+    id: z.uuid(),
+    name: z.string()
+});
+
+export const zDeadlineOfferingDto = z.object({
+    id: z.uuid()
+});
+
+export const zDeadlineCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string()
+});
+
+export const zDeadlineTermDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string()
+});
+
+export const zMyDeadlineResponseDto = z.object({
+    id: z.uuid(),
+    type: z.enum([
+        'assignment',
+        'forum',
+        'resource',
+        'workshop',
+        'other'
+    ]),
+    name: z.string(),
+    brief: z.string().nullable(),
+    opensAt: z.iso.datetime().nullable(),
+    dueAt: z.iso.datetime(),
+    isOpen: z.boolean(),
+    isOverdue: z.boolean(),
+    submission: zDeadlineSubmissionDto.nullable(),
+    attendance: z.enum(['enrolled', 'teaching']),
+    learningSpace: zDeadlineLearningSpaceDto,
+    offering: zDeadlineOfferingDto,
+    course: zDeadlineCourseDto,
+    term: zDeadlineTermDto
+});
+
+export const zAssessmentSubmissionDto = z.object({
+    state: z.enum([
+        'draft',
+        'submitted',
+        'returned',
+        'graded'
+    ]),
+    submittedAt: z.iso.datetime().nullable(),
+    isLate: z.boolean()
+});
+
+export const zAssessmentActivityDto = z.object({
+    id: z.uuid(),
+    type: z.enum([
+        'assignment',
+        'forum',
+        'resource',
+        'workshop',
+        'other'
+    ]),
+    dueAt: z.iso.datetime().nullable(),
+    completionState: z.enum([
+        'incomplete',
+        'complete',
+        'complete_pass',
+        'complete_fail'
+    ]).nullable(),
+    submission: zAssessmentSubmissionDto.nullable()
+});
+
+export const zAssessmentLearningSpaceDto = z.object({
+    id: z.uuid(),
+    name: z.string()
+});
+
+export const zAssessmentOfferingDto = z.object({
+    id: z.uuid()
+});
+
+export const zMyAssessmentResultResponseDto = z.object({
+    id: z.uuid(),
+    name: z.string(),
+    points: z.number().nullable(),
+    maxPoints: z.number().nullable(),
+    percentage: z.number().nullable(),
+    feedback: z.string().nullable(),
+    gradedAt: z.iso.datetime().nullable(),
+    countsTowardFinalGrade: z.boolean(),
+    activity: zAssessmentActivityDto.nullable(),
+    learningSpace: zAssessmentLearningSpaceDto,
+    offering: zAssessmentOfferingDto.nullable()
+});
+
+export const zCreateDemoRequestDto = z.object({
+    institutionName: z.string().min(2).max(200),
+    contactName: z.string().min(1).max(120),
+    email: z.email().max(255),
+    role: z.string().min(1).max(80),
+    message: z.string().max(2000).optional(),
+    captcha: z.string().optional()
+});
+
+export const zDemoRequestAcceptedDto = z.object({
+    status: z.enum(['accepted'])
+});
+
+export const zExportedAccountDto = z.object({
+    id: z.uuid(),
+    email: z.string(),
+    displayName: z.string(),
+    locale: z.enum(['en', 'sk']),
+    role: z.enum(['user', 'admin']),
+    status: z.enum([
+        'invited',
+        'active',
+        'suspended'
+    ]),
+    createdAt: z.iso.datetime(),
+    updatedAt: z.iso.datetime()
+});
+
+export const zExportedEmailDto = z.object({
+    address: z.string(),
+    institutionId: z.uuid().nullable(),
+    verifiedAt: z.iso.datetime().nullable(),
+    isPrimary: z.boolean(),
+    createdAt: z.iso.datetime()
+});
+
+export const zExportedExternalIdentityDto = z.object({
+    provider: z.string(),
+    issuer: z.string(),
+    subject: z.string(),
+    externalUsername: z.string().nullable(),
+    assertedEmail: z.string().nullable(),
+    lastAuthenticatedAt: z.iso.datetime().nullable()
+});
+
+export const zExportedSessionDto = z.object({
+    userAgent: z.string().nullable(),
+    ipAddress: z.string().nullable(),
+    createdAt: z.iso.datetime(),
+    expiresAt: z.iso.datetime(),
+    revokedAt: z.iso.datetime().nullable()
+});
+
+export const zExportedPasswordResetDto = z.object({
+    requestedAt: z.iso.datetime(),
+    expiresAt: z.iso.datetime(),
+    consumedAt: z.iso.datetime().nullable()
+});
+
+export const zExportedInvitationDto = z.object({
+    address: z.string(),
+    role: z.enum([
+        'student',
+        'teacher',
+        'teaching_assistant',
+        'course_coordinator',
+        'program_coordinator',
+        'registrar',
+        'org_unit_manager',
+        'institution_admin'
+    ]),
+    scopeType: z.enum([
+        'institution',
+        'org_unit',
+        'program',
+        'course_offering'
+    ]),
+    expiresAt: z.iso.datetime(),
+    acceptedAt: z.iso.datetime().nullable(),
+    createdAt: z.iso.datetime()
+});
+
+export const zExportedRoleDto = z.object({
+    role: z.enum([
+        'student',
+        'teacher',
+        'teaching_assistant',
+        'course_coordinator',
+        'program_coordinator',
+        'registrar',
+        'org_unit_manager',
+        'institution_admin'
+    ]),
+    scopeType: z.enum([
+        'institution',
+        'org_unit',
+        'program',
+        'course_offering'
+    ]),
+    scopeId: z.uuid().nullable(),
+    validFrom: z.iso.datetime().nullable(),
+    validUntil: z.iso.datetime().nullable()
+});
+
+export const zExportedTeachingAssignmentDto = z.object({
+    courseOfferingId: z.uuid(),
+    courseCode: z.string(),
+    courseTitle: z.string(),
+    role: z.enum([
+        'lecturer',
+        'seminar_leader',
+        'lab_supervisor',
+        'examiner',
+        'assistant'
+    ]),
+    isPrimary: z.boolean()
+});
+
+export const zExportedProgramMembershipDto = z.object({
+    programId: z.uuid(),
+    programCode: z.string(),
+    programName: z.string(),
+    status: z.enum([
+        'active',
+        'interrupted',
+        'graduated',
+        'terminated'
+    ]),
+    studyYear: z.number().nullable(),
+    startedAt: z.iso.datetime().nullable(),
+    endedAt: z.iso.datetime().nullable()
+});
+
+export const zExportedEnrollmentDto = z.object({
+    id: z.uuid(),
+    courseOfferingId: z.uuid(),
+    courseCode: z.string(),
+    courseTitle: z.string(),
+    status: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected',
+        'waitlisted'
+    ]),
+    requirementType: z.enum([
+        'compulsory',
+        'optional',
+        'elective'
+    ]),
+    attempt: z.number(),
+    enrolledAt: z.iso.datetime().nullable(),
+    withdrawnAt: z.iso.datetime().nullable()
+});
+
+export const zExportedCourseResultDto = z.object({
+    enrollmentId: z.uuid(),
+    courseCode: z.string(),
+    status: z.enum([
+        'calculated',
+        'proposed',
+        'official',
+        'corrected',
+        'annulled',
+        'disputed'
+    ]),
+    attempt: z.number(),
+    calculatedPoints: z.number().nullable(),
+    calculatedGrade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    proposedGrade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    proposedAt: z.iso.datetime().nullable(),
+    officialGrade: z.enum([
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'FX',
+        'passed',
+        'failed'
+    ]).nullable(),
+    officialRecordedAt: z.iso.datetime().nullable(),
+    conflictNote: z.string().nullable()
+});
+
+export const zExportedExamRegistrationDto = z.object({
+    examTermId: z.uuid(),
+    courseCode: z.string(),
+    status: z.enum([
+        'registered',
+        'cancelled',
+        'attended',
+        'no_show',
+        'excused'
+    ]),
+    startsAt: z.iso.datetime(),
+    registeredAt: z.iso.datetime().nullable(),
+    cancelledAt: z.iso.datetime().nullable()
+});
+
+export const zExportedStudyGroupMembershipDto = z.object({
+    studyGroupId: z.uuid(),
+    code: z.string(),
+    courseOfferingId: z.uuid()
+});
+
+export const zExportedAssessmentResultDto = z.object({
+    assessmentId: z.uuid(),
+    assessmentName: z.string(),
+    points: z.number().nullable(),
+    normalizedScore: z.number().nullable(),
+    feedback: z.string().nullable(),
+    gradedAt: z.iso.datetime().nullable()
+});
+
+export const zExportedActivityCompletionDto = z.object({
+    learningActivityId: z.uuid(),
+    activityName: z.string(),
+    state: z.enum([
+        'incomplete',
+        'complete',
+        'complete_pass',
+        'complete_fail'
+    ]),
+    completedAt: z.iso.datetime().nullable()
+});
+
+export const zExportedFileDto = z.object({
+    storageKey: z.string(),
+    filename: z.string(),
+    contentType: z.string(),
+    sizeBytes: z.number()
+});
+
+export const zExportedSubmissionDto = z.object({
+    id: z.uuid(),
+    learningActivityId: z.uuid(),
+    activityName: z.string(),
+    state: z.enum([
+        'draft',
+        'submitted',
+        'returned',
+        'graded'
+    ]),
+    attempt: z.number(),
+    submittedAt: z.iso.datetime().nullable(),
+    isLate: z.boolean(),
+    notes: z.string().nullable(),
+    files: z.array(zExportedFileDto)
+});
+
+export const zExportedDiscussionPostDto = z.object({
+    id: z.uuid(),
+    threadId: z.uuid(),
+    threadTitle: z.string(),
+    courseOfferingId: z.uuid(),
+    body: z.string(),
+    hiddenAt: z.iso.datetime().nullable(),
+    createdAt: z.iso.datetime()
+});
+
+export const zExportedNotificationDto = z.object({
+    type: z.enum([
+        'exam_term_published',
+        'exam_term_rescheduled',
+        'exam_term_cancelled',
+        'assignment_due_published',
+        'assignment_due_rescheduled',
+        'grade_published',
+        'grade_corrected',
+        'enrollment_confirmed',
+        'enrollment_rejected',
+        'timetable_event_rescheduled',
+        'timetable_event_cancelled',
+        'exam_registration_confirmed',
+        'exam_registration_cancelled',
+        'exam_registration_refused',
+        'submission_marked',
+        'waitlist_place_free',
+        'discussion_thread_started',
+        'discussion_reply'
+    ]),
+    occurredAt: z.iso.datetime(),
+    payload: z.record(z.string(), z.unknown()),
+    readAt: z.iso.datetime().nullable()
+});
+
+export const zPersonalDataExportDto = z.object({
+    institutionId: z.uuid(),
+    generatedAt: z.iso.datetime(),
+    account: zExportedAccountDto,
+    emails: z.array(zExportedEmailDto),
+    externalIdentities: z.array(zExportedExternalIdentityDto),
+    sessions: z.array(zExportedSessionDto),
+    passwordResets: z.array(zExportedPasswordResetDto),
+    invitations: z.array(zExportedInvitationDto),
+    roles: z.array(zExportedRoleDto),
+    teachingAssignments: z.array(zExportedTeachingAssignmentDto),
+    programMemberships: z.array(zExportedProgramMembershipDto),
+    enrollments: z.array(zExportedEnrollmentDto),
+    courseResults: z.array(zExportedCourseResultDto),
+    examRegistrations: z.array(zExportedExamRegistrationDto),
+    studyGroupMemberships: z.array(zExportedStudyGroupMembershipDto),
+    assessmentResults: z.array(zExportedAssessmentResultDto),
+    activityCompletions: z.array(zExportedActivityCompletionDto),
+    submissions: z.array(zExportedSubmissionDto),
+    discussionPosts: z.array(zExportedDiscussionPostDto),
+    notifications: z.array(zExportedNotificationDto),
+    files: z.array(zExportedFileDto)
+});
+
+export const zErasureTallyDto = z.object({
+    refreshTokens: z.number(),
+    calendarFeeds: z.number(),
+    passwordResetTokens: z.number(),
+    twoFactorCredentials: z.number(),
+    recoveryCodes: z.number(),
+    userEmails: z.number(),
+    externalIdentities: z.number(),
+    invitations: z.number(),
+    submissionFiles: z.number(),
+    storedObjects: z.number(),
+    conflictNotes: z.number(),
+    assessmentFeedback: z.number(),
+    submissionNotes: z.number(),
+    discussionPosts: z.number()
+});
+
+export const zPersonalDataErasureResponseDto = z.object({
+    erasureId: z.uuid(),
+    erasedAt: z.iso.datetime(),
+    tally: zErasureTallyDto
+});
+
+export const zAcademicTermResponseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string(),
+    kind: z.enum([
+        'semester',
+        'trimester',
+        'summer',
+        'year',
+        'other'
+    ]),
+    academicYear: z.string(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+    enrollmentOpensAt: z.iso.datetime().nullable(),
+    enrollmentClosesAt: z.iso.datetime().nullable()
+});
+
+export const zCreateAcademicTermDto = z.object({
+    code: z.string().min(1).max(64),
+    name: z.string().min(1).max(200),
+    kind: z.enum([
+        'semester',
+        'trimester',
+        'summer',
+        'year',
+        'other'
+    ]).optional(),
+    academicYear: z.string().min(1).max(32),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+    enrollmentOpensAt: z.iso.datetime().nullish(),
+    enrollmentClosesAt: z.iso.datetime().nullish()
+});
+
+export const zUpdateAcademicTermDto = z.object({
+    code: z.string().min(1).max(64).optional(),
+    name: z.string().min(1).max(200).optional(),
+    kind: z.enum([
+        'semester',
+        'trimester',
+        'summer',
+        'year',
+        'other'
+    ]).optional(),
+    academicYear: z.string().min(1).max(32).optional(),
+    startsAt: z.iso.datetime().optional(),
+    endsAt: z.iso.datetime().optional(),
+    enrollmentOpensAt: z.iso.datetime().nullish(),
+    enrollmentClosesAt: z.iso.datetime().nullish()
+});
+
+export const zBulkImportDto = z.object({
+    text: z.string().min(1).max(2000000),
+    dryRun: z.boolean().optional()
+});
+
+export const zBulkRowResultDto = z.object({
+    line: z.number(),
+    status: z.enum([
+        'created',
+        'skipped',
+        'failed'
+    ]),
+    code: z.string(),
+    detail: z.string()
+});
+
+export const zBulkImportResultDto = z.object({
+    dryRun: z.boolean(),
+    total: z.number(),
+    created: z.number(),
+    skipped: z.number(),
+    failed: z.number(),
+    rows: z.array(zBulkRowResultDto)
+});
+
+export const zProgramResponseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string(),
+    degreeLevel: z.enum([
+        'bachelor',
+        'master',
+        'doctoral',
+        'other'
+    ]),
+    studyForm: z.enum([
+        'full_time',
+        'part_time',
+        'distance'
+    ]),
+    standardLengthSemesters: z.number().nullable(),
+    orgUnitId: z.uuid().nullable()
+});
+
+export const zCreateProgramDto = z.object({
+    code: z.string().min(1).max(64),
+    name: z.string().min(1).max(200),
+    degreeLevel: z.enum([
+        'bachelor',
+        'master',
+        'doctoral',
+        'other'
+    ]).optional(),
+    studyForm: z.enum([
+        'full_time',
+        'part_time',
+        'distance'
+    ]).optional(),
+    standardLengthSemesters: z.number().gte(1).lte(20).nullish(),
+    orgUnitId: z.uuid().nullish()
+});
+
+export const zUpdateProgramDto = z.object({
+    code: z.string().min(1).max(64).optional(),
+    name: z.string().min(1).max(200).optional(),
+    degreeLevel: z.enum([
+        'bachelor',
+        'master',
+        'doctoral',
+        'other'
+    ]).optional(),
+    studyForm: z.enum([
+        'full_time',
+        'part_time',
+        'distance'
+    ]).optional(),
+    standardLengthSemesters: z.number().gte(1).lte(20).nullish(),
+    orgUnitId: z.uuid().nullish()
+});
+
+export const zCourseResponseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string(),
+    description: z.string().nullable(),
+    credits: z.number().nullable(),
+    orgUnitId: z.uuid().nullable()
+});
+
+export const zCreateCourseDto = z.object({
+    code: z.string().min(1).max(64),
+    title: z.string().min(1).max(200),
+    description: z.string().max(2000).nullish(),
+    credits: z.number().gte(0).lte(120).nullish(),
+    orgUnitId: z.uuid().nullish()
+});
+
+export const zUpdateCourseDto = z.object({
+    code: z.string().min(1).max(64).optional(),
+    title: z.string().min(1).max(200).optional(),
+    description: z.string().max(2000).nullish(),
+    credits: z.number().gte(0).lte(120).nullish(),
+    orgUnitId: z.uuid().nullish()
+});
+
+export const zCourseOfferingListItemDto = z.object({
+    id: z.uuid(),
+    courseId: z.uuid(),
+    courseCode: z.string(),
+    courseTitle: z.string(),
+    academicTermId: z.uuid(),
+    termCode: z.string(),
+    termName: z.string(),
+    status: z.enum([
+        'planned',
+        'open',
+        'running',
+        'closed',
+        'cancelled'
+    ]),
+    capacity: z.number().nullable(),
+    enrolled: z.number(),
+    language: z.string().nullable(),
+    teacherCount: z.number()
+});
+
+export const zCreateCourseOfferingDto = z.object({
+    courseId: z.uuid(),
+    academicTermId: z.uuid(),
+    capacity: z.number().gte(0).nullish(),
+    status: z.enum([
+        'planned',
+        'open',
+        'running',
+        'closed',
+        'cancelled'
+    ]).optional(),
+    language: z.string().max(64).nullish(),
+    orgUnitId: z.uuid().nullish()
+});
+
+export const zCourseOfferingAdminResponseDto = z.object({
+    id: z.uuid(),
+    capacity: z.number().nullable(),
+    status: z.enum([
+        'planned',
+        'open',
+        'running',
+        'closed',
+        'cancelled'
+    ]),
+    language: z.string().nullable()
+});
+
+export const zUpdateCourseOfferingDto = z.object({
+    capacity: z.number().gte(0).nullish(),
+    status: z.enum([
+        'planned',
+        'open',
+        'running',
+        'closed',
+        'cancelled'
+    ]).optional(),
+    language: z.string().max(64).nullish()
+});
+
+export const zCorrectEnrollmentDto = z.object({
+    status: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected',
+        'waitlisted'
+    ])
+});
+
+export const zCorrectedEnrollmentResponseDto = z.object({
+    id: z.uuid(),
+    status: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected',
+        'waitlisted'
+    ])
+});
+
+export const zProgramMemberResponseDto = z.object({
+    id: z.uuid(),
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string(),
+    status: z.enum([
+        'active',
+        'interrupted',
+        'graduated',
+        'terminated'
+    ]),
+    studyYear: z.number().nullable(),
+    startedAt: z.iso.datetime().nullable(),
+    endedAt: z.iso.datetime().nullable()
+});
+
+export const zAdmitToProgramDto = z.object({
+    userId: z.uuid(),
+    studyYear: z.number().gte(1).lte(10).nullish(),
+    status: z.enum([
+        'active',
+        'interrupted',
+        'graduated',
+        'terminated'
+    ]).optional(),
+    startedAt: z.iso.datetime().nullish()
+});
+
+export const zUpdateProgramMembershipDto = z.object({
+    status: z.enum([
+        'active',
+        'interrupted',
+        'graduated',
+        'terminated'
+    ]).optional(),
+    studyYear: z.number().gte(1).lte(10).nullish(),
+    endedAt: z.iso.datetime().nullish()
+});
+
+export const zStudyGroupMemberDto = z.object({
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string()
+});
+
+export const zStudyGroupResponseDto = z.object({
+    id: z.uuid(),
+    kind: z.enum([
+        'seminar',
+        'lab',
+        'exercise',
+        'project',
+        'other'
+    ]),
+    code: z.string(),
+    name: z.string().nullable(),
+    capacity: z.number().nullable(),
+    members: z.array(zStudyGroupMemberDto)
+});
+
+export const zCreateStudyGroupDto = z.object({
+    code: z.string().min(1).max(64),
+    kind: z.enum([
+        'seminar',
+        'lab',
+        'exercise',
+        'project',
+        'other'
+    ]).optional(),
+    name: z.string().max(200).nullish(),
+    capacity: z.number().gte(0).lte(1000).nullish()
+});
+
+export const zUpdateStudyGroupDto = z.object({
+    code: z.string().min(1).max(64).optional(),
+    kind: z.enum([
+        'seminar',
+        'lab',
+        'exercise',
+        'project',
+        'other'
+    ]).optional(),
+    name: z.string().max(200).nullish(),
+    capacity: z.number().gte(0).lte(1000).nullish()
+});
+
+export const zAddStudyGroupMemberDto = z.object({
+    userId: z.uuid()
+});
+
+export const zTeachingAssignmentResponseDto = z.object({
+    id: z.uuid(),
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string(),
+    role: z.enum([
+        'lecturer',
+        'seminar_leader',
+        'lab_supervisor',
+        'examiner',
+        'assistant'
+    ]),
+    isPrimary: z.boolean()
+});
+
+export const zAssignTeacherDto = z.object({
+    userId: z.uuid(),
+    role: z.enum([
+        'lecturer',
+        'seminar_leader',
+        'lab_supervisor',
+        'examiner',
+        'assistant'
+    ]).optional(),
+    isPrimary: z.boolean().optional()
 });
 
 export const zTimetableRoomDto = z.object({
@@ -613,23 +2160,6 @@ export const zTimetableTermDto = z.object({
     name: z.string()
 });
 
-export const zTimetableEventProvenanceDto = z.object({
-    sourceSystem: z.enum([
-        'platform',
-        'sis',
-        'lms'
-    ]),
-    externalId: z.string().nullable(),
-    sourceUpdatedAt: z.iso.datetime().nullable(),
-    lastSynchronizedAt: z.iso.datetime().nullable(),
-    synchronizationStatus: z.enum([
-        'in_sync',
-        'pending',
-        'conflict',
-        'failed'
-    ])
-});
-
 export const zMyTimetableEventResponseDto = z.object({
     id: z.uuid(),
     type: z.enum([
@@ -650,81 +2180,593 @@ export const zMyTimetableEventResponseDto = z.object({
     studyGroup: zTimetableStudyGroupDto.nullable(),
     offering: zTimetableOfferingDto,
     course: zTimetableCourseDto,
-    term: zTimetableTermDto,
-    provenance: zTimetableEventProvenanceDto
+    term: zTimetableTermDto
+});
+
+export const zExamRegistrationAvailabilityDto = z.object({
+    canRegister: z.boolean(),
+    canCancel: z.boolean(),
+    reason: z.enum([
+        'open',
+        'teaching',
+        'registered',
+        'cancelled',
+        'not_open',
+        'closed',
+        'other_term_registered',
+        'full',
+        'attempt_not_earned'
+    ])
+});
+
+export const zMyExamRegistrationDto = z.object({
+    id: z.uuid(),
+    status: z.enum([
+        'registered',
+        'cancelled',
+        'attended',
+        'no_show',
+        'excused'
+    ]),
+    registeredAt: z.iso.datetime().nullable(),
+    cancelledAt: z.iso.datetime().nullable()
+});
+
+export const zExamRoomDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string().nullable(),
+    building: z.string().nullable()
+});
+
+export const zExamExaminerDto = z.object({
+    id: z.uuid(),
+    displayName: z.string()
+});
+
+export const zExamOfferingDto = z.object({
+    id: z.uuid()
+});
+
+export const zExamCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string()
+});
+
+export const zExamTermDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string()
+});
+
+export const zMyExamTermResponseDto = z.object({
+    id: z.uuid(),
+    kind: z.enum([
+        'regular',
+        'first_retake',
+        'second_retake',
+        'state_exam'
+    ]),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime().nullable(),
+    cancelledAt: z.iso.datetime().nullable(),
+    isCancelled: z.boolean(),
+    attendance: z.enum(['enrolled', 'teaching']),
+    capacity: z.number().nullable(),
+    registeredCount: z.number(),
+    seatsRemaining: z.number().nullable(),
+    isFull: z.boolean(),
+    registrationOpensAt: z.iso.datetime().nullable(),
+    registrationClosesAt: z.iso.datetime().nullable(),
+    registrationState: z.enum([
+        'not_open',
+        'open',
+        'closed'
+    ]),
+    registrationAvailability: zExamRegistrationAvailabilityDto,
+    myRegistration: zMyExamRegistrationDto.nullable(),
+    room: zExamRoomDto.nullable(),
+    examiner: zExamExaminerDto.nullable(),
+    offering: zExamOfferingDto,
+    course: zExamCourseDto,
+    term: zExamTermDto
+});
+
+export const zRegisterForExamTermDto = z.object({
+    examTermId: z.uuid()
+});
+
+export const zExamRegistrationResponseDto = z.object({
+    id: z.uuid(),
+    examTermId: z.uuid(),
+    status: z.enum([
+        'registered',
+        'cancelled',
+        'attended',
+        'no_show',
+        'excused'
+    ]),
+    registeredAt: z.iso.datetime().nullable(),
+    cancelledAt: z.iso.datetime().nullable()
+});
+
+export const zTimetableEventResponseDto = z.object({
+    id: z.uuid(),
+    type: z.enum([
+        'lecture',
+        'seminar',
+        'lab',
+        'consultation',
+        'exam',
+        'other'
+    ]),
+    title: z.string().nullable(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+    cancelledAt: z.iso.datetime().nullable(),
+    roomId: z.uuid().nullable(),
+    roomCode: z.string().nullable(),
+    studyGroupId: z.uuid().nullable(),
+    studyGroupCode: z.string().nullable()
+});
+
+export const zCreateTimetableEventDto = z.object({
+    type: z.enum([
+        'lecture',
+        'seminar',
+        'lab',
+        'consultation',
+        'exam',
+        'other'
+    ]).optional(),
+    title: z.string().max(200).nullish(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+    roomId: z.uuid().nullish(),
+    studyGroupId: z.uuid().nullish(),
+    repeatWeekly: z.boolean().optional()
+});
+
+export const zScheduledEventsResponseDto = z.object({
+    created: z.number()
+});
+
+export const zUpdateTimetableEventDto = z.object({
+    type: z.enum([
+        'lecture',
+        'seminar',
+        'lab',
+        'consultation',
+        'exam',
+        'other'
+    ]).optional(),
+    title: z.string().max(200).nullish(),
+    startsAt: z.iso.datetime().optional(),
+    endsAt: z.iso.datetime().optional(),
+    roomId: z.uuid().nullish(),
+    studyGroupId: z.uuid().nullish()
+});
+
+export const zTimetableEventRefDto = z.object({
+    id: z.uuid()
+});
+
+export const zExamTermAdminResponseDto = z.object({
+    id: z.uuid(),
+    kind: z.enum([
+        'regular',
+        'first_retake',
+        'second_retake',
+        'state_exam'
+    ]),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime().nullable(),
+    capacity: z.number().nullable(),
+    seatsTaken: z.number(),
+    registrationOpensAt: z.iso.datetime().nullable(),
+    registrationClosesAt: z.iso.datetime().nullable(),
+    cancelledAt: z.iso.datetime().nullable(),
+    roomId: z.uuid().nullable(),
+    roomCode: z.string().nullable(),
+    examinerId: z.uuid().nullable(),
+    examinerName: z.string().nullable()
+});
+
+export const zCreateExamTermDto = z.object({
+    kind: z.enum([
+        'regular',
+        'first_retake',
+        'second_retake',
+        'state_exam'
+    ]).optional(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime().nullish(),
+    capacity: z.number().gte(0).lte(100000).nullish(),
+    registrationOpensAt: z.iso.datetime().nullish(),
+    registrationClosesAt: z.iso.datetime().nullish(),
+    roomId: z.uuid().nullish(),
+    examinerId: z.uuid().nullish()
+});
+
+export const zExamTermRefDto = z.object({
+    id: z.uuid()
+});
+
+export const zUpdateExamTermDto = z.object({
+    kind: z.enum([
+        'regular',
+        'first_retake',
+        'second_retake',
+        'state_exam'
+    ]).optional(),
+    startsAt: z.iso.datetime().optional(),
+    endsAt: z.iso.datetime().nullish(),
+    capacity: z.number().gte(0).lte(100000).nullish(),
+    registrationOpensAt: z.iso.datetime().nullish(),
+    registrationClosesAt: z.iso.datetime().nullish(),
+    roomId: z.uuid().nullish(),
+    examinerId: z.uuid().nullish()
+});
+
+export const zExamRegistrantResponseDto = z.object({
+    id: z.uuid(),
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string().nullable(),
+    status: z.enum([
+        'registered',
+        'cancelled',
+        'attended',
+        'no_show',
+        'excused'
+    ]),
+    registeredAt: z.iso.datetime().nullable()
+});
+
+export const zRecordExamAttendanceDto = z.object({
+    status: z.enum([
+        'attended',
+        'no_show',
+        'excused'
+    ])
+});
+
+export const zCalendarFeedStatusDto = z.object({
+    active: z.boolean(),
+    createdAt: z.iso.datetime().nullable()
+});
+
+export const zIssuedCalendarFeedDto = z.object({
+    url: z.url(),
+    createdAt: z.iso.datetime()
+});
+
+export const zDiscussionAuthorDto = z.object({
+    id: z.uuid(),
+    displayName: z.string()
+});
+
+export const zDiscussionThreadSummaryDto = z.object({
+    id: z.uuid(),
+    title: z.string(),
+    author: zDiscussionAuthorDto,
+    createdAt: z.iso.datetime(),
+    lastActivityAt: z.iso.datetime(),
+    postCount: z.number(),
+    hidden: z.boolean()
+});
+
+export const zDiscussionThreadListDto = z.object({
+    canModerate: z.boolean(),
+    threads: z.array(zDiscussionThreadSummaryDto)
+});
+
+export const zDiscussionAttachmentClaimDto = z.object({
+    storageKey: z.string().min(1).max(1024),
+    filename: z.string().min(1).max(255)
+});
+
+export const zCreateDiscussionThreadDto = z.object({
+    attachments: z.array(zDiscussionAttachmentClaimDto).max(3).optional(),
+    title: z.string().min(1).max(200),
+    body: z.string().min(1).max(10000)
+});
+
+export const zDiscussionPostAuthorDto = z.object({
+    id: z.uuid(),
+    displayName: z.string(),
+    isTeacher: z.boolean()
+});
+
+export const zDiscussionAttachmentDto = z.object({
+    id: z.uuid(),
+    filename: z.string(),
+    contentType: z.string(),
+    sizeBytes: z.number(),
+    scanStatus: z.enum([
+        'unscanned',
+        'pending',
+        'clean',
+        'infected'
+    ])
+});
+
+export const zDiscussionPostDto = z.object({
+    id: z.uuid(),
+    author: zDiscussionPostAuthorDto,
+    body: z.string().nullable(),
+    state: z.enum([
+        'visible',
+        'hidden',
+        'deleted'
+    ]),
+    mine: z.boolean(),
+    createdAt: z.iso.datetime(),
+    editedAt: z.iso.datetime().nullable(),
+    attachments: z.array(zDiscussionAttachmentDto)
+});
+
+export const zDiscussionThreadDto = z.object({
+    id: z.uuid(),
+    title: z.string(),
+    author: zDiscussionAuthorDto,
+    createdAt: z.iso.datetime(),
+    lastActivityAt: z.iso.datetime(),
+    postCount: z.number(),
+    hidden: z.boolean(),
+    canModerate: z.boolean(),
+    posts: z.array(zDiscussionPostDto)
+});
+
+export const zCreateDiscussionPostDto = z.object({
+    attachments: z.array(zDiscussionAttachmentClaimDto).max(3).optional(),
+    body: z.string().min(1).max(10000)
+});
+
+export const zEditDiscussionThreadDto = z.object({
+    title: z.string().min(1).max(200)
+});
+
+export const zEditDiscussionPostDto = z.object({
+    body: z.string().min(1).max(10000)
+});
+
+export const zDiscussionVisibilityDto = z.object({
+    hidden: z.boolean()
+});
+
+export const zSearchHitDto = z.object({
+    kind: z.enum([
+        'course',
+        'offering',
+        'program',
+        'person',
+        'orgUnit',
+        'room'
+    ]),
+    id: z.uuid(),
+    title: z.string(),
+    subtitle: z.string().nullable(),
+    context: z.string().nullable(),
+    offeringId: z.uuid().nullish(),
+    programId: z.uuid().nullish()
+});
+
+export const zSearchResultsDto = z.object({
+    query: z.string(),
+    hits: z.array(zSearchHitDto),
+    searched: z.array(z.enum([
+        'course',
+        'offering',
+        'program',
+        'person',
+        'orgUnit',
+        'room'
+    ])),
+    truncated: z.boolean()
+});
+
+export const zCaptchaStateDto = z.object({
+    enabled: z.boolean()
+});
+
+export const zCaptchaChallengeDto = z.object({
+    algorithm: z.enum(['SHA-256']),
+    challenge: z.string(),
+    salt: z.string(),
+    maxnumber: z.number(),
+    signature: z.string()
+});
+
+export const zEnrollmentAvailabilityDto = z.object({
+    canEnroll: z.boolean(),
+    canWithdraw: z.boolean(),
+    canJoinWaitlist: z.boolean(),
+    reason: z.enum([
+        'open',
+        'enrolled',
+        'requested',
+        'waitlisted',
+        'completed',
+        'not_open',
+        'closed',
+        'full',
+        'not_a_student'
+    ])
+});
+
+export const zMyEnrollmentSummaryDto = z.object({
+    id: z.uuid(),
+    status: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected',
+        'waitlisted'
+    ])
+});
+
+export const zEnrollableCourseDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    title: z.string(),
+    credits: z.number().nullable()
+});
+
+export const zEnrollableTermDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string()
+});
+
+export const zEnrollableOfferingResponseDto = z.object({
+    id: z.uuid(),
+    capacity: z.number().nullable(),
+    occupiedSeats: z.number(),
+    seatsRemaining: z.number().nullable(),
+    isFull: z.boolean(),
+    enrollmentOpensAt: z.iso.datetime().nullable(),
+    enrollmentClosesAt: z.iso.datetime().nullable(),
+    windowState: z.enum([
+        'not_open',
+        'open',
+        'closed'
+    ]),
+    availability: zEnrollmentAvailabilityDto,
+    myEnrollment: zMyEnrollmentSummaryDto.nullable(),
+    course: zEnrollableCourseDto,
+    term: zEnrollableTermDto
+});
+
+export const zRequestEnrollmentDto = z.object({
+    courseOfferingId: z.uuid()
+});
+
+export const zEnrollmentResponseDto = z.object({
+    id: z.uuid(),
+    courseOfferingId: z.uuid(),
+    status: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected',
+        'waitlisted'
+    ]),
+    enrolledAt: z.iso.datetime().nullable(),
+    withdrawnAt: z.iso.datetime().nullable()
+});
+
+export const zWaitingStudentResponseDto = z.object({
+    enrollmentId: z.uuid(),
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string().nullable(),
+    waitlistedAt: z.iso.datetime().nullable()
 });
 
 export const zCreateUserDtoWritable = z.object({
     email: z.email(),
     displayName: z.string().min(1).max(120),
-    password: z.string().min(12).max(128)
+    password: z.string().min(8).max(128),
+    captcha: z.string().optional()
 });
 
 export const zLoginDtoWritable = z.object({
     email: z.email(),
-    password: z.string().min(1).max(128)
+    password: z.string().min(1).max(128),
+    captcha: z.string().optional()
 });
 
-export const zListSynchronizationRunsPath = z.object({
-    institutionId: z.string()
+export const zTwoFactorLoginDtoWritable = z.object({
+    code: z.string().min(6).max(32),
+    challengeToken: z.string().min(1).max(256)
 });
 
-export const zListSynchronizationRunsQuery = z.object({
-    limit: z.number().gte(1).lte(100).optional().default(20)
+export const zCreateDemoRequestDtoWritable = z.object({
+    institutionName: z.string().min(2).max(200),
+    contactName: z.string().min(1).max(120),
+    email: z.email().max(255),
+    role: z.string().min(1).max(80),
+    message: z.string().max(2000).optional(),
+    website: z.string().max(200).optional(),
+    captcha: z.string().optional()
 });
 
-export const zListSynchronizationRunsResponse = z.array(zSyncRunResponseDto);
+export const zRegisterBody = zCreateUserDtoWritable;
 
-export const zStartSynchronizationRunBody = zStartSyncRunDto;
+export const zRegisterResponse = zAuthTokensDto;
 
-export const zStartSynchronizationRunPath = z.object({
-    institutionId: z.string()
+export const zLoginBody = zLoginDtoWritable;
+
+export const zLoginResponse = zAuthTokensDto;
+
+export const zCompleteTwoFactorLoginBody = zTwoFactorLoginDtoWritable;
+
+export const zCompleteTwoFactorLoginResponse = zAuthTokensDto;
+
+export const zRefreshBody = zRefreshTokenDto;
+
+export const zRefreshResponse = zAuthTokensDto;
+
+export const zLogoutBody = zRefreshTokenDto;
+
+export const zLogoutResponse = z.void();
+
+export const zLogoutAllResponse = z.void();
+
+export const zMeResponse = zUserResponseDto;
+
+export const zRequestPasswordResetBody = zRequestPasswordResetDto;
+
+export const zRequestPasswordResetResponse = zPasswordResetAcceptedDto;
+
+export const zConfirmPasswordResetBody = zConfirmPasswordResetDto;
+
+export const zConfirmPasswordResetPath = z.object({
+    token: z.string()
 });
 
-export const zStartSynchronizationRunResponse = zSyncRunResponseDto;
+/**
+ * The password was reset.
+ */
+export const zConfirmPasswordResetResponse = z.void();
 
-export const zGetSynchronizationRunPath = z.object({
-    institutionId: z.string(),
-    runId: z.string()
+export const zChangeMyPasswordBody = zChangePasswordDto;
+
+export const zChangeMyPasswordResponse = zAuthTokensDto;
+
+export const zRevokeMyOtherSessionsResponse = z.void();
+
+export const zListMySessionsResponse = z.array(zSessionDto);
+
+export const zRevokeMySessionPath = z.object({
+    sessionId: z.string()
 });
 
-export const zGetSynchronizationRunResponse = zSyncRunDetailResponseDto;
+export const zRevokeMySessionResponse = z.void();
 
-export const zGetSynchronizationStatePath = z.object({
-    institutionId: z.string()
-});
+export const zGetMyTwoFactorStatusResponse = zTwoFactorStatusDto;
 
-export const zGetSynchronizationStateResponse = z.array(zSyncWatermarkResponseDto);
+export const zBeginTwoFactorSetupBody = zCurrentPasswordDto;
 
-export const zListInstitutionConnectorsPath = z.object({
-    institutionId: z.string()
-});
+export const zBeginTwoFactorSetupResponse = zTwoFactorSetupDto;
 
-export const zListInstitutionConnectorsResponse = z.array(zConnectorStatusResponseDto);
+export const zEnableTwoFactorBody = zTwoFactorCodeDto;
 
-export const zListMyInstitutionsResponse = z.array(zInstitutionResponseDto);
+export const zEnableTwoFactorResponse = zRecoveryCodesDto;
 
-export const zGetInstitutionPath = z.object({
-    institutionId: z.string()
-});
+export const zDisableTwoFactorBody = zCurrentPasswordDto;
 
-export const zGetInstitutionResponse = zInstitutionResponseDto;
+export const zDisableTwoFactorResponse = z.void();
 
-export const zGetInstitutionConfigurationPath = z.object({
-    institutionId: z.string()
-});
+export const zRegenerateRecoveryCodesBody = zCurrentPasswordDto;
 
-export const zGetInstitutionConfigurationResponse = zInstitutionConfigurationResponseDto;
-
-export const zUpdateInstitutionConfigurationBody = zUpdateInstitutionConfigurationDto;
-
-export const zUpdateInstitutionConfigurationPath = z.object({
-    institutionId: z.string()
-});
-
-export const zUpdateInstitutionConfigurationResponse = zInstitutionConfigurationResponseDto;
-
-export const zListMyIdentitiesResponse = z.array(zExternalIdentityResponseDto);
+export const zRegenerateRecoveryCodesResponse = zRecoveryCodesDto;
 
 export const zFindMeResponse = zUserResponseDto;
 
@@ -748,14 +2790,14 @@ export const zCreateBody = zCreateUserDtoWritable;
  */
 export const zCreateResponse = zUserResponseDto;
 
-export const zRemovePath = z.object({
+export const zDeactivateUserPath = z.object({
     id: z.string()
 });
 
 /**
- * The user was soft-deleted.
+ * The account was deactivated.
  */
-export const zRemoveResponse = z.void();
+export const zDeactivateUserResponse = z.void();
 
 export const zFindOnePath = z.object({
     id: z.string()
@@ -766,25 +2808,41 @@ export const zFindOnePath = z.object({
  */
 export const zFindOneResponse = zUserResponseDto;
 
-export const zRegisterBody = zCreateUserDtoWritable;
+export const zListAuditEventsPath = z.object({
+    institutionId: z.string()
+});
 
-export const zRegisterResponse = zAuthTokensDto;
+export const zListAuditEventsQuery = z.object({
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    cursor: z.string().optional(),
+    order: zSortOrder.optional(),
+    action: z.enum([
+        'grade.proposed',
+        'grade.published',
+        'role.granted',
+        'role.revoked',
+        'enrollment.corrected',
+        'exam_term.cancelled',
+        'exam_registration.attendance_recorded',
+        'personal_data.erased',
+        'discussion.hidden',
+        'discussion.restored'
+    ]).optional(),
+    subjectType: z.enum([
+        'course_result',
+        'role_assignment',
+        'enrollment',
+        'exam_term',
+        'exam_registration',
+        'personal_data_erasure',
+        'discussion_thread',
+        'discussion_post'
+    ]).optional(),
+    subjectId: z.uuid().optional(),
+    actorUserId: z.uuid().optional()
+});
 
-export const zLoginBody = zLoginDtoWritable;
-
-export const zLoginResponse = zAuthTokensDto;
-
-export const zRefreshBody = zRefreshTokenDto;
-
-export const zRefreshResponse = zAuthTokensDto;
-
-export const zLogoutBody = zRefreshTokenDto;
-
-export const zLogoutResponse = z.void();
-
-export const zLogoutAllResponse = z.void();
-
-export const zMeResponse = zUserResponseDto;
+export const zListAuditEventsResponse = zAuditEventPageDto;
 
 export const zListRoleAssignmentsPath = z.object({
     institutionId: z.string()
@@ -834,11 +2892,29 @@ export const zListMyCoursesQuery = z.object({
         'active',
         'completed',
         'withdrawn',
-        'rejected'
+        'rejected',
+        'waitlisted'
     ]).optional()
 });
 
 export const zListMyCoursesResponse = z.array(zMyCourseResponseDto);
+
+export const zListMyTeachingOfferingsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyTeachingOfferingsQuery = z.object({
+    termId: z.uuid().optional()
+});
+
+export const zListMyTeachingOfferingsResponse = z.array(zTeachingOfferingResponseDto);
+
+export const zRemoveCourseOfferingPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zRemoveCourseOfferingResponse = z.void();
 
 export const zGetCourseOfferingPath = z.object({
     institutionId: z.string(),
@@ -846,6 +2922,22 @@ export const zGetCourseOfferingPath = z.object({
 });
 
 export const zGetCourseOfferingResponse = zCourseOfferingResponseDto;
+
+export const zUpdateCourseOfferingBody = zUpdateCourseOfferingDto;
+
+export const zUpdateCourseOfferingPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zUpdateCourseOfferingResponse = zCourseOfferingAdminResponseDto;
+
+export const zGetCourseRosterPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zGetCourseRosterResponse = zCourseRosterResponseDto;
 
 export const zListMyCourseResultsPath = z.object({
     institutionId: z.string()
@@ -866,6 +2958,643 @@ export const zListMyCourseResultsQuery = z.object({
 
 export const zListMyCourseResultsResponse = z.array(zMyCourseResultResponseDto);
 
+export const zGetMyStudyProgressPath = z.object({
+    institutionId: z.string()
+});
+
+export const zGetMyStudyProgressResponse = zStudyProgressResponseDto;
+
+export const zListOfferingResultsPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListOfferingResultsResponse = zOfferingResultsResponseDto;
+
+export const zRecordOfferingResultBody = zRecordGradeDto;
+
+export const zRecordOfferingResultPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    enrollmentId: z.string()
+});
+
+export const zRecordOfferingResultResponse = zRecordedGradeResponseDto;
+
+export const zListMyNotificationsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyNotificationsQuery = z.object({
+    unreadOnly: z.boolean().optional(),
+    limit: z.number().gte(1).lte(100).optional()
+});
+
+export const zListMyNotificationsResponse = z.array(zNotificationResponseDto);
+
+export const zCountMyUnreadNotificationsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCountMyUnreadNotificationsResponse = zUnreadNotificationsResponseDto;
+
+export const zMarkAllMyNotificationsReadPath = z.object({
+    institutionId: z.string()
+});
+
+export const zMarkAllMyNotificationsReadResponse = zUnreadNotificationsResponseDto;
+
+export const zMarkMyNotificationReadPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zMarkMyNotificationReadResponse = zNotificationResponseDto;
+
+export const zGetMyNotificationPreferencesResponse = zNotificationPreferencesResponseDto;
+
+export const zUpdateMyNotificationPreferencesBody = zUpdateNotificationPreferencesDto;
+
+export const zUpdateMyNotificationPreferencesResponse = zNotificationPreferencesResponseDto;
+
+export const zListMyIdentitiesResponse = z.array(zExternalIdentityResponseDto);
+
+export const zListMyInstitutionsResponse = z.array(zInstitutionResponseDto);
+
+export const zCreateInstitutionBody = zCreateInstitutionDto;
+
+export const zCreateInstitutionResponse = zInstitutionResponseDto;
+
+export const zGetInstitutionPath = z.object({
+    institutionId: z.string()
+});
+
+export const zGetInstitutionResponse = zInstitutionResponseDto;
+
+export const zGetInstitutionConfigurationPath = z.object({
+    institutionId: z.string()
+});
+
+export const zGetInstitutionConfigurationResponse = zInstitutionConfigurationResponseDto;
+
+export const zUpdateInstitutionConfigurationBody = zUpdateInstitutionConfigurationDto;
+
+export const zUpdateInstitutionConfigurationPath = z.object({
+    institutionId: z.string()
+});
+
+export const zUpdateInstitutionConfigurationResponse = zInstitutionConfigurationResponseDto;
+
+export const zListOrgUnitsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListOrgUnitsResponse = z.array(zOrgUnitResponseDto);
+
+export const zCreateOrgUnitBody = zCreateOrgUnitDto;
+
+export const zCreateOrgUnitPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateOrgUnitResponse = zOrgUnitResponseDto;
+
+export const zRemoveOrgUnitPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zRemoveOrgUnitResponse = z.void();
+
+export const zGetOrgUnitPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zGetOrgUnitResponse = zOrgUnitResponseDto;
+
+export const zUpdateOrgUnitBody = zUpdateOrgUnitDto;
+
+export const zUpdateOrgUnitPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zUpdateOrgUnitResponse = zOrgUnitResponseDto;
+
+export const zListPeoplePath = z.object({
+    institutionId: z.string()
+});
+
+export const zListPeopleQuery = z.object({
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    cursor: z.string().optional(),
+    order: zSortOrder.optional(),
+    q: z.string().max(200).optional(),
+    userIds: z.array(z.uuid()).optional()
+});
+
+export const zListPeopleResponse = zPersonDirectoryPageDto;
+
+export const zListRoomsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListRoomsResponse = z.array(zRoomResponseDto);
+
+export const zCreateRoomBody = zCreateRoomDto;
+
+export const zCreateRoomPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateRoomResponse = zRoomResponseDto;
+
+export const zRemoveRoomPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zRemoveRoomResponse = z.void();
+
+export const zUpdateRoomBody = zUpdateRoomDto;
+
+export const zUpdateRoomPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zUpdateRoomResponse = zRoomResponseDto;
+
+export const zCreateInvitationBody = zCreateInvitationDto;
+
+export const zCreateInvitationPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateInvitationResponse = zInvitationResponseDto;
+
+export const zAcceptInvitationBody = zAcceptInvitationDto;
+
+export const zAcceptInvitationPath = z.object({
+    token: z.string()
+});
+
+/**
+ * The invitation was accepted.
+ */
+export const zAcceptInvitationResponse = z.void();
+
+export const zListLearningSpacesPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListLearningSpacesQuery = z.object({
+    offeringId: z.uuid().optional()
+});
+
+export const zListLearningSpacesResponse = zLearningSpaceListResponseDto;
+
+export const zCreateLearningSpaceBody = zCreateLearningSpaceDto;
+
+export const zCreateLearningSpacePath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateLearningSpaceResponse = zLearningSpaceDetailResponseDto;
+
+export const zGetLearningSpacePath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zGetLearningSpaceResponse = zLearningSpaceDetailResponseDto;
+
+export const zUpdateLearningSpaceBody = zUpdateLearningSpaceDto;
+
+export const zUpdateLearningSpacePath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zUpdateLearningSpaceResponse = zLearningSpaceDetailResponseDto;
+
+export const zListLearningMaterialsPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zListLearningMaterialsResponse = z.array(zLearningMaterialResponseDto);
+
+export const zCreateLearningMaterialBody = zCreateLearningMaterialDto;
+
+export const zCreateLearningMaterialPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zCreateLearningMaterialResponse = zLearningMaterialResponseDto;
+
+export const zCreateMaterialUploadTicketBody = zRequestUploadTicketDto;
+
+export const zCreateMaterialUploadTicketPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zCreateMaterialUploadTicketResponse = zUploadTicketResponseDto;
+
+export const zRemoveLearningMaterialPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    materialId: z.string()
+});
+
+export const zRemoveLearningMaterialResponse = z.void();
+
+export const zUpdateLearningMaterialBody = zUpdateLearningMaterialDto;
+
+export const zUpdateLearningMaterialPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    materialId: z.string()
+});
+
+export const zUpdateLearningMaterialResponse = zLearningMaterialResponseDto;
+
+export const zGetLearningMaterialDownloadUrlPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    materialId: z.string()
+});
+
+export const zGetLearningMaterialDownloadUrlResponse = zDownloadUrlResponseDto;
+
+export const zListAssignmentsPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zListAssignmentsResponse = z.array(zAssignmentResponseDto);
+
+export const zCreateAssignmentBody = zCreateAssignmentDto;
+
+export const zCreateAssignmentPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zCreateAssignmentResponse = zAssignmentResponseDto;
+
+export const zRemoveAssignmentPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    assignmentId: z.string()
+});
+
+export const zRemoveAssignmentResponse = z.void();
+
+export const zGetAssignmentPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    assignmentId: z.string()
+});
+
+export const zGetAssignmentResponse = zAssignmentResponseDto;
+
+export const zUpdateAssignmentBody = zUpdateAssignmentDto;
+
+export const zUpdateAssignmentPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    assignmentId: z.string()
+});
+
+export const zUpdateAssignmentResponse = zAssignmentResponseDto;
+
+export const zListMySubmissionsPath = z.object({
+    institutionId: z.string(),
+    assignmentId: z.string()
+});
+
+export const zListMySubmissionsResponse = z.array(zSubmissionResponseDto);
+
+export const zSubmitAssignmentBody = zSubmitAssignmentDto;
+
+export const zSubmitAssignmentPath = z.object({
+    institutionId: z.string(),
+    assignmentId: z.string()
+});
+
+export const zSubmitAssignmentResponse = zSubmissionResponseDto;
+
+export const zCreateSubmissionUploadTicketBody = zRequestUploadTicketDto;
+
+export const zCreateSubmissionUploadTicketPath = z.object({
+    institutionId: z.string(),
+    assignmentId: z.string()
+});
+
+export const zCreateSubmissionUploadTicketResponse = zUploadTicketResponseDto;
+
+export const zListAssignmentSubmissionsPath = z.object({
+    institutionId: z.string(),
+    assignmentId: z.string()
+});
+
+export const zListAssignmentSubmissionsResponse = z.array(zSubmissionResponseDto);
+
+export const zGetSubmissionFileDownloadUrlPath = z.object({
+    institutionId: z.string(),
+    assignmentId: z.string(),
+    submissionId: z.string(),
+    fileId: z.string()
+});
+
+export const zGetSubmissionFileDownloadUrlResponse = zDownloadUrlResponseDto;
+
+export const zMarkSubmissionBody = zMarkSubmissionDto;
+
+export const zMarkSubmissionPath = z.object({
+    institutionId: z.string(),
+    assignmentId: z.string(),
+    submissionId: z.string()
+});
+
+export const zMarkSubmissionResponse = zMarkedSubmissionResponseDto;
+
+export const zListMyDeadlinesPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyDeadlinesQuery = z.object({
+    from: z.iso.datetime(),
+    to: z.iso.datetime(),
+    offeringId: z.uuid().optional()
+});
+
+export const zListMyDeadlinesResponse = z.array(zMyDeadlineResponseDto);
+
+export const zListMyAssessmentResultsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyAssessmentResultsQuery = z.object({
+    offeringId: z.uuid().optional()
+});
+
+export const zListMyAssessmentResultsResponse = z.array(zMyAssessmentResultResponseDto);
+
+export const zCreateDemoRequestBody = zCreateDemoRequestDtoWritable;
+
+export const zCreateDemoRequestResponse = zDemoRequestAcceptedDto;
+
+export const zExportMyPersonalDataPath = z.object({
+    institutionId: z.string()
+});
+
+export const zExportMyPersonalDataResponse = zPersonalDataExportDto;
+
+export const zErasePersonalDataPath = z.object({
+    institutionId: z.string(),
+    userId: z.string()
+});
+
+export const zErasePersonalDataResponse = zPersonalDataErasureResponseDto;
+
+export const zListAcademicTermsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListAcademicTermsResponse = z.array(zAcademicTermResponseDto);
+
+export const zCreateAcademicTermBody = zCreateAcademicTermDto;
+
+export const zCreateAcademicTermPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateAcademicTermResponse = zAcademicTermResponseDto;
+
+export const zRemoveAcademicTermPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zRemoveAcademicTermResponse = z.void();
+
+export const zUpdateAcademicTermBody = zUpdateAcademicTermDto;
+
+export const zUpdateAcademicTermPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zUpdateAcademicTermResponse = zAcademicTermResponseDto;
+
+export const zBulkImportCourseOfferingsBody = zBulkImportDto;
+
+export const zBulkImportCourseOfferingsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zBulkImportCourseOfferingsResponse = zBulkImportResultDto;
+
+export const zBulkImportProgramMembersBody = zBulkImportDto;
+
+export const zBulkImportProgramMembersPath = z.object({
+    institutionId: z.string()
+});
+
+export const zBulkImportProgramMembersResponse = zBulkImportResultDto;
+
+export const zListProgramsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListProgramsResponse = z.array(zProgramResponseDto);
+
+export const zCreateProgramBody = zCreateProgramDto;
+
+export const zCreateProgramPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateProgramResponse = zProgramResponseDto;
+
+export const zRemoveProgramPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zRemoveProgramResponse = z.void();
+
+export const zUpdateProgramBody = zUpdateProgramDto;
+
+export const zUpdateProgramPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zUpdateProgramResponse = zProgramResponseDto;
+
+export const zListCoursesPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListCoursesResponse = z.array(zCourseResponseDto);
+
+export const zCreateCourseBody = zCreateCourseDto;
+
+export const zCreateCoursePath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateCourseResponse = zCourseResponseDto;
+
+export const zRemoveCoursePath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zRemoveCourseResponse = z.void();
+
+export const zUpdateCourseBody = zUpdateCourseDto;
+
+export const zUpdateCoursePath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zUpdateCourseResponse = zCourseResponseDto;
+
+export const zListCourseOfferingsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListCourseOfferingsResponse = z.array(zCourseOfferingListItemDto);
+
+export const zCreateCourseOfferingBody = zCreateCourseOfferingDto;
+
+export const zCreateCourseOfferingPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateCourseOfferingResponse = zCourseOfferingAdminResponseDto;
+
+export const zCorrectEnrollmentBody = zCorrectEnrollmentDto;
+
+export const zCorrectEnrollmentPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    enrollmentId: z.string()
+});
+
+export const zCorrectEnrollmentResponse = zCorrectedEnrollmentResponseDto;
+
+export const zListProgramMembersPath = z.object({
+    institutionId: z.string(),
+    programId: z.string()
+});
+
+export const zListProgramMembersResponse = z.array(zProgramMemberResponseDto);
+
+export const zAdmitToProgramBody = zAdmitToProgramDto;
+
+export const zAdmitToProgramPath = z.object({
+    institutionId: z.string(),
+    programId: z.string()
+});
+
+export const zRemoveProgramMembershipPath = z.object({
+    institutionId: z.string(),
+    programId: z.string(),
+    membershipId: z.string()
+});
+
+export const zRemoveProgramMembershipResponse = z.void();
+
+export const zUpdateProgramMembershipBody = zUpdateProgramMembershipDto;
+
+export const zUpdateProgramMembershipPath = z.object({
+    institutionId: z.string(),
+    programId: z.string(),
+    membershipId: z.string()
+});
+
+export const zUpdateProgramMembershipResponse = zProgramMemberResponseDto;
+
+export const zListStudyGroupsPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListStudyGroupsResponse = z.array(zStudyGroupResponseDto);
+
+export const zCreateStudyGroupBody = zCreateStudyGroupDto;
+
+export const zCreateStudyGroupPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zRemoveStudyGroupPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    groupId: z.string()
+});
+
+export const zRemoveStudyGroupResponse = z.void();
+
+export const zUpdateStudyGroupBody = zUpdateStudyGroupDto;
+
+export const zUpdateStudyGroupPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    groupId: z.string()
+});
+
+export const zAddStudyGroupMemberBody = zAddStudyGroupMemberDto;
+
+export const zAddStudyGroupMemberPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    groupId: z.string()
+});
+
+export const zAddStudyGroupMemberResponse = z.void();
+
+export const zRemoveStudyGroupMemberPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    groupId: z.string(),
+    userId: z.string()
+});
+
+export const zRemoveStudyGroupMemberResponse = z.void();
+
+export const zListTeachingAssignmentsPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListTeachingAssignmentsResponse = z.array(zTeachingAssignmentResponseDto);
+
+export const zAssignTeacherBody = zAssignTeacherDto;
+
+export const zAssignTeacherPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zUnassignTeacherPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    assignmentId: z.string()
+});
+
+export const zUnassignTeacherResponse = z.void();
+
 export const zListMyTimetableEventsPath = z.object({
     institutionId: z.string()
 });
@@ -885,3 +3614,335 @@ export const zListMyTimetableEventsQuery = z.object({
 });
 
 export const zListMyTimetableEventsResponse = z.array(zMyTimetableEventResponseDto);
+
+export const zListMyExamTermsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyExamTermsQuery = z.object({
+    from: z.iso.datetime().optional(),
+    to: z.iso.datetime().optional(),
+    offeringId: z.uuid().optional(),
+    kind: z.enum([
+        'regular',
+        'first_retake',
+        'second_retake',
+        'state_exam'
+    ]).optional()
+});
+
+export const zListMyExamTermsResponse = z.array(zMyExamTermResponseDto);
+
+export const zRegisterForExamTermBody = zRegisterForExamTermDto;
+
+export const zRegisterForExamTermPath = z.object({
+    institutionId: z.string()
+});
+
+export const zRegisterForExamTermResponse = zExamRegistrationResponseDto;
+
+export const zCancelExamRegistrationPath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zCancelExamRegistrationResponse = zExamRegistrationResponseDto;
+
+export const zListOfferingTimetablePath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListOfferingTimetableResponse = z.array(zTimetableEventResponseDto);
+
+export const zCreateTimetableEventBody = zCreateTimetableEventDto;
+
+export const zCreateTimetableEventPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zCreateTimetableEventResponse = zScheduledEventsResponseDto;
+
+export const zRemoveTimetableEventPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    eventId: z.string()
+});
+
+export const zRemoveTimetableEventResponse = z.void();
+
+export const zUpdateTimetableEventBody = zUpdateTimetableEventDto;
+
+export const zUpdateTimetableEventPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    eventId: z.string()
+});
+
+export const zUpdateTimetableEventResponse = zTimetableEventRefDto;
+
+export const zRestoreTimetableEventPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    eventId: z.string()
+});
+
+export const zRestoreTimetableEventResponse = zTimetableEventRefDto;
+
+export const zCancelTimetableEventPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    eventId: z.string()
+});
+
+export const zCancelTimetableEventResponse = zTimetableEventRefDto;
+
+export const zListOfferingExamTermsPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListOfferingExamTermsResponse = z.array(zExamTermAdminResponseDto);
+
+export const zCreateExamTermBody = zCreateExamTermDto;
+
+export const zCreateExamTermPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zCreateExamTermResponse = zExamTermRefDto;
+
+export const zRemoveExamTermPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    examTermId: z.string()
+});
+
+export const zRemoveExamTermResponse = z.void();
+
+export const zUpdateExamTermBody = zUpdateExamTermDto;
+
+export const zUpdateExamTermPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    examTermId: z.string()
+});
+
+export const zUpdateExamTermResponse = zExamTermRefDto;
+
+export const zCancelExamTermPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    examTermId: z.string()
+});
+
+export const zCancelExamTermResponse = zExamTermRefDto;
+
+export const zListExamTermRegistrantsPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    examTermId: z.string()
+});
+
+export const zListExamTermRegistrantsResponse = z.array(zExamRegistrantResponseDto);
+
+export const zRecordExamAttendanceBody = zRecordExamAttendanceDto;
+
+export const zRecordExamAttendancePath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    examTermId: z.string(),
+    registrationId: z.string()
+});
+
+export const zRecordExamAttendanceResponse = zExamRegistrantResponseDto;
+
+export const zDownloadMyCalendarPath = z.object({
+    institutionId: z.string()
+});
+
+export const zDownloadMyCalendarResponse = z.string();
+
+export const zRevokeMyCalendarFeedPath = z.object({
+    institutionId: z.string()
+});
+
+export const zRevokeMyCalendarFeedResponse = z.void();
+
+export const zGetMyCalendarFeedPath = z.object({
+    institutionId: z.string()
+});
+
+export const zGetMyCalendarFeedResponse = zCalendarFeedStatusDto;
+
+export const zIssueMyCalendarFeedPath = z.object({
+    institutionId: z.string()
+});
+
+export const zIssueMyCalendarFeedResponse = zIssuedCalendarFeedDto;
+
+export const zGetCalendarFeedPath = z.object({
+    token: z.string()
+});
+
+export const zGetCalendarFeedResponse = z.string();
+
+export const zListDiscussionThreadsPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListDiscussionThreadsResponse = zDiscussionThreadListDto;
+
+export const zStartDiscussionThreadBody = zCreateDiscussionThreadDto;
+
+export const zStartDiscussionThreadPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zStartDiscussionThreadResponse = zDiscussionThreadDto;
+
+export const zCreateDiscussionAttachmentTicketBody = zRequestUploadTicketDto;
+
+export const zCreateDiscussionAttachmentTicketPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zCreateDiscussionAttachmentTicketResponse = zUploadTicketResponseDto;
+
+export const zGetDiscussionAttachmentDownloadUrlPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string(),
+    postId: z.string(),
+    attachmentId: z.string()
+});
+
+export const zGetDiscussionAttachmentDownloadUrlResponse = zDownloadUrlResponseDto;
+
+export const zGetDiscussionThreadPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string()
+});
+
+export const zGetDiscussionThreadResponse = zDiscussionThreadDto;
+
+export const zRenameDiscussionThreadBody = zEditDiscussionThreadDto;
+
+export const zRenameDiscussionThreadPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string()
+});
+
+export const zRenameDiscussionThreadResponse = zDiscussionThreadDto;
+
+export const zReplyToDiscussionThreadBody = zCreateDiscussionPostDto;
+
+export const zReplyToDiscussionThreadPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string()
+});
+
+export const zReplyToDiscussionThreadResponse = zDiscussionThreadDto;
+
+export const zDeleteDiscussionPostPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string(),
+    postId: z.string()
+});
+
+export const zDeleteDiscussionPostResponse = z.void();
+
+export const zEditDiscussionPostBody = zEditDiscussionPostDto;
+
+export const zEditDiscussionPostPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string(),
+    postId: z.string()
+});
+
+export const zEditDiscussionPostResponse = zDiscussionThreadDto;
+
+export const zSetDiscussionThreadVisibilityBody = zDiscussionVisibilityDto;
+
+export const zSetDiscussionThreadVisibilityPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string()
+});
+
+export const zSetDiscussionThreadVisibilityResponse = z.void();
+
+export const zSetDiscussionPostVisibilityBody = zDiscussionVisibilityDto;
+
+export const zSetDiscussionPostVisibilityPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string(),
+    postId: z.string()
+});
+
+export const zSetDiscussionPostVisibilityResponse = z.void();
+
+export const zSearchPath = z.object({
+    institutionId: z.string()
+});
+
+export const zSearchQuery = z.object({
+    q: z.string().max(200)
+});
+
+export const zSearchResponse = zSearchResultsDto;
+
+export const zGetCaptchaStateResponse = zCaptchaStateDto;
+
+export const zCreateCaptchaChallengeResponse = zCaptchaChallengeDto;
+
+export const zListEnrollableOfferingsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListEnrollableOfferingsQuery = z.object({
+    termId: z.uuid().optional()
+});
+
+export const zListEnrollableOfferingsResponse = z.array(zEnrollableOfferingResponseDto);
+
+export const zRequestEnrollmentBody = zRequestEnrollmentDto;
+
+export const zRequestEnrollmentPath = z.object({
+    institutionId: z.string()
+});
+
+export const zRequestEnrollmentResponse = zEnrollmentResponseDto;
+
+export const zJoinCourseWaitlistBody = zRequestEnrollmentDto;
+
+export const zJoinCourseWaitlistPath = z.object({
+    institutionId: z.string()
+});
+
+export const zJoinCourseWaitlistResponse = zEnrollmentResponseDto;
+
+export const zWithdrawFromCoursePath = z.object({
+    institutionId: z.string(),
+    id: z.string()
+});
+
+export const zWithdrawFromCourseResponse = zEnrollmentResponseDto;
+
+export const zListCourseWaitlistPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string()
+});
+
+export const zListCourseWaitlistResponse = z.array(zWaitingStudentResponseDto);

@@ -6,3 +6,7 @@ export const institutionQueries = {
   detail: apiQueries.getInstitutionOptions,
   detailKey: apiQueries.getInstitutionQueryKey,
 } as const;
+
+export const institutionMutations = {
+  create: apiQueries.createInstitutionMutation,
+} as const;

@@ -1,16 +1,17 @@
 'use client';
 
 import { useMemo } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { CaptchaNotice, useCaptcha } from '@/entities/captcha';
 import { sessionApi } from '@/entities/session';
 import { toApiError } from '@/shared/api';
 import { LANDING_ROUTE, useRouter } from '@/shared/config';
+import { useZodResolver } from '@/shared/lib';
 import {
   Button,
   Form,
@@ -21,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  PasswordInput,
 } from '@/shared/ui';
 
 import { buildSignUpSchema, type SignUpFormValues } from '../model/sign-up';
@@ -28,11 +30,15 @@ import { buildSignUpSchema, type SignUpFormValues } from '../model/sign-up';
 interface SignUpProps {
   /** Where to land once the account exists. Defaults to the account page. */
   next?: string | undefined;
+  /** Read on the server, because it is fixed at deploy. */
+  captchaEnabled?: boolean;
 }
 
-export function SignUp({ next }: SignUpProps) {
+export function SignUp({ next, captchaEnabled = false }: SignUpProps) {
   const t = useTranslations('auth');
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const captcha = useCaptcha(captchaEnabled);
 
   const schema = useMemo(
     () => buildSignUpSchema({ passwordMismatch: t('passwordMismatch') }),
@@ -40,7 +46,7 @@ export function SignUp({ next }: SignUpProps) {
   );
 
   const form = useForm<SignUpFormValues>({
-    resolver: zodResolver(schema),
+    resolver: useZodResolver(schema),
     defaultValues: { email: '', displayName: '', password: '', confirmPassword: '' },
   });
 
@@ -53,6 +59,8 @@ export function SignUp({ next }: SignUpProps) {
        * first only invalidates the route being left, so the destination would
        * still render the root layout cached while signed out.
        */
+      // Anything cached so far was fetched as somebody else, or as nobody.
+      void queryClient.resetQueries();
       router.push(next ?? LANDING_ROUTE);
       router.refresh();
     },
@@ -70,16 +78,22 @@ export function SignUp({ next }: SignUpProps) {
     },
   });
 
-  const onSubmit = form.handleSubmit(values => {
+  const onSubmit = form.handleSubmit(async values => {
     // `confirmPassword` exists only in the form; the API never sees it.
     const { confirmPassword: _confirmPassword, ...body } = values;
-    mutation.mutate(body);
+
+    try {
+      mutation.mutate({ ...body, captcha: await captcha.solve() });
+    } catch {
+      toast.error(t('captchaFailed'));
+    }
   });
 
-  const pending = form.formState.isSubmitting || mutation.isPending;
+  const pending =
+    form.formState.isSubmitting || mutation.isPending || captcha.status === 'solving';
 
   return (
-    <Form {...form}>
+    <Form {...form} schema={schema}>
       <form
         onSubmit={onSubmit}
         noValidate
@@ -92,7 +106,11 @@ export function SignUp({ next }: SignUpProps) {
             <FormItem>
               <FormLabel>{t('displayName')}</FormLabel>
               <FormControl>
-                <Input autoComplete="name" {...field} />
+                <Input
+                  autoComplete="name"
+                  placeholder={t('placeholder.displayName')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -106,7 +124,12 @@ export function SignUp({ next }: SignUpProps) {
             <FormItem>
               <FormLabel>{t('email')}</FormLabel>
               <FormControl>
-                <Input type="email" autoComplete="email" {...field} />
+                <Input
+                  type="email"
+                  autoComplete="email"
+                  placeholder={t('placeholder.email')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -120,7 +143,11 @@ export function SignUp({ next }: SignUpProps) {
             <FormItem>
               <FormLabel>{t('password')}</FormLabel>
               <FormControl>
-                <Input type="password" autoComplete="new-password" {...field} />
+                <PasswordInput
+                  autoComplete="new-password"
+                  placeholder={t('placeholder.password')}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>{t('passwordHint')}</FormDescription>
               <FormMessage />
@@ -135,12 +162,18 @@ export function SignUp({ next }: SignUpProps) {
             <FormItem>
               <FormLabel>{t('confirmPassword')}</FormLabel>
               <FormControl>
-                <Input type="password" autoComplete="new-password" {...field} />
+                <PasswordInput
+                  autoComplete="new-password"
+                  placeholder={t('placeholder.confirmPassword')}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        <CaptchaNotice enabled={captcha.enabled} status={captcha.status} />
 
         <Button type="submit" disabled={pending}>
           {pending ? (

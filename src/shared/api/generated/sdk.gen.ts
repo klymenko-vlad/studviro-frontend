@@ -4,8 +4,8 @@ import * as z from 'zod';
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { CreateData, CreateErrors, CreateResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GetCourseOfferingData, GetCourseOfferingErrors, GetCourseOfferingResponses, GetInstitutionConfigurationData, GetInstitutionConfigurationErrors, GetInstitutionConfigurationResponses, GetInstitutionData, GetInstitutionErrors, GetInstitutionResponses, GetSynchronizationRunData, GetSynchronizationRunErrors, GetSynchronizationRunResponses, GetSynchronizationStateData, GetSynchronizationStateErrors, GetSynchronizationStateResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, ListInstitutionConnectorsData, ListInstitutionConnectorsErrors, ListInstitutionConnectorsResponses, ListMyCourseResultsData, ListMyCourseResultsErrors, ListMyCourseResultsResponses, ListMyCoursesData, ListMyCoursesErrors, ListMyCoursesResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyInstitutionsData, ListMyInstitutionsErrors, ListMyInstitutionsResponses, ListMyPermissionsData, ListMyPermissionsErrors, ListMyPermissionsResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListMyTimetableEventsData, ListMyTimetableEventsErrors, ListMyTimetableEventsResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, ListSynchronizationRunsData, ListSynchronizationRunsErrors, ListSynchronizationRunsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MeData, MeErrors, MeResponses, RefreshData, RefreshErrors, RefreshResponses, RegisterData, RegisterErrors, RegisterResponses, RemoveData, RemoveErrors, RemoveResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, StartSynchronizationRunData, StartSynchronizationRunErrors, StartSynchronizationRunResponses, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationErrors, UpdateInstitutionConfigurationResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses } from './types.gen';
-import { zCreateBody, zCreateResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGetCourseOfferingPath, zGetCourseOfferingResponse, zGetInstitutionConfigurationPath, zGetInstitutionConfigurationResponse, zGetInstitutionPath, zGetInstitutionResponse, zGetSynchronizationRunPath, zGetSynchronizationRunResponse, zGetSynchronizationStatePath, zGetSynchronizationStateResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zListInstitutionConnectorsPath, zListInstitutionConnectorsResponse, zListMyCourseResultsPath, zListMyCourseResultsQuery, zListMyCourseResultsResponse, zListMyCoursesPath, zListMyCoursesQuery, zListMyCoursesResponse, zListMyIdentitiesResponse, zListMyInstitutionsResponse, zListMyPermissionsPath, zListMyPermissionsResponse, zListMyRolesResponse, zListMyTimetableEventsPath, zListMyTimetableEventsQuery, zListMyTimetableEventsResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zListSynchronizationRunsPath, zListSynchronizationRunsQuery, zListSynchronizationRunsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMeResponse, zRefreshBody, zRefreshResponse, zRegisterBody, zRegisterResponse, zRemovePath, zRemoveResponse, zRevokeRolePath, zRevokeRoleResponse, zStartSynchronizationRunBody, zStartSynchronizationRunPath, zStartSynchronizationRunResponse, zUpdateInstitutionConfigurationBody, zUpdateInstitutionConfigurationPath, zUpdateInstitutionConfigurationResponse, zUpdateMeBody, zUpdateMeResponse } from './zod.gen';
+import type { AcceptInvitationData, AcceptInvitationErrors, AcceptInvitationResponses, AddStudyGroupMemberData, AddStudyGroupMemberErrors, AddStudyGroupMemberResponses, AdmitToProgramData, AdmitToProgramErrors, AdmitToProgramResponses, AssignTeacherData, AssignTeacherErrors, AssignTeacherResponses, BeginTwoFactorSetupData, BeginTwoFactorSetupErrors, BeginTwoFactorSetupResponses, BulkImportCourseOfferingsData, BulkImportCourseOfferingsErrors, BulkImportCourseOfferingsResponses, BulkImportProgramMembersData, BulkImportProgramMembersErrors, BulkImportProgramMembersResponses, CancelExamRegistrationData, CancelExamRegistrationErrors, CancelExamRegistrationResponses, CancelExamTermData, CancelExamTermErrors, CancelExamTermResponses, CancelTimetableEventData, CancelTimetableEventErrors, CancelTimetableEventResponses, ChangeMyPasswordData, ChangeMyPasswordErrors, ChangeMyPasswordResponses, CompleteTwoFactorLoginData, CompleteTwoFactorLoginErrors, CompleteTwoFactorLoginResponses, ConfirmPasswordResetData, ConfirmPasswordResetErrors, ConfirmPasswordResetResponses, CorrectEnrollmentData, CorrectEnrollmentErrors, CorrectEnrollmentResponses, CountMyUnreadNotificationsData, CountMyUnreadNotificationsErrors, CountMyUnreadNotificationsResponses, CreateAcademicTermData, CreateAcademicTermErrors, CreateAcademicTermResponses, CreateAssignmentData, CreateAssignmentErrors, CreateAssignmentResponses, CreateCaptchaChallengeData, CreateCaptchaChallengeErrors, CreateCaptchaChallengeResponses, CreateCourseData, CreateCourseErrors, CreateCourseOfferingData, CreateCourseOfferingErrors, CreateCourseOfferingResponses, CreateCourseResponses, CreateData, CreateDemoRequestData, CreateDemoRequestErrors, CreateDemoRequestResponses, CreateDiscussionAttachmentTicketData, CreateDiscussionAttachmentTicketErrors, CreateDiscussionAttachmentTicketResponses, CreateErrors, CreateExamTermData, CreateExamTermErrors, CreateExamTermResponses, CreateInstitutionData, CreateInstitutionErrors, CreateInstitutionResponses, CreateInvitationData, CreateInvitationErrors, CreateInvitationResponses, CreateLearningMaterialData, CreateLearningMaterialErrors, CreateLearningMaterialResponses, CreateLearningSpaceData, CreateLearningSpaceErrors, CreateLearningSpaceResponses, CreateMaterialUploadTicketData, CreateMaterialUploadTicketErrors, CreateMaterialUploadTicketResponses, CreateOrgUnitData, CreateOrgUnitErrors, CreateOrgUnitResponses, CreateProgramData, CreateProgramErrors, CreateProgramResponses, CreateResponses, CreateRoomData, CreateRoomErrors, CreateRoomResponses, CreateStudyGroupData, CreateStudyGroupErrors, CreateStudyGroupResponses, CreateSubmissionUploadTicketData, CreateSubmissionUploadTicketErrors, CreateSubmissionUploadTicketResponses, CreateTimetableEventData, CreateTimetableEventErrors, CreateTimetableEventResponses, DeactivateUserData, DeactivateUserErrors, DeactivateUserResponses, DeleteDiscussionPostData, DeleteDiscussionPostErrors, DeleteDiscussionPostResponses, DisableTwoFactorData, DisableTwoFactorErrors, DisableTwoFactorResponses, DownloadMyCalendarData, DownloadMyCalendarErrors, DownloadMyCalendarResponses, EditDiscussionPostData, EditDiscussionPostErrors, EditDiscussionPostResponses, EnableTwoFactorData, EnableTwoFactorErrors, EnableTwoFactorResponses, ErasePersonalDataData, ErasePersonalDataErrors, ErasePersonalDataResponses, ExportMyPersonalDataData, ExportMyPersonalDataErrors, ExportMyPersonalDataResponses, FindAllData, FindAllErrors, FindAllResponses, FindMeData, FindMeErrors, FindMeResponses, FindOneData, FindOneErrors, FindOneResponses, GetAssignmentData, GetAssignmentErrors, GetAssignmentResponses, GetCalendarFeedData, GetCalendarFeedErrors, GetCalendarFeedResponses, GetCaptchaStateData, GetCaptchaStateErrors, GetCaptchaStateResponses, GetCourseOfferingData, GetCourseOfferingErrors, GetCourseOfferingResponses, GetCourseRosterData, GetCourseRosterErrors, GetCourseRosterResponses, GetDiscussionAttachmentDownloadUrlData, GetDiscussionAttachmentDownloadUrlErrors, GetDiscussionAttachmentDownloadUrlResponses, GetDiscussionThreadData, GetDiscussionThreadErrors, GetDiscussionThreadResponses, GetInstitutionConfigurationData, GetInstitutionConfigurationErrors, GetInstitutionConfigurationResponses, GetInstitutionData, GetInstitutionErrors, GetInstitutionResponses, GetLearningMaterialDownloadUrlData, GetLearningMaterialDownloadUrlErrors, GetLearningMaterialDownloadUrlResponses, GetLearningSpaceData, GetLearningSpaceErrors, GetLearningSpaceResponses, GetMyCalendarFeedData, GetMyCalendarFeedErrors, GetMyCalendarFeedResponses, GetMyNotificationPreferencesData, GetMyNotificationPreferencesErrors, GetMyNotificationPreferencesResponses, GetMyStudyProgressData, GetMyStudyProgressErrors, GetMyStudyProgressResponses, GetMyTwoFactorStatusData, GetMyTwoFactorStatusErrors, GetMyTwoFactorStatusResponses, GetOrgUnitData, GetOrgUnitErrors, GetOrgUnitResponses, GetSubmissionFileDownloadUrlData, GetSubmissionFileDownloadUrlErrors, GetSubmissionFileDownloadUrlResponses, GrantRoleData, GrantRoleErrors, GrantRoleResponses, IssueMyCalendarFeedData, IssueMyCalendarFeedErrors, IssueMyCalendarFeedResponses, JoinCourseWaitlistData, JoinCourseWaitlistErrors, JoinCourseWaitlistResponses, ListAcademicTermsData, ListAcademicTermsErrors, ListAcademicTermsResponses, ListAssignmentsData, ListAssignmentsErrors, ListAssignmentsResponses, ListAssignmentSubmissionsData, ListAssignmentSubmissionsErrors, ListAssignmentSubmissionsResponses, ListAuditEventsData, ListAuditEventsErrors, ListAuditEventsResponses, ListCourseOfferingsData, ListCourseOfferingsErrors, ListCourseOfferingsResponses, ListCoursesData, ListCoursesErrors, ListCoursesResponses, ListCourseWaitlistData, ListCourseWaitlistErrors, ListCourseWaitlistResponses, ListDiscussionThreadsData, ListDiscussionThreadsErrors, ListDiscussionThreadsResponses, ListEnrollableOfferingsData, ListEnrollableOfferingsErrors, ListEnrollableOfferingsResponses, ListExamTermRegistrantsData, ListExamTermRegistrantsErrors, ListExamTermRegistrantsResponses, ListLearningMaterialsData, ListLearningMaterialsErrors, ListLearningMaterialsResponses, ListLearningSpacesData, ListLearningSpacesErrors, ListLearningSpacesResponses, ListMyAssessmentResultsData, ListMyAssessmentResultsErrors, ListMyAssessmentResultsResponses, ListMyCourseResultsData, ListMyCourseResultsErrors, ListMyCourseResultsResponses, ListMyCoursesData, ListMyCoursesErrors, ListMyCoursesResponses, ListMyDeadlinesData, ListMyDeadlinesErrors, ListMyDeadlinesResponses, ListMyExamTermsData, ListMyExamTermsErrors, ListMyExamTermsResponses, ListMyIdentitiesData, ListMyIdentitiesErrors, ListMyIdentitiesResponses, ListMyInstitutionsData, ListMyInstitutionsErrors, ListMyInstitutionsResponses, ListMyNotificationsData, ListMyNotificationsErrors, ListMyNotificationsResponses, ListMyPermissionsData, ListMyPermissionsErrors, ListMyPermissionsResponses, ListMyRolesData, ListMyRolesErrors, ListMyRolesResponses, ListMySessionsData, ListMySessionsErrors, ListMySessionsResponses, ListMySubmissionsData, ListMySubmissionsErrors, ListMySubmissionsResponses, ListMyTeachingOfferingsData, ListMyTeachingOfferingsErrors, ListMyTeachingOfferingsResponses, ListMyTimetableEventsData, ListMyTimetableEventsErrors, ListMyTimetableEventsResponses, ListOfferingExamTermsData, ListOfferingExamTermsErrors, ListOfferingExamTermsResponses, ListOfferingResultsData, ListOfferingResultsErrors, ListOfferingResultsResponses, ListOfferingTimetableData, ListOfferingTimetableErrors, ListOfferingTimetableResponses, ListOrgUnitsData, ListOrgUnitsErrors, ListOrgUnitsResponses, ListPeopleData, ListPeopleErrors, ListPeopleResponses, ListProgramMembersData, ListProgramMembersErrors, ListProgramMembersResponses, ListProgramsData, ListProgramsErrors, ListProgramsResponses, ListRoleAssignmentsData, ListRoleAssignmentsErrors, ListRoleAssignmentsResponses, ListRoomsData, ListRoomsErrors, ListRoomsResponses, ListStudyGroupsData, ListStudyGroupsErrors, ListStudyGroupsResponses, ListTeachingAssignmentsData, ListTeachingAssignmentsErrors, ListTeachingAssignmentsResponses, LoginData, LoginErrors, LoginResponses, LogoutAllData, LogoutAllResponses, LogoutData, LogoutResponses, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadErrors, MarkAllMyNotificationsReadResponses, MarkMyNotificationReadData, MarkMyNotificationReadErrors, MarkMyNotificationReadResponses, MarkSubmissionData, MarkSubmissionErrors, MarkSubmissionResponses, MeData, MeErrors, MeResponses, RecordExamAttendanceData, RecordExamAttendanceErrors, RecordExamAttendanceResponses, RecordOfferingResultData, RecordOfferingResultErrors, RecordOfferingResultResponses, RefreshData, RefreshErrors, RefreshResponses, RegenerateRecoveryCodesData, RegenerateRecoveryCodesErrors, RegenerateRecoveryCodesResponses, RegisterData, RegisterErrors, RegisterForExamTermData, RegisterForExamTermErrors, RegisterForExamTermResponses, RegisterResponses, RemoveAcademicTermData, RemoveAcademicTermErrors, RemoveAcademicTermResponses, RemoveAssignmentData, RemoveAssignmentErrors, RemoveAssignmentResponses, RemoveCourseData, RemoveCourseErrors, RemoveCourseOfferingData, RemoveCourseOfferingErrors, RemoveCourseOfferingResponses, RemoveCourseResponses, RemoveExamTermData, RemoveExamTermErrors, RemoveExamTermResponses, RemoveLearningMaterialData, RemoveLearningMaterialErrors, RemoveLearningMaterialResponses, RemoveOrgUnitData, RemoveOrgUnitErrors, RemoveOrgUnitResponses, RemoveProgramData, RemoveProgramErrors, RemoveProgramMembershipData, RemoveProgramMembershipErrors, RemoveProgramMembershipResponses, RemoveProgramResponses, RemoveRoomData, RemoveRoomErrors, RemoveRoomResponses, RemoveStudyGroupData, RemoveStudyGroupErrors, RemoveStudyGroupMemberData, RemoveStudyGroupMemberErrors, RemoveStudyGroupMemberResponses, RemoveStudyGroupResponses, RemoveTimetableEventData, RemoveTimetableEventErrors, RemoveTimetableEventResponses, RenameDiscussionThreadData, RenameDiscussionThreadErrors, RenameDiscussionThreadResponses, ReplyToDiscussionThreadData, ReplyToDiscussionThreadErrors, ReplyToDiscussionThreadResponses, RequestEnrollmentData, RequestEnrollmentErrors, RequestEnrollmentResponses, RequestPasswordResetData, RequestPasswordResetErrors, RequestPasswordResetResponses, RestoreTimetableEventData, RestoreTimetableEventErrors, RestoreTimetableEventResponses, RevokeMyCalendarFeedData, RevokeMyCalendarFeedErrors, RevokeMyCalendarFeedResponses, RevokeMyOtherSessionsData, RevokeMyOtherSessionsErrors, RevokeMyOtherSessionsResponses, RevokeMySessionData, RevokeMySessionErrors, RevokeMySessionResponses, RevokeRoleData, RevokeRoleErrors, RevokeRoleResponses, SearchData, SearchErrors, SearchResponses, SetDiscussionPostVisibilityData, SetDiscussionPostVisibilityErrors, SetDiscussionPostVisibilityResponses, SetDiscussionThreadVisibilityData, SetDiscussionThreadVisibilityErrors, SetDiscussionThreadVisibilityResponses, StartDiscussionThreadData, StartDiscussionThreadErrors, StartDiscussionThreadResponses, SubmitAssignmentData, SubmitAssignmentErrors, SubmitAssignmentResponses, UnassignTeacherData, UnassignTeacherErrors, UnassignTeacherResponses, UpdateAcademicTermData, UpdateAcademicTermErrors, UpdateAcademicTermResponses, UpdateAssignmentData, UpdateAssignmentErrors, UpdateAssignmentResponses, UpdateCourseData, UpdateCourseErrors, UpdateCourseOfferingData, UpdateCourseOfferingErrors, UpdateCourseOfferingResponses, UpdateCourseResponses, UpdateExamTermData, UpdateExamTermErrors, UpdateExamTermResponses, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationErrors, UpdateInstitutionConfigurationResponses, UpdateLearningMaterialData, UpdateLearningMaterialErrors, UpdateLearningMaterialResponses, UpdateLearningSpaceData, UpdateLearningSpaceErrors, UpdateLearningSpaceResponses, UpdateMeData, UpdateMeErrors, UpdateMeResponses, UpdateMyNotificationPreferencesData, UpdateMyNotificationPreferencesErrors, UpdateMyNotificationPreferencesResponses, UpdateOrgUnitData, UpdateOrgUnitErrors, UpdateOrgUnitResponses, UpdateProgramData, UpdateProgramErrors, UpdateProgramMembershipData, UpdateProgramMembershipErrors, UpdateProgramMembershipResponses, UpdateProgramResponses, UpdateRoomData, UpdateRoomErrors, UpdateRoomResponses, UpdateStudyGroupData, UpdateStudyGroupErrors, UpdateStudyGroupResponses, UpdateTimetableEventData, UpdateTimetableEventErrors, UpdateTimetableEventResponses, WithdrawFromCourseData, WithdrawFromCourseErrors, WithdrawFromCourseResponses } from './types.gen';
+import { zAcceptInvitationBody, zAcceptInvitationPath, zAcceptInvitationResponse, zAddStudyGroupMemberBody, zAddStudyGroupMemberPath, zAddStudyGroupMemberResponse, zAdmitToProgramBody, zAdmitToProgramPath, zAssignTeacherBody, zAssignTeacherPath, zBeginTwoFactorSetupBody, zBeginTwoFactorSetupResponse, zBulkImportCourseOfferingsBody, zBulkImportCourseOfferingsPath, zBulkImportCourseOfferingsResponse, zBulkImportProgramMembersBody, zBulkImportProgramMembersPath, zBulkImportProgramMembersResponse, zCancelExamRegistrationPath, zCancelExamRegistrationResponse, zCancelExamTermPath, zCancelExamTermResponse, zCancelTimetableEventPath, zCancelTimetableEventResponse, zChangeMyPasswordBody, zChangeMyPasswordResponse, zCompleteTwoFactorLoginBody, zCompleteTwoFactorLoginResponse, zConfirmPasswordResetBody, zConfirmPasswordResetPath, zConfirmPasswordResetResponse, zCorrectEnrollmentBody, zCorrectEnrollmentPath, zCorrectEnrollmentResponse, zCountMyUnreadNotificationsPath, zCountMyUnreadNotificationsResponse, zCreateAcademicTermBody, zCreateAcademicTermPath, zCreateAcademicTermResponse, zCreateAssignmentBody, zCreateAssignmentPath, zCreateAssignmentResponse, zCreateBody, zCreateCaptchaChallengeResponse, zCreateCourseBody, zCreateCourseOfferingBody, zCreateCourseOfferingPath, zCreateCourseOfferingResponse, zCreateCoursePath, zCreateCourseResponse, zCreateDemoRequestBody, zCreateDemoRequestResponse, zCreateDiscussionAttachmentTicketBody, zCreateDiscussionAttachmentTicketPath, zCreateDiscussionAttachmentTicketResponse, zCreateExamTermBody, zCreateExamTermPath, zCreateExamTermResponse, zCreateInstitutionBody, zCreateInstitutionResponse, zCreateInvitationBody, zCreateInvitationPath, zCreateInvitationResponse, zCreateLearningMaterialBody, zCreateLearningMaterialPath, zCreateLearningMaterialResponse, zCreateLearningSpaceBody, zCreateLearningSpacePath, zCreateLearningSpaceResponse, zCreateMaterialUploadTicketBody, zCreateMaterialUploadTicketPath, zCreateMaterialUploadTicketResponse, zCreateOrgUnitBody, zCreateOrgUnitPath, zCreateOrgUnitResponse, zCreateProgramBody, zCreateProgramPath, zCreateProgramResponse, zCreateResponse, zCreateRoomBody, zCreateRoomPath, zCreateRoomResponse, zCreateStudyGroupBody, zCreateStudyGroupPath, zCreateSubmissionUploadTicketBody, zCreateSubmissionUploadTicketPath, zCreateSubmissionUploadTicketResponse, zCreateTimetableEventBody, zCreateTimetableEventPath, zCreateTimetableEventResponse, zDeactivateUserPath, zDeactivateUserResponse, zDeleteDiscussionPostPath, zDeleteDiscussionPostResponse, zDisableTwoFactorBody, zDisableTwoFactorResponse, zDownloadMyCalendarPath, zDownloadMyCalendarResponse, zEditDiscussionPostBody, zEditDiscussionPostPath, zEditDiscussionPostResponse, zEnableTwoFactorBody, zEnableTwoFactorResponse, zErasePersonalDataPath, zErasePersonalDataResponse, zExportMyPersonalDataPath, zExportMyPersonalDataResponse, zFindAllQuery, zFindAllResponse, zFindMeResponse, zFindOnePath, zFindOneResponse, zGetAssignmentPath, zGetAssignmentResponse, zGetCalendarFeedPath, zGetCalendarFeedResponse, zGetCaptchaStateResponse, zGetCourseOfferingPath, zGetCourseOfferingResponse, zGetCourseRosterPath, zGetCourseRosterResponse, zGetDiscussionAttachmentDownloadUrlPath, zGetDiscussionAttachmentDownloadUrlResponse, zGetDiscussionThreadPath, zGetDiscussionThreadResponse, zGetInstitutionConfigurationPath, zGetInstitutionConfigurationResponse, zGetInstitutionPath, zGetInstitutionResponse, zGetLearningMaterialDownloadUrlPath, zGetLearningMaterialDownloadUrlResponse, zGetLearningSpacePath, zGetLearningSpaceResponse, zGetMyCalendarFeedPath, zGetMyCalendarFeedResponse, zGetMyNotificationPreferencesResponse, zGetMyStudyProgressPath, zGetMyStudyProgressResponse, zGetMyTwoFactorStatusResponse, zGetOrgUnitPath, zGetOrgUnitResponse, zGetSubmissionFileDownloadUrlPath, zGetSubmissionFileDownloadUrlResponse, zGrantRoleBody, zGrantRolePath, zGrantRoleResponse, zIssueMyCalendarFeedPath, zIssueMyCalendarFeedResponse, zJoinCourseWaitlistBody, zJoinCourseWaitlistPath, zJoinCourseWaitlistResponse, zListAcademicTermsPath, zListAcademicTermsResponse, zListAssignmentsPath, zListAssignmentsResponse, zListAssignmentSubmissionsPath, zListAssignmentSubmissionsResponse, zListAuditEventsPath, zListAuditEventsQuery, zListAuditEventsResponse, zListCourseOfferingsPath, zListCourseOfferingsResponse, zListCoursesPath, zListCoursesResponse, zListCourseWaitlistPath, zListCourseWaitlistResponse, zListDiscussionThreadsPath, zListDiscussionThreadsResponse, zListEnrollableOfferingsPath, zListEnrollableOfferingsQuery, zListEnrollableOfferingsResponse, zListExamTermRegistrantsPath, zListExamTermRegistrantsResponse, zListLearningMaterialsPath, zListLearningMaterialsResponse, zListLearningSpacesPath, zListLearningSpacesQuery, zListLearningSpacesResponse, zListMyAssessmentResultsPath, zListMyAssessmentResultsQuery, zListMyAssessmentResultsResponse, zListMyCourseResultsPath, zListMyCourseResultsQuery, zListMyCourseResultsResponse, zListMyCoursesPath, zListMyCoursesQuery, zListMyCoursesResponse, zListMyDeadlinesPath, zListMyDeadlinesQuery, zListMyDeadlinesResponse, zListMyExamTermsPath, zListMyExamTermsQuery, zListMyExamTermsResponse, zListMyIdentitiesResponse, zListMyInstitutionsResponse, zListMyNotificationsPath, zListMyNotificationsQuery, zListMyNotificationsResponse, zListMyPermissionsPath, zListMyPermissionsResponse, zListMyRolesResponse, zListMySessionsResponse, zListMySubmissionsPath, zListMySubmissionsResponse, zListMyTeachingOfferingsPath, zListMyTeachingOfferingsQuery, zListMyTeachingOfferingsResponse, zListMyTimetableEventsPath, zListMyTimetableEventsQuery, zListMyTimetableEventsResponse, zListOfferingExamTermsPath, zListOfferingExamTermsResponse, zListOfferingResultsPath, zListOfferingResultsResponse, zListOfferingTimetablePath, zListOfferingTimetableResponse, zListOrgUnitsPath, zListOrgUnitsResponse, zListPeoplePath, zListPeopleQuery, zListPeopleResponse, zListProgramMembersPath, zListProgramMembersResponse, zListProgramsPath, zListProgramsResponse, zListRoleAssignmentsPath, zListRoleAssignmentsQuery, zListRoleAssignmentsResponse, zListRoomsPath, zListRoomsResponse, zListStudyGroupsPath, zListStudyGroupsResponse, zListTeachingAssignmentsPath, zListTeachingAssignmentsResponse, zLoginBody, zLoginResponse, zLogoutAllResponse, zLogoutBody, zLogoutResponse, zMarkAllMyNotificationsReadPath, zMarkAllMyNotificationsReadResponse, zMarkMyNotificationReadPath, zMarkMyNotificationReadResponse, zMarkSubmissionBody, zMarkSubmissionPath, zMarkSubmissionResponse, zMeResponse, zRecordExamAttendanceBody, zRecordExamAttendancePath, zRecordExamAttendanceResponse, zRecordOfferingResultBody, zRecordOfferingResultPath, zRecordOfferingResultResponse, zRefreshBody, zRefreshResponse, zRegenerateRecoveryCodesBody, zRegenerateRecoveryCodesResponse, zRegisterBody, zRegisterForExamTermBody, zRegisterForExamTermPath, zRegisterForExamTermResponse, zRegisterResponse, zRemoveAcademicTermPath, zRemoveAcademicTermResponse, zRemoveAssignmentPath, zRemoveAssignmentResponse, zRemoveCourseOfferingPath, zRemoveCourseOfferingResponse, zRemoveCoursePath, zRemoveCourseResponse, zRemoveExamTermPath, zRemoveExamTermResponse, zRemoveLearningMaterialPath, zRemoveLearningMaterialResponse, zRemoveOrgUnitPath, zRemoveOrgUnitResponse, zRemoveProgramMembershipPath, zRemoveProgramMembershipResponse, zRemoveProgramPath, zRemoveProgramResponse, zRemoveRoomPath, zRemoveRoomResponse, zRemoveStudyGroupMemberPath, zRemoveStudyGroupMemberResponse, zRemoveStudyGroupPath, zRemoveStudyGroupResponse, zRemoveTimetableEventPath, zRemoveTimetableEventResponse, zRenameDiscussionThreadBody, zRenameDiscussionThreadPath, zRenameDiscussionThreadResponse, zReplyToDiscussionThreadBody, zReplyToDiscussionThreadPath, zReplyToDiscussionThreadResponse, zRequestEnrollmentBody, zRequestEnrollmentPath, zRequestEnrollmentResponse, zRequestPasswordResetBody, zRequestPasswordResetResponse, zRestoreTimetableEventPath, zRestoreTimetableEventResponse, zRevokeMyCalendarFeedPath, zRevokeMyCalendarFeedResponse, zRevokeMyOtherSessionsResponse, zRevokeMySessionPath, zRevokeMySessionResponse, zRevokeRolePath, zRevokeRoleResponse, zSearchPath, zSearchQuery, zSearchResponse, zSetDiscussionPostVisibilityBody, zSetDiscussionPostVisibilityPath, zSetDiscussionPostVisibilityResponse, zSetDiscussionThreadVisibilityBody, zSetDiscussionThreadVisibilityPath, zSetDiscussionThreadVisibilityResponse, zStartDiscussionThreadBody, zStartDiscussionThreadPath, zStartDiscussionThreadResponse, zSubmitAssignmentBody, zSubmitAssignmentPath, zSubmitAssignmentResponse, zUnassignTeacherPath, zUnassignTeacherResponse, zUpdateAcademicTermBody, zUpdateAcademicTermPath, zUpdateAcademicTermResponse, zUpdateAssignmentBody, zUpdateAssignmentPath, zUpdateAssignmentResponse, zUpdateCourseBody, zUpdateCourseOfferingBody, zUpdateCourseOfferingPath, zUpdateCourseOfferingResponse, zUpdateCoursePath, zUpdateCourseResponse, zUpdateExamTermBody, zUpdateExamTermPath, zUpdateExamTermResponse, zUpdateInstitutionConfigurationBody, zUpdateInstitutionConfigurationPath, zUpdateInstitutionConfigurationResponse, zUpdateLearningMaterialBody, zUpdateLearningMaterialPath, zUpdateLearningMaterialResponse, zUpdateLearningSpaceBody, zUpdateLearningSpacePath, zUpdateLearningSpaceResponse, zUpdateMeBody, zUpdateMeResponse, zUpdateMyNotificationPreferencesBody, zUpdateMyNotificationPreferencesResponse, zUpdateOrgUnitBody, zUpdateOrgUnitPath, zUpdateOrgUnitResponse, zUpdateProgramBody, zUpdateProgramMembershipBody, zUpdateProgramMembershipPath, zUpdateProgramMembershipResponse, zUpdateProgramPath, zUpdateProgramResponse, zUpdateRoomBody, zUpdateRoomPath, zUpdateRoomResponse, zUpdateStudyGroupBody, zUpdateStudyGroupPath, zUpdateTimetableEventBody, zUpdateTimetableEventPath, zUpdateTimetableEventResponse, zWithdrawFromCoursePath, zWithdrawFromCourseResponse } from './zod.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -20,308 +20,6 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
      */
     meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
-
-export class Synchronization {
-    /**
-     * List the most recent synchronization runs
-     */
-    public static listSynchronizationRuns<ThrowOnError extends boolean = false>(options: Options<ListSynchronizationRunsData, ThrowOnError>): RequestResult<ListSynchronizationRunsResponses, ListSynchronizationRunsErrors, ThrowOnError> {
-        return (options.client ?? client).get<ListSynchronizationRunsResponses, ListSynchronizationRunsErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: zListSynchronizationRunsPath,
-                query: zListSynchronizationRunsQuery.optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zListSynchronizationRunsResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/institutions/{institutionId}/synchronization/runs',
-            ...options
-        });
-    }
-    
-    /**
-     * Queue a synchronization run against the institution’s academic connector
-     *
-     * Returns the run already in flight instead of queueing a second one, so a repeated request cannot double-import.
-     */
-    public static startSynchronizationRun<ThrowOnError extends boolean = false>(options: Options<StartSynchronizationRunData, ThrowOnError>): RequestResult<StartSynchronizationRunResponses, StartSynchronizationRunErrors, ThrowOnError> {
-        return (options.client ?? client).post<StartSynchronizationRunResponses, StartSynchronizationRunErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: zStartSynchronizationRunBody,
-                path: zStartSynchronizationRunPath,
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zStartSynchronizationRunResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/institutions/{institutionId}/synchronization/runs',
-            ...options,
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers
-            }
-        });
-    }
-    
-    /**
-     * Read one synchronization run and its per-domain results
-     */
-    public static getSynchronizationRun<ThrowOnError extends boolean = false>(options: Options<GetSynchronizationRunData, ThrowOnError>): RequestResult<GetSynchronizationRunResponses, GetSynchronizationRunErrors, ThrowOnError> {
-        return (options.client ?? client).get<GetSynchronizationRunResponses, GetSynchronizationRunErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: zGetSynchronizationRunPath,
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zGetSynchronizationRunResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/institutions/{institutionId}/synchronization/runs/{runId}',
-            ...options
-        });
-    }
-    
-    /**
-     * Report how fresh each synchronized domain is
-     */
-    public static getSynchronizationState<ThrowOnError extends boolean = false>(options: Options<GetSynchronizationStateData, ThrowOnError>): RequestResult<GetSynchronizationStateResponses, GetSynchronizationStateErrors, ThrowOnError> {
-        return (options.client ?? client).get<GetSynchronizationStateResponses, GetSynchronizationStateErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: zGetSynchronizationStatePath,
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zGetSynchronizationStateResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/institutions/{institutionId}/synchronization/state',
-            ...options
-        });
-    }
-}
-
-export class Connectors {
-    /**
-     * Report the health and capabilities of an institution’s connectors
-     */
-    public static listInstitutionConnectors<ThrowOnError extends boolean = false>(options: Options<ListInstitutionConnectorsData, ThrowOnError>): RequestResult<ListInstitutionConnectorsResponses, ListInstitutionConnectorsErrors, ThrowOnError> {
-        return (options.client ?? client).get<ListInstitutionConnectorsResponses, ListInstitutionConnectorsErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: zListInstitutionConnectorsPath,
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zListInstitutionConnectorsResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/institutions/{institutionId}/connectors',
-            ...options
-        });
-    }
-}
-
-export class Institutions {
-    /**
-     * List the institutions the current user belongs to
-     */
-    public static listMyInstitutions<ThrowOnError extends boolean = false>(options?: Options<ListMyInstitutionsData, ThrowOnError>): RequestResult<ListMyInstitutionsResponses, ListMyInstitutionsErrors, ThrowOnError> {
-        return (options?.client ?? client).get<ListMyInstitutionsResponses, ListMyInstitutionsErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: z.never().optional(),
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zListMyInstitutionsResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/institutions',
-            ...options
-        });
-    }
-    
-    /**
-     * Get an institution
-     */
-    public static getInstitution<ThrowOnError extends boolean = false>(options: Options<GetInstitutionData, ThrowOnError>): RequestResult<GetInstitutionResponses, GetInstitutionErrors, ThrowOnError> {
-        return (options.client ?? client).get<GetInstitutionResponses, GetInstitutionErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: zGetInstitutionPath,
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zGetInstitutionResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/institutions/{institutionId}',
-            ...options
-        });
-    }
-}
-
-export class InstitutionConfiguration {
-    /**
-     * Read an institution’s terminology, locale and feature flags
-     */
-    public static getInstitutionConfiguration<ThrowOnError extends boolean = false>(options: Options<GetInstitutionConfigurationData, ThrowOnError>): RequestResult<GetInstitutionConfigurationResponses, GetInstitutionConfigurationErrors, ThrowOnError> {
-        return (options.client ?? client).get<GetInstitutionConfigurationResponses, GetInstitutionConfigurationErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: zGetInstitutionConfigurationPath,
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zGetInstitutionConfigurationResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/institutions/{institutionId}/configuration',
-            ...options
-        });
-    }
-    
-    /**
-     * Change an institution’s terminology, locale and feature flags
-     */
-    public static updateInstitutionConfiguration<ThrowOnError extends boolean = false>(options: Options<UpdateInstitutionConfigurationData, ThrowOnError>): RequestResult<UpdateInstitutionConfigurationResponses, UpdateInstitutionConfigurationErrors, ThrowOnError> {
-        return (options.client ?? client).patch<UpdateInstitutionConfigurationResponses, UpdateInstitutionConfigurationErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: zUpdateInstitutionConfigurationBody,
-                path: zUpdateInstitutionConfigurationPath,
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zUpdateInstitutionConfigurationResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/institutions/{institutionId}/configuration',
-            ...options,
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers
-            }
-        });
-    }
-}
-
-export class Identities {
-    /**
-     * List the accounts linked to the current user
-     */
-    public static listMyIdentities<ThrowOnError extends boolean = false>(options?: Options<ListMyIdentitiesData, ThrowOnError>): RequestResult<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError> {
-        return (options?.client ?? client).get<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: z.never().optional(),
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zListMyIdentitiesResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users/me/identities',
-            ...options
-        });
-    }
-}
-
-export class Users {
-    /**
-     * Get the current user
-     */
-    public static findMe<ThrowOnError extends boolean = false>(options?: Options<FindMeData, ThrowOnError>): RequestResult<FindMeResponses, FindMeErrors, ThrowOnError> {
-        return (options?.client ?? client).get<FindMeResponses, FindMeErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: z.never().optional(),
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zFindMeResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users/me',
-            ...options
-        });
-    }
-    
-    /**
-     * Update the current user
-     */
-    public static updateMe<ThrowOnError extends boolean = false>(options: Options<UpdateMeData, ThrowOnError>): RequestResult<UpdateMeResponses, UpdateMeErrors, ThrowOnError> {
-        return (options.client ?? client).patch<UpdateMeResponses, UpdateMeErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: zUpdateMeBody,
-                path: z.never().optional(),
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zUpdateMeResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users/me',
-            ...options,
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers
-            }
-        });
-    }
-    
-    /**
-     * List users
-     */
-    public static findAll<ThrowOnError extends boolean = false>(options?: Options<FindAllData, ThrowOnError>): RequestResult<FindAllResponses, FindAllErrors, ThrowOnError> {
-        return (options?.client ?? client).get<FindAllResponses, FindAllErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: z.never().optional(),
-                query: zFindAllQuery.optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zFindAllResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users',
-            ...options
-        });
-    }
-    
-    /**
-     * Create a user
-     */
-    public static create<ThrowOnError extends boolean = false>(options: Options<CreateData, ThrowOnError>): RequestResult<CreateResponses, CreateErrors, ThrowOnError> {
-        return (options.client ?? client).post<CreateResponses, CreateErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: zCreateBody,
-                path: z.never().optional(),
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zCreateResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users',
-            ...options,
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers
-            }
-        });
-    }
-    
-    /**
-     * Soft-delete a user
-     */
-    public static remove<ThrowOnError extends boolean = false>(options: Options<RemoveData, ThrowOnError>): RequestResult<RemoveResponses, RemoveErrors, ThrowOnError> {
-        return (options.client ?? client).delete<RemoveResponses, RemoveErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: zRemovePath,
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zRemoveResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users/{id}',
-            ...options
-        });
-    }
-    
-    /**
-     * Get a user by id
-     */
-    public static findOne<ThrowOnError extends boolean = false>(options: Options<FindOneData, ThrowOnError>): RequestResult<FindOneResponses, FindOneErrors, ThrowOnError> {
-        return (options.client ?? client).get<FindOneResponses, FindOneErrors, ThrowOnError>({
-            requestValidator: async (data) => await z.object({
-                body: z.never().optional(),
-                path: zFindOnePath,
-                query: z.never().optional()
-            }).parseAsync(data),
-            responseValidator: async (data) => await zFindOneResponse.parseAsync(data),
-            security: [{ scheme: 'bearer', type: 'http' }],
-            url: '/api/v1/users/{id}',
-            ...options
-        });
-    }
-}
 
 export class Auth {
     /**
@@ -356,6 +54,26 @@ export class Auth {
             }).parseAsync(data),
             responseValidator: async (data) => await zLoginResponse.parseAsync(data),
             url: '/api/v1/auth/login',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Finish a sign-in with an authenticator or recovery code
+     */
+    public static completeTwoFactorLogin<ThrowOnError extends boolean = false>(options: Options<CompleteTwoFactorLoginData, ThrowOnError>): RequestResult<CompleteTwoFactorLoginResponses, CompleteTwoFactorLoginErrors, ThrowOnError> {
+        return (options.client ?? client).post<CompleteTwoFactorLoginResponses, CompleteTwoFactorLoginErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCompleteTwoFactorLoginBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCompleteTwoFactorLoginResponse.parseAsync(data),
+            url: '/api/v1/auth/login/two-factor',
             ...options,
             headers: {
                 'Content-Type': 'application/json',
@@ -437,6 +155,386 @@ export class Auth {
             ...options
         });
     }
+    
+    /**
+     * Ask for a password reset link, answered identically whether or not the address exists
+     */
+    public static requestPasswordReset<ThrowOnError extends boolean = false>(options: Options<RequestPasswordResetData, ThrowOnError>): RequestResult<RequestPasswordResetResponses, RequestPasswordResetErrors, ThrowOnError> {
+        return (options.client ?? client).post<RequestPasswordResetResponses, RequestPasswordResetErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zRequestPasswordResetBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRequestPasswordResetResponse.parseAsync(data),
+            url: '/api/v1/auth/password-reset/request',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Set a new password using a reset token
+     */
+    public static confirmPasswordReset<ThrowOnError extends boolean = false>(options: Options<ConfirmPasswordResetData, ThrowOnError>): RequestResult<ConfirmPasswordResetResponses, ConfirmPasswordResetErrors, ThrowOnError> {
+        return (options.client ?? client).post<ConfirmPasswordResetResponses, ConfirmPasswordResetErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zConfirmPasswordResetBody,
+                path: zConfirmPasswordResetPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zConfirmPasswordResetResponse.parseAsync(data),
+            url: '/api/v1/auth/password-reset/{token}/confirm',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Whether this deployment asks the public forms for a captcha
+     */
+    public static getCaptchaState<ThrowOnError extends boolean = false>(options?: Options<GetCaptchaStateData, ThrowOnError>): RequestResult<GetCaptchaStateResponses, GetCaptchaStateErrors, ThrowOnError> {
+        return (options?.client ?? client).get<GetCaptchaStateResponses, GetCaptchaStateErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetCaptchaStateResponse.parseAsync(data),
+            url: '/api/v1/captcha',
+            ...options
+        });
+    }
+    
+    /**
+     * Take a proof-of-work challenge to solve before submitting a public form
+     */
+    public static createCaptchaChallenge<ThrowOnError extends boolean = false>(options?: Options<CreateCaptchaChallengeData, ThrowOnError>): RequestResult<CreateCaptchaChallengeResponses, CreateCaptchaChallengeErrors, ThrowOnError> {
+        return (options?.client ?? client).post<CreateCaptchaChallengeResponses, CreateCaptchaChallengeErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateCaptchaChallengeResponse.parseAsync(data),
+            url: '/api/v1/captcha/challenge',
+            ...options
+        });
+    }
+}
+
+export class Users {
+    /**
+     * Change the password and sign out every other session
+     */
+    public static changeMyPassword<ThrowOnError extends boolean = false>(options: Options<ChangeMyPasswordData, ThrowOnError>): RequestResult<ChangeMyPasswordResponses, ChangeMyPasswordErrors, ThrowOnError> {
+        return (options.client ?? client).post<ChangeMyPasswordResponses, ChangeMyPasswordErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zChangeMyPasswordBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zChangeMyPasswordResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/password',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Sign out every session but this one
+     */
+    public static revokeMyOtherSessions<ThrowOnError extends boolean = false>(options?: Options<RevokeMyOtherSessionsData, ThrowOnError>): RequestResult<RevokeMyOtherSessionsResponses, RevokeMyOtherSessionsErrors, ThrowOnError> {
+        return (options?.client ?? client).delete<RevokeMyOtherSessionsResponses, RevokeMyOtherSessionsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRevokeMyOtherSessionsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/sessions',
+            ...options
+        });
+    }
+    
+    /**
+     * The places this account is signed in
+     */
+    public static listMySessions<ThrowOnError extends boolean = false>(options?: Options<ListMySessionsData, ThrowOnError>): RequestResult<ListMySessionsResponses, ListMySessionsErrors, ThrowOnError> {
+        return (options?.client ?? client).get<ListMySessionsResponses, ListMySessionsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMySessionsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/sessions',
+            ...options
+        });
+    }
+    
+    /**
+     * Sign out one session
+     */
+    public static revokeMySession<ThrowOnError extends boolean = false>(options: Options<RevokeMySessionData, ThrowOnError>): RequestResult<RevokeMySessionResponses, RevokeMySessionErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RevokeMySessionResponses, RevokeMySessionErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRevokeMySessionPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRevokeMySessionResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/sessions/{sessionId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Whether two-factor authentication is on
+     */
+    public static getMyTwoFactorStatus<ThrowOnError extends boolean = false>(options?: Options<GetMyTwoFactorStatusData, ThrowOnError>): RequestResult<GetMyTwoFactorStatusResponses, GetMyTwoFactorStatusErrors, ThrowOnError> {
+        return (options?.client ?? client).get<GetMyTwoFactorStatusResponses, GetMyTwoFactorStatusErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetMyTwoFactorStatusResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/two-factor',
+            ...options
+        });
+    }
+    
+    /**
+     * Start pairing an authenticator app
+     */
+    public static beginTwoFactorSetup<ThrowOnError extends boolean = false>(options: Options<BeginTwoFactorSetupData, ThrowOnError>): RequestResult<BeginTwoFactorSetupResponses, BeginTwoFactorSetupErrors, ThrowOnError> {
+        return (options.client ?? client).post<BeginTwoFactorSetupResponses, BeginTwoFactorSetupErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zBeginTwoFactorSetupBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zBeginTwoFactorSetupResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/two-factor/setup',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Confirm the pairing with a code and turn two-factor on
+     */
+    public static enableTwoFactor<ThrowOnError extends boolean = false>(options: Options<EnableTwoFactorData, ThrowOnError>): RequestResult<EnableTwoFactorResponses, EnableTwoFactorErrors, ThrowOnError> {
+        return (options.client ?? client).post<EnableTwoFactorResponses, EnableTwoFactorErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zEnableTwoFactorBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zEnableTwoFactorResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/two-factor/enable',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Turn two-factor authentication off
+     */
+    public static disableTwoFactor<ThrowOnError extends boolean = false>(options: Options<DisableTwoFactorData, ThrowOnError>): RequestResult<DisableTwoFactorResponses, DisableTwoFactorErrors, ThrowOnError> {
+        return (options.client ?? client).post<DisableTwoFactorResponses, DisableTwoFactorErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zDisableTwoFactorBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zDisableTwoFactorResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/two-factor/disable',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Replace every recovery code with a new set
+     */
+    public static regenerateRecoveryCodes<ThrowOnError extends boolean = false>(options: Options<RegenerateRecoveryCodesData, ThrowOnError>): RequestResult<RegenerateRecoveryCodesResponses, RegenerateRecoveryCodesErrors, ThrowOnError> {
+        return (options.client ?? client).post<RegenerateRecoveryCodesResponses, RegenerateRecoveryCodesErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zRegenerateRecoveryCodesBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRegenerateRecoveryCodesResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/two-factor/recovery-codes',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Get the current user
+     */
+    public static findMe<ThrowOnError extends boolean = false>(options?: Options<FindMeData, ThrowOnError>): RequestResult<FindMeResponses, FindMeErrors, ThrowOnError> {
+        return (options?.client ?? client).get<FindMeResponses, FindMeErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zFindMeResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me',
+            ...options
+        });
+    }
+    
+    /**
+     * Update the current user
+     */
+    public static updateMe<ThrowOnError extends boolean = false>(options: Options<UpdateMeData, ThrowOnError>): RequestResult<UpdateMeResponses, UpdateMeErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateMeResponses, UpdateMeErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateMeBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateMeResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * List users
+     */
+    public static findAll<ThrowOnError extends boolean = false>(options?: Options<FindAllData, ThrowOnError>): RequestResult<FindAllResponses, FindAllErrors, ThrowOnError> {
+        return (options?.client ?? client).get<FindAllResponses, FindAllErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: zFindAllQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zFindAllResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users',
+            ...options
+        });
+    }
+    
+    /**
+     * Create a user
+     */
+    public static create<ThrowOnError extends boolean = false>(options: Options<CreateData, ThrowOnError>): RequestResult<CreateResponses, CreateErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateResponses, CreateErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Deactivate an account, keeping the person and their record
+     *
+     * Reversible, and **not** an erasure. The row is marked deleted so the account can no longer be used or listed; the name, the email address and everything written about the person stay exactly where they were. To actually erase somebody, use `DELETE /institutions/{institutionId}/people/{userId}/personal-data`, which anonymises them and destroys their credentials and files (ADR 0030).
+     */
+    public static deactivateUser<ThrowOnError extends boolean = false>(options: Options<DeactivateUserData, ThrowOnError>): RequestResult<DeactivateUserResponses, DeactivateUserErrors, ThrowOnError> {
+        return (options.client ?? client).delete<DeactivateUserResponses, DeactivateUserErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zDeactivateUserPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zDeactivateUserResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Get a user by id
+     */
+    public static findOne<ThrowOnError extends boolean = false>(options: Options<FindOneData, ThrowOnError>): RequestResult<FindOneResponses, FindOneErrors, ThrowOnError> {
+        return (options.client ?? client).get<FindOneResponses, FindOneErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zFindOnePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zFindOneResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/{id}',
+            ...options
+        });
+    }
+}
+
+export class Audit {
+    /**
+     * Read what was done in an institution, newest first
+     *
+     * Keyset-paginated over `(occurredAt, id)`. Only `institution_admin` holds `audit:read`.
+     */
+    public static listAuditEvents<ThrowOnError extends boolean = false>(options: Options<ListAuditEventsData, ThrowOnError>): RequestResult<ListAuditEventsResponses, ListAuditEventsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListAuditEventsResponses, ListAuditEventsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListAuditEventsPath,
+                query: zListAuditEventsQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListAuditEventsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/audit-events',
+            ...options
+        });
+    }
 }
 
 export class RoleAssignments {
@@ -458,7 +556,7 @@ export class RoleAssignments {
     }
     
     /**
-     * Grant a role in a scope
+     * Grant a role in a scope, checked against the scope granted on
      */
     public static grantRole<ThrowOnError extends boolean = false>(options: Options<GrantRoleData, ThrowOnError>): RequestResult<GrantRoleResponses, GrantRoleErrors, ThrowOnError> {
         return (options.client ?? client).post<GrantRoleResponses, GrantRoleErrors, ThrowOnError>({
@@ -479,7 +577,7 @@ export class RoleAssignments {
     }
     
     /**
-     * Revoke a role assignment
+     * Revoke a role assignment, checked against the assignment scope
      */
     public static revokeRole<ThrowOnError extends boolean = false>(options: Options<RevokeRoleData, ThrowOnError>): RequestResult<RevokeRoleResponses, RevokeRoleErrors, ThrowOnError> {
         return (options.client ?? client).delete<RevokeRoleResponses, RevokeRoleErrors, ThrowOnError>({
@@ -549,6 +647,23 @@ export class Courses {
     }
     
     /**
+     * List the course offerings the current user teaches in an institution
+     */
+    public static listMyTeachingOfferings<ThrowOnError extends boolean = false>(options: Options<ListMyTeachingOfferingsData, ThrowOnError>): RequestResult<ListMyTeachingOfferingsResponses, ListMyTeachingOfferingsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListMyTeachingOfferingsResponses, ListMyTeachingOfferingsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListMyTeachingOfferingsPath,
+                query: zListMyTeachingOfferingsQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyTeachingOfferingsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/teaching-offerings',
+            ...options
+        });
+    }
+    
+    /**
      * Read one course offering the caller takes, teaches or administers
      */
     public static getCourseOffering<ThrowOnError extends boolean = false>(options: Options<GetCourseOfferingData, ThrowOnError>): RequestResult<GetCourseOfferingResponses, GetCourseOfferingErrors, ThrowOnError> {
@@ -561,6 +676,758 @@ export class Courses {
             responseValidator: async (data) => await zGetCourseOfferingResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
             url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Read the enrolled students of an offering the caller teaches or administers
+     */
+    public static getCourseRoster<ThrowOnError extends boolean = false>(options: Options<GetCourseRosterData, ThrowOnError>): RequestResult<GetCourseRosterResponses, GetCourseRosterErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetCourseRosterResponses, GetCourseRosterErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetCourseRosterPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetCourseRosterResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/roster',
+            ...options
+        });
+    }
+    
+    /**
+     * List the courses the caller may take, and say why not where they may not
+     */
+    public static listEnrollableOfferings<ThrowOnError extends boolean = false>(options: Options<ListEnrollableOfferingsData, ThrowOnError>): RequestResult<ListEnrollableOfferingsResponses, ListEnrollableOfferingsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListEnrollableOfferingsResponses, ListEnrollableOfferingsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListEnrollableOfferingsPath,
+                query: zListEnrollableOfferingsQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListEnrollableOfferingsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/enrollments/enrollable',
+            ...options
+        });
+    }
+    
+    /**
+     * Ask for a place on a course
+     *
+     * Asking for a place is getting one: the enrolment comes back `active`. StudViro is the system of record, so there is nobody upstream to approve it. Refused with `OFFERING_FULL` when the last seat goes.
+     */
+    public static requestEnrollment<ThrowOnError extends boolean = false>(options: Options<RequestEnrollmentData, ThrowOnError>): RequestResult<RequestEnrollmentResponses, RequestEnrollmentErrors, ThrowOnError> {
+        return (options.client ?? client).post<RequestEnrollmentResponses, RequestEnrollmentErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zRequestEnrollmentBody,
+                path: zRequestEnrollmentPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRequestEnrollmentResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/enrollments',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Queue for a place on a course that is full
+     *
+     * Holds no seat. A place that comes free can be taken with `requestEnrollment`, and a registrar may admit from the queue. Refused with `OFFERING_NOT_FULL` while a place is free.
+     */
+    public static joinCourseWaitlist<ThrowOnError extends boolean = false>(options: Options<JoinCourseWaitlistData, ThrowOnError>): RequestResult<JoinCourseWaitlistResponses, JoinCourseWaitlistErrors, ThrowOnError> {
+        return (options.client ?? client).post<JoinCourseWaitlistResponses, JoinCourseWaitlistErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zJoinCourseWaitlistBody,
+                path: zJoinCourseWaitlistPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zJoinCourseWaitlistResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/enrollments/waitlist',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Withdraw from a course while the window is still open, or leave its queue at any time
+     */
+    public static withdrawFromCourse<ThrowOnError extends boolean = false>(options: Options<WithdrawFromCourseData, ThrowOnError>): RequestResult<WithdrawFromCourseResponses, WithdrawFromCourseErrors, ThrowOnError> {
+        return (options.client ?? client).delete<WithdrawFromCourseResponses, WithdrawFromCourseErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zWithdrawFromCoursePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zWithdrawFromCourseResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/enrollments/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Who is queueing for a place on this offering, first come first served
+     *
+     * Admit or refuse one with `correctEnrollment`, which tells the student.
+     */
+    public static listCourseWaitlist<ThrowOnError extends boolean = false>(options: Options<ListCourseWaitlistData, ThrowOnError>): RequestResult<ListCourseWaitlistResponses, ListCourseWaitlistErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListCourseWaitlistResponses, ListCourseWaitlistErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListCourseWaitlistPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListCourseWaitlistResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/waitlist',
+            ...options
+        });
+    }
+}
+
+export class Catalogue {
+    /**
+     * Retire an offering nobody enrolled on
+     *
+     * An offering with enrolments is cancelled, not retired — the students’ record of having taken it has to survive.
+     */
+    public static removeCourseOffering<ThrowOnError extends boolean = false>(options: Options<RemoveCourseOfferingData, ThrowOnError>): RequestResult<RemoveCourseOfferingResponses, RemoveCourseOfferingErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveCourseOfferingResponses, RemoveCourseOfferingErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveCourseOfferingPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveCourseOfferingResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Change an offering’s capacity, status or language
+     *
+     * Capacity may not be cut below the places already taken, because the count would then be a lie.
+     */
+    public static updateCourseOffering<ThrowOnError extends boolean = false>(options: Options<UpdateCourseOfferingData, ThrowOnError>): RequestResult<UpdateCourseOfferingResponses, UpdateCourseOfferingErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateCourseOfferingResponses, UpdateCourseOfferingErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateCourseOfferingBody,
+                path: zUpdateCourseOfferingPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateCourseOfferingResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * List the institution’s academic terms, newest first
+     */
+    public static listAcademicTerms<ThrowOnError extends boolean = false>(options: Options<ListAcademicTermsData, ThrowOnError>): RequestResult<ListAcademicTermsResponses, ListAcademicTermsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListAcademicTermsResponses, ListAcademicTermsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListAcademicTermsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListAcademicTermsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/academic-terms',
+            ...options
+        });
+    }
+    
+    /**
+     * Open an academic term
+     *
+     * The enrolment window lives here: until a term carries one, self-service enrolment into its offerings never opens.
+     */
+    public static createAcademicTerm<ThrowOnError extends boolean = false>(options: Options<CreateAcademicTermData, ThrowOnError>): RequestResult<CreateAcademicTermResponses, CreateAcademicTermErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateAcademicTermResponses, CreateAcademicTermErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateAcademicTermBody,
+                path: zCreateAcademicTermPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateAcademicTermResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/academic-terms',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Retire a term that has no offerings
+     */
+    public static removeAcademicTerm<ThrowOnError extends boolean = false>(options: Options<RemoveAcademicTermData, ThrowOnError>): RequestResult<RemoveAcademicTermResponses, RemoveAcademicTermErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveAcademicTermResponses, RemoveAcademicTermErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveAcademicTermPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveAcademicTermResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/academic-terms/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Move a term, or change its enrolment window
+     */
+    public static updateAcademicTerm<ThrowOnError extends boolean = false>(options: Options<UpdateAcademicTermData, ThrowOnError>): RequestResult<UpdateAcademicTermResponses, UpdateAcademicTermErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateAcademicTermResponses, UpdateAcademicTermErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateAcademicTermBody,
+                path: zUpdateAcademicTermPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateAcademicTermResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/academic-terms/{id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Put a term’s worth of courses on offer at once
+     *
+     * Columns: `courseCode`, `termCode`, and optionally `capacity` and `language`. A row naming a course or term that does not exist fails on its own without stopping the rest.
+     */
+    public static bulkImportCourseOfferings<ThrowOnError extends boolean = false>(options: Options<BulkImportCourseOfferingsData, ThrowOnError>): RequestResult<BulkImportCourseOfferingsResponses, BulkImportCourseOfferingsErrors, ThrowOnError> {
+        return (options.client ?? client).post<BulkImportCourseOfferingsResponses, BulkImportCourseOfferingsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zBulkImportCourseOfferingsBody,
+                path: zBulkImportCourseOfferingsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zBulkImportCourseOfferingsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/bulk/course-offerings',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Admit a cohort to their programmes at once
+     *
+     * Columns: `email`, `programCode`, and optionally `studyYear`. Everybody named must already belong to the institution — an outstanding invitation counts, so the order is invite, then admit.
+     */
+    public static bulkImportProgramMembers<ThrowOnError extends boolean = false>(options: Options<BulkImportProgramMembersData, ThrowOnError>): RequestResult<BulkImportProgramMembersResponses, BulkImportProgramMembersErrors, ThrowOnError> {
+        return (options.client ?? client).post<BulkImportProgramMembersResponses, BulkImportProgramMembersErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zBulkImportProgramMembersBody,
+                path: zBulkImportProgramMembersPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zBulkImportProgramMembersResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/bulk/program-members',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * List the institution’s programmes
+     */
+    public static listPrograms<ThrowOnError extends boolean = false>(options: Options<ListProgramsData, ThrowOnError>): RequestResult<ListProgramsResponses, ListProgramsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListProgramsResponses, ListProgramsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListProgramsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListProgramsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/programs',
+            ...options
+        });
+    }
+    
+    /**
+     * Add a programme
+     */
+    public static createProgram<ThrowOnError extends boolean = false>(options: Options<CreateProgramData, ThrowOnError>): RequestResult<CreateProgramResponses, CreateProgramErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateProgramResponses, CreateProgramErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateProgramBody,
+                path: zCreateProgramPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateProgramResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/programs',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Retire a programme
+     */
+    public static removeProgram<ThrowOnError extends boolean = false>(options: Options<RemoveProgramData, ThrowOnError>): RequestResult<RemoveProgramResponses, RemoveProgramErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveProgramResponses, RemoveProgramErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveProgramPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveProgramResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/programs/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Correct a programme
+     */
+    public static updateProgram<ThrowOnError extends boolean = false>(options: Options<UpdateProgramData, ThrowOnError>): RequestResult<UpdateProgramResponses, UpdateProgramErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateProgramResponses, UpdateProgramErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateProgramBody,
+                path: zUpdateProgramPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateProgramResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/programs/{id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * List the institution’s courses
+     */
+    public static listCourses<ThrowOnError extends boolean = false>(options: Options<ListCoursesData, ThrowOnError>): RequestResult<ListCoursesResponses, ListCoursesErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListCoursesResponses, ListCoursesErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListCoursesPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListCoursesResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/courses',
+            ...options
+        });
+    }
+    
+    /**
+     * Add a course
+     */
+    public static createCourse<ThrowOnError extends boolean = false>(options: Options<CreateCourseData, ThrowOnError>): RequestResult<CreateCourseResponses, CreateCourseErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateCourseResponses, CreateCourseErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateCourseBody,
+                path: zCreateCoursePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateCourseResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/courses',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Retire a course
+     */
+    public static removeCourse<ThrowOnError extends boolean = false>(options: Options<RemoveCourseData, ThrowOnError>): RequestResult<RemoveCourseResponses, RemoveCourseErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveCourseResponses, RemoveCourseErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveCoursePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveCourseResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/courses/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Correct a course
+     */
+    public static updateCourse<ThrowOnError extends boolean = false>(options: Options<UpdateCourseData, ThrowOnError>): RequestResult<UpdateCourseResponses, UpdateCourseErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateCourseResponses, UpdateCourseErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateCourseBody,
+                path: zUpdateCoursePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateCourseResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/courses/{id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Everything the institution has on offer, newest term first
+     */
+    public static listCourseOfferings<ThrowOnError extends boolean = false>(options: Options<ListCourseOfferingsData, ThrowOnError>): RequestResult<ListCourseOfferingsResponses, ListCourseOfferingsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListCourseOfferingsResponses, ListCourseOfferingsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListCourseOfferingsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListCourseOfferingsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings',
+            ...options
+        });
+    }
+    
+    /**
+     * Put a course on in a term
+     *
+     * A course runs at most once in a term: a second attempt is a conflict, and two parallel groups are study groups rather than two offerings.
+     */
+    public static createCourseOffering<ThrowOnError extends boolean = false>(options: Options<CreateCourseOfferingData, ThrowOnError>): RequestResult<CreateCourseOfferingResponses, CreateCourseOfferingErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateCourseOfferingResponses, CreateCourseOfferingErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateCourseOfferingBody,
+                path: zCreateCourseOfferingPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateCourseOfferingResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Put a student’s enrolment into the state it should be in
+     *
+     * The registrar’s correction verb, which is not bound by the window or the capacity a student is bound by.
+     */
+    public static correctEnrollment<ThrowOnError extends boolean = false>(options: Options<CorrectEnrollmentData, ThrowOnError>): RequestResult<CorrectEnrollmentResponses, CorrectEnrollmentErrors, ThrowOnError> {
+        return (options.client ?? client).patch<CorrectEnrollmentResponses, CorrectEnrollmentErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCorrectEnrollmentBody,
+                path: zCorrectEnrollmentPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCorrectEnrollmentResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/enrollments/{enrollmentId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Who is on this programme, and where they stand
+     */
+    public static listProgramMembers<ThrowOnError extends boolean = false>(options: Options<ListProgramMembersData, ThrowOnError>): RequestResult<ListProgramMembersResponses, ListProgramMembersErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListProgramMembersResponses, ListProgramMembersErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListProgramMembersPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListProgramMembersResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/programs/{programId}/members',
+            ...options
+        });
+    }
+    
+    /**
+     * Make somebody a student of this programme
+     *
+     * The `student` role derives from an active membership and cannot be granted by hand, so this is how a student comes to exist — and what lets them enrol on a course.
+     */
+    public static admitToProgram<ThrowOnError extends boolean = false>(options: Options<AdmitToProgramData, ThrowOnError>): RequestResult<AdmitToProgramResponses, AdmitToProgramErrors, ThrowOnError> {
+        return (options.client ?? client).post<AdmitToProgramResponses, AdmitToProgramErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zAdmitToProgramBody,
+                path: zAdmitToProgramPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/programs/{programId}/members',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Erase a membership entered by mistake
+     *
+     * Ending a membership — graduated, terminated, interrupted — is almost always what is wanted instead; this erases that the person was ever on the programme.
+     */
+    public static removeProgramMembership<ThrowOnError extends boolean = false>(options: Options<RemoveProgramMembershipData, ThrowOnError>): RequestResult<RemoveProgramMembershipResponses, RemoveProgramMembershipErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveProgramMembershipResponses, RemoveProgramMembershipErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveProgramMembershipPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveProgramMembershipResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/programs/{programId}/members/{membershipId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Move a student up a year, interrupt, graduate or terminate them
+     */
+    public static updateProgramMembership<ThrowOnError extends boolean = false>(options: Options<UpdateProgramMembershipData, ThrowOnError>): RequestResult<UpdateProgramMembershipResponses, UpdateProgramMembershipErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateProgramMembershipResponses, UpdateProgramMembershipErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateProgramMembershipBody,
+                path: zUpdateProgramMembershipPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateProgramMembershipResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/programs/{programId}/members/{membershipId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * The seminar and lab groups on this offering, with their members, for whoever teaches or administers it
+     */
+    public static listStudyGroups<ThrowOnError extends boolean = false>(options: Options<ListStudyGroupsData, ThrowOnError>): RequestResult<ListStudyGroupsResponses, ListStudyGroupsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListStudyGroupsResponses, ListStudyGroupsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListStudyGroupsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListStudyGroupsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/study-groups',
+            ...options
+        });
+    }
+    
+    /**
+     * Open a group on this offering
+     */
+    public static createStudyGroup<ThrowOnError extends boolean = false>(options: Options<CreateStudyGroupData, ThrowOnError>): RequestResult<CreateStudyGroupResponses, CreateStudyGroupErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateStudyGroupResponses, CreateStudyGroupErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateStudyGroupBody,
+                path: zCreateStudyGroupPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/study-groups',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Close a group, releasing everyone in it
+     */
+    public static removeStudyGroup<ThrowOnError extends boolean = false>(options: Options<RemoveStudyGroupData, ThrowOnError>): RequestResult<RemoveStudyGroupResponses, RemoveStudyGroupErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveStudyGroupResponses, RemoveStudyGroupErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveStudyGroupPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveStudyGroupResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/study-groups/{groupId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Rename a group, or change its capacity
+     *
+     * Capacity may not be cut below the places already taken, because the count would then be a lie.
+     */
+    public static updateStudyGroup<ThrowOnError extends boolean = false>(options: Options<UpdateStudyGroupData, ThrowOnError>): RequestResult<UpdateStudyGroupResponses, UpdateStudyGroupErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateStudyGroupResponses, UpdateStudyGroupErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateStudyGroupBody,
+                path: zUpdateStudyGroupPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/study-groups/{groupId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Put an enrolled student in this group
+     *
+     * A group is a subdivision of the roster: only somebody already enrolled on the offering may be in one.
+     */
+    public static addStudyGroupMember<ThrowOnError extends boolean = false>(options: Options<AddStudyGroupMemberData, ThrowOnError>): RequestResult<AddStudyGroupMemberResponses, AddStudyGroupMemberErrors, ThrowOnError> {
+        return (options.client ?? client).post<AddStudyGroupMemberResponses, AddStudyGroupMemberErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zAddStudyGroupMemberBody,
+                path: zAddStudyGroupMemberPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zAddStudyGroupMemberResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/study-groups/{groupId}/members',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Take a student out of this group
+     */
+    public static removeStudyGroupMember<ThrowOnError extends boolean = false>(options: Options<RemoveStudyGroupMemberData, ThrowOnError>): RequestResult<RemoveStudyGroupMemberResponses, RemoveStudyGroupMemberErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveStudyGroupMemberResponses, RemoveStudyGroupMemberErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveStudyGroupMemberPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveStudyGroupMemberResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/study-groups/{groupId}/members/{userId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Who teaches this offering
+     */
+    public static listTeachingAssignments<ThrowOnError extends boolean = false>(options: Options<ListTeachingAssignmentsData, ThrowOnError>): RequestResult<ListTeachingAssignmentsResponses, ListTeachingAssignmentsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListTeachingAssignmentsResponses, ListTeachingAssignmentsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListTeachingAssignmentsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListTeachingAssignmentsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/teaching',
+            ...options
+        });
+    }
+    
+    /**
+     * Make somebody a teacher of this offering
+     *
+     * The `teacher` role derives from this assignment and cannot be granted by hand, so this is how a teacher comes to exist. The person must already belong to the institution; somebody new arrives by invitation.
+     */
+    public static assignTeacher<ThrowOnError extends boolean = false>(options: Options<AssignTeacherData, ThrowOnError>): RequestResult<AssignTeacherResponses, AssignTeacherErrors, ThrowOnError> {
+        return (options.client ?? client).post<AssignTeacherResponses, AssignTeacherErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zAssignTeacherBody,
+                path: zAssignTeacherPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/teaching',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Take somebody off this offering
+     *
+     * They stop being a `teacher` of it the moment the assignment goes, because the role was only ever derived from it.
+     */
+    public static unassignTeacher<ThrowOnError extends boolean = false>(options: Options<UnassignTeacherData, ThrowOnError>): RequestResult<UnassignTeacherResponses, UnassignTeacherErrors, ThrowOnError> {
+        return (options.client ?? client).delete<UnassignTeacherResponses, UnassignTeacherErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zUnassignTeacherPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUnassignTeacherResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/teaching/{assignmentId}',
             ...options
         });
     }
@@ -583,6 +1450,1264 @@ export class Grades {
             ...options
         });
     }
+    
+    /**
+     * Total the current user’s credits, pass rate and weighted average
+     *
+     * Answered on the server so the client never keeps a second copy of what counts as a pass. Only the latest attempt of a course counts, and an annulled result counts for nothing.
+     */
+    public static getMyStudyProgress<ThrowOnError extends boolean = false>(options: Options<GetMyStudyProgressData, ThrowOnError>): RequestResult<GetMyStudyProgressResponses, GetMyStudyProgressErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetMyStudyProgressResponses, GetMyStudyProgressErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetMyStudyProgressPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetMyStudyProgressResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/course-results/summary',
+            ...options
+        });
+    }
+    
+    /**
+     * Read every recorded student of an offering with each attempt they hold
+     *
+     * `grade:read` alone is not enough: the caller must teach the offering or hold `offering:manage`, the same standing the roster asks for.
+     */
+    public static listOfferingResults<ThrowOnError extends boolean = false>(options: Options<ListOfferingResultsData, ThrowOnError>): RequestResult<ListOfferingResultsResponses, ListOfferingResultsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListOfferingResultsResponses, ListOfferingResultsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListOfferingResultsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListOfferingResultsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/results',
+            ...options
+        });
+    }
+    
+    /**
+     * Propose a grade for one student, or publish one
+     *
+     * Proposing needs `grade:propose`; setting `officialGrade` needs `grade:publish` as well, checked separately so a teaching assistant may propose and may not publish. Publishing marks the student’s live seat on that course as attended, which is what spends the attempt.
+     */
+    public static recordOfferingResult<ThrowOnError extends boolean = false>(options: Options<RecordOfferingResultData, ThrowOnError>): RequestResult<RecordOfferingResultResponses, RecordOfferingResultErrors, ThrowOnError> {
+        return (options.client ?? client).put<RecordOfferingResultResponses, RecordOfferingResultErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zRecordOfferingResultBody,
+                path: zRecordOfferingResultPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRecordOfferingResultResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/results/{enrollmentId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class Notifications {
+    /**
+     * List the notifications delivered to the current user
+     */
+    public static listMyNotifications<ThrowOnError extends boolean = false>(options: Options<ListMyNotificationsData, ThrowOnError>): RequestResult<ListMyNotificationsResponses, ListMyNotificationsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListMyNotificationsResponses, ListMyNotificationsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListMyNotificationsPath,
+                query: zListMyNotificationsQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyNotificationsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/notifications',
+            ...options
+        });
+    }
+    
+    /**
+     * Count the notifications the current user has not read
+     */
+    public static countMyUnreadNotifications<ThrowOnError extends boolean = false>(options: Options<CountMyUnreadNotificationsData, ThrowOnError>): RequestResult<CountMyUnreadNotificationsResponses, CountMyUnreadNotificationsErrors, ThrowOnError> {
+        return (options.client ?? client).get<CountMyUnreadNotificationsResponses, CountMyUnreadNotificationsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zCountMyUnreadNotificationsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCountMyUnreadNotificationsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/notifications/unread-count',
+            ...options
+        });
+    }
+    
+    /**
+     * Mark every notification of the current user as read
+     */
+    public static markAllMyNotificationsRead<ThrowOnError extends boolean = false>(options: Options<MarkAllMyNotificationsReadData, ThrowOnError>): RequestResult<MarkAllMyNotificationsReadResponses, MarkAllMyNotificationsReadErrors, ThrowOnError> {
+        return (options.client ?? client).post<MarkAllMyNotificationsReadResponses, MarkAllMyNotificationsReadErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zMarkAllMyNotificationsReadPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zMarkAllMyNotificationsReadResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/notifications/read-all',
+            ...options
+        });
+    }
+    
+    /**
+     * Mark one notification of the current user as read
+     */
+    public static markMyNotificationRead<ThrowOnError extends boolean = false>(options: Options<MarkMyNotificationReadData, ThrowOnError>): RequestResult<MarkMyNotificationReadResponses, MarkMyNotificationReadErrors, ThrowOnError> {
+        return (options.client ?? client).post<MarkMyNotificationReadResponses, MarkMyNotificationReadErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zMarkMyNotificationReadPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zMarkMyNotificationReadResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/notifications/{id}/read',
+            ...options
+        });
+    }
+    
+    /**
+     * Which notification types the current user also gets by e-mail
+     */
+    public static getMyNotificationPreferences<ThrowOnError extends boolean = false>(options?: Options<GetMyNotificationPreferencesData, ThrowOnError>): RequestResult<GetMyNotificationPreferencesResponses, GetMyNotificationPreferencesErrors, ThrowOnError> {
+        return (options?.client ?? client).get<GetMyNotificationPreferencesResponses, GetMyNotificationPreferencesErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetMyNotificationPreferencesResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/notification-preferences',
+            ...options
+        });
+    }
+    
+    /**
+     * Choose which notification types also arrive by e-mail
+     *
+     * Replaces the whole set. A copy goes out only for a notification still unread after a few minutes, and only for notifications made after the type was turned on.
+     */
+    public static updateMyNotificationPreferences<ThrowOnError extends boolean = false>(options: Options<UpdateMyNotificationPreferencesData, ThrowOnError>): RequestResult<UpdateMyNotificationPreferencesResponses, UpdateMyNotificationPreferencesErrors, ThrowOnError> {
+        return (options.client ?? client).put<UpdateMyNotificationPreferencesResponses, UpdateMyNotificationPreferencesErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateMyNotificationPreferencesBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateMyNotificationPreferencesResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/notification-preferences',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class Identities {
+    /**
+     * List the accounts linked to the current user
+     */
+    public static listMyIdentities<ThrowOnError extends boolean = false>(options?: Options<ListMyIdentitiesData, ThrowOnError>): RequestResult<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError> {
+        return (options?.client ?? client).get<ListMyIdentitiesResponses, ListMyIdentitiesErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyIdentitiesResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/users/me/identities',
+            ...options
+        });
+    }
+}
+
+export class Institutions {
+    /**
+     * List the institutions the current user belongs to
+     */
+    public static listMyInstitutions<ThrowOnError extends boolean = false>(options?: Options<ListMyInstitutionsData, ThrowOnError>): RequestResult<ListMyInstitutionsResponses, ListMyInstitutionsErrors, ThrowOnError> {
+        return (options?.client ?? client).get<ListMyInstitutionsResponses, ListMyInstitutionsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyInstitutionsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions',
+            ...options
+        });
+    }
+    
+    /**
+     * Create an institution and grant its first institution_admin, restricted to a platform operator
+     */
+    public static createInstitution<ThrowOnError extends boolean = false>(options: Options<CreateInstitutionData, ThrowOnError>): RequestResult<CreateInstitutionResponses, CreateInstitutionErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateInstitutionResponses, CreateInstitutionErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateInstitutionBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateInstitutionResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Get an institution
+     */
+    public static getInstitution<ThrowOnError extends boolean = false>(options: Options<GetInstitutionData, ThrowOnError>): RequestResult<GetInstitutionResponses, GetInstitutionErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetInstitutionResponses, GetInstitutionErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetInstitutionPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetInstitutionResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}',
+            ...options
+        });
+    }
+}
+
+export class InstitutionConfiguration {
+    /**
+     * Read an institution’s terminology, locale and feature flags
+     */
+    public static getInstitutionConfiguration<ThrowOnError extends boolean = false>(options: Options<GetInstitutionConfigurationData, ThrowOnError>): RequestResult<GetInstitutionConfigurationResponses, GetInstitutionConfigurationErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetInstitutionConfigurationResponses, GetInstitutionConfigurationErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetInstitutionConfigurationPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetInstitutionConfigurationResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/configuration',
+            ...options
+        });
+    }
+    
+    /**
+     * Change an institution’s terminology, locale and feature flags
+     */
+    public static updateInstitutionConfiguration<ThrowOnError extends boolean = false>(options: Options<UpdateInstitutionConfigurationData, ThrowOnError>): RequestResult<UpdateInstitutionConfigurationResponses, UpdateInstitutionConfigurationErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateInstitutionConfigurationResponses, UpdateInstitutionConfigurationErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateInstitutionConfigurationBody,
+                path: zUpdateInstitutionConfigurationPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateInstitutionConfigurationResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/configuration',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class OrgUnits {
+    /**
+     * List the org units of an institution
+     */
+    public static listOrgUnits<ThrowOnError extends boolean = false>(options: Options<ListOrgUnitsData, ThrowOnError>): RequestResult<ListOrgUnitsResponses, ListOrgUnitsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListOrgUnitsResponses, ListOrgUnitsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListOrgUnitsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListOrgUnitsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/org-units',
+            ...options
+        });
+    }
+    
+    /**
+     * Add a faculty, department or institute
+     *
+     * Leave `parentId` null for a root unit — the university itself. Everything else hangs off the tree this builds.
+     */
+    public static createOrgUnit<ThrowOnError extends boolean = false>(options: Options<CreateOrgUnitData, ThrowOnError>): RequestResult<CreateOrgUnitResponses, CreateOrgUnitErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateOrgUnitResponses, CreateOrgUnitErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateOrgUnitBody,
+                path: zCreateOrgUnitPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateOrgUnitResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/org-units',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Retire an org unit nothing hangs off
+     */
+    public static removeOrgUnit<ThrowOnError extends boolean = false>(options: Options<RemoveOrgUnitData, ThrowOnError>): RequestResult<RemoveOrgUnitResponses, RemoveOrgUnitErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveOrgUnitResponses, RemoveOrgUnitErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveOrgUnitPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveOrgUnitResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/org-units/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Get an org unit
+     */
+    public static getOrgUnit<ThrowOnError extends boolean = false>(options: Options<GetOrgUnitData, ThrowOnError>): RequestResult<GetOrgUnitResponses, GetOrgUnitErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetOrgUnitResponses, GetOrgUnitErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetOrgUnitPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetOrgUnitResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/org-units/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Rename an org unit, or move it in the tree
+     */
+    public static updateOrgUnit<ThrowOnError extends boolean = false>(options: Options<UpdateOrgUnitData, ThrowOnError>): RequestResult<UpdateOrgUnitResponses, UpdateOrgUnitErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateOrgUnitResponses, UpdateOrgUnitErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateOrgUnitBody,
+                path: zUpdateOrgUnitPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateOrgUnitResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/org-units/{id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * List the institution’s rooms
+     */
+    public static listRooms<ThrowOnError extends boolean = false>(options: Options<ListRoomsData, ThrowOnError>): RequestResult<ListRoomsResponses, ListRoomsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListRoomsResponses, ListRoomsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListRoomsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListRoomsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/rooms',
+            ...options
+        });
+    }
+    
+    /**
+     * Add a room
+     */
+    public static createRoom<ThrowOnError extends boolean = false>(options: Options<CreateRoomData, ThrowOnError>): RequestResult<CreateRoomResponses, CreateRoomErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateRoomResponses, CreateRoomErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateRoomBody,
+                path: zCreateRoomPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateRoomResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/rooms',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Take a room out of service, if nothing is booked into it
+     */
+    public static removeRoom<ThrowOnError extends boolean = false>(options: Options<RemoveRoomData, ThrowOnError>): RequestResult<RemoveRoomResponses, RemoveRoomErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveRoomResponses, RemoveRoomErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveRoomPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveRoomResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/rooms/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Correct a room
+     */
+    public static updateRoom<ThrowOnError extends boolean = false>(options: Options<UpdateRoomData, ThrowOnError>): RequestResult<UpdateRoomResponses, UpdateRoomErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateRoomResponses, UpdateRoomErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateRoomBody,
+                path: zUpdateRoomPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateRoomResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/rooms/{id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class People {
+    /**
+     * A page of the people of an institution, with their granted and derived roles
+     *
+     * Keyset-paginated by name. `q` narrows to a name or an address, so a typeahead asks the server rather than filtering a directory the browser had to download first.
+     */
+    public static listPeople<ThrowOnError extends boolean = false>(options: Options<ListPeopleData, ThrowOnError>): RequestResult<ListPeopleResponses, ListPeopleErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListPeopleResponses, ListPeopleErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListPeoplePath,
+                query: zListPeopleQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListPeopleResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/people',
+            ...options
+        });
+    }
+}
+
+export class Invitations {
+    /**
+     * Invite a person by email to claim their record and hold a role
+     */
+    public static createInvitation<ThrowOnError extends boolean = false>(options: Options<CreateInvitationData, ThrowOnError>): RequestResult<CreateInvitationResponses, CreateInvitationErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateInvitationResponses, CreateInvitationErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateInvitationBody,
+                path: zCreateInvitationPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateInvitationResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/invitations',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Prove control of the invited address, set a password if needed, and claim the record
+     */
+    public static acceptInvitation<ThrowOnError extends boolean = false>(options: Options<AcceptInvitationData, ThrowOnError>): RequestResult<AcceptInvitationResponses, AcceptInvitationErrors, ThrowOnError> {
+        return (options.client ?? client).post<AcceptInvitationResponses, AcceptInvitationErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zAcceptInvitationBody,
+                path: zAcceptInvitationPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zAcceptInvitationResponse.parseAsync(data),
+            url: '/api/v1/invitations/{token}/accept',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class Learning {
+    /**
+     * The course page on an offering, or every course page in the institution
+     *
+     * With `offeringId`, the page on that offering — any reader of the offering may ask. Without it, the whole institution's index, which additionally requires `offering:manage`: the unfiltered list names courses the caller has nothing to do with.
+     */
+    public static listLearningSpaces<ThrowOnError extends boolean = false>(options: Options<ListLearningSpacesData, ThrowOnError>): RequestResult<ListLearningSpacesResponses, ListLearningSpacesErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListLearningSpacesResponses, ListLearningSpacesErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListLearningSpacesPath,
+                query: zListLearningSpacesQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListLearningSpacesResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces',
+            ...options
+        });
+    }
+    
+    /**
+     * Open the learning space for an offering
+     *
+     * One space per offering. A new space is unpublished unless `visible` says otherwise, so a course can be built before anybody sees it.
+     */
+    public static createLearningSpace<ThrowOnError extends boolean = false>(options: Options<CreateLearningSpaceData, ThrowOnError>): RequestResult<CreateLearningSpaceResponses, CreateLearningSpaceErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateLearningSpaceResponses, CreateLearningSpaceErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateLearningSpaceBody,
+                path: zCreateLearningSpacePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateLearningSpaceResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * One learning space
+     *
+     * An unpublished space is not found for anybody who cannot publish it.
+     */
+    public static getLearningSpace<ThrowOnError extends boolean = false>(options: Options<GetLearningSpaceData, ThrowOnError>): RequestResult<GetLearningSpaceResponses, GetLearningSpaceErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetLearningSpaceResponses, GetLearningSpaceErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetLearningSpacePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetLearningSpaceResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Rename a space, rewrite its summary, publish or unpublish it
+     */
+    public static updateLearningSpace<ThrowOnError extends boolean = false>(options: Options<UpdateLearningSpaceData, ThrowOnError>): RequestResult<UpdateLearningSpaceResponses, UpdateLearningSpaceErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateLearningSpaceResponses, UpdateLearningSpaceErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateLearningSpaceBody,
+                path: zUpdateLearningSpacePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateLearningSpaceResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * The files, links and notes on a course page, in order
+     *
+     * A hidden material is omitted for anybody who cannot unhide it.
+     */
+    public static listLearningMaterials<ThrowOnError extends boolean = false>(options: Options<ListLearningMaterialsData, ThrowOnError>): RequestResult<ListLearningMaterialsResponses, ListLearningMaterialsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListLearningMaterialsResponses, ListLearningMaterialsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListLearningMaterialsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListLearningMaterialsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials',
+            ...options
+        });
+    }
+    
+    /**
+     * Add a file, a link or a note to a course page
+     */
+    public static createLearningMaterial<ThrowOnError extends boolean = false>(options: Options<CreateLearningMaterialData, ThrowOnError>): RequestResult<CreateLearningMaterialResponses, CreateLearningMaterialErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateLearningMaterialResponses, CreateLearningMaterialErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateLearningMaterialBody,
+                path: zCreateLearningMaterialPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateLearningMaterialResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Ask for somewhere to PUT a file
+     *
+     * The bytes go straight to the object store, never through this API. PUT them at the returned URL with the returned headers, then create the material with the returned key.
+     */
+    public static createMaterialUploadTicket<ThrowOnError extends boolean = false>(options: Options<CreateMaterialUploadTicketData, ThrowOnError>): RequestResult<CreateMaterialUploadTicketResponses, CreateMaterialUploadTicketErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateMaterialUploadTicketResponses, CreateMaterialUploadTicketErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateMaterialUploadTicketBody,
+                path: zCreateMaterialUploadTicketPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateMaterialUploadTicketResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/upload-tickets',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Take a material off the page
+     */
+    public static removeLearningMaterial<ThrowOnError extends boolean = false>(options: Options<RemoveLearningMaterialData, ThrowOnError>): RequestResult<RemoveLearningMaterialResponses, RemoveLearningMaterialErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveLearningMaterialResponses, RemoveLearningMaterialErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveLearningMaterialPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveLearningMaterialResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Retitle a material, move it, hide or show it
+     */
+    public static updateLearningMaterial<ThrowOnError extends boolean = false>(options: Options<UpdateLearningMaterialData, ThrowOnError>): RequestResult<UpdateLearningMaterialResponses, UpdateLearningMaterialErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateLearningMaterialResponses, UpdateLearningMaterialErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateLearningMaterialBody,
+                path: zUpdateLearningMaterialPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateLearningMaterialResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * A short-lived link to the file behind a material
+     */
+    public static getLearningMaterialDownloadUrl<ThrowOnError extends boolean = false>(options: Options<GetLearningMaterialDownloadUrlData, ThrowOnError>): RequestResult<GetLearningMaterialDownloadUrlResponses, GetLearningMaterialDownloadUrlErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetLearningMaterialDownloadUrlResponses, GetLearningMaterialDownloadUrlErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetLearningMaterialDownloadUrlPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetLearningMaterialDownloadUrlResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}/download',
+            ...options
+        });
+    }
+    
+    /**
+     * The assignments on a course page, in order
+     */
+    public static listAssignments<ThrowOnError extends boolean = false>(options: Options<ListAssignmentsData, ThrowOnError>): RequestResult<ListAssignmentsResponses, ListAssignmentsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListAssignmentsResponses, ListAssignmentsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListAssignmentsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListAssignmentsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments',
+            ...options
+        });
+    }
+    
+    /**
+     * Set an assignment: a brief, a window and an attempt policy
+     *
+     * The dates run opens → due → closes. With no explicit close, the due date closes the assignment unless late work is accepted. A gradebook column is opened alongside it, so a mark always has somewhere to go.
+     */
+    public static createAssignment<ThrowOnError extends boolean = false>(options: Options<CreateAssignmentData, ThrowOnError>): RequestResult<CreateAssignmentResponses, CreateAssignmentErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateAssignmentResponses, CreateAssignmentErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateAssignmentBody,
+                path: zCreateAssignmentPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateAssignmentResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Withdraw an assignment and its gradebook column
+     */
+    public static removeAssignment<ThrowOnError extends boolean = false>(options: Options<RemoveAssignmentData, ThrowOnError>): RequestResult<RemoveAssignmentResponses, RemoveAssignmentErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveAssignmentResponses, RemoveAssignmentErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveAssignmentPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveAssignmentResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments/{assignmentId}',
+            ...options
+        });
+    }
+    
+    /**
+     * One assignment, with its brief
+     */
+    public static getAssignment<ThrowOnError extends boolean = false>(options: Options<GetAssignmentData, ThrowOnError>): RequestResult<GetAssignmentResponses, GetAssignmentErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetAssignmentResponses, GetAssignmentErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetAssignmentPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetAssignmentResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments/{assignmentId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Change a brief, a date, the attempt policy or what it is worth
+     */
+    public static updateAssignment<ThrowOnError extends boolean = false>(options: Options<UpdateAssignmentData, ThrowOnError>): RequestResult<UpdateAssignmentResponses, UpdateAssignmentErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateAssignmentResponses, UpdateAssignmentErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateAssignmentBody,
+                path: zUpdateAssignmentPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateAssignmentResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/assignments/{assignmentId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Every attempt the caller has handed in on this assignment
+     */
+    public static listMySubmissions<ThrowOnError extends boolean = false>(options: Options<ListMySubmissionsData, ThrowOnError>): RequestResult<ListMySubmissionsResponses, ListMySubmissionsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListMySubmissionsResponses, ListMySubmissionsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListMySubmissionsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMySubmissionsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/mine',
+            ...options
+        });
+    }
+    
+    /**
+     * Hand work in, or hand it in again
+     *
+     * Each call is a new attempt, refused once the attempt limit is reached. Whether the work is late is decided here from the due date and the server’s clock; the client is not asked and is not believed.
+     */
+    public static submitAssignment<ThrowOnError extends boolean = false>(options: Options<SubmitAssignmentData, ThrowOnError>): RequestResult<SubmitAssignmentResponses, SubmitAssignmentErrors, ThrowOnError> {
+        return (options.client ?? client).post<SubmitAssignmentResponses, SubmitAssignmentErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zSubmitAssignmentBody,
+                path: zSubmitAssignmentPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zSubmitAssignmentResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/mine',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Ask for somewhere to PUT a file being handed in
+     */
+    public static createSubmissionUploadTicket<ThrowOnError extends boolean = false>(options: Options<CreateSubmissionUploadTicketData, ThrowOnError>): RequestResult<CreateSubmissionUploadTicketResponses, CreateSubmissionUploadTicketErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateSubmissionUploadTicketResponses, CreateSubmissionUploadTicketErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateSubmissionUploadTicketBody,
+                path: zCreateSubmissionUploadTicketPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateSubmissionUploadTicketResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/mine/upload-tickets',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Everything handed in on this assignment, for marking
+     *
+     * `grade:read` is not enough on its own: the caller must teach this offering or administer its offerings.
+     */
+    public static listAssignmentSubmissions<ThrowOnError extends boolean = false>(options: Options<ListAssignmentSubmissionsData, ThrowOnError>): RequestResult<ListAssignmentSubmissionsResponses, ListAssignmentSubmissionsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListAssignmentSubmissionsResponses, ListAssignmentSubmissionsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListAssignmentSubmissionsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListAssignmentSubmissionsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions',
+            ...options
+        });
+    }
+    
+    /**
+     * A short-lived link to one handed-in file
+     *
+     * The student who wrote it, or somebody who may mark it. Nobody else.
+     */
+    public static getSubmissionFileDownloadUrl<ThrowOnError extends boolean = false>(options: Options<GetSubmissionFileDownloadUrlData, ThrowOnError>): RequestResult<GetSubmissionFileDownloadUrlResponses, GetSubmissionFileDownloadUrlErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetSubmissionFileDownloadUrlResponses, GetSubmissionFileDownloadUrlErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetSubmissionFileDownloadUrlPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetSubmissionFileDownloadUrlResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/{submissionId}/files/{fileId}/download',
+            ...options
+        });
+    }
+    
+    /**
+     * Give one submission points and feedback
+     *
+     * The mark lands on the assignment’s gradebook column as a working grade. Publishing an official course grade is a separate decision, made in the results screen with `grade:publish`.
+     */
+    public static markSubmission<ThrowOnError extends boolean = false>(options: Options<MarkSubmissionData, ThrowOnError>): RequestResult<MarkSubmissionResponses, MarkSubmissionErrors, ThrowOnError> {
+        return (options.client ?? client).put<MarkSubmissionResponses, MarkSubmissionErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zMarkSubmissionBody,
+                path: zMarkSubmissionPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zMarkSubmissionResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/assignments/{assignmentId}/submissions/{submissionId}/mark',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * List the current user’s learning activity deadlines falling in a date range
+     */
+    public static listMyDeadlines<ThrowOnError extends boolean = false>(options: Options<ListMyDeadlinesData, ThrowOnError>): RequestResult<ListMyDeadlinesResponses, ListMyDeadlinesErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListMyDeadlinesResponses, ListMyDeadlinesErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListMyDeadlinesPath,
+                query: zListMyDeadlinesQuery
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyDeadlinesResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/deadlines',
+            ...options
+        });
+    }
+    
+    /**
+     * List the current user’s marks from the learning management system
+     */
+    public static listMyAssessmentResults<ThrowOnError extends boolean = false>(options: Options<ListMyAssessmentResultsData, ThrowOnError>): RequestResult<ListMyAssessmentResultsResponses, ListMyAssessmentResultsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListMyAssessmentResultsResponses, ListMyAssessmentResultsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListMyAssessmentResultsPath,
+                query: zListMyAssessmentResultsQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyAssessmentResultsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/assessment-results',
+            ...options
+        });
+    }
+    
+    /**
+     * The threads of a course’s discussion, most recently active first
+     */
+    public static listDiscussionThreads<ThrowOnError extends boolean = false>(options: Options<ListDiscussionThreadsData, ThrowOnError>): RequestResult<ListDiscussionThreadsResponses, ListDiscussionThreadsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListDiscussionThreadsResponses, ListDiscussionThreadsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListDiscussionThreadsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListDiscussionThreadsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads',
+            ...options
+        });
+    }
+    
+    /**
+     * Start a thread
+     */
+    public static startDiscussionThread<ThrowOnError extends boolean = false>(options: Options<StartDiscussionThreadData, ThrowOnError>): RequestResult<StartDiscussionThreadResponses, StartDiscussionThreadErrors, ThrowOnError> {
+        return (options.client ?? client).post<StartDiscussionThreadResponses, StartDiscussionThreadErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zStartDiscussionThreadBody,
+                path: zStartDiscussionThreadPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zStartDiscussionThreadResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Get a URL to upload a file for a post
+     *
+     * At most 10 MiB, of the kinds coursework accepts. Name the returned key in the post.
+     */
+    public static createDiscussionAttachmentTicket<ThrowOnError extends boolean = false>(options: Options<CreateDiscussionAttachmentTicketData, ThrowOnError>): RequestResult<CreateDiscussionAttachmentTicketResponses, CreateDiscussionAttachmentTicketErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateDiscussionAttachmentTicketResponses, CreateDiscussionAttachmentTicketErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateDiscussionAttachmentTicketBody,
+                path: zCreateDiscussionAttachmentTicketPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateDiscussionAttachmentTicketResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/attachment-tickets',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * A short-lived link to download a file attached to a post
+     */
+    public static getDiscussionAttachmentDownloadUrl<ThrowOnError extends boolean = false>(options: Options<GetDiscussionAttachmentDownloadUrlData, ThrowOnError>): RequestResult<GetDiscussionAttachmentDownloadUrlResponses, GetDiscussionAttachmentDownloadUrlErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetDiscussionAttachmentDownloadUrlResponses, GetDiscussionAttachmentDownloadUrlErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetDiscussionAttachmentDownloadUrlPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetDiscussionAttachmentDownloadUrlResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}/attachments/{attachmentId}/download',
+            ...options
+        });
+    }
+    
+    /**
+     * A thread with its posts
+     */
+    public static getDiscussionThread<ThrowOnError extends boolean = false>(options: Options<GetDiscussionThreadData, ThrowOnError>): RequestResult<GetDiscussionThreadResponses, GetDiscussionThreadErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetDiscussionThreadResponses, GetDiscussionThreadErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetDiscussionThreadPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetDiscussionThreadResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Rename a thread you started
+     */
+    public static renameDiscussionThread<ThrowOnError extends boolean = false>(options: Options<RenameDiscussionThreadData, ThrowOnError>): RequestResult<RenameDiscussionThreadResponses, RenameDiscussionThreadErrors, ThrowOnError> {
+        return (options.client ?? client).patch<RenameDiscussionThreadResponses, RenameDiscussionThreadErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zRenameDiscussionThreadBody,
+                path: zRenameDiscussionThreadPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRenameDiscussionThreadResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Reply in a thread
+     */
+    public static replyToDiscussionThread<ThrowOnError extends boolean = false>(options: Options<ReplyToDiscussionThreadData, ThrowOnError>): RequestResult<ReplyToDiscussionThreadResponses, ReplyToDiscussionThreadErrors, ThrowOnError> {
+        return (options.client ?? client).post<ReplyToDiscussionThreadResponses, ReplyToDiscussionThreadErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zReplyToDiscussionThreadBody,
+                path: zReplyToDiscussionThreadPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zReplyToDiscussionThreadResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Delete a post you wrote
+     */
+    public static deleteDiscussionPost<ThrowOnError extends boolean = false>(options: Options<DeleteDiscussionPostData, ThrowOnError>): RequestResult<DeleteDiscussionPostResponses, DeleteDiscussionPostErrors, ThrowOnError> {
+        return (options.client ?? client).delete<DeleteDiscussionPostResponses, DeleteDiscussionPostErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zDeleteDiscussionPostPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zDeleteDiscussionPostResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Edit a post you wrote
+     *
+     * Readers see that the post was edited. A hidden post or a post in a hidden thread is refused.
+     */
+    public static editDiscussionPost<ThrowOnError extends boolean = false>(options: Options<EditDiscussionPostData, ThrowOnError>): RequestResult<EditDiscussionPostResponses, EditDiscussionPostErrors, ThrowOnError> {
+        return (options.client ?? client).patch<EditDiscussionPostResponses, EditDiscussionPostErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zEditDiscussionPostBody,
+                path: zEditDiscussionPostPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zEditDiscussionPostResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Hide a thread from students, or restore it
+     */
+    public static setDiscussionThreadVisibility<ThrowOnError extends boolean = false>(options: Options<SetDiscussionThreadVisibilityData, ThrowOnError>): RequestResult<SetDiscussionThreadVisibilityResponses, SetDiscussionThreadVisibilityErrors, ThrowOnError> {
+        return (options.client ?? client).put<SetDiscussionThreadVisibilityResponses, SetDiscussionThreadVisibilityErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zSetDiscussionThreadVisibilityBody,
+                path: zSetDiscussionThreadVisibilityPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zSetDiscussionThreadVisibilityResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/visibility',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Hide a post from students, or restore it
+     */
+    public static setDiscussionPostVisibility<ThrowOnError extends boolean = false>(options: Options<SetDiscussionPostVisibilityData, ThrowOnError>): RequestResult<SetDiscussionPostVisibilityResponses, SetDiscussionPostVisibilityErrors, ThrowOnError> {
+        return (options.client ?? client).put<SetDiscussionPostVisibilityResponses, SetDiscussionPostVisibilityErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zSetDiscussionPostVisibilityBody,
+                path: zSetDiscussionPostVisibilityPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zSetDiscussionPostVisibilityResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}/visibility',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class Marketing {
+    /**
+     * Ask for a demonstration of the platform
+     */
+    public static createDemoRequest<ThrowOnError extends boolean = false>(options: Options<CreateDemoRequestData, ThrowOnError>): RequestResult<CreateDemoRequestResponses, CreateDemoRequestErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateDemoRequestResponses, CreateDemoRequestErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateDemoRequestBody,
+                path: z.never().optional(),
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateDemoRequestResponse.parseAsync(data),
+            url: '/api/v1/demo-requests',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class Privacy {
+    /**
+     * Take a copy of everything this institution holds about you
+     *
+     * One document covering the account, the sign-in trail, the academic record, the learning record, notifications and the storage keys of your files.
+     */
+    public static exportMyPersonalData<ThrowOnError extends boolean = false>(options: Options<ExportMyPersonalDataData, ThrowOnError>): RequestResult<ExportMyPersonalDataResponses, ExportMyPersonalDataErrors, ThrowOnError> {
+        return (options.client ?? client).get<ExportMyPersonalDataResponses, ExportMyPersonalDataErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zExportMyPersonalDataPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zExportMyPersonalDataResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/personal-data',
+            ...options
+        });
+    }
+    
+    /**
+     * Anonymise a person and keep their academic record
+     *
+     * Irreversible. The account is anonymised, credentials and stored files are destroyed, free text written about the person is cleared, and enrolments, results and registrations stay — pointing at a row that no longer says who they were. Refused while another institution still has an active relationship with them.
+     */
+    public static erasePersonalData<ThrowOnError extends boolean = false>(options: Options<ErasePersonalDataData, ThrowOnError>): RequestResult<ErasePersonalDataResponses, ErasePersonalDataErrors, ThrowOnError> {
+        return (options.client ?? client).delete<ErasePersonalDataResponses, ErasePersonalDataErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zErasePersonalDataPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zErasePersonalDataResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/people/{userId}/personal-data',
+            ...options
+        });
+    }
 }
 
 export class Schedule {
@@ -599,6 +2724,427 @@ export class Schedule {
             responseValidator: async (data) => await zListMyTimetableEventsResponse.parseAsync(data),
             security: [{ scheme: 'bearer', type: 'http' }],
             url: '/api/v1/institutions/{institutionId}/me/timetable-events',
+            ...options
+        });
+    }
+    
+    /**
+     * List the exam terms of the courses the current user attends or teaches
+     */
+    public static listMyExamTerms<ThrowOnError extends boolean = false>(options: Options<ListMyExamTermsData, ThrowOnError>): RequestResult<ListMyExamTermsResponses, ListMyExamTermsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListMyExamTermsResponses, ListMyExamTermsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListMyExamTermsPath,
+                query: zListMyExamTermsQuery.optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListMyExamTermsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/exam-terms',
+            ...options
+        });
+    }
+    
+    /**
+     * Register the current user for an exam term
+     */
+    public static registerForExamTerm<ThrowOnError extends boolean = false>(options: Options<RegisterForExamTermData, ThrowOnError>): RequestResult<RegisterForExamTermResponses, RegisterForExamTermErrors, ThrowOnError> {
+        return (options.client ?? client).post<RegisterForExamTermResponses, RegisterForExamTermErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zRegisterForExamTermBody,
+                path: zRegisterForExamTermPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRegisterForExamTermResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/exam-registrations',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Cancel the current user’s registration for an exam term
+     */
+    public static cancelExamRegistration<ThrowOnError extends boolean = false>(options: Options<CancelExamRegistrationData, ThrowOnError>): RequestResult<CancelExamRegistrationResponses, CancelExamRegistrationErrors, ThrowOnError> {
+        return (options.client ?? client).delete<CancelExamRegistrationResponses, CancelExamRegistrationErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zCancelExamRegistrationPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCancelExamRegistrationResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/exam-registrations/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Download the current user’s calendar as an iCalendar file
+     */
+    public static downloadMyCalendar<ThrowOnError extends boolean = false>(options: Options<DownloadMyCalendarData, ThrowOnError>): RequestResult<DownloadMyCalendarResponses, DownloadMyCalendarErrors, ThrowOnError> {
+        return (options.client ?? client).get<DownloadMyCalendarResponses, DownloadMyCalendarErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zDownloadMyCalendarPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zDownloadMyCalendarResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/calendar.ics',
+            ...options
+        });
+    }
+    
+    /**
+     * Turn the calendar subscription URL off
+     */
+    public static revokeMyCalendarFeed<ThrowOnError extends boolean = false>(options: Options<RevokeMyCalendarFeedData, ThrowOnError>): RequestResult<RevokeMyCalendarFeedResponses, RevokeMyCalendarFeedErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RevokeMyCalendarFeedResponses, RevokeMyCalendarFeedErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRevokeMyCalendarFeedPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRevokeMyCalendarFeedResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/calendar-feed',
+            ...options
+        });
+    }
+    
+    /**
+     * Whether the current user has a calendar subscription URL
+     */
+    public static getMyCalendarFeed<ThrowOnError extends boolean = false>(options: Options<GetMyCalendarFeedData, ThrowOnError>): RequestResult<GetMyCalendarFeedResponses, GetMyCalendarFeedErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetMyCalendarFeedResponses, GetMyCalendarFeedErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetMyCalendarFeedPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetMyCalendarFeedResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/calendar-feed',
+            ...options
+        });
+    }
+    
+    /**
+     * Create the calendar subscription URL, replacing any earlier one
+     */
+    public static issueMyCalendarFeed<ThrowOnError extends boolean = false>(options: Options<IssueMyCalendarFeedData, ThrowOnError>): RequestResult<IssueMyCalendarFeedResponses, IssueMyCalendarFeedErrors, ThrowOnError> {
+        return (options.client ?? client).post<IssueMyCalendarFeedResponses, IssueMyCalendarFeedErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zIssueMyCalendarFeedPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zIssueMyCalendarFeedResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/me/calendar-feed',
+            ...options
+        });
+    }
+    
+    /**
+     * A calendar subscription, addressed by the secret in its URL
+     */
+    public static getCalendarFeed<ThrowOnError extends boolean = false>(options: Options<GetCalendarFeedData, ThrowOnError>): RequestResult<GetCalendarFeedResponses, GetCalendarFeedErrors, ThrowOnError> {
+        return (options.client ?? client).get<GetCalendarFeedResponses, GetCalendarFeedErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zGetCalendarFeedPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zGetCalendarFeedResponse.parseAsync(data),
+            url: '/api/v1/calendar-feeds/{token}',
+            ...options
+        });
+    }
+}
+
+export class Scheduling {
+    /**
+     * Every class scheduled for this offering, in time order
+     */
+    public static listOfferingTimetable<ThrowOnError extends boolean = false>(options: Options<ListOfferingTimetableData, ThrowOnError>): RequestResult<ListOfferingTimetableResponses, ListOfferingTimetableErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListOfferingTimetableResponses, ListOfferingTimetableErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListOfferingTimetablePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListOfferingTimetableResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/timetable',
+            ...options
+        });
+    }
+    
+    /**
+     * Schedule a class, once or weekly to the end of term
+     *
+     * With `repeatWeekly`, one slot becomes a row per week until the term ends, so moving or cancelling a single week is an ordinary edit. A room already booked for any part of the slot is refused.
+     */
+    public static createTimetableEvent<ThrowOnError extends boolean = false>(options: Options<CreateTimetableEventData, ThrowOnError>): RequestResult<CreateTimetableEventResponses, CreateTimetableEventErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateTimetableEventResponses, CreateTimetableEventErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateTimetableEventBody,
+                path: zCreateTimetableEventPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateTimetableEventResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/timetable',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Remove a class that should never have been scheduled
+     *
+     * Cancelling says it was called off; removing says it never existed.
+     */
+    public static removeTimetableEvent<ThrowOnError extends boolean = false>(options: Options<RemoveTimetableEventData, ThrowOnError>): RequestResult<RemoveTimetableEventResponses, RemoveTimetableEventErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveTimetableEventResponses, RemoveTimetableEventErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveTimetableEventPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveTimetableEventResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/timetable/{eventId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Move a single class
+     */
+    public static updateTimetableEvent<ThrowOnError extends boolean = false>(options: Options<UpdateTimetableEventData, ThrowOnError>): RequestResult<UpdateTimetableEventResponses, UpdateTimetableEventErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateTimetableEventResponses, UpdateTimetableEventErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateTimetableEventBody,
+                path: zUpdateTimetableEventPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateTimetableEventResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/timetable/{eventId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Put a cancelled class back on
+     */
+    public static restoreTimetableEvent<ThrowOnError extends boolean = false>(options: Options<RestoreTimetableEventData, ThrowOnError>): RequestResult<RestoreTimetableEventResponses, RestoreTimetableEventErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RestoreTimetableEventResponses, RestoreTimetableEventErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRestoreTimetableEventPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRestoreTimetableEventResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/timetable/{eventId}/cancellation',
+            ...options
+        });
+    }
+    
+    /**
+     * Call a class off, leaving it on the calendar
+     *
+     * A cancelled class stays visible and struck through: a student who turns up needs to see it was called off, not find nothing where it used to be.
+     */
+    public static cancelTimetableEvent<ThrowOnError extends boolean = false>(options: Options<CancelTimetableEventData, ThrowOnError>): RequestResult<CancelTimetableEventResponses, CancelTimetableEventErrors, ThrowOnError> {
+        return (options.client ?? client).post<CancelTimetableEventResponses, CancelTimetableEventErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zCancelTimetableEventPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCancelTimetableEventResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/timetable/{eventId}/cancellation',
+            ...options
+        });
+    }
+    
+    /**
+     * Every exam term offered on this course, in time order
+     */
+    public static listOfferingExamTerms<ThrowOnError extends boolean = false>(options: Options<ListOfferingExamTermsData, ThrowOnError>): RequestResult<ListOfferingExamTermsResponses, ListOfferingExamTermsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListOfferingExamTermsResponses, ListOfferingExamTermsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListOfferingExamTermsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListOfferingExamTermsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms',
+            ...options
+        });
+    }
+    
+    /**
+     * Offer an exam term
+     *
+     * The registration window must close before the exam starts, and the examiner must be somebody who teaches the offering.
+     */
+    public static createExamTerm<ThrowOnError extends boolean = false>(options: Options<CreateExamTermData, ThrowOnError>): RequestResult<CreateExamTermResponses, CreateExamTermErrors, ThrowOnError> {
+        return (options.client ?? client).post<CreateExamTermResponses, CreateExamTermErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zCreateExamTermBody,
+                path: zCreateExamTermPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCreateExamTermResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Remove a term that should never have been offered
+     *
+     * Cancelling says it was called off; removing says it never existed.
+     */
+    public static removeExamTerm<ThrowOnError extends boolean = false>(options: Options<RemoveExamTermData, ThrowOnError>): RequestResult<RemoveExamTermResponses, RemoveExamTermErrors, ThrowOnError> {
+        return (options.client ?? client).delete<RemoveExamTermResponses, RemoveExamTermErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zRemoveExamTermPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRemoveExamTermResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms/{examTermId}',
+            ...options
+        });
+    }
+    
+    /**
+     * Move a term, or change its capacity or registration window
+     *
+     * Capacity may not be cut below the seats already held. A cancelled term cannot be changed.
+     */
+    public static updateExamTerm<ThrowOnError extends boolean = false>(options: Options<UpdateExamTermData, ThrowOnError>): RequestResult<UpdateExamTermResponses, UpdateExamTermErrors, ThrowOnError> {
+        return (options.client ?? client).patch<UpdateExamTermResponses, UpdateExamTermErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zUpdateExamTermBody,
+                path: zUpdateExamTermPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zUpdateExamTermResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms/{examTermId}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    /**
+     * Call a term off, releasing the seats it held
+     *
+     * A cancelled term stays on the record so that the students who held a seat can see it was called off.
+     */
+    public static cancelExamTerm<ThrowOnError extends boolean = false>(options: Options<CancelExamTermData, ThrowOnError>): RequestResult<CancelExamTermResponses, CancelExamTermErrors, ThrowOnError> {
+        return (options.client ?? client).post<CancelExamTermResponses, CancelExamTermErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zCancelExamTermPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zCancelExamTermResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms/{examTermId}/cancellation',
+            ...options
+        });
+    }
+    
+    /**
+     * Who holds, or held, a seat on this exam term
+     *
+     * A seat the student gave up, or that a called-off term released, is left out.
+     */
+    public static listExamTermRegistrants<ThrowOnError extends boolean = false>(options: Options<ListExamTermRegistrantsData, ThrowOnError>): RequestResult<ListExamTermRegistrantsResponses, ListExamTermRegistrantsErrors, ThrowOnError> {
+        return (options.client ?? client).get<ListExamTermRegistrantsResponses, ListExamTermRegistrantsErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zListExamTermRegistrantsPath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zListExamTermRegistrantsResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms/{examTermId}/registrations',
+            ...options
+        });
+    }
+    
+    /**
+     * Record whether a student sat the exam
+     *
+     * Only once the exam has started, and never on a term that was called off or a seat that was given up.
+     */
+    public static recordExamAttendance<ThrowOnError extends boolean = false>(options: Options<RecordExamAttendanceData, ThrowOnError>): RequestResult<RecordExamAttendanceResponses, RecordExamAttendanceErrors, ThrowOnError> {
+        return (options.client ?? client).put<RecordExamAttendanceResponses, RecordExamAttendanceErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: zRecordExamAttendanceBody,
+                path: zRecordExamAttendancePath,
+                query: z.never().optional()
+            }).parseAsync(data),
+            responseValidator: async (data) => await zRecordExamAttendanceResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/exam-terms/{examTermId}/registrations/{registrationId}/attendance',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class Search {
+    /**
+     * Search everything the caller may see
+     *
+     * Permission decides what is searched rather than what is filtered afterwards, so a kind the caller cannot read is never queried and an empty result cannot be read as proof that something does not exist.
+     */
+    public static search<ThrowOnError extends boolean = false>(options: Options<SearchData, ThrowOnError>): RequestResult<SearchResponses, SearchErrors, ThrowOnError> {
+        return (options.client ?? client).get<SearchResponses, SearchErrors, ThrowOnError>({
+            requestValidator: async (data) => await z.object({
+                body: z.never().optional(),
+                path: zSearchPath,
+                query: zSearchQuery
+            }).parseAsync(data),
+            responseValidator: async (data) => await zSearchResponse.parseAsync(data),
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/v1/institutions/{institutionId}/search',
             ...options
         });
     }

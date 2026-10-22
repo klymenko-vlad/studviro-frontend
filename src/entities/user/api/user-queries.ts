@@ -21,5 +21,5 @@ export const userQueries = {
 
 export const userMutations = {
   create: apiQueries.createMutation,
-  remove: apiQueries.removeMutation,
+  deactivate: apiQueries.deactivateUserMutation,
 } as const;

@@ -1,11 +1,11 @@
 import { useFormatter, useTranslations } from 'next-intl';
 
 import { courseOfferingHref } from '@/entities/course-offering';
-import {
-  dayKey,
-  TimetableEventCard,
-  type TimetableDay,
-} from '@/entities/timetable-event';
+import { DeadlineCard } from '@/entities/deadline';
+import { ExamTermCard } from '@/entities/exam-term';
+import { dayKey, TimetableEventCard } from '@/entities/timetable-event';
+
+import type { CalendarDay } from '../model/calendar-items';
 
 export function CalendarDaySection({
   day,
@@ -13,7 +13,7 @@ export function CalendarDaySection({
   today,
   timeZone,
 }: {
-  day: TimetableDay;
+  day: CalendarDay;
   institutionId: string;
   today: Date;
   timeZone: string;
@@ -33,12 +33,30 @@ export function CalendarDaySection({
       </div>
 
       <ul className="grid gap-3 md:grid-cols-2">
-        {day.events.map(event => (
-          <li key={event.id}>
-            <TimetableEventCard
-              event={event}
-              href={courseOfferingHref(institutionId, event.offering.id)}
-            />
+        {day.items.map(item => (
+          <li key={item.id}>
+            {item.kind === 'event' ? (
+              <TimetableEventCard
+                event={item.event}
+                href={courseOfferingHref(institutionId, item.event.offering.id)}
+              />
+            ) : item.kind === 'deadline' ? (
+              <div className="flex flex-col gap-1.5" data-testid="calendar-deadline">
+                <p className="text-muted-foreground type-eyebrow">{t('deadlineLayer')}</p>
+                <DeadlineCard
+                  deadline={item.deadline}
+                  href={courseOfferingHref(institutionId, item.deadline.offering.id)}
+                />
+              </div>
+            ) : (
+              <div className="flex flex-col gap-1.5" data-testid="calendar-exam">
+                <p className="text-muted-foreground type-eyebrow">{t('examLayer')}</p>
+                <ExamTermCard
+                  term={item.term}
+                  href={courseOfferingHref(institutionId, item.term.offering.id)}
+                />
+              </div>
+            )}
           </li>
         ))}
       </ul>
