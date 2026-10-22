@@ -48,14 +48,14 @@ function targetOf(notification: Notification): OfferingTarget | undefined {
     case 'assignment_due_rescheduled':
     case 'submission_marked':
       return {
-        section: 'materials',
+        section: 'assignments',
         ...(learningActivityId === null
           ? {}
           : { item: { kind: 'activity', id: learningActivityId } }),
       };
     case 'grade_published':
     case 'grade_corrected':
-      return { section: 'work' };
+      return { section: 'grades' };
     case 'discussion_thread_started':
     case 'discussion_reply':
       return {

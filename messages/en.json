@@ -438,11 +438,18 @@
     "staffError": "Who teaches this could not be read.",
     "section": {
       "overview": "Overview",
-      "people": "People",
-      "schedule": "Schedule",
       "materials": "Materials",
-      "work": "Assessment",
-      "discussion": "Discussion"
+      "assignments": "Assignments",
+      "schedule": "Schedule",
+      "grades": "Grades",
+      "discussion": "Discussion",
+      "people": "People"
+    },
+    "upNext": {
+      "title": "Up next",
+      "deadline": "Assignment due",
+      "exam": "Exam",
+      "nothing": "Nothing due and no exam ahead."
     }
   },
   "grades": {
@@ -1927,7 +1934,9 @@
       "name": "Operating Systems",
       "shortName": "OS",
       "summary": "What the course covers, in a sentence or two."
-    }
+    },
+    "noAssignmentsYet": "No assignments yet.",
+    "openSpaceFirst": "Assignments live in the course page’s learning space. Open it on the Materials tab first."
   },
   "materials": {
     "title": "Materials",

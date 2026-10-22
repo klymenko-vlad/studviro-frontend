@@ -438,11 +438,18 @@
     "staffError": "Kto to učí, sa nepodarilo načítať.",
     "section": {
       "overview": "Prehľad",
-      "people": "Ľudia",
-      "schedule": "Rozvrh",
       "materials": "Materiály",
-      "work": "Hodnotenie",
-      "discussion": "Diskusia"
+      "assignments": "Assignments",
+      "schedule": "Rozvrh",
+      "grades": "Hodnotenie",
+      "discussion": "Diskusia",
+      "people": "Ľudia"
+    },
+    "upNext": {
+      "title": "Up next",
+      "deadline": "Assignment due",
+      "exam": "Exam",
+      "nothing": "Nothing due and no exam ahead."
     }
   },
   "grades": {
@@ -1927,7 +1934,9 @@
       "name": "Operačné systémy",
       "shortName": "OS",
       "summary": "Čo predmet pokrýva, vo vete či dvoch."
-    }
+    },
+    "noAssignmentsYet": "No assignments yet.",
+    "openSpaceFirst": "Assignments live in the course page’s learning space. Open it on the Materials tab first."
   },
   "materials": {
     "title": "Materiály",

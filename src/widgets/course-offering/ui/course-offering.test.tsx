@@ -123,7 +123,7 @@ describe('CourseOffering', () => {
       <CourseOffering institutionId={INSTITUTION} offeringId={OFFERING} />,
     );
 
-    await user.click(await screen.findByRole('tab', { name: 'Assessment' }));
+    await user.click(await screen.findByRole('tab', { name: 'Grades' }));
 
     expect(await screen.findByText('My result')).toBeInTheDocument();
     expect(await screen.findByText('B · 87.5 points')).toBeInTheDocument();
@@ -136,7 +136,7 @@ describe('CourseOffering', () => {
       <CourseOffering institutionId={INSTITUTION} offeringId={OFFERING} />,
     );
 
-    await user.click(await screen.findByRole('tab', { name: 'Assessment' }));
+    await user.click(await screen.findByRole('tab', { name: 'Grades' }));
 
     expect(
       await screen.findByText('No result has been recorded for this course yet.'),

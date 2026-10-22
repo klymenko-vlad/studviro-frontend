@@ -180,7 +180,7 @@ describe('MyCalendar', () => {
     const exam = await screen.findByTestId('calendar-exam');
 
     expect(within(deadline).getByRole('link').getAttribute('href')).toMatch(
-      /\?section=materials#activity-[\w-]+$/,
+      /\?section=assignments#activity-[\w-]+$/,
     );
     expect(within(exam).getByRole('link').getAttribute('href')).toMatch(
       new RegExp(`\\?section=schedule#exam-term-${examTermFixtures[0]!.id}$`),

@@ -14,13 +14,14 @@ import { OfferingExamTerms } from './offering-exam-terms';
 import { OfferingExams } from './offering-exams';
 import { OfferingGradeEntry } from './offering-grade-entry';
 import { OfferingHeader } from './offering-header';
-import { OfferingLearning } from './offering-learning';
+import { OfferingAssignmentsSection, OfferingLearning } from './offering-learning';
 import { OfferingResults } from './offering-results';
 import { OfferingRoster } from './offering-roster';
 import { OfferingStaff } from './offering-staff';
 import { OfferingStudyGroups } from './offering-study-groups';
 import { OfferingTabs } from './offering-tabs';
 import { OfferingTimetable } from './offering-timetable';
+import { OfferingUpNext } from './offering-up-next';
 import { OfferingWaitlist } from './offering-waitlist';
 
 export function CourseOffering({
@@ -62,6 +63,11 @@ export function CourseOffering({
             key: 'overview',
             content: (
               <div className="grid gap-6 lg:grid-cols-2">
+                <OfferingUpNext
+                  institutionId={institutionId}
+                  offeringId={offeringId}
+                  teaching={teaching}
+                />
                 <OfferingStaff
                   offering={data}
                   institutionId={institutionId}
@@ -69,6 +75,68 @@ export function CourseOffering({
                 />
                 <OfferingEnrollment offering={data} />
               </div>
+            ),
+          },
+          {
+            key: 'materials',
+            content: (
+              <OfferingLearning
+                institutionId={institutionId}
+                offeringId={offeringId}
+                courseTitle={data.course.title}
+                viewerRole={data.viewerRole}
+              />
+            ),
+          },
+          {
+            key: 'assignments',
+            content: (
+              <OfferingAssignmentsSection
+                institutionId={institutionId}
+                offeringId={offeringId}
+                viewerRole={data.viewerRole}
+              />
+            ),
+          },
+          {
+            key: 'schedule',
+            content: teaching ? (
+              <>
+                <OfferingTimetable
+                  institutionId={institutionId}
+                  offeringId={offeringId}
+                />
+                <OfferingExamTerms
+                  institutionId={institutionId}
+                  offeringId={offeringId}
+                />
+              </>
+            ) : (
+              <OfferingExams institutionId={institutionId} offeringId={offeringId} />
+            ),
+          },
+          {
+            key: 'grades',
+            content: (
+              <>
+                {teaching ? (
+                  <OfferingGradeEntry
+                    institutionId={institutionId}
+                    offeringId={offeringId}
+                  />
+                ) : null}
+                <OfferingResults institutionId={institutionId} offeringId={offeringId} />
+                <OfferingAssessments
+                  institutionId={institutionId}
+                  offeringId={offeringId}
+                />
+              </>
+            ),
+          },
+          {
+            key: 'discussion',
+            content: (
+              <OfferingDiscussion institutionId={institutionId} offeringId={offeringId} />
             ),
           },
           ...(teaching
@@ -94,62 +162,6 @@ export function CourseOffering({
                 },
               ] as const)
             : []),
-          {
-            key: 'schedule',
-            content: (
-              <>
-                {teaching ? (
-                  <>
-                    <OfferingTimetable
-                      institutionId={institutionId}
-                      offeringId={offeringId}
-                    />
-                    <OfferingExamTerms
-                      institutionId={institutionId}
-                      offeringId={offeringId}
-                    />
-                  </>
-                ) : (
-                  <OfferingExams institutionId={institutionId} offeringId={offeringId} />
-                )}
-              </>
-            ),
-          },
-          {
-            key: 'materials',
-            content: (
-              <OfferingLearning
-                institutionId={institutionId}
-                offeringId={offeringId}
-                courseTitle={data.course.title}
-                viewerRole={data.viewerRole}
-              />
-            ),
-          },
-          {
-            key: 'work',
-            content: (
-              <>
-                {teaching ? (
-                  <OfferingGradeEntry
-                    institutionId={institutionId}
-                    offeringId={offeringId}
-                  />
-                ) : null}
-                <OfferingResults institutionId={institutionId} offeringId={offeringId} />
-                <OfferingAssessments
-                  institutionId={institutionId}
-                  offeringId={offeringId}
-                />
-              </>
-            ),
-          },
-          {
-            key: 'discussion',
-            content: (
-              <OfferingDiscussion institutionId={institutionId} offeringId={offeringId} />
-            ),
-          },
         ]}
       />
     </div>

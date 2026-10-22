@@ -10,8 +10,8 @@ describe('courseOfferingHref', () => {
   });
 
   it('opens a section', () => {
-    expect(courseOfferingHref('inst-1', 'off-1', { section: 'work' })).toBe(
-      '/institutions/inst-1/courses/off-1?section=work',
+    expect(courseOfferingHref('inst-1', 'off-1', { section: 'grades' })).toBe(
+      '/institutions/inst-1/courses/off-1?section=grades',
     );
   });
 

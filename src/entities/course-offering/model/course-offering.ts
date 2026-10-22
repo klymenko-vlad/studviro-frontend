@@ -17,7 +17,13 @@ export function authorsOffering(viewerRole: CourseOfferingViewerRole): boolean {
 }
 
 export type OfferingSection =
-  'overview' | 'people' | 'schedule' | 'materials' | 'work' | 'discussion';
+  | 'overview'
+  | 'materials'
+  | 'assignments'
+  | 'schedule'
+  | 'grades'
+  | 'discussion'
+  | 'people';
 
 export interface OfferingItem {
   kind: 'activity' | 'exam-term';

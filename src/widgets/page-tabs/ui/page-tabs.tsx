@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import { usePathname, useRouter, useSearchParams } from '@/shared/config';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui';
@@ -14,9 +14,9 @@ export interface PageTab<Key extends string> {
 /**
  * The tabs of a page that holds several related screens. The open tab lives in
  * `?tab=`, so Back returns to it and a link can open a page on the right one;
- * an unknown or missing value opens the first. `defaultValue` rather than
- * `value`: the tab group owns the state and the address trails it, so a click
- * paints without waiting on the router.
+ * an unknown or missing value opens the first. A click paints from local
+ * state at once and the address trails it; a link that changes `?tab=` moves
+ * the tab.
  */
 export function PageTabs<Key extends string>({
   tabs,
@@ -31,13 +31,21 @@ export function PageTabs<Key extends string>({
 
   const requested = params.get('tab');
   const active = tabs.find(tab => tab.key === requested)?.key ?? tabs[0]?.key;
-  if (active === undefined) return null;
+  const [open, setOpen] = useState(active);
+  const [followed, setFollowed] = useState(active);
+  if (followed !== active) {
+    setFollowed(active);
+    setOpen(active);
+  }
+
+  if (active === undefined || open === undefined) return null;
   if (tabs.length === 1) return <>{tabs[0]?.content}</>;
 
   return (
     <Tabs
-      defaultValue={active}
+      value={open}
       onValueChange={value => {
+        setOpen(value as Key);
         const next = new URLSearchParams(params.toString());
         next.set('tab', value);
         router.replace(`${pathname}?${next.toString()}`, { scroll: false });

@@ -37,17 +37,17 @@ describe('notificationHref', () => {
     'assignment_due_published',
     'assignment_due_rescheduled',
     'submission_marked',
-  ] as const)('opens %s on the materials at its assignment', type => {
+  ] as const)('opens %s on the assignments at its assignment', type => {
     expect(
       notificationHref(INSTITUTION, notification(type, { learningActivityId: 'act-1' })),
-    ).toBe(`${COURSE}?section=materials#activity-act-1`);
+    ).toBe(`${COURSE}?section=assignments#activity-act-1`);
   });
 
   it.each(['grade_published', 'grade_corrected'] as const)(
-    'opens %s on the work section',
+    'opens %s on the grades section',
     type => {
       expect(notificationHref(INSTITUTION, notification(type))).toBe(
-        `${COURSE}?section=work`,
+        `${COURSE}?section=grades`,
       );
     },
   );

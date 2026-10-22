@@ -104,19 +104,54 @@ export function OfferingLearning({
       </Card>
 
       {space === null ? null : (
-        <>
-          <OfferingMaterials
-            institutionId={institutionId}
-            spaceId={space.id}
-            viewerRole={viewerRole}
-          />
-          <OfferingAssignments
-            institutionId={institutionId}
-            spaceId={space.id}
-            viewerRole={viewerRole}
-          />
-        </>
+        <OfferingMaterials
+          institutionId={institutionId}
+          spaceId={space.id}
+          viewerRole={viewerRole}
+        />
       )}
     </div>
+  );
+}
+
+/**
+ * The work to hand in, on its own tab rather than under the reading list.
+ * Assignments belong to the course's learning space; until there is one, say
+ * where it is opened instead of showing an empty list.
+ */
+export function OfferingAssignmentsSection({
+  institutionId,
+  offeringId,
+  viewerRole,
+}: {
+  institutionId: string;
+  offeringId: string;
+  viewerRole: CourseOfferingResponseDto['viewerRole'];
+}) {
+  const t = useTranslations('learningSpace');
+  const spaces = useQuery(
+    learningSpaceQueries.list({ path: { institutionId }, query: { offeringId } }),
+  );
+  const space =
+    spaces.data === undefined ? null : spaceForOffering(spaces.data, offeringId);
+
+  if (spaces.isPending) {
+    return <ListSkeleton items={2} data-testid="offering-assignments-section-loading" />;
+  }
+  if (space === null) {
+    return (
+      <EmptyState
+        title={t('noAssignmentsYet')}
+        description={authorsOffering(viewerRole) ? t('openSpaceFirst') : undefined}
+      />
+    );
+  }
+
+  return (
+    <OfferingAssignments
+      institutionId={institutionId}
+      spaceId={space.id}
+      viewerRole={viewerRole}
+    />
   );
 }

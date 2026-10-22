@@ -46,7 +46,7 @@ export function CalendarDaySection({
                 <DeadlineCard
                   deadline={item.deadline}
                   href={courseOfferingHref(institutionId, item.deadline.offering.id, {
-                    section: 'materials',
+                    section: 'assignments',
                     ...(item.deadline.type === 'assignment'
                       ? { item: { kind: 'activity', id: item.deadline.id } }
                       : {}),

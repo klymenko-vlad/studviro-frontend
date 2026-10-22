@@ -12,7 +12,7 @@ import {
   within,
 } from '@/shared/test';
 
-import { OfferingLearning } from './offering-learning';
+import { OfferingAssignmentsSection, OfferingLearning } from './offering-learning';
 
 vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 
@@ -152,7 +152,37 @@ describe('OfferingLearning', () => {
     await renderAndAudit(panel(), async () => {
       await screen.findByText('Algorithms, winter 2026');
       await screen.findByText('Lecture 1 — slides');
+    });
+  });
+
+  it('keeps assignments off the reading list; they have their own tab', async () => {
+    renderWithProviders(panel());
+
+    await screen.findByText('Lecture 1 — slides');
+    expect(screen.queryByText('Assignment 1 — sorting')).not.toBeInTheDocument();
+  });
+});
+
+describe('OfferingAssignmentsSection', () => {
+  const section = (viewerRole: 'student' | 'teacher' | 'administrator' = 'student') => (
+    <OfferingAssignmentsSection
+      institutionId={INSTITUTION}
+      offeringId={OFFERING}
+      viewerRole={viewerRole}
+    />
+  );
+
+  it('lists the course’s assignments', async () => {
+    await renderAndAudit(section(), async () => {
       await screen.findByText('Assignment 1 — sorting');
     });
+  });
+
+  it('points an author at the materials tab when the course page does not exist yet', async () => {
+    server.use(http.get(SPACES_URL, () => HttpResponse.json([])));
+    renderWithProviders(section('teacher'));
+
+    expect(await screen.findByText('No assignments yet.')).toBeInTheDocument();
+    expect(screen.getByText(/Open it on the Materials tab first/)).toBeInTheDocument();
   });
 });

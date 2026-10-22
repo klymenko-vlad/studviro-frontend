@@ -65,7 +65,7 @@ export function GradesTile({ institutionId }: { institutionId: string }) {
                 <TileLinkRow
                   key={result.id}
                   href={courseOfferingHref(institutionId, result.offering.id, {
-                    section: 'work',
+                    section: 'grades',
                   })}
                   code={result.course.code}
                   title={result.course.title}
