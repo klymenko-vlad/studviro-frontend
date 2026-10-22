@@ -44,7 +44,7 @@ describe('RecentActivityTile', () => {
 
     expect(
       await screen.findByRole('link', { name: 'Open the audit trail' }),
-    ).toHaveAttribute('href', `/institutions/${INSTITUTION}/audit`);
+    ).toHaveAttribute('href', `/institutions/${INSTITUTION}/settings?tab=audit`);
   });
 
   it('reports a failed read rather than an empty tile', async () => {

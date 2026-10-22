@@ -53,8 +53,9 @@ export function hrefFor(
     case 'person':
       return routes.people;
     case 'orgUnit':
-    case 'room':
       return routes.orgUnits;
+    case 'room':
+      return `${routes.orgUnits}?tab=rooms`;
     case 'course':
       return routes.catalogue;
   }

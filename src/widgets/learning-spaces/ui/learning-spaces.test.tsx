@@ -1,38 +1,19 @@
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
-import {
-  learningSpaces,
-  permissions,
-  renderWithProviders,
-  screen,
-  server,
-} from '@/shared/test';
+import { learningSpaces, renderWithProviders, screen, server } from '@/shared/test';
 
-import { InstitutionLearningView } from './institution-learning-view';
+import { LearningSpaces } from './learning-spaces';
 
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
-const PERMISSIONS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/permissions`;
 const SPACES_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/learning-spaces`;
 
-const render = () =>
-  renderWithProviders(<InstitutionLearningView institutionId={INSTITUTION} />);
+const render = () => renderWithProviders(<LearningSpaces institutionId={INSTITUTION} />);
 
-const holding = (held: string[]) => {
-  server.use(
-    http.get(PERMISSIONS_URL, () =>
-      HttpResponse.json({ ...permissions, roles: [], permissions: held }),
-    ),
-  );
-};
-
-describe('InstitutionLearningView', () => {
-  it('names the screen for somebody who administers course offerings', async () => {
+describe('LearningSpaces', () => {
+  it('lists the course pages with their course', async () => {
     render();
 
-    expect(
-      screen.getByRole('heading', { name: 'Course pages', level: 1 }),
-    ).toBeInTheDocument();
     expect(await screen.findAllByText('Algorithms and Data Structures')).toHaveLength(2);
     expect(screen.getByText('ALG/WS26')).toBeInTheDocument();
   });
@@ -89,22 +70,5 @@ describe('InstitutionLearningView', () => {
     expect(
       await screen.findByText('Course pages could not be loaded'),
     ).toBeInTheDocument();
-  });
-
-  it('refuses a student, who may read offerings but administers none', async () => {
-    holding(['offering:read', 'notification:read']);
-
-    render();
-
-    expect(await screen.findByText('This index is not yours to see')).toBeInTheDocument();
-    expect(screen.queryByRole('table')).not.toBeInTheDocument();
-  });
-
-  it('refuses somebody holding nothing at all', async () => {
-    holding([]);
-
-    render();
-
-    expect(await screen.findByText('This index is not yours to see')).toBeInTheDocument();
   });
 });

@@ -14,8 +14,10 @@ const PRIORITY: NavKey[] = [
   'calendar',
   'exams',
   'grades',
-  'catalogue',
+  'offer',
   'people',
+  'structure',
+  'settings',
 ];
 
 /**

@@ -25,17 +25,27 @@ describe('bottomTabs', () => {
     });
   });
 
-  it('gives an administrator the four that matter most, and More for the rest', () => {
+  it('gives an administrator home and their four hubs', () => {
     const groups: VisibleNavGroup[] = [
       { key: 'general', items: ['dashboard'] },
-      {
-        key: 'administration',
-        items: ['catalogue', 'people', 'roles', 'orgUnits', 'audit', 'settings'],
-      },
+      { key: 'administration', items: ['structure', 'offer', 'people', 'settings'] },
     ];
 
     expect(bottomTabs(groups)).toEqual({
-      tabs: ['dashboard', 'catalogue', 'people', 'roles'],
+      tabs: ['dashboard', 'structure', 'offer', 'people', 'settings'],
+      more: false,
+    });
+  });
+
+  it('keeps the four that matter most and puts the rest under More', () => {
+    const groups: VisibleNavGroup[] = [
+      general,
+      { key: 'teaching', items: ['teaching'] },
+      { key: 'administration', items: ['structure', 'offer', 'people', 'settings'] },
+    ];
+
+    expect(bottomTabs(groups)).toEqual({
+      tabs: ['dashboard', 'teaching', 'calendar', 'offer'],
       more: true,
     });
   });

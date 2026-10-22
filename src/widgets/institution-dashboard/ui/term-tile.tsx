@@ -109,7 +109,7 @@ export function TermTile({
 
         {canManageTerms ? (
           <Button asChild variant="outline" size="sm" className="self-start">
-            <Link href={institutionRoutes(institutionId).catalogue}>{t('link')}</Link>
+            <Link href={institutionRoutes(institutionId).terms}>{t('link')}</Link>
           </Button>
         ) : null}
       </CardContent>

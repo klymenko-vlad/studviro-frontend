@@ -57,7 +57,7 @@ describe('visibleNavGroups', () => {
   it('offers a registrar only the administration screens a registrar may open', () => {
     expect(groupsFor(['registrar'], REGISTRAR)).toContainEqual({
       key: 'administration',
-      items: ['people', 'orgUnits'],
+      items: ['structure', 'people'],
     });
   });
 

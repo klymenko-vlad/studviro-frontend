@@ -5,14 +5,10 @@ import {
   BookOpen,
   CalendarDays,
   ClipboardCheck,
-  ClipboardPaste,
-  KeyRound,
   LayoutDashboard,
-  Library,
   LibraryBig,
   Network,
   Presentation,
-  ScrollText,
   Settings,
   Users,
   type LucideIcon,
@@ -31,13 +27,9 @@ export const NAV_ICONS: Record<NavKey, LucideIcon> = {
   grades: Award,
   exams: ClipboardCheck,
   teaching: Presentation,
-  catalogue: Library,
-  bulk: ClipboardPaste,
-  learning: LibraryBig,
+  structure: Network,
+  offer: LibraryBig,
   people: Users,
-  orgUnits: Network,
-  roles: KeyRound,
-  audit: ScrollText,
   settings: Settings,
 };
 
@@ -48,12 +40,16 @@ export const NAV_ICONS: Record<NavKey, LucideIcon> = {
 export function currentNavKey(groups: VisibleNavGroup[], pathname: string, base: string) {
   const routes = institutionRoutes(base);
 
+  // A programme's page belongs to the teaching offer it is listed in.
+  const programmes = `${routes.dashboard}/programs`;
+
   return groups
     .flatMap(group => group.items)
     .find(key =>
       key === 'dashboard'
         ? pathname === routes.dashboard
-        : pathname.startsWith(routes[key]),
+        : pathname.startsWith(routes[key]) ||
+          (key === 'offer' && pathname.startsWith(programmes)),
     );
 }
 

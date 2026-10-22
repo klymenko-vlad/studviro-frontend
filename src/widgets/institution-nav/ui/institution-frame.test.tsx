@@ -73,10 +73,10 @@ describe('InstitutionFrame', () => {
     const administration = nav.getByRole('list', { name: 'Administration' });
 
     expect(
-      within(administration).getByRole('link', { name: 'Catalogue' }),
-    ).toHaveAttribute('href', `/institutions/${INSTITUTION}/catalogue`);
+      within(administration).getByRole('link', { name: 'Teaching offer' }),
+    ).toHaveAttribute('href', `/institutions/${INSTITUTION}/offer`);
     expect(
-      within(administration).getByRole('link', { name: 'Settings' }),
+      within(administration).getByRole('link', { name: 'Institution' }),
     ).toBeInTheDocument();
     expect(nav.queryByRole('list', { name: 'My studies' })).not.toBeInTheDocument();
   });
@@ -123,13 +123,14 @@ describe('InstitutionFrame', () => {
   });
 
   it('marks the open screen as current, and the dashboard only on itself', async () => {
-    pathname.value = `/institutions/${INSTITUTION}/catalogue`;
+    pathname.value = `/institutions/${INSTITUTION}/programs/some-programme`;
 
     renderFrame();
 
     const nav = await sidebar();
 
-    expect(nav.getByRole('link', { name: 'Catalogue' })).toHaveAttribute(
+    // A programme's page counts as the teaching offer it is listed in.
+    expect(nav.getByRole('link', { name: 'Teaching offer' })).toHaveAttribute(
       'aria-current',
       'page',
     );
@@ -143,7 +144,7 @@ describe('InstitutionFrame', () => {
     await user.click((await tabBar()).getByRole('button', { name: 'More' }));
 
     const sheet = await screen.findByRole('dialog', { name: 'Sections' });
-    await user.click(within(sheet).getByRole('link', { name: 'Catalogue' }));
+    await user.click(within(sheet).getByRole('link', { name: 'Teaching offer' }));
 
     expect(screen.queryByRole('dialog', { name: 'Sections' })).not.toBeInTheDocument();
   });

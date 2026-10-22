@@ -1,11 +1,12 @@
-import { InstitutionAuditView } from '@/views/institution-audit';
+import { institutionRoutes, redirect } from '@/shared/config';
 
-export default async function InstitutionAuditPage({
+/** This screen is a tab of an administration hub now; old links land there. */
+export default async function MovedPage({
   params,
 }: {
   params: Promise<{ institutionId: string }>;
 }) {
   const { institutionId } = await params;
 
-  return <InstitutionAuditView institutionId={institutionId} />;
+  redirect(institutionRoutes(institutionId).audit);
 }

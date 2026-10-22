@@ -20,7 +20,7 @@ describe('MyInstitutions', () => {
 
     expect(await screen.findByRole('link', { name: 'Manage roles' })).toHaveAttribute(
       'href',
-      `/institutions/${INSTITUTION}/roles`,
+      `/institutions/${INSTITUTION}/people?tab=roles`,
     );
   });
 

@@ -1,11 +1,12 @@
-import { InstitutionLearningView } from '@/views/institution-learning';
+import { institutionRoutes, redirect } from '@/shared/config';
 
-export default async function InstitutionLearningPage({
+/** This screen is a tab of an administration hub now; old links land there. */
+export default async function MovedPage({
   params,
 }: {
   params: Promise<{ institutionId: string }>;
 }) {
   const { institutionId } = await params;
 
-  return <InstitutionLearningView institutionId={institutionId} />;
+  redirect(institutionRoutes(institutionId).learning);
 }

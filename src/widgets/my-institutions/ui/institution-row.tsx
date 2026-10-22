@@ -44,7 +44,7 @@ export function InstitutionRow({ institution }: { institution: Institution }) {
 
         {can('role:assign') ? (
           <Button asChild variant="outline" size="sm">
-            <Link href={`/institutions/${institution.id}/roles`}>
+            <Link href={`/institutions/${institution.id}/people?tab=roles`}>
               {t('institutions.manageRoles')}
             </Link>
           </Button>

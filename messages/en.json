@@ -22,7 +22,7 @@
     "grades": "Grades",
     "calendar": "Calendar",
     "roles": "Roles",
-    "settings": "Settings",
+    "settings": "Institution",
     "exams": "Exams",
     "teaching": "My teaching",
     "notifications": "Notifications",
@@ -52,7 +52,9 @@
     "accountSettings": "Account settings",
     "openSearch": "Search this institution",
     "searchPlaceholder": "Search…",
-    "notificationsUnread": "Notifications, {count, plural, one {# unread} other {# unread}}"
+    "notificationsUnread": "Notifications, {count, plural, one {# unread} other {# unread}}",
+    "structure": "Structure",
+    "offer": "Teaching offer"
   },
   "home": {
     "title": "One academic platform your institution runs itself",
@@ -2388,5 +2390,45 @@
     "confirmBody": "The antivirus has not scanned this file yet. Open it only if you trust the person who uploaded it.",
     "downloadAnyway": "Download anyway",
     "cancel": "Cancel"
+  },
+  "hubs": {
+    "structure": {
+      "title": "Structure",
+      "subtitle": "How the institution is built: its units, rooms and terms.",
+      "tabs": {
+        "units": "Org units",
+        "rooms": "Rooms",
+        "terms": "Terms"
+      }
+    },
+    "offer": {
+      "title": "Teaching offer",
+      "subtitle": "What the institution teaches: programmes and courses, their offerings each term, and the course pages behind them.",
+      "deniedTitle": "Not available to you",
+      "deniedDescription": "Your role does not include reading the teaching offer.",
+      "tabs": {
+        "catalogue": "Programmes & courses",
+        "offerings": "Offerings",
+        "learning": "Course pages"
+      }
+    },
+    "people": {
+      "title": "People",
+      "subtitle": "Everyone in the institution, bringing someone new in, and what each person may do.",
+      "tabs": {
+        "directory": "Directory",
+        "invite": "Invite",
+        "roles": "Roles"
+      }
+    },
+    "institution": {
+      "title": "Institution",
+      "subtitle": "The institution’s own settings, entering data in bulk, and the record of what changed.",
+      "tabs": {
+        "settings": "Settings",
+        "bulk": "Bulk entry",
+        "audit": "Audit trail"
+      }
+    }
   }
 }
