@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import type * as SharedConfig from '@/shared/config';
 import {
   renderWithProviders,
   screen,
@@ -10,7 +11,18 @@ import {
   within,
 } from '@/shared/test';
 
+import { useRecentSearchStore } from '../model/recent-search-store';
 import { InstitutionSearch } from './institution-search';
+
+const search = vi.hoisted(() => ({ value: new URLSearchParams() }));
+const replace = vi.hoisted(() => vi.fn());
+
+vi.mock('@/shared/config', async importOriginal => ({
+  ...(await importOriginal<typeof SharedConfig>()),
+  useRouter: () => ({ replace, push: vi.fn(), refresh: vi.fn() }),
+  usePathname: () => '/institutions/x/search',
+  useSearchParams: () => search.value,
+}));
 
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const SEARCH = `/api/proxy/api/v1/institutions/${INSTITUTION}/search`;
@@ -23,6 +35,83 @@ const type = async (value: string) => {
 };
 
 describe('InstitutionSearch', () => {
+  beforeEach(() => {
+    search.value = new URLSearchParams();
+    replace.mockReset();
+    useRecentSearchStore.setState({ byInstitution: {} });
+  });
+
+  it('keeps the query in the address, so a search can be linked to', async () => {
+    render();
+    await type('al');
+
+    expect(replace).toHaveBeenLastCalledWith('/institutions/x/search?q=al', {
+      scroll: false,
+    });
+  });
+
+  it('opens on the search the address names', async () => {
+    search.value = new URLSearchParams('q=algorithms');
+    render();
+
+    expect(screen.getByLabelText('What are you looking for?')).toHaveValue('algorithms');
+    expect(
+      await screen.findByRole('heading', { name: 'Course pages' }),
+    ).toBeInTheDocument();
+  });
+
+  it('remembers a search that found something once a result is opened', async () => {
+    const { user } = render();
+    await type('algorithms');
+
+    const onOffer = await screen.findByRole('heading', { name: 'Course pages' });
+    await user.click(within(onOffer.parentElement!).getByRole('link'));
+
+    expect(useRecentSearchStore.getState().queriesFor(INSTITUTION)).toEqual([
+      'algorithms',
+    ]);
+  });
+
+  it('offers recent searches and opened results before anything is typed', async () => {
+    useRecentSearchStore.getState().remember(INSTITUTION, 'algo', {
+      key: 'offering-1',
+      title: 'Algorithms',
+      subtitle: 'INF/ALG',
+      context: null,
+      href: '/institutions/x/courses/1',
+    });
+
+    const { user } = render();
+
+    expect(
+      await screen.findByRole('heading', { name: 'Recent searches' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Algorithms/ })).toHaveAttribute(
+      'href',
+      '/institutions/x/courses/1',
+    );
+
+    await user.click(screen.getByRole('button', { name: 'algo' }));
+    expect(screen.getByLabelText('What are you looking for?')).toHaveValue('algo');
+  });
+
+  it('forgets the history on request', async () => {
+    useRecentSearchStore.getState().remember(INSTITUTION, 'algo', {
+      key: 'offering-1',
+      title: 'Algorithms',
+      subtitle: null,
+      context: null,
+      href: '/x',
+    });
+
+    const { user } = render();
+    await user.click(await screen.findByRole('button', { name: 'Clear history' }));
+
+    expect(
+      screen.queryByRole('heading', { name: 'Recent searches' }),
+    ).not.toBeInTheDocument();
+  });
+
   it('asks for nothing until the query is long enough', async () => {
     let asked = 0;
     server.use(
@@ -47,14 +136,14 @@ describe('InstitutionSearch', () => {
       .getAllByRole('heading', { level: 2 })
       .map(heading => heading.textContent);
 
-    expect(headings).toEqual(['On offer', 'Courses', 'Rooms']);
+    expect(headings).toEqual(['Course pages', 'Courses', 'Rooms']);
   });
 
   it('links a hit somewhere it can actually be opened', async () => {
     render();
     await type('algorithms');
 
-    const onOffer = await screen.findByRole('heading', { name: 'On offer' });
+    const onOffer = await screen.findByRole('heading', { name: 'Course pages' });
     const group = onOffer.parentElement!;
     const offering = within(group).getByRole('link');
 
