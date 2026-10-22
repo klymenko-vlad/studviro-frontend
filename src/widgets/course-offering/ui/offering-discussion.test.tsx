@@ -72,6 +72,13 @@ const renderDiscussion = () =>
   );
 
 describe('OfferingDiscussion', () => {
+  it('titles the panel with one heading, not a heading inside a heading', async () => {
+    const { container } = renderDiscussion();
+
+    await screen.findByRole('heading', { name: 'Discussion' });
+    expect(container.querySelector('h2 h2, h2 h3, h3 h2')).toBeNull();
+  });
+
   it('lists the threads with who started them and how many posts they have', async () => {
     search.value = 'section=discussion';
     server.use(
