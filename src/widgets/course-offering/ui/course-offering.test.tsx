@@ -205,6 +205,28 @@ describe('CourseOffering', () => {
     expect(screen.queryByText('Roster')).not.toBeInTheDocument();
   });
 
+  it('opens the discussion to a student in the course now', async () => {
+    render();
+
+    expect(await screen.findByRole('tab', { name: 'Discussion' })).toBeInTheDocument();
+  });
+
+  it('leaves the discussion out of a course the student has finished', async () => {
+    server.use(
+      http.get(OFFERING_URL, () =>
+        HttpResponse.json({
+          ...courseOffering,
+          enrollment: { ...courseOffering.enrollment!, status: 'completed' },
+        }),
+      ),
+    );
+
+    render();
+
+    expect(await screen.findByRole('tab', { name: 'Grades' })).toBeInTheDocument();
+    expect(screen.queryByRole('tab', { name: 'Discussion' })).not.toBeInTheDocument();
+  });
+
   it('offers a teacher the sections a student does not get', async () => {
     server.use(
       http.get(OFFERING_URL, () =>

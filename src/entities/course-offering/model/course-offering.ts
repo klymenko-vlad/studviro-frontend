@@ -16,6 +16,27 @@ export function authorsOffering(viewerRole: CourseOfferingViewerRole): boolean {
   return viewerRole === 'teacher' || viewerRole === 'administrator';
 }
 
+/** The server's `ENROLLMENT_PARTICIPATING_STATUSES`: in the course right now. */
+const IN_THE_COURSE: readonly NonNullable<CourseOffering['enrollment']>['status'][] = [
+  'provisioning',
+  'active',
+];
+
+/**
+ * Whether the course's discussion is open to this viewer (ADR 0040): its
+ * teachers and administrators, and the students in it now. A student whose
+ * course is finished still opens the page for their grades, but the
+ * conversation has ended for them and the server refuses it.
+ */
+export function takesPartInDiscussion(
+  offering: Pick<CourseOffering, 'viewerRole' | 'enrollment'>,
+): boolean {
+  if (authorsOffering(offering.viewerRole)) return true;
+  return (
+    offering.enrollment !== null && IN_THE_COURSE.includes(offering.enrollment.status)
+  );
+}
+
 export type OfferingSection =
   | 'overview'
   | 'materials'

@@ -3,6 +3,7 @@ export {
   authorsOffering,
   courseOfferingHref,
   offeringItemAnchor,
+  takesPartInDiscussion,
   teachersByPrecedence,
   type CourseOffering,
   type CourseOfferingStudyGroup,
