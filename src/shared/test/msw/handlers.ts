@@ -17,6 +17,7 @@ import type {
   InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
   LearningMaterialResponseDto,
+  LearningSectionResponseDto,
   LearningSpaceDto,
   LearningSpaceListResponseDto,
   MarkedSubmissionResponseDto,
@@ -930,6 +931,18 @@ export const offeringLearningSpace: LearningSpaceDto = {
   nextDueAt: '2026-10-01T21:00:00.000Z',
 };
 
+export const LEARNING_SECTION_ID = '5ec70001-0001-4001-8001-000000000001';
+
+export const learningSections: LearningSectionResponseDto[] = [
+  {
+    id: LEARNING_SECTION_ID,
+    title: 'Week 1 — sorting',
+    summary: 'Insertion sort, merge sort and why one beats the other.',
+    position: 0,
+    visible: true,
+  },
+];
+
 export const learningMaterials: LearningMaterialResponseDto[] = [
   {
     id: 'ba5e0001-0001-4001-8001-000000000001',
@@ -944,6 +957,7 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     position: 0,
     visible: true,
     scanStatus: 'clean',
+    sectionId: LEARNING_SECTION_ID,
   },
   {
     id: 'ba5e0001-0001-4001-8001-000000000002',
@@ -955,9 +969,10 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     filename: null,
     contentType: null,
     sizeBytes: null,
-    position: 1,
+    position: 0,
     visible: false,
     scanStatus: 'clean',
+    sectionId: null,
   },
   {
     id: 'ba5e0001-0001-4001-8001-000000000003',
@@ -969,9 +984,10 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     filename: null,
     contentType: null,
     sizeBytes: null,
-    position: 2,
+    position: 1,
     visible: true,
     scanStatus: 'clean',
+    sectionId: null,
   },
 ];
 
@@ -989,8 +1005,9 @@ export const offeringAssignments: AssignmentResponseDto[] = [
     allowsLateSubmission: true,
     maxPoints: 100,
     countsTowardFinalGrade: true,
-    position: 0,
+    position: 1,
     visible: true,
+    sectionId: LEARNING_SECTION_ID,
   },
 ];
 
@@ -1806,6 +1823,42 @@ export const handlers = [
       spaces: [{ ...offeringLearningSpace, offeringId }],
     } satisfies LearningSpaceListResponseDto);
   }),
+
+  http.get(`${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/sections`, () =>
+    HttpResponse.json(learningSections),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/sections`,
+    async ({ request }) => {
+      const body = (await request.json()) as Partial<LearningSectionResponseDto>;
+
+      return HttpResponse.json(
+        {
+          ...learningSections[0]!,
+          id: '5ec70001-0001-4001-8001-00000000000f',
+          summary: null,
+          position: 1,
+          ...body,
+        } satisfies LearningSectionResponseDto,
+        { status: 201 },
+      );
+    },
+  ),
+
+  http.patch(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/sections/:sectionId`,
+    async ({ request }) => {
+      const body = (await request.json()) as Partial<LearningSectionResponseDto>;
+
+      return HttpResponse.json({ ...learningSections[0]!, ...body });
+    },
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/sections/:sectionId`,
+    () => new HttpResponse(null, { status: 204 }),
+  ),
 
   http.get(
     `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/materials`,

@@ -215,9 +215,18 @@ const budgets = [
     // queries now also load on `/search`, so their schemas count twice in this
     // sum). Measured at **601.69 kB**. No dependency added. About 3 kB of
     // headroom: the next step that adds client code must make room first.
+    //
+    // Raised from 605 kB to 615 kB on 2026-10-22 at the product owner's request
+    // for course sections (Course Builder Plan CB1): the outline that replaces
+    // the flat materials list, section add/edit/move/hide/remove, per-item move
+    // and section picker, and their generated schemas. Measured at
+    // **608.45 kB**. The old list and its move buttons were deleted, not kept
+    // beside the outline, and the section picker is the native `Select`. No
+    // dependency added. The plan's quiz steps (CB6–CB8) will need room of their
+    // own; budget for them when they land, do not pre-spend it.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '605 kB',
+    limit: '615 kB',
     gzip: true,
   },
 ];

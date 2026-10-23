@@ -856,6 +856,33 @@ export type UpdateLearningSpaceDto = {
     visible?: boolean;
 };
 
+export type LearningSectionResponseDto = {
+    id: string;
+    title: string;
+    summary: string | null;
+    position: number;
+    visible: boolean;
+};
+
+export type CreateLearningSectionDto = {
+    title: string;
+    summary?: string | null;
+    /**
+     * Shown unless said otherwise.
+     */
+    visible?: boolean;
+};
+
+export type UpdateLearningSectionDto = {
+    title?: string;
+    summary?: string | null;
+    /**
+     * Shown unless said otherwise.
+     */
+    visible?: boolean;
+    position?: number;
+};
+
 export type LearningMaterialResponseDto = {
     id: string;
     kind: 'file' | 'link' | 'text';
@@ -872,6 +899,7 @@ export type LearningMaterialResponseDto = {
     scanStatus: 'unscanned' | 'pending' | 'clean' | 'infected';
     position: number;
     visible: boolean;
+    sectionId: string | null;
 };
 
 export type RequestUploadTicketDto = {
@@ -910,6 +938,10 @@ export type CreateLearningMaterialDto = {
     storageKey?: string | null;
     filename?: string | null;
     visible?: boolean;
+    /**
+     * The section it sits in; null for the general area at the top.
+     */
+    sectionId?: string | null;
 };
 
 export type UpdateLearningMaterialDto = {
@@ -929,6 +961,10 @@ export type UpdateLearningMaterialDto = {
     storageKey?: string | null;
     filename?: string | null;
     visible?: boolean;
+    /**
+     * The section it sits in; null for the general area at the top.
+     */
+    sectionId?: string | null;
     position?: number;
 };
 
@@ -954,6 +990,7 @@ export type AssignmentResponseDto = {
     countsTowardFinalGrade: boolean;
     position: number | null;
     visible: boolean;
+    sectionId: string | null;
 };
 
 export type CreateAssignmentDto = {
@@ -970,6 +1007,10 @@ export type CreateAssignmentDto = {
     maxPoints?: number | null;
     countsTowardFinalGrade?: boolean;
     visible?: boolean;
+    /**
+     * The section it sits in; null for the general area at the top.
+     */
+    sectionId?: string | null;
 };
 
 export type UpdateAssignmentDto = {
@@ -986,6 +1027,10 @@ export type UpdateAssignmentDto = {
     maxPoints?: number | null;
     countsTowardFinalGrade?: boolean;
     visible?: boolean;
+    /**
+     * The section it sits in; null for the general area at the top.
+     */
+    sectionId?: string | null;
     position?: number;
 };
 
@@ -4505,6 +4550,160 @@ export type UpdateLearningSpaceResponses = {
 };
 
 export type UpdateLearningSpaceResponse = UpdateLearningSpaceResponses[keyof UpdateLearningSpaceResponses];
+
+export type ListLearningSectionsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/sections';
+};
+
+export type ListLearningSectionsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListLearningSectionsError = ListLearningSectionsErrors[keyof ListLearningSectionsErrors];
+
+export type ListLearningSectionsResponses = {
+    200: Array<LearningSectionResponseDto>;
+};
+
+export type ListLearningSectionsResponse = ListLearningSectionsResponses[keyof ListLearningSectionsResponses];
+
+export type CreateLearningSectionData = {
+    body: CreateLearningSectionDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/sections';
+};
+
+export type CreateLearningSectionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateLearningSectionError = CreateLearningSectionErrors[keyof CreateLearningSectionErrors];
+
+export type CreateLearningSectionResponses = {
+    201: LearningSectionResponseDto;
+};
+
+export type CreateLearningSectionResponse = CreateLearningSectionResponses[keyof CreateLearningSectionResponses];
+
+export type RemoveLearningSectionData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        sectionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/sections/{sectionId}';
+};
+
+export type RemoveLearningSectionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveLearningSectionError = RemoveLearningSectionErrors[keyof RemoveLearningSectionErrors];
+
+export type RemoveLearningSectionResponses = {
+    204: void;
+};
+
+export type RemoveLearningSectionResponse = RemoveLearningSectionResponses[keyof RemoveLearningSectionResponses];
+
+export type UpdateLearningSectionData = {
+    body: UpdateLearningSectionDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        sectionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/sections/{sectionId}';
+};
+
+export type UpdateLearningSectionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateLearningSectionError = UpdateLearningSectionErrors[keyof UpdateLearningSectionErrors];
+
+export type UpdateLearningSectionResponses = {
+    200: LearningSectionResponseDto;
+};
+
+export type UpdateLearningSectionResponse = UpdateLearningSectionResponses[keyof UpdateLearningSectionResponses];
 
 export type ListLearningMaterialsData = {
     body?: never;

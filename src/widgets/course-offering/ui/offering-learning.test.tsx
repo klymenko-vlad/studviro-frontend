@@ -155,11 +155,15 @@ describe('OfferingLearning', () => {
     });
   });
 
-  it('keeps assignments off the reading list; they have their own tab', async () => {
+  it('places an assignment in the outline as a link, leaving its brief to its own tab', async () => {
     renderWithProviders(panel());
 
-    await screen.findByText('Lecture 1 — slides');
-    expect(screen.queryByText('Assignment 1 — sorting')).not.toBeInTheDocument();
+    expect(
+      await screen.findByRole('link', { name: 'Assignment 1 — sorting' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText('Implement and compare three sorts.'),
+    ).not.toBeInTheDocument();
   });
 });
 

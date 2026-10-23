@@ -41,9 +41,13 @@ import {
 export function MaterialForm({
   institutionId,
   spaceId,
+  sectionId = null,
+  onDone,
 }: {
   institutionId: string;
   spaceId: string;
+  sectionId?: string | null;
+  onDone?: () => void;
 }) {
   const t = useTranslations('materials');
   const queryClient = useQueryClient();
@@ -105,7 +109,7 @@ export function MaterialForm({
     try {
       await create.mutateAsync({
         path: { institutionId, spaceId },
-        body: toMaterialPayload(values, uploaded),
+        body: toMaterialPayload(values, uploaded, sectionId),
       });
     } catch (error) {
       setPercent(null);
@@ -118,6 +122,7 @@ export function MaterialForm({
     await queryClient.invalidateQueries({
       queryKey: learningMaterialQueries.listKey({ path: { institutionId, spaceId } }),
     });
+    onDone?.();
   });
 
   const pending = form.formState.isSubmitting || ticket.isPending || create.isPending;

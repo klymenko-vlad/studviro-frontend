@@ -5,7 +5,6 @@ export {
 export {
   kilobytes,
   MATERIAL_KINDS,
-  neighbour,
   type LearningMaterial,
   type MaterialKind,
 } from './model/learning-material';

@@ -40,6 +40,7 @@ export const EMPTY_MATERIAL: MaterialFormValues = {
 export function toMaterialPayload(
   values: MaterialFormValues,
   uploaded: { storageKey: string; filename: string } | null,
+  sectionId: string | null = null,
 ) {
   return {
     kind: values.kind,
@@ -50,5 +51,6 @@ export function toMaterialPayload(
     storageKey: uploaded?.storageKey ?? null,
     filename: uploaded?.filename ?? null,
     visible: values.visible,
+    sectionId,
   };
 }

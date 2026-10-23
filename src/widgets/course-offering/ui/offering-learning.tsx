@@ -22,7 +22,7 @@ import {
 } from '@/shared/ui';
 
 import { OfferingAssignments } from './offering-assignments';
-import { OfferingMaterials } from './offering-materials';
+import { OfferingOutline } from './offering-outline';
 
 /**
  * The course page. A space is authored per offering rather than derived from
@@ -104,8 +104,9 @@ export function OfferingLearning({
       </Card>
 
       {space === null ? null : (
-        <OfferingMaterials
+        <OfferingOutline
           institutionId={institutionId}
+          offeringId={offeringId}
           spaceId={space.id}
           viewerRole={viewerRole}
         />

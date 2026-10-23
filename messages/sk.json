@@ -1952,10 +1952,6 @@
     "openSpaceFirst": "Assignments live in the course page’s learning space. Open it on the Materials tab first."
   },
   "materials": {
-    "title": "Materiály",
-    "description": "Súbory, odkazy a poznámky v poradí, v akom ich študenti čítajú.",
-    "error": "Materiály sa nepodarilo načítať. Skúste to o chvíľu znova.",
-    "empty": "Zatiaľ žiadne materiály.",
     "formLabel": "Pridať materiál",
     "add": "Pridať materiál",
     "added": "Materiál bol pridaný",
@@ -1967,8 +1963,6 @@
     "show": "Zobraziť",
     "showNamed": "Zobraziť {title}",
     "hidden": "Skryté",
-    "moveUpNamed": "Posunúť {title} vyššie",
-    "moveDownNamed": "Posunúť {title} nižšie",
     "download": "Stiahnuť",
     "downloadNamed": "Stiahnuť {title}",
     "unnamedFile": "Súbor bez názvu",
@@ -1999,6 +1993,50 @@
       "description": "Jeden riadok o tom, čo to je.",
       "url": "https://example.edu/prednaska-1",
       "body": "Text, ktorý tu študenti prečítajú."
+    }
+  },
+  "outline": {
+    "general": "General",
+    "hidden": "Hidden",
+    "assignment": "Assignment",
+    "due": "Due {when}",
+    "noDueDate": "No due date",
+    "error": "The course content could not be loaded. Try again in a moment.",
+    "empty": "Nothing has been put on this course page yet.",
+    "emptySection": "Nothing here yet.",
+    "itemsOf": "In {title}",
+    "addMaterial": "Add material",
+    "addMaterialTo": "Add material to {title}",
+    "addAssignment": "Add assignment",
+    "addAssignmentTo": "Add assignment to {title}",
+    "cancel": "Cancel",
+    "addSection": "Add a section",
+    "addSectionDescription": "A week or a topic. Materials and assignments are placed inside it, in the order students work through them.",
+    "addSectionLabel": "Add a section",
+    "editSectionLabel": "Edit {title}",
+    "saveSection": "Save changes",
+    "sectionAdded": "Section added",
+    "sectionSaved": "Section saved",
+    "sectionRemoved": "{title} was removed. What it held is now under General.",
+    "moveUpNamed": "Move {title} up",
+    "moveDownNamed": "Move {title} down",
+    "sectionOfNamed": "Section for {title}",
+    "moved": "{title} was moved",
+    "edit": "Edit",
+    "editSectionNamed": "Edit {title}",
+    "hide": "Hide",
+    "show": "Show",
+    "hideSectionNamed": "Hide {title} and everything in it",
+    "showSectionNamed": "Show {title}",
+    "remove": "Remove",
+    "removeSectionNamed": "Remove {title}, keeping what it holds",
+    "field": {
+      "title": "Title",
+      "summary": "Summary"
+    },
+    "placeholder": {
+      "title": "Week 1: Processes",
+      "summary": "What this week covers, in a sentence."
     }
   },
   "assignments": {

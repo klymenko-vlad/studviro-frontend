@@ -40,11 +40,13 @@ export function AssignmentForm({
   institutionId,
   spaceId,
   assignment,
+  sectionId,
   onDone,
 }: {
   institutionId: string;
   spaceId: string;
   assignment?: Assignment;
+  sectionId?: string | null;
   onDone?: () => void;
 }) {
   const t = useTranslations('assignments');
@@ -106,7 +108,10 @@ export function AssignmentForm({
       return;
     }
 
-    create.mutate({ path: { institutionId, spaceId }, body });
+    create.mutate({
+      path: { institutionId, spaceId },
+      body: sectionId === undefined ? body : { ...body, sectionId },
+    });
   });
 
   const pending = form.formState.isSubmitting || create.isPending || update.isPending;

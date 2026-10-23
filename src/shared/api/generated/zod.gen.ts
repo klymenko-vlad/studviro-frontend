@@ -1117,6 +1117,27 @@ export const zUpdateLearningSpaceDto = z.object({
     visible: z.boolean().optional()
 });
 
+export const zLearningSectionResponseDto = z.object({
+    id: z.uuid(),
+    title: z.string(),
+    summary: z.string().nullable(),
+    position: z.number(),
+    visible: z.boolean()
+});
+
+export const zCreateLearningSectionDto = z.object({
+    title: z.string().min(1).max(200),
+    summary: z.string().max(4000).nullish(),
+    visible: z.boolean().optional()
+});
+
+export const zUpdateLearningSectionDto = z.object({
+    title: z.string().min(1).max(200).optional(),
+    summary: z.string().max(4000).nullish(),
+    visible: z.boolean().optional(),
+    position: z.number().gte(0).optional()
+});
+
 export const zLearningMaterialResponseDto = z.object({
     id: z.uuid(),
     kind: z.enum([
@@ -1138,7 +1159,8 @@ export const zLearningMaterialResponseDto = z.object({
         'infected'
     ]),
     position: z.number(),
-    visible: z.boolean()
+    visible: z.boolean(),
+    sectionId: z.uuid().nullable()
 });
 
 export const zRequestUploadTicketDto = z.object({
@@ -1166,7 +1188,8 @@ export const zCreateLearningMaterialDto = z.object({
     url: z.string().max(2048).nullish(),
     storageKey: z.string().max(1024).nullish(),
     filename: z.string().max(255).nullish(),
-    visible: z.boolean().optional()
+    visible: z.boolean().optional(),
+    sectionId: z.uuid().nullish()
 });
 
 export const zUpdateLearningMaterialDto = z.object({
@@ -1177,6 +1200,7 @@ export const zUpdateLearningMaterialDto = z.object({
     storageKey: z.string().max(1024).nullish(),
     filename: z.string().max(255).nullish(),
     visible: z.boolean().optional(),
+    sectionId: z.uuid().nullish(),
     position: z.number().gte(0).optional()
 });
 
@@ -1198,7 +1222,8 @@ export const zAssignmentResponseDto = z.object({
     maxPoints: z.number().nullable(),
     countsTowardFinalGrade: z.boolean(),
     position: z.number().nullable(),
-    visible: z.boolean()
+    visible: z.boolean(),
+    sectionId: z.uuid().nullable()
 });
 
 export const zCreateAssignmentDto = z.object({
@@ -1211,7 +1236,8 @@ export const zCreateAssignmentDto = z.object({
     allowsLateSubmission: z.boolean().optional(),
     maxPoints: z.number().gte(0).lte(100000).nullish(),
     countsTowardFinalGrade: z.boolean().optional(),
-    visible: z.boolean().optional()
+    visible: z.boolean().optional(),
+    sectionId: z.uuid().nullish()
 });
 
 export const zUpdateAssignmentDto = z.object({
@@ -1225,6 +1251,7 @@ export const zUpdateAssignmentDto = z.object({
     maxPoints: z.number().gte(0).lte(100000).nullish(),
     countsTowardFinalGrade: z.boolean().optional(),
     visible: z.boolean().optional(),
+    sectionId: z.uuid().nullish(),
     position: z.number().gte(0).optional()
 });
 
@@ -3178,6 +3205,40 @@ export const zUpdateLearningSpacePath = z.object({
 });
 
 export const zUpdateLearningSpaceResponse = zLearningSpaceDetailResponseDto;
+
+export const zListLearningSectionsPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zListLearningSectionsResponse = z.array(zLearningSectionResponseDto);
+
+export const zCreateLearningSectionBody = zCreateLearningSectionDto;
+
+export const zCreateLearningSectionPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zCreateLearningSectionResponse = zLearningSectionResponseDto;
+
+export const zRemoveLearningSectionPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    sectionId: z.string()
+});
+
+export const zRemoveLearningSectionResponse = z.void();
+
+export const zUpdateLearningSectionBody = zUpdateLearningSectionDto;
+
+export const zUpdateLearningSectionPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    sectionId: z.string()
+});
+
+export const zUpdateLearningSectionResponse = zLearningSectionResponseDto;
 
 export const zListLearningMaterialsPath = z.object({
     institutionId: z.string(),
