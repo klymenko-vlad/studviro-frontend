@@ -43,10 +43,14 @@ export function ProgramMembers({
   const format = useFormatter();
   const { can } = usePermissions(institutionId);
   const manageable = can('program:manage');
+  const readable = can('role:read');
 
-  const members = useQuery(
-    programMemberQueries.list({ path: { institutionId, programId } }),
-  );
+  const members = useQuery({
+    ...programMemberQueries.list({ path: { institutionId, programId } }),
+    enabled: readable,
+  });
+
+  if (!readable) return null;
 
   return (
     <Card>
