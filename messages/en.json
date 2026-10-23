@@ -2039,6 +2039,27 @@
       "summary": "What this week covers, in a sentence."
     }
   },
+  "availability": {
+    "legend": "Availability",
+    "field": {
+      "availableFrom": "Available from",
+      "availableUntil": "Available until",
+      "hiddenUntilAvailable": "Hide it completely until then",
+      "hint": "Leave both empty to show it as soon as it is visible. Before it opens, students see only the title and when it opens."
+    },
+    "badge": {
+      "scheduled": "Opens {when}",
+      "scheduledHidden": "Hidden until {when}",
+      "ended": "Ended {when}",
+      "until": "Until {when}"
+    },
+    "opensOn": "Opens on {when}",
+    "availableUntil": "Available until {when}",
+    "edit": "Availability",
+    "editNamed": "Availability of {title}",
+    "save": "Save availability",
+    "saved": "Availability saved"
+  },
   "assignments": {
     "title": "Assignments",
     "description": "What students hand in, when it is due and how many attempts they get.",

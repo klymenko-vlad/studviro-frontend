@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { OutlineItemActions, type OutlineGroup } from '@/features/arrange-outline';
+import type { OutlineGroup } from '@/features/arrange-outline';
 import { AssignmentForm } from '@/features/manage-assignments';
-import { MaterialActions, MaterialForm } from '@/features/manage-materials';
+import { MaterialForm } from '@/features/manage-materials';
 import { SectionActions, SectionForm } from '@/features/manage-sections';
+import { AvailabilityNote } from '@/entities/availability';
 import type { LearningSection } from '@/entities/learning-section';
 import {
   Badge,
@@ -18,8 +19,7 @@ import {
   CardTitle,
 } from '@/shared/ui';
 
-import { OutlineAssignment } from './outline-assignment';
-import { OutlineMaterial } from './outline-material';
+import { OutlineEntryItem } from './outline-entry';
 
 type Adding = 'material' | 'assignment' | 'edit' | null;
 
@@ -57,6 +57,9 @@ export function OutlineGroupCard({
           {section !== null && !section.visible ? (
             <Badge variant="outline">{t('hidden')}</Badge>
           ) : null}
+          {section !== null && manageable ? (
+            <AvailabilityNote item={section} audience="author" />
+          ) : null}
           {manageable && section !== null ? (
             <SectionActions
               institutionId={institutionId}
@@ -70,6 +73,9 @@ export function OutlineGroupCard({
           ) : null}
         </div>
         {section?.summary ? <CardDescription>{section.summary}</CardDescription> : null}
+        {section !== null && !manageable ? (
+          <AvailabilityNote item={section} audience="student" />
+        ) : null}
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
@@ -83,50 +89,24 @@ export function OutlineGroupCard({
         ) : null}
 
         {entries.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('emptySection')}</p>
+          section?.availability === 'scheduled' && !manageable ? null : (
+            <p className="text-muted-foreground text-sm">{t('emptySection')}</p>
+          )
         ) : (
           <ul className="flex flex-col gap-4" aria-label={t('itemsOf', { title })}>
-            {entries.map(entry => {
-              const actions = manageable ? (
-                <>
-                  <OutlineItemActions
-                    institutionId={institutionId}
-                    spaceId={spaceId}
-                    entry={entry}
-                    entries={entries}
-                    sectionId={section?.id ?? null}
-                    sections={sections}
-                  />
-                  {entry.kind === 'material' ? (
-                    <MaterialActions
-                      institutionId={institutionId}
-                      spaceId={spaceId}
-                      material={entry.material}
-                    />
-                  ) : null}
-                </>
-              ) : null;
-
-              return (
-                <li key={entry.id} className="flex flex-col gap-2">
-                  {entry.kind === 'material' ? (
-                    <OutlineMaterial
-                      institutionId={institutionId}
-                      spaceId={spaceId}
-                      material={entry.material}
-                      actions={actions}
-                    />
-                  ) : (
-                    <OutlineAssignment
-                      institutionId={institutionId}
-                      offeringId={offeringId}
-                      assignment={entry.assignment}
-                      actions={actions}
-                    />
-                  )}
-                </li>
-              );
-            })}
+            {entries.map(entry => (
+              <OutlineEntryItem
+                key={entry.id}
+                institutionId={institutionId}
+                offeringId={offeringId}
+                spaceId={spaceId}
+                entry={entry}
+                entries={entries}
+                sectionId={section?.id ?? null}
+                sections={sections}
+                manageable={manageable}
+              />
+            ))}
           </ul>
         )}
 

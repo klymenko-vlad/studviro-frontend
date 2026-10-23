@@ -1118,6 +1118,14 @@ export const zUpdateLearningSpaceDto = z.object({
 });
 
 export const zLearningSectionResponseDto = z.object({
+    availableFrom: z.iso.datetime().nullable(),
+    availableUntil: z.iso.datetime().nullable(),
+    hiddenUntilAvailable: z.boolean(),
+    availability: z.enum([
+        'open',
+        'scheduled',
+        'ended'
+    ]),
     id: z.uuid(),
     title: z.string(),
     summary: z.string().nullable(),
@@ -1126,12 +1134,18 @@ export const zLearningSectionResponseDto = z.object({
 });
 
 export const zCreateLearningSectionDto = z.object({
+    availableFrom: z.iso.datetime().nullish(),
+    availableUntil: z.iso.datetime().nullish(),
+    hiddenUntilAvailable: z.boolean().optional(),
     title: z.string().min(1).max(200),
     summary: z.string().max(4000).nullish(),
     visible: z.boolean().optional()
 });
 
 export const zUpdateLearningSectionDto = z.object({
+    availableFrom: z.iso.datetime().nullish(),
+    availableUntil: z.iso.datetime().nullish(),
+    hiddenUntilAvailable: z.boolean().optional(),
     title: z.string().min(1).max(200).optional(),
     summary: z.string().max(4000).nullish(),
     visible: z.boolean().optional(),
@@ -1139,6 +1153,14 @@ export const zUpdateLearningSectionDto = z.object({
 });
 
 export const zLearningMaterialResponseDto = z.object({
+    availableFrom: z.iso.datetime().nullable(),
+    availableUntil: z.iso.datetime().nullable(),
+    hiddenUntilAvailable: z.boolean(),
+    availability: z.enum([
+        'open',
+        'scheduled',
+        'ended'
+    ]),
     id: z.uuid(),
     kind: z.enum([
         'file',
@@ -1177,6 +1199,9 @@ export const zUploadTicketResponseDto = z.object({
 });
 
 export const zCreateLearningMaterialDto = z.object({
+    availableFrom: z.iso.datetime().nullish(),
+    availableUntil: z.iso.datetime().nullish(),
+    hiddenUntilAvailable: z.boolean().optional(),
     kind: z.enum([
         'file',
         'link',
@@ -1193,6 +1218,9 @@ export const zCreateLearningMaterialDto = z.object({
 });
 
 export const zUpdateLearningMaterialDto = z.object({
+    availableFrom: z.iso.datetime().nullish(),
+    availableUntil: z.iso.datetime().nullish(),
+    hiddenUntilAvailable: z.boolean().optional(),
     title: z.string().min(1).max(200).optional(),
     description: z.string().max(2000).nullish(),
     body: z.string().max(20000).nullish(),
@@ -1209,6 +1237,14 @@ export const zDownloadUrlResponseDto = z.object({
 });
 
 export const zAssignmentResponseDto = z.object({
+    availableFrom: z.iso.datetime().nullable(),
+    availableUntil: z.iso.datetime().nullable(),
+    hiddenUntilAvailable: z.boolean(),
+    availability: z.enum([
+        'open',
+        'scheduled',
+        'ended'
+    ]),
     id: z.uuid(),
     learningSpaceId: z.uuid(),
     assessmentId: z.uuid(),
@@ -1227,6 +1263,9 @@ export const zAssignmentResponseDto = z.object({
 });
 
 export const zCreateAssignmentDto = z.object({
+    availableFrom: z.iso.datetime().nullish(),
+    availableUntil: z.iso.datetime().nullish(),
+    hiddenUntilAvailable: z.boolean().optional(),
     name: z.string().min(1).max(200),
     brief: z.string().max(20000).nullish(),
     opensAt: z.iso.datetime().nullish(),
@@ -1241,6 +1280,9 @@ export const zCreateAssignmentDto = z.object({
 });
 
 export const zUpdateAssignmentDto = z.object({
+    availableFrom: z.iso.datetime().nullish(),
+    availableUntil: z.iso.datetime().nullish(),
+    hiddenUntilAvailable: z.boolean().optional(),
     name: z.string().min(1).max(200).optional(),
     brief: z.string().max(20000).nullish(),
     opensAt: z.iso.datetime().nullish(),

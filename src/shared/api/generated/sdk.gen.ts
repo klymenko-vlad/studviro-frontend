@@ -2062,7 +2062,7 @@ export class Learning {
     /**
      * The sections of a course page, in order
      *
-     * A hidden section is omitted for anybody who cannot unhide it, and so is everything placed in it.
+     * A hidden or ended section is omitted for anybody who cannot unhide it, and so is everything placed in it. One that has not opened yet shows only its title, unless it is hidden until then.
      */
     public static listLearningSections<ThrowOnError extends boolean = false>(options: Options<ListLearningSectionsData, ThrowOnError>): RequestResult<ListLearningSectionsResponses, ListLearningSectionsErrors, ThrowOnError> {
         return (options.client ?? client).get<ListLearningSectionsResponses, ListLearningSectionsErrors, ThrowOnError>({
@@ -2142,7 +2142,7 @@ export class Learning {
     /**
      * The files, links and notes on a course page, in order
      *
-     * A hidden material is omitted for anybody who cannot unhide it.
+     * A hidden or ended material is omitted for anybody who cannot unhide it. One that has not opened yet shows only its title, unless it is hidden until then.
      */
     public static listLearningMaterials<ThrowOnError extends boolean = false>(options: Options<ListLearningMaterialsData, ThrowOnError>): RequestResult<ListLearningMaterialsResponses, ListLearningMaterialsErrors, ThrowOnError> {
         return (options.client ?? client).get<ListLearningMaterialsResponses, ListLearningMaterialsErrors, ThrowOnError>({

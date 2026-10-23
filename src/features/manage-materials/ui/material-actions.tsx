@@ -27,12 +27,17 @@ export function MaterialActions({
   institutionId,
   spaceId,
   material,
+  scheduling,
+  onSchedule,
 }: {
   institutionId: string;
   spaceId: string;
   material: LearningMaterial;
+  scheduling: boolean;
+  onSchedule: () => void;
 }) {
   const t = useTranslations('materials');
+  const tAvailability = useTranslations('availability');
   const refresh = useMaterialList(institutionId, spaceId);
 
   const update = useMutation({
@@ -57,6 +62,17 @@ export function MaterialActions({
 
   return (
     <div className="flex flex-wrap items-center gap-1">
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        aria-expanded={scheduling}
+        aria-label={tAvailability('editNamed', { title: material.title })}
+        onClick={onSchedule}
+      >
+        {tAvailability('edit')}
+      </Button>
+
       <Button
         type="button"
         variant="ghost"

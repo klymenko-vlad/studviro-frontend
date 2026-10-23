@@ -148,6 +148,51 @@ describe('OfferingAssignments', () => {
     expect(await screen.findByText('Your submission')).toBeInTheDocument();
   });
 
+  it('shows a student only the name and opening date of an assignment that opens later', async () => {
+    grant(['offering:read']);
+    server.use(
+      http.get(ASSIGNMENTS_URL, () =>
+        HttpResponse.json([
+          {
+            ...offeringAssignments[0]!,
+            availability: 'scheduled',
+            availableFrom: '2026-11-16T07:00:00.000Z',
+            brief: null,
+            opensAt: null,
+            dueAt: null,
+            closesAt: null,
+          },
+        ]),
+      ),
+    );
+
+    render('student');
+
+    expect(await screen.findByText('Assignment 1 — sorting')).toBeInTheDocument();
+    expect(screen.getByText('Opens on November 16 at 09:00')).toBeInTheDocument();
+    expect(screen.queryByText('Your submission')).not.toBeInTheDocument();
+    expect(screen.queryByText('2 attempts')).not.toBeInTheDocument();
+  });
+
+  it('badges an assignment that opens later for its teacher, with everything else intact', async () => {
+    server.use(
+      http.get(ASSIGNMENTS_URL, () =>
+        HttpResponse.json([
+          {
+            ...offeringAssignments[0]!,
+            availability: 'scheduled',
+            availableFrom: '2026-11-16T07:00:00.000Z',
+          },
+        ]),
+      ),
+    );
+
+    render('teacher');
+
+    expect(await screen.findByText('Opens November 16 at 09:00')).toBeInTheDocument();
+    expect(screen.getByText('Implement and compare three sorts.')).toBeInTheDocument();
+  });
+
   it('never shows a student anybody else’s submission', async () => {
     grant(['offering:read']);
 

@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { useFormatter, useTimeZone, useTranslations } from 'next-intl';
 
 import type { Assignment } from '@/entities/assignment';
+import { AvailabilityNote } from '@/entities/availability';
 import { courseOfferingHref } from '@/entities/course-offering';
 import { Link } from '@/shared/config';
 import { Badge } from '@/shared/ui';
@@ -12,16 +13,30 @@ export function OutlineAssignment({
   institutionId,
   offeringId,
   assignment,
+  manageable,
   actions,
 }: {
   institutionId: string;
   offeringId: string;
   assignment: Assignment;
+  manageable: boolean;
   actions: ReactNode;
 }) {
   const t = useTranslations('outline');
   const format = useFormatter();
   const timeZone = useTimeZone() ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  if (!manageable && assignment.availability === 'scheduled') {
+    return (
+      <>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="font-medium">{assignment.name}</span>
+          <Badge variant="secondary">{t('assignment')}</Badge>
+        </div>
+        <AvailabilityNote item={assignment} audience="student" />
+      </>
+    );
+  }
 
   return (
     <>
@@ -37,6 +52,7 @@ export function OutlineAssignment({
         </Link>
         <Badge variant="secondary">{t('assignment')}</Badge>
         {assignment.visible ? null : <Badge variant="outline">{t('hidden')}</Badge>}
+        {manageable ? <AvailabilityNote item={assignment} audience="author" /> : null}
         {actions}
       </div>
       <p className="text-muted-foreground text-sm">
@@ -53,6 +69,7 @@ export function OutlineAssignment({
               }),
             })}
       </p>
+      {manageable ? null : <AvailabilityNote item={assignment} audience="student" />}
     </>
   );
 }

@@ -933,6 +933,13 @@ export const offeringLearningSpace: LearningSpaceDto = {
 
 export const LEARNING_SECTION_ID = '5ec70001-0001-4001-8001-000000000001';
 
+export const ALWAYS_AVAILABLE = {
+  availableFrom: null,
+  availableUntil: null,
+  hiddenUntilAvailable: false,
+  availability: 'open',
+} as const;
+
 export const learningSections: LearningSectionResponseDto[] = [
   {
     id: LEARNING_SECTION_ID,
@@ -940,6 +947,7 @@ export const learningSections: LearningSectionResponseDto[] = [
     summary: 'Insertion sort, merge sort and why one beats the other.',
     position: 0,
     visible: true,
+    ...ALWAYS_AVAILABLE,
   },
 ];
 
@@ -958,6 +966,7 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     visible: true,
     scanStatus: 'clean',
     sectionId: LEARNING_SECTION_ID,
+    ...ALWAYS_AVAILABLE,
   },
   {
     id: 'ba5e0001-0001-4001-8001-000000000002',
@@ -973,6 +982,7 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     visible: false,
     scanStatus: 'clean',
     sectionId: null,
+    ...ALWAYS_AVAILABLE,
   },
   {
     id: 'ba5e0001-0001-4001-8001-000000000003',
@@ -988,6 +998,7 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     visible: true,
     scanStatus: 'clean',
     sectionId: null,
+    ...ALWAYS_AVAILABLE,
   },
 ];
 
@@ -1008,6 +1019,7 @@ export const offeringAssignments: AssignmentResponseDto[] = [
     position: 1,
     visible: true,
     sectionId: LEARNING_SECTION_ID,
+    ...ALWAYS_AVAILABLE,
   },
 ];
 

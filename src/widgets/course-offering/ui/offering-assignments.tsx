@@ -6,6 +6,7 @@ import { useFormatter, useTimeZone, useTranslations } from 'next-intl';
 
 import { AssignmentActions, AssignmentForm } from '@/features/manage-assignments';
 import { assignmentQueries, type Assignment } from '@/entities/assignment';
+import { AvailabilityNote } from '@/entities/availability';
 import { authorsOffering, offeringItemAnchor } from '@/entities/course-offering';
 import { usePermissions } from '@/entities/permission';
 import type { CourseOfferingResponseDto } from '@/shared/api';
@@ -95,77 +96,92 @@ export function OfferingAssignments({
                 tabIndex={-1}
                 className={cn('flex flex-col gap-3', revealTargetClassName)}
               >
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-medium">{assignment.name}</span>
-                  {assignment.visible ? null : (
-                    <Badge variant="outline">{t('hidden')}</Badge>
-                  )}
-                  {assignment.allowsLateSubmission ? (
-                    <Badge variant="secondary">{t('lateAllowed')}</Badge>
-                  ) : null}
-                  <Badge variant="outline">
-                    {assignment.maxAttempts === null
-                      ? t('attemptsUnlimited')
-                      : t('attempts', { count: assignment.maxAttempts })}
-                  </Badge>
-                  {assignment.maxPoints === null ? null : (
-                    <Badge variant="outline">
-                      {t('points', { maxPoints: assignment.maxPoints })}
-                    </Badge>
-                  )}
-                </div>
+                {!manageable && assignment.availability === 'scheduled' ? (
+                  <>
+                    <span className="font-medium">{assignment.name}</span>
+                    <AvailabilityNote item={assignment} audience="student" />
+                  </>
+                ) : (
+                  <>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-medium">{assignment.name}</span>
+                      {assignment.visible ? null : (
+                        <Badge variant="outline">{t('hidden')}</Badge>
+                      )}
+                      {manageable ? (
+                        <AvailabilityNote item={assignment} audience="author" />
+                      ) : null}
+                      {assignment.allowsLateSubmission ? (
+                        <Badge variant="secondary">{t('lateAllowed')}</Badge>
+                      ) : null}
+                      <Badge variant="outline">
+                        {assignment.maxAttempts === null
+                          ? t('attemptsUnlimited')
+                          : t('attempts', { count: assignment.maxAttempts })}
+                      </Badge>
+                      {assignment.maxPoints === null ? null : (
+                        <Badge variant="outline">
+                          {t('points', { maxPoints: assignment.maxPoints })}
+                        </Badge>
+                      )}
+                    </div>
 
-                <p className="text-muted-foreground text-sm">{window(assignment)}</p>
+                    <p className="text-muted-foreground text-sm">{window(assignment)}</p>
+                    {manageable ? null : (
+                      <AvailabilityNote item={assignment} audience="student" />
+                    )}
 
-                {assignment.brief === null ? null : (
-                  <p className="text-sm whitespace-pre-line">{assignment.brief}</p>
+                    {assignment.brief === null ? null : (
+                      <p className="text-sm whitespace-pre-line">{assignment.brief}</p>
+                    )}
+
+                    {manageable ? (
+                      <div className="flex flex-wrap items-center gap-1">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          aria-label={t('editNamed', { name: assignment.name })}
+                          onClick={() => {
+                            setEditing(current =>
+                              current === assignment.id ? null : assignment.id,
+                            );
+                          }}
+                        >
+                          {editing === assignment.id ? t('cancelEdit') : t('edit')}
+                        </Button>
+                        <AssignmentActions
+                          institutionId={institutionId}
+                          spaceId={spaceId}
+                          assignment={assignment}
+                        />
+                      </div>
+                    ) : null}
+
+                    {manageable && editing === assignment.id ? (
+                      <AssignmentForm
+                        institutionId={institutionId}
+                        spaceId={spaceId}
+                        assignment={assignment}
+                        onDone={() => {
+                          setEditing(null);
+                        }}
+                      />
+                    ) : null}
+
+                    {viewerRole === 'student' ? (
+                      <OfferingSubmission
+                        institutionId={institutionId}
+                        assignment={assignment}
+                      />
+                    ) : marker ? (
+                      <OfferingMarking
+                        institutionId={institutionId}
+                        assignment={assignment}
+                      />
+                    ) : null}
+                  </>
                 )}
-
-                {manageable ? (
-                  <div className="flex flex-wrap items-center gap-1">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      aria-label={t('editNamed', { name: assignment.name })}
-                      onClick={() => {
-                        setEditing(current =>
-                          current === assignment.id ? null : assignment.id,
-                        );
-                      }}
-                    >
-                      {editing === assignment.id ? t('cancelEdit') : t('edit')}
-                    </Button>
-                    <AssignmentActions
-                      institutionId={institutionId}
-                      spaceId={spaceId}
-                      assignment={assignment}
-                    />
-                  </div>
-                ) : null}
-
-                {manageable && editing === assignment.id ? (
-                  <AssignmentForm
-                    institutionId={institutionId}
-                    spaceId={spaceId}
-                    assignment={assignment}
-                    onDone={() => {
-                      setEditing(null);
-                    }}
-                  />
-                ) : null}
-
-                {viewerRole === 'student' ? (
-                  <OfferingSubmission
-                    institutionId={institutionId}
-                    assignment={assignment}
-                  />
-                ) : marker ? (
-                  <OfferingMarking
-                    institutionId={institutionId}
-                    assignment={assignment}
-                  />
-                ) : null}
               </li>
             ))}
           </ul>

@@ -3,16 +3,18 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTimeZone, useTranslations } from 'next-intl';
 import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { AvailabilityFields } from '@/entities/availability';
 import {
   learningMaterialMutations,
   learningMaterialQueries,
   MATERIAL_KINDS,
 } from '@/entities/learning-material';
 import { toApiError, uploadViaTicket, useUploadErrorMessage } from '@/shared/api';
+import { DEFAULT_TIME_ZONE } from '@/shared/config';
 import { useZodResolver } from '@/shared/lib';
 import {
   Button,
@@ -50,6 +52,7 @@ export function MaterialForm({
   onDone?: () => void;
 }) {
   const t = useTranslations('materials');
+  const timeZone = useTimeZone() ?? DEFAULT_TIME_ZONE;
   const queryClient = useQueryClient();
   const describeUploadError = useUploadErrorMessage();
   const [file, setFile] = useState<File | null>(null);
@@ -109,7 +112,7 @@ export function MaterialForm({
     try {
       await create.mutateAsync({
         path: { institutionId, spaceId },
-        body: toMaterialPayload(values, uploaded, sectionId),
+        body: toMaterialPayload(values, uploaded, timeZone, sectionId),
       });
     } catch (error) {
       setPercent(null);
@@ -248,6 +251,8 @@ export function MaterialForm({
         {percent === null ? null : (
           <Progress value={percent} aria-label={t('upload.progressLabel')} />
         )}
+
+        <AvailabilityFields />
 
         <FormField
           control={form.control}

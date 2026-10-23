@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { MaterialDownload } from '@/features/manage-materials';
+import { AvailabilityNote } from '@/entities/availability';
 import { kilobytes, type LearningMaterial } from '@/entities/learning-material';
 import { Badge } from '@/shared/ui';
 
@@ -11,14 +12,17 @@ export function OutlineMaterial({
   institutionId,
   spaceId,
   material,
+  manageable,
   actions,
 }: {
   institutionId: string;
   spaceId: string;
   material: LearningMaterial;
+  manageable: boolean;
   actions: ReactNode;
 }) {
   const t = useTranslations('materials');
+  const titleOnly = !manageable && material.availability === 'scheduled';
 
   return (
     <>
@@ -26,8 +30,11 @@ export function OutlineMaterial({
         <span className="font-medium">{material.title}</span>
         <Badge variant="secondary">{t(`kind.${material.kind}`)}</Badge>
         {material.visible ? null : <Badge variant="outline">{t('hidden')}</Badge>}
+        {manageable ? <AvailabilityNote item={material} audience="author" /> : null}
         {actions}
       </div>
+
+      {manageable ? null : <AvailabilityNote item={material} audience="student" />}
 
       {material.description === null ? null : (
         <p className="text-muted-foreground text-sm">{material.description}</p>
@@ -48,7 +55,7 @@ export function OutlineMaterial({
         </a>
       ) : null}
 
-      {material.kind === 'file' ? (
+      {material.kind === 'file' && !titleOnly ? (
         <div className="flex flex-wrap items-center gap-2 text-sm">
           <span className="text-muted-foreground">
             {material.filename ?? t('unnamedFile')}

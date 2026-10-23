@@ -1,8 +1,16 @@
 import { z } from 'zod';
 
 import type { Assignment } from '@/entities/assignment';
+import {
+  AVAILABILITY_ORDER_ISSUE,
+  availabilityFormShape,
+  availabilityInOrder,
+  EMPTY_AVAILABILITY,
+  toAvailabilityPayload,
+  toAvailabilityValues,
+} from '@/entities/availability';
 import { apiSchemas } from '@/shared/api';
-import { toWallTime, wallTimeToInstant } from '@/shared/lib';
+import { fromLocalInput, toLocalInput } from '@/shared/lib';
 
 const moment = z.union([
   z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/u, 'Use a date and a time'),
@@ -26,7 +34,9 @@ export const assignmentFormSchema = z
     maxPoints: z.string().regex(/^\d*$/u, 'Use a whole number of points'),
     countsTowardFinalGrade: z.boolean(),
     visible: z.boolean(),
+    ...availabilityFormShape,
   })
+  .refine(availabilityInOrder, AVAILABILITY_ORDER_ISSUE)
   .refine(
     values =>
       values.opensAt === '' || values.dueAt === '' || values.dueAt >= values.opensAt,
@@ -62,21 +72,8 @@ export const EMPTY_ASSIGNMENT: AssignmentFormValues = {
   maxPoints: '',
   countsTowardFinalGrade: true,
   visible: false,
+  ...EMPTY_AVAILABILITY,
 };
-
-function toLocalInput(iso: string | null, timeZone: string): string {
-  if (iso === null) return '';
-  const { date, time } = toWallTime(iso, timeZone);
-
-  return `${date}T${time}`;
-}
-
-function toInstant(value: string, timeZone: string): string | null {
-  if (value === '') return null;
-  const [date = '', time = ''] = value.split('T');
-
-  return wallTimeToInstant(date, time.slice(0, 5), timeZone);
-}
 
 export function toFormValues(
   assignment: Assignment,
@@ -93,6 +90,7 @@ export function toFormValues(
     maxPoints: assignment.maxPoints === null ? '' : String(assignment.maxPoints),
     countsTowardFinalGrade: assignment.countsTowardFinalGrade,
     visible: assignment.visible,
+    ...toAvailabilityValues(assignment, timeZone),
   };
 }
 
@@ -100,13 +98,14 @@ export function toAssignmentPayload(values: AssignmentFormValues, timeZone: stri
   return {
     name: values.name,
     brief: values.brief === '' ? null : values.brief,
-    opensAt: toInstant(values.opensAt, timeZone),
-    dueAt: toInstant(values.dueAt, timeZone),
-    closesAt: toInstant(values.closesAt, timeZone),
+    opensAt: fromLocalInput(values.opensAt, timeZone),
+    dueAt: fromLocalInput(values.dueAt, timeZone),
+    closesAt: fromLocalInput(values.closesAt, timeZone),
     maxAttempts: values.maxAttempts === '' ? null : Number(values.maxAttempts),
     allowsLateSubmission: values.allowsLateSubmission,
     maxPoints: values.maxPoints === '' ? null : Number(values.maxPoints),
     countsTowardFinalGrade: values.countsTowardFinalGrade,
     visible: values.visible,
+    ...toAvailabilityPayload(values, timeZone),
   };
 }

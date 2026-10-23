@@ -11,6 +11,7 @@ import {
   assignmentQueries,
   type Assignment,
 } from '@/entities/assignment';
+import { AvailabilityFields } from '@/entities/availability';
 import { toApiError } from '@/shared/api';
 import { DEFAULT_TIME_ZONE } from '@/shared/config';
 import { useZodResolver } from '@/shared/lib';
@@ -174,6 +175,8 @@ export function AssignmentForm({
             />
           ))}
         </div>
+
+        <AvailabilityFields />
 
         <div className="grid gap-4 sm:grid-cols-2">
           <FormField

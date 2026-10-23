@@ -1,3 +1,4 @@
+export { fromLocalInput, toLocalInput } from './time/local-input';
 export { toWallTime, wallTimeToInstant, type WallTime } from './time/zoned-time';
 export { cn } from './utils/cn';
 export { swapPositions } from './utils/swap-positions';

@@ -857,6 +857,13 @@ export type UpdateLearningSpaceDto = {
 };
 
 export type LearningSectionResponseDto = {
+    availableFrom: string | null;
+    availableUntil: string | null;
+    hiddenUntilAvailable: boolean;
+    /**
+     * Where its own window stands on the server clock: scheduled (not open yet), open, or ended.
+     */
+    availability: 'open' | 'scheduled' | 'ended';
     id: string;
     title: string;
     summary: string | null;
@@ -865,6 +872,18 @@ export type LearningSectionResponseDto = {
 };
 
 export type CreateLearningSectionDto = {
+    /**
+     * Students see it from this moment on. Null: from the start.
+     */
+    availableFrom?: string | null;
+    /**
+     * Students stop seeing it at this moment. Null: never.
+     */
+    availableUntil?: string | null;
+    /**
+     * Before it opens, show students nothing rather than its title and the opening date.
+     */
+    hiddenUntilAvailable?: boolean;
     title: string;
     summary?: string | null;
     /**
@@ -874,6 +893,18 @@ export type CreateLearningSectionDto = {
 };
 
 export type UpdateLearningSectionDto = {
+    /**
+     * Students see it from this moment on. Null: from the start.
+     */
+    availableFrom?: string | null;
+    /**
+     * Students stop seeing it at this moment. Null: never.
+     */
+    availableUntil?: string | null;
+    /**
+     * Before it opens, show students nothing rather than its title and the opening date.
+     */
+    hiddenUntilAvailable?: boolean;
     title?: string;
     summary?: string | null;
     /**
@@ -884,6 +915,13 @@ export type UpdateLearningSectionDto = {
 };
 
 export type LearningMaterialResponseDto = {
+    availableFrom: string | null;
+    availableUntil: string | null;
+    hiddenUntilAvailable: boolean;
+    /**
+     * Where its own window stands on the server clock: scheduled (not open yet), open, or ended.
+     */
+    availability: 'open' | 'scheduled' | 'ended';
     id: string;
     kind: 'file' | 'link' | 'text';
     title: string;
@@ -921,6 +959,18 @@ export type UploadTicketResponseDto = {
 };
 
 export type CreateLearningMaterialDto = {
+    /**
+     * Students see it from this moment on. Null: from the start.
+     */
+    availableFrom?: string | null;
+    /**
+     * Students stop seeing it at this moment. Null: never.
+     */
+    availableUntil?: string | null;
+    /**
+     * Before it opens, show students nothing rather than its title and the opening date.
+     */
+    hiddenUntilAvailable?: boolean;
     kind: 'file' | 'link' | 'text';
     title: string;
     description?: string | null;
@@ -945,6 +995,18 @@ export type CreateLearningMaterialDto = {
 };
 
 export type UpdateLearningMaterialDto = {
+    /**
+     * Students see it from this moment on. Null: from the start.
+     */
+    availableFrom?: string | null;
+    /**
+     * Students stop seeing it at this moment. Null: never.
+     */
+    availableUntil?: string | null;
+    /**
+     * Before it opens, show students nothing rather than its title and the opening date.
+     */
+    hiddenUntilAvailable?: boolean;
     title?: string;
     description?: string | null;
     /**
@@ -976,6 +1038,13 @@ export type DownloadUrlResponseDto = {
 };
 
 export type AssignmentResponseDto = {
+    availableFrom: string | null;
+    availableUntil: string | null;
+    hiddenUntilAvailable: boolean;
+    /**
+     * Where its own window stands on the server clock: scheduled (not open yet), open, or ended.
+     */
+    availability: 'open' | 'scheduled' | 'ended';
     id: string;
     learningSpaceId: string;
     assessmentId: string;
@@ -994,6 +1063,18 @@ export type AssignmentResponseDto = {
 };
 
 export type CreateAssignmentDto = {
+    /**
+     * Students see it from this moment on. Null: from the start.
+     */
+    availableFrom?: string | null;
+    /**
+     * Students stop seeing it at this moment. Null: never.
+     */
+    availableUntil?: string | null;
+    /**
+     * Before it opens, show students nothing rather than its title and the opening date.
+     */
+    hiddenUntilAvailable?: boolean;
     name: string;
     brief?: string | null;
     opensAt?: string | null;
@@ -1014,6 +1095,18 @@ export type CreateAssignmentDto = {
 };
 
 export type UpdateAssignmentDto = {
+    /**
+     * Students see it from this moment on. Null: from the start.
+     */
+    availableFrom?: string | null;
+    /**
+     * Students stop seeing it at this moment. Null: never.
+     */
+    availableUntil?: string | null;
+    /**
+     * Before it opens, show students nothing rather than its title and the opening date.
+     */
+    hiddenUntilAvailable?: boolean;
     name?: string;
     brief?: string | null;
     opensAt?: string | null;

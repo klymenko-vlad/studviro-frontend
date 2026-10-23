@@ -1,5 +1,12 @@
 import { z } from 'zod';
 
+import {
+  AVAILABILITY_ORDER_ISSUE,
+  availabilityFormShape,
+  availabilityInOrder,
+  EMPTY_AVAILABILITY,
+  toAvailabilityPayload,
+} from '@/entities/availability';
 import { apiSchemas } from '@/shared/api';
 
 /**
@@ -16,7 +23,9 @@ export const materialFormSchema = z
     body: z.string().max(20_000),
     url: z.string().max(2048),
     visible: z.boolean(),
+    ...availabilityFormShape,
   })
+  .refine(availabilityInOrder, AVAILABILITY_ORDER_ISSUE)
   .refine(values => values.kind !== 'link' || values.url.trim() !== '', {
     path: ['url'],
     message: 'A link material needs a URL',
@@ -35,11 +44,13 @@ export const EMPTY_MATERIAL: MaterialFormValues = {
   body: '',
   url: '',
   visible: true,
+  ...EMPTY_AVAILABILITY,
 };
 
 export function toMaterialPayload(
   values: MaterialFormValues,
   uploaded: { storageKey: string; filename: string } | null,
+  timeZone: string,
   sectionId: string | null = null,
 ) {
   return {
@@ -52,5 +63,6 @@ export function toMaterialPayload(
     filename: uploaded?.filename ?? null,
     visible: values.visible,
     sectionId,
+    ...toAvailabilityPayload(values, timeZone),
   };
 }

@@ -25,6 +25,10 @@ const SPACE = '9a1f0b3c-1111-4111-8111-111111111111';
 const SPACE_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/learning-spaces/${SPACE}`;
 const MATERIALS_URL = `${SPACE_URL}/materials`;
 const SECTIONS_URL = `${SPACE_URL}/sections`;
+const ASSIGNMENTS_URL = `${SPACE_URL}/assignments`;
+const OPENS = '2026-11-16T07:00:00.000Z';
+
+const scheduled = { availability: 'scheduled', availableFrom: OPENS } as const;
 
 const render = (viewerRole: 'student' | 'teacher' | 'administrator' = 'administrator') =>
   renderWithProviders(
@@ -123,6 +127,142 @@ describe('OfferingOutline', () => {
     ).toBeInTheDocument();
   });
 
+  describe('availability', () => {
+    it('shows a student only the title of a material and an assignment that open later', async () => {
+      server.use(
+        http.get(MATERIALS_URL, () =>
+          HttpResponse.json([
+            {
+              ...learningMaterials[0]!,
+              ...scheduled,
+              description: null,
+              filename: null,
+              sizeBytes: null,
+            },
+          ]),
+        ),
+        http.get(ASSIGNMENTS_URL, () =>
+          HttpResponse.json([
+            { ...offeringAssignments[0]!, ...scheduled, brief: null, dueAt: null },
+          ]),
+        ),
+      );
+
+      render('student');
+
+      const week = await screen.findByRole('region', { name: 'Week 1 — sorting' });
+
+      expect(within(week).getAllByText('Opens on November 16 at 09:00')).toHaveLength(2);
+      expect(within(week).getByText('Lecture 1 — slides')).toBeInTheDocument();
+      expect(
+        within(week).queryByRole('button', { name: /Download/ }),
+      ).not.toBeInTheDocument();
+      expect(
+        within(week).queryByRole('link', { name: 'Assignment 1 — sorting' }),
+      ).not.toBeInTheDocument();
+      expect(within(week).getByText('Assignment 1 — sorting')).toBeInTheDocument();
+    });
+
+    it('tells a student when a section opens, instead of calling it empty', async () => {
+      server.use(
+        http.get(SECTIONS_URL, () =>
+          HttpResponse.json([{ ...learningSections[0]!, ...scheduled, summary: null }]),
+        ),
+        http.get(MATERIALS_URL, () => HttpResponse.json([learningMaterials[2]!])),
+        http.get(ASSIGNMENTS_URL, () => HttpResponse.json([])),
+      );
+
+      render('student');
+
+      const week = await screen.findByRole('region', { name: 'Week 1 — sorting' });
+
+      expect(within(week).getByText('Opens on November 16 at 09:00')).toBeInTheDocument();
+      expect(within(week).queryByText('Nothing here yet.')).not.toBeInTheDocument();
+    });
+
+    it('badges scheduled, hidden-until and ended items for their teacher', async () => {
+      server.use(
+        http.get(SECTIONS_URL, () =>
+          HttpResponse.json([
+            { ...learningSections[0]!, ...scheduled, hiddenUntilAvailable: true },
+          ]),
+        ),
+        http.get(MATERIALS_URL, () =>
+          HttpResponse.json([
+            { ...learningMaterials[0]!, ...scheduled },
+            {
+              ...learningMaterials[2]!,
+              availability: 'ended',
+              availableUntil: '2026-10-01T07:00:00.000Z',
+            },
+          ]),
+        ),
+      );
+
+      render('teacher');
+
+      const week = await screen.findByRole('region', { name: 'Week 1 — sorting' });
+      const general = screen.getByRole('region', { name: 'General' });
+
+      expect(
+        within(week).getByText('Hidden until November 16 at 09:00'),
+      ).toBeInTheDocument();
+      expect(within(week).getByText('Opens November 16 at 09:00')).toBeInTheDocument();
+      expect(within(week).getByText('Asymptotics, from the top.')).toBeVisible();
+      expect(within(general).getByText('Ended October 1 at 10:00')).toBeInTheDocument();
+    });
+
+    it('lets a teacher schedule a material that is already on the page', async () => {
+      const bodies = recordBodies(
+        'patch',
+        `${MATERIALS_URL}/:materialId`,
+        learningMaterials[0]!,
+      );
+      const { user } = render('teacher');
+
+      await user.click(
+        await screen.findByRole('button', { name: 'Availability of Lecture 1 — slides' }),
+      );
+      const form = screen.getByRole('form', {
+        name: 'Availability of Lecture 1 — slides',
+      });
+      await user.type(within(form).getByLabelText('Available from'), '2026-11-16T09:00');
+      await user.click(within(form).getByRole('switch'));
+      await user.click(within(form).getByRole('button', { name: 'Save availability' }));
+
+      await waitFor(() => {
+        expect(bodies).toEqual([
+          { availableFrom: OPENS, availableUntil: null, hiddenUntilAvailable: true },
+        ]);
+      });
+      expect(toast.success).toHaveBeenCalledWith('Availability saved');
+    });
+
+    it('refuses a window that ends before it opens, before asking the server', async () => {
+      const bodies = recordBodies(
+        'patch',
+        `${MATERIALS_URL}/:materialId`,
+        learningMaterials[0]!,
+      );
+      const { user } = render('teacher');
+
+      await user.click(
+        await screen.findByRole('button', { name: 'Availability of Lecture 1 — slides' }),
+      );
+      const form = screen.getByRole('form', {
+        name: 'Availability of Lecture 1 — slides',
+      });
+      await user.type(within(form).getByLabelText('Available from'), '2026-11-16T09:00');
+      await user.type(within(form).getByLabelText('Available until'), '2026-11-02T09:00');
+      await user.click(within(form).getByRole('button', { name: 'Save availability' }));
+
+      expect(
+        await within(form).findByText(/./, { selector: '[data-slot="form-message"]' }),
+      ).toBeInTheDocument();
+      expect(bodies).toEqual([]);
+    });
+  });
+
   it('adds a section from the form at the bottom', async () => {
     const bodies = recordBodies('post', SECTIONS_URL, learningSections[0]!);
     const { user } = render('teacher');
@@ -132,7 +272,15 @@ describe('OfferingOutline', () => {
     await user.click(within(form).getByRole('button', { name: 'Add a section' }));
 
     await waitFor(() => {
-      expect(bodies).toEqual([{ title: 'Week 2', summary: null }]);
+      expect(bodies).toEqual([
+        {
+          title: 'Week 2',
+          summary: null,
+          availableFrom: null,
+          availableUntil: null,
+          hiddenUntilAvailable: false,
+        },
+      ]);
     });
     expect(toast.success).toHaveBeenCalledWith('Section added');
   });

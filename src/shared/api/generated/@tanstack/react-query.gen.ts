@@ -1379,7 +1379,7 @@ export const listLearningSectionsQueryKey = (options: Options<ListLearningSectio
 /**
  * The sections of a course page, in order
  *
- * A hidden section is omitted for anybody who cannot unhide it, and so is everything placed in it.
+ * A hidden or ended section is omitted for anybody who cannot unhide it, and so is everything placed in it. One that has not opened yet shows only its title, unless it is hidden until then.
  */
 export const listLearningSectionsOptions = (options: Options<ListLearningSectionsData>) => queryOptions<ListLearningSectionsResponse, ListLearningSectionsError, ListLearningSectionsResponse, ReturnType<typeof listLearningSectionsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -1452,7 +1452,7 @@ export const listLearningMaterialsQueryKey = (options: Options<ListLearningMater
 /**
  * The files, links and notes on a course page, in order
  *
- * A hidden material is omitted for anybody who cannot unhide it.
+ * A hidden or ended material is omitted for anybody who cannot unhide it. One that has not opened yet shows only its title, unless it is hidden until then.
  */
 export const listLearningMaterialsOptions = (options: Options<ListLearningMaterialsData>) => queryOptions<ListLearningMaterialsResponse, ListLearningMaterialsError, ListLearningMaterialsResponse, ReturnType<typeof listLearningMaterialsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {

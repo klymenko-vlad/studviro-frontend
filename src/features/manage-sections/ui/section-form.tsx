@@ -2,16 +2,18 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTimeZone, useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { AvailabilityFields } from '@/entities/availability';
 import {
   learningSectionMutations,
   learningSectionQueries,
   type LearningSection,
 } from '@/entities/learning-section';
 import { toApiError } from '@/shared/api';
+import { DEFAULT_TIME_ZONE } from '@/shared/config';
 import { useZodResolver } from '@/shared/lib';
 import {
   Button,
@@ -45,12 +47,13 @@ export function SectionForm({
   onDone?: () => void;
 }) {
   const t = useTranslations('outline');
+  const timeZone = useTimeZone() ?? DEFAULT_TIME_ZONE;
   const queryClient = useQueryClient();
   const editing = section !== undefined;
 
   const form = useForm<SectionFormValues>({
     resolver: useZodResolver(sectionFormSchema),
-    defaultValues: editing ? toSectionFormValues(section) : EMPTY_SECTION,
+    defaultValues: editing ? toSectionFormValues(section, timeZone) : EMPTY_SECTION,
   });
 
   const settle = async (message: string) => {
@@ -79,7 +82,7 @@ export function SectionForm({
   });
 
   const onSubmit = form.handleSubmit(values => {
-    const body = toSectionPayload(values);
+    const body = toSectionPayload(values, timeZone);
 
     if (editing) {
       update.mutate({ path: { institutionId, spaceId, sectionId: section.id }, body });
@@ -132,6 +135,8 @@ export function SectionForm({
             </FormItem>
           )}
         />
+
+        <AvailabilityFields />
 
         <div className="flex flex-wrap gap-2">
           <Button type="submit" size="sm" disabled={pending}>
