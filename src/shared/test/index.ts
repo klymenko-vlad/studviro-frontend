@@ -37,6 +37,8 @@ export {
   myProgress,
   completionReport,
   itemSight,
+  courseStudents,
+  studentView,
   studyGroupContent,
   offeringAssignments,
   offeringLearningSpace,

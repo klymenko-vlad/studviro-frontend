@@ -46,6 +46,7 @@ export function OutlineGroupCard({
   manageable,
   progress,
   candidates,
+  readOnly = false,
 }: {
   institutionId: string;
   offeringId: string;
@@ -55,6 +56,7 @@ export function OutlineGroupCard({
   manageable: boolean;
   progress?: Progress;
   candidates: readonly RestrictionCandidate[];
+  readOnly?: boolean;
 }) {
   const t = useTranslations('outline');
   const tCompletion = useTranslations('completion');
@@ -189,6 +191,7 @@ export function OutlineGroupCard({
                 manageable={manageable}
                 progress={progressOf(progress, entry.id)}
                 candidates={candidates}
+                readOnly={readOnly}
               />
             ))}
           </ul>

@@ -15,6 +15,7 @@ export function OutlineMaterial({
   manageable,
   actions,
   onOpen,
+  readOnly = false,
 }: {
   institutionId: string;
   spaceId: string;
@@ -22,6 +23,7 @@ export function OutlineMaterial({
   manageable: boolean;
   actions: ReactNode;
   onOpen?: (materialId: string) => void;
+  readOnly?: boolean;
 }) {
   const t = useTranslations('materials');
   const titleOnly =
@@ -73,13 +75,15 @@ export function OutlineMaterial({
               ? null
               : ` · ${t('size', { kilobytes: kilobytes(material.sizeBytes) })}`}
           </span>
-          <MaterialDownload
-            institutionId={institutionId}
-            spaceId={spaceId}
-            materialId={material.id}
-            title={material.title}
-            scanStatus={material.scanStatus}
-          />
+          {readOnly ? null : (
+            <MaterialDownload
+              institutionId={institutionId}
+              spaceId={spaceId}
+              materialId={material.id}
+              title={material.title}
+              scanStatus={material.scanStatus}
+            />
+          )}
         </div>
       ) : null}
     </>

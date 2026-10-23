@@ -1594,6 +1594,28 @@ export type SightReportResponseDto = {
     meta: PageMetaDto;
 };
 
+export type CourseStudentDto = {
+    userId: string;
+    displayName: string;
+    email: string;
+};
+
+export type StudentViewResponseDto = {
+    /**
+     * Who the page is shown as; null for a student with no progress and no group.
+     */
+    student: CourseStudentDto | null;
+    sections: Array<LearningSectionResponseDto>;
+    materials: Array<LearningMaterialResponseDto>;
+    assignments: Array<AssignmentResponseDto>;
+    progress: ProgressResponseDto;
+};
+
+export type CourseStudentPageResponseDto = {
+    items: Array<CourseStudentDto>;
+    meta: PageMetaDto;
+};
+
 export type GroupContentGroupDto = {
     id: string;
     code: string;
@@ -6129,6 +6151,92 @@ export type ListLearningItemSightResponses = {
 };
 
 export type ListLearningItemSightResponse = ListLearningItemSightResponses[keyof ListLearningItemSightResponses];
+
+export type GetLearningStudentViewData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: {
+        /**
+         * The enrolled student to see the page as. Without it, a student with no progress and in no group.
+         */
+        asStudent?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/student-view';
+};
+
+export type GetLearningStudentViewErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetLearningStudentViewError = GetLearningStudentViewErrors[keyof GetLearningStudentViewErrors];
+
+export type GetLearningStudentViewResponses = {
+    200: StudentViewResponseDto;
+};
+
+export type GetLearningStudentViewResponse = GetLearningStudentViewResponses[keyof GetLearningStudentViewResponses];
+
+export type ListLearningStudentViewStudentsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: {
+        page?: number;
+        limit?: number;
+        /**
+         * Narrows to students whose name or email contains this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/student-view/students';
+};
+
+export type ListLearningStudentViewStudentsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListLearningStudentViewStudentsError = ListLearningStudentViewStudentsErrors[keyof ListLearningStudentViewStudentsErrors];
+
+export type ListLearningStudentViewStudentsResponses = {
+    200: CourseStudentPageResponseDto;
+};
+
+export type ListLearningStudentViewStudentsResponse = ListLearningStudentViewStudentsResponses[keyof ListLearningStudentViewStudentsResponses];
 
 export type ListStudyGroupContentData = {
     body?: never;

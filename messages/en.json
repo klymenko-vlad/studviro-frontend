@@ -2674,5 +2674,23 @@
       },
       "completedOn": "on {when}"
     }
+  },
+  "studentView": {
+    "open": "View as a student",
+    "pickerTitle": "View the page as",
+    "pickerDescription": "A read-only preview: hidden, scheduled, locked and group-only items exactly as that student sees them now.",
+    "newStudent": "A new student",
+    "newStudentHint": "No progress yet and in no group",
+    "filter": "Find a student",
+    "filterPlaceholder": "Name or email",
+    "empty": "No student matches.",
+    "studentsError": "The students could not be loaded. Try again in a moment.",
+    "close": "Close",
+    "viewingAs": "Viewing as {name}",
+    "viewingAsNew": "Viewing as a new student",
+    "readOnly": "Read-only. This is the page as they see it now; nothing you do here is recorded for them.",
+    "back": "Back to editing",
+    "another": "Choose another student",
+    "error": "The page could not be shown as this student."
   }
 }

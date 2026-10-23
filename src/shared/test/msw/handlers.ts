@@ -10,6 +10,7 @@ import type {
   CourseOfferingResponseDto,
   CourseResponseDto,
   CourseRosterResponseDto,
+  CourseStudentDto,
   EnrollableOfferingResponseDto,
   ErrorResponseDto,
   ExamRegistrantResponseDto,
@@ -42,6 +43,7 @@ import type {
   SearchResultsDto,
   SessionDto,
   SightReportResponseDto,
+  StudentViewResponseDto,
   StudyGroupResponseDto,
   StudyProgressResponseDto,
   SubmissionResponseDto,
@@ -1070,6 +1072,27 @@ export const myProgress: ProgressResponseDto = {
       completedAt: null,
     },
   ],
+};
+
+export const courseStudents: CourseStudentDto[] = [
+  {
+    userId: '11111111-1111-4111-8111-111111111111',
+    displayName: 'Ada Lovelace',
+    email: 'ada@example.com',
+  },
+  {
+    userId: '22222222-2222-4222-8222-222222222222',
+    displayName: 'Alan Turing',
+    email: 'alan@example.com',
+  },
+];
+
+export const studentView: StudentViewResponseDto = {
+  student: null,
+  sections: learningSections,
+  materials: learningMaterials.filter(material => material.visible),
+  assignments: offeringAssignments,
+  progress: myProgress,
 };
 
 export const completionReport: CompletionReportResponseDto = {
@@ -2176,6 +2199,41 @@ export const handlers = [
   http.get(
     `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/sight/:kind/:itemId`,
     () => HttpResponse.json(itemSight),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/student-view`,
+    ({ request }) => {
+      const asStudent = new URL(request.url).searchParams.get('asStudent');
+      const student = courseStudents.find(row => row.userId === asStudent) ?? null;
+
+      return HttpResponse.json({ ...studentView, student });
+    },
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/student-view/students`,
+    ({ request }) => {
+      const params = new URL(request.url).searchParams;
+      const q = params.get('q')?.toLowerCase() ?? '';
+      const page = Number(params.get('page') ?? 1);
+      const limit = Number(params.get('limit') ?? 25);
+      const matching = courseStudents.filter(student =>
+        `${student.displayName} ${student.email}`.toLowerCase().includes(q),
+      );
+
+      return HttpResponse.json({
+        items: matching.slice((page - 1) * limit, page * limit),
+        meta: {
+          page,
+          limit,
+          total: matching.length,
+          pageCount: Math.max(1, Math.ceil(matching.length / limit)),
+          hasNextPage: page * limit < matching.length,
+          hasPreviousPage: page > 1,
+        },
+      });
+    },
   ),
 
   http.get(

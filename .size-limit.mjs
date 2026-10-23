@@ -252,9 +252,18 @@ const budgets = [
     // Measured at **630.48 kB**, +6.08 kB over CB4. The group picker reuses
     // `Switch` and the native `Select` rather than adding a checkbox or radio
     // primitive, and no dependency was added.
+    //
+    // Raised from 632 kB to 634 kB on 2026-10-23 for view as a student (Course
+    // Builder Plan CB11): the switch and banner on the Content tab, the paged and
+    // filtered student picker, the read-only outline, and their generated client
+    // (a request and response schema that reuse the outline's). Measured at
+    // **633.3 kB**, +2.82 kB over CB9. The preview renders the same outline
+    // components with a read-only flag rather than a second copy of them, and
+    // adds no dependency and no primitive; there was nothing left to cut that
+    // the feature does not use.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '632 kB',
+    limit: '634 kB',
     gzip: true,
   },
 ];

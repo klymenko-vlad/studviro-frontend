@@ -38,6 +38,7 @@ export function OutlineEntryItem({
   manageable,
   progress,
   candidates,
+  readOnly = false,
 }: {
   institutionId: string;
   offeringId: string;
@@ -49,6 +50,7 @@ export function OutlineEntryItem({
   manageable: boolean;
   progress?: ItemProgress;
   candidates: readonly RestrictionCandidate[];
+  readOnly?: boolean;
 }) {
   const recordView = useRecordView(institutionId, spaceId);
   const [scheduling, setScheduling] = useState(false);
@@ -101,6 +103,7 @@ export function OutlineEntryItem({
         spaceId={spaceId}
         item={progress}
         title={entry.title}
+        disabled={readOnly}
       />
     ) : (
       <CompletionStatus
@@ -112,7 +115,7 @@ export function OutlineEntryItem({
     );
 
   const opensToRecord =
-    progress?.rule === 'viewed' && progress.state === 'incomplete'
+    !readOnly && progress?.rule === 'viewed' && progress.state === 'incomplete'
       ? recordView
       : undefined;
 
@@ -129,6 +132,7 @@ export function OutlineEntryItem({
           manageable={manageable}
           actions={authoring ?? tracking}
           onOpen={opensToRecord}
+          readOnly={readOnly}
         />
       ) : (
         <OutlineAssignment
@@ -137,6 +141,7 @@ export function OutlineEntryItem({
           assignment={entry.assignment}
           manageable={manageable}
           actions={authoring ?? tracking}
+          readOnly={readOnly}
         />
       )}
       {manageable && entry.kind === 'material' ? (

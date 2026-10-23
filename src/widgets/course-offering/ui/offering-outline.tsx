@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
@@ -13,6 +14,7 @@ import { learningMaterialQueries } from '@/entities/learning-material';
 import { learningSectionQueries } from '@/entities/learning-section';
 import type { CourseOfferingResponseDto } from '@/shared/api';
 import {
+  Button,
   Card,
   CardContent,
   CardDescription,
@@ -23,6 +25,8 @@ import {
 } from '@/shared/ui';
 
 import { OutlineGroupCard } from './outline-group';
+import { StudentPicker, type StudentChoice } from './student-picker';
+import { StudentViewOutline } from './student-view-outline';
 import { useScrollToAnchor } from './use-scroll-to-anchor';
 
 export function OfferingOutline({
@@ -39,7 +43,10 @@ export function OfferingOutline({
   const t = useTranslations('outline');
   const tCompletion = useTranslations('completion');
   const manageable = authorsOffering(viewerRole);
+  const tView = useTranslations('studentView');
   const path = { path: { institutionId, spaceId } };
+  const [choosing, setChoosing] = useState(false);
+  const [viewAs, setViewAs] = useState<StudentChoice | null>(null);
 
   const sections = useQuery(learningSectionQueries.list(path));
   const materials = useQuery(learningMaterialQueries.list(path));
@@ -50,6 +57,21 @@ export function OfferingOutline({
   });
 
   useScrollToAnchor(sections.isSuccess && materials.isSuccess && assignments.isSuccess);
+
+  if (manageable && viewAs !== null) {
+    return (
+      <StudentViewOutline
+        institutionId={institutionId}
+        offeringId={offeringId}
+        spaceId={spaceId}
+        choice={viewAs}
+        onChoose={setViewAs}
+        onExit={() => {
+          setViewAs(null);
+        }}
+      />
+    );
+  }
 
   if (sections.isPending || materials.isPending || assignments.isPending) {
     return <ListSkeleton items={3} data-testid="offering-outline-loading" />;
@@ -66,6 +88,36 @@ export function OfferingOutline({
 
   return (
     <div className="flex flex-col gap-6">
+      {manageable ? (
+        <div className="flex flex-col gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="self-start"
+            aria-expanded={choosing}
+            onClick={() => {
+              setChoosing(current => !current);
+            }}
+          >
+            {tView('open')}
+          </Button>
+          {choosing ? (
+            <StudentPicker
+              institutionId={institutionId}
+              spaceId={spaceId}
+              onChoose={choice => {
+                setChoosing(false);
+                setViewAs(choice);
+              }}
+              onClose={() => {
+                setChoosing(false);
+              }}
+            />
+          ) : null}
+        </div>
+      ) : null}
+
       {shown.length === 0 ? <EmptyState title={t('empty')} /> : null}
 
       {progress.data !== undefined && progress.data.total > 0 ? (

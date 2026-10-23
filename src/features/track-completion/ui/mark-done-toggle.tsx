@@ -19,11 +19,13 @@ export function MarkDoneToggle({
   spaceId,
   item,
   title,
+  disabled = false,
 }: {
   institutionId: string;
   spaceId: string;
   item: ItemProgress;
   title: string;
+  disabled?: boolean;
 }) {
   const t = useTranslations('completion');
   const queryClient = useQueryClient();
@@ -44,7 +46,7 @@ export function MarkDoneToggle({
       size="sm"
       aria-pressed={done}
       aria-label={t('markDoneNamed', { title })}
-      disabled={mark.isPending}
+      disabled={disabled || mark.isPending}
       onClick={() => {
         mark.mutate({
           path: { institutionId, spaceId, kind: item.kind, itemId: item.id },

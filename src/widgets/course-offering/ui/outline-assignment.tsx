@@ -15,12 +15,14 @@ export function OutlineAssignment({
   assignment,
   manageable,
   actions,
+  readOnly = false,
 }: {
   institutionId: string;
   offeringId: string;
   assignment: Assignment;
   manageable: boolean;
   actions: ReactNode;
+  readOnly?: boolean;
 }) {
   const t = useTranslations('outline');
   const format = useFormatter();
@@ -44,15 +46,19 @@ export function OutlineAssignment({
   return (
     <>
       <div className="flex flex-wrap items-center gap-2">
-        <Link
-          href={courseOfferingHref(institutionId, offeringId, {
-            section: 'assignments',
-            item: { kind: 'activity', id: assignment.id },
-          })}
-          className="font-medium underline-offset-4 hover:underline"
-        >
-          {assignment.name}
-        </Link>
+        {readOnly ? (
+          <span className="font-medium">{assignment.name}</span>
+        ) : (
+          <Link
+            href={courseOfferingHref(institutionId, offeringId, {
+              section: 'assignments',
+              item: { kind: 'activity', id: assignment.id },
+            })}
+            className="font-medium underline-offset-4 hover:underline"
+          >
+            {assignment.name}
+          </Link>
+        )}
         <Badge variant="secondary">{t('assignment')}</Badge>
         {assignment.visible ? null : <Badge variant="outline">{t('hidden')}</Badge>}
         {manageable ? <AvailabilityNote item={assignment} audience="author" /> : null}

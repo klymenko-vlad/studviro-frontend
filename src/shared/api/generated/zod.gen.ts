@@ -1753,6 +1753,25 @@ export const zSightReportResponseDto = z.object({
     meta: zPageMetaDto
 });
 
+export const zCourseStudentDto = z.object({
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string()
+});
+
+export const zStudentViewResponseDto = z.object({
+    student: zCourseStudentDto.nullable(),
+    sections: z.array(zLearningSectionResponseDto),
+    materials: z.array(zLearningMaterialResponseDto),
+    assignments: z.array(zAssignmentResponseDto),
+    progress: zProgressResponseDto
+});
+
+export const zCourseStudentPageResponseDto = z.object({
+    items: z.array(zCourseStudentDto),
+    meta: zPageMetaDto
+});
+
 export const zGroupContentGroupDto = z.object({
     id: z.uuid(),
     code: z.string(),
@@ -3833,6 +3852,30 @@ export const zListLearningItemSightQuery = z.object({
 });
 
 export const zListLearningItemSightResponse = zSightReportResponseDto;
+
+export const zGetLearningStudentViewPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zGetLearningStudentViewQuery = z.object({
+    asStudent: z.uuid().optional()
+});
+
+export const zGetLearningStudentViewResponse = zStudentViewResponseDto;
+
+export const zListLearningStudentViewStudentsPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zListLearningStudentViewStudentsQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    limit: z.number().gte(1).lte(100).optional().default(25),
+    q: z.string().max(200).optional()
+});
+
+export const zListLearningStudentViewStudentsResponse = zCourseStudentPageResponseDto;
 
 export const zListStudyGroupContentPath = z.object({
     institutionId: z.string(),
