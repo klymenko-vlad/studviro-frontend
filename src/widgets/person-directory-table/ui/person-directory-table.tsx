@@ -81,13 +81,15 @@ export function PersonDirectoryTable({ institutionId }: { institutionId: string 
           {people.map(person => (
             <TableRow key={person.userId}>
               <TableCell className="font-medium">{person.displayName}</TableCell>
-              <TableCell>{person.email}</TableCell>
-              <TableCell>
+              <TableCell label={t('email')} wide>
+                {person.email}
+              </TableCell>
+              <TableCell label={t('statusColumn')}>
                 <Badge variant={person.status === 'active' ? 'success' : 'secondary'}>
                   {t(`status.${person.status}`)}
                 </Badge>
               </TableCell>
-              <TableCell>
+              <TableCell label={t('roles')}>
                 <PersonRoleBadges roles={person.roles} />
               </TableCell>
               {mayErase ? (

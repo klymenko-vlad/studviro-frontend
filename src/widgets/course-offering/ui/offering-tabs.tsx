@@ -49,7 +49,7 @@ export function OfferingTabs({
         router.replace(`${pathname}?${next.toString()}`, { scroll: false });
       }}
     >
-      <TabsList className="max-w-full overflow-x-auto">
+      <TabsList scrollable>
         {sections.map(section => (
           <TabsTrigger key={section.key} value={section.key}>
             {t(section.key)}

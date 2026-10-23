@@ -72,7 +72,7 @@ export function OfferingMarking({
                   {t('attempt', { attempt: submission.attempt })}
                 </span>
               </TableCell>
-              <TableCell>
+              <TableCell label={t('column.handedIn')}>
                 {submission.submittedAt === null
                   ? t('notHandedIn')
                   : format.dateTime(new Date(submission.submittedAt), {
@@ -89,7 +89,7 @@ export function OfferingMarking({
                   </Badge>
                 ) : null}
               </TableCell>
-              <TableCell>
+              <TableCell label={t('column.files')}>
                 <div className="flex flex-wrap gap-1">
                   {submission.files.length === 0
                     ? t('noFiles')
@@ -106,7 +106,7 @@ export function OfferingMarking({
                       ))}
                 </div>
               </TableCell>
-              <TableCell>
+              <TableCell label={t('column.mark')} wide>
                 <MarkSubmissionForm
                   institutionId={institutionId}
                   assignmentId={assignment.id}

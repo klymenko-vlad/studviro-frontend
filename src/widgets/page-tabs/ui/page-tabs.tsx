@@ -51,7 +51,7 @@ export function PageTabs<Key extends string>({
         router.replace(`${pathname}?${next.toString()}`, { scroll: false });
       }}
     >
-      <TabsList aria-label={label} className="max-w-full overflow-x-auto">
+      <TabsList aria-label={label} scrollable>
         {tabs.map(tab => (
           <TabsTrigger key={tab.key} value={tab.key}>
             {tab.label}

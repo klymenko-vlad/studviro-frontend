@@ -458,6 +458,117 @@
 }
 
 /**
+ * A table in a container narrower than 36rem stops being a grid and becomes a
+ * list of rows: the unlabelled cell is the row's title across the full width,
+ * the labelled ones sit two to a line with their column name above the value,
+ * and a `data-wide` one takes a line of its own. The header row stays for
+ * screen readers only.
+ */
+@utility table-stack {
+  container: table / inline-size;
+
+  @container table (max-width: 36rem) {
+    & thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    & table,
+    & tbody,
+    & tfoot {
+      display: block;
+    }
+
+    & tr {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem 1rem;
+      padding: 0.75rem 0.5rem;
+    }
+
+    & td {
+      display: block;
+      min-width: 0;
+      padding: 0;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    & td:not([data-label]),
+    & td[data-wide] {
+      grid-column: 1 / -1;
+    }
+
+    & td[data-label]::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 0.125rem;
+      font-size: var(--text-xs);
+      color: var(--muted-foreground);
+    }
+  }
+}
+
+/* Extends Tailwind's own `scrollbar-none` to Safari before 18.2. */
+@utility scrollbar-none {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/**
+ * A strip too wide for its box fades out on whichever edge still has content
+ * behind it, driven by its own scroll position. A strip that fits has no
+ * scroll timeline, so the animation is inactive and nothing fades.
+ */
+@property --fade-start {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --fade-end {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes scroll-fade-x {
+  0% {
+    --fade-start: 0px;
+    --fade-end: 1.5rem;
+  }
+  10% {
+    --fade-start: 1.5rem;
+  }
+  90% {
+    --fade-end: 1.5rem;
+  }
+  100% {
+    --fade-start: 1.5rem;
+    --fade-end: 0px;
+  }
+}
+
+@utility scroll-fade-x {
+  @supports (animation-timeline: scroll()) {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--fade-start),
+      #000 calc(100% - var(--fade-end)),
+      transparent
+    );
+    animation: scroll-fade-x linear both;
+    animation-timeline: scroll(self inline);
+  }
+}
+
+/**
  * The seam where content passes under the floating chrome. A hard 1px rule
  * reads as a boundary between two bars; a short fade reads as one material
  * with the page sliding beneath it. Sits outside the layer's own box so the

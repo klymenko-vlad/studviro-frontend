@@ -36,7 +36,7 @@ export function AssessmentResultRow({ result }: { result: AssessmentResult }) {
         )}
       </TableCell>
 
-      <TableCell className="align-top">
+      <TableCell label={t('column.score')} className="align-top">
         {result.points === null ? (
           <span className="text-muted-foreground">{t('ungraded')}</span>
         ) : (
@@ -55,7 +55,7 @@ export function AssessmentResultRow({ result }: { result: AssessmentResult }) {
         )}
       </TableCell>
 
-      <TableCell className="align-top">
+      <TableCell label={t('column.state')} className="align-top">
         <div className="flex flex-wrap gap-1">
           {activity?.submission == null ? null : (
             <Badge variant={activity.submission.isLate ? 'destructive' : 'secondary'}>

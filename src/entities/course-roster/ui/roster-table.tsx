@@ -49,7 +49,7 @@ export function RosterTable({
               <span className="font-medium">{student.displayName}</span>
               <span className="text-muted-foreground block text-xs">{student.email}</span>
             </TableCell>
-            <TableCell>
+            <TableCell label={t('column.status')}>
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant={STATUS_VARIANT[student.status]}>
                   {t(`status.${student.status}`)}
@@ -61,12 +61,12 @@ export function RosterTable({
                 ) : null}
               </div>
             </TableCell>
-            <TableCell className="text-muted-foreground">
+            <TableCell label={t('column.studyGroups')} className="text-muted-foreground">
               {student.studyGroups.length === 0
                 ? t('noStudyGroups')
                 : student.studyGroups.map(group => group.code).join(', ')}
             </TableCell>
-            <TableCell className="text-muted-foreground">
+            <TableCell label={t('column.enrolledAt')} className="text-muted-foreground">
               {student.enrolledAt === null
                 ? t('notEnrolledYet')
                 : format.dateTime(new Date(student.enrolledAt), { dateStyle: 'medium' })}
