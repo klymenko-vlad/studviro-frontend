@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { notificationQueries } from '@/entities/notification';
 import { usePermissions } from '@/entities/permission';
 import { institutionRoutes, Link, usePathname, useRouter } from '@/shared/config';
+import { cn } from '@/shared/lib';
 import { Button } from '@/shared/ui';
 
 import { institutionIdIn } from '../model/institution-path';
@@ -23,10 +24,16 @@ export function InstitutionHeaderActions() {
   const institutionId = institutionIdIn(pathname);
 
   if (institutionId === undefined) return null;
-  return <Actions institutionId={institutionId} />;
+  return <Actions institutionId={institutionId} pathname={pathname} />;
 }
 
-function Actions({ institutionId }: { institutionId: string }) {
+function Actions({
+  institutionId,
+  pathname,
+}: {
+  institutionId: string;
+  pathname: string;
+}) {
   const t = useTranslations('nav');
   const router = useRouter();
   const routes = institutionRoutes(institutionId);
@@ -40,6 +47,7 @@ function Actions({ institutionId }: { institutionId: string }) {
     refetchInterval: 60_000,
   });
   const count = unread.data?.unreadCount ?? 0;
+  const onNotifications = pathname.startsWith(routes.notifications);
 
   useEffect(() => {
     if (!searchable) return;
@@ -77,14 +85,20 @@ function Actions({ institutionId }: { institutionId: string }) {
       ) : null}
 
       {notified ? (
-        <Button asChild variant="ghost" size="icon" className="relative">
+        <Button
+          asChild
+          variant="ghost"
+          size="icon"
+          className={cn('relative', onNotifications && 'bg-accent text-foreground')}
+        >
           <Link
             href={routes.notifications}
+            aria-current={onNotifications ? 'page' : undefined}
             aria-label={
               count === 0 ? t('notifications') : t('notificationsUnread', { count })
             }
           >
-            <Bell aria-hidden />
+            <Bell aria-hidden fill={onNotifications ? 'currentColor' : 'none'} />
             {count === 0 ? null : (
               <span
                 aria-hidden

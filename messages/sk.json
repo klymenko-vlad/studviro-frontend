@@ -44,6 +44,8 @@
     "sections": "Sekcie",
     "sectionsDescription": "Všetky obrazovky tejto inštitúcie, ktoré môžete otvoriť.",
     "more": "More",
+    "collapseSidebar": "Collapse sidebar",
+    "expandSidebar": "Expand sidebar",
     "tabBarLabel": "Main sections",
     "groups": {
       "studies": "Moje štúdium",
@@ -189,14 +191,6 @@
   },
   "account": {
     "title": "Účet",
-    "subtitle": "Vaše roly v inštitúciách a účty prepojené s týmto profilom.",
-    "roles": {
-      "title": "Roly",
-      "description": "Čo smiete robiť a kde.",
-      "empty": "Zatiaľ vám nebola priradená žiadna rola.",
-      "errorTitle": "Roly sa nepodarilo načítať",
-      "errorDescription": "Skúste to o chvíľu znova."
-    },
     "linkedAccounts": {
       "title": "Prepojené účty",
       "description": "Univerzitné účty, ktorými sa dá prihlásiť do tohto profilu.",
@@ -220,9 +214,16 @@
       "manageSettings": "Nastavenia",
       "myCourses": "Moje predmety",
       "myGrades": "Moje známky",
-      "dashboard": "Prehľad"
+      "dashboard": "Prehľad",
+      "emptyDescription": "Once a school adds you, it appears here.",
+      "open": "Open dashboard"
     },
-    "settingsLink": "Nastavenia a zabezpečenie"
+    "settingsLink": "Nastavenia a zabezpečenie",
+    "dataExport": {
+      "title": "Download your data",
+      "description": "A copy of everything an institution holds about you, as a file you can keep.",
+      "empty": "There is nothing to download until you join an institution."
+    }
   },
   "roles": {
     "role": {
@@ -703,7 +704,8 @@
     "view": {
       "week": "Week",
       "list": "List"
-    }
+    },
+    "weekNavigation": "Move between weeks"
   },
   "exams": {
     "title": "Skúšky",

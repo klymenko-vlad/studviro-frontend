@@ -1,5 +1,6 @@
 export { toWallTime, wallTimeToInstant, type WallTime } from './time/zoned-time';
 export { cn } from './utils/cn';
+export { initials } from './utils/initials';
 export {
   addLogSink,
   logger,

@@ -7,6 +7,7 @@ import { SignOutMenuItem } from '@/features/sign-out';
 import { LocaleMenuItems } from '@/features/switch-locale';
 import { ThemeMenuItems } from '@/features/theme-toggle';
 import { Link, ROUTES } from '@/shared/config';
+import { initials } from '@/shared/lib';
 import {
   Avatar,
   AvatarFallback,
@@ -18,23 +19,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/ui';
-
-const GRAPHEMES = new Intl.Segmenter();
-
-/**
- * Initials from the parts that carry the name, so a single word still renders.
- * Segmented rather than indexed: a leading `Ľ` or `Č` is one grapheme and more
- * than one UTF-16 code unit.
- */
-function initials(displayName: string) {
-  const parts = displayName.trim().split(/\s+/).filter(Boolean);
-  if (parts.length === 0) return '?';
-
-  return parts
-    .slice(0, 2)
-    .map(part => [...GRAPHEMES.segment(part)][0]?.segment.toUpperCase() ?? '')
-    .join('');
-}
 
 /**
  * One trigger for everything about the person rather than the place: their

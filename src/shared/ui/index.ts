@@ -73,6 +73,7 @@ export { Toaster } from './sonner';
 export { Switch } from './switch';
 export { Textarea } from './textarea';
 export { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
 export { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './table';
 export {
   FileScanBadge,

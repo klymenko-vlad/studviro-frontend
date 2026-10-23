@@ -32,7 +32,7 @@ export function BrandLink({ signedIn }: { signedIn: boolean }) {
     <Link
       href={href}
       aria-label={t('home')}
-      className="focus-visible:ring-ring/50 rounded-md outline-none focus-visible:ring-[3px]"
+      className="focus-visible:ring-ring/50 rounded-md outline-none focus-visible:ring-[3px] lg:[body:has([data-institution-frame])_&]:hidden"
     >
       <Logo />
     </Link>

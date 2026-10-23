@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { CalendarDays, List } from 'lucide-react';
+import { CalendarDays, ChevronLeft, ChevronRight, List } from 'lucide-react';
 import { useFormatter, useTimeZone, useTranslations } from 'next-intl';
 
 import {
@@ -26,7 +26,15 @@ import {
 } from '@/entities/timetable-event';
 import { usePathname, useRouter, useSearchParams } from '@/shared/config';
 import { cn } from '@/shared/lib';
-import { Button, EmptyState, ListSkeleton, QueryError } from '@/shared/ui';
+import {
+  Button,
+  EmptyState,
+  ListSkeleton,
+  QueryError,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/shared/ui';
 
 import { groupCalendarItems } from '../model/calendar-items';
 import { layoutWeek } from '../model/week-layout';
@@ -176,33 +184,37 @@ export function MyCalendar({
               );
             })}
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setFrom(addWeeks(from, -1));
-            }}
+          <div
+            role="group"
+            aria-label={t('weekNavigation')}
+            className="bg-card divide-border inline-flex items-center divide-x overflow-hidden rounded-lg border shadow-xs"
           >
-            {t('previousWeek')}
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setFrom(startOfWeek(today));
-            }}
-          >
-            {t('thisWeek')}
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setFrom(addWeeks(from, 1));
-            }}
-          >
-            {t('nextWeek')}
-          </Button>
+            <WeekStep
+              label={t('previousWeek')}
+              icon={ChevronLeft}
+              onClick={() => {
+                setFrom(addWeeks(from, -1));
+              }}
+            />
+            <Button
+              variant="ghost"
+              size="sm"
+              disabled={isThisWeek}
+              onClick={() => {
+                setFrom(startOfWeek(today));
+              }}
+              className="disabled:text-muted-foreground rounded-none px-3 disabled:opacity-100"
+            >
+              {t('thisWeek')}
+            </Button>
+            <WeekStep
+              label={t('nextWeek')}
+              icon={ChevronRight}
+              onClick={() => {
+                setFrom(addWeeks(from, 1));
+              }}
+            />
+          </div>
         </div>
       </div>
 
@@ -277,5 +289,33 @@ export function MyCalendar({
         </>
       )}
     </div>
+  );
+}
+
+/** One step through the weeks: an arrow that names where it goes on hover and to a screen reader. */
+function WeekStep({
+  label,
+  icon: Icon,
+  onClick,
+}: {
+  label: string;
+  icon: typeof ChevronLeft;
+  onClick: () => void;
+}) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label={label}
+          onClick={onClick}
+          className="rounded-none"
+        >
+          <Icon aria-hidden />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
   );
 }
