@@ -2000,7 +2000,7 @@ export type DiscussionVisibilityDto = {
 };
 
 export type SearchHitDto = {
-    kind: 'course' | 'offering' | 'program' | 'person' | 'orgUnit' | 'room';
+    kind: 'course' | 'offering' | 'program' | 'person' | 'teacher' | 'orgUnit' | 'room';
     id: string;
     title: string;
     subtitle: string | null;
@@ -2015,7 +2015,7 @@ export type SearchResultsDto = {
     /**
      * What this caller was allowed to search at all. A kind absent here was never queried, so an empty result does not mean the thing does not exist.
      */
-    searched: Array<'course' | 'offering' | 'program' | 'person' | 'orgUnit' | 'room'>;
+    searched: Array<'course' | 'offering' | 'program' | 'person' | 'teacher' | 'orgUnit' | 'room'>;
     /**
      * Some kind returned its full page; refine the query.
      */
@@ -2110,6 +2110,34 @@ export type WaitingStudentResponseDto = {
     displayName: string;
     email: string | null;
     waitlistedAt: string | null;
+};
+
+export type TeacherProfileResponseDto = {
+    id: string;
+    displayName: string;
+    email: string;
+    departments: Array<TeacherDepartmentDto>;
+    /**
+     * Newest term first.
+     */
+    offerings: Array<TeacherOfferingDto>;
+};
+
+export type TeacherDepartmentDto = {
+    id: string;
+    code: string;
+    name: string;
+};
+
+export type TeacherOfferingDto = {
+    offeringId: string;
+    courseTitle: string;
+    courseCode: string;
+    termName: string;
+    /**
+     * Whether the caller may open this course page: they teach it, are or were enrolled on it, or administer offerings.
+     */
+    viewerCanOpen: boolean;
 };
 
 export type CreateUserDtoWritable = {
@@ -8060,3 +8088,40 @@ export type ListCourseWaitlistResponses = {
 };
 
 export type ListCourseWaitlistResponse = ListCourseWaitlistResponses[keyof ListCourseWaitlistResponses];
+
+export type GetTeacherProfileData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        userId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/teachers/{userId}';
+};
+
+export type GetTeacherProfileErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetTeacherProfileError = GetTeacherProfileErrors[keyof GetTeacherProfileErrors];
+
+export type GetTeacherProfileResponses = {
+    200: TeacherProfileResponseDto;
+};
+
+export type GetTeacherProfileResponse = GetTeacherProfileResponses[keyof GetTeacherProfileResponses];

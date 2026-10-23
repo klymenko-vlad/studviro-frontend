@@ -8,7 +8,13 @@ import { useTranslations } from 'next-intl';
 import { courseOfferingHref } from '@/entities/course-offering';
 import { enrolledCourseQueries, groupByTerm } from '@/entities/enrolled-course';
 import { usePermissions } from '@/entities/permission';
-import { byKind, hrefFor, MIN_QUERY, searchQueries } from '@/entities/search';
+import {
+  byKind,
+  hrefFor,
+  MIN_QUERY,
+  searchQueries,
+  type SearchHitKind,
+} from '@/entities/search';
 import {
   groupTeachingByTerm,
   teachingOfferingQueries,
@@ -25,6 +31,14 @@ import { Badge, Button, Input, Label, LinkRow } from '@/shared/ui';
 import { useRecentSearchStore, type OpenedHit } from '../model/recent-search-store';
 
 const SUGGESTED = 5;
+const NAMED_WHEN_UNSEARCHED = [
+  'course',
+  'offering',
+  'program',
+  'person',
+  'orgUnit',
+  'room',
+] as const;
 const NONE: string[] = [];
 const NO_HITS: OpenedHit[] = [];
 const subscribeNothing = () => () => undefined;
@@ -71,11 +85,7 @@ export function InstitutionSearch({ institutionId }: { institutionId: string }) 
 
   const groups = results.data === undefined ? [] : byKind(results.data.hits);
   const notSearched =
-    results.data === undefined
-      ? []
-      : (['course', 'offering', 'program', 'person', 'orgUnit', 'room'] as const).filter(
-          kind => !results.data.searched.includes(kind),
-        );
+    results.data === undefined ? [] : unsearchedKinds(results.data.searched);
 
   return (
     <section className="flex flex-col gap-6" aria-label={t('title')}>
@@ -298,5 +308,13 @@ function ResultRow({ hit, onOpen }: { hit: OpenedHit; onOpen?: () => void }) {
         </Link>
       </LinkRow>
     </li>
+  );
+}
+
+/** A reader who searched teachers has searched the people they may find. */
+function unsearchedKinds(searched: readonly SearchHitKind[]) {
+  return NAMED_WHEN_UNSEARCHED.filter(
+    kind =>
+      !searched.includes(kind) && !(kind === 'person' && searched.includes('teacher')),
   );
 }

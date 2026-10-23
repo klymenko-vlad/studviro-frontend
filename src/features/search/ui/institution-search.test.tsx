@@ -164,6 +164,58 @@ describe('InstitutionSearch', () => {
     expect(screen.getByText('Org units')).toBeInTheDocument();
   });
 
+  it('finds a teacher and opens their profile', async () => {
+    server.use(
+      http.get(SEARCH, () =>
+        HttpResponse.json({
+          ...searchResults,
+          searched: ['course', 'offering', 'program', 'teacher', 'room'],
+          hits: [
+            {
+              kind: 'teacher',
+              id: 'dddddddd-dddd-4ddd-8ddd-ddddddddddd1',
+              title: 'Peter Novák',
+              subtitle: 'peter.novak@ukf.sk',
+              context: null,
+              offeringId: null,
+              programId: null,
+            },
+          ],
+        }),
+      ),
+    );
+
+    render();
+    await type('peter');
+
+    const teachers = await screen.findByRole('heading', { name: 'Teachers' });
+    expect(teachers).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Peter Novák/ })).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}/teachers/dddddddd-dddd-4ddd-8ddd-ddddddddddd1`,
+    );
+  });
+
+  it('does not call people unsearched when the reader searched their teachers', async () => {
+    server.use(
+      http.get(SEARCH, () =>
+        HttpResponse.json({
+          ...searchResults,
+          searched: ['course', 'offering', 'program', 'teacher', 'room'],
+        }),
+      ),
+    );
+
+    render();
+    await type('algorithms');
+
+    expect(
+      await screen.findByText(/Not searched, because your role/),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Org units')).toBeInTheDocument();
+    expect(screen.queryByText('People')).not.toBeInTheDocument();
+  });
+
   it('says nothing matched rather than showing an empty list', async () => {
     server.use(
       http.get(SEARCH, () =>

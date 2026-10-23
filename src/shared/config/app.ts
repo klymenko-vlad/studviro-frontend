@@ -59,6 +59,7 @@ export const institutionRoutes = (institutionId: string) => {
     terms: `${base}/structure?tab=terms`,
     orgUnits: `${base}/structure`,
     people: `${base}/people`,
+    teacher: (userId: string) => `${base}/teachers/${userId}`,
     search: `${base}/search`,
     audit: `${base}/settings?tab=audit`,
     bulk: `${base}/settings?tab=bulk`,

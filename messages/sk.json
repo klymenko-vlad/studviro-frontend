@@ -2116,6 +2116,15 @@
       "feedback": "Čo sa podarilo a čo treba opraviť."
     }
   },
+  "teacherProfile": {
+    "courses": "Courses",
+    "departments": "Departments",
+    "noCourses": "No courses on record.",
+    "notFoundTitle": "No such teacher",
+    "notFoundDescription": "Nobody with this profile teaches at this institution.",
+    "errorTitle": "The profile could not be loaded",
+    "errorDescription": "Try again in a moment."
+  },
   "search": {
     "title": "Vyhľadávanie",
     "subtitle": "Predmety, programy, ľudia, miestnosti – všetko, čo smiete vidieť.",
@@ -2136,6 +2145,7 @@
       "course": "Predmety",
       "offering": "V ponuke",
       "program": "Programy",
+      "teacher": "Teachers",
       "person": "Ľudia",
       "orgUnit": "Útvary",
       "room": "Miestnosti"

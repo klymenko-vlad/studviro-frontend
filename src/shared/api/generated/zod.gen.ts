@@ -2542,6 +2542,7 @@ export const zSearchHitDto = z.object({
         'offering',
         'program',
         'person',
+        'teacher',
         'orgUnit',
         'room'
     ]),
@@ -2561,6 +2562,7 @@ export const zSearchResultsDto = z.object({
         'offering',
         'program',
         'person',
+        'teacher',
         'orgUnit',
         'room'
     ])),
@@ -2667,6 +2669,28 @@ export const zWaitingStudentResponseDto = z.object({
     displayName: z.string(),
     email: z.string().nullable(),
     waitlistedAt: z.iso.datetime().nullable()
+});
+
+export const zTeacherDepartmentDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string()
+});
+
+export const zTeacherOfferingDto = z.object({
+    offeringId: z.uuid(),
+    courseTitle: z.string(),
+    courseCode: z.string(),
+    termName: z.string(),
+    viewerCanOpen: z.boolean()
+});
+
+export const zTeacherProfileResponseDto = z.object({
+    id: z.uuid(),
+    displayName: z.string(),
+    email: z.string(),
+    departments: z.array(zTeacherDepartmentDto),
+    offerings: z.array(zTeacherOfferingDto)
 });
 
 export const zCreateUserDtoWritable = z.object({
@@ -3946,3 +3970,10 @@ export const zListCourseWaitlistPath = z.object({
 });
 
 export const zListCourseWaitlistResponse = z.array(zWaitingStudentResponseDto);
+
+export const zGetTeacherProfilePath = z.object({
+    institutionId: z.string(),
+    userId: z.string()
+});
+
+export const zGetTeacherProfileResponse = zTeacherProfileResponseDto;

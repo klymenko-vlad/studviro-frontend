@@ -2116,6 +2116,15 @@
       "feedback": "What they did well, and what to fix."
     }
   },
+  "teacherProfile": {
+    "courses": "Courses",
+    "departments": "Departments",
+    "noCourses": "No courses on record.",
+    "notFoundTitle": "No such teacher",
+    "notFoundDescription": "Nobody with this profile teaches at this institution.",
+    "errorTitle": "The profile could not be loaded",
+    "errorDescription": "Try again in a moment."
+  },
   "search": {
     "title": "Search",
     "subtitle": "Courses, programmes, people, rooms: everything you are allowed to see.",
@@ -2136,6 +2145,7 @@
       "course": "Courses",
       "offering": "Course pages",
       "program": "Programmes",
+      "teacher": "Teachers",
       "person": "People",
       "orgUnit": "Org units",
       "room": "Rooms"
