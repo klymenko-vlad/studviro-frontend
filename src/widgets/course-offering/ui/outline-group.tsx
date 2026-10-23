@@ -7,7 +7,11 @@ import type { OutlineGroup } from '@/features/arrange-outline';
 import { AssignmentForm } from '@/features/manage-assignments';
 import { MaterialForm } from '@/features/manage-materials';
 import { SectionActions, SectionForm } from '@/features/manage-sections';
-import { RestrictionEditor, type RestrictionCandidate } from '@/features/restrict-access';
+import {
+  GroupsEditor,
+  RestrictionEditor,
+  type RestrictionCandidate,
+} from '@/features/restrict-access';
 import { AvailabilityNote } from '@/entities/availability';
 import {
   ProgressMeter,
@@ -15,7 +19,7 @@ import {
   sectionTally,
   type Progress,
 } from '@/entities/completion';
-import type { LearningSection } from '@/entities/learning-section';
+import { outlineAnchor, type LearningSection } from '@/entities/learning-section';
 import { RestrictionNote } from '@/entities/restriction';
 import {
   Badge,
@@ -27,9 +31,11 @@ import {
   CardTitle,
 } from '@/shared/ui';
 
+import { AccessButtons, type AccessPanel } from './access-buttons';
+import { ItemSight } from './item-sight';
 import { OutlineEntryItem } from './outline-entry';
 
-type Adding = 'material' | 'assignment' | 'edit' | 'access' | null;
+type Adding = 'material' | 'assignment' | 'edit' | Exclude<AccessPanel, null> | null;
 
 export function OutlineGroupCard({
   institutionId,
@@ -51,7 +57,6 @@ export function OutlineGroupCard({
   candidates: readonly RestrictionCandidate[];
 }) {
   const t = useTranslations('outline');
-  const tRestriction = useTranslations('restriction');
   const tCompletion = useTranslations('completion');
   const [open, setOpen] = useState<Adding>(null);
   const { section, entries } = group;
@@ -65,7 +70,12 @@ export function OutlineGroupCard({
   };
 
   return (
-    <Card aria-label={title} role="region">
+    <Card
+      aria-label={title}
+      role="region"
+      id={section === null ? undefined : outlineAnchor('section', section.id)}
+      className="scroll-mt-24"
+    >
       <CardHeader className="gap-2">
         <div className="flex flex-wrap items-center gap-2">
           <CardTitle className="text-base">{title}</CardTitle>
@@ -87,18 +97,15 @@ export function OutlineGroupCard({
             />
           ) : null}
           {manageable && section !== null ? (
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              aria-expanded={open === 'access'}
-              aria-label={tRestriction('editNamed', { title })}
-              onClick={() => {
-                toggle('access');
+            <AccessButtons
+              title={title}
+              open={
+                open === 'access' || open === 'groups' || open === 'sight' ? open : null
+              }
+              onToggle={panel => {
+                setOpen(panel);
               }}
-            >
-              {tRestriction('edit')}
-            </Button>
+            />
           ) : null}
         </div>
         {section?.summary ? <CardDescription>{section.summary}</CardDescription> : null}
@@ -137,6 +144,26 @@ export function OutlineGroupCard({
             target={{ kind: 'section', id: section.id, title }}
             restriction={section.restriction}
             candidates={candidates}
+            onDone={close}
+          />
+        ) : null}
+
+        {manageable && section !== null && open === 'groups' ? (
+          <GroupsEditor
+            institutionId={institutionId}
+            offeringId={offeringId}
+            spaceId={spaceId}
+            target={{ kind: 'section', id: section.id, title }}
+            restriction={section.restriction}
+            onDone={close}
+          />
+        ) : null}
+
+        {manageable && section !== null && open === 'sight' ? (
+          <ItemSight
+            institutionId={institutionId}
+            spaceId={spaceId}
+            target={{ kind: 'section', id: section.id, title }}
             onDone={close}
           />
         ) : null}

@@ -1155,11 +1155,23 @@ export const zConditionViewDto = z.object({
     conditions: z.array(zLeafConditionViewDto).nullable()
 });
 
+export const zAudienceGroupViewDto = z.object({
+    groupId: z.uuid(),
+    groupName: z.string().nullable(),
+    missing: z.boolean()
+});
+
+export const zAudienceViewDto = z.object({
+    hideFromOthers: z.boolean(),
+    groups: z.array(zAudienceGroupViewDto)
+});
+
 export const zRestrictionViewDto = z.object({
     match: z.enum(['all', 'any']),
     hideWhenLocked: z.boolean(),
     locked: z.boolean(),
-    conditions: z.array(zConditionViewDto)
+    conditions: z.array(zConditionViewDto),
+    audience: zAudienceViewDto.nullable()
 });
 
 export const zLearningSectionResponseDto = z.object({
@@ -1216,8 +1228,14 @@ export const zRestrictionDto = z.object({
     conditions: z.array(zConditionDto).min(1).max(10)
 });
 
+export const zAudienceDto = z.object({
+    groupIds: z.array(z.uuid()).min(1).max(10),
+    hideFromOthers: z.boolean().optional()
+});
+
 export const zCreateLearningSectionDto = z.object({
     restriction: zRestrictionDto.nullish(),
+    audience: zAudienceDto.nullish(),
     availableFrom: z.iso.datetime().nullish(),
     availableUntil: z.iso.datetime().nullish(),
     hiddenUntilAvailable: z.boolean().optional(),
@@ -1228,6 +1246,7 @@ export const zCreateLearningSectionDto = z.object({
 
 export const zUpdateLearningSectionDto = z.object({
     restriction: zRestrictionDto.nullish(),
+    audience: zAudienceDto.nullish(),
     availableFrom: z.iso.datetime().nullish(),
     availableUntil: z.iso.datetime().nullish(),
     hiddenUntilAvailable: z.boolean().optional(),
@@ -1294,6 +1313,7 @@ export const zUploadTicketResponseDto = z.object({
 
 export const zCreateLearningMaterialDto = z.object({
     restriction: zRestrictionDto.nullish(),
+    audience: zAudienceDto.nullish(),
     availableFrom: z.iso.datetime().nullish(),
     availableUntil: z.iso.datetime().nullish(),
     hiddenUntilAvailable: z.boolean().optional(),
@@ -1319,6 +1339,7 @@ export const zCreateLearningMaterialDto = z.object({
 
 export const zUpdateLearningMaterialDto = z.object({
     restriction: zRestrictionDto.nullish(),
+    audience: zAudienceDto.nullish(),
     availableFrom: z.iso.datetime().nullish(),
     availableUntil: z.iso.datetime().nullish(),
     hiddenUntilAvailable: z.boolean().optional(),
@@ -1380,6 +1401,7 @@ export const zAssignmentResponseDto = z.object({
 
 export const zCreateAssignmentDto = z.object({
     restriction: zRestrictionDto.nullish(),
+    audience: zAudienceDto.nullish(),
     availableFrom: z.iso.datetime().nullish(),
     availableUntil: z.iso.datetime().nullish(),
     hiddenUntilAvailable: z.boolean().optional(),
@@ -1406,6 +1428,7 @@ export const zCreateAssignmentDto = z.object({
 
 export const zUpdateAssignmentDto = z.object({
     restriction: zRestrictionDto.nullish(),
+    audience: zAudienceDto.nullish(),
     availableFrom: z.iso.datetime().nullish(),
     availableUntil: z.iso.datetime().nullish(),
     hiddenUntilAvailable: z.boolean().optional(),
@@ -1691,6 +1714,69 @@ export const zStudentCompletionDto = z.object({
 export const zCompletionReportResponseDto = z.object({
     columns: z.array(zCompletionColumnDto),
     items: z.array(zStudentCompletionDto),
+    meta: zPageMetaDto
+});
+
+export const zStudentSightDto = z.object({
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string(),
+    sight: z.enum([
+        'full',
+        'title',
+        'none'
+    ]),
+    reason: z.enum([
+        'hidden',
+        'scheduled',
+        'ended',
+        'locked'
+    ]).nullable(),
+    source: z.enum(['item', 'section']).nullable(),
+    availableFrom: z.iso.datetime().nullable(),
+    restriction: zRestrictionViewDto.nullable()
+});
+
+export const zSightReportResponseDto = z.object({
+    kind: z.enum([
+        'section',
+        'material',
+        'assignment'
+    ]),
+    id: z.uuid(),
+    title: z.string(),
+    students: z.number(),
+    canOpen: z.number(),
+    seeTitle: z.number(),
+    seeNothing: z.number(),
+    items: z.array(zStudentSightDto),
+    meta: zPageMetaDto
+});
+
+export const zGroupContentGroupDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string().nullable()
+});
+
+export const zGroupContentItemDto = z.object({
+    kind: z.enum([
+        'section',
+        'material',
+        'assignment'
+    ]),
+    id: z.uuid(),
+    title: z.string(),
+    spaceId: z.uuid(),
+    sectionId: z.uuid().nullable(),
+    sectionTitle: z.string().nullable(),
+    via: z.array(z.enum(['audience', 'condition'])),
+    hideFromOthers: z.boolean()
+});
+
+export const zGroupContentResponseDto = z.object({
+    group: zGroupContentGroupDto,
+    items: z.array(zGroupContentItemDto),
     meta: zPageMetaDto
 });
 
@@ -3728,6 +3814,39 @@ export const zListLearningCompletionsQuery = z.object({
 });
 
 export const zListLearningCompletionsResponse = zCompletionReportResponseDto;
+
+export const zListLearningItemSightPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    kind: z.enum([
+        'section',
+        'material',
+        'assignment'
+    ]),
+    itemId: z.string()
+});
+
+export const zListLearningItemSightQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    limit: z.number().gte(1).lte(100).optional().default(25),
+    q: z.string().max(200).optional()
+});
+
+export const zListLearningItemSightResponse = zSightReportResponseDto;
+
+export const zListStudyGroupContentPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    groupId: z.string()
+});
+
+export const zListStudyGroupContentQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    limit: z.number().gte(1).lte(100).optional().default(25),
+    q: z.string().max(200).optional()
+});
+
+export const zListStudyGroupContentResponse = zGroupContentResponseDto;
 
 export const zCreateDemoRequestBody = zCreateDemoRequestDtoWritable;
 

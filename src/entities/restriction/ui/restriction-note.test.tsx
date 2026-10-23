@@ -25,7 +25,17 @@ const restriction = (overrides: Partial<RestrictionView>): RestrictionView => ({
   hideWhenLocked: false,
   locked: true,
   conditions: [],
+  audience: null,
   ...overrides,
+});
+
+const groups = (hideFromOthers: boolean, ...names: (string | null)[]) => ({
+  hideFromOthers,
+  groups: names.map((groupName, index) => ({
+    groupId: `f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f${String(index)}`,
+    groupName,
+    missing: groupName === null,
+  })),
 });
 
 const items = () => screen.getAllByRole('listitem').map(item => item.textContent);
@@ -100,10 +110,54 @@ describe('RestrictionNote', () => {
     renderWithProviders(
       <RestrictionNote
         audience="author"
-        restriction={restriction({ locked: false, hideWhenLocked: true })}
+        restriction={restriction({
+          locked: false,
+          hideWhenLocked: true,
+          conditions: [leaf({ type: 'completed', itemTitle: 'Week 1 quiz' })],
+        })}
       />,
     );
     expect(screen.getByText('Restricted · hidden while locked')).toBeInTheDocument();
+  });
+
+  it('badges the groups it is for, and how others see it, for an author', () => {
+    const { unmount } = renderWithProviders(
+      <RestrictionNote
+        audience="author"
+        restriction={restriction({ locked: false, audience: groups(true, 'S1', 'S2') })}
+      />,
+    );
+    expect(screen.getByText('Group S1, S2')).toBeInTheDocument();
+    expect(screen.getByText('Hidden from other groups')).toBeInTheDocument();
+    expect(screen.queryByText('Restricted')).toBeNull();
+    unmount();
+
+    renderWithProviders(
+      <RestrictionNote
+        audience="author"
+        restriction={restriction({
+          locked: false,
+          audience: groups(false, 'S2', null),
+          conditions: [leaf({ type: 'completed', itemTitle: 'Week 1 quiz' })],
+        })}
+      />,
+    );
+    expect(screen.getByText('Group S2, a removed group')).toBeInTheDocument();
+    expect(screen.getByText('Other groups see it locked')).toBeInTheDocument();
+    expect(screen.getByText('Restricted')).toBeInTheDocument();
+  });
+
+  it('tells a student outside the groups who it is for', () => {
+    renderWithProviders(
+      <RestrictionNote
+        audience="student"
+        restriction={restriction({ audience: groups(false, 'S2') })}
+      />,
+    );
+
+    expect(screen.getByText('Locked')).toBeInTheDocument();
+    expect(screen.getByText('Only for group S2')).toBeInTheDocument();
+    expect(screen.queryByText('All of these:')).toBeNull();
   });
 
   it('renders nothing without a restriction', () => {

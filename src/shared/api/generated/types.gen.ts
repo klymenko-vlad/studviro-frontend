@@ -888,6 +888,20 @@ export type ConditionViewDto = {
     conditions: Array<LeafConditionViewDto> | null;
 };
 
+export type AudienceGroupViewDto = {
+    groupId: string;
+    groupName: string | null;
+    /**
+     * The group has been removed, so nobody is in it.
+     */
+    missing: boolean;
+};
+
+export type AudienceViewDto = {
+    hideFromOthers: boolean;
+    groups: Array<AudienceGroupViewDto>;
+};
+
 export type RestrictionViewDto = {
     match: 'all' | 'any';
     hideWhenLocked: boolean;
@@ -895,7 +909,14 @@ export type RestrictionViewDto = {
      * For a student: it is locked, and conditions are only those still unmet. For an author: always false, with every condition.
      */
     locked: boolean;
+    /**
+     * Empty when the item is only for some groups and has no other conditions.
+     */
     conditions: Array<ConditionViewDto>;
+    /**
+     * The study groups it is for. A student sees it only while being in none of them is what keeps it locked.
+     */
+    audience: AudienceViewDto | null;
 };
 
 export type LearningSectionResponseDto = {
@@ -961,11 +982,26 @@ export type RestrictionDto = {
     conditions: Array<ConditionDto>;
 };
 
+export type AudienceDto = {
+    /**
+     * Study groups of the offering. A student in any one of them may open it.
+     */
+    groupIds: Array<string>;
+    /**
+     * Students in none of the groups see nothing at all, rather than the title and the groups it is for.
+     */
+    hideFromOthers?: boolean;
+};
+
 export type CreateLearningSectionDto = {
     /**
-     * Locked until these conditions hold. Null removes the restriction.
+     * Locked until these conditions hold. Null removes the conditions; the groups it is for stay.
      */
     restriction?: RestrictionDto | null;
+    /**
+     * Only for these study groups, on top of any conditions. Null makes it for every group again; the conditions stay.
+     */
+    audience?: AudienceDto | null;
     /**
      * Students see it from this moment on. Null: from the start.
      */
@@ -988,9 +1024,13 @@ export type CreateLearningSectionDto = {
 
 export type UpdateLearningSectionDto = {
     /**
-     * Locked until these conditions hold. Null removes the restriction.
+     * Locked until these conditions hold. Null removes the conditions; the groups it is for stay.
      */
     restriction?: RestrictionDto | null;
+    /**
+     * Only for these study groups, on top of any conditions. Null makes it for every group again; the conditions stay.
+     */
+    audience?: AudienceDto | null;
     /**
      * Students see it from this moment on. Null: from the start.
      */
@@ -1063,9 +1103,13 @@ export type UploadTicketResponseDto = {
 
 export type CreateLearningMaterialDto = {
     /**
-     * Locked until these conditions hold. Null removes the restriction.
+     * Locked until these conditions hold. Null removes the conditions; the groups it is for stay.
      */
     restriction?: RestrictionDto | null;
+    /**
+     * Only for these study groups, on top of any conditions. Null makes it for every group again; the conditions stay.
+     */
+    audience?: AudienceDto | null;
     /**
      * Students see it from this moment on. Null: from the start.
      */
@@ -1107,9 +1151,13 @@ export type CreateLearningMaterialDto = {
 
 export type UpdateLearningMaterialDto = {
     /**
-     * Locked until these conditions hold. Null removes the restriction.
+     * Locked until these conditions hold. Null removes the conditions; the groups it is for stay.
      */
     restriction?: RestrictionDto | null;
+    /**
+     * Only for these study groups, on top of any conditions. Null makes it for every group again; the conditions stay.
+     */
+    audience?: AudienceDto | null;
     /**
      * Students see it from this moment on. Null: from the start.
      */
@@ -1189,9 +1237,13 @@ export type AssignmentResponseDto = {
 
 export type CreateAssignmentDto = {
     /**
-     * Locked until these conditions hold. Null removes the restriction.
+     * Locked until these conditions hold. Null removes the conditions; the groups it is for stay.
      */
     restriction?: RestrictionDto | null;
+    /**
+     * Only for these study groups, on top of any conditions. Null makes it for every group again; the conditions stay.
+     */
+    audience?: AudienceDto | null;
     /**
      * Students see it from this moment on. Null: from the start.
      */
@@ -1233,9 +1285,13 @@ export type CreateAssignmentDto = {
 
 export type UpdateAssignmentDto = {
     /**
-     * Locked until these conditions hold. Null removes the restriction.
+     * Locked until these conditions hold. Null removes the conditions; the groups it is for stay.
      */
     restriction?: RestrictionDto | null;
+    /**
+     * Only for these study groups, on top of any conditions. Null makes it for every group again; the conditions stay.
+     */
+    audience?: AudienceDto | null;
     /**
      * Students see it from this moment on. Null: from the start.
      */
@@ -1497,6 +1553,79 @@ export type CompletionReportResponseDto = {
      */
     columns: Array<CompletionColumnDto>;
     items: Array<StudentCompletionDto>;
+    meta: PageMetaDto;
+};
+
+export type StudentSightDto = {
+    userId: string;
+    displayName: string;
+    email: string;
+    /**
+     * full: can open it now; title: sees only its title; none: does not see it.
+     */
+    sight: 'full' | 'title' | 'none';
+    /**
+     * Why not full: hidden by the author, scheduled (not open yet), ended, or locked by a restriction. Null when it is open.
+     */
+    reason: 'hidden' | 'scheduled' | 'ended' | 'locked' | null;
+    /**
+     * Whether the item itself or the section it sits in is what keeps it closed.
+     */
+    source: 'item' | 'section' | null;
+    availableFrom: string | null;
+    /**
+     * When locked: the conditions this student has not met, or the groups they are not in. Given even when the student is shown nothing.
+     */
+    restriction: RestrictionViewDto | null;
+};
+
+export type SightReportResponseDto = {
+    kind: 'section' | 'material' | 'assignment';
+    id: string;
+    title: string;
+    /**
+     * Students on the course, whatever the search narrows to.
+     */
+    students: number;
+    canOpen: number;
+    seeTitle: number;
+    seeNothing: number;
+    items: Array<StudentSightDto>;
+    meta: PageMetaDto;
+};
+
+export type GroupContentGroupDto = {
+    id: string;
+    code: string;
+    name: string | null;
+};
+
+export type GroupContentItemDto = {
+    kind: 'section' | 'material' | 'assignment';
+    id: string;
+    title: string;
+    spaceId: string;
+    /**
+     * The section it sits in; for a section, the section itself. Null: the general area.
+     */
+    sectionId: string | null;
+    sectionTitle: string | null;
+    /**
+     * audience: it is only for this group (and any others named with it); condition: a condition of its restriction asks for this group.
+     */
+    via: Array<'audience' | 'condition'>;
+    /**
+     * Students outside its groups see nothing of it.
+     */
+    hideFromOthers: boolean;
+};
+
+export type GroupContentResponseDto = {
+    group: GroupContentGroupDto;
+    /**
+     * A page of them, in outline order.
+     */
+    items: Array<GroupContentItemDto>;
     meta: PageMetaDto;
 };
 
@@ -5954,6 +6083,97 @@ export type ListLearningCompletionsResponses = {
 };
 
 export type ListLearningCompletionsResponse = ListLearningCompletionsResponses[keyof ListLearningCompletionsResponses];
+
+export type ListLearningItemSightData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        kind: 'section' | 'material' | 'assignment';
+        itemId: string;
+    };
+    query?: {
+        page?: number;
+        limit?: number;
+        /**
+         * Narrows to students whose name or email contains this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/sight/{kind}/{itemId}';
+};
+
+export type ListLearningItemSightErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListLearningItemSightError = ListLearningItemSightErrors[keyof ListLearningItemSightErrors];
+
+export type ListLearningItemSightResponses = {
+    200: SightReportResponseDto;
+};
+
+export type ListLearningItemSightResponse = ListLearningItemSightResponses[keyof ListLearningItemSightResponses];
+
+export type ListStudyGroupContentData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        groupId: string;
+    };
+    query?: {
+        page?: number;
+        limit?: number;
+        /**
+         * Narrows to students whose name or email contains this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/study-groups/{groupId}/content';
+};
+
+export type ListStudyGroupContentErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListStudyGroupContentError = ListStudyGroupContentErrors[keyof ListStudyGroupContentErrors];
+
+export type ListStudyGroupContentResponses = {
+    200: GroupContentResponseDto;
+};
+
+export type ListStudyGroupContentResponse = ListStudyGroupContentResponses[keyof ListStudyGroupContentResponses];
 
 export type CreateDemoRequestData = {
     body: CreateDemoRequestDtoWritable;

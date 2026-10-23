@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
 
 import { OutlineItemActions, type OutlineEntry } from '@/features/arrange-outline';
 import {
@@ -9,17 +8,22 @@ import {
   MaterialAvailabilityForm,
   MaterialCompletionSelect,
 } from '@/features/manage-materials';
-import { RestrictionEditor, type RestrictionCandidate } from '@/features/restrict-access';
+import {
+  GroupsEditor,
+  RestrictionEditor,
+  type RestrictionCandidate,
+} from '@/features/restrict-access';
 import { MarkDoneToggle, useRecordView } from '@/features/track-completion';
 import {
   CompletionRuleBadge,
   CompletionStatus,
   type ItemProgress,
 } from '@/entities/completion';
-import type { LearningSection } from '@/entities/learning-section';
+import { outlineAnchor, type LearningSection } from '@/entities/learning-section';
 import { RestrictionNote } from '@/entities/restriction';
-import { Button } from '@/shared/ui';
 
+import { AccessButtons, type AccessPanel } from './access-buttons';
+import { ItemSight } from './item-sight';
 import { OutlineAssignment } from './outline-assignment';
 import { OutlineMaterial } from './outline-material';
 
@@ -46,10 +50,13 @@ export function OutlineEntryItem({
   progress?: ItemProgress;
   candidates: readonly RestrictionCandidate[];
 }) {
-  const t = useTranslations('restriction');
   const recordView = useRecordView(institutionId, spaceId);
   const [scheduling, setScheduling] = useState(false);
-  const [restricting, setRestricting] = useState(false);
+  const [panel, setPanel] = useState<AccessPanel>(null);
+  const closePanel = () => {
+    setPanel(null);
+  };
+  const target = { kind: entry.kind, id: entry.id, title: entry.title };
   const closeScheduling = () => {
     setScheduling(false);
   };
@@ -72,18 +79,7 @@ export function OutlineEntryItem({
         sectionId={sectionId}
         sections={sections}
       />
-      <Button
-        type="button"
-        variant="ghost"
-        size="sm"
-        aria-expanded={restricting}
-        aria-label={t('editNamed', { title: entry.title })}
-        onClick={() => {
-          setRestricting(current => !current);
-        }}
-      >
-        {t('edit')}
-      </Button>
+      <AccessButtons title={entry.title} open={panel} onToggle={setPanel} />
       {entry.kind === 'material' ? (
         <MaterialActions
           institutionId={institutionId}
@@ -121,7 +117,10 @@ export function OutlineEntryItem({
       : undefined;
 
   return (
-    <li className="flex flex-col gap-2">
+    <li
+      id={outlineAnchor(entry.kind, entry.id)}
+      className="flex scroll-mt-24 flex-col gap-2"
+    >
       {entry.kind === 'material' ? (
         <OutlineMaterial
           institutionId={institutionId}
@@ -151,17 +150,33 @@ export function OutlineEntryItem({
         restriction={restriction}
         audience={manageable ? 'author' : 'student'}
       />
-      {manageable && restricting ? (
+      {manageable && panel === 'access' ? (
         <RestrictionEditor
           institutionId={institutionId}
           offeringId={offeringId}
           spaceId={spaceId}
-          target={{ kind: entry.kind, id: entry.id, title: entry.title }}
+          target={target}
           restriction={restriction}
           candidates={candidates}
-          onDone={() => {
-            setRestricting(false);
-          }}
+          onDone={closePanel}
+        />
+      ) : null}
+      {manageable && panel === 'groups' ? (
+        <GroupsEditor
+          institutionId={institutionId}
+          offeringId={offeringId}
+          spaceId={spaceId}
+          target={target}
+          restriction={restriction}
+          onDone={closePanel}
+        />
+      ) : null}
+      {manageable && panel === 'sight' ? (
+        <ItemSight
+          institutionId={institutionId}
+          spaceId={spaceId}
+          target={target}
+          onDone={closePanel}
         />
       ) : null}
       {manageable && scheduling && entry.kind === 'material' ? (

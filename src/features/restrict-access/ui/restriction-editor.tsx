@@ -10,6 +10,7 @@ import {
   blankCondition,
   draftIsComplete,
   draftOf,
+  hasConditions,
   payloadOf,
   type RestrictionDraft,
   type RestrictionView,
@@ -80,7 +81,7 @@ export function RestrictionEditor({
           return;
         }
         setIncomplete(false);
-        void submit(payloadOf(draft, timeZone), t('saved'));
+        void submit({ restriction: payloadOf(draft, timeZone) }, t('saved'));
       }}
     >
       <div className="flex flex-col gap-1">
@@ -166,13 +167,13 @@ export function RestrictionEditor({
           {pending ? <LoaderCircle className="size-4 animate-spin" /> : null}
           {t('save')}
         </Button>
-        {restriction === null ? null : (
+        {!hasConditions(restriction) ? null : (
           <Button
             type="button"
             variant="outline"
             size="sm"
             disabled={pending}
-            onClick={() => void submit(null, t('cleared'))}
+            onClick={() => void submit({ restriction: null }, t('cleared'))}
           >
             {t('clear')}
           </Button>

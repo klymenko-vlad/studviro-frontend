@@ -1,10 +1,22 @@
-import type { RestrictionDto, RestrictionViewDto } from '@/shared/api';
+import type {
+  AudienceDto,
+  RestrictionDto,
+  RestrictionViewDto,
+  StudentSightDto,
+} from '@/shared/api';
 import { fromLocalInput, toLocalInput } from '@/shared/lib';
 
 export type RestrictionView = RestrictionViewDto;
 export type ConditionView = RestrictionViewDto['conditions'][number];
 export type RestrictionMatch = RestrictionViewDto['match'];
 export type RestrictionPayload = RestrictionDto;
+export type AudienceView = NonNullable<RestrictionViewDto['audience']>;
+export type AudiencePayload = AudienceDto;
+export type StudentSight = StudentSightDto;
+
+export function hasConditions(view: RestrictionView | null): view is RestrictionView {
+  return view !== null && view.conditions.length > 0;
+}
 
 export const LEAF_CONDITION_TYPES = ['completed', 'mark', 'date', 'group'] as const;
 export type ConditionType = (typeof LEAF_CONDITION_TYPES)[number] | 'set';
@@ -52,7 +64,7 @@ export function draftOf(
   view: RestrictionView | null,
   timeZone: string,
 ): RestrictionDraft {
-  if (view === null) {
+  if (!hasConditions(view)) {
     return { match: 'all', hideWhenLocked: false, conditions: [blankCondition()] };
   }
 

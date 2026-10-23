@@ -15,6 +15,7 @@ import type {
   ExamRegistrantResponseDto,
   ExamTermAdminResponseDto,
   ExternalIdentityResponseDto,
+  GroupContentResponseDto,
   InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
   ItemProgressDto,
@@ -40,6 +41,7 @@ import type {
   RoomResponseDto,
   SearchResultsDto,
   SessionDto,
+  SightReportResponseDto,
   StudyGroupResponseDto,
   StudyProgressResponseDto,
   SubmissionResponseDto,
@@ -1319,6 +1321,99 @@ export const waitingStudents: WaitingStudentResponseDto[] = [
   },
 ];
 
+export const itemSight: SightReportResponseDto = {
+  kind: 'material',
+  id: MARKING_NOTE_ID,
+  title: 'How marking works',
+  students: 2,
+  canOpen: 1,
+  seeTitle: 0,
+  seeNothing: 1,
+  items: [
+    {
+      userId: '11111111-1111-4111-8111-111111111111',
+      displayName: 'Ada Lovelace',
+      email: 'ada@example.com',
+      sight: 'full',
+      reason: null,
+      source: null,
+      availableFrom: null,
+      restriction: null,
+    },
+    {
+      userId: '22222222-2222-4222-8222-222222222222',
+      displayName: 'Bob Builder',
+      email: 'bob@example.com',
+      sight: 'none',
+      reason: 'locked',
+      source: 'item',
+      availableFrom: null,
+      restriction: {
+        match: 'all',
+        hideWhenLocked: false,
+        locked: true,
+        conditions: [],
+        audience: {
+          hideFromOthers: true,
+          groups: [
+            {
+              groupId: 'f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f1',
+              groupName: 'Monday seminar',
+              missing: false,
+            },
+          ],
+        },
+      },
+    },
+  ],
+  meta: {
+    page: 1,
+    limit: 25,
+    total: 2,
+    pageCount: 1,
+    hasNextPage: false,
+    hasPreviousPage: false,
+  },
+};
+
+export const studyGroupContent: GroupContentResponseDto = {
+  group: {
+    id: 'f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f1',
+    code: 'S1',
+    name: 'Monday seminar',
+  },
+  items: [
+    {
+      kind: 'material',
+      id: MARKING_NOTE_ID,
+      title: 'How marking works',
+      spaceId: LEARNING_SPACE_ID,
+      sectionId: null,
+      sectionTitle: null,
+      via: ['audience'],
+      hideFromOthers: true,
+    },
+    {
+      kind: 'assignment',
+      id: ASSIGNMENT_ID,
+      title: 'Assignment 1 — sorting',
+      spaceId: LEARNING_SPACE_ID,
+      sectionId: LEARNING_SECTION_ID,
+      sectionTitle: 'Week 1 — sorting',
+      via: ['condition'],
+      hideFromOthers: false,
+    },
+  ],
+  meta: {
+    page: 1,
+    limit: 25,
+    total: 2,
+    pageCount: 1,
+    hasNextPage: false,
+    hasPreviousPage: false,
+  },
+};
+
 export const studyGroups: StudyGroupResponseDto[] = [
   {
     id: 'f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f1',
@@ -2076,6 +2171,32 @@ export const handlers = [
   http.get(
     `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/completions`,
     () => HttpResponse.json(completionReport),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/sight/:kind/:itemId`,
+    () => HttpResponse.json(itemSight),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/study-groups/:groupId/content`,
+    ({ params, request }) => {
+      const q = new URL(request.url).searchParams.get('q')?.toLowerCase() ?? '';
+      const items =
+        params['groupId'] === studyGroupContent.group.id
+          ? studyGroupContent.items.filter(item => item.title.toLowerCase().includes(q))
+          : [];
+
+      return HttpResponse.json({
+        ...studyGroupContent,
+        group:
+          params['groupId'] === studyGroupContent.group.id
+            ? studyGroupContent.group
+            : { id: params['groupId'], code: 'L1', name: null },
+        items,
+        meta: { ...studyGroupContent.meta, total: items.length },
+      });
+    },
   ),
 
   http.post(

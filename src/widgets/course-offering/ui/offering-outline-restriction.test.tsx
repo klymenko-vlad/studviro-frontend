@@ -45,6 +45,7 @@ const afterAssignment = (locked: boolean) => ({
   match: 'all',
   hideWhenLocked: false,
   locked,
+  audience: null,
   conditions: [
     condition({
       type: 'completed',
@@ -84,6 +85,7 @@ function serve(locked: boolean) {
             match: 'any',
             hideWhenLocked: !locked,
             locked,
+            audience: null,
             conditions: [
               condition({
                 type: 'group',

@@ -1767,6 +1767,19 @@
       "code": "S1",
       "name": "Monday seminar",
       "capacity": "No limit"
+    },
+    "content": {
+      "title": "Only for {code}",
+      "empty": "Nothing on the course page is only for {code}.",
+      "error": "The content for this group could not be read.",
+      "inSection": "In {title}",
+      "general": "In General",
+      "audienceHidden": "Only this group · hidden from others",
+      "audienceLocked": "Only this group · locked for others",
+      "condition": "named in a condition",
+      "filter": "Find in what is only for {code}",
+      "filterPlaceholder": "Title",
+      "noMatch": "Nothing matches."
     }
   },
   "examTermAdmin": {
@@ -2105,7 +2118,54 @@
     "cleared": "Restriction removed",
     "cancel": "Cancel",
     "incomplete": "Fill in every condition before saving.",
-    "noGroups": "This course has no study groups yet."
+    "noGroups": "This course has no study groups yet.",
+    "audience": {
+      "badge": "Group {names}",
+      "hidden": "Hidden from other groups",
+      "locked": "Other groups see it locked",
+      "missing": "a removed group",
+      "only": "Only for group {names}"
+    },
+    "groups": {
+      "button": "Groups",
+      "named": "Groups for {title}",
+      "legend": "Only students in these groups can open it",
+      "none": "This course has no study groups yet. Open some on the People tab.",
+      "others": "Students in other groups",
+      "othersHidden": "do not see it at all",
+      "othersLocked": "see it locked, with the groups it is for",
+      "hint": "This comes on top of any access conditions: students in these groups still need to meet them.",
+      "empty": "Choose at least one group.",
+      "save": "Save groups",
+      "saved": "Groups saved",
+      "clear": "Make it for everyone",
+      "cleared": "It is for every group again",
+      "cancel": "Cancel"
+    },
+    "sight": {
+      "button": "Who can see",
+      "named": "Who can see {title}",
+      "summary": "{canOpen} of {students} students can open it now",
+      "detail": "{seeTitle} see only its title · {seeNothing} see nothing",
+      "student": "Student",
+      "now": "Now",
+      "why": "Why",
+      "full": "Can open",
+      "title": "Sees the title",
+      "none": "Sees nothing",
+      "hidden": "Hidden from students",
+      "scheduled": "Opens on {when}",
+      "ended": "No longer available",
+      "viaSection": "Because of its section",
+      "filter": "Find a student",
+      "filterPlaceholder": "Name or email",
+      "empty": "No students match.",
+      "noStudents": "Nobody is enrolled on this course yet.",
+      "errorTitle": "Who can see this could not be worked out",
+      "errorDescription": "Try again in a moment.",
+      "close": "Close",
+      "tableLabel": "Students and what they see"
+    }
   },
   "assignments": {
     "title": "Assignments",

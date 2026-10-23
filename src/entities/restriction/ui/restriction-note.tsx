@@ -7,11 +7,13 @@ import { useFormatter, useTimeZone, useTranslations } from 'next-intl';
 import { DEFAULT_TIME_ZONE } from '@/shared/config';
 import { Badge } from '@/shared/ui';
 
-import type {
-  ConditionView,
-  RestrictionMatch,
-  RestrictionView,
+import {
+  hasConditions,
+  type ConditionView,
+  type RestrictionMatch,
+  type RestrictionView,
 } from '../model/restriction';
+import { AudienceNote } from './audience-note';
 
 type Leaf = NonNullable<ConditionView['conditions']>[number];
 
@@ -28,18 +30,24 @@ export function RestrictionNote({
 
   return (
     <div className="text-muted-foreground flex flex-col gap-1 text-sm" role="note">
-      {audience === 'author' ? (
-        <Badge variant="outline" className="w-fit">
-          <Lock aria-hidden="true" />
-          {t(restriction.hideWhenLocked ? 'badgeHidden' : 'badge')}
-        </Badge>
-      ) : (
+      {audience === 'student' ? (
         <p className="text-foreground flex items-center gap-1 font-medium">
           <Lock aria-hidden="true" className="size-4" />
           {t('locked')}
         </p>
+      ) : null}
+      {restriction.audience === null ? null : (
+        <AudienceNote audience={restriction.audience} viewer={audience} />
       )}
-      <Conditions match={restriction.match} conditions={restriction.conditions} />
+      {audience === 'author' && hasConditions(restriction) ? (
+        <Badge variant="outline" className="w-fit">
+          <Lock aria-hidden="true" />
+          {t(restriction.hideWhenLocked ? 'badgeHidden' : 'badge')}
+        </Badge>
+      ) : null}
+      {hasConditions(restriction) ? (
+        <Conditions match={restriction.match} conditions={restriction.conditions} />
+      ) : null}
     </div>
   );
 }

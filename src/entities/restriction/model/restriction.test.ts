@@ -33,6 +33,7 @@ const view: RestrictionView = {
   match: 'any',
   hideWhenLocked: true,
   locked: false,
+  audience: null,
   conditions: [
     leaf({ type: 'completed', itemKind: 'material', itemId: NOTES, itemTitle: 'Notes' }),
     leaf({ type: 'date', from: '2026-11-03T08:00:00.000Z' }),

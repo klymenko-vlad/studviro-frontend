@@ -24,6 +24,8 @@ import {
   Separator,
 } from '@/shared/ui';
 
+import { StudyGroupContent } from './study-group-content';
+
 export function OfferingStudyGroups({
   institutionId,
   offeringId,
@@ -114,6 +116,13 @@ export function OfferingStudyGroups({
                     ))}
                   </ul>
                 )}
+
+                <StudyGroupContent
+                  institutionId={institutionId}
+                  offeringId={offeringId}
+                  groupId={group.id}
+                  code={group.code}
+                />
 
                 {manageable ? (
                   <AddToStudyGroup

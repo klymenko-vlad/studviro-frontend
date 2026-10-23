@@ -36,6 +36,8 @@ export {
   mySubmissions,
   myProgress,
   completionReport,
+  itemSight,
+  studyGroupContent,
   offeringAssignments,
   offeringLearningSpace,
   people,

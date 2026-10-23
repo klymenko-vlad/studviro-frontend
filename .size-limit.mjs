@@ -243,9 +243,18 @@ const budgets = [
     // every create and update. Lazy-loading the editor would not move this number,
     // since the budget sums every chunk. The editor uses plain state and the native
     // `Select` rather than react-hook-form, and adds no dependency.
+    //
+    // Raised from 625 kB to 632 kB on 2026-10-23 for content for one group
+    // (Course Builder Plan CB9): the Groups control on every section and item,
+    // the "who can see this" table with its filter and Load more, the group
+    // badge and sentence, the roster's per-group content list, and their
+    // generated schemas (the audience view now rides on every outline read).
+    // Measured at **630.48 kB**, +6.08 kB over CB4. The group picker reuses
+    // `Switch` and the native `Select` rather than adding a checkbox or radio
+    // primitive, and no dependency was added.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '625 kB',
+    limit: '632 kB',
     gzip: true,
   },
 ];

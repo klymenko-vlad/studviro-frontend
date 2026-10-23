@@ -23,6 +23,7 @@ import {
 } from '@/shared/ui';
 
 import { OutlineGroupCard } from './outline-group';
+import { useScrollToAnchor } from './use-scroll-to-anchor';
 
 export function OfferingOutline({
   institutionId,
@@ -47,6 +48,8 @@ export function OfferingOutline({
     ...completionQueries.myProgress(path),
     enabled: !manageable,
   });
+
+  useScrollToAnchor(sections.isSuccess && materials.isSuccess && assignments.isSuccess);
 
   if (sections.isPending || materials.isPending || assignments.isPending) {
     return <ListSkeleton items={3} data-testid="offering-outline-loading" />;

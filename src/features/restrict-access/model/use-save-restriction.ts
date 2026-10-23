@@ -9,12 +9,17 @@ import {
   learningSectionMutations,
   learningSectionQueries,
 } from '@/entities/learning-section';
-import type { RestrictionPayload } from '@/entities/restriction';
+import type { AudiencePayload, RestrictionPayload } from '@/entities/restriction';
 
 export interface RestrictionTarget {
   kind: 'section' | 'material' | 'assignment';
   id: string;
   title: string;
+}
+
+export interface AccessChange {
+  restriction?: RestrictionPayload | null;
+  audience?: AudiencePayload | null;
 }
 
 export function useSaveRestriction(
@@ -37,8 +42,7 @@ export function useSaveRestriction(
     ]);
   };
 
-  const save = async (restriction: RestrictionPayload | null) => {
-    const body = { restriction };
+  const save = async (body: AccessChange) => {
     if (target.kind === 'section') {
       await section.mutateAsync({ path: { ...space, sectionId: target.id }, body });
     } else if (target.kind === 'material') {

@@ -175,4 +175,41 @@ describe('OfferingStudyGroups', () => {
       await screen.findByText('No groups on this offering yet.'),
     ).toBeInTheDocument();
   });
+
+  it('lists what is restricted to each group, linking to its place on the course page', async () => {
+    render();
+
+    const list = await screen.findByRole('list', { name: 'Only for S1' });
+    const marking = within(list).getByRole('link', { name: 'How marking works' });
+
+    expect(marking.getAttribute('href')).toMatch(
+      /\?section=materials#outline-material-ba5e0001-0001-4001-8001-000000000003$/u,
+    );
+    expect(list).toHaveTextContent('Only this group · hidden from others');
+    expect(
+      within(list).getByRole('link', { name: 'Assignment 1 — sorting' }),
+    ).toBeInTheDocument();
+    expect(list).toHaveTextContent('In Week 1 — sorting · named in a condition');
+    expect(
+      await screen.findByText('Nothing on the course page is only for L1.'),
+    ).toBeInTheDocument();
+  });
+
+  it('narrows what is only for a group by title', async () => {
+    const user = userEvent.setup();
+    render();
+
+    await user.type(
+      await screen.findByLabelText('Find in what is only for S1'),
+      'assignment',
+    );
+
+    await waitFor(() => {
+      const list = screen.getByRole('list', { name: 'Only for S1' });
+      expect(within(list).queryByRole('link', { name: 'How marking works' })).toBeNull();
+    });
+    expect(
+      screen.getByRole('link', { name: 'Assignment 1 — sorting' }),
+    ).toBeInTheDocument();
+  });
 });
