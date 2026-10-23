@@ -9,6 +9,7 @@ import { assignmentQueries, type Assignment } from '@/entities/assignment';
 import { AvailabilityNote } from '@/entities/availability';
 import { authorsOffering, offeringItemAnchor } from '@/entities/course-offering';
 import { usePermissions } from '@/entities/permission';
+import { RestrictionNote } from '@/entities/restriction';
 import type { CourseOfferingResponseDto } from '@/shared/api';
 import { cn, revealTargetClassName, useRevealHashTarget } from '@/shared/lib';
 import {
@@ -96,10 +97,16 @@ export function OfferingAssignments({
                 tabIndex={-1}
                 className={cn('flex flex-col gap-3', revealTargetClassName)}
               >
-                {!manageable && assignment.availability === 'scheduled' ? (
+                {!manageable &&
+                (assignment.availability === 'scheduled' ||
+                  assignment.restriction?.locked === true) ? (
                   <>
                     <span className="font-medium">{assignment.name}</span>
                     <AvailabilityNote item={assignment} audience="student" />
+                    <RestrictionNote
+                      restriction={assignment.restriction}
+                      audience="student"
+                    />
                   </>
                 ) : (
                   <>
@@ -110,6 +117,12 @@ export function OfferingAssignments({
                       )}
                       {manageable ? (
                         <AvailabilityNote item={assignment} audience="author" />
+                      ) : null}
+                      {manageable ? (
+                        <RestrictionNote
+                          restriction={assignment.restriction}
+                          audience="author"
+                        />
                       ) : null}
                       {assignment.allowsLateSubmission ? (
                         <Badge variant="secondary">{t('lateAllowed')}</Badge>

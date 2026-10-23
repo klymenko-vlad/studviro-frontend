@@ -24,7 +24,9 @@ export function OutlineMaterial({
   onOpen?: (materialId: string) => void;
 }) {
   const t = useTranslations('materials');
-  const titleOnly = !manageable && material.availability === 'scheduled';
+  const titleOnly =
+    !manageable &&
+    (material.availability === 'scheduled' || material.restriction?.locked === true);
   const shownInline = material.kind === 'text' && material.body !== null;
 
   useEffect(() => {

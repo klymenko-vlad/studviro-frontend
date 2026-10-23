@@ -1117,7 +1117,53 @@ export const zUpdateLearningSpaceDto = z.object({
     visible: z.boolean().optional()
 });
 
+export const zLeafConditionViewDto = z.object({
+    type: z.enum([
+        'completed',
+        'mark',
+        'date',
+        'group',
+        'set'
+    ]),
+    itemKind: z.enum(['material', 'assignment']).nullable(),
+    itemId: z.uuid().nullable(),
+    itemTitle: z.string().nullable(),
+    atLeast: z.number().nullable(),
+    from: z.iso.datetime().nullable(),
+    groupId: z.uuid().nullable(),
+    groupName: z.string().nullable(),
+    missing: z.boolean()
+});
+
+export const zConditionViewDto = z.object({
+    type: z.enum([
+        'completed',
+        'mark',
+        'date',
+        'group',
+        'set'
+    ]),
+    itemKind: z.enum(['material', 'assignment']).nullable(),
+    itemId: z.uuid().nullable(),
+    itemTitle: z.string().nullable(),
+    atLeast: z.number().nullable(),
+    from: z.iso.datetime().nullable(),
+    groupId: z.uuid().nullable(),
+    groupName: z.string().nullable(),
+    missing: z.boolean(),
+    match: z.enum(['all', 'any']).nullable(),
+    conditions: z.array(zLeafConditionViewDto).nullable()
+});
+
+export const zRestrictionViewDto = z.object({
+    match: z.enum(['all', 'any']),
+    hideWhenLocked: z.boolean(),
+    locked: z.boolean(),
+    conditions: z.array(zConditionViewDto)
+});
+
 export const zLearningSectionResponseDto = z.object({
+    restriction: zRestrictionViewDto.nullable(),
     availableFrom: z.iso.datetime().nullable(),
     availableUntil: z.iso.datetime().nullable(),
     hiddenUntilAvailable: z.boolean(),
@@ -1133,7 +1179,45 @@ export const zLearningSectionResponseDto = z.object({
     visible: z.boolean()
 });
 
+export const zLeafConditionDto = z.object({
+    itemKind: z.enum(['material', 'assignment']).nullish(),
+    itemId: z.uuid().nullish(),
+    atLeast: z.number().gte(0).lte(100000).nullish(),
+    from: z.iso.datetime().nullish(),
+    groupId: z.uuid().nullish(),
+    type: z.enum([
+        'completed',
+        'mark',
+        'date',
+        'group'
+    ])
+});
+
+export const zConditionDto = z.object({
+    itemKind: z.enum(['material', 'assignment']).nullish(),
+    itemId: z.uuid().nullish(),
+    atLeast: z.number().gte(0).lte(100000).nullish(),
+    from: z.iso.datetime().nullish(),
+    groupId: z.uuid().nullish(),
+    type: z.enum([
+        'completed',
+        'mark',
+        'date',
+        'group',
+        'set'
+    ]),
+    match: z.enum(['all', 'any']).nullish(),
+    conditions: z.array(zLeafConditionDto).nullish()
+});
+
+export const zRestrictionDto = z.object({
+    match: z.enum(['all', 'any']),
+    hideWhenLocked: z.boolean().optional(),
+    conditions: z.array(zConditionDto).min(1).max(10)
+});
+
 export const zCreateLearningSectionDto = z.object({
+    restriction: zRestrictionDto.nullish(),
     availableFrom: z.iso.datetime().nullish(),
     availableUntil: z.iso.datetime().nullish(),
     hiddenUntilAvailable: z.boolean().optional(),
@@ -1143,6 +1227,7 @@ export const zCreateLearningSectionDto = z.object({
 });
 
 export const zUpdateLearningSectionDto = z.object({
+    restriction: zRestrictionDto.nullish(),
     availableFrom: z.iso.datetime().nullish(),
     availableUntil: z.iso.datetime().nullish(),
     hiddenUntilAvailable: z.boolean().optional(),
@@ -1153,6 +1238,7 @@ export const zUpdateLearningSectionDto = z.object({
 });
 
 export const zLearningMaterialResponseDto = z.object({
+    restriction: zRestrictionViewDto.nullable(),
     availableFrom: z.iso.datetime().nullable(),
     availableUntil: z.iso.datetime().nullable(),
     hiddenUntilAvailable: z.boolean(),
@@ -1207,6 +1293,7 @@ export const zUploadTicketResponseDto = z.object({
 });
 
 export const zCreateLearningMaterialDto = z.object({
+    restriction: zRestrictionDto.nullish(),
     availableFrom: z.iso.datetime().nullish(),
     availableUntil: z.iso.datetime().nullish(),
     hiddenUntilAvailable: z.boolean().optional(),
@@ -1231,6 +1318,7 @@ export const zCreateLearningMaterialDto = z.object({
 });
 
 export const zUpdateLearningMaterialDto = z.object({
+    restriction: zRestrictionDto.nullish(),
     availableFrom: z.iso.datetime().nullish(),
     availableUntil: z.iso.datetime().nullish(),
     hiddenUntilAvailable: z.boolean().optional(),
@@ -1255,6 +1343,7 @@ export const zDownloadUrlResponseDto = z.object({
 });
 
 export const zAssignmentResponseDto = z.object({
+    restriction: zRestrictionViewDto.nullable(),
     availableFrom: z.iso.datetime().nullable(),
     availableUntil: z.iso.datetime().nullable(),
     hiddenUntilAvailable: z.boolean(),
@@ -1290,6 +1379,7 @@ export const zAssignmentResponseDto = z.object({
 });
 
 export const zCreateAssignmentDto = z.object({
+    restriction: zRestrictionDto.nullish(),
     availableFrom: z.iso.datetime().nullish(),
     availableUntil: z.iso.datetime().nullish(),
     hiddenUntilAvailable: z.boolean().optional(),
@@ -1315,6 +1405,7 @@ export const zCreateAssignmentDto = z.object({
 });
 
 export const zUpdateAssignmentDto = z.object({
+    restriction: zRestrictionDto.nullish(),
     availableFrom: z.iso.datetime().nullish(),
     availableUntil: z.iso.datetime().nullish(),
     hiddenUntilAvailable: z.boolean().optional(),

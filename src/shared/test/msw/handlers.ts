@@ -941,6 +941,7 @@ export const ALWAYS_AVAILABLE = {
   availableUntil: null,
   hiddenUntilAvailable: false,
   availability: 'open',
+  restriction: null,
 } as const;
 
 export const learningSections: LearningSectionResponseDto[] = [

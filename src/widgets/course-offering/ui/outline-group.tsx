@@ -7,6 +7,7 @@ import type { OutlineGroup } from '@/features/arrange-outline';
 import { AssignmentForm } from '@/features/manage-assignments';
 import { MaterialForm } from '@/features/manage-materials';
 import { SectionActions, SectionForm } from '@/features/manage-sections';
+import { RestrictionEditor, type RestrictionCandidate } from '@/features/restrict-access';
 import { AvailabilityNote } from '@/entities/availability';
 import {
   ProgressMeter,
@@ -15,6 +16,7 @@ import {
   type Progress,
 } from '@/entities/completion';
 import type { LearningSection } from '@/entities/learning-section';
+import { RestrictionNote } from '@/entities/restriction';
 import {
   Badge,
   Button,
@@ -27,7 +29,7 @@ import {
 
 import { OutlineEntryItem } from './outline-entry';
 
-type Adding = 'material' | 'assignment' | 'edit' | null;
+type Adding = 'material' | 'assignment' | 'edit' | 'access' | null;
 
 export function OutlineGroupCard({
   institutionId,
@@ -37,6 +39,7 @@ export function OutlineGroupCard({
   sections,
   manageable,
   progress,
+  candidates,
 }: {
   institutionId: string;
   offeringId: string;
@@ -45,8 +48,10 @@ export function OutlineGroupCard({
   sections: readonly LearningSection[];
   manageable: boolean;
   progress?: Progress;
+  candidates: readonly RestrictionCandidate[];
 }) {
   const t = useTranslations('outline');
+  const tRestriction = useTranslations('restriction');
   const tCompletion = useTranslations('completion');
   const [open, setOpen] = useState<Adding>(null);
   const { section, entries } = group;
@@ -81,11 +86,31 @@ export function OutlineGroupCard({
               }}
             />
           ) : null}
+          {manageable && section !== null ? (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              aria-expanded={open === 'access'}
+              aria-label={tRestriction('editNamed', { title })}
+              onClick={() => {
+                toggle('access');
+              }}
+            >
+              {tRestriction('edit')}
+            </Button>
+          ) : null}
         </div>
         {section?.summary ? <CardDescription>{section.summary}</CardDescription> : null}
         {section !== null && !manageable ? (
           <AvailabilityNote item={section} audience="student" />
         ) : null}
+        {section === null ? null : (
+          <RestrictionNote
+            restriction={section.restriction}
+            audience={manageable ? 'author' : 'student'}
+          />
+        )}
         {tally === undefined ? null : (
           <ProgressMeter
             tally={tally}
@@ -104,8 +129,22 @@ export function OutlineGroupCard({
           />
         ) : null}
 
+        {manageable && section !== null && open === 'access' ? (
+          <RestrictionEditor
+            institutionId={institutionId}
+            offeringId={offeringId}
+            spaceId={spaceId}
+            target={{ kind: 'section', id: section.id, title }}
+            restriction={section.restriction}
+            candidates={candidates}
+            onDone={close}
+          />
+        ) : null}
+
         {entries.length === 0 ? (
-          section?.availability === 'scheduled' && !manageable ? null : (
+          !manageable &&
+          (section?.availability === 'scheduled' ||
+            section?.restriction?.locked) ? null : (
             <p className="text-muted-foreground text-sm">{t('emptySection')}</p>
           )
         ) : (
@@ -122,6 +161,7 @@ export function OutlineGroupCard({
                 sections={sections}
                 manageable={manageable}
                 progress={progressOf(progress, entry.id)}
+                candidates={candidates}
               />
             ))}
           </ul>

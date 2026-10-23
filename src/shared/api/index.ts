@@ -595,6 +595,8 @@ export type {
   DownloadUrlResponseDto,
   LearningMaterialResponseDto,
   LearningSectionResponseDto,
+  RestrictionDto,
+  RestrictionViewDto,
   ProgressResponseDto,
   ItemProgressDto,
   CompletionReportResponseDto,

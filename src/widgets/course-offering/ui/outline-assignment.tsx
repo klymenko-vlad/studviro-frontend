@@ -26,7 +26,10 @@ export function OutlineAssignment({
   const format = useFormatter();
   const timeZone = useTimeZone() ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  if (!manageable && assignment.availability === 'scheduled') {
+  if (
+    !manageable &&
+    (assignment.availability === 'scheduled' || assignment.restriction?.locked === true)
+  ) {
     return (
       <>
         <div className="flex flex-wrap items-center gap-2">

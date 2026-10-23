@@ -856,7 +856,53 @@ export type UpdateLearningSpaceDto = {
     visible?: boolean;
 };
 
+export type LeafConditionViewDto = {
+    type: 'completed' | 'mark' | 'date' | 'group' | 'set';
+    itemKind: 'material' | 'assignment' | null;
+    itemId: string | null;
+    itemTitle: string | null;
+    atLeast: number | null;
+    from: string | null;
+    groupId: string | null;
+    groupName: string | null;
+    /**
+     * The item or group it refers to has been removed, so it can never be met.
+     */
+    missing: boolean;
+};
+
+export type ConditionViewDto = {
+    type: 'completed' | 'mark' | 'date' | 'group' | 'set';
+    itemKind: 'material' | 'assignment' | null;
+    itemId: string | null;
+    itemTitle: string | null;
+    atLeast: number | null;
+    from: string | null;
+    groupId: string | null;
+    groupName: string | null;
+    /**
+     * The item or group it refers to has been removed, so it can never be met.
+     */
+    missing: boolean;
+    match: 'all' | 'any' | null;
+    conditions: Array<LeafConditionViewDto> | null;
+};
+
+export type RestrictionViewDto = {
+    match: 'all' | 'any';
+    hideWhenLocked: boolean;
+    /**
+     * For a student: it is locked, and conditions are only those still unmet. For an author: always false, with every condition.
+     */
+    locked: boolean;
+    conditions: Array<ConditionViewDto>;
+};
+
 export type LearningSectionResponseDto = {
+    /**
+     * An author sees the whole restriction. A student sees it only while it keeps the item locked, as what is still needed.
+     */
+    restriction: RestrictionViewDto | null;
     availableFrom: string | null;
     availableUntil: string | null;
     hiddenUntilAvailable: boolean;
@@ -871,7 +917,55 @@ export type LearningSectionResponseDto = {
     visible: boolean;
 };
 
+export type LeafConditionDto = {
+    itemKind?: 'material' | 'assignment' | null;
+    /**
+     * The material or assignment for completed; the assignment for mark.
+     */
+    itemId?: string | null;
+    atLeast?: number | null;
+    from?: string | null;
+    groupId?: string | null;
+    /**
+     * completed: another item is complete; mark: an assignment is marked at or above atLeast points; date: from a moment on; group: the student is in a study group.
+     */
+    type: 'completed' | 'mark' | 'date' | 'group';
+};
+
+export type ConditionDto = {
+    itemKind?: 'material' | 'assignment' | null;
+    /**
+     * The material or assignment for completed; the assignment for mark.
+     */
+    itemId?: string | null;
+    atLeast?: number | null;
+    from?: string | null;
+    groupId?: string | null;
+    /**
+     * A leaf condition, or set: a group of leaf conditions with a match of its own.
+     */
+    type: 'completed' | 'mark' | 'date' | 'group' | 'set';
+    match?: 'all' | 'any' | null;
+    conditions?: Array<LeafConditionDto> | null;
+};
+
+export type RestrictionDto = {
+    /**
+     * Every condition, or any one of them.
+     */
+    match: 'all' | 'any';
+    /**
+     * A student who does not meet it sees nothing at all, rather than the title and what unlocks it.
+     */
+    hideWhenLocked?: boolean;
+    conditions: Array<ConditionDto>;
+};
+
 export type CreateLearningSectionDto = {
+    /**
+     * Locked until these conditions hold. Null removes the restriction.
+     */
+    restriction?: RestrictionDto | null;
     /**
      * Students see it from this moment on. Null: from the start.
      */
@@ -894,6 +988,10 @@ export type CreateLearningSectionDto = {
 
 export type UpdateLearningSectionDto = {
     /**
+     * Locked until these conditions hold. Null removes the restriction.
+     */
+    restriction?: RestrictionDto | null;
+    /**
      * Students see it from this moment on. Null: from the start.
      */
     availableFrom?: string | null;
@@ -915,6 +1013,10 @@ export type UpdateLearningSectionDto = {
 };
 
 export type LearningMaterialResponseDto = {
+    /**
+     * An author sees the whole restriction. A student sees it only while it keeps the item locked, as what is still needed.
+     */
+    restriction: RestrictionViewDto | null;
     availableFrom: string | null;
     availableUntil: string | null;
     hiddenUntilAvailable: boolean;
@@ -961,6 +1063,10 @@ export type UploadTicketResponseDto = {
 
 export type CreateLearningMaterialDto = {
     /**
+     * Locked until these conditions hold. Null removes the restriction.
+     */
+    restriction?: RestrictionDto | null;
+    /**
      * Students see it from this moment on. Null: from the start.
      */
     availableFrom?: string | null;
@@ -1000,6 +1106,10 @@ export type CreateLearningMaterialDto = {
 };
 
 export type UpdateLearningMaterialDto = {
+    /**
+     * Locked until these conditions hold. Null removes the restriction.
+     */
+    restriction?: RestrictionDto | null;
     /**
      * Students see it from this moment on. Null: from the start.
      */
@@ -1047,6 +1157,10 @@ export type DownloadUrlResponseDto = {
 };
 
 export type AssignmentResponseDto = {
+    /**
+     * An author sees the whole restriction. A student sees it only while it keeps the item locked, as what is still needed.
+     */
+    restriction: RestrictionViewDto | null;
     availableFrom: string | null;
     availableUntil: string | null;
     hiddenUntilAvailable: boolean;
@@ -1074,6 +1188,10 @@ export type AssignmentResponseDto = {
 };
 
 export type CreateAssignmentDto = {
+    /**
+     * Locked until these conditions hold. Null removes the restriction.
+     */
+    restriction?: RestrictionDto | null;
     /**
      * Students see it from this moment on. Null: from the start.
      */
@@ -1114,6 +1232,10 @@ export type CreateAssignmentDto = {
 };
 
 export type UpdateAssignmentDto = {
+    /**
+     * Locked until these conditions hold. Null removes the restriction.
+     */
+    restriction?: RestrictionDto | null;
     /**
      * Students see it from this moment on. Null: from the start.
      */

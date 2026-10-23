@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { OutlineItemActions, type OutlineEntry } from '@/features/arrange-outline';
 import {
@@ -8,6 +9,7 @@ import {
   MaterialAvailabilityForm,
   MaterialCompletionSelect,
 } from '@/features/manage-materials';
+import { RestrictionEditor, type RestrictionCandidate } from '@/features/restrict-access';
 import { MarkDoneToggle, useRecordView } from '@/features/track-completion';
 import {
   CompletionRuleBadge,
@@ -15,6 +17,8 @@ import {
   type ItemProgress,
 } from '@/entities/completion';
 import type { LearningSection } from '@/entities/learning-section';
+import { RestrictionNote } from '@/entities/restriction';
+import { Button } from '@/shared/ui';
 
 import { OutlineAssignment } from './outline-assignment';
 import { OutlineMaterial } from './outline-material';
@@ -29,6 +33,7 @@ export function OutlineEntryItem({
   sections,
   manageable,
   progress,
+  candidates,
 }: {
   institutionId: string;
   offeringId: string;
@@ -39,12 +44,17 @@ export function OutlineEntryItem({
   sections: readonly LearningSection[];
   manageable: boolean;
   progress?: ItemProgress;
+  candidates: readonly RestrictionCandidate[];
 }) {
+  const t = useTranslations('restriction');
   const recordView = useRecordView(institutionId, spaceId);
   const [scheduling, setScheduling] = useState(false);
+  const [restricting, setRestricting] = useState(false);
   const closeScheduling = () => {
     setScheduling(false);
   };
+  const restriction =
+    entry.kind === 'material' ? entry.material.restriction : entry.assignment.restriction;
 
   const authoring = manageable ? (
     <>
@@ -62,6 +72,18 @@ export function OutlineEntryItem({
         sectionId={sectionId}
         sections={sections}
       />
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        aria-expanded={restricting}
+        aria-label={t('editNamed', { title: entry.title })}
+        onClick={() => {
+          setRestricting(current => !current);
+        }}
+      >
+        {t('edit')}
+      </Button>
       {entry.kind === 'material' ? (
         <MaterialActions
           institutionId={institutionId}
@@ -123,6 +145,23 @@ export function OutlineEntryItem({
           institutionId={institutionId}
           spaceId={spaceId}
           material={entry.material}
+        />
+      ) : null}
+      <RestrictionNote
+        restriction={restriction}
+        audience={manageable ? 'author' : 'student'}
+      />
+      {manageable && restricting ? (
+        <RestrictionEditor
+          institutionId={institutionId}
+          offeringId={offeringId}
+          spaceId={spaceId}
+          target={{ kind: entry.kind, id: entry.id, title: entry.title }}
+          restriction={restriction}
+          candidates={candidates}
+          onDone={() => {
+            setRestricting(false);
+          }}
         />
       ) : null}
       {manageable && scheduling && entry.kind === 'material' ? (

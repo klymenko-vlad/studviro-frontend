@@ -232,9 +232,20 @@ const budgets = [
     // their generated schemas. CB2 measured 611.39 kB; this measures
     // **618.03 kB**, +6.64 kB. No dependency added; the table reuses `Table`,
     // `LoadMore` and the native `Select`.
+    //
+    // Raised from 620 kB to 625 kB on 2026-10-23 for restrict access (Course
+    // Builder Plan CB4): the restriction editor on sections, materials and
+    // assignments (conditions, one level of grouping, all/any, hide while locked),
+    // the locked note for students and the author's badge, and their generated
+    // schemas. Measured at **624.4 kB**, +6.4 kB over CB3's 618.03 kB. About a third
+    // is generated Zod: the SDK validates responses, so the restriction view schema
+    // rides on every material, assignment and section read, and the input schema on
+    // every create and update. Lazy-loading the editor would not move this number,
+    // since the budget sums every chunk. The editor uses plain state and the native
+    // `Select` rather than react-hook-form, and adds no dependency.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '620 kB',
+    limit: '625 kB',
     gzip: true,
   },
 ];

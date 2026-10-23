@@ -3,8 +3,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
-import { buildOutline } from '@/features/arrange-outline';
+import { buildOutline, type OutlineEntry } from '@/features/arrange-outline';
 import { SectionForm } from '@/features/manage-sections';
+import type { RestrictionCandidate } from '@/features/restrict-access';
 import { assignmentQueries } from '@/entities/assignment';
 import { completionQueries, ProgressMeter } from '@/entities/completion';
 import { authorsOffering } from '@/entities/course-offering';
@@ -55,6 +56,7 @@ export function OfferingOutline({
   }
 
   const groups = buildOutline(sections.data, materials.data, assignments.data);
+  const candidates = groups.flatMap(group => group.entries.map(candidateOf));
   const shown = groups.filter(
     group => manageable || group.section !== null || group.entries.length > 0,
   );
@@ -81,6 +83,7 @@ export function OfferingOutline({
           sections={sections.data}
           manageable={manageable}
           progress={progress.data}
+          candidates={candidates}
         />
       ))}
 
@@ -97,4 +100,13 @@ export function OfferingOutline({
       ) : null}
     </div>
   );
+}
+
+function candidateOf(entry: OutlineEntry): RestrictionCandidate {
+  const rule =
+    entry.kind === 'material'
+      ? entry.material.completionRule
+      : entry.assignment.completionRule;
+
+  return { kind: entry.kind, id: entry.id, title: entry.title, tracked: rule !== 'none' };
 }
