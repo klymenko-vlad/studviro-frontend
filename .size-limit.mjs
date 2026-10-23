@@ -224,9 +224,17 @@ const budgets = [
     // beside the outline, and the section picker is the native `Select`. No
     // dependency added. The plan's quiz steps (CB6–CB8) will need room of their
     // own; budget for them when they land, do not pre-spend it.
+    //
+    // Raised from 615 kB to 620 kB on 2026-10-23 for completion and progress
+    // (Course Builder Plan CB3): the student's tick or status on each item, the
+    // course and section progress bars, the completion rule on the material and
+    // assignment forms and in the outline, the teacher's completion table, and
+    // their generated schemas. CB2 measured 611.39 kB; this measures
+    // **618.03 kB**, +6.64 kB. No dependency added; the table reuses `Table`,
+    // `LoadMore` and the native `Select`.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '615 kB',
+    limit: '620 kB',
     gzip: true,
   },
 ];

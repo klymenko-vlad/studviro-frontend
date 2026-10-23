@@ -3,11 +3,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
-import { courseOfferingQueries } from '@/entities/course-offering';
+import { authorsOffering, courseOfferingQueries } from '@/entities/course-offering';
 import { toApiError } from '@/shared/api';
 import { Alert, AlertDescription, AlertTitle, Skeleton } from '@/shared/ui';
 
 import { OfferingAssessments } from './offering-assessments';
+import { OfferingCompletion } from './offering-completion';
 import { OfferingDiscussion } from './offering-discussion';
 import { OfferingEnrollment } from './offering-enrollment';
 import { OfferingExamTerms } from './offering-exam-terms';
@@ -139,6 +140,19 @@ export function CourseOffering({
               <OfferingDiscussion institutionId={institutionId} offeringId={offeringId} />
             ),
           },
+          ...(authorsOffering(data.viewerRole)
+            ? ([
+                {
+                  key: 'progress',
+                  content: (
+                    <OfferingCompletion
+                      institutionId={institutionId}
+                      offeringId={offeringId}
+                    />
+                  ),
+                },
+              ] as const)
+            : []),
           ...(teaching
             ? ([
                 {

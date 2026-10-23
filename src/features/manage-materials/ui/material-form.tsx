@@ -8,6 +8,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { AvailabilityFields } from '@/entities/availability';
+import { MATERIAL_COMPLETION_RULES } from '@/entities/completion';
 import {
   learningMaterialMutations,
   learningMaterialQueries,
@@ -52,6 +53,7 @@ export function MaterialForm({
   onDone?: () => void;
 }) {
   const t = useTranslations('materials');
+  const tCompletion = useTranslations('completion');
   const timeZone = useTimeZone() ?? DEFAULT_TIME_ZONE;
   const queryClient = useQueryClient();
   const describeUploadError = useUploadErrorMessage();
@@ -253,6 +255,27 @@ export function MaterialForm({
         )}
 
         <AvailabilityFields />
+
+        <FormField
+          control={form.control}
+          name="completionRule"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{tCompletion('field.rule')}</FormLabel>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  {MATERIAL_COMPLETION_RULES.map(rule => (
+                    <SelectItem key={rule} value={rule}>
+                      {tCompletion(`rule.${rule}`)}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormDescription>{tCompletion('field.ruleHint')}</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}

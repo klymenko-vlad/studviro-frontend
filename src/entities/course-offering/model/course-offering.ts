@@ -23,6 +23,7 @@ export type OfferingSection =
   | 'schedule'
   | 'grades'
   | 'discussion'
+  | 'progress'
   | 'people';
 
 export interface OfferingItem {

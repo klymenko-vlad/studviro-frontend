@@ -34,6 +34,8 @@ export {
   learningSpaces,
   LEARNING_SPACE_ID,
   mySubmissions,
+  myProgress,
+  completionReport,
   offeringAssignments,
   offeringLearningSpace,
   people,

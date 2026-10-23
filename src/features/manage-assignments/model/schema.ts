@@ -9,6 +9,7 @@ import {
   toAvailabilityPayload,
   toAvailabilityValues,
 } from '@/entities/availability';
+import { ASSIGNMENT_COMPLETION_RULES } from '@/entities/completion';
 import { apiSchemas } from '@/shared/api';
 import { fromLocalInput, toLocalInput } from '@/shared/lib';
 
@@ -34,6 +35,8 @@ export const assignmentFormSchema = z
     maxPoints: z.string().regex(/^\d*$/u, 'Use a whole number of points'),
     countsTowardFinalGrade: z.boolean(),
     visible: z.boolean(),
+    completionRule: z.enum(ASSIGNMENT_COMPLETION_RULES),
+    completionPassPoints: z.string().regex(/^\d*$/u, 'Use a whole number of points'),
     ...availabilityFormShape,
   })
   .refine(availabilityInOrder, AVAILABILITY_ORDER_ISSUE)
@@ -57,7 +60,22 @@ export const assignmentFormSchema = z
   .refine(values => values.maxAttempts === '' || Number(values.maxAttempts) <= 100, {
     path: ['maxAttempts'],
     message: 'At most one hundred attempts',
-  });
+  })
+  .refine(
+    values => values.completionRule !== 'passed' || values.completionPassPoints !== '',
+    { path: ['completionPassPoints'], message: 'Say how many points pass' },
+  )
+  .refine(
+    values =>
+      values.completionRule !== 'passed' ||
+      values.maxPoints === '' ||
+      values.completionPassPoints === '' ||
+      Number(values.completionPassPoints) <= Number(values.maxPoints),
+    {
+      path: ['completionPassPoints'],
+      message: 'The pass mark is above what the assignment is worth',
+    },
+  );
 
 export type AssignmentFormValues = z.infer<typeof assignmentFormSchema>;
 
@@ -72,6 +90,8 @@ export const EMPTY_ASSIGNMENT: AssignmentFormValues = {
   maxPoints: '',
   countsTowardFinalGrade: true,
   visible: false,
+  completionRule: 'none',
+  completionPassPoints: '',
   ...EMPTY_AVAILABILITY,
 };
 
@@ -90,6 +110,13 @@ export function toFormValues(
     maxPoints: assignment.maxPoints === null ? '' : String(assignment.maxPoints),
     countsTowardFinalGrade: assignment.countsTowardFinalGrade,
     visible: assignment.visible,
+    completionRule:
+      ASSIGNMENT_COMPLETION_RULES.find(rule => rule === assignment.completionRule) ??
+      'none',
+    completionPassPoints:
+      assignment.completionPassPoints === null
+        ? ''
+        : String(assignment.completionPassPoints),
     ...toAvailabilityValues(assignment, timeZone),
   };
 }
@@ -106,6 +133,11 @@ export function toAssignmentPayload(values: AssignmentFormValues, timeZone: stri
     maxPoints: values.maxPoints === '' ? null : Number(values.maxPoints),
     countsTowardFinalGrade: values.countsTowardFinalGrade,
     visible: values.visible,
+    completionRule: values.completionRule,
+    completionPassPoints:
+      values.completionRule === 'passed' && values.completionPassPoints !== ''
+        ? Number(values.completionPassPoints)
+        : null,
     ...toAvailabilityPayload(values, timeZone),
   };
 }

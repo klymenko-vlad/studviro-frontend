@@ -8,6 +8,12 @@ import { AssignmentForm } from '@/features/manage-assignments';
 import { MaterialForm } from '@/features/manage-materials';
 import { SectionActions, SectionForm } from '@/features/manage-sections';
 import { AvailabilityNote } from '@/entities/availability';
+import {
+  ProgressMeter,
+  progressOf,
+  sectionTally,
+  type Progress,
+} from '@/entities/completion';
 import type { LearningSection } from '@/entities/learning-section';
 import {
   Badge,
@@ -30,6 +36,7 @@ export function OutlineGroupCard({
   group,
   sections,
   manageable,
+  progress,
 }: {
   institutionId: string;
   offeringId: string;
@@ -37,11 +44,14 @@ export function OutlineGroupCard({
   group: OutlineGroup;
   sections: readonly LearningSection[];
   manageable: boolean;
+  progress?: Progress;
 }) {
   const t = useTranslations('outline');
+  const tCompletion = useTranslations('completion');
   const [open, setOpen] = useState<Adding>(null);
   const { section, entries } = group;
   const title = section?.title ?? t('general');
+  const tally = sectionTally(progress, section?.id ?? null);
   const toggle = (next: Exclude<Adding, null>) => {
     setOpen(current => (current === next ? null : next));
   };
@@ -76,6 +86,12 @@ export function OutlineGroupCard({
         {section !== null && !manageable ? (
           <AvailabilityNote item={section} audience="student" />
         ) : null}
+        {tally === undefined ? null : (
+          <ProgressMeter
+            tally={tally}
+            label={tCompletion('sectionProgress', { title })}
+          />
+        )}
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
@@ -105,6 +121,7 @@ export function OutlineGroupCard({
                 sectionId={section?.id ?? null}
                 sections={sections}
                 manageable={manageable}
+                progress={progressOf(progress, entry.id)}
               />
             ))}
           </ul>

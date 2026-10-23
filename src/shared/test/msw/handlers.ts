@@ -5,6 +5,7 @@ import type {
   AssignmentResponseDto,
   AuditEventPageDto,
   AuthTokensDto,
+  CompletionReportResponseDto,
   CourseOfferingListItemDto,
   CourseOfferingResponseDto,
   CourseResponseDto,
@@ -16,6 +17,7 @@ import type {
   ExternalIdentityResponseDto,
   InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
+  ItemProgressDto,
   LearningMaterialResponseDto,
   LearningSectionResponseDto,
   LearningSpaceDto,
@@ -33,6 +35,7 @@ import type {
   PersonDirectoryEntryDto,
   ProgramMemberResponseDto,
   ProgramResponseDto,
+  ProgressResponseDto,
   RoleAssignmentResponseDto,
   RoomResponseDto,
   SearchResultsDto,
@@ -966,6 +969,7 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     visible: true,
     scanStatus: 'clean',
     sectionId: LEARNING_SECTION_ID,
+    completionRule: 'viewed',
     ...ALWAYS_AVAILABLE,
   },
   {
@@ -982,6 +986,7 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     visible: false,
     scanStatus: 'clean',
     sectionId: null,
+    completionRule: 'none',
     ...ALWAYS_AVAILABLE,
   },
   {
@@ -998,6 +1003,7 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     visible: true,
     scanStatus: 'clean',
     sectionId: null,
+    completionRule: 'manual',
     ...ALWAYS_AVAILABLE,
   },
 ];
@@ -1019,9 +1025,128 @@ export const offeringAssignments: AssignmentResponseDto[] = [
     position: 1,
     visible: true,
     sectionId: LEARNING_SECTION_ID,
+    completionRule: 'submitted',
+    completionPassPoints: null,
     ...ALWAYS_AVAILABLE,
   },
 ];
+
+const MARKING_NOTE_ID = 'ba5e0001-0001-4001-8001-000000000003';
+const SLIDES_ID = 'ba5e0001-0001-4001-8001-000000000001';
+
+export const myProgress: ProgressResponseDto = {
+  done: 1,
+  total: 3,
+  sections: [
+    { sectionId: null, done: 0, total: 1 },
+    { sectionId: LEARNING_SECTION_ID, done: 1, total: 2 },
+  ],
+  items: [
+    {
+      kind: 'material',
+      id: MARKING_NOTE_ID,
+      sectionId: null,
+      rule: 'manual',
+      state: 'incomplete',
+      completedAt: null,
+    },
+    {
+      kind: 'material',
+      id: SLIDES_ID,
+      sectionId: LEARNING_SECTION_ID,
+      rule: 'viewed',
+      state: 'complete',
+      completedAt: '2026-09-25T09:00:00.000Z',
+    },
+    {
+      kind: 'assignment',
+      id: ASSIGNMENT_ID,
+      sectionId: LEARNING_SECTION_ID,
+      rule: 'submitted',
+      state: 'incomplete',
+      completedAt: null,
+    },
+  ],
+};
+
+export const completionReport: CompletionReportResponseDto = {
+  columns: [
+    {
+      kind: 'material',
+      id: MARKING_NOTE_ID,
+      title: 'How marking works',
+      sectionId: null,
+      rule: 'manual',
+      passPoints: null,
+      visible: true,
+    },
+    {
+      kind: 'material',
+      id: SLIDES_ID,
+      title: 'Lecture 1 — slides',
+      sectionId: LEARNING_SECTION_ID,
+      rule: 'viewed',
+      passPoints: null,
+      visible: true,
+    },
+    {
+      kind: 'assignment',
+      id: ASSIGNMENT_ID,
+      title: 'Assignment 1 — sorting',
+      sectionId: LEARNING_SECTION_ID,
+      rule: 'passed',
+      passPoints: 50,
+      visible: true,
+    },
+  ],
+  items: [
+    {
+      userId: '11111111-1111-4111-8111-111111111111',
+      displayName: 'Ada Lovelace',
+      email: 'ada@example.com',
+      done: 2,
+      cells: [
+        {
+          kind: 'material',
+          id: MARKING_NOTE_ID,
+          state: 'complete',
+          completedAt: '2026-09-22T09:00:00.000Z',
+        },
+        { kind: 'material', id: SLIDES_ID, state: 'incomplete', completedAt: null },
+        {
+          kind: 'assignment',
+          id: ASSIGNMENT_ID,
+          state: 'complete_pass',
+          completedAt: '2026-10-03T09:00:00.000Z',
+        },
+      ],
+    },
+    {
+      userId: '22222222-2222-4222-8222-222222222222',
+      displayName: 'Charles Babbage',
+      email: 'charles@example.com',
+      done: 0,
+      cells: [
+        { kind: 'material', id: MARKING_NOTE_ID, state: 'incomplete', completedAt: null },
+        { kind: 'material', id: SLIDES_ID, state: 'incomplete', completedAt: null },
+        {
+          kind: 'assignment',
+          id: ASSIGNMENT_ID,
+          state: 'complete_fail',
+          completedAt: '2026-10-03T09:00:00.000Z',
+        },
+      ],
+    },
+  ],
+  meta: {
+    page: 1,
+    limit: 25,
+    total: 2,
+    pageCount: 1,
+    hasNextPage: false,
+    hasPreviousPage: false,
+  },
+};
 
 export const uploadTicket: UploadTicketResponseDto = {
   url: 'https://store.example.test/studviro/upload-object',
@@ -1921,6 +2046,35 @@ export const handlers = [
   http.get(
     `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/assignments`,
     () => HttpResponse.json(offeringAssignments),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/my-progress`,
+    () => HttpResponse.json(myProgress),
+  ),
+
+  http.put(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/my-completions/:kind/:itemId`,
+    async ({ request, params }) => {
+      const { done } = (await request.json()) as { done: boolean };
+      const item = myProgress.items.find(entry => entry.id === params['itemId']);
+
+      return HttpResponse.json({
+        ...item!,
+        state: done ? 'complete' : 'incomplete',
+        completedAt: done ? '2026-10-20T09:00:00.000Z' : null,
+      } satisfies ItemProgressDto);
+    },
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/materials/:materialId/views`,
+    () => new HttpResponse(null, { status: 204 }),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/completions`,
+    () => HttpResponse.json(completionReport),
   ),
 
   http.post(

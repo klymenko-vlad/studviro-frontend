@@ -938,6 +938,7 @@ export type LearningMaterialResponseDto = {
     position: number;
     visible: boolean;
     sectionId: string | null;
+    completionRule: 'none' | 'manual' | 'viewed' | 'submitted' | 'marked' | 'passed';
 };
 
 export type RequestUploadTicketDto = {
@@ -992,6 +993,10 @@ export type CreateLearningMaterialDto = {
      * The section it sits in; null for the general area at the top.
      */
     sectionId?: string | null;
+    /**
+     * When a student has completed it: never tracked, when they tick it, or when they open it.
+     */
+    completionRule?: 'none' | 'manual' | 'viewed';
 };
 
 export type UpdateLearningMaterialDto = {
@@ -1027,6 +1032,10 @@ export type UpdateLearningMaterialDto = {
      * The section it sits in; null for the general area at the top.
      */
     sectionId?: string | null;
+    /**
+     * When a student has completed it: never tracked, when they tick it, or when they open it.
+     */
+    completionRule?: 'none' | 'manual' | 'viewed';
     position?: number;
 };
 
@@ -1060,6 +1069,8 @@ export type AssignmentResponseDto = {
     position: number | null;
     visible: boolean;
     sectionId: string | null;
+    completionRule: 'none' | 'manual' | 'viewed' | 'submitted' | 'marked' | 'passed';
+    completionPassPoints: number | null;
 };
 
 export type CreateAssignmentDto = {
@@ -1092,6 +1103,14 @@ export type CreateAssignmentDto = {
      * The section it sits in; null for the general area at the top.
      */
     sectionId?: string | null;
+    /**
+     * When a student has completed it: never tracked, when they tick it, when they hand work in, when it is marked, or when the mark reaches the pass mark.
+     */
+    completionRule?: 'none' | 'manual' | 'submitted' | 'marked' | 'passed';
+    /**
+     * Points a student needs to pass. Required when the rule is passed.
+     */
+    completionPassPoints?: number | null;
 };
 
 export type UpdateAssignmentDto = {
@@ -1124,6 +1143,14 @@ export type UpdateAssignmentDto = {
      * The section it sits in; null for the general area at the top.
      */
     sectionId?: string | null;
+    /**
+     * When a student has completed it: never tracked, when they tick it, when they hand work in, when it is marked, or when the mark reaches the pass mark.
+     */
+    completionRule?: 'none' | 'manual' | 'submitted' | 'marked' | 'passed';
+    /**
+     * Points a student needs to pass. Required when the rule is passed.
+     */
+    completionPassPoints?: number | null;
     position?: number;
 };
 
@@ -1276,6 +1303,81 @@ export type MyAssessmentResultResponseDto = {
     offering: AssessmentOfferingDto | null;
 };
 
+export type SectionProgressDto = {
+    /**
+     * Null for the general area at the top.
+     */
+    sectionId: string | null;
+    done: number;
+    total: number;
+};
+
+export type ItemProgressDto = {
+    kind: 'material' | 'assignment';
+    id: string;
+    sectionId: string | null;
+    rule: 'none' | 'manual' | 'viewed' | 'submitted' | 'marked' | 'passed';
+    /**
+     * complete and complete_pass count as done; complete_fail is a mark below the pass mark.
+     */
+    state: 'incomplete' | 'complete' | 'complete_pass' | 'complete_fail';
+    completedAt: string | null;
+};
+
+export type ProgressResponseDto = {
+    done: number;
+    total: number;
+    sections: Array<SectionProgressDto>;
+    items: Array<ItemProgressDto>;
+};
+
+export type MarkDoneDto = {
+    /**
+     * True to tick the item as done, false to untick it.
+     */
+    done: boolean;
+};
+
+export type CompletionColumnDto = {
+    kind: 'material' | 'assignment';
+    id: string;
+    title: string;
+    sectionId: string | null;
+    rule: 'none' | 'manual' | 'viewed' | 'submitted' | 'marked' | 'passed';
+    passPoints: number | null;
+    visible: boolean;
+};
+
+export type CompletionCellDto = {
+    kind: 'material' | 'assignment';
+    id: string;
+    /**
+     * complete and complete_pass count as done; complete_fail is a mark below the pass mark.
+     */
+    state: 'incomplete' | 'complete' | 'complete_pass' | 'complete_fail';
+    completedAt: string | null;
+};
+
+export type StudentCompletionDto = {
+    userId: string;
+    displayName: string;
+    email: string;
+    done: number;
+    /**
+     * One cell per column, in the same order.
+     */
+    cells: Array<CompletionCellDto>;
+};
+
+export type CompletionReportResponseDto = {
+    /**
+     * Every item with a completion rule, in outline order, hidden ones included.
+     */
+    columns: Array<CompletionColumnDto>;
+    items: Array<StudentCompletionDto>;
+    meta: PageMetaDto;
+};
+
 export type CreateDemoRequestDto = {
     institutionName: string;
     contactName: string;
@@ -1420,10 +1522,13 @@ export type ExportedAssessmentResultDto = {
 };
 
 export type ExportedActivityCompletionDto = {
-    learningActivityId: string;
+    learningActivityId: string | null;
+    learningMaterialId: string | null;
     activityName: string;
     state: 'incomplete' | 'complete' | 'complete_pass' | 'complete_fail';
     completedAt: string | null;
+    viewedAt: string | null;
+    markedDoneAt: string | null;
 };
 
 export type ExportedFileDto = {
@@ -2138,7 +2243,7 @@ export type DiscussionVisibilityDto = {
 };
 
 export type SearchHitDto = {
-    kind: 'course' | 'offering' | 'program' | 'person' | 'orgUnit' | 'room';
+    kind: 'course' | 'offering' | 'program' | 'person' | 'teacher' | 'orgUnit' | 'room';
     id: string;
     title: string;
     subtitle: string | null;
@@ -2153,11 +2258,39 @@ export type SearchResultsDto = {
     /**
      * What this caller was allowed to search at all. A kind absent here was never queried, so an empty result does not mean the thing does not exist.
      */
-    searched: Array<'course' | 'offering' | 'program' | 'person' | 'orgUnit' | 'room'>;
+    searched: Array<'course' | 'offering' | 'program' | 'person' | 'teacher' | 'orgUnit' | 'room'>;
     /**
      * Some kind returned its full page; refine the query.
      */
     truncated: boolean;
+};
+
+export type TeacherDepartmentDto = {
+    id: string;
+    code: string;
+    name: string;
+};
+
+export type TeacherOfferingDto = {
+    offeringId: string;
+    courseTitle: string;
+    courseCode: string;
+    termName: string;
+    /**
+     * Whether the caller may open this course page: they teach it, are or were enrolled on it, or administer offerings.
+     */
+    viewerCanOpen: boolean;
+};
+
+export type TeacherProfileResponseDto = {
+    id: string;
+    displayName: string;
+    email: string;
+    departments: Array<TeacherDepartmentDto>;
+    /**
+     * Newest term first.
+     */
+    offerings: Array<TeacherOfferingDto>;
 };
 
 export type CaptchaStateDto = {
@@ -4997,6 +5130,44 @@ export type UpdateLearningMaterialResponses = {
 
 export type UpdateLearningMaterialResponse = UpdateLearningMaterialResponses[keyof UpdateLearningMaterialResponses];
 
+export type RecordLearningMaterialViewData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        materialId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}/views';
+};
+
+export type RecordLearningMaterialViewErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RecordLearningMaterialViewError = RecordLearningMaterialViewErrors[keyof RecordLearningMaterialViewErrors];
+
+export type RecordLearningMaterialViewResponses = {
+    204: void;
+};
+
+export type RecordLearningMaterialViewResponse = RecordLearningMaterialViewResponses[keyof RecordLearningMaterialViewResponses];
+
 export type GetLearningMaterialDownloadUrlData = {
     body?: never;
     path: {
@@ -5537,6 +5708,130 @@ export type ListMyAssessmentResultsResponses = {
 };
 
 export type ListMyAssessmentResultsResponse = ListMyAssessmentResultsResponses[keyof ListMyAssessmentResultsResponses];
+
+export type GetMyLearningProgressData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/my-progress';
+};
+
+export type GetMyLearningProgressErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetMyLearningProgressError = GetMyLearningProgressErrors[keyof GetMyLearningProgressErrors];
+
+export type GetMyLearningProgressResponses = {
+    200: ProgressResponseDto;
+};
+
+export type GetMyLearningProgressResponse = GetMyLearningProgressResponses[keyof GetMyLearningProgressResponses];
+
+export type MarkLearningItemDoneData = {
+    body: MarkDoneDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        kind: 'material' | 'assignment';
+        itemId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/my-completions/{kind}/{itemId}';
+};
+
+export type MarkLearningItemDoneErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type MarkLearningItemDoneError = MarkLearningItemDoneErrors[keyof MarkLearningItemDoneErrors];
+
+export type MarkLearningItemDoneResponses = {
+    200: ItemProgressDto;
+};
+
+export type MarkLearningItemDoneResponse = MarkLearningItemDoneResponses[keyof MarkLearningItemDoneResponses];
+
+export type ListLearningCompletionsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: {
+        page?: number;
+        limit?: number;
+        /**
+         * Narrows to students whose name or email contains this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/completions';
+};
+
+export type ListLearningCompletionsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListLearningCompletionsError = ListLearningCompletionsErrors[keyof ListLearningCompletionsErrors];
+
+export type ListLearningCompletionsResponses = {
+    200: CompletionReportResponseDto;
+};
+
+export type ListLearningCompletionsResponse = ListLearningCompletionsResponses[keyof ListLearningCompletionsResponses];
 
 export type CreateDemoRequestData = {
     body: CreateDemoRequestDtoWritable;
@@ -8096,6 +8391,43 @@ export type SearchResponses = {
 };
 
 export type SearchResponse = SearchResponses[keyof SearchResponses];
+
+export type GetTeacherProfileData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        userId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/teachers/{userId}';
+};
+
+export type GetTeacherProfileErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetTeacherProfileError = GetTeacherProfileErrors[keyof GetTeacherProfileErrors];
+
+export type GetTeacherProfileResponses = {
+    200: TeacherProfileResponseDto;
+};
+
+export type GetTeacherProfileResponse = GetTeacherProfileResponses[keyof GetTeacherProfileResponses];
 
 export type GetCaptchaStateData = {
     body?: never;

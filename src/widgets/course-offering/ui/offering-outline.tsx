@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { buildOutline } from '@/features/arrange-outline';
 import { SectionForm } from '@/features/manage-sections';
 import { assignmentQueries } from '@/entities/assignment';
+import { completionQueries, ProgressMeter } from '@/entities/completion';
 import { authorsOffering } from '@/entities/course-offering';
 import { learningMaterialQueries } from '@/entities/learning-material';
 import { learningSectionQueries } from '@/entities/learning-section';
@@ -34,12 +35,17 @@ export function OfferingOutline({
   viewerRole: CourseOfferingResponseDto['viewerRole'];
 }) {
   const t = useTranslations('outline');
+  const tCompletion = useTranslations('completion');
   const manageable = authorsOffering(viewerRole);
   const path = { path: { institutionId, spaceId } };
 
   const sections = useQuery(learningSectionQueries.list(path));
   const materials = useQuery(learningMaterialQueries.list(path));
   const assignments = useQuery(assignmentQueries.list(path));
+  const progress = useQuery({
+    ...completionQueries.myProgress(path),
+    enabled: !manageable,
+  });
 
   if (sections.isPending || materials.isPending || assignments.isPending) {
     return <ListSkeleton items={3} data-testid="offering-outline-loading" />;
@@ -57,6 +63,14 @@ export function OfferingOutline({
     <div className="flex flex-col gap-6">
       {shown.length === 0 ? <EmptyState title={t('empty')} /> : null}
 
+      {progress.data !== undefined && progress.data.total > 0 ? (
+        <Card>
+          <CardContent>
+            <ProgressMeter tally={progress.data} label={tCompletion('courseProgress')} />
+          </CardContent>
+        </Card>
+      ) : null}
+
       {shown.map(group => (
         <OutlineGroupCard
           key={group.section?.id ?? 'general'}
@@ -66,6 +80,7 @@ export function OfferingOutline({
           group={group}
           sections={sections.data}
           manageable={manageable}
+          progress={progress.data}
         />
       ))}
 

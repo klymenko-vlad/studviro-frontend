@@ -1182,7 +1182,15 @@ export const zLearningMaterialResponseDto = z.object({
     ]),
     position: z.number(),
     visible: z.boolean(),
-    sectionId: z.uuid().nullable()
+    sectionId: z.uuid().nullable(),
+    completionRule: z.enum([
+        'none',
+        'manual',
+        'viewed',
+        'submitted',
+        'marked',
+        'passed'
+    ])
 });
 
 export const zRequestUploadTicketDto = z.object({
@@ -1214,7 +1222,12 @@ export const zCreateLearningMaterialDto = z.object({
     storageKey: z.string().max(1024).nullish(),
     filename: z.string().max(255).nullish(),
     visible: z.boolean().optional(),
-    sectionId: z.uuid().nullish()
+    sectionId: z.uuid().nullish(),
+    completionRule: z.enum([
+        'none',
+        'manual',
+        'viewed'
+    ]).optional()
 });
 
 export const zUpdateLearningMaterialDto = z.object({
@@ -1229,6 +1242,11 @@ export const zUpdateLearningMaterialDto = z.object({
     filename: z.string().max(255).nullish(),
     visible: z.boolean().optional(),
     sectionId: z.uuid().nullish(),
+    completionRule: z.enum([
+        'none',
+        'manual',
+        'viewed'
+    ]).optional(),
     position: z.number().gte(0).optional()
 });
 
@@ -1259,7 +1277,16 @@ export const zAssignmentResponseDto = z.object({
     countsTowardFinalGrade: z.boolean(),
     position: z.number().nullable(),
     visible: z.boolean(),
-    sectionId: z.uuid().nullable()
+    sectionId: z.uuid().nullable(),
+    completionRule: z.enum([
+        'none',
+        'manual',
+        'viewed',
+        'submitted',
+        'marked',
+        'passed'
+    ]),
+    completionPassPoints: z.number().nullable()
 });
 
 export const zCreateAssignmentDto = z.object({
@@ -1276,7 +1303,15 @@ export const zCreateAssignmentDto = z.object({
     maxPoints: z.number().gte(0).lte(100000).nullish(),
     countsTowardFinalGrade: z.boolean().optional(),
     visible: z.boolean().optional(),
-    sectionId: z.uuid().nullish()
+    sectionId: z.uuid().nullish(),
+    completionRule: z.enum([
+        'none',
+        'manual',
+        'submitted',
+        'marked',
+        'passed'
+    ]).optional(),
+    completionPassPoints: z.number().gte(0).lte(100000).nullish()
 });
 
 export const zUpdateAssignmentDto = z.object({
@@ -1294,6 +1329,14 @@ export const zUpdateAssignmentDto = z.object({
     countsTowardFinalGrade: z.boolean().optional(),
     visible: z.boolean().optional(),
     sectionId: z.uuid().nullish(),
+    completionRule: z.enum([
+        'none',
+        'manual',
+        'submitted',
+        'marked',
+        'passed'
+    ]).optional(),
+    completionPassPoints: z.number().gte(0).lte(100000).nullish(),
     position: z.number().gte(0).optional()
 });
 
@@ -1477,6 +1520,87 @@ export const zMyAssessmentResultResponseDto = z.object({
     activity: zAssessmentActivityDto.nullable(),
     learningSpace: zAssessmentLearningSpaceDto,
     offering: zAssessmentOfferingDto.nullable()
+});
+
+export const zSectionProgressDto = z.object({
+    sectionId: z.uuid().nullable(),
+    done: z.number(),
+    total: z.number()
+});
+
+export const zItemProgressDto = z.object({
+    kind: z.enum(['material', 'assignment']),
+    id: z.uuid(),
+    sectionId: z.uuid().nullable(),
+    rule: z.enum([
+        'none',
+        'manual',
+        'viewed',
+        'submitted',
+        'marked',
+        'passed'
+    ]),
+    state: z.enum([
+        'incomplete',
+        'complete',
+        'complete_pass',
+        'complete_fail'
+    ]),
+    completedAt: z.iso.datetime().nullable()
+});
+
+export const zProgressResponseDto = z.object({
+    done: z.number(),
+    total: z.number(),
+    sections: z.array(zSectionProgressDto),
+    items: z.array(zItemProgressDto)
+});
+
+export const zMarkDoneDto = z.object({
+    done: z.boolean()
+});
+
+export const zCompletionColumnDto = z.object({
+    kind: z.enum(['material', 'assignment']),
+    id: z.uuid(),
+    title: z.string(),
+    sectionId: z.uuid().nullable(),
+    rule: z.enum([
+        'none',
+        'manual',
+        'viewed',
+        'submitted',
+        'marked',
+        'passed'
+    ]),
+    passPoints: z.number().nullable(),
+    visible: z.boolean()
+});
+
+export const zCompletionCellDto = z.object({
+    kind: z.enum(['material', 'assignment']),
+    id: z.uuid(),
+    state: z.enum([
+        'incomplete',
+        'complete',
+        'complete_pass',
+        'complete_fail'
+    ]),
+    completedAt: z.iso.datetime().nullable()
+});
+
+export const zStudentCompletionDto = z.object({
+    userId: z.uuid(),
+    displayName: z.string(),
+    email: z.string(),
+    done: z.number(),
+    cells: z.array(zCompletionCellDto)
+});
+
+export const zCompletionReportResponseDto = z.object({
+    columns: z.array(zCompletionColumnDto),
+    items: z.array(zStudentCompletionDto),
+    meta: zPageMetaDto
 });
 
 export const zCreateDemoRequestDto = z.object({
@@ -1715,7 +1839,8 @@ export const zExportedAssessmentResultDto = z.object({
 });
 
 export const zExportedActivityCompletionDto = z.object({
-    learningActivityId: z.uuid(),
+    learningActivityId: z.uuid().nullable(),
+    learningMaterialId: z.uuid().nullable(),
     activityName: z.string(),
     state: z.enum([
         'incomplete',
@@ -1723,7 +1848,9 @@ export const zExportedActivityCompletionDto = z.object({
         'complete_pass',
         'complete_fail'
     ]),
-    completedAt: z.iso.datetime().nullable()
+    completedAt: z.iso.datetime().nullable(),
+    viewedAt: z.iso.datetime().nullable(),
+    markedDoneAt: z.iso.datetime().nullable()
 });
 
 export const zExportedFileDto = z.object({
@@ -2611,6 +2738,7 @@ export const zSearchHitDto = z.object({
         'offering',
         'program',
         'person',
+        'teacher',
         'orgUnit',
         'room'
     ]),
@@ -2630,10 +2758,33 @@ export const zSearchResultsDto = z.object({
         'offering',
         'program',
         'person',
+        'teacher',
         'orgUnit',
         'room'
     ])),
     truncated: z.boolean()
+});
+
+export const zTeacherDepartmentDto = z.object({
+    id: z.uuid(),
+    code: z.string(),
+    name: z.string()
+});
+
+export const zTeacherOfferingDto = z.object({
+    offeringId: z.uuid(),
+    courseTitle: z.string(),
+    courseCode: z.string(),
+    termName: z.string(),
+    viewerCanOpen: z.boolean()
+});
+
+export const zTeacherProfileResponseDto = z.object({
+    id: z.uuid(),
+    displayName: z.string(),
+    email: z.string(),
+    departments: z.array(zTeacherDepartmentDto),
+    offerings: z.array(zTeacherOfferingDto)
 });
 
 export const zCaptchaStateDto = z.object({
@@ -3325,6 +3476,14 @@ export const zUpdateLearningMaterialPath = z.object({
 
 export const zUpdateLearningMaterialResponse = zLearningMaterialResponseDto;
 
+export const zRecordLearningMaterialViewPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    materialId: z.string()
+});
+
+export const zRecordLearningMaterialViewResponse = z.void();
+
 export const zGetLearningMaterialDownloadUrlPath = z.object({
     institutionId: z.string(),
     spaceId: z.string(),
@@ -3447,6 +3606,37 @@ export const zListMyAssessmentResultsQuery = z.object({
 });
 
 export const zListMyAssessmentResultsResponse = z.array(zMyAssessmentResultResponseDto);
+
+export const zGetMyLearningProgressPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zGetMyLearningProgressResponse = zProgressResponseDto;
+
+export const zMarkLearningItemDoneBody = zMarkDoneDto;
+
+export const zMarkLearningItemDonePath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    kind: z.enum(['material', 'assignment']),
+    itemId: z.string()
+});
+
+export const zMarkLearningItemDoneResponse = zItemProgressDto;
+
+export const zListLearningCompletionsPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zListLearningCompletionsQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    limit: z.number().gte(1).lte(100).optional().default(25),
+    q: z.string().max(200).optional()
+});
+
+export const zListLearningCompletionsResponse = zCompletionReportResponseDto;
 
 export const zCreateDemoRequestBody = zCreateDemoRequestDtoWritable;
 
@@ -4005,6 +4195,13 @@ export const zSearchQuery = z.object({
 });
 
 export const zSearchResponse = zSearchResultsDto;
+
+export const zGetTeacherProfilePath = z.object({
+    institutionId: z.string(),
+    userId: z.string()
+});
+
+export const zGetTeacherProfileResponse = zTeacherProfileResponseDto;
 
 export const zGetCaptchaStateResponse = zCaptchaStateDto;
 

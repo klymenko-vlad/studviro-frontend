@@ -53,4 +53,31 @@ describe('the material form', () => {
       }).success,
     ).toBe(false);
   });
+
+  it('tracks nothing unless the author picks a completion rule', () => {
+    const notes = {
+      ...EMPTY_MATERIAL,
+      kind: 'text' as const,
+      title: 'Notes',
+      body: 'Read this.',
+    };
+
+    expect(toMaterialPayload(notes, null, BRATISLAVA).completionRule).toBe('none');
+    expect(
+      toMaterialPayload({ ...notes, completionRule: 'viewed' }, null, BRATISLAVA)
+        .completionRule,
+    ).toBe('viewed');
+  });
+
+  it('refuses a rule a material cannot meet', () => {
+    expect(
+      materialFormSchema.safeParse({
+        ...EMPTY_MATERIAL,
+        kind: 'text',
+        title: 'Notes',
+        body: 'Read this.',
+        completionRule: 'submitted',
+      }).success,
+    ).toBe(false);
+  });
 });

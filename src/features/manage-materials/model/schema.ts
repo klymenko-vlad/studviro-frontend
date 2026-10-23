@@ -7,6 +7,7 @@ import {
   EMPTY_AVAILABILITY,
   toAvailabilityPayload,
 } from '@/entities/availability';
+import { MATERIAL_COMPLETION_RULES } from '@/entities/completion';
 import { apiSchemas } from '@/shared/api';
 
 /**
@@ -23,6 +24,7 @@ export const materialFormSchema = z
     body: z.string().max(20_000),
     url: z.string().max(2048),
     visible: z.boolean(),
+    completionRule: z.enum(MATERIAL_COMPLETION_RULES),
     ...availabilityFormShape,
   })
   .refine(availabilityInOrder, AVAILABILITY_ORDER_ISSUE)
@@ -44,6 +46,7 @@ export const EMPTY_MATERIAL: MaterialFormValues = {
   body: '',
   url: '',
   visible: true,
+  completionRule: 'none',
   ...EMPTY_AVAILABILITY,
 };
 
@@ -62,6 +65,7 @@ export function toMaterialPayload(
     storageKey: uploaded?.storageKey ?? null,
     filename: uploaded?.filename ?? null,
     visible: values.visible,
+    completionRule: values.completionRule,
     sectionId,
     ...toAvailabilityPayload(values, timeZone),
   };

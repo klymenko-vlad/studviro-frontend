@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { MaterialDownload } from '@/features/manage-materials';
@@ -14,15 +14,22 @@ export function OutlineMaterial({
   material,
   manageable,
   actions,
+  onOpen,
 }: {
   institutionId: string;
   spaceId: string;
   material: LearningMaterial;
   manageable: boolean;
   actions: ReactNode;
+  onOpen?: (materialId: string) => void;
 }) {
   const t = useTranslations('materials');
   const titleOnly = !manageable && material.availability === 'scheduled';
+  const shownInline = material.kind === 'text' && material.body !== null;
+
+  useEffect(() => {
+    if (shownInline) onOpen?.(material.id);
+  }, [shownInline, onOpen, material.id]);
 
   return (
     <>
@@ -50,6 +57,7 @@ export function OutlineMaterial({
           rel="noopener noreferrer"
           target="_blank"
           className="text-primary text-sm underline underline-offset-4"
+          onClick={() => onOpen?.(material.id)}
         >
           {material.url}
         </a>

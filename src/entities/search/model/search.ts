@@ -51,6 +51,7 @@ export function hrefFor(
     case 'program':
       return routes.program(hit.programId ?? hit.id);
     case 'person':
+    case 'teacher':
       return routes.people;
     case 'orgUnit':
       return routes.orgUnits;

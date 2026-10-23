@@ -451,7 +451,8 @@
       "schedule": "Schedule",
       "grades": "Grades",
       "discussion": "Discussion",
-      "people": "People"
+      "people": "People",
+      "progress": "Progress"
     },
     "upNext": {
       "title": "Up next",
@@ -2195,6 +2196,7 @@
       "course": "Courses",
       "offering": "Course pages",
       "program": "Programmes",
+      "teacher": "Teachers",
       "person": "People",
       "orgUnit": "Org units",
       "room": "Rooms"
@@ -2499,6 +2501,72 @@
         "bulk": "Bulk entry",
         "audit": "Audit trail"
       }
+    }
+  },
+  "completion": {
+    "progress": "{done} of {total} done",
+    "courseProgress": "Your progress",
+    "sectionProgress": "Progress in {title}",
+    "markDone": "Mark as done",
+    "done": "Done",
+    "markDoneNamed": "Mark {title} as done",
+    "state": {
+      "done": "Done",
+      "passed": "Passed",
+      "failed": "Below the pass mark"
+    },
+    "todo": {
+      "viewed": "Done once you open it",
+      "submitted": "Done once you hand it in",
+      "marked": "Done once it is marked",
+      "passed": "Done once it is marked {points} or more"
+    },
+    "rule": {
+      "none": "Not tracked",
+      "manual": "The student marks it done",
+      "viewed": "When the student opens it",
+      "submitted": "When work is handed in",
+      "marked": "When it is marked",
+      "passed": "When the mark reaches a pass mark"
+    },
+    "ruleBadge": {
+      "manual": "Done: student ticks it",
+      "viewed": "Done: when opened",
+      "submitted": "Done: when handed in",
+      "marked": "Done: when marked"
+    },
+    "ruleBadgePassed": "Done: marked {points} or more",
+    "field": {
+      "rule": "Completion",
+      "passPoints": "Points to pass",
+      "ruleHint": "How a student's tick on this item is earned. Progress counts only items with a rule."
+    },
+    "ruleOfNamed": "Completion for {title}",
+    "saved": "Completion rule saved",
+    "passPointsRequired": "Say how many points pass",
+    "passPointsAboveMax": "The pass mark is above what the assignment is worth",
+    "report": {
+      "title": "Completion",
+      "description": "Which students have completed each tracked item. Hidden items are included; students see only what they can open.",
+      "filter": "Filter students",
+      "filterPlaceholder": "Name or email",
+      "tableLabel": "Completion by student and item",
+      "student": "Student",
+      "done": "Done",
+      "doneOf": "{done} of {total}",
+      "hidden": "Hidden",
+      "empty": "No student matches.",
+      "nothingTracked": "No item tracks completion yet. Choose a completion rule on a material or an assignment in Content.",
+      "noSpace": "Open a course page first; completion is tracked on its items.",
+      "errorTitle": "Completion could not be loaded",
+      "errorDescription": "Try again in a moment.",
+      "cell": {
+        "complete": "Done",
+        "complete_pass": "Passed",
+        "complete_fail": "Below the pass mark",
+        "incomplete": "Not done"
+      },
+      "completedOn": "on {when}"
     }
   }
 }

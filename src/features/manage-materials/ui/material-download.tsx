@@ -6,6 +6,7 @@ import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
+import { invalidateMyProgress } from '@/entities/completion';
 import { learningMaterialQueries } from '@/entities/learning-material';
 import { toApiError } from '@/shared/api';
 import {
@@ -49,6 +50,7 @@ export function MaterialDownload({
       );
 
       window.open(url, '_blank', 'noopener,noreferrer');
+      void invalidateMyProgress(queryClient);
     } catch (error) {
       toast.error(toApiError(error).message);
     } finally {
