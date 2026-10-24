@@ -90,6 +90,12 @@ describe('buildContentSecurityPolicy', () => {
     },
   );
 
+  it('lets a course page frame the two video players it embeds, and nothing else', () => {
+    expect(parse(production)['frame-src']).toBe(
+      'https://www.youtube-nocookie.com https://player.vimeo.com',
+    );
+  });
+
   it.each(['frame-ancestors', 'object-src'])('locks down %s', directive => {
     expect(parse(production)[directive]).toBe(`'none'`);
   });

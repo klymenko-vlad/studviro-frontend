@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { EMPTY_MATERIAL, materialFormSchema, toMaterialPayload } from './schema';
+import {
+  EMPTY_MATERIAL,
+  materialEditSchema,
+  materialFormSchema,
+  toMaterialEdit,
+  toMaterialPayload,
+} from './schema';
 
 const BRATISLAVA = 'Europe/Bratislava';
 
@@ -79,5 +85,103 @@ describe('the material form', () => {
         completionRule: 'submitted',
       }).success,
     ).toBe(false);
+  });
+
+  it('sends a page’s body and a video’s address, and nothing a kind does not use', () => {
+    const page = toMaterialPayload(
+      { ...EMPTY_MATERIAL, kind: 'page', title: 'Guide', body: '# Hi', url: 'x' },
+      null,
+      BRATISLAVA,
+    );
+    expect(page).toMatchObject({ kind: 'page', body: '# Hi', url: null });
+
+    const video = toMaterialPayload(
+      {
+        ...EMPTY_MATERIAL,
+        kind: 'video',
+        title: 'Talk',
+        body: 'x',
+        url: 'https://youtu.be/a',
+      },
+      null,
+      BRATISLAVA,
+    );
+    expect(video).toMatchObject({ kind: 'video', body: null, url: 'https://youtu.be/a' });
+  });
+
+  it('sends a label with its text and no title, and never a completion rule', () => {
+    const label = toMaterialPayload(
+      {
+        ...EMPTY_MATERIAL,
+        kind: 'label',
+        title: 'typed before switching',
+        body: 'Part two',
+        completionRule: 'viewed',
+      },
+      null,
+      BRATISLAVA,
+    );
+
+    expect(label).toMatchObject({
+      kind: 'label',
+      body: 'Part two',
+      completionRule: 'none',
+    });
+    expect(label).not.toHaveProperty('title');
+  });
+
+  it.each([
+    ['page', { body: '' }],
+    ['label', { body: '  ' }],
+    ['label', { body: 'a'.repeat(1001) }],
+    ['text', { body: 'a'.repeat(20_001) }],
+    ['page', { body: 'a'.repeat(100_001) }],
+    ['video', { url: '' }],
+  ] as const)('refuses a %s missing what it is made of or too long', (kind, values) => {
+    expect(
+      materialFormSchema.safeParse({ ...EMPTY_MATERIAL, kind, title: 'T', ...values })
+        .success,
+    ).toBe(false);
+  });
+
+  it('needs a title on everything but a label', () => {
+    expect(
+      materialFormSchema.safeParse({ ...EMPTY_MATERIAL, kind: 'folder', title: '' })
+        .success,
+    ).toBe(false);
+    expect(
+      materialFormSchema.safeParse({
+        ...EMPTY_MATERIAL,
+        kind: 'label',
+        title: '',
+        body: 'Hi',
+      }).success,
+    ).toBe(true);
+    expect(
+      materialFormSchema.safeParse({
+        ...EMPTY_MATERIAL,
+        kind: 'page',
+        title: '',
+        body: 'Hi',
+      }).success,
+    ).toBe(false);
+  });
+
+  it('edits only the title and what the kind is made of', () => {
+    const values = { title: 'New', body: 'B', url: 'https://youtu.be/x' };
+
+    expect(toMaterialEdit('page', values)).toEqual({ title: 'New', body: 'B' });
+    expect(toMaterialEdit('video', values)).toEqual({
+      title: 'New',
+      url: 'https://youtu.be/x',
+    });
+    expect(toMaterialEdit('label', values)).toEqual({ body: 'B' });
+    expect(toMaterialEdit('folder', values)).toEqual({ title: 'New' });
+    expect(
+      materialEditSchema('label').safeParse({ title: '', body: '', url: '' }).success,
+    ).toBe(false);
+    expect(
+      materialEditSchema('file').safeParse({ title: 'x', body: '', url: '' }).success,
+    ).toBe(true);
   });
 });

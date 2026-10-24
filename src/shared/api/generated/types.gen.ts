@@ -1065,10 +1065,16 @@ export type LearningMaterialResponseDto = {
      */
     availability: 'open' | 'scheduled' | 'ended';
     id: string;
-    kind: 'file' | 'link' | 'text';
+    kind: 'file' | 'link' | 'text' | 'page' | 'label' | 'video' | 'folder';
     title: string;
     description: string | null;
+    /**
+     * A page’s body is left out of the list; read the page by id for it.
+     */
     body: string | null;
+    /**
+     * For a video, the embed address to put in a frame.
+     */
     url: string | null;
     filename: string | null;
     contentType: string | null;
@@ -1122,15 +1128,18 @@ export type CreateLearningMaterialDto = {
      * Before it opens, show students nothing rather than its title and the opening date.
      */
     hiddenUntilAvailable?: boolean;
-    kind: 'file' | 'link' | 'text';
-    title: string;
+    kind: 'file' | 'link' | 'text' | 'page' | 'label' | 'video' | 'folder';
+    /**
+     * Required for every kind but a label, which takes its title from its text.
+     */
+    title?: string;
     description?: string | null;
     /**
-     * Text materials only.
+     * A note (up to 20 000 characters), a page (Markdown, up to 100 000) or a label (up to 1 000).
      */
     body?: string | null;
     /**
-     * Link materials only.
+     * A link, or a video: a YouTube or Vimeo address, stored as the provider’s privacy embed address.
      */
     url?: string | null;
     /**
@@ -1170,14 +1179,17 @@ export type UpdateLearningMaterialDto = {
      * Before it opens, show students nothing rather than its title and the opening date.
      */
     hiddenUntilAvailable?: boolean;
+    /**
+     * Required for every kind but a label, which takes its title from its text.
+     */
     title?: string;
     description?: string | null;
     /**
-     * Text materials only.
+     * A note (up to 20 000 characters), a page (Markdown, up to 100 000) or a label (up to 1 000).
      */
     body?: string | null;
     /**
-     * Link materials only.
+     * A link, or a video: a YouTube or Vimeo address, stored as the provider’s privacy embed address.
      */
     url?: string | null;
     /**
@@ -1202,6 +1214,31 @@ export type DownloadUrlResponseDto = {
      * Short-lived, and forces a download.
      */
     url: string;
+};
+
+export type FolderFileResponseDto = {
+    id: string;
+    filename: string;
+    contentType: string;
+    sizeBytes: number | null;
+    /**
+     * `pending`: usable, not yet checked for malware. `clean`: checked. `infected`: deleted, cannot be downloaded. `unscanned`: uploaded while scanning was off.
+     */
+    scanStatus: 'unscanned' | 'pending' | 'clean' | 'infected';
+    createdAt: string;
+};
+
+export type FolderFilePageResponseDto = {
+    items: Array<FolderFileResponseDto>;
+    meta: PageMetaDto;
+};
+
+export type AddFolderFileDto = {
+    /**
+     * The key returned with a material upload ticket.
+     */
+    storageKey: string;
+    filename: string;
 };
 
 export type AssignmentResponseDto = {
@@ -5361,6 +5398,44 @@ export type RemoveLearningMaterialResponses = {
 
 export type RemoveLearningMaterialResponse = RemoveLearningMaterialResponses[keyof RemoveLearningMaterialResponses];
 
+export type GetLearningMaterialData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        materialId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}';
+};
+
+export type GetLearningMaterialErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetLearningMaterialError = GetLearningMaterialErrors[keyof GetLearningMaterialErrors];
+
+export type GetLearningMaterialResponses = {
+    200: LearningMaterialResponseDto;
+};
+
+export type GetLearningMaterialResponse = GetLearningMaterialResponses[keyof GetLearningMaterialResponses];
+
 export type UpdateLearningMaterialData = {
     body: UpdateLearningMaterialDto;
     path: {
@@ -5478,6 +5553,171 @@ export type GetLearningMaterialDownloadUrlResponses = {
 };
 
 export type GetLearningMaterialDownloadUrlResponse = GetLearningMaterialDownloadUrlResponses[keyof GetLearningMaterialDownloadUrlResponses];
+
+export type ListFolderFilesData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        materialId: string;
+    };
+    query?: {
+        page?: number;
+        limit?: number;
+        /**
+         * Narrows to files whose name contains this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}/files';
+};
+
+export type ListFolderFilesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListFolderFilesError = ListFolderFilesErrors[keyof ListFolderFilesErrors];
+
+export type ListFolderFilesResponses = {
+    200: FolderFilePageResponseDto;
+};
+
+export type ListFolderFilesResponse = ListFolderFilesResponses[keyof ListFolderFilesResponses];
+
+export type AddFolderFileData = {
+    body: AddFolderFileDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        materialId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}/files';
+};
+
+export type AddFolderFileErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type AddFolderFileError = AddFolderFileErrors[keyof AddFolderFileErrors];
+
+export type AddFolderFileResponses = {
+    201: FolderFileResponseDto;
+};
+
+export type AddFolderFileResponse = AddFolderFileResponses[keyof AddFolderFileResponses];
+
+export type RemoveFolderFileData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        materialId: string;
+        fileId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}/files/{fileId}';
+};
+
+export type RemoveFolderFileErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveFolderFileError = RemoveFolderFileErrors[keyof RemoveFolderFileErrors];
+
+export type RemoveFolderFileResponses = {
+    204: void;
+};
+
+export type RemoveFolderFileResponse = RemoveFolderFileResponses[keyof RemoveFolderFileResponses];
+
+export type GetFolderFileDownloadUrlData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        materialId: string;
+        fileId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/materials/{materialId}/files/{fileId}/download';
+};
+
+export type GetFolderFileDownloadUrlErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetFolderFileDownloadUrlError = GetFolderFileDownloadUrlErrors[keyof GetFolderFileDownloadUrlErrors];
+
+export type GetFolderFileDownloadUrlResponses = {
+    200: DownloadUrlResponseDto;
+};
+
+export type GetFolderFileDownloadUrlResponse = GetFolderFileDownloadUrlResponses[keyof GetFolderFileDownloadUrlResponses];
 
 export type ListAssignmentsData = {
     body?: never;

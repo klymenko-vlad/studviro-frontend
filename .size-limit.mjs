@@ -261,9 +261,18 @@ const budgets = [
     // components with a read-only flag rather than a second copy of them, and
     // adds no dependency and no primitive; there was nothing left to cut that
     // the feature does not use.
+    //
+    // Raised from 634 kB to 638 kB on 2026-10-24 for more things to put on a
+    // page (Course Builder Plan CB5): the page, label, video and folder kinds in
+    // the add form, an edit form for a material's title and content, the folder's
+    // paged and filtered file list with its add and remove actions, the video
+    // frame, and their generated client. Measured at **637.38 kB**, +4.08 kB over
+    // CB11. The Markdown renderer is not in that number: a page is rendered by a
+    // Server Component on its own route, and the form's preview by a Server
+    // Action, so the renderer never ships to the browser. No dependency added.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '634 kB',
+    limit: '638 kB',
     gzip: true,
   },
 ];

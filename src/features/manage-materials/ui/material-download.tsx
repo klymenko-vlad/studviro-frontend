@@ -25,12 +25,14 @@ export function MaterialDownload({
   institutionId,
   spaceId,
   materialId,
+  fileId,
   title,
   scanStatus,
 }: {
   institutionId: string;
   spaceId: string;
   materialId: string;
+  fileId?: string;
   title: string;
   scanStatus: FileScanStatus;
 }) {
@@ -43,11 +45,15 @@ export function MaterialDownload({
     setPending(true);
 
     try {
-      const { url } = await queryClient.fetchQuery(
-        learningMaterialQueries.downloadUrl({
-          path: { institutionId, spaceId, materialId },
-        }),
-      );
+      const path = { institutionId, spaceId, materialId };
+      const { url } =
+        fileId === undefined
+          ? await queryClient.fetchQuery(learningMaterialQueries.downloadUrl({ path }))
+          : await queryClient.fetchQuery(
+              learningMaterialQueries.folderFileDownloadUrl({
+                path: { ...path, fileId },
+              }),
+            );
 
       window.open(url, '_blank', 'noopener,noreferrer');
       void invalidateMyProgress(queryClient);

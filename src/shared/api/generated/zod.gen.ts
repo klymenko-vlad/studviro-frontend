@@ -1270,7 +1270,11 @@ export const zLearningMaterialResponseDto = z.object({
     kind: z.enum([
         'file',
         'link',
-        'text'
+        'text',
+        'page',
+        'label',
+        'video',
+        'folder'
     ]),
     title: z.string(),
     description: z.string().nullable(),
@@ -1320,11 +1324,15 @@ export const zCreateLearningMaterialDto = z.object({
     kind: z.enum([
         'file',
         'link',
-        'text'
+        'text',
+        'page',
+        'label',
+        'video',
+        'folder'
     ]),
-    title: z.string().min(1).max(200),
+    title: z.string().min(1).max(200).optional(),
     description: z.string().max(2000).nullish(),
-    body: z.string().max(20000).nullish(),
+    body: z.string().max(100000).nullish(),
     url: z.string().max(2048).nullish(),
     storageKey: z.string().max(1024).nullish(),
     filename: z.string().max(255).nullish(),
@@ -1345,7 +1353,7 @@ export const zUpdateLearningMaterialDto = z.object({
     hiddenUntilAvailable: z.boolean().optional(),
     title: z.string().min(1).max(200).optional(),
     description: z.string().max(2000).nullish(),
-    body: z.string().max(20000).nullish(),
+    body: z.string().max(100000).nullish(),
     url: z.string().max(2048).nullish(),
     storageKey: z.string().max(1024).nullish(),
     filename: z.string().max(255).nullish(),
@@ -1361,6 +1369,30 @@ export const zUpdateLearningMaterialDto = z.object({
 
 export const zDownloadUrlResponseDto = z.object({
     url: z.string()
+});
+
+export const zFolderFileResponseDto = z.object({
+    id: z.uuid(),
+    filename: z.string(),
+    contentType: z.string(),
+    sizeBytes: z.number().nullable(),
+    scanStatus: z.enum([
+        'unscanned',
+        'pending',
+        'clean',
+        'infected'
+    ]),
+    createdAt: z.iso.datetime()
+});
+
+export const zFolderFilePageResponseDto = z.object({
+    items: z.array(zFolderFileResponseDto),
+    meta: zPageMetaDto
+});
+
+export const zAddFolderFileDto = z.object({
+    storageKey: z.string().min(1).max(1024),
+    filename: z.string().min(1).max(255)
 });
 
 export const zAssignmentResponseDto = z.object({
@@ -3662,6 +3694,14 @@ export const zRemoveLearningMaterialPath = z.object({
 
 export const zRemoveLearningMaterialResponse = z.void();
 
+export const zGetLearningMaterialPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    materialId: z.string()
+});
+
+export const zGetLearningMaterialResponse = zLearningMaterialResponseDto;
+
 export const zUpdateLearningMaterialBody = zUpdateLearningMaterialDto;
 
 export const zUpdateLearningMaterialPath = z.object({
@@ -3687,6 +3727,48 @@ export const zGetLearningMaterialDownloadUrlPath = z.object({
 });
 
 export const zGetLearningMaterialDownloadUrlResponse = zDownloadUrlResponseDto;
+
+export const zListFolderFilesPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    materialId: z.string()
+});
+
+export const zListFolderFilesQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    q: z.string().max(200).optional()
+});
+
+export const zListFolderFilesResponse = zFolderFilePageResponseDto;
+
+export const zAddFolderFileBody = zAddFolderFileDto;
+
+export const zAddFolderFilePath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    materialId: z.string()
+});
+
+export const zAddFolderFileResponse = zFolderFileResponseDto;
+
+export const zRemoveFolderFilePath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    materialId: z.string(),
+    fileId: z.string()
+});
+
+export const zRemoveFolderFileResponse = z.void();
+
+export const zGetFolderFileDownloadUrlPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    materialId: z.string(),
+    fileId: z.string()
+});
+
+export const zGetFolderFileDownloadUrlResponse = zDownloadUrlResponseDto;
 
 export const zListAssignmentsPath = z.object({
     institutionId: z.string(),

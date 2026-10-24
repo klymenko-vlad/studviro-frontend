@@ -1,15 +1,21 @@
 'use client';
 
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { MaterialDownload } from '@/features/manage-materials';
+import { FolderFiles, MaterialDownload } from '@/features/manage-materials';
 import { AvailabilityNote } from '@/entities/availability';
-import { kilobytes, type LearningMaterial } from '@/entities/learning-material';
-import { Badge } from '@/shared/ui';
+import {
+  isEmbeddable,
+  kilobytes,
+  type LearningMaterial,
+} from '@/entities/learning-material';
+import { institutionRoutes, Link } from '@/shared/config';
+import { Badge, Button } from '@/shared/ui';
 
 export function OutlineMaterial({
   institutionId,
+  offeringId,
   spaceId,
   material,
   manageable,
@@ -18,6 +24,7 @@ export function OutlineMaterial({
   readOnly = false,
 }: {
   institutionId: string;
+  offeringId: string;
   spaceId: string;
   material: LearningMaterial;
   manageable: boolean;
@@ -29,7 +36,10 @@ export function OutlineMaterial({
   const titleOnly =
     !manageable &&
     (material.availability === 'scheduled' || material.restriction?.locked === true);
-  const shownInline = material.kind === 'text' && material.body !== null;
+  const shownInline =
+    (material.kind === 'text' && material.body !== null) ||
+    (material.kind === 'video' && material.url !== null);
+  const [folderOpen, setFolderOpen] = useState(false);
 
   useEffect(() => {
     if (shownInline) onOpen?.(material.id);
@@ -38,8 +48,14 @@ export function OutlineMaterial({
   return (
     <>
       <div className="flex flex-wrap items-center gap-2">
-        <span className="font-medium">{material.title}</span>
-        <Badge variant="secondary">{t(`kind.${material.kind}`)}</Badge>
+        {material.kind === 'label' ? (
+          <p className="whitespace-pre-line">{material.body ?? material.title}</p>
+        ) : (
+          <span className="font-medium">{material.title}</span>
+        )}
+        {material.kind === 'label' && !manageable ? null : (
+          <Badge variant="secondary">{t(`kind.${material.kind}`)}</Badge>
+        )}
         {material.visible ? null : <Badge variant="outline">{t('hidden')}</Badge>}
         {manageable ? <AvailabilityNote item={material} audience="author" /> : null}
         {actions}
@@ -65,6 +81,60 @@ export function OutlineMaterial({
         >
           {material.url}
         </a>
+      ) : null}
+
+      {material.kind === 'page' && !titleOnly ? (
+        <Link
+          href={`${institutionRoutes(institutionId).courses}/${offeringId}/spaces/${spaceId}/pages/${material.id}`}
+          className="text-primary self-start text-sm underline underline-offset-4"
+          aria-label={t('page.readNamed', { title: material.title })}
+        >
+          {t('page.read')}
+        </Link>
+      ) : null}
+
+      {material.kind === 'video' &&
+      material.url !== null &&
+      isEmbeddable(material.url) ? (
+        <div className="aspect-video w-full max-w-2xl overflow-hidden rounded-md border">
+          <iframe
+            src={material.url}
+            title={t('video.frameNamed', { title: material.title })}
+            loading="lazy"
+            allow="encrypted-media; fullscreen; picture-in-picture"
+            allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
+            sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
+            className="size-full"
+          />
+        </div>
+      ) : null}
+
+      {material.kind === 'folder' && !titleOnly ? (
+        <>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="self-start"
+            aria-expanded={folderOpen}
+            onClick={() => {
+              setFolderOpen(current => !current);
+            }}
+          >
+            {folderOpen ? t('folder.hide') : t('folder.show')}
+          </Button>
+          {folderOpen ? (
+            <FolderFiles
+              institutionId={institutionId}
+              spaceId={spaceId}
+              material={material}
+              manageable={manageable && !readOnly}
+              readOnly={readOnly}
+              onOpen={onOpen}
+            />
+          ) : null}
+        </>
       ) : null}
 
       {material.kind === 'file' && !titleOnly ? (

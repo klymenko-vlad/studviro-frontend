@@ -1984,7 +1984,11 @@
     "kind": {
       "file": "Súbor",
       "link": "Odkaz",
-      "text": "Text"
+      "text": "Text",
+      "page": "Page",
+      "label": "Label",
+      "video": "Video",
+      "folder": "Folder"
     },
     "field": {
       "kind": "Druh",
@@ -1994,7 +1998,15 @@
       "body": "Text",
       "file": "Súbor",
       "fileHint": "Súbor sa nahráva priamo do úložiska; server ho zaeviduje, keď dorazí.",
-      "visible": "Zobraziť tento materiál študentom"
+      "visible": "Zobraziť tento materiál študentom",
+      "page": "Page text",
+      "pageHint": "Markdown: # for a heading, - for a list, **bold**, *italic*, [a link](https://…) and `code`. Shown on a page of its own.",
+      "label": "Label text",
+      "labelHint": "A line or two shown between items, with no page of its own. Up to 1,000 characters.",
+      "video": "Video address",
+      "videoHint": "A YouTube or Vimeo address. It is shown in the course page through the provider's privacy-friendly player.",
+      "folderFiles": "Files",
+      "folderFilesHint": "Choose one or more files. You can add or remove files later."
     },
     "upload": {
       "pickFirst": "Najprv vyberte súbor",
@@ -2006,7 +2018,45 @@
       "title": "Prednáška 1: Procesy",
       "description": "Jeden riadok o tom, čo to je.",
       "url": "https://example.edu/prednaska-1",
-      "body": "Text, ktorý tu študenti prečítajú."
+      "body": "Text, ktorý tu študenti prečítajú.",
+      "page": "## Week 1\n\nRead **chapter 4** before the seminar.",
+      "label": "Part two: graphs",
+      "video": "https://www.youtube.com/watch?v=…"
+    },
+    "page": {
+      "preview": "Preview",
+      "previewLabel": "Preview of the page",
+      "read": "Read the page",
+      "readNamed": "Read {title}",
+      "back": "Back to the course"
+    },
+    "video": {
+      "frameNamed": "Video: {title}"
+    },
+    "folder": {
+      "show": "Show files",
+      "hide": "Hide files",
+      "filter": "Find a file",
+      "filterPlaceholder": "Part of the file name",
+      "error": "The files could not be loaded. Try again in a moment.",
+      "empty": "There are no files in this folder yet.",
+      "noMatch": "No file matches that name.",
+      "listNamed": "Files in {title}",
+      "size": "{kilobytes} kB",
+      "remove": "Remove",
+      "removeNamed": "Remove {filename}",
+      "removed": "{filename} was removed",
+      "add": "Add files",
+      "added": "{count, plural, one {# file added} other {# files added}}",
+      "uploading": "Uploading…"
+    },
+    "edit": {
+      "open": "Edit",
+      "named": "Edit {title}",
+      "formNamed": "Edit {title}",
+      "save": "Save changes",
+      "saved": "Material saved",
+      "loadError": "The material could not be loaded. Try again in a moment."
     }
   },
   "outline": {

@@ -7,6 +7,7 @@ import {
   MaterialActions,
   MaterialAvailabilityForm,
   MaterialCompletionSelect,
+  MaterialEditForm,
 } from '@/features/manage-materials';
 import {
   GroupsEditor,
@@ -54,6 +55,7 @@ export function OutlineEntryItem({
 }) {
   const recordView = useRecordView(institutionId, spaceId);
   const [scheduling, setScheduling] = useState(false);
+  const [editing, setEditing] = useState(false);
   const [panel, setPanel] = useState<AccessPanel>(null);
   const closePanel = () => {
     setPanel(null);
@@ -91,6 +93,10 @@ export function OutlineEntryItem({
           onSchedule={() => {
             setScheduling(current => !current);
           }}
+          editing={editing}
+          onEdit={() => {
+            setEditing(current => !current);
+          }}
         />
       ) : null}
     </>
@@ -127,6 +133,7 @@ export function OutlineEntryItem({
       {entry.kind === 'material' ? (
         <OutlineMaterial
           institutionId={institutionId}
+          offeringId={offeringId}
           spaceId={spaceId}
           material={entry.material}
           manageable={manageable}
@@ -144,7 +151,17 @@ export function OutlineEntryItem({
           readOnly={readOnly}
         />
       )}
-      {manageable && entry.kind === 'material' ? (
+      {manageable && entry.kind === 'material' && editing ? (
+        <MaterialEditForm
+          institutionId={institutionId}
+          spaceId={spaceId}
+          material={entry.material}
+          onDone={() => {
+            setEditing(false);
+          }}
+        />
+      ) : null}
+      {manageable && entry.kind === 'material' && entry.material.kind !== 'label' ? (
         <MaterialCompletionSelect
           institutionId={institutionId}
           spaceId={spaceId}

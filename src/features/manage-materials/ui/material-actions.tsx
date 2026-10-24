@@ -29,12 +29,16 @@ export function MaterialActions({
   material,
   scheduling,
   onSchedule,
+  editing,
+  onEdit,
 }: {
   institutionId: string;
   spaceId: string;
   material: LearningMaterial;
   scheduling: boolean;
   onSchedule: () => void;
+  editing: boolean;
+  onEdit: () => void;
 }) {
   const t = useTranslations('materials');
   const tAvailability = useTranslations('availability');
@@ -62,6 +66,17 @@ export function MaterialActions({
 
   return (
     <div className="flex flex-wrap items-center gap-1">
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        aria-expanded={editing}
+        aria-label={t('edit.named', { title: material.title })}
+        onClick={onEdit}
+      >
+        {t('edit.open')}
+      </Button>
+
       <Button
         type="button"
         variant="ghost"

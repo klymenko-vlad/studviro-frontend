@@ -27,6 +27,7 @@ export {
   handlers,
   institutionConfiguration,
   institutions,
+  ALWAYS_AVAILABLE,
   LEARNING_SECTION_ID,
   learningMaterials,
   learningSections,
