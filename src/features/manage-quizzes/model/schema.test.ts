@@ -31,6 +31,13 @@ describe('the quiz settings form', () => {
       gradingMethod: 'highest',
       shuffleQuestions: false,
       shuffleChoices: true,
+      layout: 'one_per_page',
+    });
+  });
+
+  it('sends every question on one page when the author asks for it', () => {
+    expect(toQuizPayload({ ...base, layout: 'all_on_one' }, BRATISLAVA)).toMatchObject({
+      layout: 'all_on_one',
     });
   });
 

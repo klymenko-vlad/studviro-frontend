@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 
+import { QuizStart } from '@/features/start-quiz';
 import { AvailabilityNote } from '@/entities/availability';
 import { quizEditorHref, QuizSummary, type Quiz } from '@/entities/quiz';
 import { Link } from '@/shared/config';
@@ -61,10 +62,15 @@ export function OutlineQuiz({
       {quiz.brief === null ? null : (
         <p className="text-muted-foreground text-sm">{quiz.brief}</p>
       )}
-      <QuizSummary
-        quiz={quiz}
-        audience={manageable && !readOnly ? 'author' : 'student'}
-      />
+      <QuizSummary quiz={quiz} />
+      {manageable || readOnly ? null : (
+        <QuizStart
+          institutionId={institutionId}
+          offeringId={offeringId}
+          spaceId={spaceId}
+          quiz={quiz}
+        />
+      )}
       {manageable ? null : <AvailabilityNote item={quiz} audience="student" />}
     </>
   );

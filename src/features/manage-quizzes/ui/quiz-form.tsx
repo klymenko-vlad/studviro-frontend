@@ -10,6 +10,7 @@ import { AvailabilityFields } from '@/entities/availability';
 import { ASSIGNMENT_COMPLETION_RULES } from '@/entities/completion';
 import {
   QUIZ_GRADING_METHODS,
+  QUIZ_LAYOUTS,
   quizMutations,
   quizQueries,
   type Quiz,
@@ -219,6 +220,26 @@ export function QuizForm({
                     {QUIZ_GRADING_METHODS.map(method => (
                       <SelectItem key={method} value={method}>
                         {tGrading(method)}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="layout"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('layout')}</FormLabel>
+                <FormControl>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    {QUIZ_LAYOUTS.map(layout => (
+                      <SelectItem key={layout} value={layout}>
+                        {t(`layouts.${layout}`)}
                       </SelectItem>
                     ))}
                   </Select>

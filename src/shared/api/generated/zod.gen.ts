@@ -1828,6 +1828,8 @@ export const zQuizGradingMethod = z.enum([
     'average'
 ]);
 
+export const zQuizLayout = z.enum(['one_per_page', 'all_on_one']);
+
 /**
  * Whether attempts may start now, on the server clock.
  */
@@ -1843,6 +1845,7 @@ export const zQuizSettingsResponseDto = z.object({
     gradingMethod: zQuizGradingMethod,
     shuffleQuestions: z.boolean(),
     shuffleChoices: z.boolean(),
+    layout: zQuizLayout,
     questionCount: z.number(),
     attempts: zQuizAttemptState
 });
@@ -2082,6 +2085,7 @@ export const zCreateQuizDto = z.object({
     gradingMethod: zQuizGradingMethod.optional(),
     shuffleQuestions: z.boolean().optional(),
     shuffleChoices: z.boolean().optional(),
+    layout: zQuizLayout.optional(),
     maxPoints: z.number().gt(0).lte(100000).optional().default(10),
     countsTowardFinalGrade: z.boolean().optional(),
     visible: z.boolean().optional(),
@@ -2111,6 +2115,7 @@ export const zUpdateQuizDto = z.object({
     gradingMethod: zQuizGradingMethod.optional(),
     shuffleQuestions: z.boolean().optional(),
     shuffleChoices: z.boolean().optional(),
+    layout: zQuizLayout.optional(),
     maxPoints: z.number().gt(0).lte(100000).optional().default(10),
     countsTowardFinalGrade: z.boolean().optional(),
     visible: z.boolean().optional(),
@@ -2166,6 +2171,138 @@ export const zUpdateQuizSlotDto = z.object({
     position: z.number().gte(0).optional(),
     mark: z.number().gte(1).lte(1000).optional(),
     pickCount: z.number().gte(1).lte(50).optional()
+});
+
+export const zQuizAttemptProgress = z.enum(['in_progress', 'finished']);
+
+export const zQuizAttemptCloser = z.enum([
+    'student',
+    'time_limit',
+    'quiz_close'
+]);
+
+export const zAttemptStudentDto = z.object({
+    id: z.uuid(),
+    displayName: z.string(),
+    email: z.string()
+});
+
+export const zQuizAttemptRowDto = z.object({
+    id: z.uuid(),
+    attempt: z.number(),
+    state: zQuizAttemptProgress,
+    startedAt: z.iso.datetime(),
+    finishedAt: z.iso.datetime().nullable(),
+    closedBy: zQuizAttemptCloser.nullable(),
+    student: zAttemptStudentDto,
+    maxMarks: z.number(),
+    rawMarks: z.number().nullable(),
+    points: z.number().nullable(),
+    needsMarking: z.boolean(),
+    missingQuestions: z.number()
+});
+
+export const zQuizAttemptPageResponseDto = z.object({
+    items: z.array(zQuizAttemptRowDto),
+    meta: zPageMetaDto
+});
+
+export const zMyQuizAttemptDto = z.object({
+    id: z.uuid(),
+    attempt: z.number(),
+    state: zQuizAttemptProgress,
+    startedAt: z.iso.datetime(),
+    finishedAt: z.iso.datetime().nullable(),
+    closedBy: zQuizAttemptCloser.nullable()
+});
+
+/**
+ * Why a new attempt cannot start now; null when it can, or one is running.
+ */
+export const zQuizStartBlock = z.enum([
+    'upcoming',
+    'closed',
+    'no_attempts_left',
+    'no_questions'
+]);
+
+export const zQuizAttemptStandingDto = z.object({
+    inProgressId: z.uuid().nullable(),
+    used: z.number(),
+    maxAttempts: z.number().nullable(),
+    blockedBy: zQuizStartBlock.nullable()
+});
+
+export const zMyQuizAttemptPageResponseDto = z.object({
+    items: z.array(zMyQuizAttemptDto),
+    meta: zPageMetaDto,
+    standing: zQuizAttemptStandingDto
+});
+
+export const zQuizAttemptPartDto = z.object({
+    id: z.number(),
+    text: z.string()
+});
+
+export const zMatchedPairResponseDto = z.object({
+    prompt: z.number(),
+    answer: z.number()
+});
+
+export const zQuizAnswerDto = z.object({
+    choice: z.number().nullable(),
+    choices: z.array(z.number()).nullable(),
+    value: z.boolean().nullable(),
+    text: z.string().nullable(),
+    pairs: z.array(zMatchedPairResponseDto).nullable()
+});
+
+export const zQuizAttemptQuestionDto = z.object({
+    position: z.number(),
+    type: zQuestionType,
+    text: z.string(),
+    mark: z.number(),
+    choices: z.array(zQuizAttemptPartDto),
+    prompts: z.array(zQuizAttemptPartDto),
+    answers: z.array(zQuizAttemptPartDto),
+    response: zQuizAnswerDto.nullable(),
+    savedAt: z.iso.datetime().nullable()
+});
+
+export const zQuizAttemptResponseDto = z.object({
+    id: z.uuid(),
+    quizId: z.uuid(),
+    attempt: z.number(),
+    state: zQuizAttemptProgress,
+    startedAt: z.iso.datetime(),
+    deadlineAt: z.iso.datetime().nullable(),
+    remainingSeconds: z.number().nullable(),
+    finishedAt: z.iso.datetime().nullable(),
+    closedBy: zQuizAttemptCloser.nullable(),
+    layout: zQuizLayout,
+    missingQuestions: z.number(),
+    questions: z.array(zQuizAttemptQuestionDto)
+});
+
+export const zMatchedPairDto = z.object({
+    prompt: z.number().gte(0),
+    answer: z.number().gte(0)
+});
+
+export const zSaveQuizAnswerDto = z.object({
+    choice: z.number().gte(0).nullish(),
+    choices: z.array(z.number().gte(0)).nullish(),
+    value: z.boolean().nullish(),
+    text: z.string().max(50000).nullish(),
+    pairs: z.array(zMatchedPairDto).nullish()
+});
+
+export const zQuizAnswerSavedResponseDto = z.object({
+    position: z.number(),
+    answered: z.boolean(),
+    response: zQuizAnswerDto.nullable(),
+    savedAt: z.iso.datetime().nullable(),
+    remainingSeconds: z.number().nullable()
 });
 
 export const zCreateDemoRequestDto = z.object({
@@ -4503,6 +4640,73 @@ export const zUpdateQuizSlotPath = z.object({
 });
 
 export const zUpdateQuizSlotResponse = zQuizSlotResponseDto;
+
+export const zListQuizAttemptsPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    quizId: z.string()
+});
+
+export const zListQuizAttemptsQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    state: zQuizAttemptProgress.optional(),
+    q: z.string().max(200).optional()
+});
+
+export const zListQuizAttemptsResponse = zQuizAttemptPageResponseDto;
+
+export const zStartQuizAttemptPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    quizId: z.string()
+});
+
+export const zStartQuizAttemptResponse = zQuizAttemptResponseDto;
+
+export const zListMyQuizAttemptsPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    quizId: z.string()
+});
+
+export const zListMyQuizAttemptsQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    state: zQuizAttemptProgress.optional()
+});
+
+export const zListMyQuizAttemptsResponse = zMyQuizAttemptPageResponseDto;
+
+export const zGetQuizAttemptPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    quizId: z.string(),
+    attemptId: z.string()
+});
+
+export const zGetQuizAttemptResponse = zQuizAttemptResponseDto;
+
+export const zSaveQuizAnswerBody = zSaveQuizAnswerDto;
+
+export const zSaveQuizAnswerPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    quizId: z.string(),
+    attemptId: z.string(),
+    position: z.number()
+});
+
+export const zSaveQuizAnswerResponse = zQuizAnswerSavedResponseDto;
+
+export const zSubmitQuizAttemptPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    quizId: z.string(),
+    attemptId: z.string()
+});
+
+export const zSubmitQuizAttemptResponse = zQuizAttemptResponseDto;
 
 export const zCreateDemoRequestBody = zCreateDemoRequestDtoWritable;
 

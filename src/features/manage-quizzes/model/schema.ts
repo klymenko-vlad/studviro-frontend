@@ -9,7 +9,7 @@ import {
   toAvailabilityValues,
 } from '@/entities/availability';
 import { ASSIGNMENT_COMPLETION_RULES } from '@/entities/completion';
-import { QUIZ_GRADING_METHODS, type Quiz } from '@/entities/quiz';
+import { QUIZ_GRADING_METHODS, QUIZ_LAYOUTS, type Quiz } from '@/entities/quiz';
 import { apiSchemas } from '@/shared/api';
 import { fromLocalInput, toLocalInput } from '@/shared/lib';
 
@@ -32,6 +32,7 @@ export const quizFormSchema = z
     gradingMethod: z.enum(QUIZ_GRADING_METHODS),
     shuffleQuestions: z.boolean(),
     shuffleChoices: z.boolean(),
+    layout: z.enum(QUIZ_LAYOUTS),
     maxPoints: z.string().regex(/^\d+(\.\d+)?$/u, 'Use a number of points'),
     countsTowardFinalGrade: z.boolean(),
     visible: z.boolean(),
@@ -84,6 +85,7 @@ export const EMPTY_QUIZ: QuizFormValues = {
   gradingMethod: 'highest',
   shuffleQuestions: false,
   shuffleChoices: true,
+  layout: 'one_per_page',
   maxPoints: '10',
   countsTowardFinalGrade: true,
   visible: false,
@@ -106,6 +108,7 @@ export function toFormValues(quiz: Quiz, timeZone: string): QuizFormValues {
     gradingMethod: quiz.settings?.gradingMethod ?? 'highest',
     shuffleQuestions: quiz.settings?.shuffleQuestions ?? false,
     shuffleChoices: quiz.settings?.shuffleChoices ?? true,
+    layout: quiz.settings?.layout ?? 'one_per_page',
     maxPoints: String(quiz.maxPoints),
     countsTowardFinalGrade: quiz.countsTowardFinalGrade,
     visible: quiz.visible,
@@ -129,6 +132,7 @@ export function toQuizPayload(values: QuizFormValues, timeZone: string) {
     gradingMethod: values.gradingMethod,
     shuffleQuestions: values.shuffleQuestions,
     shuffleChoices: values.shuffleChoices,
+    layout: values.layout,
     maxPoints: Number(values.maxPoints),
     countsTowardFinalGrade: values.countsTowardFinalGrade,
     visible: values.visible,

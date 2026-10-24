@@ -295,9 +295,28 @@ const budgets = [
     // was added; the type editors use plain state and the native `Select` and
     // `Switch`, as the restriction editor does. CB7 (taking a quiz) will need
     // room of its own.
+    //
+    // Raised from 677 kB to 693 kB on 2026-10-24 for taking a quiz (Course
+    // Builder Plan CB7). Measured at **692.02 kB**, +16.26 kB over CB6's
+    // 675.76 kB, against a clean build of the CB6 commit chunk by chunk:
+    //   - the attempt route (questions of seven types, the timer, the question
+    //     navigator, autosave, the submit check and the end state): +10.4 kB, its
+    //     own route chunk;
+    //   - Start / Continue and the student's paged attempts on the quiz row:
+    //     about +1.2 kB on the course page;
+    //   - the authors' paged, filtered attempts table on the quiz page: +1.3 kB;
+    //   - the regenerated client (attempt, answer and list schemas): +1 kB;
+    //   - the shared chunk (the native `Choice` radio/checkbox primitive and the
+    //     shared date formatter): +1.6 kB.
+    // The first build cost +26.7 kB: the course page imported the start button
+    // through the same barrel as the attempt runner and so shipped the runner
+    // too. Splitting `start-quiz` from `take-quiz` took 10.4 kB back. No
+    // dependency was added: choices are native inputs in a new `Choice`
+    // primitive rather than Radix radio group and checkbox, matching uses the
+    // native `Select`, and the submit check is an inline panel, not a dialog.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '677 kB',
+    limit: '693 kB',
     gzip: true,
   },
 ];

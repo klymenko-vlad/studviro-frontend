@@ -2801,12 +2801,6 @@
     },
     "opens": "Opens {when}",
     "closes": "Closes {when}",
-    "start": "Start",
-    "state": {
-      "upcoming": "Attempts open on {when}. Taking a quiz online is coming soon.",
-      "open": "Taking a quiz online is coming soon.",
-      "closed": "This quiz has closed."
-    },
     "form": {
       "label": "Add a quiz",
       "editLabel": "Settings of {name}",
@@ -2829,7 +2823,12 @@
       "create": "Add the quiz",
       "created": "Quiz added",
       "save": "Save the settings",
-      "saved": "Quiz saved"
+      "saved": "Quiz saved",
+      "layout": "Questions per page",
+      "layouts": {
+        "one_per_page": "One question per page",
+        "all_on_one": "All questions on one page"
+      }
     },
     "actions": {
       "hide": "Hide from students",
@@ -2855,6 +2854,115 @@
       "hint": "It starts hidden from students. Its settings and questions are set on a page of its own.",
       "created": "{name} was added, hidden from students.",
       "setUp": "Set up {name}: its questions and settings"
+    },
+    "take": {
+      "start": "Start attempt",
+      "continue": "Continue attempt",
+      "left": "{count, plural, one {# attempt left} other {# attempts left}}",
+      "open": "Attempts are open.",
+      "blocked": {
+        "upcoming": "Attempts open on {when}.",
+        "closed": "This quiz has closed.",
+        "no_attempts_left": "You have used every attempt.",
+        "no_questions": "This quiz has no questions yet."
+      },
+      "mine": {
+        "title": "Your attempts",
+        "filter": "Show",
+        "all": "All attempts",
+        "in_progress": "In progress",
+        "finished": "Submitted",
+        "label": "Your attempts at {name}",
+        "row": "Attempt {number}",
+        "started": "In progress since {when}",
+        "submitted": "Submitted {when}",
+        "noMatch": "No attempt matches.",
+        "error": "Your attempts could not be loaded."
+      },
+      "title": "Attempt {number}",
+      "timer": {
+        "label": "Time left",
+        "none": "No time limit",
+        "minutesLeft": "{count, plural, one {# minute left} other {# minutes left}}",
+        "secondsLeft": "{count, plural, one {# second left} other {# seconds left}}",
+        "expired": "Time is up. Your saved answers are being submitted."
+      },
+      "nav": {
+        "label": "Questions",
+        "item": "Question {number}, {state}",
+        "answered": "answered",
+        "unanswered": "not answered",
+        "progress": "{answered} of {total} answered"
+      },
+      "question": {
+        "heading": "Question {number}",
+        "marks": "{count, plural, one {# mark} other {# marks}}",
+        "answer": "Your answer",
+        "number": "Your answer, as a number",
+        "numberHint": "For example 3.5 or 3,5",
+        "essay": "Your answer",
+        "true": "True",
+        "false": "False",
+        "choose": "Choose an answer",
+        "pickAll": "Pick every answer that applies."
+      },
+      "save": {
+        "saving": "Saving…",
+        "saved": "Saved",
+        "error": "Not saved.",
+        "retry": "Try again"
+      },
+      "previous": "Previous question",
+      "next": "Next question",
+      "finish": "Finish the attempt",
+      "confirm": {
+        "title": "Submit your attempt?",
+        "allAnswered": "Every question has an answer.",
+        "unanswered": "{count, plural, one {# question has no answer:} other {# questions have no answer:}}",
+        "goTo": "Question {number}",
+        "note": "Once it is submitted, answers cannot be changed.",
+        "submit": "Submit the attempt",
+        "back": "Back to the questions"
+      },
+      "missing": "{count, plural, one {# question} other {# questions}} could not be drawn for this attempt, so it is marked out of the questions it asks.",
+      "end": {
+        "title": "Attempt {number} is submitted",
+        "student": "You submitted it {when}.",
+        "time_limit": "The time limit ran out {when}, and your saved answers were submitted.",
+        "quiz_close": "The quiz closed {when}, and your saved answers were submitted.",
+        "results": "Results are not shown here yet.",
+        "back": "Back to the course"
+      },
+      "error": "This attempt could not be loaded. It may not be yours, or the quiz may be hidden now.",
+      "submitError": "The attempt could not be submitted. Try again."
+    },
+    "attemptList": {
+      "title": "Attempts",
+      "description": "Every student's attempts, newest first. Marking essay answers comes in a later step.",
+      "filter": "Find a student",
+      "filterPlaceholder": "Name or e-mail",
+      "state": "State",
+      "any": "Any state",
+      "in_progress": "In progress",
+      "finished": "Closed",
+      "label": "Attempts at {name}",
+      "student": "Student",
+      "attempt": "Attempt",
+      "started": "Started",
+      "status": "State",
+      "score": "Score",
+      "points": "{points} of {max}",
+      "provisional": "{points} of {max}, provisional",
+      "needsMarking": "An essay needs marking",
+      "closedBy": {
+        "student": "Submitted",
+        "time_limit": "Time ran out",
+        "quiz_close": "Quiz closed"
+      },
+      "running": "In progress",
+      "empty": "No attempts yet.",
+      "noMatch": "No attempt matches.",
+      "error": "The attempts could not be loaded."
     }
   },
   "questionBank": {

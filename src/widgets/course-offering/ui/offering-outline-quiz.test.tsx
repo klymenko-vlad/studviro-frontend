@@ -2,18 +2,29 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, it, vi } from 'vitest';
 
 import type { QuizResponseDto } from '@/shared/api';
+import type * as SharedConfig from '@/shared/config';
 import {
+  ATTEMPT_ID,
+  attemptStanding,
   offeringQuizzes,
+  quizAttempt,
   renderWithProviders,
   screen,
   server,
   userEvent,
+  waitFor,
   within,
 } from '@/shared/test';
 
 import { OfferingOutline } from './offering-outline';
 
 vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
+
+const push = vi.hoisted(() => vi.fn());
+vi.mock('@/shared/config', async importOriginal => ({
+  ...(await importOriginal<typeof SharedConfig>()),
+  useRouter: () => ({ push }),
+}));
 
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const OFFERING = 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1';
@@ -41,7 +52,15 @@ const quizRow = async () =>
   (await screen.findByText('Foundations quiz')).closest('li') as HTMLElement;
 
 describe('a quiz on the course page', () => {
-  it('shows a student its settings and a start that is not open yet', async () => {
+  it('lets a student start an attempt, says how many are left, and lists their attempts', async () => {
+    let started = false;
+    server.use(
+      http.post(`${SPACE_URL}/quizzes/${quiz.id}/attempts`, () => {
+        started = true;
+        return HttpResponse.json(quizAttempt);
+      }),
+    );
+    const user = userEvent.setup();
     render('student');
     const row = await quizRow();
 
@@ -51,19 +70,80 @@ describe('a quiz on the course page', () => {
         '10 minutes · 2 attempts · Highest grade counts · 5 questions',
       ),
     ).toBeInTheDocument();
-    expect(within(row).getByRole('button', { name: 'Start' })).toBeDisabled();
-    expect(within(row).getByRole('status')).toHaveTextContent('coming soon');
-    expect(within(row).queryByRole('link')).toBeNull();
+    expect(await within(row).findByRole('status')).toHaveTextContent('1 attempt left');
+    const mine = within(row).getByRole('list', {
+      name: 'Your attempts at Foundations quiz',
+    });
+    expect(within(mine).getByText('Attempt 1')).toBeInTheDocument();
+    expect(within(mine).getByText(/^Submitted/)).toBeInTheDocument();
+    expect(within(row).queryByText(/points|score/i)).toBeNull();
+
+    await user.click(within(row).getByRole('button', { name: 'Start attempt' }));
+
+    await waitFor(() => {
+      expect(push).toHaveBeenCalledWith(
+        `/institutions/${INSTITUTION}/courses/${OFFERING}/spaces/${SPACE}/quizzes/${quiz.id}/attempts/${ATTEMPT_ID}`,
+      );
+    });
+    expect(started).toBe(true);
   });
 
-  it('tells a student when attempts open', async () => {
-    render('student', [
-      { ...quiz, settings: { ...quiz.settings!, attempts: 'upcoming' } },
-    ]);
+  it('offers to continue the attempt in progress', async () => {
+    server.use(
+      http.get(`${SPACE_URL}/quizzes/${quiz.id}/attempts/mine`, () =>
+        HttpResponse.json({
+          items: [],
+          meta: {
+            page: 1,
+            limit: 5,
+            total: 0,
+            pageCount: 1,
+            hasNextPage: false,
+            hasPreviousPage: false,
+          },
+          standing: { ...attemptStanding, inProgressId: ATTEMPT_ID, used: 0 },
+        }),
+      ),
+    );
+    render('student');
     const row = await quizRow();
 
-    expect(within(row).getByRole('status')).toHaveTextContent(/^Attempts open on/);
+    expect(
+      await within(row).findByRole('link', { name: 'Continue attempt' }),
+    ).toHaveAttribute('href', expect.stringContaining(`/attempts/${ATTEMPT_ID}`));
+    expect(within(row).queryByRole('button', { name: 'Start attempt' })).toBeNull();
   });
+
+  it.each([
+    ['closed', 'This quiz has closed.'],
+    ['no_attempts_left', 'You have used every attempt.'],
+    ['upcoming', /^Attempts open on/],
+  ] as const)(
+    'says why a student cannot start when it is %s',
+    async (blockedBy, text) => {
+      server.use(
+        http.get(`${SPACE_URL}/quizzes/${quiz.id}/attempts/mine`, () =>
+          HttpResponse.json({
+            items: [],
+            meta: {
+              page: 1,
+              limit: 5,
+              total: 0,
+              pageCount: 1,
+              hasNextPage: false,
+              hasPreviousPage: false,
+            },
+            standing: { ...attemptStanding, used: 0, blockedBy },
+          }),
+        ),
+      );
+      render('student');
+      const row = await quizRow();
+
+      expect(await within(row).findByRole('status')).toHaveTextContent(text);
+      expect(within(row).queryByRole('button', { name: 'Start attempt' })).toBeNull();
+    },
+  );
 
   it('shows only the title and when it opens to a student before it is available', async () => {
     render('student', [
@@ -77,7 +157,7 @@ describe('a quiz on the course page', () => {
     ]);
     const row = await quizRow();
 
-    expect(within(row).queryByRole('button', { name: 'Start' })).toBeNull();
+    expect(within(row).queryByRole('button', { name: 'Start attempt' })).toBeNull();
     expect(within(row).getByText(/Opens/)).toBeInTheDocument();
   });
 
@@ -89,7 +169,7 @@ describe('a quiz on the course page', () => {
       'href',
       expect.stringContaining(`/spaces/${SPACE}/quizzes/${quiz.id}`),
     );
-    expect(within(row).queryByRole('button', { name: 'Start' })).toBeNull();
+    expect(within(row).queryByRole('button', { name: 'Start attempt' })).toBeNull();
     expect(screen.getByRole('link', { name: 'Question bank' })).toHaveAttribute(
       'href',
       expect.stringContaining(`/spaces/${SPACE}/question-bank`),

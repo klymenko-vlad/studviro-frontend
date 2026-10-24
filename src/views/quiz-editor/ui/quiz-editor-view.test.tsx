@@ -6,10 +6,12 @@ import {
   courseOffering,
   QUESTION_ID,
   QUIZ_ID,
+  quizAttemptRows,
   renderWithProviders,
   screen,
   server,
   userEvent,
+  waitFor,
   within,
 } from '@/shared/test';
 
@@ -153,6 +155,67 @@ describe('QuizEditorView', () => {
           mark: 2,
         },
       ]);
+    });
+  });
+
+  it('lists every attempt a page at a time, filtered by student and state, with provisional scores', async () => {
+    const queries: string[] = [];
+    server.use(
+      http.get(`${QUIZ_URL}/attempts`, ({ request }) => {
+        queries.push(new URL(request.url).search);
+        return HttpResponse.json({
+          items: [quizAttemptRows[0]],
+          meta: {
+            page: 1,
+            limit: 20,
+            total: 1,
+            pageCount: 1,
+            hasNextPage: false,
+            hasPreviousPage: false,
+          },
+        });
+      }),
+    );
+    const user = userEvent.setup();
+    render();
+
+    const table = await screen.findByRole('table', {
+      name: 'Attempts at Foundations quiz',
+    });
+    const [, row] = within(table).getAllByRole('row');
+    expect(within(row!).getByText('Marek Novák')).toBeInTheDocument();
+    expect(within(row!).getByText('Submitted')).toBeInTheDocument();
+    expect(within(row!).getByText('6.25 of 10, provisional')).toBeInTheDocument();
+    expect(within(row!).getByText('An essay needs marking')).toBeInTheDocument();
+
+    await user.type(screen.getByLabelText('Find a student'), 'marek');
+    await user.selectOptions(screen.getByLabelText('State'), 'finished');
+    await waitFor(() => {
+      expect(queries.at(-1)).toContain('q=marek');
+    });
+    expect(queries.at(-1)).toContain('state=finished');
+    expect(queries.at(-1)).toContain('limit=20');
+  });
+
+  it('lets the author choose one question per page or all on one', async () => {
+    let sent: Record<string, unknown> | undefined;
+    server.use(
+      http.patch(QUIZ_URL, async ({ request }) => {
+        sent = (await request.json()) as Record<string, unknown>;
+        return HttpResponse.json({});
+      }),
+    );
+    const user = userEvent.setup();
+    render();
+
+    await user.selectOptions(
+      await screen.findByLabelText('Questions per page'),
+      'all_on_one',
+    );
+    await user.click(screen.getByRole('button', { name: 'Save the settings' }));
+
+    await waitFor(() => {
+      expect(sent).toMatchObject({ layout: 'all_on_one' });
     });
   });
 });

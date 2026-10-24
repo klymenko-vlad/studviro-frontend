@@ -4,7 +4,7 @@ import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOption
 
 import { client } from '../client.gen';
 import { Audit, Auth, Catalogue, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, Privacy, RoleAssignments, Schedule, Scheduling, Search, Teachers, Users } from '../sdk.gen';
-import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, AddFolderFileData, AddFolderFileError, AddFolderFileResponse, AddQuizSlotsData, AddQuizSlotsError, AddQuizSlotsResponse, AddStudyGroupMemberData, AddStudyGroupMemberError, AddStudyGroupMemberResponse, AdmitToProgramData, AdmitToProgramError, AssignTeacherData, AssignTeacherError, BeginTwoFactorSetupData, BeginTwoFactorSetupError, BeginTwoFactorSetupResponse, BulkImportCourseOfferingsData, BulkImportCourseOfferingsError, BulkImportCourseOfferingsResponse, BulkImportProgramMembersData, BulkImportProgramMembersError, BulkImportProgramMembersResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, CancelExamTermData, CancelExamTermError, CancelExamTermResponse, CancelTimetableEventData, CancelTimetableEventError, CancelTimetableEventResponse, ChangeMyPasswordData, ChangeMyPasswordError, ChangeMyPasswordResponse, CompleteTwoFactorLoginData, CompleteTwoFactorLoginError, CompleteTwoFactorLoginResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateAcademicTermData, CreateAcademicTermError, CreateAcademicTermResponse, CreateAssignmentData, CreateAssignmentError, CreateAssignmentResponse, CreateCaptchaChallengeData, CreateCaptchaChallengeError, CreateCaptchaChallengeResponse, CreateCourseData, CreateCourseError, CreateCourseOfferingData, CreateCourseOfferingError, CreateCourseOfferingResponse, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateDiscussionAttachmentTicketData, CreateDiscussionAttachmentTicketError, CreateDiscussionAttachmentTicketResponse, CreateError, CreateExamTermData, CreateExamTermError, CreateExamTermResponse, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateLearningMaterialData, CreateLearningMaterialError, CreateLearningMaterialResponse, CreateLearningSectionData, CreateLearningSectionError, CreateLearningSectionResponse, CreateLearningSpaceData, CreateLearningSpaceError, CreateLearningSpaceResponse, CreateMaterialUploadTicketData, CreateMaterialUploadTicketError, CreateMaterialUploadTicketResponse, CreateOrgUnitData, CreateOrgUnitError, CreateOrgUnitResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateQuestionCategoryData, CreateQuestionCategoryError, CreateQuestionCategoryResponse, CreateQuestionData, CreateQuestionError, CreateQuestionResponse, CreateQuizData, CreateQuizError, CreateQuizResponse, CreateResponse, CreateRoomData, CreateRoomError, CreateRoomResponse, CreateStudyGroupData, CreateStudyGroupError, CreateSubmissionUploadTicketData, CreateSubmissionUploadTicketError, CreateSubmissionUploadTicketResponse, CreateTimetableEventData, CreateTimetableEventError, CreateTimetableEventResponse, DeactivateUserData, DeactivateUserError, DeactivateUserResponse, DeleteDiscussionPostData, DeleteDiscussionPostError, DeleteDiscussionPostResponse, DisableTwoFactorData, DisableTwoFactorError, DisableTwoFactorResponse, DownloadMyCalendarData, DownloadMyCalendarError, DownloadMyCalendarResponse, EditDiscussionPostData, EditDiscussionPostError, EditDiscussionPostResponse, EnableTwoFactorData, EnableTwoFactorError, EnableTwoFactorResponse, ErasePersonalDataData, ErasePersonalDataError, ErasePersonalDataResponse, ExportMyPersonalDataData, ExportMyPersonalDataError, ExportMyPersonalDataResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetAssignmentData, GetAssignmentError, GetAssignmentResponse, GetCalendarFeedData, GetCalendarFeedError, GetCalendarFeedResponse, GetCaptchaStateData, GetCaptchaStateError, GetCaptchaStateResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetDiscussionAttachmentDownloadUrlData, GetDiscussionAttachmentDownloadUrlError, GetDiscussionAttachmentDownloadUrlResponse, GetDiscussionThreadData, GetDiscussionThreadError, GetDiscussionThreadResponse, GetFolderFileDownloadUrlData, GetFolderFileDownloadUrlError, GetFolderFileDownloadUrlResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetLearningMaterialData, GetLearningMaterialDownloadUrlData, GetLearningMaterialDownloadUrlError, GetLearningMaterialDownloadUrlResponse, GetLearningMaterialError, GetLearningMaterialResponse, GetLearningSpaceData, GetLearningSpaceError, GetLearningSpaceResponse, GetLearningStudentViewData, GetLearningStudentViewError, GetLearningStudentViewResponse, GetMyCalendarFeedData, GetMyCalendarFeedError, GetMyCalendarFeedResponse, GetMyLearningProgressData, GetMyLearningProgressError, GetMyLearningProgressResponse, GetMyNotificationPreferencesData, GetMyNotificationPreferencesError, GetMyNotificationPreferencesResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetMyTwoFactorStatusData, GetMyTwoFactorStatusError, GetMyTwoFactorStatusResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetQuestionData, GetQuestionError, GetQuestionResponse, GetQuizData, GetQuizError, GetQuizResponse, GetSubmissionFileDownloadUrlData, GetSubmissionFileDownloadUrlError, GetSubmissionFileDownloadUrlResponse, GetTeacherProfileData, GetTeacherProfileError, GetTeacherProfileResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, IssueMyCalendarFeedData, IssueMyCalendarFeedError, IssueMyCalendarFeedResponse, JoinCourseWaitlistData, JoinCourseWaitlistError, JoinCourseWaitlistResponse, ListAcademicTermsData, ListAcademicTermsError, ListAcademicTermsResponse, ListAssignmentsData, ListAssignmentsError, ListAssignmentsResponse, ListAssignmentSubmissionsData, ListAssignmentSubmissionsError, ListAssignmentSubmissionsResponse, ListAuditEventsData, ListAuditEventsError, ListAuditEventsResponse, ListCourseOfferingsData, ListCourseOfferingsError, ListCourseOfferingsResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListCourseWaitlistData, ListCourseWaitlistError, ListCourseWaitlistResponse, ListDiscussionThreadsData, ListDiscussionThreadsError, ListDiscussionThreadsResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListExamTermRegistrantsData, ListExamTermRegistrantsError, ListExamTermRegistrantsResponse, ListFolderFilesData, ListFolderFilesError, ListFolderFilesResponse, ListLearningCompletionsData, ListLearningCompletionsError, ListLearningCompletionsResponse, ListLearningItemSightData, ListLearningItemSightError, ListLearningItemSightResponse, ListLearningMaterialsData, ListLearningMaterialsError, ListLearningMaterialsResponse, ListLearningSectionsData, ListLearningSectionsError, ListLearningSectionsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListLearningStudentViewStudentsData, ListLearningStudentViewStudentsError, ListLearningStudentViewStudentsResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMySessionsData, ListMySessionsError, ListMySessionsResponse, ListMySubmissionsData, ListMySubmissionsError, ListMySubmissionsResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingExamTermsData, ListOfferingExamTermsError, ListOfferingExamTermsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOfferingTimetableData, ListOfferingTimetableError, ListOfferingTimetableResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramMembersData, ListProgramMembersError, ListProgramMembersResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListQuestionCategoriesData, ListQuestionCategoriesError, ListQuestionCategoriesResponse, ListQuestionsData, ListQuestionsError, ListQuestionsResponse, ListQuestionVersionsData, ListQuestionVersionsError, ListQuestionVersionsResponse, ListQuizSlotsData, ListQuizSlotsError, ListQuizSlotsResponse, ListQuizzesData, ListQuizzesError, ListQuizzesResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListRoomsData, ListRoomsError, ListRoomsResponse, ListStudyGroupContentData, ListStudyGroupContentError, ListStudyGroupContentResponse, ListStudyGroupsData, ListStudyGroupsError, ListStudyGroupsResponse, ListTeachingAssignmentsData, ListTeachingAssignmentsError, ListTeachingAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkLearningItemDoneData, MarkLearningItemDoneError, MarkLearningItemDoneResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MarkSubmissionData, MarkSubmissionError, MarkSubmissionResponse, MeData, MeError, MeResponse, RecordExamAttendanceData, RecordExamAttendanceError, RecordExamAttendanceResponse, RecordLearningMaterialViewData, RecordLearningMaterialViewError, RecordLearningMaterialViewResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegenerateRecoveryCodesData, RegenerateRecoveryCodesError, RegenerateRecoveryCodesResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveAcademicTermData, RemoveAcademicTermError, RemoveAcademicTermResponse, RemoveAssignmentData, RemoveAssignmentError, RemoveAssignmentResponse, RemoveCourseData, RemoveCourseError, RemoveCourseOfferingData, RemoveCourseOfferingError, RemoveCourseOfferingResponse, RemoveCourseResponse, RemoveExamTermData, RemoveExamTermError, RemoveExamTermResponse, RemoveFolderFileData, RemoveFolderFileError, RemoveFolderFileResponse, RemoveLearningMaterialData, RemoveLearningMaterialError, RemoveLearningMaterialResponse, RemoveLearningSectionData, RemoveLearningSectionError, RemoveLearningSectionResponse, RemoveOrgUnitData, RemoveOrgUnitError, RemoveOrgUnitResponse, RemoveProgramData, RemoveProgramError, RemoveProgramMembershipData, RemoveProgramMembershipError, RemoveProgramMembershipResponse, RemoveProgramResponse, RemoveQuestionCategoryData, RemoveQuestionCategoryError, RemoveQuestionCategoryResponse, RemoveQuestionData, RemoveQuestionError, RemoveQuestionResponse, RemoveQuizData, RemoveQuizError, RemoveQuizResponse, RemoveQuizSlotData, RemoveQuizSlotError, RemoveQuizSlotResponse, RemoveRoomData, RemoveRoomError, RemoveRoomResponse, RemoveStudyGroupData, RemoveStudyGroupError, RemoveStudyGroupMemberData, RemoveStudyGroupMemberError, RemoveStudyGroupMemberResponse, RemoveStudyGroupResponse, RemoveTimetableEventData, RemoveTimetableEventError, RemoveTimetableEventResponse, RenameDiscussionThreadData, RenameDiscussionThreadError, RenameDiscussionThreadResponse, RenameQuestionCategoryData, RenameQuestionCategoryError, RenameQuestionCategoryResponse, ReplyToDiscussionThreadData, ReplyToDiscussionThreadError, ReplyToDiscussionThreadResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, RestoreTimetableEventData, RestoreTimetableEventError, RestoreTimetableEventResponse, ReviseQuestionData, ReviseQuestionError, ReviseQuestionResponse, RevokeMyCalendarFeedData, RevokeMyCalendarFeedError, RevokeMyCalendarFeedResponse, RevokeMyOtherSessionsData, RevokeMyOtherSessionsError, RevokeMyOtherSessionsResponse, RevokeMySessionData, RevokeMySessionError, RevokeMySessionResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SearchData, SearchError, SearchResponse, SetDiscussionPostVisibilityData, SetDiscussionPostVisibilityError, SetDiscussionPostVisibilityResponse, SetDiscussionThreadVisibilityData, SetDiscussionThreadVisibilityError, SetDiscussionThreadVisibilityResponse, StartDiscussionThreadData, StartDiscussionThreadError, StartDiscussionThreadResponse, SubmitAssignmentData, SubmitAssignmentError, SubmitAssignmentResponse, UnassignTeacherData, UnassignTeacherError, UnassignTeacherResponse, UpdateAcademicTermData, UpdateAcademicTermError, UpdateAcademicTermResponse, UpdateAssignmentData, UpdateAssignmentError, UpdateAssignmentResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateExamTermData, UpdateExamTermError, UpdateExamTermResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateLearningMaterialData, UpdateLearningMaterialError, UpdateLearningMaterialResponse, UpdateLearningSectionData, UpdateLearningSectionError, UpdateLearningSectionResponse, UpdateLearningSpaceData, UpdateLearningSpaceError, UpdateLearningSpaceResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateMyNotificationPreferencesData, UpdateMyNotificationPreferencesError, UpdateMyNotificationPreferencesResponse, UpdateOrgUnitData, UpdateOrgUnitError, UpdateOrgUnitResponse, UpdateProgramData, UpdateProgramError, UpdateProgramMembershipData, UpdateProgramMembershipError, UpdateProgramMembershipResponse, UpdateProgramResponse, UpdateQuizData, UpdateQuizError, UpdateQuizResponse, UpdateQuizSlotData, UpdateQuizSlotError, UpdateQuizSlotResponse, UpdateRoomData, UpdateRoomError, UpdateRoomResponse, UpdateStudyGroupData, UpdateStudyGroupError, UpdateTimetableEventData, UpdateTimetableEventError, UpdateTimetableEventResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
+import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, AddFolderFileData, AddFolderFileError, AddFolderFileResponse, AddQuizSlotsData, AddQuizSlotsError, AddQuizSlotsResponse, AddStudyGroupMemberData, AddStudyGroupMemberError, AddStudyGroupMemberResponse, AdmitToProgramData, AdmitToProgramError, AssignTeacherData, AssignTeacherError, BeginTwoFactorSetupData, BeginTwoFactorSetupError, BeginTwoFactorSetupResponse, BulkImportCourseOfferingsData, BulkImportCourseOfferingsError, BulkImportCourseOfferingsResponse, BulkImportProgramMembersData, BulkImportProgramMembersError, BulkImportProgramMembersResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, CancelExamTermData, CancelExamTermError, CancelExamTermResponse, CancelTimetableEventData, CancelTimetableEventError, CancelTimetableEventResponse, ChangeMyPasswordData, ChangeMyPasswordError, ChangeMyPasswordResponse, CompleteTwoFactorLoginData, CompleteTwoFactorLoginError, CompleteTwoFactorLoginResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateAcademicTermData, CreateAcademicTermError, CreateAcademicTermResponse, CreateAssignmentData, CreateAssignmentError, CreateAssignmentResponse, CreateCaptchaChallengeData, CreateCaptchaChallengeError, CreateCaptchaChallengeResponse, CreateCourseData, CreateCourseError, CreateCourseOfferingData, CreateCourseOfferingError, CreateCourseOfferingResponse, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateDiscussionAttachmentTicketData, CreateDiscussionAttachmentTicketError, CreateDiscussionAttachmentTicketResponse, CreateError, CreateExamTermData, CreateExamTermError, CreateExamTermResponse, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateLearningMaterialData, CreateLearningMaterialError, CreateLearningMaterialResponse, CreateLearningSectionData, CreateLearningSectionError, CreateLearningSectionResponse, CreateLearningSpaceData, CreateLearningSpaceError, CreateLearningSpaceResponse, CreateMaterialUploadTicketData, CreateMaterialUploadTicketError, CreateMaterialUploadTicketResponse, CreateOrgUnitData, CreateOrgUnitError, CreateOrgUnitResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateQuestionCategoryData, CreateQuestionCategoryError, CreateQuestionCategoryResponse, CreateQuestionData, CreateQuestionError, CreateQuestionResponse, CreateQuizData, CreateQuizError, CreateQuizResponse, CreateResponse, CreateRoomData, CreateRoomError, CreateRoomResponse, CreateStudyGroupData, CreateStudyGroupError, CreateSubmissionUploadTicketData, CreateSubmissionUploadTicketError, CreateSubmissionUploadTicketResponse, CreateTimetableEventData, CreateTimetableEventError, CreateTimetableEventResponse, DeactivateUserData, DeactivateUserError, DeactivateUserResponse, DeleteDiscussionPostData, DeleteDiscussionPostError, DeleteDiscussionPostResponse, DisableTwoFactorData, DisableTwoFactorError, DisableTwoFactorResponse, DownloadMyCalendarData, DownloadMyCalendarError, DownloadMyCalendarResponse, EditDiscussionPostData, EditDiscussionPostError, EditDiscussionPostResponse, EnableTwoFactorData, EnableTwoFactorError, EnableTwoFactorResponse, ErasePersonalDataData, ErasePersonalDataError, ErasePersonalDataResponse, ExportMyPersonalDataData, ExportMyPersonalDataError, ExportMyPersonalDataResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetAssignmentData, GetAssignmentError, GetAssignmentResponse, GetCalendarFeedData, GetCalendarFeedError, GetCalendarFeedResponse, GetCaptchaStateData, GetCaptchaStateError, GetCaptchaStateResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetDiscussionAttachmentDownloadUrlData, GetDiscussionAttachmentDownloadUrlError, GetDiscussionAttachmentDownloadUrlResponse, GetDiscussionThreadData, GetDiscussionThreadError, GetDiscussionThreadResponse, GetFolderFileDownloadUrlData, GetFolderFileDownloadUrlError, GetFolderFileDownloadUrlResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetLearningMaterialData, GetLearningMaterialDownloadUrlData, GetLearningMaterialDownloadUrlError, GetLearningMaterialDownloadUrlResponse, GetLearningMaterialError, GetLearningMaterialResponse, GetLearningSpaceData, GetLearningSpaceError, GetLearningSpaceResponse, GetLearningStudentViewData, GetLearningStudentViewError, GetLearningStudentViewResponse, GetMyCalendarFeedData, GetMyCalendarFeedError, GetMyCalendarFeedResponse, GetMyLearningProgressData, GetMyLearningProgressError, GetMyLearningProgressResponse, GetMyNotificationPreferencesData, GetMyNotificationPreferencesError, GetMyNotificationPreferencesResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetMyTwoFactorStatusData, GetMyTwoFactorStatusError, GetMyTwoFactorStatusResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetQuestionData, GetQuestionError, GetQuestionResponse, GetQuizAttemptData, GetQuizAttemptError, GetQuizAttemptResponse, GetQuizData, GetQuizError, GetQuizResponse, GetSubmissionFileDownloadUrlData, GetSubmissionFileDownloadUrlError, GetSubmissionFileDownloadUrlResponse, GetTeacherProfileData, GetTeacherProfileError, GetTeacherProfileResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, IssueMyCalendarFeedData, IssueMyCalendarFeedError, IssueMyCalendarFeedResponse, JoinCourseWaitlistData, JoinCourseWaitlistError, JoinCourseWaitlistResponse, ListAcademicTermsData, ListAcademicTermsError, ListAcademicTermsResponse, ListAssignmentsData, ListAssignmentsError, ListAssignmentsResponse, ListAssignmentSubmissionsData, ListAssignmentSubmissionsError, ListAssignmentSubmissionsResponse, ListAuditEventsData, ListAuditEventsError, ListAuditEventsResponse, ListCourseOfferingsData, ListCourseOfferingsError, ListCourseOfferingsResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListCourseWaitlistData, ListCourseWaitlistError, ListCourseWaitlistResponse, ListDiscussionThreadsData, ListDiscussionThreadsError, ListDiscussionThreadsResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListExamTermRegistrantsData, ListExamTermRegistrantsError, ListExamTermRegistrantsResponse, ListFolderFilesData, ListFolderFilesError, ListFolderFilesResponse, ListLearningCompletionsData, ListLearningCompletionsError, ListLearningCompletionsResponse, ListLearningItemSightData, ListLearningItemSightError, ListLearningItemSightResponse, ListLearningMaterialsData, ListLearningMaterialsError, ListLearningMaterialsResponse, ListLearningSectionsData, ListLearningSectionsError, ListLearningSectionsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListLearningStudentViewStudentsData, ListLearningStudentViewStudentsError, ListLearningStudentViewStudentsResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyQuizAttemptsData, ListMyQuizAttemptsError, ListMyQuizAttemptsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMySessionsData, ListMySessionsError, ListMySessionsResponse, ListMySubmissionsData, ListMySubmissionsError, ListMySubmissionsResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingExamTermsData, ListOfferingExamTermsError, ListOfferingExamTermsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOfferingTimetableData, ListOfferingTimetableError, ListOfferingTimetableResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramMembersData, ListProgramMembersError, ListProgramMembersResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListQuestionCategoriesData, ListQuestionCategoriesError, ListQuestionCategoriesResponse, ListQuestionsData, ListQuestionsError, ListQuestionsResponse, ListQuestionVersionsData, ListQuestionVersionsError, ListQuestionVersionsResponse, ListQuizAttemptsData, ListQuizAttemptsError, ListQuizAttemptsResponse, ListQuizSlotsData, ListQuizSlotsError, ListQuizSlotsResponse, ListQuizzesData, ListQuizzesError, ListQuizzesResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListRoomsData, ListRoomsError, ListRoomsResponse, ListStudyGroupContentData, ListStudyGroupContentError, ListStudyGroupContentResponse, ListStudyGroupsData, ListStudyGroupsError, ListStudyGroupsResponse, ListTeachingAssignmentsData, ListTeachingAssignmentsError, ListTeachingAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkLearningItemDoneData, MarkLearningItemDoneError, MarkLearningItemDoneResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MarkSubmissionData, MarkSubmissionError, MarkSubmissionResponse, MeData, MeError, MeResponse, RecordExamAttendanceData, RecordExamAttendanceError, RecordExamAttendanceResponse, RecordLearningMaterialViewData, RecordLearningMaterialViewError, RecordLearningMaterialViewResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegenerateRecoveryCodesData, RegenerateRecoveryCodesError, RegenerateRecoveryCodesResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveAcademicTermData, RemoveAcademicTermError, RemoveAcademicTermResponse, RemoveAssignmentData, RemoveAssignmentError, RemoveAssignmentResponse, RemoveCourseData, RemoveCourseError, RemoveCourseOfferingData, RemoveCourseOfferingError, RemoveCourseOfferingResponse, RemoveCourseResponse, RemoveExamTermData, RemoveExamTermError, RemoveExamTermResponse, RemoveFolderFileData, RemoveFolderFileError, RemoveFolderFileResponse, RemoveLearningMaterialData, RemoveLearningMaterialError, RemoveLearningMaterialResponse, RemoveLearningSectionData, RemoveLearningSectionError, RemoveLearningSectionResponse, RemoveOrgUnitData, RemoveOrgUnitError, RemoveOrgUnitResponse, RemoveProgramData, RemoveProgramError, RemoveProgramMembershipData, RemoveProgramMembershipError, RemoveProgramMembershipResponse, RemoveProgramResponse, RemoveQuestionCategoryData, RemoveQuestionCategoryError, RemoveQuestionCategoryResponse, RemoveQuestionData, RemoveQuestionError, RemoveQuestionResponse, RemoveQuizData, RemoveQuizError, RemoveQuizResponse, RemoveQuizSlotData, RemoveQuizSlotError, RemoveQuizSlotResponse, RemoveRoomData, RemoveRoomError, RemoveRoomResponse, RemoveStudyGroupData, RemoveStudyGroupError, RemoveStudyGroupMemberData, RemoveStudyGroupMemberError, RemoveStudyGroupMemberResponse, RemoveStudyGroupResponse, RemoveTimetableEventData, RemoveTimetableEventError, RemoveTimetableEventResponse, RenameDiscussionThreadData, RenameDiscussionThreadError, RenameDiscussionThreadResponse, RenameQuestionCategoryData, RenameQuestionCategoryError, RenameQuestionCategoryResponse, ReplyToDiscussionThreadData, ReplyToDiscussionThreadError, ReplyToDiscussionThreadResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, RestoreTimetableEventData, RestoreTimetableEventError, RestoreTimetableEventResponse, ReviseQuestionData, ReviseQuestionError, ReviseQuestionResponse, RevokeMyCalendarFeedData, RevokeMyCalendarFeedError, RevokeMyCalendarFeedResponse, RevokeMyOtherSessionsData, RevokeMyOtherSessionsError, RevokeMyOtherSessionsResponse, RevokeMySessionData, RevokeMySessionError, RevokeMySessionResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SaveQuizAnswerData, SaveQuizAnswerError, SaveQuizAnswerResponse, SearchData, SearchError, SearchResponse, SetDiscussionPostVisibilityData, SetDiscussionPostVisibilityError, SetDiscussionPostVisibilityResponse, SetDiscussionThreadVisibilityData, SetDiscussionThreadVisibilityError, SetDiscussionThreadVisibilityResponse, StartDiscussionThreadData, StartDiscussionThreadError, StartDiscussionThreadResponse, StartQuizAttemptData, StartQuizAttemptError, StartQuizAttemptResponse, SubmitAssignmentData, SubmitAssignmentError, SubmitAssignmentResponse, SubmitQuizAttemptData, SubmitQuizAttemptError, SubmitQuizAttemptResponse, UnassignTeacherData, UnassignTeacherError, UnassignTeacherResponse, UpdateAcademicTermData, UpdateAcademicTermError, UpdateAcademicTermResponse, UpdateAssignmentData, UpdateAssignmentError, UpdateAssignmentResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateExamTermData, UpdateExamTermError, UpdateExamTermResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateLearningMaterialData, UpdateLearningMaterialError, UpdateLearningMaterialResponse, UpdateLearningSectionData, UpdateLearningSectionError, UpdateLearningSectionResponse, UpdateLearningSpaceData, UpdateLearningSpaceError, UpdateLearningSpaceResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateMyNotificationPreferencesData, UpdateMyNotificationPreferencesError, UpdateMyNotificationPreferencesResponse, UpdateOrgUnitData, UpdateOrgUnitError, UpdateOrgUnitResponse, UpdateProgramData, UpdateProgramError, UpdateProgramMembershipData, UpdateProgramMembershipError, UpdateProgramMembershipResponse, UpdateProgramResponse, UpdateQuizData, UpdateQuizError, UpdateQuizResponse, UpdateQuizSlotData, UpdateQuizSlotError, UpdateQuizSlotResponse, UpdateRoomData, UpdateRoomError, UpdateRoomResponse, UpdateStudyGroupData, UpdateStudyGroupError, UpdateTimetableEventData, UpdateTimetableEventError, UpdateTimetableEventResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
 
 /**
  * Create an account and start a session
@@ -2663,6 +2663,185 @@ export const updateQuizSlotMutation = (options?: Partial<Options<UpdateQuizSlotD
     const mutationOptions: UseMutationOptions<UpdateQuizSlotResponse, UpdateQuizSlotError, Options<UpdateQuizSlotData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await Learning.updateQuizSlot({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listQuizAttemptsQueryKey = (options: Options<ListQuizAttemptsData>) => createQueryKey('listQuizAttempts', options);
+
+/**
+ * Every student’s attempts at a quiz, newest first, a page at a time
+ *
+ * For the course’s authors. Closes any attempt past its deadline first.
+ */
+export const listQuizAttemptsOptions = (options: Options<ListQuizAttemptsData>) => queryOptions<ListQuizAttemptsResponse, ListQuizAttemptsError, ListQuizAttemptsResponse, ReturnType<typeof listQuizAttemptsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listQuizAttempts({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listQuizAttemptsQueryKey(options)
+});
+
+export const listQuizAttemptsInfiniteQueryKey = (options: Options<ListQuizAttemptsData>): QueryKey<Options<ListQuizAttemptsData>> => createQueryKey('listQuizAttempts', options, true);
+
+/**
+ * Every student’s attempts at a quiz, newest first, a page at a time
+ *
+ * For the course’s authors. Closes any attempt past its deadline first.
+ */
+export const listQuizAttemptsInfiniteOptions = (options: Options<ListQuizAttemptsData>) => {
+    const opts = infiniteQueryOptions<ListQuizAttemptsResponse, ListQuizAttemptsError, InfiniteData<ListQuizAttemptsResponse>, QueryKey<Options<ListQuizAttemptsData>>, number | Pick<QueryKey<Options<ListQuizAttemptsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListQuizAttemptsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listQuizAttempts({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listQuizAttemptsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Start an attempt, or carry on with the one in progress
+ *
+ * The questions, random draws and shuffles are fixed now and kept for the attempt.
+ */
+export const startQuizAttemptMutation = (options?: Partial<Options<StartQuizAttemptData>>): UseMutationOptions<StartQuizAttemptResponse, StartQuizAttemptError, Options<StartQuizAttemptData>> => {
+    const mutationOptions: UseMutationOptions<StartQuizAttemptResponse, StartQuizAttemptError, Options<StartQuizAttemptData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.startQuizAttempt({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listMyQuizAttemptsQueryKey = (options: Options<ListMyQuizAttemptsData>) => createQueryKey('listMyQuizAttempts', options);
+
+/**
+ * The caller’s own attempts at a quiz, and whether another may start
+ *
+ * States only: no mark and no answer.
+ */
+export const listMyQuizAttemptsOptions = (options: Options<ListMyQuizAttemptsData>) => queryOptions<ListMyQuizAttemptsResponse, ListMyQuizAttemptsError, ListMyQuizAttemptsResponse, ReturnType<typeof listMyQuizAttemptsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listMyQuizAttempts({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyQuizAttemptsQueryKey(options)
+});
+
+export const listMyQuizAttemptsInfiniteQueryKey = (options: Options<ListMyQuizAttemptsData>): QueryKey<Options<ListMyQuizAttemptsData>> => createQueryKey('listMyQuizAttempts', options, true);
+
+/**
+ * The caller’s own attempts at a quiz, and whether another may start
+ *
+ * States only: no mark and no answer.
+ */
+export const listMyQuizAttemptsInfiniteOptions = (options: Options<ListMyQuizAttemptsData>) => {
+    const opts = infiniteQueryOptions<ListMyQuizAttemptsResponse, ListMyQuizAttemptsError, InfiniteData<ListMyQuizAttemptsResponse>, QueryKey<Options<ListMyQuizAttemptsData>>, number | Pick<QueryKey<Options<ListMyQuizAttemptsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListMyQuizAttemptsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listMyQuizAttempts({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listMyQuizAttemptsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const getQuizAttemptQueryKey = (options: Options<GetQuizAttemptData>) => createQueryKey('getQuizAttempt', options);
+
+/**
+ * One of the caller’s attempts, with its questions and saved answers while it runs
+ */
+export const getQuizAttemptOptions = (options: Options<GetQuizAttemptData>) => queryOptions<GetQuizAttemptResponse, GetQuizAttemptError, GetQuizAttemptResponse, ReturnType<typeof getQuizAttemptQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.getQuizAttempt({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getQuizAttemptQueryKey(options)
+});
+
+/**
+ * Save the answer to one question; the last one saved stands
+ *
+ * Refused with 409 once the attempt has closed, on the server’s clock.
+ */
+export const saveQuizAnswerMutation = (options?: Partial<Options<SaveQuizAnswerData>>): UseMutationOptions<SaveQuizAnswerResponse, SaveQuizAnswerError, Options<SaveQuizAnswerData>> => {
+    const mutationOptions: UseMutationOptions<SaveQuizAnswerResponse, SaveQuizAnswerError, Options<SaveQuizAnswerData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.saveQuizAnswer({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Hand the attempt in; it is marked straight away
+ *
+ * Submitting a closed attempt answers it as it closed.
+ */
+export const submitQuizAttemptMutation = (options?: Partial<Options<SubmitQuizAttemptData>>): UseMutationOptions<SubmitQuizAttemptResponse, SubmitQuizAttemptError, Options<SubmitQuizAttemptData>> => {
+    const mutationOptions: UseMutationOptions<SubmitQuizAttemptResponse, SubmitQuizAttemptError, Options<SubmitQuizAttemptData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.submitQuizAttempt({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

@@ -23,6 +23,7 @@ export {
   BreadcrumbSeparator,
 } from './breadcrumb';
 export { Button, buttonVariants } from './button';
+export { Choice } from './choice';
 export { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card';
 export {
   Form,

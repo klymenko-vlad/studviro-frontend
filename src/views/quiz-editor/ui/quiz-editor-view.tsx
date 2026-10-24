@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 
 import { PageTrail } from '@/widgets/page-trail';
 import { QuizActions, QuizForm, QuizQuestions } from '@/features/manage-quizzes';
+import { QuizAttempts } from '@/features/review-quiz-attempts';
 import {
   authorsOffering,
   courseOfferingHref,
@@ -40,6 +41,7 @@ export function QuizEditorView({
 }) {
   const t = useTranslations('quiz.editor');
   const tQuestions = useTranslations('quiz.questions');
+  const tAttempts = useTranslations('quiz.attemptList');
   const router = useRouter();
   const offering = useQuery(
     courseOfferingQueries.detail({ path: { institutionId, offeringId } }),
@@ -103,6 +105,19 @@ export function QuizEditorView({
             </CardHeader>
             <CardContent>
               <QuizQuestions
+                institutionId={institutionId}
+                spaceId={spaceId}
+                quiz={quiz.data}
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">{tAttempts('title')}</CardTitle>
+              <CardDescription>{tAttempts('description')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <QuizAttempts
                 institutionId={institutionId}
                 spaceId={spaceId}
                 quiz={quiz.data}
