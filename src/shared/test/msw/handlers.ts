@@ -56,6 +56,8 @@ import type {
   WaitingStudentResponseDto,
 } from '@/shared/api';
 
+import { offeringQuizzes, quizHandlers } from './quiz-handlers';
+
 /**
  * The browser talks to the same-origin BFF, not to the API — so that is what
  * the handlers intercept. `location.origin` under jsdom is what the client's
@@ -1092,6 +1094,7 @@ export const studentView: StudentViewResponseDto = {
   sections: learningSections,
   materials: learningMaterials.filter(material => material.visible),
   assignments: offeringAssignments,
+  quizzes: offeringQuizzes,
   progress: myProgress,
 };
 
@@ -1804,6 +1807,7 @@ export const studyProgress: StudyProgressResponseDto = {
 };
 
 export const handlers = [
+  ...quizHandlers,
   /**
    * The BFF returns only the user; the tokens stay in httpOnly cookies the test
    * environment never sees. A handler that returned them would let a component

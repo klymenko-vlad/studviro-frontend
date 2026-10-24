@@ -6,6 +6,7 @@ import { ExamTermCard } from '@/entities/exam-term';
 import { dayKey, TimetableEventCard } from '@/entities/timetable-event';
 
 import type { CalendarDay } from '../model/calendar-items';
+import { deadlineHref } from '../model/deadline-href';
 
 export function CalendarDaySection({
   day,
@@ -45,12 +46,7 @@ export function CalendarDaySection({
                 <p className="text-muted-foreground type-eyebrow">{t('deadlineLayer')}</p>
                 <DeadlineCard
                   deadline={item.deadline}
-                  href={courseOfferingHref(institutionId, item.deadline.offering.id, {
-                    section: 'assignments',
-                    ...(item.deadline.type === 'assignment'
-                      ? { item: { kind: 'activity', id: item.deadline.id } }
-                      : {}),
-                  })}
+                  href={deadlineHref(institutionId, item.deadline)}
                 />
               </div>
             ) : (

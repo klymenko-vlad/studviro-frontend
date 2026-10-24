@@ -1125,7 +1125,11 @@ export const zLeafConditionViewDto = z.object({
         'group',
         'set'
     ]),
-    itemKind: z.enum(['material', 'assignment']).nullable(),
+    itemKind: z.enum([
+        'material',
+        'assignment',
+        'quiz'
+    ]).nullable(),
     itemId: z.uuid().nullable(),
     itemTitle: z.string().nullable(),
     atLeast: z.number().nullable(),
@@ -1143,7 +1147,11 @@ export const zConditionViewDto = z.object({
         'group',
         'set'
     ]),
-    itemKind: z.enum(['material', 'assignment']).nullable(),
+    itemKind: z.enum([
+        'material',
+        'assignment',
+        'quiz'
+    ]).nullable(),
     itemId: z.uuid().nullable(),
     itemTitle: z.string().nullable(),
     atLeast: z.number().nullable(),
@@ -1192,7 +1200,11 @@ export const zLearningSectionResponseDto = z.object({
 });
 
 export const zLeafConditionDto = z.object({
-    itemKind: z.enum(['material', 'assignment']).nullish(),
+    itemKind: z.enum([
+        'material',
+        'assignment',
+        'quiz'
+    ]).nullish(),
     itemId: z.uuid().nullish(),
     atLeast: z.number().gte(0).lte(100000).nullish(),
     from: z.iso.datetime().nullish(),
@@ -1206,7 +1218,11 @@ export const zLeafConditionDto = z.object({
 });
 
 export const zConditionDto = z.object({
-    itemKind: z.enum(['material', 'assignment']).nullish(),
+    itemKind: z.enum([
+        'material',
+        'assignment',
+        'quiz'
+    ]).nullish(),
     itemId: z.uuid().nullish(),
     atLeast: z.number().gte(0).lte(100000).nullish(),
     from: z.iso.datetime().nullish(),
@@ -1596,6 +1612,7 @@ export const zMyDeadlineResponseDto = z.object({
     id: z.uuid(),
     type: z.enum([
         'assignment',
+        'quiz',
         'forum',
         'resource',
         'workshop',
@@ -1630,6 +1647,7 @@ export const zAssessmentActivityDto = z.object({
     id: z.uuid(),
     type: z.enum([
         'assignment',
+        'quiz',
         'forum',
         'resource',
         'workshop',
@@ -1675,7 +1693,11 @@ export const zSectionProgressDto = z.object({
 });
 
 export const zItemProgressDto = z.object({
-    kind: z.enum(['material', 'assignment']),
+    kind: z.enum([
+        'material',
+        'assignment',
+        'quiz'
+    ]),
     id: z.uuid(),
     sectionId: z.uuid().nullable(),
     rule: z.enum([
@@ -1707,7 +1729,11 @@ export const zMarkDoneDto = z.object({
 });
 
 export const zCompletionColumnDto = z.object({
-    kind: z.enum(['material', 'assignment']),
+    kind: z.enum([
+        'material',
+        'assignment',
+        'quiz'
+    ]),
     id: z.uuid(),
     title: z.string(),
     sectionId: z.uuid().nullable(),
@@ -1724,7 +1750,11 @@ export const zCompletionColumnDto = z.object({
 });
 
 export const zCompletionCellDto = z.object({
-    kind: z.enum(['material', 'assignment']),
+    kind: z.enum([
+        'material',
+        'assignment',
+        'quiz'
+    ]),
     id: z.uuid(),
     state: z.enum([
         'incomplete',
@@ -1773,7 +1803,8 @@ export const zSightReportResponseDto = z.object({
     kind: z.enum([
         'section',
         'material',
-        'assignment'
+        'assignment',
+        'quiz'
     ]),
     id: z.uuid(),
     title: z.string(),
@@ -1791,11 +1822,71 @@ export const zCourseStudentDto = z.object({
     email: z.string()
 });
 
+export const zQuizGradingMethod = z.enum([
+    'highest',
+    'last',
+    'average'
+]);
+
+/**
+ * Whether attempts may start now, on the server clock.
+ */
+export const zQuizAttemptState = z.enum([
+    'upcoming',
+    'open',
+    'closed'
+]);
+
+export const zQuizSettingsResponseDto = z.object({
+    timeLimitMinutes: z.number().nullable(),
+    maxAttempts: z.number().nullable(),
+    gradingMethod: zQuizGradingMethod,
+    shuffleQuestions: z.boolean(),
+    shuffleChoices: z.boolean(),
+    questionCount: z.number(),
+    attempts: zQuizAttemptState
+});
+
+export const zQuizResponseDto = z.object({
+    restriction: zRestrictionViewDto.nullable(),
+    availableFrom: z.iso.datetime().nullable(),
+    availableUntil: z.iso.datetime().nullable(),
+    hiddenUntilAvailable: z.boolean(),
+    availability: z.enum([
+        'open',
+        'scheduled',
+        'ended'
+    ]),
+    id: z.uuid(),
+    learningSpaceId: z.uuid(),
+    assessmentId: z.uuid(),
+    name: z.string(),
+    brief: z.string().nullable(),
+    opensAt: z.iso.datetime().nullable(),
+    closesAt: z.iso.datetime().nullable(),
+    maxPoints: z.number(),
+    countsTowardFinalGrade: z.boolean(),
+    position: z.number().nullable(),
+    visible: z.boolean(),
+    sectionId: z.uuid().nullable(),
+    completionRule: z.enum([
+        'none',
+        'manual',
+        'viewed',
+        'submitted',
+        'marked',
+        'passed'
+    ]),
+    completionPassPoints: z.number().nullable(),
+    settings: zQuizSettingsResponseDto.nullable()
+});
+
 export const zStudentViewResponseDto = z.object({
     student: zCourseStudentDto.nullable(),
     sections: z.array(zLearningSectionResponseDto),
     materials: z.array(zLearningMaterialResponseDto),
     assignments: z.array(zAssignmentResponseDto),
+    quizzes: z.array(zQuizResponseDto),
     progress: zProgressResponseDto
 });
 
@@ -1814,7 +1905,8 @@ export const zGroupContentItemDto = z.object({
     kind: z.enum([
         'section',
         'material',
-        'assignment'
+        'assignment',
+        'quiz'
     ]),
     id: z.uuid(),
     title: z.string(),
@@ -1829,6 +1921,251 @@ export const zGroupContentResponseDto = z.object({
     group: zGroupContentGroupDto,
     items: z.array(zGroupContentItemDto),
     meta: zPageMetaDto
+});
+
+export const zQuestionCategoryResponseDto = z.object({
+    id: z.uuid(),
+    name: z.string(),
+    questionCount: z.number()
+});
+
+export const zQuestionCategoryPageResponseDto = z.object({
+    items: z.array(zQuestionCategoryResponseDto),
+    meta: zPageMetaDto
+});
+
+export const zQuestionCategoryDto = z.object({
+    name: z.string().min(1).max(120)
+});
+
+export const zQuestionType = z.enum([
+    'single_choice',
+    'multiple_choice',
+    'true_false',
+    'short_answer',
+    'numerical',
+    'matching',
+    'essay'
+]);
+
+export const zQuestionSummaryDto = z.object({
+    id: z.uuid(),
+    categoryId: z.uuid(),
+    categoryName: z.string(),
+    type: zQuestionType,
+    version: z.number(),
+    name: z.string(),
+    text: z.string(),
+    defaultMark: z.number(),
+    updatedAt: z.iso.datetime()
+});
+
+export const zQuestionPageResponseDto = z.object({
+    items: z.array(zQuestionSummaryDto),
+    meta: zPageMetaDto
+});
+
+export const zChoiceResponseDto = z.object({
+    text: z.string(),
+    correct: z.boolean(),
+    feedback: z.string().nullable()
+});
+
+export const zMatchingPairResponseDto = z.object({
+    prompt: z.string(),
+    answer: z.string()
+});
+
+export const zQuestionResponseDto = z.object({
+    version: z.number(),
+    name: z.string(),
+    text: z.string(),
+    defaultMark: z.number(),
+    generalFeedback: z.string().nullable(),
+    choices: z.array(zChoiceResponseDto).nullable(),
+    correct: z.boolean().nullable(),
+    trueFeedback: z.string().nullable(),
+    falseFeedback: z.string().nullable(),
+    acceptedAnswers: z.array(z.string()).nullable(),
+    caseSensitive: z.boolean().nullable(),
+    value: z.number().nullable(),
+    tolerance: z.number().nullable(),
+    pairs: z.array(zMatchingPairResponseDto).nullable(),
+    createdAt: z.iso.datetime(),
+    id: z.uuid(),
+    categoryId: z.uuid(),
+    categoryName: z.string(),
+    type: zQuestionType
+});
+
+export const zQuestionVersionResponseDto = z.object({
+    version: z.number(),
+    name: z.string(),
+    text: z.string(),
+    defaultMark: z.number(),
+    generalFeedback: z.string().nullable(),
+    choices: z.array(zChoiceResponseDto).nullable(),
+    correct: z.boolean().nullable(),
+    trueFeedback: z.string().nullable(),
+    falseFeedback: z.string().nullable(),
+    acceptedAnswers: z.array(z.string()).nullable(),
+    caseSensitive: z.boolean().nullable(),
+    value: z.number().nullable(),
+    tolerance: z.number().nullable(),
+    pairs: z.array(zMatchingPairResponseDto).nullable(),
+    createdAt: z.iso.datetime()
+});
+
+export const zQuestionVersionPageResponseDto = z.object({
+    items: z.array(zQuestionVersionResponseDto),
+    meta: zPageMetaDto
+});
+
+export const zChoiceDto = z.object({
+    text: z.string().max(1000),
+    correct: z.boolean(),
+    feedback: z.string().max(1000).nullish()
+});
+
+export const zMatchingPairDto = z.object({
+    prompt: z.string().max(1000),
+    answer: z.string().max(1000)
+});
+
+export const zCreateQuestionDto = z.object({
+    categoryId: z.uuid(),
+    type: zQuestionType,
+    name: z.string().min(1).max(200),
+    text: z.string().min(1).max(10000),
+    defaultMark: z.number().gt(0).lte(1000),
+    generalFeedback: z.string().max(5000).nullish(),
+    choices: z.array(zChoiceDto).nullish(),
+    correct: z.boolean().nullish(),
+    trueFeedback: z.string().max(1000).nullish(),
+    falseFeedback: z.string().max(1000).nullish(),
+    acceptedAnswers: z.array(z.string().max(1000)).nullish(),
+    caseSensitive: z.boolean().nullish(),
+    value: z.number().nullish(),
+    tolerance: z.number().gte(0).nullish(),
+    pairs: z.array(zMatchingPairDto).nullish()
+});
+
+export const zReviseQuestionDto = z.object({
+    categoryId: z.uuid(),
+    name: z.string().min(1).max(200),
+    text: z.string().min(1).max(10000),
+    defaultMark: z.number().gt(0).lte(1000),
+    generalFeedback: z.string().max(5000).nullish(),
+    choices: z.array(zChoiceDto).nullish(),
+    correct: z.boolean().nullish(),
+    trueFeedback: z.string().max(1000).nullish(),
+    falseFeedback: z.string().max(1000).nullish(),
+    acceptedAnswers: z.array(z.string().max(1000)).nullish(),
+    caseSensitive: z.boolean().nullish(),
+    value: z.number().nullish(),
+    tolerance: z.number().gte(0).nullish(),
+    pairs: z.array(zMatchingPairDto).nullish()
+});
+
+export const zCreateQuizDto = z.object({
+    restriction: zRestrictionDto.nullish(),
+    audience: zAudienceDto.nullish(),
+    availableFrom: z.iso.datetime().nullish(),
+    availableUntil: z.iso.datetime().nullish(),
+    hiddenUntilAvailable: z.boolean().optional(),
+    name: z.string().min(1).max(200),
+    brief: z.string().max(20000).nullish(),
+    opensAt: z.iso.datetime().nullish(),
+    closesAt: z.iso.datetime().nullish(),
+    timeLimitMinutes: z.number().gte(1).lte(1440).nullish(),
+    maxAttempts: z.number().gte(1).lte(100).nullish(),
+    gradingMethod: zQuizGradingMethod.optional(),
+    shuffleQuestions: z.boolean().optional(),
+    shuffleChoices: z.boolean().optional(),
+    maxPoints: z.number().gt(0).lte(100000).optional().default(10),
+    countsTowardFinalGrade: z.boolean().optional(),
+    visible: z.boolean().optional(),
+    sectionId: z.uuid().nullish(),
+    completionRule: z.enum([
+        'none',
+        'manual',
+        'submitted',
+        'marked',
+        'passed'
+    ]).optional(),
+    completionPassPoints: z.number().gte(0).lte(100000).nullish()
+});
+
+export const zUpdateQuizDto = z.object({
+    restriction: zRestrictionDto.nullish(),
+    audience: zAudienceDto.nullish(),
+    availableFrom: z.iso.datetime().nullish(),
+    availableUntil: z.iso.datetime().nullish(),
+    hiddenUntilAvailable: z.boolean().optional(),
+    name: z.string().min(1).max(200).optional(),
+    brief: z.string().max(20000).nullish(),
+    opensAt: z.iso.datetime().nullish(),
+    closesAt: z.iso.datetime().nullish(),
+    timeLimitMinutes: z.number().gte(1).lte(1440).nullish(),
+    maxAttempts: z.number().gte(1).lte(100).nullish(),
+    gradingMethod: zQuizGradingMethod.optional(),
+    shuffleQuestions: z.boolean().optional(),
+    shuffleChoices: z.boolean().optional(),
+    maxPoints: z.number().gt(0).lte(100000).optional().default(10),
+    countsTowardFinalGrade: z.boolean().optional(),
+    visible: z.boolean().optional(),
+    sectionId: z.uuid().nullish(),
+    completionRule: z.enum([
+        'none',
+        'manual',
+        'submitted',
+        'marked',
+        'passed'
+    ]).optional(),
+    completionPassPoints: z.number().gte(0).lte(100000).nullish(),
+    position: z.number().gte(0).optional()
+});
+
+export const zQuizSlotKind = z.enum(['question', 'random']);
+
+export const zSlotQuestionDto = z.object({
+    id: z.uuid(),
+    name: z.string(),
+    text: z.string(),
+    type: zQuestionType,
+    version: z.number()
+});
+
+export const zQuizSlotResponseDto = z.object({
+    id: z.uuid(),
+    position: z.number(),
+    kind: zQuizSlotKind,
+    mark: z.number(),
+    question: zSlotQuestionDto.nullable(),
+    categoryId: z.uuid().nullable(),
+    categoryName: z.string().nullable(),
+    pickCount: z.number().nullable()
+});
+
+export const zQuizSlotPageResponseDto = z.object({
+    items: z.array(zQuizSlotResponseDto),
+    meta: zPageMetaDto,
+    questionCount: z.number(),
+    totalMarks: z.number()
+});
+
+export const zAddQuizSlotsDto = z.object({
+    kind: zQuizSlotKind,
+    questionIds: z.array(z.uuid()).min(1).nullish(),
+    categoryId: z.uuid().nullish(),
+    pickCount: z.number().gte(1).lte(50).nullish(),
+    mark: z.number().gte(1).lte(1000).nullish()
+});
+
+export const zUpdateQuizSlotDto = z.object({
+    position: z.number().gte(0).optional(),
+    mark: z.number().gte(1).lte(1000).optional(),
+    pickCount: z.number().gte(1).lte(50).optional()
 });
 
 export const zCreateDemoRequestDto = z.object({
@@ -3897,7 +4234,11 @@ export const zMarkLearningItemDoneBody = zMarkDoneDto;
 export const zMarkLearningItemDonePath = z.object({
     institutionId: z.string(),
     spaceId: z.string(),
-    kind: z.enum(['material', 'assignment']),
+    kind: z.enum([
+        'material',
+        'assignment',
+        'quiz'
+    ]),
     itemId: z.string()
 });
 
@@ -3922,7 +4263,8 @@ export const zListLearningItemSightPath = z.object({
     kind: z.enum([
         'section',
         'material',
-        'assignment'
+        'assignment',
+        'quiz'
     ]),
     itemId: z.string()
 });
@@ -3972,6 +4314,195 @@ export const zListStudyGroupContentQuery = z.object({
 });
 
 export const zListStudyGroupContentResponse = zGroupContentResponseDto;
+
+export const zListQuestionCategoriesPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zListQuestionCategoriesQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    q: z.string().max(200).optional()
+});
+
+export const zListQuestionCategoriesResponse = zQuestionCategoryPageResponseDto;
+
+export const zCreateQuestionCategoryBody = zQuestionCategoryDto;
+
+export const zCreateQuestionCategoryPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zCreateQuestionCategoryResponse = zQuestionCategoryResponseDto;
+
+export const zRemoveQuestionCategoryPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    categoryId: z.string()
+});
+
+export const zRemoveQuestionCategoryResponse = z.void();
+
+export const zRenameQuestionCategoryBody = zQuestionCategoryDto;
+
+export const zRenameQuestionCategoryPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    categoryId: z.string()
+});
+
+export const zRenameQuestionCategoryResponse = zQuestionCategoryResponseDto;
+
+export const zListQuestionsPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zListQuestionsQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    categoryId: z.uuid().optional(),
+    type: zQuestionType.optional(),
+    q: z.string().max(200).optional()
+});
+
+export const zListQuestionsResponse = zQuestionPageResponseDto;
+
+export const zCreateQuestionBody = zCreateQuestionDto;
+
+export const zCreateQuestionPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zCreateQuestionResponse = zQuestionResponseDto;
+
+export const zRemoveQuestionPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    questionId: z.string()
+});
+
+export const zRemoveQuestionResponse = z.void();
+
+export const zGetQuestionPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    questionId: z.string()
+});
+
+export const zGetQuestionResponse = zQuestionResponseDto;
+
+export const zReviseQuestionBody = zReviseQuestionDto;
+
+export const zReviseQuestionPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    questionId: z.string()
+});
+
+export const zReviseQuestionResponse = zQuestionResponseDto;
+
+export const zListQuestionVersionsPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    questionId: z.string()
+});
+
+export const zListQuestionVersionsQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    limit: z.number().gte(1).lte(100).optional().default(20)
+});
+
+export const zListQuestionVersionsResponse = zQuestionVersionPageResponseDto;
+
+export const zListQuizzesPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zListQuizzesResponse = z.array(zQuizResponseDto);
+
+export const zCreateQuizBody = zCreateQuizDto;
+
+export const zCreateQuizPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zCreateQuizResponse = zQuizResponseDto;
+
+export const zRemoveQuizPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    quizId: z.string()
+});
+
+export const zRemoveQuizResponse = z.void();
+
+export const zGetQuizPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    quizId: z.string()
+});
+
+export const zGetQuizResponse = zQuizResponseDto;
+
+export const zUpdateQuizBody = zUpdateQuizDto;
+
+export const zUpdateQuizPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    quizId: z.string()
+});
+
+export const zUpdateQuizResponse = zQuizResponseDto;
+
+export const zListQuizSlotsPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    quizId: z.string()
+});
+
+export const zListQuizSlotsQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    q: z.string().max(200).optional()
+});
+
+export const zListQuizSlotsResponse = zQuizSlotPageResponseDto;
+
+export const zAddQuizSlotsBody = zAddQuizSlotsDto;
+
+export const zAddQuizSlotsPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    quizId: z.string()
+});
+
+export const zAddQuizSlotsResponse = z.array(zQuizSlotResponseDto);
+
+export const zRemoveQuizSlotPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    quizId: z.string(),
+    slotId: z.string()
+});
+
+export const zRemoveQuizSlotResponse = z.void();
+
+export const zUpdateQuizSlotBody = zUpdateQuizSlotDto;
+
+export const zUpdateQuizSlotPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string(),
+    quizId: z.string(),
+    slotId: z.string()
+});
+
+export const zUpdateQuizSlotResponse = zQuizSlotResponseDto;
 
 export const zCreateDemoRequestBody = zCreateDemoRequestDtoWritable;
 

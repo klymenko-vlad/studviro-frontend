@@ -164,6 +164,7 @@ describe('OfferingOutline view as a student', () => {
           sections: [],
           materials: [],
           assignments: [],
+          quizzes: [],
           progress: { done: 0, total: 0, sections: [], items: [] },
         }),
       ),

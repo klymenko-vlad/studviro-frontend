@@ -9,10 +9,11 @@ import {
   learningSectionMutations,
   learningSectionQueries,
 } from '@/entities/learning-section';
+import { quizMutations, quizQueries } from '@/entities/quiz';
 import type { AudiencePayload, RestrictionPayload } from '@/entities/restriction';
 
 export interface RestrictionTarget {
-  kind: 'section' | 'material' | 'assignment';
+  kind: 'section' | 'material' | 'assignment' | 'quiz';
   id: string;
   title: string;
 }
@@ -32,6 +33,7 @@ export function useSaveRestriction(
   const section = useMutation(learningSectionMutations.update());
   const material = useMutation(learningMaterialMutations.update());
   const assignment = useMutation(assignmentMutations.update());
+  const quiz = useMutation(quizMutations.update());
 
   const refresh = async () => {
     const path = { path: space };
@@ -39,6 +41,7 @@ export function useSaveRestriction(
       queryClient.invalidateQueries({ queryKey: learningSectionQueries.listKey(path) }),
       queryClient.invalidateQueries({ queryKey: learningMaterialQueries.listKey(path) }),
       queryClient.invalidateQueries({ queryKey: assignmentQueries.listKey(path) }),
+      queryClient.invalidateQueries({ queryKey: quizQueries.listKey(path) }),
     ]);
   };
 
@@ -47,6 +50,8 @@ export function useSaveRestriction(
       await section.mutateAsync({ path: { ...space, sectionId: target.id }, body });
     } else if (target.kind === 'material') {
       await material.mutateAsync({ path: { ...space, materialId: target.id }, body });
+    } else if (target.kind === 'quiz') {
+      await quiz.mutateAsync({ path: { ...space, quizId: target.id }, body });
     } else {
       await assignment.mutateAsync({ path: { ...space, assignmentId: target.id }, body });
     }
@@ -55,6 +60,7 @@ export function useSaveRestriction(
 
   return {
     save,
-    pending: section.isPending || material.isPending || assignment.isPending,
+    pending:
+      section.isPending || material.isPending || assignment.isPending || quiz.isPending,
   };
 }

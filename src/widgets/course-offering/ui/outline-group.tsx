@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import type { OutlineGroup } from '@/features/arrange-outline';
 import { AssignmentForm } from '@/features/manage-assignments';
 import { MaterialForm } from '@/features/manage-materials';
+import { NewQuizForm } from '@/features/manage-quizzes';
 import { SectionActions, SectionForm } from '@/features/manage-sections';
 import {
   GroupsEditor,
@@ -35,7 +36,8 @@ import { AccessButtons, type AccessPanel } from './access-buttons';
 import { ItemSight } from './item-sight';
 import { OutlineEntryItem } from './outline-entry';
 
-type Adding = 'material' | 'assignment' | 'edit' | Exclude<AccessPanel, null> | null;
+type Adding =
+  'material' | 'assignment' | 'quiz' | 'edit' | Exclude<AccessPanel, null> | null;
 
 export function OutlineGroupCard({
   institutionId,
@@ -224,6 +226,18 @@ export function OutlineGroupCard({
               >
                 {open === 'assignment' ? t('cancel') : t('addAssignment')}
               </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                aria-expanded={open === 'quiz'}
+                aria-label={t('addQuizTo', { title })}
+                onClick={() => {
+                  toggle('quiz');
+                }}
+              >
+                {open === 'quiz' ? t('cancel') : t('addQuiz')}
+              </Button>
             </div>
             {open === 'material' ? (
               <MaterialForm
@@ -239,6 +253,14 @@ export function OutlineGroupCard({
                 spaceId={spaceId}
                 sectionId={section?.id ?? null}
                 onDone={close}
+              />
+            ) : null}
+            {open === 'quiz' ? (
+              <NewQuizForm
+                institutionId={institutionId}
+                offeringId={offeringId}
+                spaceId={spaceId}
+                sectionId={section?.id ?? null}
               />
             ) : null}
           </div>

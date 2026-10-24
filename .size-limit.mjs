@@ -270,9 +270,34 @@ const budgets = [
     // CB11. The Markdown renderer is not in that number: a page is rendered by a
     // Server Component on its own route, and the form's preview by a Server
     // Action, so the renderer never ships to the browser. No dependency added.
+    //
+    // Raised from 638 kB to 677 kB on 2026-10-24 for quiz authoring and the
+    // question bank (Course Builder Plan CB6, ADR 0050). Measured at
+    // **675.76 kB**, +38.38 kB over CB5's 637.38 kB — the largest single raise
+    // in this file, because the step adds two client-heavy routes of their own
+    // rather than a panel on an existing one. Measured piece by piece in a clean
+    // worktree of the CB5 commit:
+    //   - the regenerated client (quiz, slot and question schemas; the quiz rides
+    //     on the student view): +2.2 kB;
+    //   - the quiz row, the Add quiz form, quizzes in moves, restrictions and the
+    //     student view on the course page: about +4 kB;
+    //   - the question bank route (categories, the paged question list, one
+    //     editor that switches on seven types): +16 kB, of which 11.4 kB is its
+    //     own route chunk;
+    //   - the quiz editor route (the settings form, the paged question list with
+    //     marks and moves, adding by hand from the bank or drawn at random):
+    //     +16.3 kB.
+    // The full settings form was first also on the course page; moving it to
+    // the quiz's own route (adding a quiz on the course page is now a name only)
+    // was measured and bought nothing, since the route needs the form anyway —
+    // it is kept because it is the better flow. The route chunks are the
+    // features' own code, not duplicated libraries. No dependency and no `shared/ui` primitive
+    // was added; the type editors use plain state and the native `Select` and
+    // `Switch`, as the restriction editor does. CB7 (taking a quiz) will need
+    // room of its own.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '638 kB',
+    limit: '677 kB',
     gzip: true,
   },
 ];

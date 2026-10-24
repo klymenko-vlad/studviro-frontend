@@ -1,5 +1,6 @@
 export {
   buildOutline,
+  entryRow,
   neighbourEntry,
   type OutlineEntry,
   type OutlineGroup,

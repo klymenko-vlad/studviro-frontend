@@ -11,6 +11,7 @@ import {
   learningMaterialQueries,
 } from '@/entities/learning-material';
 import type { LearningSection } from '@/entities/learning-section';
+import { quizMutations, quizQueries } from '@/entities/quiz';
 import { toApiError } from '@/shared/api';
 import { swapPositions } from '@/shared/lib';
 import { Button, Select, SelectItem } from '@/shared/ui';
@@ -31,27 +32,42 @@ function usePlaceEntry(institutionId: string, spaceId: string) {
   };
   const material = useMutation({ ...learningMaterialMutations.update(), onError });
   const assignment = useMutation({ ...assignmentMutations.update(), onError });
+  const quiz = useMutation({ ...quizMutations.update(), onError });
 
-  const place = (entry: OutlineEntry, body: Placement) =>
-    entry.kind === 'material'
-      ? material.mutateAsync({
+  const place = (entry: OutlineEntry, body: Placement) => {
+    switch (entry.kind) {
+      case 'material':
+        return material.mutateAsync({
           path: { institutionId, spaceId, materialId: entry.id },
           body,
-        })
-      : assignment.mutateAsync({
+        });
+      case 'assignment':
+        return assignment.mutateAsync({
           path: { institutionId, spaceId, assignmentId: entry.id },
           body,
         });
+      case 'quiz':
+        return quiz.mutateAsync({
+          path: { institutionId, spaceId, quizId: entry.id },
+          body,
+        });
+    }
+  };
 
   const refresh = async () => {
     const path = { path: { institutionId, spaceId } };
     await Promise.all([
       queryClient.invalidateQueries({ queryKey: learningMaterialQueries.listKey(path) }),
       queryClient.invalidateQueries({ queryKey: assignmentQueries.listKey(path) }),
+      queryClient.invalidateQueries({ queryKey: quizQueries.listKey(path) }),
     ]);
   };
 
-  return { place, refresh, busy: material.isPending || assignment.isPending };
+  return {
+    place,
+    refresh,
+    busy: material.isPending || assignment.isPending || quiz.isPending,
+  };
 }
 
 export function OutlineItemActions({

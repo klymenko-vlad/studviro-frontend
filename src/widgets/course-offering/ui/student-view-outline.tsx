@@ -56,6 +56,7 @@ export function StudentViewOutline({
           view.data.sections,
           view.data.materials,
           view.data.assignments,
+          view.data.quizzes,
         ).filter(group => group.section !== null || group.entries.length > 0);
 
   return (

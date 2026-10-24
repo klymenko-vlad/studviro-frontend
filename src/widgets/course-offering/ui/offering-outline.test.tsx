@@ -79,6 +79,7 @@ describe('OfferingOutline', () => {
     expect(itemTitles(week)).toEqual([
       expect.stringContaining('Lecture 1 — slides'),
       expect.stringContaining('Assignment 1 — sorting'),
+      expect.stringContaining('Foundations quiz'),
     ]);
     expect(within(week).getByText(learningSections[0]!.summary!)).toBeInTheDocument();
   });
@@ -449,6 +450,7 @@ describe('OfferingOutline', () => {
       http.get(SECTIONS_URL, () => HttpResponse.json([])),
       http.get(MATERIALS_URL, () => HttpResponse.json([])),
       http.get(`${SPACE_URL}/assignments`, () => HttpResponse.json([])),
+      http.get(`${SPACE_URL}/quizzes`, () => HttpResponse.json([])),
     );
 
     render('student');

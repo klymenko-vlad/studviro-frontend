@@ -193,7 +193,7 @@ describe('OfferingOutline restrictions', () => {
     await user.click(within(form).getByRole('button', { name: 'Add a condition' }));
     await user.selectOptions(within(form).getAllByLabelText('Condition')[1]!, 'mark');
     await user.selectOptions(
-      within(form).getByLabelText('Assignment'),
+      within(form).getByLabelText('Assignment or quiz'),
       `assignment:${ASSIGNMENT_ID}`,
     );
     await user.type(within(form).getByLabelText('At least (points)'), '50');

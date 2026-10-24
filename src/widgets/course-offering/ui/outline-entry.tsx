@@ -2,7 +2,11 @@
 
 import { useState } from 'react';
 
-import { OutlineItemActions, type OutlineEntry } from '@/features/arrange-outline';
+import {
+  entryRow,
+  OutlineItemActions,
+  type OutlineEntry,
+} from '@/features/arrange-outline';
 import {
   MaterialActions,
   MaterialAvailabilityForm,
@@ -27,6 +31,7 @@ import { AccessButtons, type AccessPanel } from './access-buttons';
 import { ItemSight } from './item-sight';
 import { OutlineAssignment } from './outline-assignment';
 import { OutlineMaterial } from './outline-material';
+import { OutlineQuiz } from './outline-quiz';
 
 export function OutlineEntryItem({
   institutionId,
@@ -64,17 +69,17 @@ export function OutlineEntryItem({
   const closeScheduling = () => {
     setScheduling(false);
   };
-  const restriction =
-    entry.kind === 'material' ? entry.material.restriction : entry.assignment.restriction;
+  const row = entryRow(entry);
+  const restriction = row.restriction;
 
   const authoring = manageable ? (
     <>
-      {entry.kind === 'assignment' ? (
+      {entry.kind === 'material' ? null : (
         <CompletionRuleBadge
-          rule={entry.assignment.completionRule}
-          passPoints={entry.assignment.completionPassPoints}
+          rule={row.completionRule}
+          passPoints={row.completionPassPoints}
         />
-      ) : null}
+      )}
       <OutlineItemActions
         institutionId={institutionId}
         spaceId={spaceId}
@@ -112,12 +117,7 @@ export function OutlineEntryItem({
         disabled={readOnly}
       />
     ) : (
-      <CompletionStatus
-        item={progress}
-        passPoints={
-          entry.kind === 'assignment' ? entry.assignment.completionPassPoints : null
-        }
-      />
+      <CompletionStatus item={progress} passPoints={row.completionPassPoints} />
     );
 
   const opensToRecord =
@@ -139,6 +139,16 @@ export function OutlineEntryItem({
           manageable={manageable}
           actions={authoring ?? tracking}
           onOpen={opensToRecord}
+          readOnly={readOnly}
+        />
+      ) : entry.kind === 'quiz' ? (
+        <OutlineQuiz
+          institutionId={institutionId}
+          offeringId={offeringId}
+          spaceId={spaceId}
+          quiz={entry.quiz}
+          manageable={manageable}
+          actions={authoring ?? tracking}
           readOnly={readOnly}
         />
       ) : (

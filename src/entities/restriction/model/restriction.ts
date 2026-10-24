@@ -117,13 +117,14 @@ function leafPayloadOf(draft: ConditionDraft, timeZone: string): LeafPayload {
 
   switch (draft.type) {
     case 'completed':
-      return {
-        type: 'completed',
-        itemKind: itemKind === 'material' ? 'material' : 'assignment',
-        itemId,
-      };
+      return { type: 'completed', itemKind: restrictedKindOf(itemKind), itemId };
     case 'mark':
-      return { type: 'mark', itemId, atLeast: Number(draft.atLeast) };
+      return {
+        type: 'mark',
+        ...(itemKind === 'quiz' ? { itemKind: 'quiz' as const } : {}),
+        itemId,
+        atLeast: Number(draft.atLeast),
+      };
     case 'date':
       return { type: 'date', from: fromLocalInput(draft.from, timeZone) };
     default:
@@ -156,4 +157,8 @@ function isComplete(condition: ConditionDraft): boolean {
     case 'set':
       return condition.conditions.length > 0 && condition.conditions.every(isComplete);
   }
+}
+
+function restrictedKindOf(kind: string | undefined): 'material' | 'assignment' | 'quiz' {
+  return kind === 'material' || kind === 'quiz' ? kind : 'assignment';
 }

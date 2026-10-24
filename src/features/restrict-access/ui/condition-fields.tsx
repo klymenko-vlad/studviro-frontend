@@ -12,7 +12,7 @@ import {
 import { Button, Input, Label, Select, SelectItem } from '@/shared/ui';
 
 export interface RestrictionCandidate {
-  kind: 'material' | 'assignment';
+  kind: 'material' | 'assignment' | 'quiz';
   id: string;
   title: string;
   tracked: boolean;
@@ -50,7 +50,7 @@ export function ConditionFields({
     : [...LEAF_CONDITION_TYPES, 'set'];
   const items =
     condition.type === 'mark'
-      ? candidates.filter(candidate => candidate.kind === 'assignment')
+      ? candidates.filter(candidate => candidate.kind !== 'material')
       : candidates.filter(candidate => candidate.tracked);
 
   const field = (suffix: string, label: string, control: React.ReactNode) => (
@@ -86,7 +86,7 @@ export function ConditionFields({
         {condition.type === 'completed' || condition.type === 'mark'
           ? field(
               'item',
-              condition.type === 'mark' ? t('assignment') : t('item'),
+              condition.type === 'mark' ? t('markedItem') : t('item'),
               <Select
                 id={`${id}-item`}
                 className={NARROW}

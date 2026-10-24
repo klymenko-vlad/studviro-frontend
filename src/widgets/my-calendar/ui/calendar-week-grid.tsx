@@ -9,6 +9,7 @@ import { Link } from '@/shared/config';
 import { cn, toneStyle, toWallTime } from '@/shared/lib';
 
 import type { CalendarItem } from '../model/calendar-items';
+import { deadlineHref } from '../model/deadline-href';
 import type { WeekBlock, WeekLayout } from '../model/week-layout';
 
 const HOUR_PX = 56;
@@ -263,12 +264,7 @@ function AllDayItem({
 
   return (
     <Link
-      href={courseOfferingHref(institutionId, deadline.offering.id, {
-        section: 'assignments',
-        ...(deadline.type === 'assignment'
-          ? { item: { kind: 'activity', id: deadline.id } }
-          : {}),
-      })}
+      href={deadlineHref(institutionId, deadline)}
       style={toneStyle(deadline.course.code)}
       className="tone bg-tone-soft hover:ring-ring/40 focus-visible:ring-ring/60 flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] leading-tight transition-shadow duration-300 outline-none hover:ring-1 focus-visible:ring-2"
     >

@@ -64,4 +64,14 @@ export {
   uploadTicket,
   users,
 } from './msw/handlers';
+export {
+  bankQuestion,
+  bankQuestions,
+  CATEGORY_ID,
+  offeringQuizzes,
+  QUESTION_ID,
+  questionCategories,
+  QUIZ_ID,
+  quizSlots,
+} from './msw/quiz-handlers';
 export { server } from './msw/server';

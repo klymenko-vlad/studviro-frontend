@@ -858,7 +858,7 @@ export type UpdateLearningSpaceDto = {
 
 export type LeafConditionViewDto = {
     type: 'completed' | 'mark' | 'date' | 'group' | 'set';
-    itemKind: 'material' | 'assignment' | null;
+    itemKind: 'material' | 'assignment' | 'quiz' | null;
     itemId: string | null;
     itemTitle: string | null;
     atLeast: number | null;
@@ -873,7 +873,7 @@ export type LeafConditionViewDto = {
 
 export type ConditionViewDto = {
     type: 'completed' | 'mark' | 'date' | 'group' | 'set';
-    itemKind: 'material' | 'assignment' | null;
+    itemKind: 'material' | 'assignment' | 'quiz' | null;
     itemId: string | null;
     itemTitle: string | null;
     atLeast: number | null;
@@ -939,9 +939,9 @@ export type LearningSectionResponseDto = {
 };
 
 export type LeafConditionDto = {
-    itemKind?: 'material' | 'assignment' | null;
+    itemKind?: 'material' | 'assignment' | 'quiz' | null;
     /**
-     * The material or assignment for completed; the assignment for mark.
+     * The material, assignment or quiz for completed; the assignment or quiz for mark, with itemKind quiz for a quiz.
      */
     itemId?: string | null;
     atLeast?: number | null;
@@ -954,9 +954,9 @@ export type LeafConditionDto = {
 };
 
 export type ConditionDto = {
-    itemKind?: 'material' | 'assignment' | null;
+    itemKind?: 'material' | 'assignment' | 'quiz' | null;
     /**
-     * The material or assignment for completed; the assignment for mark.
+     * The material, assignment or quiz for completed; the assignment or quiz for mark, with itemKind quiz for a quiz.
      */
     itemId?: string | null;
     atLeast?: number | null;
@@ -1466,7 +1466,7 @@ export type DeadlineTermDto = {
 
 export type MyDeadlineResponseDto = {
     id: string;
-    type: 'assignment' | 'forum' | 'resource' | 'workshop' | 'other';
+    type: 'assignment' | 'quiz' | 'forum' | 'resource' | 'workshop' | 'other';
     name: string;
     brief: string | null;
     opensAt: string | null;
@@ -1489,7 +1489,7 @@ export type AssessmentSubmissionDto = {
 
 export type AssessmentActivityDto = {
     id: string;
-    type: 'assignment' | 'forum' | 'resource' | 'workshop' | 'other';
+    type: 'assignment' | 'quiz' | 'forum' | 'resource' | 'workshop' | 'other';
     dueAt: string | null;
     completionState: 'incomplete' | 'complete' | 'complete_pass' | 'complete_fail' | null;
     submission: AssessmentSubmissionDto | null;
@@ -1528,7 +1528,7 @@ export type SectionProgressDto = {
 };
 
 export type ItemProgressDto = {
-    kind: 'material' | 'assignment';
+    kind: 'material' | 'assignment' | 'quiz';
     id: string;
     sectionId: string | null;
     rule: 'none' | 'manual' | 'viewed' | 'submitted' | 'marked' | 'passed';
@@ -1554,7 +1554,7 @@ export type MarkDoneDto = {
 };
 
 export type CompletionColumnDto = {
-    kind: 'material' | 'assignment';
+    kind: 'material' | 'assignment' | 'quiz';
     id: string;
     title: string;
     sectionId: string | null;
@@ -1564,7 +1564,7 @@ export type CompletionColumnDto = {
 };
 
 export type CompletionCellDto = {
-    kind: 'material' | 'assignment';
+    kind: 'material' | 'assignment' | 'quiz';
     id: string;
     /**
      * complete and complete_pass count as done; complete_fail is a mark below the pass mark.
@@ -1617,7 +1617,7 @@ export type StudentSightDto = {
 };
 
 export type SightReportResponseDto = {
-    kind: 'section' | 'material' | 'assignment';
+    kind: 'section' | 'material' | 'assignment' | 'quiz';
     id: string;
     title: string;
     /**
@@ -1637,6 +1637,76 @@ export type CourseStudentDto = {
     email: string;
 };
 
+export const QuizGradingMethod = {
+    HIGHEST: 'highest',
+    LAST: 'last',
+    AVERAGE: 'average'
+} as const;
+
+export type QuizGradingMethod = typeof QuizGradingMethod[keyof typeof QuizGradingMethod];
+
+/**
+ * Whether attempts may start now, on the server clock.
+ */
+export const QuizAttemptState = {
+    UPCOMING: 'upcoming',
+    OPEN: 'open',
+    CLOSED: 'closed'
+} as const;
+
+/**
+ * Whether attempts may start now, on the server clock.
+ */
+export type QuizAttemptState = typeof QuizAttemptState[keyof typeof QuizAttemptState];
+
+export type QuizSettingsResponseDto = {
+    timeLimitMinutes: number | null;
+    maxAttempts: number | null;
+    gradingMethod: QuizGradingMethod;
+    shuffleQuestions: boolean;
+    shuffleChoices: boolean;
+    /**
+     * How many questions an attempt asks.
+     */
+    questionCount: number;
+    /**
+     * Whether attempts may start now, on the server clock.
+     */
+    attempts: QuizAttemptState;
+};
+
+export type QuizResponseDto = {
+    /**
+     * An author sees the whole restriction. A student sees it only while it keeps the item locked, as what is still needed.
+     */
+    restriction: RestrictionViewDto | null;
+    availableFrom: string | null;
+    availableUntil: string | null;
+    hiddenUntilAvailable: boolean;
+    /**
+     * Where its own window stands on the server clock: scheduled (not open yet), open, or ended.
+     */
+    availability: 'open' | 'scheduled' | 'ended';
+    id: string;
+    learningSpaceId: string;
+    assessmentId: string;
+    name: string;
+    brief: string | null;
+    opensAt: string | null;
+    closesAt: string | null;
+    maxPoints: number;
+    countsTowardFinalGrade: boolean;
+    position: number | null;
+    visible: boolean;
+    sectionId: string | null;
+    completionRule: 'none' | 'manual' | 'viewed' | 'submitted' | 'marked' | 'passed';
+    completionPassPoints: number | null;
+    /**
+     * Null for a student who may see only the title.
+     */
+    settings: QuizSettingsResponseDto | null;
+};
+
 export type StudentViewResponseDto = {
     /**
      * Who the page is shown as; null for a student with no progress and no group.
@@ -1645,6 +1715,7 @@ export type StudentViewResponseDto = {
     sections: Array<LearningSectionResponseDto>;
     materials: Array<LearningMaterialResponseDto>;
     assignments: Array<AssignmentResponseDto>;
+    quizzes: Array<QuizResponseDto>;
     progress: ProgressResponseDto;
 };
 
@@ -1660,7 +1731,7 @@ export type GroupContentGroupDto = {
 };
 
 export type GroupContentItemDto = {
-    kind: 'section' | 'material' | 'assignment';
+    kind: 'section' | 'material' | 'assignment' | 'quiz';
     id: string;
     title: string;
     spaceId: string;
@@ -1686,6 +1757,375 @@ export type GroupContentResponseDto = {
      */
     items: Array<GroupContentItemDto>;
     meta: PageMetaDto;
+};
+
+export type QuestionCategoryResponseDto = {
+    id: string;
+    name: string;
+    questionCount: number;
+};
+
+export type QuestionCategoryPageResponseDto = {
+    items: Array<QuestionCategoryResponseDto>;
+    meta: PageMetaDto;
+};
+
+export type QuestionCategoryDto = {
+    name: string;
+};
+
+export const QuestionType = {
+    SINGLE_CHOICE: 'single_choice',
+    MULTIPLE_CHOICE: 'multiple_choice',
+    TRUE_FALSE: 'true_false',
+    SHORT_ANSWER: 'short_answer',
+    NUMERICAL: 'numerical',
+    MATCHING: 'matching',
+    ESSAY: 'essay'
+} as const;
+
+export type QuestionType = typeof QuestionType[keyof typeof QuestionType];
+
+export type QuestionSummaryDto = {
+    id: string;
+    categoryId: string;
+    categoryName: string;
+    type: QuestionType;
+    version: number;
+    name: string;
+    text: string;
+    defaultMark: number;
+    updatedAt: string;
+};
+
+export type QuestionPageResponseDto = {
+    items: Array<QuestionSummaryDto>;
+    meta: PageMetaDto;
+};
+
+export type ChoiceResponseDto = {
+    text: string;
+    correct: boolean;
+    feedback: string | null;
+};
+
+export type MatchingPairResponseDto = {
+    prompt: string;
+    answer: string;
+};
+
+export type QuestionResponseDto = {
+    version: number;
+    name: string;
+    text: string;
+    defaultMark: number;
+    generalFeedback: string | null;
+    choices: Array<ChoiceResponseDto> | null;
+    correct: boolean | null;
+    trueFeedback: string | null;
+    falseFeedback: string | null;
+    acceptedAnswers: Array<string> | null;
+    caseSensitive: boolean | null;
+    value: number | null;
+    tolerance: number | null;
+    pairs: Array<MatchingPairResponseDto> | null;
+    createdAt: string;
+    id: string;
+    categoryId: string;
+    categoryName: string;
+    type: QuestionType;
+};
+
+export type QuestionVersionResponseDto = {
+    version: number;
+    name: string;
+    text: string;
+    defaultMark: number;
+    generalFeedback: string | null;
+    choices: Array<ChoiceResponseDto> | null;
+    correct: boolean | null;
+    trueFeedback: string | null;
+    falseFeedback: string | null;
+    acceptedAnswers: Array<string> | null;
+    caseSensitive: boolean | null;
+    value: number | null;
+    tolerance: number | null;
+    pairs: Array<MatchingPairResponseDto> | null;
+    createdAt: string;
+};
+
+export type QuestionVersionPageResponseDto = {
+    items: Array<QuestionVersionResponseDto>;
+    meta: PageMetaDto;
+};
+
+export type ChoiceDto = {
+    text: string;
+    correct: boolean;
+    feedback?: string | null;
+};
+
+export type MatchingPairDto = {
+    prompt: string;
+    answer: string;
+};
+
+export type CreateQuestionDto = {
+    categoryId: string;
+    type: QuestionType;
+    /**
+     * A short name to find it by in the bank.
+     */
+    name: string;
+    /**
+     * The question as the student reads it.
+     */
+    text: string;
+    defaultMark: number;
+    generalFeedback?: string | null;
+    /**
+     * Single and multiple choice.
+     */
+    choices?: Array<ChoiceDto> | null;
+    /**
+     * True or false: whether the statement is true.
+     */
+    correct?: boolean | null;
+    trueFeedback?: string | null;
+    falseFeedback?: string | null;
+    /**
+     * Short answer: every answer that earns the mark.
+     */
+    acceptedAnswers?: Array<string> | null;
+    caseSensitive?: boolean | null;
+    /**
+     * Numerical: the answer.
+     */
+    value?: number | null;
+    /**
+     * Numerical: how far from the answer still earns the mark.
+     */
+    tolerance?: number | null;
+    pairs?: Array<MatchingPairDto> | null;
+};
+
+export type ReviseQuestionDto = {
+    categoryId: string;
+    /**
+     * A short name to find it by in the bank.
+     */
+    name: string;
+    /**
+     * The question as the student reads it.
+     */
+    text: string;
+    defaultMark: number;
+    generalFeedback?: string | null;
+    /**
+     * Single and multiple choice.
+     */
+    choices?: Array<ChoiceDto> | null;
+    /**
+     * True or false: whether the statement is true.
+     */
+    correct?: boolean | null;
+    trueFeedback?: string | null;
+    falseFeedback?: string | null;
+    /**
+     * Short answer: every answer that earns the mark.
+     */
+    acceptedAnswers?: Array<string> | null;
+    caseSensitive?: boolean | null;
+    /**
+     * Numerical: the answer.
+     */
+    value?: number | null;
+    /**
+     * Numerical: how far from the answer still earns the mark.
+     */
+    tolerance?: number | null;
+    pairs?: Array<MatchingPairDto> | null;
+};
+
+export type CreateQuizDto = {
+    /**
+     * Locked until these conditions hold. Null removes the conditions; the groups it is for stay.
+     */
+    restriction?: RestrictionDto | null;
+    /**
+     * Only for these study groups, on top of any conditions. Null makes it for every group again; the conditions stay.
+     */
+    audience?: AudienceDto | null;
+    /**
+     * Students see it from this moment on. Null: from the start.
+     */
+    availableFrom?: string | null;
+    /**
+     * Students stop seeing it at this moment. Null: never.
+     */
+    availableUntil?: string | null;
+    /**
+     * Before it opens, show students nothing rather than its title and the opening date.
+     */
+    hiddenUntilAvailable?: boolean;
+    name: string;
+    /**
+     * What students read before they start.
+     */
+    brief?: string | null;
+    /**
+     * Attempts may start from this moment. Null: as soon as students can see it.
+     */
+    opensAt?: string | null;
+    /**
+     * No attempt runs past this moment. It is the quiz’s deadline.
+     */
+    closesAt?: string | null;
+    /**
+     * Minutes an attempt may last. Null: no limit.
+     */
+    timeLimitMinutes?: number | null;
+    /**
+     * Null means unlimited. Defaults to one.
+     */
+    maxAttempts?: number | null;
+    /**
+     * Which attempt’s mark goes to the gradebook when there are several.
+     */
+    gradingMethod?: QuizGradingMethod;
+    shuffleQuestions?: boolean;
+    shuffleChoices?: boolean;
+    /**
+     * What the quiz is worth in the gradebook; question marks are scaled to it.
+     */
+    maxPoints?: number;
+    countsTowardFinalGrade?: boolean;
+    visible?: boolean;
+    sectionId?: string | null;
+    completionRule?: 'none' | 'manual' | 'submitted' | 'marked' | 'passed';
+    completionPassPoints?: number | null;
+};
+
+export type UpdateQuizDto = {
+    /**
+     * Locked until these conditions hold. Null removes the conditions; the groups it is for stay.
+     */
+    restriction?: RestrictionDto | null;
+    /**
+     * Only for these study groups, on top of any conditions. Null makes it for every group again; the conditions stay.
+     */
+    audience?: AudienceDto | null;
+    /**
+     * Students see it from this moment on. Null: from the start.
+     */
+    availableFrom?: string | null;
+    /**
+     * Students stop seeing it at this moment. Null: never.
+     */
+    availableUntil?: string | null;
+    /**
+     * Before it opens, show students nothing rather than its title and the opening date.
+     */
+    hiddenUntilAvailable?: boolean;
+    name?: string;
+    /**
+     * What students read before they start.
+     */
+    brief?: string | null;
+    /**
+     * Attempts may start from this moment. Null: as soon as students can see it.
+     */
+    opensAt?: string | null;
+    /**
+     * No attempt runs past this moment. It is the quiz’s deadline.
+     */
+    closesAt?: string | null;
+    /**
+     * Minutes an attempt may last. Null: no limit.
+     */
+    timeLimitMinutes?: number | null;
+    /**
+     * Null means unlimited. Defaults to one.
+     */
+    maxAttempts?: number | null;
+    /**
+     * Which attempt’s mark goes to the gradebook when there are several.
+     */
+    gradingMethod?: QuizGradingMethod;
+    shuffleQuestions?: boolean;
+    shuffleChoices?: boolean;
+    /**
+     * What the quiz is worth in the gradebook; question marks are scaled to it.
+     */
+    maxPoints?: number;
+    countsTowardFinalGrade?: boolean;
+    visible?: boolean;
+    sectionId?: string | null;
+    completionRule?: 'none' | 'manual' | 'submitted' | 'marked' | 'passed';
+    completionPassPoints?: number | null;
+    position?: number;
+};
+
+export const QuizSlotKind = { QUESTION: 'question', RANDOM: 'random' } as const;
+
+export type QuizSlotKind = typeof QuizSlotKind[keyof typeof QuizSlotKind];
+
+export type SlotQuestionDto = {
+    id: string;
+    name: string;
+    text: string;
+    type: QuestionType;
+    /**
+     * The latest version, which an attempt started now would ask.
+     */
+    version: number;
+};
+
+export type QuizSlotResponseDto = {
+    id: string;
+    position: number;
+    kind: QuizSlotKind;
+    mark: number;
+    question: SlotQuestionDto | null;
+    categoryId: string | null;
+    categoryName: string | null;
+    pickCount: number | null;
+};
+
+export type QuizSlotPageResponseDto = {
+    items: Array<QuizSlotResponseDto>;
+    meta: PageMetaDto;
+    /**
+     * How many questions an attempt asks, across every page.
+     */
+    questionCount: number;
+    /**
+     * The sum of the question marks, scaled to the quiz’s points.
+     */
+    totalMarks: number;
+};
+
+export type AddQuizSlotsDto = {
+    /**
+     * question: these questions, by hand; random: some drawn from a category.
+     */
+    kind: QuizSlotKind;
+    questionIds?: Array<string> | null;
+    categoryId?: string | null;
+    pickCount?: number | null;
+    /**
+     * The mark of each question. By hand it defaults to the question’s default mark; drawn at random, to 1.
+     */
+    mark?: number | null;
+};
+
+export type UpdateQuizSlotDto = {
+    /**
+     * Move it to this place, counted from 0.
+     */
+    position?: number;
+    mark?: number;
+    pickCount?: number;
 };
 
 export type CreateDemoRequestDto = {
@@ -6264,7 +6704,7 @@ export type MarkLearningItemDoneData = {
     path: {
         institutionId: string;
         spaceId: string;
-        kind: 'material' | 'assignment';
+        kind: 'material' | 'assignment' | 'quiz';
         itemId: string;
     };
     query?: never;
@@ -6351,7 +6791,7 @@ export type ListLearningItemSightData = {
     path: {
         institutionId: string;
         spaceId: string;
-        kind: 'section' | 'material' | 'assignment';
+        kind: 'section' | 'material' | 'assignment' | 'quiz';
         itemId: string;
     };
     query?: {
@@ -6522,6 +6962,778 @@ export type ListStudyGroupContentResponses = {
 };
 
 export type ListStudyGroupContentResponse = ListStudyGroupContentResponses[keyof ListStudyGroupContentResponses];
+
+export type ListQuestionCategoriesData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: {
+        page?: number;
+        limit?: number;
+        /**
+         * Narrows to categories whose name contains this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/question-categories';
+};
+
+export type ListQuestionCategoriesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListQuestionCategoriesError = ListQuestionCategoriesErrors[keyof ListQuestionCategoriesErrors];
+
+export type ListQuestionCategoriesResponses = {
+    200: QuestionCategoryPageResponseDto;
+};
+
+export type ListQuestionCategoriesResponse = ListQuestionCategoriesResponses[keyof ListQuestionCategoriesResponses];
+
+export type CreateQuestionCategoryData = {
+    body: QuestionCategoryDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/question-categories';
+};
+
+export type CreateQuestionCategoryErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateQuestionCategoryError = CreateQuestionCategoryErrors[keyof CreateQuestionCategoryErrors];
+
+export type CreateQuestionCategoryResponses = {
+    201: QuestionCategoryResponseDto;
+};
+
+export type CreateQuestionCategoryResponse = CreateQuestionCategoryResponses[keyof CreateQuestionCategoryResponses];
+
+export type RemoveQuestionCategoryData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        categoryId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/question-categories/{categoryId}';
+};
+
+export type RemoveQuestionCategoryErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveQuestionCategoryError = RemoveQuestionCategoryErrors[keyof RemoveQuestionCategoryErrors];
+
+export type RemoveQuestionCategoryResponses = {
+    204: void;
+};
+
+export type RemoveQuestionCategoryResponse = RemoveQuestionCategoryResponses[keyof RemoveQuestionCategoryResponses];
+
+export type RenameQuestionCategoryData = {
+    body: QuestionCategoryDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        categoryId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/question-categories/{categoryId}';
+};
+
+export type RenameQuestionCategoryErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RenameQuestionCategoryError = RenameQuestionCategoryErrors[keyof RenameQuestionCategoryErrors];
+
+export type RenameQuestionCategoryResponses = {
+    200: QuestionCategoryResponseDto;
+};
+
+export type RenameQuestionCategoryResponse = RenameQuestionCategoryResponses[keyof RenameQuestionCategoryResponses];
+
+export type ListQuestionsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: {
+        page?: number;
+        limit?: number;
+        categoryId?: string;
+        type?: QuestionType;
+        /**
+         * Narrows to questions whose name or text contains this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/questions';
+};
+
+export type ListQuestionsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListQuestionsError = ListQuestionsErrors[keyof ListQuestionsErrors];
+
+export type ListQuestionsResponses = {
+    200: QuestionPageResponseDto;
+};
+
+export type ListQuestionsResponse = ListQuestionsResponses[keyof ListQuestionsResponses];
+
+export type CreateQuestionData = {
+    body: CreateQuestionDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/questions';
+};
+
+export type CreateQuestionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateQuestionError = CreateQuestionErrors[keyof CreateQuestionErrors];
+
+export type CreateQuestionResponses = {
+    201: QuestionResponseDto;
+};
+
+export type CreateQuestionResponse = CreateQuestionResponses[keyof CreateQuestionResponses];
+
+export type RemoveQuestionData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        questionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/questions/{questionId}';
+};
+
+export type RemoveQuestionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveQuestionError = RemoveQuestionErrors[keyof RemoveQuestionErrors];
+
+export type RemoveQuestionResponses = {
+    204: void;
+};
+
+export type RemoveQuestionResponse = RemoveQuestionResponses[keyof RemoveQuestionResponses];
+
+export type GetQuestionData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        questionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/questions/{questionId}';
+};
+
+export type GetQuestionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetQuestionError = GetQuestionErrors[keyof GetQuestionErrors];
+
+export type GetQuestionResponses = {
+    200: QuestionResponseDto;
+};
+
+export type GetQuestionResponse = GetQuestionResponses[keyof GetQuestionResponses];
+
+export type ReviseQuestionData = {
+    body: ReviseQuestionDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        questionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/questions/{questionId}';
+};
+
+export type ReviseQuestionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ReviseQuestionError = ReviseQuestionErrors[keyof ReviseQuestionErrors];
+
+export type ReviseQuestionResponses = {
+    200: QuestionResponseDto;
+};
+
+export type ReviseQuestionResponse = ReviseQuestionResponses[keyof ReviseQuestionResponses];
+
+export type ListQuestionVersionsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        questionId: string;
+    };
+    query?: {
+        page?: number;
+        limit?: number;
+    };
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/questions/{questionId}/versions';
+};
+
+export type ListQuestionVersionsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListQuestionVersionsError = ListQuestionVersionsErrors[keyof ListQuestionVersionsErrors];
+
+export type ListQuestionVersionsResponses = {
+    200: QuestionVersionPageResponseDto;
+};
+
+export type ListQuestionVersionsResponse = ListQuestionVersionsResponses[keyof ListQuestionVersionsResponses];
+
+export type ListQuizzesData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes';
+};
+
+export type ListQuizzesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListQuizzesError = ListQuizzesErrors[keyof ListQuizzesErrors];
+
+export type ListQuizzesResponses = {
+    200: Array<QuizResponseDto>;
+};
+
+export type ListQuizzesResponse = ListQuizzesResponses[keyof ListQuizzesResponses];
+
+export type CreateQuizData = {
+    body: CreateQuizDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes';
+};
+
+export type CreateQuizErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateQuizError = CreateQuizErrors[keyof CreateQuizErrors];
+
+export type CreateQuizResponses = {
+    201: QuizResponseDto;
+};
+
+export type CreateQuizResponse = CreateQuizResponses[keyof CreateQuizResponses];
+
+export type RemoveQuizData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        quizId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes/{quizId}';
+};
+
+export type RemoveQuizErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveQuizError = RemoveQuizErrors[keyof RemoveQuizErrors];
+
+export type RemoveQuizResponses = {
+    204: void;
+};
+
+export type RemoveQuizResponse = RemoveQuizResponses[keyof RemoveQuizResponses];
+
+export type GetQuizData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        quizId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes/{quizId}';
+};
+
+export type GetQuizErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetQuizError = GetQuizErrors[keyof GetQuizErrors];
+
+export type GetQuizResponses = {
+    200: QuizResponseDto;
+};
+
+export type GetQuizResponse = GetQuizResponses[keyof GetQuizResponses];
+
+export type UpdateQuizData = {
+    body: UpdateQuizDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        quizId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes/{quizId}';
+};
+
+export type UpdateQuizErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateQuizError = UpdateQuizErrors[keyof UpdateQuizErrors];
+
+export type UpdateQuizResponses = {
+    200: QuizResponseDto;
+};
+
+export type UpdateQuizResponse = UpdateQuizResponses[keyof UpdateQuizResponses];
+
+export type ListQuizSlotsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        quizId: string;
+    };
+    query?: {
+        page?: number;
+        limit?: number;
+        /**
+         * Narrows to questions, or categories drawn from, containing this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes/{quizId}/slots';
+};
+
+export type ListQuizSlotsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListQuizSlotsError = ListQuizSlotsErrors[keyof ListQuizSlotsErrors];
+
+export type ListQuizSlotsResponses = {
+    200: QuizSlotPageResponseDto;
+};
+
+export type ListQuizSlotsResponse = ListQuizSlotsResponses[keyof ListQuizSlotsResponses];
+
+export type AddQuizSlotsData = {
+    body: AddQuizSlotsDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        quizId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes/{quizId}/slots';
+};
+
+export type AddQuizSlotsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type AddQuizSlotsError = AddQuizSlotsErrors[keyof AddQuizSlotsErrors];
+
+export type AddQuizSlotsResponses = {
+    201: Array<QuizSlotResponseDto>;
+};
+
+export type AddQuizSlotsResponse = AddQuizSlotsResponses[keyof AddQuizSlotsResponses];
+
+export type RemoveQuizSlotData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        quizId: string;
+        slotId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes/{quizId}/slots/{slotId}';
+};
+
+export type RemoveQuizSlotErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RemoveQuizSlotError = RemoveQuizSlotErrors[keyof RemoveQuizSlotErrors];
+
+export type RemoveQuizSlotResponses = {
+    204: void;
+};
+
+export type RemoveQuizSlotResponse = RemoveQuizSlotResponses[keyof RemoveQuizSlotResponses];
+
+export type UpdateQuizSlotData = {
+    body: UpdateQuizSlotDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        quizId: string;
+        slotId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes/{quizId}/slots/{slotId}';
+};
+
+export type UpdateQuizSlotErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateQuizSlotError = UpdateQuizSlotErrors[keyof UpdateQuizSlotErrors];
+
+export type UpdateQuizSlotResponses = {
+    200: QuizSlotResponseDto;
+};
+
+export type UpdateQuizSlotResponse = UpdateQuizSlotResponses[keyof UpdateQuizSlotResponses];
 
 export type CreateDemoRequestData = {
     body: CreateDemoRequestDtoWritable;

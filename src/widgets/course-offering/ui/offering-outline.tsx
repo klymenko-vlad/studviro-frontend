@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
-import { buildOutline, type OutlineEntry } from '@/features/arrange-outline';
+import { buildOutline, entryRow, type OutlineEntry } from '@/features/arrange-outline';
 import { SectionForm } from '@/features/manage-sections';
 import type { RestrictionCandidate } from '@/features/restrict-access';
 import { assignmentQueries } from '@/entities/assignment';
@@ -12,7 +12,9 @@ import { completionQueries, ProgressMeter } from '@/entities/completion';
 import { authorsOffering } from '@/entities/course-offering';
 import { learningMaterialQueries } from '@/entities/learning-material';
 import { learningSectionQueries } from '@/entities/learning-section';
+import { questionBankHref, quizQueries } from '@/entities/quiz';
 import type { CourseOfferingResponseDto } from '@/shared/api';
+import { Link } from '@/shared/config';
 import {
   Button,
   Card,
@@ -44,6 +46,7 @@ export function OfferingOutline({
   const tCompletion = useTranslations('completion');
   const manageable = authorsOffering(viewerRole);
   const tView = useTranslations('studentView');
+  const tBank = useTranslations('questionBank');
   const path = { path: { institutionId, spaceId } };
   const [choosing, setChoosing] = useState(false);
   const [viewAs, setViewAs] = useState<StudentChoice | null>(null);
@@ -51,12 +54,18 @@ export function OfferingOutline({
   const sections = useQuery(learningSectionQueries.list(path));
   const materials = useQuery(learningMaterialQueries.list(path));
   const assignments = useQuery(assignmentQueries.list(path));
+  const quizzes = useQuery(quizQueries.list(path));
   const progress = useQuery({
     ...completionQueries.myProgress(path),
     enabled: !manageable,
   });
 
-  useScrollToAnchor(sections.isSuccess && materials.isSuccess && assignments.isSuccess);
+  useScrollToAnchor(
+    sections.isSuccess &&
+      materials.isSuccess &&
+      assignments.isSuccess &&
+      quizzes.isSuccess,
+  );
 
   if (manageable && viewAs !== null) {
     return (
@@ -73,14 +82,24 @@ export function OfferingOutline({
     );
   }
 
-  if (sections.isPending || materials.isPending || assignments.isPending) {
+  if (
+    sections.isPending ||
+    materials.isPending ||
+    assignments.isPending ||
+    quizzes.isPending
+  ) {
     return <ListSkeleton items={3} data-testid="offering-outline-loading" />;
   }
-  if (sections.isError || materials.isError || assignments.isError) {
+  if (sections.isError || materials.isError || assignments.isError || quizzes.isError) {
     return <p className="text-muted-foreground text-sm">{t('error')}</p>;
   }
 
-  const groups = buildOutline(sections.data, materials.data, assignments.data);
+  const groups = buildOutline(
+    sections.data,
+    materials.data,
+    assignments.data,
+    quizzes.data,
+  );
   const candidates = groups.flatMap(group => group.entries.map(candidateOf));
   const shown = groups.filter(
     group => manageable || group.section !== null || group.entries.length > 0,
@@ -90,18 +109,24 @@ export function OfferingOutline({
     <div className="flex flex-col gap-6">
       {manageable ? (
         <div className="flex flex-col gap-3">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="self-start"
-            aria-expanded={choosing}
-            onClick={() => {
-              setChoosing(current => !current);
-            }}
-          >
-            {tView('open')}
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              aria-expanded={choosing}
+              onClick={() => {
+                setChoosing(current => !current);
+              }}
+            >
+              {tView('open')}
+            </Button>
+            <Button asChild variant="outline" size="sm">
+              <Link href={questionBankHref(institutionId, offeringId, spaceId)}>
+                {tBank('open')}
+              </Link>
+            </Button>
+          </div>
           {choosing ? (
             <StudentPicker
               institutionId={institutionId}
@@ -158,10 +183,7 @@ export function OfferingOutline({
 }
 
 function candidateOf(entry: OutlineEntry): RestrictionCandidate {
-  const rule =
-    entry.kind === 'material'
-      ? entry.material.completionRule
-      : entry.assignment.completionRule;
+  const tracked = entryRow(entry).completionRule !== 'none';
 
-  return { kind: entry.kind, id: entry.id, title: entry.title, tracked: rule !== 'none' };
+  return { kind: entry.kind, id: entry.id, title: entry.title, tracked };
 }

@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { learningMaterials, learningSections, offeringAssignments } from '@/shared/test';
+import {
+  learningMaterials,
+  learningSections,
+  offeringAssignments,
+  offeringQuizzes,
+} from '@/shared/test';
 
 import { buildOutline, neighbourEntry } from './outline';
 
@@ -41,6 +46,22 @@ describe('buildOutline', () => {
     expect(outline[1]!.entries.map(entry => entry.kind)).toEqual([
       'assignment',
       'material',
+    ]);
+  });
+
+  it('places a quiz among materials and assignments by the same position', () => {
+    const [quiz] = offeringQuizzes;
+    const outline = buildOutline(
+      learningSections,
+      [{ ...slides!, position: 0 }],
+      [{ ...exercise!, position: 2 }],
+      [{ ...quiz!, position: 1 }],
+    );
+
+    expect(outline[1]!.entries.map(entry => [entry.kind, entry.title])).toEqual([
+      ['material', 'Lecture 1 — slides'],
+      ['quiz', 'Foundations quiz'],
+      ['assignment', 'Assignment 1 — sorting'],
     ]);
   });
 
