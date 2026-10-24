@@ -335,9 +335,18 @@ const budgets = [
     // confirmation is an inline panel rather than a dialog, the marking form
     // uses plain state rather than react-hook-form, and no dependency or
     // `shared/ui` primitive was added.
+    //
+    // Raised from 703 kB to 707 kB on 2026-10-24 for reusing last year's course
+    // (Course Builder Plan CB10): the Import from another course action on the
+    // Content tab, its paged and filtered picker of course pages, the preview
+    // with the date shift and what needs checking, the confirm and the report,
+    // and their generated client (three operations and the report schema).
+    // Measured at **706.56 kB**, +3.76 kB over CB8's 702.8 kB. The preview and
+    // the result are one report component, the visibility choice reuses
+    // `Switch`, and nothing is a dialog; no dependency and no primitive added.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '703 kB',
+    limit: '707 kB',
     gzip: true,
   },
 ];

@@ -2386,7 +2386,8 @@
       "examAttendanceRecorded": "Zaznamenaná účasť na skúške",
       "personalDataErased": "Osobné údaje vymazané",
       "discussionHidden": "Skrytý príspevok v diskusii",
-      "discussionRestored": "Obnovený príspevok v diskusii"
+      "discussionRestored": "Obnovený príspevok v diskusii",
+      "learningSpaceImported": "Course page imported"
     }
   },
   "personalData": {
@@ -2745,6 +2746,56 @@
     "back": "Back to editing",
     "another": "Choose another student",
     "error": "The page could not be shown as this student."
+  },
+  "courseImport": {
+    "open": "Import from another course",
+    "title": "Import from another course",
+    "description": "Copy the outline of another course page you teach into this one: sections, materials and their files, assignments, quizzes and the question bank. Nothing students did is copied, and the copies go after what is already here.",
+    "close": "Close",
+    "filter": "Filter courses",
+    "filterPlaceholder": "Course, code or term",
+    "sourcesError": "The courses could not be loaded.",
+    "empty": "No other course page you teach matches.",
+    "sameCourse": "Same course",
+    "unpublished": "Unpublished",
+    "sourceTerm": "{term} · {code}",
+    "previewTitle": "Import from {name}",
+    "keepVisibility": "Keep each section and item shown or hidden as it was",
+    "confirm": "Import",
+    "importing": "Importing…",
+    "back": "Choose another course",
+    "done": "Course content imported",
+    "doneTitle": "Imported from {name}",
+    "nothing": "That course page has nothing to copy.",
+    "countsLabel": "What is copied",
+    "counts": {
+      "sections": "{count, plural, one {# section} other {# sections}}",
+      "materials": "{count, plural, one {# material} other {# materials}}",
+      "files": "{count, plural, one {# file} other {# files}}",
+      "assignments": "{count, plural, one {# assignment} other {# assignments}}",
+      "quizzes": "{count, plural, one {# quiz} other {# quizzes}}",
+      "questionCategories": "{count, plural, one {# question category} other {# question categories}}",
+      "questions": "{count, plural, one {# question} other {# questions}}"
+    },
+    "shiftLater": "Dates move {count, plural, one {{days} day} other {{days} days}} later, the gap between the two terms’ starts.",
+    "shiftEarlier": "Dates move {count, plural, one {{days} day} other {{days} days}} earlier, the gap between the two terms’ starts.",
+    "sameStart": "Dates stay as they are: both terms start on the same day.",
+    "noShift": "Dates stay as they are: one of the two courses has no term to count from.",
+    "shiftedDates": "{count, plural, one {# date moves.} other {# dates move.}}",
+    "remapped": "{count, plural, one {# access rule points at the copies.} other {# access rules point at the copies.}}",
+    "hiddenNote": "Every copied section, and anything outside a section, arrives hidden from students until you show it.",
+    "visibleNote": "Sections and items keep the visibility they had, so students may see them at once.",
+    "flagsLabel": "Worth checking",
+    "flags": {
+      "file_not_scanned": "Not copied: not yet checked for malware. Import again once it has been.",
+      "file_infected": "Not copied: found infected.",
+      "file_missing": "Not copied: the file is no longer stored.",
+      "group_dropped": "A study group is not in this course, so it was dropped and the item is hidden.",
+      "reference_missing": "Waits for something that was not copied, so it stays locked.",
+      "category_renamed": "Question category renamed: the name was already taken here.",
+      "slot_dropped": "A quiz question was dropped: its question was not copied."
+    },
+    "more": "and {count} more"
   },
   "quiz": {
     "badge": "Quiz",

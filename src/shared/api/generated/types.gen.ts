@@ -177,8 +177,8 @@ export type SortOrder = typeof SortOrder[keyof typeof SortOrder];
 export type AuditEventResponseDto = {
     id: string;
     institutionId: string;
-    action: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled' | 'exam_registration.attendance_recorded' | 'personal_data.erased' | 'discussion.hidden' | 'discussion.restored';
-    subjectType: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term' | 'exam_registration' | 'personal_data_erasure' | 'discussion_thread' | 'discussion_post';
+    action: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled' | 'exam_registration.attendance_recorded' | 'personal_data.erased' | 'discussion.hidden' | 'discussion.restored' | 'learning_space.imported';
+    subjectType: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term' | 'exam_registration' | 'personal_data_erasure' | 'discussion_thread' | 'discussion_post' | 'learning_space';
     subjectId: string;
     actorUserId?: string | null;
     summary?: string | null;
@@ -2688,6 +2688,121 @@ export type QuizResultsPageResponseDto = {
     meta: PageMetaDto;
 };
 
+export type ImportSourceDto = {
+    spaceId: string;
+    name: string;
+    published: boolean;
+    courseCode: string;
+    courseTitle: string;
+    termCode: string;
+    termName: string;
+    termStartsAt: string;
+    /**
+     * Another offering of the same course as this page’s.
+     */
+    sameCourse: boolean;
+};
+
+export type ImportSourcePageResponseDto = {
+    items: Array<ImportSourceDto>;
+    meta: PageMetaDto;
+};
+
+export const CourseImportVisibility = { HIDDEN: 'hidden', SOURCE: 'source' } as const;
+
+export type CourseImportVisibility = typeof CourseImportVisibility[keyof typeof CourseImportVisibility];
+
+export type ImportSourceSummaryDto = {
+    spaceId: string;
+    name: string;
+    termName: string | null;
+};
+
+export type ImportCountsDto = {
+    sections: number;
+    /**
+     * Materials of every kind.
+     */
+    materials: number;
+    /**
+     * Stored files copied: file materials and folder files.
+     */
+    files: number;
+    assignments: number;
+    quizzes: number;
+    quizSlots: number;
+    questionCategories: number;
+    questions: number;
+};
+
+export type ImportDateShiftDto = {
+    /**
+     * False when either page has no term, so no date moves.
+     */
+    applied: boolean;
+    /**
+     * Days every date moves by, negative for earlier.
+     */
+    days: number;
+    sourceStartsAt: string | null;
+    targetStartsAt: string | null;
+};
+
+export const CourseImportFlagCode = {
+    FILE_NOT_SCANNED: 'file_not_scanned',
+    FILE_INFECTED: 'file_infected',
+    FILE_MISSING: 'file_missing',
+    GROUP_DROPPED: 'group_dropped',
+    REFERENCE_MISSING: 'reference_missing',
+    CATEGORY_RENAMED: 'category_renamed',
+    SLOT_DROPPED: 'slot_dropped'
+} as const;
+
+export type CourseImportFlagCode = typeof CourseImportFlagCode[keyof typeof CourseImportFlagCode];
+
+export type ImportFlagDto = {
+    code: CourseImportFlagCode;
+    /**
+     * How many items this applies to.
+     */
+    count: number;
+    /**
+     * The first 20 items it applies to; `count` says how many in all.
+     */
+    titles: Array<string>;
+};
+
+export type CourseImportReportDto = {
+    source: ImportSourceSummaryDto;
+    /**
+     * False for a preview.
+     */
+    imported: boolean;
+    counts: ImportCountsDto;
+    dateShift: ImportDateShiftDto;
+    /**
+     * Dates moved: windows, deadlines and date conditions.
+     */
+    shiftedDates: number;
+    /**
+     * Restriction references pointed at the copies or matched groups.
+     */
+    remappedReferences: number;
+    visibility: CourseImportVisibility;
+    flags: Array<ImportFlagDto>;
+};
+
+export type CourseImportRequestDto = {
+    /**
+     * The course page to copy from.
+     */
+    from: string;
+    /**
+     * `hidden` (the default): every copied section and every item copied outside a section arrives hidden from students, and items inside a section keep their own setting. `source`: everything keeps the visibility it had.
+     */
+    visibility?: CourseImportVisibility;
+};
+
 export type CreateDemoRequestDto = {
     institutionName: string;
     contactName: string;
@@ -4495,8 +4610,8 @@ export type ListAuditEventsData = {
          */
         cursor?: string;
         order?: SortOrder;
-        action?: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled' | 'exam_registration.attendance_recorded' | 'personal_data.erased' | 'discussion.hidden' | 'discussion.restored';
-        subjectType?: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term' | 'exam_registration' | 'personal_data_erasure' | 'discussion_thread' | 'discussion_post';
+        action?: 'grade.proposed' | 'grade.published' | 'role.granted' | 'role.revoked' | 'enrollment.corrected' | 'exam_term.cancelled' | 'exam_registration.attendance_recorded' | 'personal_data.erased' | 'discussion.hidden' | 'discussion.restored' | 'learning_space.imported';
+        subjectType?: 'course_result' | 'role_assignment' | 'enrollment' | 'exam_term' | 'exam_registration' | 'personal_data_erasure' | 'discussion_thread' | 'discussion_post' | 'learning_space';
         subjectId?: string;
         actorUserId?: string;
     };
@@ -8797,6 +8912,133 @@ export type ListQuizQuestionResultsResponses = {
 };
 
 export type ListQuizQuestionResultsResponse = ListQuizQuestionResultsResponses[keyof ListQuizQuestionResultsResponses];
+
+export type ListCourseImportSourcesData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: {
+        page?: number;
+        limit?: number;
+        /**
+         * Narrows to pages whose name, course code or title, or term contains this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/import/sources';
+};
+
+export type ListCourseImportSourcesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListCourseImportSourcesError = ListCourseImportSourcesErrors[keyof ListCourseImportSourcesErrors];
+
+export type ListCourseImportSourcesResponses = {
+    200: ImportSourcePageResponseDto;
+};
+
+export type ListCourseImportSourcesResponse = ListCourseImportSourcesResponses[keyof ListCourseImportSourcesResponses];
+
+export type PreviewCourseImportData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query: {
+        /**
+         * The course page to copy from.
+         */
+        from: string;
+        /**
+         * `hidden` (the default): every copied section and every item copied outside a section arrives hidden from students, and items inside a section keep their own setting. `source`: everything keeps the visibility it had.
+         */
+        visibility?: CourseImportVisibility;
+    };
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/import/preview';
+};
+
+export type PreviewCourseImportErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type PreviewCourseImportError = PreviewCourseImportErrors[keyof PreviewCourseImportErrors];
+
+export type PreviewCourseImportResponses = {
+    200: CourseImportReportDto;
+};
+
+export type PreviewCourseImportResponse = PreviewCourseImportResponses[keyof PreviewCourseImportResponses];
+
+export type ImportCourseData = {
+    body: CourseImportRequestDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/import';
+};
+
+export type ImportCourseErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ImportCourseError = ImportCourseErrors[keyof ImportCourseErrors];
+
+export type ImportCourseResponses = {
+    201: CourseImportReportDto;
+};
+
+export type ImportCourseResponse = ImportCourseResponses[keyof ImportCourseResponses];
 
 export type CreateDemoRequestData = {
     body: CreateDemoRequestDtoWritable;

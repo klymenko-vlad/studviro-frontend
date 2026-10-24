@@ -89,6 +89,7 @@ import {
   getQuizQueryKey,
   getSubmissionFileDownloadUrlOptions,
   grantRoleMutation,
+  importCourseMutation,
   issueMyCalendarFeedMutation,
   joinCourseWaitlistMutation,
   listAcademicTermsOptions,
@@ -99,6 +100,7 @@ import {
   listAssignmentSubmissionsQueryKey,
   listAuditEventsOptions,
   listAuditEventsQueryKey,
+  listCourseImportSourcesInfiniteOptions,
   listCourseOfferingsOptions,
   listCourseOfferingsQueryKey,
   listCoursesOptions,
@@ -196,6 +198,7 @@ import {
   markMyNotificationReadMutation,
   markQuizQuestionMutation,
   markSubmissionMutation,
+  previewCourseImportOptions,
   previewQuizRegradeOptions,
   previewQuizRegradeQueryKey,
   recordExamAttendanceMutation,
@@ -338,6 +341,9 @@ export {
  * when a slice needs one.
  */
 export const apiQueries = {
+  listCourseImportSourcesInfiniteOptions,
+  previewCourseImportOptions,
+  importCourseMutation,
   reviewQuizAttemptOptions,
   reviewQuizAttemptQueryKey,
   getQuizAttemptForMarkingOptions,
@@ -657,6 +663,10 @@ export const apiSchemas = {
 } as const;
 
 export type {
+  CourseImportFlagCode,
+  CourseImportReportDto,
+  CourseImportVisibility,
+  ImportSourceDto,
   QuizAttemptReviewResponseDto,
   QuizQuestionReviewDto,
   QuizReviewShownDto,

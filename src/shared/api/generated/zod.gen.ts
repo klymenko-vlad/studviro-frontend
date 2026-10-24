@@ -136,7 +136,8 @@ export const zAuditEventResponseDto = z.object({
         'exam_registration.attendance_recorded',
         'personal_data.erased',
         'discussion.hidden',
-        'discussion.restored'
+        'discussion.restored',
+        'learning_space.imported'
     ]),
     subjectType: z.enum([
         'course_result',
@@ -146,7 +147,8 @@ export const zAuditEventResponseDto = z.object({
         'exam_registration',
         'personal_data_erasure',
         'discussion_thread',
-        'discussion_post'
+        'discussion_post',
+        'learning_space'
     ]),
     subjectId: z.uuid(),
     actorUserId: z.uuid().nullish(),
@@ -2485,6 +2487,81 @@ export const zQuizResultsPageResponseDto = z.object({
     meta: zPageMetaDto
 });
 
+export const zImportSourceDto = z.object({
+    spaceId: z.uuid(),
+    name: z.string(),
+    published: z.boolean(),
+    courseCode: z.string(),
+    courseTitle: z.string(),
+    termCode: z.string(),
+    termName: z.string(),
+    termStartsAt: z.iso.datetime(),
+    sameCourse: z.boolean()
+});
+
+export const zImportSourcePageResponseDto = z.object({
+    items: z.array(zImportSourceDto),
+    meta: zPageMetaDto
+});
+
+export const zCourseImportVisibility = z.enum(['hidden', 'source']);
+
+export const zImportSourceSummaryDto = z.object({
+    spaceId: z.uuid(),
+    name: z.string(),
+    termName: z.string().nullable()
+});
+
+export const zImportCountsDto = z.object({
+    sections: z.number(),
+    materials: z.number(),
+    files: z.number(),
+    assignments: z.number(),
+    quizzes: z.number(),
+    quizSlots: z.number(),
+    questionCategories: z.number(),
+    questions: z.number()
+});
+
+export const zImportDateShiftDto = z.object({
+    applied: z.boolean(),
+    days: z.number(),
+    sourceStartsAt: z.iso.datetime().nullable(),
+    targetStartsAt: z.iso.datetime().nullable()
+});
+
+export const zCourseImportFlagCode = z.enum([
+    'file_not_scanned',
+    'file_infected',
+    'file_missing',
+    'group_dropped',
+    'reference_missing',
+    'category_renamed',
+    'slot_dropped'
+]);
+
+export const zImportFlagDto = z.object({
+    code: zCourseImportFlagCode,
+    count: z.number(),
+    titles: z.array(z.string())
+});
+
+export const zCourseImportReportDto = z.object({
+    source: zImportSourceSummaryDto,
+    imported: z.boolean(),
+    counts: zImportCountsDto,
+    dateShift: zImportDateShiftDto,
+    shiftedDates: z.number(),
+    remappedReferences: z.number(),
+    visibility: zCourseImportVisibility,
+    flags: z.array(zImportFlagDto)
+});
+
+export const zCourseImportRequestDto = z.object({
+    from: z.uuid(),
+    visibility: zCourseImportVisibility.optional()
+});
+
 export const zCreateDemoRequestDto = z.object({
     institutionName: z.string().min(2).max(200),
     contactName: z.string().min(1).max(120),
@@ -3928,7 +4005,8 @@ export const zListAuditEventsQuery = z.object({
         'exam_registration.attendance_recorded',
         'personal_data.erased',
         'discussion.hidden',
-        'discussion.restored'
+        'discussion.restored',
+        'learning_space.imported'
     ]).optional(),
     subjectType: z.enum([
         'course_result',
@@ -3938,7 +4016,8 @@ export const zListAuditEventsQuery = z.object({
         'exam_registration',
         'personal_data_erasure',
         'discussion_thread',
-        'discussion_post'
+        'discussion_post',
+        'learning_space'
     ]).optional(),
     subjectId: z.uuid().optional(),
     actorUserId: z.uuid().optional()
@@ -4948,6 +5027,40 @@ export const zListQuizQuestionResultsQuery = z.object({
 });
 
 export const zListQuizQuestionResultsResponse = zQuizResultsPageResponseDto;
+
+export const zListCourseImportSourcesPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zListCourseImportSourcesQuery = z.object({
+    page: z.number().gte(1).optional().default(1),
+    limit: z.number().gte(1).lte(100).optional().default(25),
+    q: z.string().max(200).optional()
+});
+
+export const zListCourseImportSourcesResponse = zImportSourcePageResponseDto;
+
+export const zPreviewCourseImportPath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zPreviewCourseImportQuery = z.object({
+    from: z.uuid(),
+    visibility: zCourseImportVisibility.optional()
+});
+
+export const zPreviewCourseImportResponse = zCourseImportReportDto;
+
+export const zImportCourseBody = zCourseImportRequestDto;
+
+export const zImportCoursePath = z.object({
+    institutionId: z.string(),
+    spaceId: z.string()
+});
+
+export const zImportCourseResponse = zCourseImportReportDto;
 
 export const zCreateDemoRequestBody = zCreateDemoRequestDtoWritable;
 

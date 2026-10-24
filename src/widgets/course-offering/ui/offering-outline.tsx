@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
 import { buildOutline, entryRow, type OutlineEntry } from '@/features/arrange-outline';
+import { ImportCourse } from '@/features/import-course';
 import { SectionForm } from '@/features/manage-sections';
 import type { RestrictionCandidate } from '@/features/restrict-access';
 import { assignmentQueries } from '@/entities/assignment';
@@ -47,8 +48,10 @@ export function OfferingOutline({
   const manageable = authorsOffering(viewerRole);
   const tView = useTranslations('studentView');
   const tBank = useTranslations('questionBank');
+  const tImport = useTranslations('courseImport');
   const path = { path: { institutionId, spaceId } };
   const [choosing, setChoosing] = useState(false);
+  const [importing, setImporting] = useState(false);
   const [viewAs, setViewAs] = useState<StudentChoice | null>(null);
 
   const sections = useQuery(learningSectionQueries.list(path));
@@ -116,10 +119,23 @@ export function OfferingOutline({
               size="sm"
               aria-expanded={choosing}
               onClick={() => {
+                setImporting(false);
                 setChoosing(current => !current);
               }}
             >
               {tView('open')}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              aria-expanded={importing}
+              onClick={() => {
+                setChoosing(false);
+                setImporting(current => !current);
+              }}
+            >
+              {tImport('open')}
             </Button>
             <Button asChild variant="outline" size="sm">
               <Link href={questionBankHref(institutionId, offeringId, spaceId)}>
@@ -137,6 +153,15 @@ export function OfferingOutline({
               }}
               onClose={() => {
                 setChoosing(false);
+              }}
+            />
+          ) : null}
+          {importing ? (
+            <ImportCourse
+              institutionId={institutionId}
+              spaceId={spaceId}
+              onClose={() => {
+                setImporting(false);
               }}
             />
           ) : null}
