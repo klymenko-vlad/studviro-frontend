@@ -2877,7 +2877,10 @@
         "started": "In progress since {when}",
         "submitted": "Submitted {when}",
         "noMatch": "No attempt matches.",
-        "error": "Your attempts could not be loaded."
+        "error": "Your attempts could not be loaded.",
+        "review": "Review attempt {number}",
+        "score": "{points} of {max}",
+        "awaiting": "Waiting for marking"
       },
       "title": "Attempt {number}",
       "timer": {
@@ -2930,7 +2933,6 @@
         "student": "You submitted it {when}.",
         "time_limit": "The time limit ran out {when}, and your saved answers were submitted.",
         "quiz_close": "The quiz closed {when}, and your saved answers were submitted.",
-        "results": "Results are not shown here yet.",
         "back": "Back to the course"
       },
       "error": "This attempt could not be loaded. It may not be yours, or the quiz may be hidden now.",
@@ -2938,7 +2940,7 @@
     },
     "attemptList": {
       "title": "Attempts",
-      "description": "Every student's attempts, newest first. Marking essay answers comes in a later step.",
+      "description": "Every student's attempts, newest first. Show Needs marking for the essays waiting for you.",
       "filter": "Find a student",
       "filterPlaceholder": "Name or e-mail",
       "state": "State",
@@ -2962,7 +2964,107 @@
       "running": "In progress",
       "empty": "No attempts yet.",
       "noMatch": "No attempt matches.",
-      "error": "The attempts could not be loaded."
+      "error": "The attempts could not be loaded.",
+      "needs_marking": "Needs marking",
+      "actions": "Actions",
+      "mark": "Mark",
+      "open": "Open",
+      "markLabel": "Mark attempt {number} by {name}",
+      "openLabel": "Open attempt {number} by {name}"
+    },
+    "review": {
+      "title": "Review",
+      "error": "The review could not be loaded.",
+      "mark": "Your mark: {points} of {max} ({raw} of {maxMarks} marks)",
+      "markHidden": "This quiz does not show your mark here.",
+      "awaitingMarking": "Your attempt waits for a teacher to mark it; the mark is shown once it is marked.",
+      "revealsAt": "More is shown once the quiz closes, {when}.",
+      "noQuestions": "This quiz does not show the questions with your answers.",
+      "awarded": "{awarded} of {mark} marks",
+      "outcome": {
+        "right": "Correct",
+        "partial": "Partly correct",
+        "wrong": "Incorrect",
+        "not_answered": "Not answered",
+        "needs_marking": "Waiting for marking"
+      },
+      "rightAnswer": "The right answer",
+      "comment": "Marker’s comment:"
+    },
+    "reviewOptions": {
+      "title": "What students see after an attempt",
+      "hint": "Each part is shown as soon as the attempt is submitted, once the quiz closes, or never. A quiz with no close never reaches “once the quiz closes”. A mark kept back stays out of the student’s grades until it may be shown.",
+      "option": {
+        "responses": "Their answers",
+        "correctness": "Right or wrong, and marks per question",
+        "correctAnswer": "The right answers",
+        "feedback": "Feedback and the marker’s comments",
+        "overallMark": "The mark for the attempt"
+      },
+      "timing": {
+        "immediately": "As soon as it is submitted",
+        "after_close": "Once the quiz closes",
+        "never": "Never"
+      }
+    },
+    "marking": {
+      "title": "Mark an attempt",
+      "error": "This attempt could not be loaded.",
+      "student": "{name}, attempt {number}",
+      "running": "This attempt is still running; it can be marked once it closes.",
+      "awaiting": "{count, plural, one {# question waits} other {# questions wait}} for your mark; the attempt is out of the gradebook until then.",
+      "total": "Total: {points} of {max} ({raw} of {maxMarks} marks)",
+      "answer": "Their answer",
+      "outcome": "Marked",
+      "automatic": "Automatic mark",
+      "none": "No answer",
+      "formLabel": "Mark question {number}",
+      "mark": "Mark",
+      "override": "Change the mark",
+      "outOf": "Out of {mark}",
+      "comment": "Comment for the student (optional)",
+      "reason": "Why the mark changes",
+      "range": "Give a mark from 0 to {mark}.",
+      "reasonRequired": "Say why the automatic mark changes.",
+      "save": "Save the mark",
+      "clearMark": "Take the mark away",
+      "clearOverride": "Go back to the automatic mark",
+      "saved": "Mark saved"
+    },
+    "regrade": {
+      "title": "Questions have changed since some attempts",
+      "outdated": "{count, plural, one {# closed attempt used} other {# closed attempts used}} an earlier version of a question.",
+      "preview": "Regrading marks them against the latest answer keys: {attempts, plural, one {# attempt changes its score} other {# attempts change their score}} and {students, plural, one {# student their grade} other {# students their grade}}.",
+      "range": "The largest rise is {rise} points, the largest fall {fall}.",
+      "incompatible": "{count, plural, one {# question cannot be regraded} other {# questions cannot be regraded}}: the new version has a different number of choices or pairs.",
+      "overrides": "A mark you changed by hand stands. Regrading again changes nothing.",
+      "start": "Regrade…",
+      "confirmLabel": "Confirm the regrade",
+      "confirm": "Regrade {count, plural, one {# attempt} other {# attempts}}?",
+      "apply": "Regrade now",
+      "cancel": "Cancel",
+      "done": "Regraded. {count, plural, one {# student's grade changed.} other {# students' grades changed.}}"
+    },
+    "results": {
+      "title": "Results by question",
+      "description": "How each question went across closed attempts.",
+      "filter": "Find a question",
+      "filterPlaceholder": "Name or text",
+      "label": "Results by question in {name}",
+      "question": "Question",
+      "attempts": "Attempts",
+      "fullyRight": "Fully right",
+      "average": "Average mark",
+      "chosen": "Answers picked",
+      "percent": "{value} %",
+      "awaiting": "{count} waiting for marking",
+      "averageOf": "{mark} of {outOf}",
+      "option": "{label}: {count}",
+      "right": "right",
+      "unanswered": "No answer: {count}",
+      "empty": "No closed attempts yet.",
+      "noMatch": "No question matches.",
+      "error": "The results could not be loaded."
     }
   },
   "questionBank": {

@@ -1649,6 +1649,22 @@ export const QuizLayout = { ONE_PER_PAGE: 'one_per_page', ALL_ON_ONE: 'all_on_on
 
 export type QuizLayout = typeof QuizLayout[keyof typeof QuizLayout];
 
+export const QuizReviewTiming = {
+    IMMEDIATELY: 'immediately',
+    AFTER_CLOSE: 'after_close',
+    NEVER: 'never'
+} as const;
+
+export type QuizReviewTiming = typeof QuizReviewTiming[keyof typeof QuizReviewTiming];
+
+export type QuizReviewOptionsResponseDto = {
+    responses: QuizReviewTiming;
+    correctness: QuizReviewTiming;
+    correctAnswer: QuizReviewTiming;
+    feedback: QuizReviewTiming;
+    overallMark: QuizReviewTiming;
+};
+
 /**
  * Whether attempts may start now, on the server clock.
  */
@@ -1670,6 +1686,7 @@ export type QuizSettingsResponseDto = {
     shuffleQuestions: boolean;
     shuffleChoices: boolean;
     layout: QuizLayout;
+    review: QuizReviewOptionsResponseDto;
     /**
      * How many questions an attempt asks.
      */
@@ -1952,6 +1969,29 @@ export type ReviseQuestionDto = {
     pairs?: Array<MatchingPairDto> | null;
 };
 
+export type QuizReviewOptionsDto = {
+    /**
+     * Their own answers.
+     */
+    responses?: QuizReviewTiming;
+    /**
+     * Whether each answer was right, and the marks per question.
+     */
+    correctness?: QuizReviewTiming;
+    /**
+     * The right answers.
+     */
+    correctAnswer?: QuizReviewTiming;
+    /**
+     * General and per-choice feedback, and the marker’s comment.
+     */
+    feedback?: QuizReviewTiming;
+    /**
+     * The mark for each attempt and the quiz grade, in the gradebook too.
+     */
+    overallMark?: QuizReviewTiming;
+};
+
 export type CreateQuizDto = {
     /**
      * Locked until these conditions hold. Null removes the conditions; the groups it is for stay.
@@ -2004,6 +2044,10 @@ export type CreateQuizDto = {
      * One question per page (the default) or every question on one page.
      */
     layout?: QuizLayout;
+    /**
+     * What a student sees of a closed attempt, and when. Unset options keep their value (on create: answers, right or wrong, feedback and the mark at once; the right answers once the quiz closes).
+     */
+    review?: QuizReviewOptionsDto;
     /**
      * What the quiz is worth in the gradebook; question marks are scaled to it.
      */
@@ -2067,6 +2111,10 @@ export type UpdateQuizDto = {
      * One question per page (the default) or every question on one page.
      */
     layout?: QuizLayout;
+    /**
+     * What a student sees of a closed attempt, and when. Unset options keep their value (on create: answers, right or wrong, feedback and the mark at once; the right answers once the quiz closes).
+     */
+    review?: QuizReviewOptionsDto;
     /**
      * What the quiz is worth in the gradebook; question marks are scaled to it.
      */
@@ -2185,6 +2233,31 @@ export type QuizAttemptPageResponseDto = {
     meta: PageMetaDto;
 };
 
+export type QuizAttemptScoreDto = {
+    /**
+     * Null while it waits for marking.
+     */
+    rawMarks: number | null;
+    maxMarks: number;
+    /**
+     * Null while it waits for marking.
+     */
+    points: number | null;
+    maxPoints: number;
+    awaitingMarking: boolean;
+};
+
+export type QuizAttemptReviewStateDto = {
+    /**
+     * Whether the attempt can be reviewed now, on the server clock.
+     */
+    available: boolean;
+    /**
+     * Null while the quiz’s review options keep the mark back.
+     */
+    score: QuizAttemptScoreDto | null;
+};
+
 export type MyQuizAttemptDto = {
     id: string;
     attempt: number;
@@ -2192,6 +2265,7 @@ export type MyQuizAttemptDto = {
     startedAt: string;
     finishedAt: string | null;
     closedBy: QuizAttemptCloser | null;
+    review: QuizAttemptReviewStateDto;
 };
 
 /**
@@ -2294,6 +2368,117 @@ export type QuizAttemptResponseDto = {
     questions: Array<QuizAttemptQuestionDto>;
 };
 
+export type QuizReviewShownDto = {
+    /**
+     * Their own answers.
+     */
+    responses: boolean;
+    /**
+     * Whether each answer was right, and the marks per question.
+     */
+    correctness: boolean;
+    /**
+     * The right answers.
+     */
+    correctAnswer: boolean;
+    /**
+     * General and per-choice feedback, and the marker’s comment.
+     */
+    feedback: boolean;
+    /**
+     * The mark for the attempt.
+     */
+    overallMark: boolean;
+};
+
+/**
+ * Null while right and wrong are kept back.
+ */
+export const QuizQuestionOutcome = {
+    RIGHT: 'right',
+    PARTIAL: 'partial',
+    WRONG: 'wrong',
+    NOT_ANSWERED: 'not_answered',
+    NEEDS_MARKING: 'needs_marking'
+} as const;
+
+/**
+ * Null while right and wrong are kept back.
+ */
+export type QuizQuestionOutcome = typeof QuizQuestionOutcome[keyof typeof QuizQuestionOutcome];
+
+export type QuizRevealedKeyDto = {
+    /**
+     * Right choice ids.
+     */
+    choices: Array<number> | null;
+    value: boolean | null;
+    /**
+     * Accepted answers.
+     */
+    texts: Array<string> | null;
+    number: number | null;
+    tolerance: number | null;
+    pairs: Array<MatchedPairResponseDto> | null;
+};
+
+export type QuizQuestionReviewDto = {
+    position: number;
+    type: QuestionType;
+    text: string;
+    mark: number;
+    choices: Array<QuizAttemptPartDto>;
+    prompts: Array<QuizAttemptPartDto>;
+    answers: Array<QuizAttemptPartDto>;
+    /**
+     * Null when unanswered, or while their answers are kept back.
+     */
+    response: QuizAnswerDto | null;
+    /**
+     * Null while right and wrong are kept back.
+     */
+    outcome: QuizQuestionOutcome | null;
+    /**
+     * Marks earned, when shown.
+     */
+    awarded: number | null;
+    /**
+     * When shown.
+     */
+    key: QuizRevealedKeyDto | null;
+    generalFeedback: string | null;
+    /**
+     * Feedback on what was picked.
+     */
+    specificFeedback: Array<string>;
+    /**
+     * The marker’s comment.
+     */
+    comment: string | null;
+};
+
+export type QuizAttemptReviewResponseDto = {
+    id: string;
+    quizId: string;
+    attempt: number;
+    startedAt: string;
+    finishedAt: string | null;
+    closedBy: QuizAttemptCloser | null;
+    /**
+     * What the quiz lets them see now.
+     */
+    shown: QuizReviewShownDto;
+    /**
+     * When more becomes visible: the quiz’s close, if something waits for it.
+     */
+    revealsAt: string | null;
+    score: QuizAttemptScoreDto | null;
+    /**
+     * Empty when no per-question option is shown.
+     */
+    questions: Array<QuizQuestionReviewDto>;
+};
+
 export type MatchedPairDto = {
     /**
      * The id of a prompt shown.
@@ -2331,6 +2516,176 @@ export type QuizAnswerSavedResponseDto = {
     response: QuizAnswerDto | null;
     savedAt: string | null;
     remainingSeconds: number | null;
+};
+
+export type MarkedQuizQuestionDto = {
+    position: number;
+    type: QuestionType;
+    text: string;
+    mark: number;
+    choices: Array<QuizAttemptPartDto>;
+    prompts: Array<QuizAttemptPartDto>;
+    answers: Array<QuizAttemptPartDto>;
+    /**
+     * Null when unanswered, or while their answers are kept back.
+     */
+    response: QuizAnswerDto | null;
+    /**
+     * Null while right and wrong are kept back.
+     */
+    outcome: QuizQuestionOutcome | null;
+    /**
+     * Marks earned, when shown.
+     */
+    awarded: number | null;
+    /**
+     * When shown.
+     */
+    key: QuizRevealedKeyDto | null;
+    generalFeedback: string | null;
+    /**
+     * Feedback on what was picked.
+     */
+    specificFeedback: Array<string>;
+    /**
+     * The marker’s comment.
+     */
+    comment: string | null;
+    /**
+     * What marking by the key gave.
+     */
+    autoMark: number | null;
+    /**
+     * A teacher’s mark, which stands.
+     */
+    manualMark: number | null;
+    markedAt: string | null;
+};
+
+export type QuizAttemptMarkingResponseDto = {
+    id: string;
+    attempt: number;
+    state: QuizAttemptProgress;
+    startedAt: string;
+    finishedAt: string | null;
+    closedBy: QuizAttemptCloser | null;
+    student: AttemptStudentDto;
+    maxMarks: number;
+    /**
+     * Marks earned, once closed.
+     */
+    rawMarks: number | null;
+    /**
+     * Scaled to what the quiz is worth; provisional while it needs marking.
+     */
+    points: number | null;
+    needsMarking: boolean;
+    missingQuestions: number;
+    score: QuizAttemptScoreDto;
+    /**
+     * Once it has closed.
+     */
+    questions: Array<MarkedQuizQuestionDto>;
+};
+
+export type MarkQuizQuestionDto = {
+    /**
+     * The mark, up to what the question is worth. Null takes a teacher’s mark away: an essay waits for marking again, any other question goes back to its automatic mark.
+     */
+    mark: number | null;
+    /**
+     * A comment for an essay; the reason, required, for changing an automatic mark.
+     */
+    comment?: string | null;
+};
+
+export type QuizRegradeResponseDto = {
+    /**
+     * Closed attempts that asked an earlier version of a question.
+     */
+    outdatedAttempts: number;
+    /**
+     * Questions left as they were because the new version has a different number of choices or pairs.
+     */
+    incompatible: number;
+    /**
+     * Attempts moved to the latest versions.
+     */
+    regradedAttempts: number;
+    /**
+     * Attempts whose score changes.
+     */
+    changedAttempts: number;
+    /**
+     * Students whose quiz grade changes.
+     */
+    changedStudents: number;
+    /**
+     * The largest rise in a student’s grade, in points.
+     */
+    largestRise: number;
+    /**
+     * The largest fall in a student’s grade, in points.
+     */
+    largestFall: number;
+    /**
+     * False for a preview.
+     */
+    applied: boolean;
+};
+
+export type QuizChosenOptionDto = {
+    /**
+     * A choice’s text.
+     */
+    text: string | null;
+    /**
+     * True or false.
+     */
+    value: boolean | null;
+    /**
+     * Right in the latest version.
+     */
+    correct: boolean;
+    count: number;
+};
+
+export type QuizChoiceDistributionDto = {
+    options: Array<QuizChosenOptionDto>;
+    unanswered: number;
+};
+
+export type QuizQuestionResultDto = {
+    questionId: string;
+    /**
+     * The latest version’s name.
+     */
+    name: string;
+    type: QuestionType;
+    /**
+     * Closed attempts that asked it.
+     */
+    attempts: number;
+    fullyRight: number;
+    awaitingMarking: number;
+    /**
+     * Of those marked, in per cent.
+     */
+    fullyRightPercent: number | null;
+    averageMark: number | null;
+    /**
+     * What it was worth, on average.
+     */
+    averageOutOf: number | null;
+    /**
+     * For single choice, multiple choice and true or false.
+     */
+    distribution: QuizChoiceDistributionDto | null;
+};
+
+export type QuizResultsPageResponseDto = {
+    items: Array<QuizQuestionResultDto>;
+    meta: PageMetaDto;
 };
 
 export type CreateDemoRequestDto = {
@@ -7952,6 +8307,10 @@ export type ListQuizAttemptsData = {
         limit?: number;
         state?: QuizAttemptProgress;
         /**
+         * True: only closed attempts waiting for a teacher’s mark. False: only final ones.
+         */
+        needsMarking?: boolean;
+        /**
          * Narrows to students whose name or e-mail contains this
          */
         q?: string;
@@ -8109,6 +8468,49 @@ export type GetQuizAttemptResponses = {
 
 export type GetQuizAttemptResponse = GetQuizAttemptResponses[keyof GetQuizAttemptResponses];
 
+export type ReviewQuizAttemptData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        quizId: string;
+        attemptId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes/{quizId}/attempts/{attemptId}/review';
+};
+
+export type ReviewQuizAttemptErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ReviewQuizAttemptError = ReviewQuizAttemptErrors[keyof ReviewQuizAttemptErrors];
+
+export type ReviewQuizAttemptResponses = {
+    200: QuizAttemptReviewResponseDto;
+};
+
+export type ReviewQuizAttemptResponse = ReviewQuizAttemptResponses[keyof ReviewQuizAttemptResponses];
+
 export type SaveQuizAnswerData = {
     body: SaveQuizAnswerDto;
     path: {
@@ -8191,6 +8593,210 @@ export type SubmitQuizAttemptResponses = {
 };
 
 export type SubmitQuizAttemptResponse = SubmitQuizAttemptResponses[keyof SubmitQuizAttemptResponses];
+
+export type GetQuizAttemptForMarkingData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        quizId: string;
+        attemptId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes/{quizId}/attempts/{attemptId}/marking';
+};
+
+export type GetQuizAttemptForMarkingErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetQuizAttemptForMarkingError = GetQuizAttemptForMarkingErrors[keyof GetQuizAttemptForMarkingErrors];
+
+export type GetQuizAttemptForMarkingResponses = {
+    200: QuizAttemptMarkingResponseDto;
+};
+
+export type GetQuizAttemptForMarkingResponse = GetQuizAttemptForMarkingResponses[keyof GetQuizAttemptForMarkingResponses];
+
+export type MarkQuizQuestionData = {
+    body: MarkQuizQuestionDto;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        quizId: string;
+        attemptId: string;
+        position: number;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes/{quizId}/attempts/{attemptId}/questions/{position}/mark';
+};
+
+export type MarkQuizQuestionErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type MarkQuizQuestionError = MarkQuizQuestionErrors[keyof MarkQuizQuestionErrors];
+
+export type MarkQuizQuestionResponses = {
+    200: QuizAttemptMarkingResponseDto;
+};
+
+export type MarkQuizQuestionResponse = MarkQuizQuestionResponses[keyof MarkQuizQuestionResponses];
+
+export type PreviewQuizRegradeData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        quizId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes/{quizId}/regrade';
+};
+
+export type PreviewQuizRegradeErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type PreviewQuizRegradeError = PreviewQuizRegradeErrors[keyof PreviewQuizRegradeErrors];
+
+export type PreviewQuizRegradeResponses = {
+    200: QuizRegradeResponseDto;
+};
+
+export type PreviewQuizRegradeResponse = PreviewQuizRegradeResponses[keyof PreviewQuizRegradeResponses];
+
+export type RegradeQuizData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        quizId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes/{quizId}/regrade';
+};
+
+export type RegradeQuizErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RegradeQuizError = RegradeQuizErrors[keyof RegradeQuizErrors];
+
+export type RegradeQuizResponses = {
+    200: QuizRegradeResponseDto;
+};
+
+export type RegradeQuizResponse = RegradeQuizResponses[keyof RegradeQuizResponses];
+
+export type ListQuizQuestionResultsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        spaceId: string;
+        quizId: string;
+    };
+    query?: {
+        page?: number;
+        limit?: number;
+        /**
+         * Narrows to questions whose name or text contains this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/learning-spaces/{spaceId}/quizzes/{quizId}/results';
+};
+
+export type ListQuizQuestionResultsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListQuizQuestionResultsError = ListQuizQuestionResultsErrors[keyof ListQuizQuestionResultsErrors];
+
+export type ListQuizQuestionResultsResponses = {
+    200: QuizResultsPageResponseDto;
+};
+
+export type ListQuizQuestionResultsResponse = ListQuizQuestionResultsResponses[keyof ListQuizQuestionResultsResponses];
 
 export type CreateDemoRequestData = {
     body: CreateDemoRequestDtoWritable;

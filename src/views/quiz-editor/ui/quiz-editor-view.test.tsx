@@ -5,8 +5,10 @@ import type * as SharedConfig from '@/shared/config';
 import {
   courseOffering,
   QUESTION_ID,
+  questionResults,
   QUIZ_ID,
   quizAttemptRows,
+  regradePreview,
   renderWithProviders,
   screen,
   server,
@@ -195,6 +197,142 @@ describe('QuizEditorView', () => {
     });
     expect(queries.at(-1)).toContain('state=finished');
     expect(queries.at(-1)).toContain('limit=20');
+
+    await user.selectOptions(screen.getByLabelText('State'), 'needs_marking');
+    await waitFor(() => {
+      expect(queries.at(-1)).toContain('needsMarking=true');
+    });
+    expect(queries.at(-1)).not.toContain('state=');
+    expect(
+      within(row!).getByRole('link', { name: 'Mark attempt 1 by Marek Novák' }),
+    ).toHaveAttribute(
+      'href',
+      `/institutions/${INSTITUTION}/courses/${OFFERING}/spaces/${SPACE}/quizzes/${QUIZ_ID}/attempts/${quizAttemptRows[0]!.id}`,
+    );
+  });
+
+  it('offers a regrade with its preview, and applies it only once confirmed', async () => {
+    const applied = vi.fn();
+    server.use(
+      http.post(`${QUIZ_URL}/regrade`, () => {
+        applied();
+        return HttpResponse.json({ ...regradePreview, applied: true });
+      }),
+    );
+    const user = userEvent.setup();
+    render();
+
+    expect(
+      await screen.findByText('3 closed attempts used an earlier version of a question.'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/2 attempts change their score and 2 students their grade/),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/The largest rise is 2.5 points, the largest fall 0/),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/1 question cannot be regraded/)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Regrade…' }));
+    expect(applied).not.toHaveBeenCalled();
+    await user.click(
+      within(screen.getByRole('group', { name: 'Confirm the regrade' })).getByRole(
+        'button',
+        {
+          name: 'Regrade now',
+        },
+      ),
+    );
+    await waitFor(() => {
+      expect(applied).toHaveBeenCalledOnce();
+    });
+  });
+
+  it('says nothing about regrading when every attempt asks the latest versions', async () => {
+    server.use(
+      http.get(`${QUIZ_URL}/regrade`, () =>
+        HttpResponse.json({
+          ...regradePreview,
+          outdatedAttempts: 0,
+          regradedAttempts: 0,
+        }),
+      ),
+    );
+    render();
+
+    await screen.findByRole('table', { name: 'Results by question in Foundations quiz' });
+    expect(screen.queryByRole('button', { name: 'Regrade…' })).toBeNull();
+  });
+
+  it('shows how each question went, with the answers picked, a page at a time and filtered', async () => {
+    const queries: string[] = [];
+    server.use(
+      http.get(`${QUIZ_URL}/results`, ({ request }) => {
+        queries.push(new URL(request.url).search);
+        return HttpResponse.json({
+          items: questionResults,
+          meta: {
+            page: 1,
+            limit: 20,
+            total: 1,
+            pageCount: 1,
+            hasNextPage: false,
+            hasPreviousPage: false,
+          },
+        });
+      }),
+    );
+    const user = userEvent.setup();
+    render();
+
+    const table = await screen.findByRole('table', {
+      name: 'Results by question in Foundations quiz',
+    });
+    const [, row] = within(table).getAllByRole('row');
+    expect(within(row!).getByText('Binary search cost')).toBeInTheDocument();
+    expect(within(row!).getByText('75 %')).toBeInTheDocument();
+    expect(within(row!).getByText('0.75 of 1')).toBeInTheDocument();
+    expect(within(row!).getByText('Θ(log n): 3 (right)')).toBeInTheDocument();
+    expect(within(row!).getByText('Θ(n): 1')).toBeInTheDocument();
+
+    await user.type(screen.getByLabelText('Find a question'), 'binary');
+    await waitFor(() => {
+      expect(queries.at(-1)).toContain('q=binary');
+    });
+  });
+
+  it('sets what students see after an attempt, and when', async () => {
+    let sent: Record<string, unknown> | undefined;
+    server.use(
+      http.patch(QUIZ_URL, async ({ request }) => {
+        sent = (await request.json()) as Record<string, unknown>;
+        return HttpResponse.json({});
+      }),
+    );
+    const user = userEvent.setup();
+    render();
+
+    const review = await screen.findByRole('group', {
+      name: 'What students see after an attempt',
+    });
+    expect(within(review).getByLabelText('The right answers')).toHaveValue('after_close');
+    await user.selectOptions(
+      within(review).getByLabelText('The mark for the attempt'),
+      'never',
+    );
+    await user.click(screen.getByRole('button', { name: 'Save the settings' }));
+
+    await waitFor(() => {
+      expect(sent).toMatchObject({
+        review: {
+          responses: 'immediately',
+          correctness: 'immediately',
+          correctAnswer: 'after_close',
+          feedback: 'never',
+          overallMark: 'never',
+        },
+      });
+    });
   });
 
   it('lets the author choose one question per page or all on one', async () => {

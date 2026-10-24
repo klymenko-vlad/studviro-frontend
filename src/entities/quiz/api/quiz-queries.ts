@@ -5,6 +5,9 @@ type MyAttemptsOptions = Parameters<
   typeof apiQueries.listMyQuizAttemptsInfiniteOptions
 >[0];
 type AttemptsOptions = Parameters<typeof apiQueries.listQuizAttemptsInfiniteOptions>[0];
+type ResultsOptions = Parameters<
+  typeof apiQueries.listQuizQuestionResultsInfiniteOptions
+>[0];
 
 interface Paged {
   meta: { page: number; hasNextPage: boolean };
@@ -35,8 +38,20 @@ export const quizQueries = {
     initialPageParam: 1,
     getNextPageParam: nextPage,
   }),
+  attemptsKey: apiQueries.listQuizAttemptsInfiniteQueryKey,
   attempt: apiQueries.getQuizAttemptOptions,
   attemptKey: apiQueries.getQuizAttemptQueryKey,
+  review: apiQueries.reviewQuizAttemptOptions,
+  marking: apiQueries.getQuizAttemptForMarkingOptions,
+  markingKey: apiQueries.getQuizAttemptForMarkingQueryKey,
+  regrade: apiQueries.previewQuizRegradeOptions,
+  regradeKey: apiQueries.previewQuizRegradeQueryKey,
+  results: (options: ResultsOptions) => ({
+    ...apiQueries.listQuizQuestionResultsInfiniteOptions(options),
+    initialPageParam: 1,
+    getNextPageParam: nextPage,
+  }),
+  resultsKey: apiQueries.listQuizQuestionResultsInfiniteQueryKey,
 } as const;
 
 export const quizMutations = {
@@ -49,4 +64,6 @@ export const quizMutations = {
   startAttempt: apiQueries.startQuizAttemptMutation,
   saveAnswer: apiQueries.saveQuizAnswerMutation,
   submitAttempt: apiQueries.submitQuizAttemptMutation,
+  markQuestion: apiQueries.markQuizQuestionMutation,
+  regrade: apiQueries.regradeQuizMutation,
 } as const;

@@ -6,13 +6,16 @@ import { useFormatter, useTranslations } from 'next-intl';
 
 import {
   QUIZ_ATTEMPT_PROGRESS,
+  quizAttemptHref,
   quizQueries,
   useWhen,
   type Quiz,
   type QuizAttemptRow,
 } from '@/entities/quiz';
+import { Link } from '@/shared/config';
 import {
   Badge,
+  Button,
   Input,
   Label,
   ListSkeleton,
@@ -28,14 +31,18 @@ import {
 } from '@/shared/ui';
 
 const PAGE = 20;
-type Progress = (typeof QUIZ_ATTEMPT_PROGRESS)[number];
+const NEEDS_MARKING = 'needs_marking';
+const STATES = [...QUIZ_ATTEMPT_PROGRESS, NEEDS_MARKING] as const;
+type Shown = (typeof STATES)[number];
 
 export function QuizAttempts({
   institutionId,
+  offeringId,
   spaceId,
   quiz,
 }: {
   institutionId: string;
+  offeringId: string;
   spaceId: string;
   quiz: Quiz;
 }) {
@@ -44,7 +51,7 @@ export function QuizAttempts({
   const when = useWhen();
   const filterId = useId();
   const [filter, setFilter] = useState('');
-  const [state, setState] = useState<Progress | ''>('');
+  const [state, setState] = useState<Shown | ''>('');
   const q = useDeferredValue(filter.trim());
 
   const attempts = useInfiniteQuery({
@@ -53,7 +60,11 @@ export function QuizAttempts({
       query: {
         limit: PAGE,
         ...(q === '' ? {} : { q }),
-        ...(state === '' ? {} : { state }),
+        ...(state === ''
+          ? {}
+          : state === NEEDS_MARKING
+            ? { needsMarking: true }
+            : { state }),
       },
     }),
     placeholderData: keepPreviousData,
@@ -92,11 +103,11 @@ export function QuizAttempts({
             id={`${filterId}-state`}
             value={state}
             onValueChange={value => {
-              setState(QUIZ_ATTEMPT_PROGRESS.find(option => option === value) ?? '');
+              setState(STATES.find(option => option === value) ?? '');
             }}
           >
             <SelectItem value="">{t('any')}</SelectItem>
-            {QUIZ_ATTEMPT_PROGRESS.map(option => (
+            {STATES.map(option => (
               <SelectItem key={option} value={option}>
                 {t(option)}
               </SelectItem>
@@ -122,6 +133,9 @@ export function QuizAttempts({
               <TableHead>{t('started')}</TableHead>
               <TableHead>{t('status')}</TableHead>
               <TableHead>{t('score')}</TableHead>
+              <TableHead>
+                <span className="sr-only">{t('actions')}</span>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -148,6 +162,31 @@ export function QuizAttempts({
                     <span className="text-muted-foreground block text-xs">
                       {t('needsMarking')}
                     </span>
+                  ) : null}
+                </TableCell>
+                <TableCell>
+                  {row.state === 'finished' ? (
+                    <Button
+                      asChild
+                      variant={row.needsMarking ? 'default' : 'outline'}
+                      size="sm"
+                    >
+                      <Link
+                        href={quizAttemptHref(
+                          institutionId,
+                          offeringId,
+                          spaceId,
+                          quiz.id,
+                          row.id,
+                        )}
+                        aria-label={t(row.needsMarking ? 'markLabel' : 'openLabel', {
+                          name: row.student.displayName,
+                          number: row.attempt,
+                        })}
+                      >
+                        {t(row.needsMarking ? 'mark' : 'open')}
+                      </Link>
+                    </Button>
                   ) : null}
                 </TableCell>
               </TableRow>

@@ -22,3 +22,17 @@ export {
   type QuizAttemptRow,
   type SavedAnswer,
 } from './model/attempt';
+export {
+  describeAnswer,
+  describeKey,
+  QUIZ_REVIEW_OPTIONS,
+  QUIZ_REVIEW_TIMINGS,
+  type AttemptForMarking,
+  type AttemptReview,
+  type Described,
+  type MarkedQuestion,
+  type QuestionResult,
+  type QuizReviewShown,
+  type RegradeSummary,
+  type ReviewedQuestion,
+} from './model/review';

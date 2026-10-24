@@ -41,6 +41,33 @@ describe('the quiz settings form', () => {
     });
   });
 
+  it('keeps the right answers back until the quiz closes by default, and sends what the author picks', () => {
+    expect(toQuizPayload(base, BRATISLAVA).review).toEqual({
+      responses: 'immediately',
+      correctness: 'immediately',
+      correctAnswer: 'after_close',
+      feedback: 'immediately',
+      overallMark: 'immediately',
+    });
+    expect(
+      toQuizPayload(
+        { ...base, review: { ...base.review, overallMark: 'never' } },
+        BRATISLAVA,
+      ).review.overallMark,
+    ).toBe('never');
+    expect(valid({ review: { ...base.review, feedback: 'later' as 'never' } })).toBe(
+      false,
+    );
+  });
+
+  it('reads the review options a quiz has, and the defaults when it shows none', () => {
+    const quiz = offeringQuizzes[0]!;
+    expect(toFormValues(quiz, BRATISLAVA).review).toEqual(quiz.settings!.review);
+    expect(toFormValues({ ...quiz, settings: null }, BRATISLAVA).review).toEqual(
+      EMPTY_QUIZ.review,
+    );
+  });
+
   it('sends unlimited attempts and no time limit for empty fields', () => {
     expect(
       toQuizPayload({ ...base, maxAttempts: '', timeLimitMinutes: '' }, BRATISLAVA),

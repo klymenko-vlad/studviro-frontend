@@ -314,9 +314,30 @@ const budgets = [
     // dependency was added: choices are native inputs in a new `Choice`
     // primitive rather than Radix radio group and checkbox, matching uses the
     // native `Select`, and the submit check is an inline panel, not a dialog.
+    //
+    // Raised from 693 kB to 703 kB on 2026-10-24 for quiz review and marking
+    // (Course Builder Plan CB8, ADR 0052). Measured at **702.8 kB**, +10.78 kB
+    // over CB7's 692.02 kB, building the CB7 commit and then adding the step a
+    // slice at a time:
+    //   - the regenerated client (review, marking, regrade and results schemas;
+    //     the review options ride on every quiz read): +1.13 kB;
+    //   - the review options in the quiz settings form: +0.84 kB;
+    //   - the student's review on the attempt route, which reuses CB7's question
+    //     fields read-only, and the mark and _Review_ link on the quiz row:
+    //     +3.72 kB;
+    //   - the needs-marking filter and _Mark_ links, the regrade panel with its
+    //     preview and the results-by-question table on the quiz page: +2.4 kB;
+    //   - the marking screen: +2.69 kB.
+    // The marking screen first had a route of its own and cost +6.98 kB there:
+    // a new route chunk repeats the page shell, the trail and the quiz entity.
+    // It now lives on the attempt's own route, which opens as the marking
+    // screen for the course's authors; that took 4.29 kB back. The regrade
+    // confirmation is an inline panel rather than a dialog, the marking form
+    // uses plain state rather than react-hook-form, and no dependency or
+    // `shared/ui` primitive was added.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '693 kB',
+    limit: '703 kB',
     gzip: true,
   },
 ];

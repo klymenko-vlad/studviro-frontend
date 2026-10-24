@@ -66,6 +66,8 @@ export {
 } from './msw/handlers';
 export {
   ATTEMPT_ID,
+  attemptForMarking,
+  attemptReview,
   attemptStanding,
   finishedAttempt,
   myQuizAttempts,
@@ -77,6 +79,8 @@ export {
   offeringQuizzes,
   QUESTION_ID,
   questionCategories,
+  questionResults,
+  regradePreview,
   QUIZ_ID,
   quizSlots,
 } from './msw/quiz-handlers';

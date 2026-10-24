@@ -9,7 +9,12 @@ import {
   toAvailabilityValues,
 } from '@/entities/availability';
 import { ASSIGNMENT_COMPLETION_RULES } from '@/entities/completion';
-import { QUIZ_GRADING_METHODS, QUIZ_LAYOUTS, type Quiz } from '@/entities/quiz';
+import {
+  QUIZ_GRADING_METHODS,
+  QUIZ_LAYOUTS,
+  QUIZ_REVIEW_TIMINGS,
+  type Quiz,
+} from '@/entities/quiz';
 import { apiSchemas } from '@/shared/api';
 import { fromLocalInput, toLocalInput } from '@/shared/lib';
 
@@ -33,6 +38,13 @@ export const quizFormSchema = z
     shuffleQuestions: z.boolean(),
     shuffleChoices: z.boolean(),
     layout: z.enum(QUIZ_LAYOUTS),
+    review: z.object({
+      responses: z.enum(QUIZ_REVIEW_TIMINGS),
+      correctness: z.enum(QUIZ_REVIEW_TIMINGS),
+      correctAnswer: z.enum(QUIZ_REVIEW_TIMINGS),
+      feedback: z.enum(QUIZ_REVIEW_TIMINGS),
+      overallMark: z.enum(QUIZ_REVIEW_TIMINGS),
+    }),
     maxPoints: z.string().regex(/^\d+(\.\d+)?$/u, 'Use a number of points'),
     countsTowardFinalGrade: z.boolean(),
     visible: z.boolean(),
@@ -75,6 +87,14 @@ export const quizFormSchema = z
 
 export type QuizFormValues = z.infer<typeof quizFormSchema>;
 
+export const DEFAULT_REVIEW: QuizFormValues['review'] = {
+  responses: 'immediately',
+  correctness: 'immediately',
+  correctAnswer: 'after_close',
+  feedback: 'immediately',
+  overallMark: 'immediately',
+};
+
 export const EMPTY_QUIZ: QuizFormValues = {
   name: '',
   brief: '',
@@ -86,6 +106,7 @@ export const EMPTY_QUIZ: QuizFormValues = {
   shuffleQuestions: false,
   shuffleChoices: true,
   layout: 'one_per_page',
+  review: DEFAULT_REVIEW,
   maxPoints: '10',
   countsTowardFinalGrade: true,
   visible: false,
@@ -109,6 +130,7 @@ export function toFormValues(quiz: Quiz, timeZone: string): QuizFormValues {
     shuffleQuestions: quiz.settings?.shuffleQuestions ?? false,
     shuffleChoices: quiz.settings?.shuffleChoices ?? true,
     layout: quiz.settings?.layout ?? 'one_per_page',
+    review: quiz.settings?.review ?? DEFAULT_REVIEW,
     maxPoints: String(quiz.maxPoints),
     countsTowardFinalGrade: quiz.countsTowardFinalGrade,
     visible: quiz.visible,
@@ -133,6 +155,7 @@ export function toQuizPayload(values: QuizFormValues, timeZone: string) {
     shuffleQuestions: values.shuffleQuestions,
     shuffleChoices: values.shuffleChoices,
     layout: values.layout,
+    review: values.review,
     maxPoints: Number(values.maxPoints),
     countsTowardFinalGrade: values.countsTowardFinalGrade,
     visible: values.visible,

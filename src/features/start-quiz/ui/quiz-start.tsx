@@ -3,7 +3,7 @@
 import { useEffect, useId, useState } from 'react';
 import { keepPreviousData, useInfiniteQuery, useMutation } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useFormatter, useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import {
@@ -34,6 +34,7 @@ export function QuizStart({
 }) {
   const t = useTranslations('quiz.take');
   const when = useWhen();
+  const format = useFormatter();
   const filterId = useId();
   const [state, setState] = useState<Progress | ''>('');
   const path = { institutionId, spaceId, quizId: quiz.id };
@@ -140,6 +141,21 @@ export function QuizStart({
                       ? t('mine.started', { when: when(attempt.startedAt) })
                       : t('mine.submitted', { when: when(attempt.finishedAt) })}
                   </span>
+                  {attempt.review.score === null ? null : (
+                    <span className="tabular-nums">
+                      {attempt.review.score.points === null
+                        ? t('mine.awaiting')
+                        : t('mine.score', {
+                            points: format.number(attempt.review.score.points),
+                            max: format.number(attempt.review.score.maxPoints),
+                          })}
+                    </span>
+                  )}
+                  {attempt.review.available ? (
+                    <Link href={href(attempt.id)} className="text-primary underline">
+                      {t('mine.review', { number: attempt.attempt })}
+                    </Link>
+                  ) : null}
                 </li>
               ))}
             </ul>

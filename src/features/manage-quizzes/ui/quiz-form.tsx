@@ -11,6 +11,8 @@ import { ASSIGNMENT_COMPLETION_RULES } from '@/entities/completion';
 import {
   QUIZ_GRADING_METHODS,
   QUIZ_LAYOUTS,
+  QUIZ_REVIEW_OPTIONS,
+  QUIZ_REVIEW_TIMINGS,
   quizMutations,
   quizQueries,
   type Quiz,
@@ -64,6 +66,7 @@ export function QuizForm({
   const t = useTranslations('quiz.form');
   const tGrading = useTranslations('quiz.grading');
   const tCompletion = useTranslations('completion');
+  const tReview = useTranslations('quiz.reviewOptions');
   const timeZone = useTimeZone() ?? DEFAULT_TIME_ZONE;
   const queryClient = useQueryClient();
   const editing = quiz !== undefined;
@@ -78,10 +81,10 @@ export function QuizForm({
     const path = { path: { institutionId, spaceId } };
     await queryClient.invalidateQueries({ queryKey: quizQueries.listKey(path) });
     if (editing) {
+      const quizPath = { path: { institutionId, spaceId, quizId: quiz.id } };
+      await queryClient.invalidateQueries({ queryKey: quizQueries.detailKey(quizPath) });
       await queryClient.invalidateQueries({
-        queryKey: quizQueries.detailKey({
-          path: { institutionId, spaceId, quizId: quiz.id },
-        }),
+        queryKey: quizQueries.attemptsKey(quizPath),
       });
     }
   };
@@ -308,6 +311,35 @@ export function QuizForm({
             )}
           />
         ))}
+
+        <fieldset className="flex flex-col gap-3">
+          <legend className="text-sm font-medium">{tReview('title')}</legend>
+          <p className="text-muted-foreground text-sm">{tReview('hint')}</p>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {QUIZ_REVIEW_OPTIONS.map(option => (
+              <FormField
+                key={option}
+                control={form.control}
+                name={`review.${option}`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{tReview(`option.${option}`)}</FormLabel>
+                    <FormControl>
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        {QUIZ_REVIEW_TIMINGS.map(timing => (
+                          <SelectItem key={timing} value={timing}>
+                            {tReview(`timing.${timing}`)}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
+          </div>
+        </fieldset>
 
         <Button type="submit" size="sm" className="self-start" disabled={pending}>
           {pending ? <LoaderCircle className="size-4 animate-spin" /> : null}

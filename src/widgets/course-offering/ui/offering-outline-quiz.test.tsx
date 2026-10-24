@@ -6,6 +6,7 @@ import type * as SharedConfig from '@/shared/config';
 import {
   ATTEMPT_ID,
   attemptStanding,
+  myQuizAttempts,
   offeringQuizzes,
   quizAttempt,
   renderWithProviders,
@@ -76,6 +77,11 @@ describe('a quiz on the course page', () => {
     });
     expect(within(mine).getByText('Attempt 1')).toBeInTheDocument();
     expect(within(mine).getByText(/^Submitted/)).toBeInTheDocument();
+    expect(within(mine).getByText('6.25 of 10')).toBeInTheDocument();
+    expect(within(mine).getByRole('link', { name: 'Review attempt 1' })).toHaveAttribute(
+      'href',
+      expect.stringMatching(/\/attempts\/a77e0001-0001-4001-8001-000000000000$/),
+    );
     expect(within(row).queryByText(/points|score/i)).toBeNull();
 
     await user.click(within(row).getByRole('button', { name: 'Start attempt' }));
@@ -86,6 +92,33 @@ describe('a quiz on the course page', () => {
       );
     });
     expect(started).toBe(true);
+  });
+
+  it('shows no mark and no review link while the quiz keeps them back', async () => {
+    server.use(
+      http.get(`${SPACE_URL}/quizzes/${quiz.id}/attempts/mine`, () =>
+        HttpResponse.json({
+          items: [{ ...myQuizAttempts[0]!, review: { available: false, score: null } }],
+          meta: {
+            page: 1,
+            limit: 5,
+            total: 1,
+            pageCount: 1,
+            hasNextPage: false,
+            hasPreviousPage: false,
+          },
+          standing: attemptStanding,
+        }),
+      ),
+    );
+    render('student');
+    const row = await quizRow();
+    const mine = await within(row).findByRole('list', {
+      name: 'Your attempts at Foundations quiz',
+    });
+
+    expect(within(mine).queryByText(/of 10/)).toBeNull();
+    expect(within(mine).queryByRole('link')).toBeNull();
   });
 
   it('offers to continue the attempt in progress', async () => {

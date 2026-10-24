@@ -4,6 +4,9 @@ import { describe, expect, it, vi } from 'vitest';
 import type { QuizAttemptResponseDto } from '@/shared/api';
 import {
   ATTEMPT_ID,
+  attemptForMarking,
+  attemptReview,
+  courseOffering,
   expectNoAxeViolations,
   finishedAttempt,
   QUIZ_ID,
@@ -11,6 +14,7 @@ import {
   renderWithProviders,
   screen,
   server,
+  userEvent,
   waitFor,
   within,
 } from '@/shared/test';
@@ -166,7 +170,8 @@ describe('taking a quiz', () => {
     expect(submitted).toBe(true);
     expect(screen.getByText(/^You submitted it/)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Back to the course' })).toBeInTheDocument();
-    expect(screen.queryByRole('radio')).toBeNull();
+    expect(await screen.findByRole('heading', { name: 'Review' })).toBeInTheDocument();
+    for (const radio of screen.getAllByRole('radio')) expect(radio).toBeDisabled();
   });
 
   it('puts every question on one page when the quiz says so', async () => {
@@ -230,6 +235,70 @@ describe('taking a quiz', () => {
     expect(screen.queryByRole('navigation', { name: 'Questions' })).toBeNull();
   });
 
+  it('reviews a closed attempt read-only, saying right and wrong in words', async () => {
+    const { container } = render(finishedAttempt);
+
+    expect(
+      await screen.findByText('Your mark: 6 of 10 (3 of 5 marks)'),
+    ).toBeInTheDocument();
+    const first = screen.getByRole('region', { name: 'Question 1' });
+    expect(within(first).getByRole('radio', { name: 'Θ(n)' })).toBeChecked();
+    expect(within(first).getByRole('radio', { name: 'Θ(n)' })).toBeDisabled();
+    expect(within(first).getByText('Incorrect')).toBeInTheDocument();
+    expect(within(first).getByText('0 of 1 marks')).toBeInTheDocument();
+    expect(within(first).getByText('Θ(log n)', { selector: 'li' })).toBeInTheDocument();
+    expect(within(first).getByText('That is a scan.')).toBeInTheDocument();
+    expect(within(first).getByText('It halves the range.')).toBeInTheDocument();
+
+    const essay = screen.getByRole('region', { name: 'Question 2' });
+    expect(within(essay).getByText('Partly correct')).toBeInTheDocument();
+    expect(within(essay).getByRole('textbox')).toHaveValue(
+      'A settled vertex stays settled.',
+    );
+    expect(
+      within(essay).getByText('Say why a negative edge breaks it.'),
+    ).toBeInTheDocument();
+    await expectNoAxeViolations(container);
+  });
+
+  it('says what the quiz keeps back and when more is shown', async () => {
+    server.use(
+      http.get(`${ATTEMPT_URL}/review`, () =>
+        HttpResponse.json({
+          ...attemptReview,
+          shown: { ...attemptReview.shown, responses: false, correctAnswer: false },
+          score: null,
+          revealsAt: '2026-11-30T23:00:00.000Z',
+          questions: [],
+        }),
+      ),
+    );
+    render(finishedAttempt);
+
+    expect(await screen.findByText(/does not show your mark/)).toBeInTheDocument();
+    expect(screen.getByText(/More is shown once the quiz closes/)).toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Question 1' })).toBeNull();
+  });
+
+  it('says an attempt waits for marking rather than showing a provisional mark', async () => {
+    server.use(
+      http.get(`${ATTEMPT_URL}/review`, () =>
+        HttpResponse.json({
+          ...attemptReview,
+          score: {
+            ...attemptReview.score!,
+            points: null,
+            rawMarks: null,
+            awaitingMarking: true,
+          },
+        }),
+      ),
+    );
+    render(finishedAttempt);
+
+    expect(await screen.findByText(/waits for a teacher to mark/)).toBeInTheDocument();
+  });
+
   it('says so when the attempt cannot be loaded', async () => {
     server.use(
       http.get(ATTEMPT_URL, () =>
@@ -247,5 +316,121 @@ describe('taking a quiz', () => {
     );
 
     expect(await screen.findByText(/could not be loaded/)).toBeInTheDocument();
+  });
+});
+
+const renderAsTeacher = () => {
+  server.use(
+    http.get(
+      `/api/proxy/api/v1/institutions/:institutionId/course-offerings/:offeringId`,
+      () => HttpResponse.json({ ...courseOffering, viewerRole: 'teacher' }),
+    ),
+  );
+
+  return renderWithProviders(
+    <QuizAttemptView
+      institutionId={INSTITUTION}
+      offeringId={OFFERING}
+      spaceId={SPACE}
+      quizId={QUIZ_ID}
+      attemptId={ATTEMPT_ID}
+    />,
+  );
+};
+
+const captureMarks = () => {
+  const marks: { position: string; body: unknown }[] = [];
+  server.use(
+    http.put(`${ATTEMPT_URL}/questions/:position/mark`, async ({ request, params }) => {
+      marks.push({ position: String(params['position']), body: await request.json() });
+      return HttpResponse.json(attemptForMarking);
+    }),
+  );
+
+  return marks;
+};
+
+describe('QuizAttemptView for the course’s teachers', () => {
+  it('shows each answer beside the right one, and marks an essay with a comment', async () => {
+    const marks = captureMarks();
+    const user = userEvent.setup();
+    const { container } = renderAsTeacher();
+
+    expect(await screen.findByText('Marek Novák, attempt 2')).toBeInTheDocument();
+    expect(screen.getByText(/1 question waits for your mark/)).toBeInTheDocument();
+    const first = screen.getByRole('region', { name: 'Question 1' });
+    expect(within(first).getByText('Θ(n)')).toBeInTheDocument();
+    expect(within(first).getByText('Θ(log n)')).toBeInTheDocument();
+    expect(within(first).getByText('Incorrect')).toBeInTheDocument();
+
+    const essay = screen.getByRole('region', { name: 'Question 2' });
+    expect(
+      within(essay).getByText('A settled vertex stays settled.'),
+    ).toBeInTheDocument();
+    await user.type(within(essay).getByLabelText('Mark'), '5');
+    await user.click(within(essay).getByRole('button', { name: 'Save the mark' }));
+    expect(within(essay).getByRole('alert')).toHaveTextContent(
+      'Give a mark from 0 to 4.',
+    );
+    expect(marks).toEqual([]);
+
+    await user.clear(within(essay).getByLabelText('Mark'));
+    await user.type(within(essay).getByLabelText('Mark'), '3,5');
+    await user.type(
+      within(essay).getByLabelText('Comment for the student (optional)'),
+      'Good.',
+    );
+    await user.click(within(essay).getByRole('button', { name: 'Save the mark' }));
+    await waitFor(() => {
+      expect(marks).toEqual([{ position: '1', body: { mark: 3.5, comment: 'Good.' } }]);
+    });
+    await expectNoAxeViolations(container);
+  });
+
+  it('asks why before changing an automatic mark', async () => {
+    const marks = captureMarks();
+    const user = userEvent.setup();
+    renderAsTeacher();
+
+    const first = await screen.findByRole('region', { name: 'Question 1' });
+    await user.type(within(first).getByLabelText('Change the mark'), '1');
+    await user.click(within(first).getByRole('button', { name: 'Save the mark' }));
+    expect(within(first).getByRole('alert')).toHaveTextContent(
+      'Say why the automatic mark changes.',
+    );
+
+    await user.type(within(first).getByLabelText('Why the mark changes'), 'Ambiguous.');
+    await user.click(within(first).getByRole('button', { name: 'Save the mark' }));
+    await waitFor(() => {
+      expect(marks).toEqual([
+        { position: '0', body: { mark: 1, comment: 'Ambiguous.' } },
+      ]);
+    });
+  });
+
+  it('takes a changed mark away', async () => {
+    const marks = captureMarks();
+    server.use(
+      http.get(`${ATTEMPT_URL}/marking`, () =>
+        HttpResponse.json({
+          ...attemptForMarking,
+          questions: [
+            { ...attemptForMarking.questions[0]!, manualMark: 1, comment: 'Ambiguous.' },
+            attemptForMarking.questions[1],
+          ],
+        }),
+      ),
+    );
+    const user = userEvent.setup();
+    renderAsTeacher();
+
+    const first = await screen.findByRole('region', { name: 'Question 1' });
+    expect(within(first).getByLabelText('Change the mark')).toHaveValue('1');
+    await user.click(
+      within(first).getByRole('button', { name: 'Go back to the automatic mark' }),
+    );
+    await waitFor(() => {
+      expect(marks).toEqual([{ position: '0', body: { mark: null, comment: null } }]);
+    });
   });
 });

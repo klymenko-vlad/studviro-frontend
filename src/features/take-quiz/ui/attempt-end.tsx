@@ -35,7 +35,6 @@ export function AttemptEnd({
         {attempt.finishedAt === null || attempt.closedBy === null ? null : (
           <p>{t(attempt.closedBy, { when: when(attempt.finishedAt) })}</p>
         )}
-        <p className="text-muted-foreground text-sm">{t('results')}</p>
         <Button asChild variant="outline" className="self-start">
           <Link href={backHref}>{t('back')}</Link>
         </Button>

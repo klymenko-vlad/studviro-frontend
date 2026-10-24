@@ -5,9 +5,13 @@ import type {
   QuestionCategoryResponseDto,
   QuestionResponseDto,
   QuestionSummaryDto,
+  QuizAttemptMarkingResponseDto,
   QuizAttemptResponseDto,
+  QuizAttemptReviewResponseDto,
   QuizAttemptRowDto,
   QuizAttemptStandingDto,
+  QuizQuestionResultDto,
+  QuizRegradeResponseDto,
   QuizResponseDto,
   QuizSlotResponseDto,
   SaveQuizAnswerDto,
@@ -55,6 +59,13 @@ export const offeringQuizzes: QuizResponseDto[] = [
       shuffleQuestions: false,
       shuffleChoices: true,
       layout: 'one_per_page',
+      review: {
+        responses: 'immediately',
+        correctness: 'immediately',
+        correctAnswer: 'after_close',
+        feedback: 'never',
+        overallMark: 'after_close',
+      },
       questionCount: 5,
       attempts: 'open',
     },
@@ -222,6 +233,144 @@ export const finishedAttempt: QuizAttemptResponseDto = {
   questions: [],
 };
 
+const noKey = {
+  choices: null,
+  value: null,
+  texts: null,
+  number: null,
+  tolerance: null,
+  pairs: null,
+};
+const noAnswer = { choice: null, choices: null, value: null, text: null, pairs: null };
+
+export const attemptReview: QuizAttemptReviewResponseDto = {
+  id: ATTEMPT_ID,
+  quizId: QUIZ_ID,
+  attempt: 2,
+  startedAt: '2026-10-24T08:00:00.000Z',
+  finishedAt: '2026-10-24T08:07:00.000Z',
+  closedBy: 'student',
+  shown: {
+    responses: true,
+    correctness: true,
+    correctAnswer: true,
+    feedback: true,
+    overallMark: true,
+  },
+  revealsAt: null,
+  score: { rawMarks: 3, maxMarks: 5, points: 6, maxPoints: 10, awaitingMarking: false },
+  questions: [
+    {
+      position: 0,
+      type: 'single_choice',
+      text: 'How many comparisons does binary search make?',
+      mark: 1,
+      choices: [part(1, 'Θ(n)'), part(0, 'Θ(log n)')],
+      prompts: [],
+      answers: [],
+      response: { ...noAnswer, choice: 1 },
+      outcome: 'wrong',
+      awarded: 0,
+      key: { ...noKey, choices: [0] },
+      generalFeedback: 'It halves the range.',
+      specificFeedback: ['That is a scan.'],
+      comment: null,
+    },
+    {
+      position: 1,
+      type: 'essay',
+      text: 'Explain Dijkstra.',
+      mark: 4,
+      choices: [],
+      prompts: [],
+      answers: [],
+      response: { ...noAnswer, text: 'A settled vertex stays settled.' },
+      outcome: 'partial',
+      awarded: 3,
+      key: null,
+      generalFeedback: null,
+      specificFeedback: [],
+      comment: 'Say why a negative edge breaks it.',
+    },
+  ],
+};
+
+export const attemptForMarking: QuizAttemptMarkingResponseDto = {
+  id: ATTEMPT_ID,
+  attempt: 2,
+  state: 'finished',
+  startedAt: '2026-10-24T08:00:00.000Z',
+  finishedAt: '2026-10-24T08:07:00.000Z',
+  closedBy: 'student',
+  student: {
+    id: '5e5e5e5e-0001-4001-8001-000000000001',
+    displayName: 'Marek Novák',
+    email: 'marek.novak0017@mocku.example',
+  },
+  maxMarks: 5,
+  rawMarks: 0,
+  points: 0,
+  needsMarking: true,
+  missingQuestions: 0,
+  score: {
+    rawMarks: null,
+    maxMarks: 5,
+    points: null,
+    maxPoints: 10,
+    awaitingMarking: true,
+  },
+  questions: [
+    {
+      ...attemptReview.questions[0]!,
+      comment: null,
+      autoMark: 0,
+      manualMark: null,
+      markedAt: null,
+    },
+    {
+      ...attemptReview.questions[1]!,
+      outcome: 'needs_marking',
+      awarded: null,
+      comment: null,
+      autoMark: null,
+      manualMark: null,
+      markedAt: null,
+    },
+  ],
+};
+
+export const regradePreview: QuizRegradeResponseDto = {
+  outdatedAttempts: 3,
+  incompatible: 1,
+  regradedAttempts: 2,
+  changedAttempts: 2,
+  changedStudents: 2,
+  largestRise: 2.5,
+  largestFall: 0,
+  applied: false,
+};
+
+export const questionResults: QuizQuestionResultDto[] = [
+  {
+    questionId: QUESTION_ID,
+    name: 'Binary search cost',
+    type: 'single_choice',
+    attempts: 4,
+    fullyRight: 3,
+    awaitingMarking: 0,
+    fullyRightPercent: 75,
+    averageMark: 0.75,
+    averageOutOf: 1,
+    distribution: {
+      options: [
+        { text: 'Θ(log n)', value: null, correct: true, count: 3 },
+        { text: 'Θ(n)', value: null, correct: false, count: 1 },
+      ],
+      unanswered: 0,
+    },
+  },
+];
+
 export const myQuizAttempts: MyQuizAttemptDto[] = [
   {
     id: 'a77e0001-0001-4001-8001-000000000000',
@@ -230,6 +379,16 @@ export const myQuizAttempts: MyQuizAttemptDto[] = [
     startedAt: '2026-10-08T07:00:00.000Z',
     finishedAt: '2026-10-08T07:07:00.000Z',
     closedBy: 'student',
+    review: {
+      available: true,
+      score: {
+        rawMarks: 5,
+        maxMarks: 8,
+        points: 6.25,
+        maxPoints: 10,
+        awaitingMarking: false,
+      },
+    },
   },
 ];
 
@@ -242,7 +401,12 @@ export const attemptStanding: QuizAttemptStandingDto = {
 
 export const quizAttemptRows: QuizAttemptRowDto[] = [
   {
-    ...myQuizAttempts[0]!,
+    id: myQuizAttempts[0]!.id,
+    attempt: 1,
+    state: 'finished',
+    startedAt: myQuizAttempts[0]!.startedAt,
+    finishedAt: myQuizAttempts[0]!.finishedAt,
+    closedBy: 'student',
     student: {
       id: '5e5e5e5e-0001-4001-8001-000000000001',
       displayName: 'Marek Novák',
@@ -264,6 +428,22 @@ export const quizHandlers = [
     HttpResponse.json(page(quizAttemptRows)),
   ),
   http.post(`${SPACE}/quizzes/:quizId/attempts`, () => HttpResponse.json(quizAttempt)),
+  http.get(`${SPACE}/quizzes/:quizId/attempts/:attemptId/marking`, () =>
+    HttpResponse.json(attemptForMarking),
+  ),
+  http.put(`${SPACE}/quizzes/:quizId/attempts/:attemptId/questions/:position/mark`, () =>
+    HttpResponse.json(attemptForMarking),
+  ),
+  http.get(`${SPACE}/quizzes/:quizId/regrade`, () => HttpResponse.json(regradePreview)),
+  http.post(`${SPACE}/quizzes/:quizId/regrade`, () =>
+    HttpResponse.json({ ...regradePreview, applied: true }),
+  ),
+  http.get(`${SPACE}/quizzes/:quizId/results`, () =>
+    HttpResponse.json(page(questionResults)),
+  ),
+  http.get(`${SPACE}/quizzes/:quizId/attempts/:attemptId/review`, () =>
+    HttpResponse.json(attemptReview),
+  ),
   http.get(`${SPACE}/quizzes/:quizId/attempts/:attemptId`, () =>
     HttpResponse.json(quizAttempt),
   ),

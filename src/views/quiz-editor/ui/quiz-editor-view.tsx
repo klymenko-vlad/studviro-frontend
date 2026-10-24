@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 
 import { PageTrail } from '@/widgets/page-trail';
 import { QuizActions, QuizForm, QuizQuestions } from '@/features/manage-quizzes';
-import { QuizAttempts } from '@/features/review-quiz-attempts';
+import { QuizAttempts, QuizRegrade, QuizResults } from '@/features/review-quiz-attempts';
 import {
   authorsOffering,
   courseOfferingHref,
@@ -42,6 +42,7 @@ export function QuizEditorView({
   const t = useTranslations('quiz.editor');
   const tQuestions = useTranslations('quiz.questions');
   const tAttempts = useTranslations('quiz.attemptList');
+  const tResults = useTranslations('quiz.results');
   const router = useRouter();
   const offering = useQuery(
     courseOfferingQueries.detail({ path: { institutionId, offeringId } }),
@@ -98,6 +99,7 @@ export function QuizEditorView({
               </Link>
             </Button>
           </div>
+          <QuizRegrade institutionId={institutionId} spaceId={spaceId} quiz={quiz.data} />
           <Card>
             <CardHeader>
               <CardTitle className="text-base">{tQuestions('title')}</CardTitle>
@@ -118,6 +120,20 @@ export function QuizEditorView({
             </CardHeader>
             <CardContent>
               <QuizAttempts
+                institutionId={institutionId}
+                offeringId={offeringId}
+                spaceId={spaceId}
+                quiz={quiz.data}
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">{tResults('title')}</CardTitle>
+              <CardDescription>{tResults('description')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <QuizResults
                 institutionId={institutionId}
                 spaceId={spaceId}
                 quiz={quiz.data}
