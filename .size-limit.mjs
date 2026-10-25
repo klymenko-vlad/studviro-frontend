@@ -344,9 +344,16 @@ const budgets = [
     // Measured at **706.56 kB**, +3.76 kB over CB8's 702.8 kB. The preview and
     // the result are one report component, the visibility choice reuses
     // `Switch`, and nothing is a dialog; no dependency and no primitive added.
+    //
+    // Raised from 707 kB to 718 kB on 2026-10-25 when `dev` was merged into the
+    // course builder branch. Measured at **717.36 kB**, +10.8 kB over CB10's
+    // 706.56 kB. None of it is course builder code: it is the five `dev` commits
+    // since `5dfccf9` (the collapsible sidebar and account page, the teacher
+    // profile, the programme roster and the phone-width tab and table fixes),
+    // which landed on `dev` under its 605 kB entry without raising it.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '707 kB',
+    limit: '718 kB',
     gzip: true,
   },
 ];

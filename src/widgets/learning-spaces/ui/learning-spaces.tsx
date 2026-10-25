@@ -94,7 +94,7 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
                     {space.shortName ?? t('none')}
                   </span>
                 </TableCell>
-                <TableCell>
+                <TableCell label={t('column.offering')} wide>
                   {isUnlinked(space) ? (
                     <Badge variant="outline">{t('unlinkedBadge')}</Badge>
                   ) : (
@@ -113,8 +113,10 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
                     </>
                   )}
                 </TableCell>
-                <TableCell>{space.activityCount}</TableCell>
-                <TableCell>
+                <TableCell label={t('column.activities')}>
+                  {space.activityCount}
+                </TableCell>
+                <TableCell label={t('column.nextDue')}>
                   {due === null
                     ? t('none')
                     : format.dateTime(due, { dateStyle: 'medium', timeStyle: 'short' })}

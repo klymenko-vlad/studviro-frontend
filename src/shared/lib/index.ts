@@ -1,6 +1,7 @@
 export { fromLocalInput, toLocalInput } from './time/local-input';
 export { toWallTime, wallTimeToInstant, type WallTime } from './time/zoned-time';
 export { cn } from './utils/cn';
+export { initials } from './utils/initials';
 export { swapPositions } from './utils/swap-positions';
 export {
   addLogSink,

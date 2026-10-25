@@ -143,6 +143,15 @@ describe('MyCalendar', () => {
     expect(await screen.findByTestId('calendar-week')).toHaveTextContent('Mar 2');
   });
 
+  it('offers a way back to this week only once the reader has left it', async () => {
+    renderCalendar();
+
+    expect(await screen.findByRole('button', { name: 'This week' })).toBeDisabled();
+
+    await userEvent.click(screen.getByRole('button', { name: 'Next week' }));
+    expect(screen.getByRole('button', { name: 'This week' })).toBeEnabled();
+  });
+
   it('explains an empty week instead of showing a bare heading', async () => {
     server.use(
       http.get(EVENTS_URL, () => HttpResponse.json([])),

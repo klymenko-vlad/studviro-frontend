@@ -60,6 +60,25 @@ describe('AppHeaderBar', () => {
     );
   });
 
+  it('marks the bell as the current page on the notifications screen', async () => {
+    pathname.value = `/institutions/${INSTITUTION}/notifications`;
+    renderWithProviders(<AppHeaderBar {...SIGNED_IN} />);
+
+    expect(await screen.findByRole('link', { name: /^Notifications/ })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+  });
+
+  it('leaves the bell unmarked elsewhere in the institution', async () => {
+    pathname.value = `/institutions/${INSTITUTION}/courses`;
+    renderWithProviders(<AppHeaderBar {...SIGNED_IN} />);
+
+    expect(
+      await screen.findByRole('link', { name: /^Notifications/ }),
+    ).not.toHaveAttribute('aria-current');
+  });
+
   it('offers a signed-out visitor sign in and sign up', () => {
     renderWithProviders(<AppHeaderBar signedIn={false} />);
 

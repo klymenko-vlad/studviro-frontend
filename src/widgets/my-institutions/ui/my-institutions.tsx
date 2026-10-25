@@ -1,50 +1,52 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { Building2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { institutionQueries } from '@/entities/institution';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  ListSkeleton,
-} from '@/shared/ui';
+import { roleAssignmentQueries, type RoleAssignment } from '@/entities/role-assignment';
+import { EmptyState, ListSkeleton } from '@/shared/ui';
 
-import { InstitutionRow } from './institution-row';
+import { InstitutionCard } from './institution-card';
 
 export function MyInstitutions() {
   const t = useTranslations('account');
   const { data, isPending } = useQuery(institutionQueries.mine());
+  const roles = useQuery(roleAssignmentQueries.mine());
 
   const institutions = data ?? [];
+  const rolesIn = (institutionId: string): RoleAssignment[] =>
+    (roles.data ?? []).filter(role => role.institutionId === institutionId);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{t('institutions.title')}</CardTitle>
-        <CardDescription>{t('institutions.description')}</CardDescription>
-      </CardHeader>
+    <section aria-labelledby="my-institutions" className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1">
+        <h2 id="my-institutions" className="type-section">
+          {t('institutions.title')}
+        </h2>
+        <p className="text-muted-foreground text-sm">{t('institutions.description')}</p>
+      </div>
 
-      <CardContent>
-        {isPending ? (
-          <ListSkeleton items={2} data-testid="my-institutions-loading" />
-        ) : null}
-
-        {!isPending && institutions.length === 0 ? (
-          <p className="text-muted-foreground text-sm">{t('institutions.empty')}</p>
-        ) : null}
-
-        {institutions.length > 0 ? (
-          <ul className="divide-border divide-y">
-            {institutions.map(institution => (
-              <InstitutionRow key={institution.id} institution={institution} />
-            ))}
-          </ul>
-        ) : null}
-      </CardContent>
-    </Card>
+      {isPending ? (
+        <ListSkeleton items={1} data-testid="my-institutions-loading" />
+      ) : institutions.length === 0 ? (
+        <EmptyState
+          icon={<Building2 aria-hidden />}
+          title={t('institutions.empty')}
+          description={t('institutions.emptyDescription')}
+        />
+      ) : (
+        <ul className="stagger flex flex-col gap-4">
+          {institutions.map(institution => (
+            <InstitutionCard
+              key={institution.id}
+              institution={institution}
+              roles={rolesIn(institution.id)}
+            />
+          ))}
+        </ul>
+      )}
+    </section>
   );
 }

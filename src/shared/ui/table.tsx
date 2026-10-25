@@ -14,8 +14,13 @@ import { cn } from '@/shared/lib';
  * It is focusable at every width rather than only when it overflows, which
  * would need a measurement in render; the cost is one extra tab stop per table.
  *
- * `scroll-affordance-x` is the visible cue that there is more to the side —
- * the reason a five-column table is usable on a phone at all.
+ * In a narrow container the table stacks: each row becomes a block, the cell
+ * without a `label` is its title, and every labelled cell shows its column
+ * name above the value (`table-stack` in `globals.css`). A `wide` cell, such
+ * as one holding a form, takes the full width instead of half. It is a container
+ * query, so a table in a narrow card stacks on a wide screen too. Wider than
+ * that, a table that still does not fit scrolls, with `scroll-affordance-x`
+ * as the cue.
  *
  * `tabular-nums` is on the table rather than on each numeric column: in a
  * grid of credits, capacities and counts, proportional digits do not line up
@@ -34,7 +39,7 @@ function Table({
       role="region"
       aria-label={label}
       tabIndex={0}
-      className="scroll-affordance-x focus-visible:ring-ring/50 relative w-full overflow-x-auto rounded-md focus-visible:ring-[3px] focus-visible:outline-none"
+      className="table-stack scroll-affordance-x focus-visible:ring-ring/50 relative w-full overflow-x-auto rounded-md focus-visible:ring-[3px] focus-visible:outline-none"
     >
       <table
         data-slot="table"
@@ -104,10 +109,17 @@ function TableHead({ className, ...props }: React.ComponentProps<'th'>) {
   );
 }
 
-function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
+function TableCell({
+  className,
+  label,
+  wide = false,
+  ...props
+}: React.ComponentProps<'td'> & { label?: string; wide?: boolean }) {
   return (
     <td
       data-slot="table-cell"
+      data-label={label}
+      data-wide={wide || undefined}
       className={cn(
         'p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
         className,

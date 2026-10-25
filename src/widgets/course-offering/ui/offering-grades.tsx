@@ -98,13 +98,13 @@ function StudentRow({
         <span className="text-muted-foreground block text-xs">{student.email}</span>
       </TableCell>
 
-      <TableCell>
+      <TableCell label={t('column.attempt')}>
         {attempt === null
           ? t('attemptNone')
           : t('attemptNumber', { attempt: attempt.attempt })}
       </TableCell>
 
-      <TableCell className="flex flex-wrap items-center gap-2">
+      <TableCell label={t('column.standing')}>
         {attempt?.isVoided ? (
           <Badge variant="destructive">{t('annulled')}</Badge>
         ) : standing === null ? (
@@ -116,7 +116,7 @@ function StudentRow({
         )}
       </TableCell>
 
-      <TableCell>
+      <TableCell label={t('column.record')} wide>
         <GradeEntryCell
           institutionId={institutionId}
           offeringId={offeringId}

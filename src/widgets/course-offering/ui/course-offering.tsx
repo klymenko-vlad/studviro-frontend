@@ -3,7 +3,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
-import { authorsOffering, courseOfferingQueries } from '@/entities/course-offering';
+import {
+  authorsOffering,
+  courseOfferingQueries,
+  takesPartInDiscussion,
+} from '@/entities/course-offering';
 import { toApiError } from '@/shared/api';
 import { Alert, AlertDescription, AlertTitle, Skeleton } from '@/shared/ui';
 
@@ -134,12 +138,19 @@ export function CourseOffering({
               </>
             ),
           },
-          {
-            key: 'discussion',
-            content: (
-              <OfferingDiscussion institutionId={institutionId} offeringId={offeringId} />
-            ),
-          },
+          ...(takesPartInDiscussion(data)
+            ? ([
+                {
+                  key: 'discussion',
+                  content: (
+                    <OfferingDiscussion
+                      institutionId={institutionId}
+                      offeringId={offeringId}
+                    />
+                  ),
+                },
+              ] as const)
+            : []),
           ...(authorsOffering(data.viewerRole)
             ? ([
                 {

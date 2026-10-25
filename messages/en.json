@@ -44,6 +44,8 @@
     "sections": "Sections",
     "sectionsDescription": "Every screen of this institution you can open.",
     "more": "More",
+    "collapseSidebar": "Collapse sidebar",
+    "expandSidebar": "Expand sidebar",
     "tabBarLabel": "Main sections",
     "groups": {
       "studies": "My studies",
@@ -189,17 +191,9 @@
   },
   "account": {
     "title": "Account",
-    "subtitle": "Your roles across institutions and the accounts linked to this profile.",
-    "roles": {
-      "title": "Roles",
-      "description": "What you are allowed to do, and where.",
-      "empty": "No roles have been assigned to you yet.",
-      "errorTitle": "Roles could not be loaded",
-      "errorDescription": "Try again in a moment."
-    },
     "linkedAccounts": {
-      "title": "Linked accounts",
-      "description": "University accounts that can sign in to this profile.",
+      "title": "University sign-in",
+      "description": "University accounts you can sign in with instead of a password.",
       "empty": "No university account is linked yet.",
       "errorTitle": "Linked accounts could not be loaded",
       "errorDescription": "Try again in a moment.",
@@ -213,16 +207,23 @@
       "lms": "Learning management system"
     },
     "institutions": {
-      "title": "Institutions",
-      "description": "Where you hold a role.",
+      "title": "Your institutions",
+      "description": "Open one to see your courses, grades and timetable.",
       "empty": "You do not belong to any institution yet.",
       "manageRoles": "Manage roles",
       "manageSettings": "Settings",
       "myCourses": "My courses",
       "myGrades": "My grades",
-      "dashboard": "Dashboard"
+      "dashboard": "Dashboard",
+      "emptyDescription": "Once a school adds you, it appears here.",
+      "open": "Open dashboard"
     },
-    "settingsLink": "Settings and security"
+    "settingsLink": "Settings and security",
+    "dataExport": {
+      "title": "Download your data",
+      "description": "A copy of everything an institution holds about you, as a file you can keep.",
+      "empty": "There is nothing to download until you join an institution."
+    }
   },
   "roles": {
     "role": {
@@ -704,7 +705,8 @@
     "view": {
       "week": "Week",
       "list": "List"
-    }
+    },
+    "weekNavigation": "Move between weeks"
   },
   "exams": {
     "title": "Exams",
@@ -2334,6 +2336,15 @@
       "points": "0",
       "feedback": "What they did well, and what to fix."
     }
+  },
+  "teacherProfile": {
+    "courses": "Courses",
+    "departments": "Departments",
+    "noCourses": "No courses on record.",
+    "notFoundTitle": "No such teacher",
+    "notFoundDescription": "Nobody with this profile teaches at this institution.",
+    "errorTitle": "The profile could not be loaded",
+    "errorDescription": "Try again in a moment."
   },
   "search": {
     "title": "Search",

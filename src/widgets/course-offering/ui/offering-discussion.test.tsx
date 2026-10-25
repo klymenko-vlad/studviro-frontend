@@ -2,7 +2,7 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, it, vi } from 'vitest';
 
 import type * as SharedConfig from '@/shared/config';
-import { renderWithProviders, screen, server } from '@/shared/test';
+import { renderWithProviders, screen, server, within } from '@/shared/test';
 
 import { OfferingDiscussion } from './offering-discussion';
 
@@ -112,6 +112,22 @@ describe('OfferingDiscussion', () => {
 
     const { user } = renderDiscussion();
     await user.click(await screen.findByRole('button', { name: 'Question 3' }));
+
+    expect(replace).toHaveBeenCalledWith(
+      `/institutions/i/courses/o?section=discussion&thread=${THREAD}`,
+      { scroll: false },
+    );
+  });
+
+  it('opens a thread from anywhere on its row, not only its title', async () => {
+    search.value = 'section=discussion';
+    server.use(
+      http.get(BASE, () => HttpResponse.json({ canModerate: false, threads: [summary] })),
+    );
+
+    const { user } = renderDiscussion();
+    const row = await screen.findByRole('button', { name: 'Question 3' });
+    await user.click(within(row).getByText(/posts? · last activity/));
 
     expect(replace).toHaveBeenCalledWith(
       `/institutions/i/courses/o?section=discussion&thread=${THREAD}`,

@@ -34,9 +34,9 @@ function signInAs(roles: string[], granted: string[]) {
   );
 }
 
-function renderFrame() {
+function renderFrame({ defaultCollapsed = false } = {}) {
   return renderWithProviders(
-    <InstitutionFrame institutionId={INSTITUTION}>
+    <InstitutionFrame institutionId={INSTITUTION} defaultCollapsed={defaultCollapsed}>
       <main id="main-content">content</main>
     </InstitutionFrame>,
   );
@@ -54,6 +54,57 @@ async function tabBar() {
 describe('InstitutionFrame', () => {
   afterEach(() => {
     pathname.value = `/institutions/${INSTITUTION}`;
+    document.cookie = 'studviro-sidebar=; max-age=0; path=/';
+    document.cookie = 'studviro-institution=; max-age=0; path=/';
+  });
+
+  it('collapses the sidebar to its icons and remembers the choice', async () => {
+    const user = userEvent.setup();
+    renderFrame();
+    await sidebar();
+
+    await user.click(screen.getByRole('button', { name: 'Collapse sidebar' }));
+
+    expect(screen.getByRole('button', { name: 'Expand sidebar' })).toBeInTheDocument();
+    expect((await sidebar()).getByRole('link', { name: 'Home' })).toBeInTheDocument();
+    expect(document.cookie).toContain('studviro-sidebar=collapsed');
+
+    await user.click(screen.getByRole('button', { name: 'Expand sidebar' }));
+
+    expect(screen.getByRole('button', { name: 'Collapse sidebar' })).toBeInTheDocument();
+    expect(document.cookie).toContain('studviro-sidebar=expanded');
+  });
+
+  it('carries the brand at the head of the sidebar, leading to the institution’s home', async () => {
+    renderFrame();
+    await sidebar();
+
+    expect(
+      within(screen.getByRole('complementary')).getByRole('link', {
+        name: 'StudViro home',
+      }),
+    ).toHaveAttribute('href', `/institutions/${INSTITUTION}`);
+  });
+
+  it('remembers the institution, so pages outside one can keep its sidebar', async () => {
+    renderFrame();
+    await sidebar();
+
+    expect(document.cookie).toContain(`studviro-institution=${INSTITUTION}`);
+  });
+
+  it('opens collapsed when that was the last choice, naming each icon on hover', async () => {
+    const user = userEvent.setup();
+    renderFrame({ defaultCollapsed: true });
+
+    const nav = await sidebar();
+    expect(screen.getByRole('button', { name: 'Expand sidebar' })).toBeInTheDocument();
+
+    await user.hover(nav.getByRole('link', { name: 'Teaching offer' }));
+
+    expect(
+      await screen.findByRole('tooltip', { name: 'Teaching offer' }),
+    ).toBeInTheDocument();
   });
 
   it('renders the page beside the sections', async () => {
@@ -174,9 +225,9 @@ describe('InstitutionFrame', () => {
 });
 
 describe('InstitutionFrame accessibility', () => {
-  it('has no axe violations', async () => {
+  it.each([false, true])('has no axe violations (collapsed: %s)', async collapsed => {
     await renderAndAudit(
-      <InstitutionFrame institutionId={INSTITUTION}>
+      <InstitutionFrame institutionId={INSTITUTION} defaultCollapsed={collapsed}>
         <main id="main-content">content</main>
       </InstitutionFrame>,
       () => screen.findAllByRole('link', { name: 'Home' }),

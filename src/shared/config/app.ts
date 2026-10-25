@@ -59,6 +59,7 @@ export const institutionRoutes = (institutionId: string) => {
     terms: `${base}/structure?tab=terms`,
     orgUnits: `${base}/structure`,
     people: `${base}/people`,
+    teacher: (userId: string) => `${base}/teachers/${userId}`,
     search: `${base}/search`,
     audit: `${base}/settings?tab=audit`,
     bulk: `${base}/settings?tab=bulk`,
@@ -79,3 +80,16 @@ export const QUERY_STALE_TIME = 60_000;
  * middleware bundle.
  */
 export const THEME_STORAGE_KEY = 'studviro-theme';
+
+/**
+ * Cookie the institution sidebar's collapsed state persists under. A cookie
+ * rather than localStorage so the server renders the sidebar the way it was
+ * left, instead of painting it open and snapping it shut after hydration.
+ */
+export const SIDEBAR_COOKIE = 'studviro-sidebar';
+
+/**
+ * Cookie naming the institution a person last worked in, so pages that belong
+ * to the person rather than an institution (`/account`) keep its sidebar.
+ */
+export const LAST_INSTITUTION_COOKIE = 'studviro-institution';
