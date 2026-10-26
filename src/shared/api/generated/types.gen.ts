@@ -1907,7 +1907,11 @@ export type DiscussionThreadSummaryDto = {
 
 export type DiscussionThreadListDto = {
     canModerate: boolean;
-    threads: Array<DiscussionThreadSummaryDto>;
+    /**
+     * Most recently active first.
+     */
+    items: Array<DiscussionThreadSummaryDto>;
+    meta: CursorPageMetaDto;
 };
 
 export type DiscussionAttachmentClaimDto = {
@@ -1962,6 +1966,18 @@ export type DiscussionPostDto = {
      * Empty when the text is withheld from this reader.
      */
     attachments: Array<DiscussionAttachmentDto>;
+    /**
+     * The top-level post this reply is gathered under; null for a top-level post.
+     */
+    parentPostId: string | null;
+    /**
+     * Replies gathered under a top-level post; 0 for a reply.
+     */
+    replyCount: number;
+    /**
+     * The reply this one answers, inside the same group.
+     */
+    quote: DiscussionQuoteDto | null;
 };
 
 export type DiscussionThreadDto = {
@@ -1976,12 +1992,15 @@ export type DiscussionThreadDto = {
      */
     hidden: boolean;
     canModerate: boolean;
-    posts: Array<DiscussionPostDto>;
 };
 
 export type CreateDiscussionPostDto = {
     attachments?: Array<DiscussionAttachmentClaimDto>;
     body: string;
+    /**
+     * Answer this post. A top-level post gathers the reply under it; a reply keeps the new one in the same group and quotes it.
+     */
+    replyToPostId?: string;
 };
 
 export type EditDiscussionThreadDto = {
@@ -2117,10 +2136,6 @@ export type TeacherProfileResponseDto = {
     displayName: string;
     email: string;
     departments: Array<TeacherDepartmentDto>;
-    /**
-     * Newest term first.
-     */
-    offerings: Array<TeacherOfferingDto>;
 };
 
 export type TeacherDepartmentDto = {
@@ -2138,6 +2153,32 @@ export type TeacherOfferingDto = {
      * Whether the caller may open this course page: they teach it, are or were enrolled on it, or administer offerings.
      */
     viewerCanOpen: boolean;
+};
+
+export type TeacherOfferingPageDto = {
+    /**
+     * Newest term first.
+     */
+    items: Array<TeacherOfferingDto>;
+    meta: CursorPageMetaDto;
+};
+
+export type DiscussionQuoteDto = {
+    postId: string;
+    author: DiscussionAuthorDto;
+    /**
+     * The start of the quoted text; null when it is deleted or withheld.
+     */
+    excerpt: string | null;
+    state: 'visible' | 'hidden' | 'deleted';
+};
+
+export type DiscussionPostPageDto = {
+    /**
+     * Oldest first.
+     */
+    items: Array<DiscussionPostDto>;
+    meta: CursorPageMetaDto;
 };
 
 export type CreateUserDtoWritable = {
@@ -7356,442 +7397,6 @@ export type GetCalendarFeedResponses = {
 
 export type GetCalendarFeedResponse = GetCalendarFeedResponses[keyof GetCalendarFeedResponses];
 
-export type ListDiscussionThreadsData = {
-    body?: never;
-    path: {
-        institutionId: string;
-        offeringId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads';
-};
-
-export type ListDiscussionThreadsErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ListDiscussionThreadsError = ListDiscussionThreadsErrors[keyof ListDiscussionThreadsErrors];
-
-export type ListDiscussionThreadsResponses = {
-    200: DiscussionThreadListDto;
-};
-
-export type ListDiscussionThreadsResponse = ListDiscussionThreadsResponses[keyof ListDiscussionThreadsResponses];
-
-export type StartDiscussionThreadData = {
-    body: CreateDiscussionThreadDto;
-    path: {
-        institutionId: string;
-        offeringId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads';
-};
-
-export type StartDiscussionThreadErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type StartDiscussionThreadError = StartDiscussionThreadErrors[keyof StartDiscussionThreadErrors];
-
-export type StartDiscussionThreadResponses = {
-    201: DiscussionThreadDto;
-};
-
-export type StartDiscussionThreadResponse = StartDiscussionThreadResponses[keyof StartDiscussionThreadResponses];
-
-export type CreateDiscussionAttachmentTicketData = {
-    body: RequestUploadTicketDto;
-    path: {
-        institutionId: string;
-        offeringId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/attachment-tickets';
-};
-
-export type CreateDiscussionAttachmentTicketErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Conflicts with an existing record.
-     */
-    409: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type CreateDiscussionAttachmentTicketError = CreateDiscussionAttachmentTicketErrors[keyof CreateDiscussionAttachmentTicketErrors];
-
-export type CreateDiscussionAttachmentTicketResponses = {
-    201: UploadTicketResponseDto;
-};
-
-export type CreateDiscussionAttachmentTicketResponse = CreateDiscussionAttachmentTicketResponses[keyof CreateDiscussionAttachmentTicketResponses];
-
-export type GetDiscussionAttachmentDownloadUrlData = {
-    body?: never;
-    path: {
-        institutionId: string;
-        offeringId: string;
-        threadId: string;
-        postId: string;
-        attachmentId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}/attachments/{attachmentId}/download';
-};
-
-export type GetDiscussionAttachmentDownloadUrlErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type GetDiscussionAttachmentDownloadUrlError = GetDiscussionAttachmentDownloadUrlErrors[keyof GetDiscussionAttachmentDownloadUrlErrors];
-
-export type GetDiscussionAttachmentDownloadUrlResponses = {
-    200: DownloadUrlResponseDto;
-};
-
-export type GetDiscussionAttachmentDownloadUrlResponse = GetDiscussionAttachmentDownloadUrlResponses[keyof GetDiscussionAttachmentDownloadUrlResponses];
-
-export type GetDiscussionThreadData = {
-    body?: never;
-    path: {
-        institutionId: string;
-        offeringId: string;
-        threadId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}';
-};
-
-export type GetDiscussionThreadErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type GetDiscussionThreadError = GetDiscussionThreadErrors[keyof GetDiscussionThreadErrors];
-
-export type GetDiscussionThreadResponses = {
-    200: DiscussionThreadDto;
-};
-
-export type GetDiscussionThreadResponse = GetDiscussionThreadResponses[keyof GetDiscussionThreadResponses];
-
-export type RenameDiscussionThreadData = {
-    body: EditDiscussionThreadDto;
-    path: {
-        institutionId: string;
-        offeringId: string;
-        threadId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}';
-};
-
-export type RenameDiscussionThreadErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Conflicts with an existing record.
-     */
-    409: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type RenameDiscussionThreadError = RenameDiscussionThreadErrors[keyof RenameDiscussionThreadErrors];
-
-export type RenameDiscussionThreadResponses = {
-    200: DiscussionThreadDto;
-};
-
-export type RenameDiscussionThreadResponse = RenameDiscussionThreadResponses[keyof RenameDiscussionThreadResponses];
-
-export type ReplyToDiscussionThreadData = {
-    body: CreateDiscussionPostDto;
-    path: {
-        institutionId: string;
-        offeringId: string;
-        threadId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts';
-};
-
-export type ReplyToDiscussionThreadErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Conflicts with an existing record.
-     */
-    409: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type ReplyToDiscussionThreadError = ReplyToDiscussionThreadErrors[keyof ReplyToDiscussionThreadErrors];
-
-export type ReplyToDiscussionThreadResponses = {
-    201: DiscussionThreadDto;
-};
-
-export type ReplyToDiscussionThreadResponse = ReplyToDiscussionThreadResponses[keyof ReplyToDiscussionThreadResponses];
-
-export type DeleteDiscussionPostData = {
-    body?: never;
-    path: {
-        institutionId: string;
-        offeringId: string;
-        threadId: string;
-        postId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}';
-};
-
-export type DeleteDiscussionPostErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type DeleteDiscussionPostError = DeleteDiscussionPostErrors[keyof DeleteDiscussionPostErrors];
-
-export type DeleteDiscussionPostResponses = {
-    204: void;
-};
-
-export type DeleteDiscussionPostResponse = DeleteDiscussionPostResponses[keyof DeleteDiscussionPostResponses];
-
-export type EditDiscussionPostData = {
-    body: EditDiscussionPostDto;
-    path: {
-        institutionId: string;
-        offeringId: string;
-        threadId: string;
-        postId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}';
-};
-
-export type EditDiscussionPostErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Conflicts with an existing record.
-     */
-    409: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type EditDiscussionPostError = EditDiscussionPostErrors[keyof EditDiscussionPostErrors];
-
-export type EditDiscussionPostResponses = {
-    200: DiscussionThreadDto;
-};
-
-export type EditDiscussionPostResponse = EditDiscussionPostResponses[keyof EditDiscussionPostResponses];
-
-export type SetDiscussionThreadVisibilityData = {
-    body: DiscussionVisibilityDto;
-    path: {
-        institutionId: string;
-        offeringId: string;
-        threadId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/visibility';
-};
-
-export type SetDiscussionThreadVisibilityErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type SetDiscussionThreadVisibilityError = SetDiscussionThreadVisibilityErrors[keyof SetDiscussionThreadVisibilityErrors];
-
-export type SetDiscussionThreadVisibilityResponses = {
-    204: void;
-};
-
-export type SetDiscussionThreadVisibilityResponse = SetDiscussionThreadVisibilityResponses[keyof SetDiscussionThreadVisibilityResponses];
-
-export type SetDiscussionPostVisibilityData = {
-    body: DiscussionVisibilityDto;
-    path: {
-        institutionId: string;
-        offeringId: string;
-        threadId: string;
-        postId: string;
-    };
-    query?: never;
-    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}/visibility';
-};
-
-export type SetDiscussionPostVisibilityErrors = {
-    /**
-     * Validation failed or the payload was malformed.
-     */
-    400: ErrorResponseDto;
-    /**
-     * Not found.
-     */
-    404: ErrorResponseDto;
-    /**
-     * Rate limit exceeded.
-     */
-    429: ErrorResponseDto;
-    /**
-     * Unhandled server error.
-     */
-    500: ErrorResponseDto;
-};
-
-export type SetDiscussionPostVisibilityError = SetDiscussionPostVisibilityErrors[keyof SetDiscussionPostVisibilityErrors];
-
-export type SetDiscussionPostVisibilityResponses = {
-    204: void;
-};
-
-export type SetDiscussionPostVisibilityResponse = SetDiscussionPostVisibilityResponses[keyof SetDiscussionPostVisibilityResponses];
-
 export type SearchData = {
     body?: never;
     path: {
@@ -8125,3 +7730,589 @@ export type GetTeacherProfileResponses = {
 };
 
 export type GetTeacherProfileResponse = GetTeacherProfileResponses[keyof GetTeacherProfileResponses];
+
+export type ListTeacherOfferingsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        userId: string;
+    };
+    query?: {
+        limit?: number;
+        /**
+         * Opaque cursor from a previous page
+         */
+        cursor?: string;
+        order?: SortOrder;
+        /**
+         * Narrows to courses whose title or code contains this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/teachers/{userId}/offerings';
+};
+
+export type ListTeacherOfferingsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListTeacherOfferingsError = ListTeacherOfferingsErrors[keyof ListTeacherOfferingsErrors];
+
+export type ListTeacherOfferingsResponses = {
+    200: TeacherOfferingPageDto;
+};
+
+export type ListTeacherOfferingsResponse = ListTeacherOfferingsResponses[keyof ListTeacherOfferingsResponses];
+
+export type ListDiscussionThreadsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: {
+        limit?: number;
+        /**
+         * Opaque cursor from a previous page
+         */
+        cursor?: string;
+        order?: SortOrder;
+        /**
+         * Narrows to threads whose title contains this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads';
+};
+
+export type ListDiscussionThreadsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListDiscussionThreadsError = ListDiscussionThreadsErrors[keyof ListDiscussionThreadsErrors];
+
+export type ListDiscussionThreadsResponses = {
+    200: DiscussionThreadListDto;
+};
+
+export type ListDiscussionThreadsResponse = ListDiscussionThreadsResponses[keyof ListDiscussionThreadsResponses];
+
+export type StartDiscussionThreadData = {
+    body: CreateDiscussionThreadDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads';
+};
+
+export type StartDiscussionThreadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type StartDiscussionThreadError = StartDiscussionThreadErrors[keyof StartDiscussionThreadErrors];
+
+export type StartDiscussionThreadResponses = {
+    201: DiscussionThreadDto;
+};
+
+export type StartDiscussionThreadResponse = StartDiscussionThreadResponses[keyof StartDiscussionThreadResponses];
+
+export type CreateDiscussionAttachmentTicketData = {
+    body: RequestUploadTicketDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/attachment-tickets';
+};
+
+export type CreateDiscussionAttachmentTicketErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateDiscussionAttachmentTicketError = CreateDiscussionAttachmentTicketErrors[keyof CreateDiscussionAttachmentTicketErrors];
+
+export type CreateDiscussionAttachmentTicketResponses = {
+    201: UploadTicketResponseDto;
+};
+
+export type CreateDiscussionAttachmentTicketResponse = CreateDiscussionAttachmentTicketResponses[keyof CreateDiscussionAttachmentTicketResponses];
+
+export type GetDiscussionAttachmentDownloadUrlData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+        postId: string;
+        attachmentId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}/attachments/{attachmentId}/download';
+};
+
+export type GetDiscussionAttachmentDownloadUrlErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetDiscussionAttachmentDownloadUrlError = GetDiscussionAttachmentDownloadUrlErrors[keyof GetDiscussionAttachmentDownloadUrlErrors];
+
+export type GetDiscussionAttachmentDownloadUrlResponses = {
+    200: DownloadUrlResponseDto;
+};
+
+export type GetDiscussionAttachmentDownloadUrlResponse = GetDiscussionAttachmentDownloadUrlResponses[keyof GetDiscussionAttachmentDownloadUrlResponses];
+
+export type GetDiscussionThreadData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}';
+};
+
+export type GetDiscussionThreadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type GetDiscussionThreadError = GetDiscussionThreadErrors[keyof GetDiscussionThreadErrors];
+
+export type GetDiscussionThreadResponses = {
+    200: DiscussionThreadDto;
+};
+
+export type GetDiscussionThreadResponse = GetDiscussionThreadResponses[keyof GetDiscussionThreadResponses];
+
+export type RenameDiscussionThreadData = {
+    body: EditDiscussionThreadDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}';
+};
+
+export type RenameDiscussionThreadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type RenameDiscussionThreadError = RenameDiscussionThreadErrors[keyof RenameDiscussionThreadErrors];
+
+export type RenameDiscussionThreadResponses = {
+    200: DiscussionThreadDto;
+};
+
+export type RenameDiscussionThreadResponse = RenameDiscussionThreadResponses[keyof RenameDiscussionThreadResponses];
+
+export type ListDiscussionPostsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+    };
+    query?: {
+        limit?: number;
+        /**
+         * Opaque cursor from a previous page
+         */
+        cursor?: string;
+        order?: SortOrder;
+    };
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts';
+};
+
+export type ListDiscussionPostsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListDiscussionPostsError = ListDiscussionPostsErrors[keyof ListDiscussionPostsErrors];
+
+export type ListDiscussionPostsResponses = {
+    200: DiscussionPostPageDto;
+};
+
+export type ListDiscussionPostsResponse = ListDiscussionPostsResponses[keyof ListDiscussionPostsResponses];
+
+export type ReplyToDiscussionThreadData = {
+    body: CreateDiscussionPostDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts';
+};
+
+export type ReplyToDiscussionThreadErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ReplyToDiscussionThreadError = ReplyToDiscussionThreadErrors[keyof ReplyToDiscussionThreadErrors];
+
+export type ReplyToDiscussionThreadResponses = {
+    201: DiscussionPostDto;
+};
+
+export type ReplyToDiscussionThreadResponse = ReplyToDiscussionThreadResponses[keyof ReplyToDiscussionThreadResponses];
+
+export type ListDiscussionRepliesData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+        postId: string;
+    };
+    query?: {
+        limit?: number;
+        /**
+         * Opaque cursor from a previous page
+         */
+        cursor?: string;
+        order?: SortOrder;
+    };
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}/replies';
+};
+
+export type ListDiscussionRepliesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListDiscussionRepliesError = ListDiscussionRepliesErrors[keyof ListDiscussionRepliesErrors];
+
+export type ListDiscussionRepliesResponses = {
+    200: DiscussionPostPageDto;
+};
+
+export type ListDiscussionRepliesResponse = ListDiscussionRepliesResponses[keyof ListDiscussionRepliesResponses];
+
+export type DeleteDiscussionPostData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+        postId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}';
+};
+
+export type DeleteDiscussionPostErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type DeleteDiscussionPostError = DeleteDiscussionPostErrors[keyof DeleteDiscussionPostErrors];
+
+export type DeleteDiscussionPostResponses = {
+    204: void;
+};
+
+export type DeleteDiscussionPostResponse = DeleteDiscussionPostResponses[keyof DeleteDiscussionPostResponses];
+
+export type EditDiscussionPostData = {
+    body: EditDiscussionPostDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+        postId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}';
+};
+
+export type EditDiscussionPostErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Conflicts with an existing record.
+     */
+    409: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type EditDiscussionPostError = EditDiscussionPostErrors[keyof EditDiscussionPostErrors];
+
+export type EditDiscussionPostResponses = {
+    200: DiscussionPostDto;
+};
+
+export type EditDiscussionPostResponse = EditDiscussionPostResponses[keyof EditDiscussionPostResponses];
+
+export type SetDiscussionThreadVisibilityData = {
+    body: DiscussionVisibilityDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/visibility';
+};
+
+export type SetDiscussionThreadVisibilityErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type SetDiscussionThreadVisibilityError = SetDiscussionThreadVisibilityErrors[keyof SetDiscussionThreadVisibilityErrors];
+
+export type SetDiscussionThreadVisibilityResponses = {
+    204: void;
+};
+
+export type SetDiscussionThreadVisibilityResponse = SetDiscussionThreadVisibilityResponses[keyof SetDiscussionThreadVisibilityResponses];
+
+export type SetDiscussionPostVisibilityData = {
+    body: DiscussionVisibilityDto;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+        postId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}/visibility';
+};
+
+export type SetDiscussionPostVisibilityErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type SetDiscussionPostVisibilityError = SetDiscussionPostVisibilityErrors[keyof SetDiscussionPostVisibilityErrors];
+
+export type SetDiscussionPostVisibilityResponses = {
+    204: void;
+};
+
+export type SetDiscussionPostVisibilityResponse = SetDiscussionPostVisibilityResponses[keyof SetDiscussionPostVisibilityResponses];

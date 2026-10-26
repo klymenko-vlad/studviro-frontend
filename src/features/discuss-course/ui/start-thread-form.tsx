@@ -40,7 +40,7 @@ export function StartThreadForm({
   onCancel: () => void;
 }) {
   const t = useTranslations('discussion');
-  const refresh = useRefreshDiscussion(address);
+  const refresh = useRefreshDiscussion();
   const form = useForm<ThreadFormValues>({
     resolver: useZodResolver(threadFormSchema),
     defaultValues: { title: '', body: '' },

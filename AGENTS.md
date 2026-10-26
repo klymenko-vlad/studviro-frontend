@@ -40,6 +40,9 @@ label. Reproduce every bug with a regression test before fixing it.
 
 ## UI
 
+- Lists that grow with data are paginated and filterable on the server: an infinite
+  query over the endpoint's cursor, a filter input sent as `q`, and `LoadMore` from
+  `@/shared/ui`. Never fetch a whole collection to filter or slice it in the browser.
 - Reuse `@/shared/ui` primitives. Do not hand-roll equivalents, deep-import UI files or
   import Radix from features.
 - Add primitives with `pnpm dlx shadcn@latest add <component>`, then export adopted ones

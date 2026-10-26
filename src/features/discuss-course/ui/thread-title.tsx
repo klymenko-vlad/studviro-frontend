@@ -30,7 +30,7 @@ export function ThreadTitle({
 }) {
   const t = useTranslations('discussion');
   const queryClient = useQueryClient();
-  const refresh = useRefreshDiscussion(address);
+  const refresh = useRefreshDiscussion();
   const [draft, setDraft] = useState<string | null>(null);
 
   const rename = useMutation({

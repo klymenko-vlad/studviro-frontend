@@ -34,42 +34,109 @@ const summary = {
   postCount: 2,
   hidden: false,
 };
+interface Post {
+  id: string;
+  author: { id: string; displayName: string; isTeacher: boolean };
+  body: string | null;
+  state: 'visible' | 'hidden' | 'deleted';
+  mine: boolean;
+  createdAt: string;
+  editedAt: string | null;
+  attachments: unknown[];
+  parentPostId: string | null;
+  replyCount: number;
+  quote: {
+    postId: string;
+    author: { id: string; displayName: string };
+    excerpt: string | null;
+    state: string;
+  } | null;
+}
+
+const OPENING = '88888888-8888-4888-8888-888888888881';
+const teacher = {
+  id: '22222222-2222-4222-8222-222222222222',
+  displayName: 'Ján Novák',
+  isTeacher: true,
+};
+
+const post = (overrides: Partial<Post> = {}): Post => ({
+  id: OPENING,
+  author,
+  body: 'What does stable mean?',
+  state: 'visible',
+  mine: true,
+  createdAt: '2026-10-20T08:00:00.000Z',
+  editedAt: null,
+  attachments: [],
+  parentPostId: null,
+  replyCount: 0,
+  quote: null,
+  ...overrides,
+});
+
+const hiddenByTeacher = post({
+  id: '88888888-8888-4888-8888-888888888882',
+  author: teacher,
+  body: null,
+  state: 'hidden',
+  mine: false,
+  createdAt: '2026-10-20T09:00:00.000Z',
+});
+
 const thread = (overrides: object = {}) => ({
   ...summary,
   canModerate: false,
-  posts: [
-    {
-      id: '88888888-8888-4888-8888-888888888881',
-      author,
-      body: 'What does stable mean?',
-      state: 'visible',
-      mine: true,
-      createdAt: '2026-10-20T08:00:00.000Z',
-      editedAt: null,
-      attachments: [],
-    },
-    {
-      id: '88888888-8888-4888-8888-888888888882',
-      author: {
-        id: '22222222-2222-4222-8222-222222222222',
-        displayName: 'Ján Novák',
-        isTeacher: true,
-      },
-      body: null,
-      state: 'hidden',
-      mine: false,
-      createdAt: '2026-10-20T09:00:00.000Z',
-      editedAt: null,
-      attachments: [],
-    },
-  ],
+  posts: [post(), hiddenByTeacher],
   ...overrides,
 });
+
+const page = <T,>(items: T[], nextCursor: string | null = null) => ({
+  items,
+  meta: { limit: 20, hasNextPage: nextCursor !== null, nextCursor },
+});
+
+const threadList = (threads: object[], canModerate = false) => ({
+  canModerate,
+  ...page(threads),
+});
+
+/**
+ * A thread the way the server serves it: the thread itself, its top-level posts
+ * and the replies under each, kept in memory so a post or an edit shows up when
+ * the screen asks again.
+ */
+function serveThread(
+  initial: { posts: Post[]; replies?: Record<string, Post[]> } & object,
+) {
+  const { posts: initialPosts, replies: initialReplies = {}, ...rest } = initial;
+  const state = {
+    thread: rest as Record<string, unknown>,
+    posts: [...initialPosts],
+    replies: { ...initialReplies },
+  };
+  server.use(
+    http.get(`${BASE}/${THREAD}`, () => HttpResponse.json(state.thread)),
+    http.get(`${BASE}/${THREAD}/posts`, () => HttpResponse.json(page(state.posts))),
+    http.get(`${BASE}/${THREAD}/posts/:postId/replies`, ({ params }) =>
+      HttpResponse.json(page(state.replies[String(params['postId'])] ?? [])),
+    ),
+  );
+
+  return state;
+}
 
 const renderDiscussion = () =>
   renderWithProviders(
     <OfferingDiscussion institutionId={INSTITUTION} offeringId={OFFERING} />,
   );
+
+const inThread = () => {
+  search.value = `section=discussion&thread=${THREAD}`;
+};
+
+const withFile = (attachment: object) =>
+  thread({ posts: [post({ attachments: [attachment] }), hiddenByTeacher] });
 
 describe('OfferingDiscussion', () => {
   it('titles the panel with one heading, not a heading inside a heading', async () => {
@@ -81,9 +148,7 @@ describe('OfferingDiscussion', () => {
 
   it('lists the threads with who started them and how many posts they have', async () => {
     search.value = 'section=discussion';
-    server.use(
-      http.get(BASE, () => HttpResponse.json({ canModerate: false, threads: [summary] })),
-    );
+    server.use(http.get(BASE, () => HttpResponse.json(threadList([summary]))));
 
     renderDiscussion();
 
@@ -93,9 +158,7 @@ describe('OfferingDiscussion', () => {
 
   it('says so when nobody has started a thread', async () => {
     search.value = '';
-    server.use(
-      http.get(BASE, () => HttpResponse.json({ canModerate: false, threads: [] })),
-    );
+    server.use(http.get(BASE, () => HttpResponse.json(threadList([]))));
 
     renderDiscussion();
 
@@ -104,11 +167,64 @@ describe('OfferingDiscussion', () => {
     ).toBeInTheDocument();
   });
 
+  it('filters the threads by title on the server', async () => {
+    search.value = 'section=discussion';
+    const other = {
+      ...summary,
+      id: '77777777-7777-4777-8777-777777777778',
+      title: 'Graphs',
+    };
+    server.use(
+      http.get(BASE, ({ request }) =>
+        HttpResponse.json(
+          threadList(
+            new URL(request.url).searchParams.get('q') === 'graph'
+              ? [other]
+              : [summary, other],
+          ),
+        ),
+      ),
+    );
+
+    const { user } = renderDiscussion();
+    await screen.findByRole('button', { name: 'Question 3' });
+    await user.type(screen.getByLabelText('Filter threads'), 'graph');
+
+    await vi.waitFor(() => {
+      expect(
+        screen.queryByRole('button', { name: 'Question 3' }),
+      ).not.toBeInTheDocument();
+    });
+    expect(screen.getByRole('button', { name: 'Graphs' })).toBeInTheDocument();
+  });
+
+  it('loads more threads on request', async () => {
+    search.value = 'section=discussion';
+    const older = {
+      ...summary,
+      id: '77777777-7777-4777-8777-777777777779',
+      title: 'Older',
+    };
+    server.use(
+      http.get(BASE, ({ request }) =>
+        HttpResponse.json(
+          new URL(request.url).searchParams.get('cursor') === 'next'
+            ? { canModerate: false, ...page([older]) }
+            : { canModerate: false, ...page([summary], 'next') },
+        ),
+      ),
+    );
+
+    const { user } = renderDiscussion();
+    await screen.findByRole('button', { name: 'Question 3' });
+    await user.click(screen.getByRole('button', { name: 'Load more' }));
+
+    expect(await screen.findByRole('button', { name: 'Older' })).toBeInTheDocument();
+  });
+
   it('opens a thread by writing it into the address', async () => {
     search.value = 'section=discussion';
-    server.use(
-      http.get(BASE, () => HttpResponse.json({ canModerate: false, threads: [summary] })),
-    );
+    server.use(http.get(BASE, () => HttpResponse.json(threadList([summary]))));
 
     const { user } = renderDiscussion();
     await user.click(await screen.findByRole('button', { name: 'Question 3' }));
@@ -121,9 +237,7 @@ describe('OfferingDiscussion', () => {
 
   it('opens a thread from anywhere on its row, not only its title', async () => {
     search.value = 'section=discussion';
-    server.use(
-      http.get(BASE, () => HttpResponse.json({ canModerate: false, threads: [summary] })),
-    );
+    server.use(http.get(BASE, () => HttpResponse.json(threadList([summary]))));
 
     const { user } = renderDiscussion();
     const row = await screen.findByRole('button', { name: 'Question 3' });
@@ -136,8 +250,8 @@ describe('OfferingDiscussion', () => {
   });
 
   it('shows a thread, withholding what a teacher hid, and offers a reply', async () => {
-    search.value = `section=discussion&thread=${THREAD}`;
-    server.use(http.get(`${BASE}/${THREAD}`, () => HttpResponse.json(thread())));
+    inThread();
+    serveThread(thread());
 
     renderDiscussion();
 
@@ -149,31 +263,20 @@ describe('OfferingDiscussion', () => {
     expect(screen.getByLabelText(/^Your reply/)).toBeInTheDocument();
   });
 
-  it('posts a reply and shows the thread the server answers with', async () => {
-    search.value = `section=discussion&thread=${THREAD}`;
+  it('posts in the thread and shows the post once the server has it', async () => {
+    inThread();
+    const state = serveThread(thread());
     let sent: unknown;
     server.use(
-      http.get(`${BASE}/${THREAD}`, () => HttpResponse.json(thread())),
       http.post(`${BASE}/${THREAD}/posts`, async ({ request }) => {
         sent = await request.json();
-        return HttpResponse.json(
-          thread({
-            posts: [
-              ...thread().posts,
-              {
-                id: '88888888-8888-4888-8888-888888888883',
-                author,
-                body: 'Thanks, got it.',
-                state: 'visible',
-                mine: true,
-                createdAt: '2026-10-20T10:00:00.000Z',
-                editedAt: null,
-                attachments: [],
-              },
-            ],
-          }),
-          { status: 201 },
-        );
+        const created = post({
+          id: '88888888-8888-4888-8888-888888888883',
+          body: 'Thanks, got it.',
+          createdAt: '2026-10-20T10:00:00.000Z',
+        });
+        state.posts.push(created);
+        return HttpResponse.json(created, { status: 201 });
       }),
     );
 
@@ -185,26 +288,164 @@ describe('OfferingDiscussion', () => {
     expect(sent).toEqual({ body: 'Thanks, got it.' });
   });
 
-  it('edits your own post in place and marks it edited', async () => {
-    search.value = `section=discussion&thread=${THREAD}`;
+  it('shows the replies gathered under a post when asked', async () => {
+    inThread();
+    serveThread(
+      thread({
+        posts: [post({ replyCount: 1 }), hiddenByTeacher],
+        replies: {
+          [OPENING]: [
+            post({
+              id: '88888888-8888-4888-8888-888888888884',
+              author: teacher,
+              mine: false,
+              body: 'Equal keys keep their order.',
+              parentPostId: OPENING,
+            }),
+          ],
+        },
+      }),
+    );
+
+    const { user } = renderDiscussion();
+    await user.click(await screen.findByRole('button', { name: '1 reply' }));
+
+    expect(await screen.findByText('Equal keys keep their order.')).toBeInTheDocument();
+  });
+
+  it('answers a post from under it, sending which post it answers', async () => {
+    inThread();
+    const state = serveThread(thread());
     let sent: unknown;
     server.use(
-      http.get(`${BASE}/${THREAD}`, () => HttpResponse.json(thread())),
+      http.post(`${BASE}/${THREAD}/posts`, async ({ request }) => {
+        sent = await request.json();
+        const created = post({
+          id: '88888888-8888-4888-8888-888888888885',
+          body: 'Same question here.',
+          parentPostId: OPENING,
+        });
+        state.replies[OPENING] = [created];
+        state.posts[0] = { ...state.posts[0]!, replyCount: 1 };
+        return HttpResponse.json(created, { status: 201 });
+      }),
+    );
+
+    const { user } = renderDiscussion();
+    await user.click(
+      await screen.findByRole('button', { name: 'Reply to Ada Lovelace' }),
+    );
+    const form = screen.getByRole('form', { name: 'Replying to Ada Lovelace' });
+    expect(within(form).getByText('What does stable mean?')).toBeInTheDocument();
+    await user.type(within(form).getByLabelText(/^Your reply/), 'Same question here.');
+    await user.click(within(form).getByRole('button', { name: 'Reply' }));
+
+    expect(await screen.findByText('Same question here.')).toBeInTheDocument();
+    expect(sent).toEqual({ body: 'Same question here.', replyToPostId: OPENING });
+  });
+
+  it('quotes the reply a reply answers, and links to it', async () => {
+    inThread();
+    const answered = post({
+      id: '88888888-8888-4888-8888-888888888886',
+      author: teacher,
+      mine: false,
+      body: 'Equal keys keep their order.',
+      parentPostId: OPENING,
+    });
+    serveThread(
+      thread({
+        posts: [post({ replyCount: 2 })],
+        replies: {
+          [OPENING]: [
+            answered,
+            post({
+              id: '88888888-8888-4888-8888-888888888887',
+              body: 'Even when sorting twice?',
+              parentPostId: OPENING,
+              quote: {
+                postId: answered.id,
+                author: teacher,
+                excerpt: 'Equal keys keep their order.',
+                state: 'visible',
+              },
+            }),
+          ],
+        },
+      }),
+    );
+
+    const { user } = renderDiscussion();
+    await user.click(await screen.findByRole('button', { name: '2 replies' }));
+    const quote = await screen.findByRole('link', { name: /In reply to Ján Novák/ });
+
+    expect(quote).toHaveAttribute('href', `#discussion-post-${answered.id}`);
+    expect(within(quote).getByText('Equal keys keep their order.')).toBeInTheDocument();
+  });
+
+  it('says a quoted reply is gone rather than showing its words', async () => {
+    inThread();
+    serveThread(
+      thread({
+        posts: [post({ replyCount: 1 })],
+        replies: {
+          [OPENING]: [
+            post({
+              id: '88888888-8888-4888-8888-888888888888',
+              parentPostId: OPENING,
+              body: 'Why?',
+              quote: {
+                postId: '88888888-8888-4888-8888-888888888889',
+                author: teacher,
+                excerpt: null,
+                state: 'deleted',
+              },
+            }),
+          ],
+        },
+      }),
+    );
+
+    const { user } = renderDiscussion();
+    await user.click(await screen.findByRole('button', { name: '1 reply' }));
+
+    expect(await screen.findByText('Deleted message')).toBeInTheDocument();
+  });
+
+  it('loads more posts on request', async () => {
+    inThread();
+    serveThread(thread());
+    server.use(
+      http.get(`${BASE}/${THREAD}/posts`, ({ request }) =>
+        HttpResponse.json(
+          new URL(request.url).searchParams.get('cursor') === 'next'
+            ? page([hiddenByTeacher])
+            : page([post()], 'next'),
+        ),
+      ),
+    );
+
+    const { user } = renderDiscussion();
+    await screen.findByText('What does stable mean?');
+    expect(screen.queryByText('A teacher hid this post.')).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Load more' }));
+
+    expect(await screen.findByText('A teacher hid this post.')).toBeInTheDocument();
+  });
+
+  it('edits your own post in place and marks it edited', async () => {
+    inThread();
+    const state = serveThread(thread());
+    let sent: unknown;
+    server.use(
       http.patch(`${BASE}/${THREAD}/posts/:postId`, async ({ request }) => {
         sent = await request.json();
-        const [first, second] = thread().posts;
-        return HttpResponse.json(
-          thread({
-            posts: [
-              {
-                ...first,
-                body: 'What does stable mean here?',
-                editedAt: '2026-10-20T11:00:00.000Z',
-              },
-              second,
-            ],
-          }),
-        );
+        const edited = post({
+          body: 'What does stable mean here?',
+          editedAt: '2026-10-20T11:00:00.000Z',
+        });
+        state.posts[0] = edited;
+        return HttpResponse.json(edited);
       }),
     );
 
@@ -222,13 +463,9 @@ describe('OfferingDiscussion', () => {
   });
 
   it('offers no edit on somebody else’s post', async () => {
-    search.value = `section=discussion&thread=${THREAD}`;
-    server.use(
-      http.get(`${BASE}/${THREAD}`, () =>
-        HttpResponse.json(
-          thread({ posts: thread().posts.map(post => ({ ...post, mine: false })) }),
-        ),
-      ),
+    inThread();
+    serveThread(
+      thread({ posts: thread().posts.map(entry => ({ ...entry, mine: false })) }),
     );
 
     renderDiscussion();
@@ -238,13 +475,14 @@ describe('OfferingDiscussion', () => {
   });
 
   it('renames a thread you started', async () => {
-    search.value = `section=discussion&thread=${THREAD}`;
+    inThread();
+    const state = serveThread(thread());
     let sent: unknown;
     server.use(
-      http.get(`${BASE}/${THREAD}`, () => HttpResponse.json(thread())),
       http.patch(`${BASE}/${THREAD}`, async ({ request }) => {
         sent = await request.json();
-        return HttpResponse.json(thread({ title: 'Question 3: stability' }));
+        state.thread = { ...state.thread, title: 'Question 3: stability' };
+        return HttpResponse.json(state.thread);
       }),
     );
 
@@ -262,11 +500,11 @@ describe('OfferingDiscussion', () => {
   });
 
   it('uploads chosen files before posting the reply that names them', async () => {
-    search.value = `section=discussion&thread=${THREAD}`;
+    inThread();
+    serveThread(thread());
     const order: string[] = [];
     let sent: { attachments?: unknown[] } | undefined;
     server.use(
-      http.get(`${BASE}/${THREAD}`, () => HttpResponse.json(thread())),
       http.post(`${BASE}/attachment-tickets`, async ({ request }) => {
         order.push('ticket');
         const { filename } = (await request.json()) as { filename: string };
@@ -288,7 +526,7 @@ describe('OfferingDiscussion', () => {
       http.post(`${BASE}/${THREAD}/posts`, async ({ request }) => {
         order.push('reply');
         sent = (await request.json()) as { attachments?: unknown[] };
-        return HttpResponse.json(thread(), { status: 201 });
+        return HttpResponse.json(post(), { status: 201 });
       }),
     );
 
@@ -313,8 +551,8 @@ describe('OfferingDiscussion', () => {
   });
 
   it('refuses a file over 10 MB before uploading anything', async () => {
-    search.value = `section=discussion&thread=${THREAD}`;
-    server.use(http.get(`${BASE}/${THREAD}`, () => HttpResponse.json(thread())));
+    inThread();
+    serveThread(thread());
 
     const { user } = renderDiscussion();
     const big = new File(['x'], 'video.png', { type: 'image/png' });
@@ -325,30 +563,15 @@ describe('OfferingDiscussion', () => {
   });
 
   it('offers the files of a post for download', async () => {
-    search.value = `section=discussion&thread=${THREAD}`;
-    const [first, second] = thread().posts;
-    server.use(
-      http.get(`${BASE}/${THREAD}`, () =>
-        HttpResponse.json(
-          thread({
-            posts: [
-              {
-                ...first,
-                attachments: [
-                  {
-                    id: '99999999-9999-4999-8999-999999999999',
-                    filename: 'graf.png',
-                    contentType: 'image/png',
-                    sizeBytes: 20480,
-                    scanStatus: 'clean',
-                  },
-                ],
-              },
-              second,
-            ],
-          }),
-        ),
-      ),
+    inThread();
+    serveThread(
+      withFile({
+        id: '99999999-9999-4999-8999-999999999999',
+        filename: 'graf.png',
+        contentType: 'image/png',
+        sizeBytes: 20480,
+        scanStatus: 'clean',
+      }),
     );
 
     renderDiscussion();
@@ -358,32 +581,19 @@ describe('OfferingDiscussion', () => {
   });
 
   it('marks an unchecked file and asks before downloading it', async () => {
-    search.value = `section=discussion&thread=${THREAD}`;
-    const [first, second] = thread().posts;
+    inThread();
     const ATTACHMENT = '99999999-9999-4999-8999-999999999998';
     const opened = vi.spyOn(window, 'open').mockReturnValue(null);
+    serveThread(
+      withFile({
+        id: ATTACHMENT,
+        filename: 'notes.pdf',
+        contentType: 'application/pdf',
+        sizeBytes: 2048,
+        scanStatus: 'pending',
+      }),
+    );
     server.use(
-      http.get(`${BASE}/${THREAD}`, () =>
-        HttpResponse.json(
-          thread({
-            posts: [
-              {
-                ...first,
-                attachments: [
-                  {
-                    id: ATTACHMENT,
-                    filename: 'notes.pdf',
-                    contentType: 'application/pdf',
-                    sizeBytes: 2048,
-                    scanStatus: 'pending',
-                  },
-                ],
-              },
-              second,
-            ],
-          }),
-        ),
-      ),
       http.get(`${BASE}/${THREAD}/posts/:postId/attachments/${ATTACHMENT}/download`, () =>
         HttpResponse.json({ url: 'https://store.example.org/notes.pdf' }),
       ),
@@ -409,30 +619,15 @@ describe('OfferingDiscussion', () => {
   });
 
   it('offers no download for a file removed as malware', async () => {
-    search.value = `section=discussion&thread=${THREAD}`;
-    const [first, second] = thread().posts;
-    server.use(
-      http.get(`${BASE}/${THREAD}`, () =>
-        HttpResponse.json(
-          thread({
-            posts: [
-              {
-                ...first,
-                attachments: [
-                  {
-                    id: '99999999-9999-4999-8999-999999999997',
-                    filename: 'evil.zip',
-                    contentType: 'application/zip',
-                    sizeBytes: 2048,
-                    scanStatus: 'infected',
-                  },
-                ],
-              },
-              second,
-            ],
-          }),
-        ),
-      ),
+    inThread();
+    serveThread(
+      withFile({
+        id: '99999999-9999-4999-8999-999999999997',
+        filename: 'evil.zip',
+        contentType: 'application/zip',
+        sizeBytes: 2048,
+        scanStatus: 'infected',
+      }),
     );
 
     renderDiscussion();
@@ -443,10 +638,10 @@ describe('OfferingDiscussion', () => {
   });
 
   it('asks before deleting for good', async () => {
-    search.value = `section=discussion&thread=${THREAD}`;
+    inThread();
+    serveThread(thread());
     let deleted = false;
     server.use(
-      http.get(`${BASE}/${THREAD}`, () => HttpResponse.json(thread())),
       http.delete(`${BASE}/${THREAD}/posts/:postId`, () => {
         deleted = true;
         return new HttpResponse(null, { status: 204 });
@@ -464,17 +659,15 @@ describe('OfferingDiscussion', () => {
   });
 
   it('lets a teacher read and restore a hidden post, and hide the thread', async () => {
-    search.value = `section=discussion&thread=${THREAD}`;
+    inThread();
     let visibility: unknown;
-    const moderated = thread({
-      canModerate: true,
-      posts: [
-        thread().posts[0],
-        { ...thread().posts[1], body: 'Off-topic advert', mine: false },
-      ],
-    });
+    serveThread(
+      thread({
+        canModerate: true,
+        posts: [post(), { ...hiddenByTeacher, body: 'Off-topic advert' }],
+      }),
+    );
     server.use(
-      http.get(`${BASE}/${THREAD}`, () => HttpResponse.json(moderated)),
       http.put(`${BASE}/${THREAD}/posts/:postId/visibility`, async ({ request }) => {
         visibility = await request.json();
         return new HttpResponse(null, { status: 204 });
@@ -494,9 +687,7 @@ describe('OfferingDiscussion', () => {
 
   it('refuses an empty thread before sending it', async () => {
     search.value = '';
-    server.use(
-      http.get(BASE, () => HttpResponse.json({ canModerate: false, threads: [] })),
-    );
+    server.use(http.get(BASE, () => HttpResponse.json(threadList([]))));
 
     const { user } = renderDiscussion();
     await user.click(await screen.findByRole('button', { name: 'New thread' }));

@@ -7,7 +7,10 @@ import {
   renderWithProviders,
   screen,
   server,
+  users,
 } from '@/shared/test';
+
+import { SessionProvider } from '@/entities/session';
 
 import { InstitutionDashboardView } from './institution-dashboard-view';
 
@@ -37,19 +40,36 @@ function signInAs(roles: string[], granted: string[]) {
 }
 
 describe('InstitutionDashboardView', () => {
-  it('names the institution as the page heading once it loads', async () => {
-    renderWithProviders(<InstitutionDashboardView institutionId={INSTITUTION} />);
+  it('greets the reader by first name, under the institution’s name', async () => {
+    renderWithProviders(
+      <SessionProvider value={{ ...users[0]!, displayName: 'Filip Rusnák' }}>
+        <InstitutionDashboardView institutionId={INSTITUTION} />
+      </SessionProvider>,
+    );
 
     expect(
-      await screen.findByRole('heading', {
-        name: 'Pavol Jozef Šafárik University',
-        level: 1,
-      }),
+      screen.getByRole('heading', { name: 'Welcome back, Filip', level: 1 }),
     ).toBeInTheDocument();
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
+    expect(await screen.findByText('Pavol Jozef Šafárik University')).toBeInTheDocument();
   });
 
-  it('says which roles the dashboard is built for', async () => {
+  it('falls back to a plain welcome when nobody is signed in', () => {
+    renderWithProviders(<InstitutionDashboardView institutionId={INSTITUTION} />);
+
+    expect(screen.getByRole('heading', { name: 'Welcome back', level: 1 })).toBeInTheDocument();
+  });
+
+  it('keeps a single role out of the header', async () => {
+    signInAs(['student'], STUDENT);
+
+    renderWithProviders(<InstitutionDashboardView institutionId={INSTITUTION} />);
+
+    expect(await screen.findByText('Deadlines')).toBeInTheDocument();
+    expect(screen.queryByText('You are here as')).not.toBeInTheDocument();
+  });
+
+  it('says which roles the dashboard is built for when there are several', async () => {
     signInAs(['teacher', 'student'], TEACHER);
 
     renderWithProviders(<InstitutionDashboardView institutionId={INSTITUTION} />);

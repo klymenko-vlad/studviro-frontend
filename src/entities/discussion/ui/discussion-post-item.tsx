@@ -3,7 +3,11 @@ import { useFormatter, useTranslations } from 'next-intl';
 
 import { Badge } from '@/shared/ui';
 
-import type { DiscussionPost } from '../model/discussion';
+import {
+  discussionPostAnchor,
+  type DiscussionPost,
+  type DiscussionQuote,
+} from '../model/discussion';
 
 /** `editor`, when given, takes the place of the text while its author rewrites it. */
 export function DiscussionPostItem({
@@ -22,7 +26,8 @@ export function DiscussionPostItem({
 
   return (
     <article
-      className="border-border flex flex-col gap-2 border-b py-4 last:border-b-0"
+      id={discussionPostAnchor(post.id)}
+      className="border-border flex scroll-mt-24 flex-col gap-2 border-b py-4 last:border-b-0"
       aria-label={post.author.displayName}
     >
       <header className="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -46,6 +51,8 @@ export function DiscussionPostItem({
         ) : null}
       </header>
 
+      {post.quote === null ? null : <QuoteLink quote={post.quote} />}
+
       {editor ??
         (post.body === null ? (
           <p className="text-muted-foreground text-sm italic">
@@ -61,5 +68,27 @@ export function DiscussionPostItem({
         <div className="flex flex-wrap gap-2">{actions}</div>
       )}
     </article>
+  );
+}
+
+function QuoteLink({ quote }: { quote: DiscussionQuote }) {
+  const t = useTranslations('discussion');
+
+  return (
+    <a
+      href={`#${discussionPostAnchor(quote.postId)}`}
+      className="border-primary/40 bg-muted/40 hover:bg-muted focus-visible:ring-ring/50 flex flex-col gap-0.5 rounded-md border-l-2 px-3 py-2 text-sm transition-colors outline-none focus-visible:ring-[3px]"
+    >
+      <span className="text-muted-foreground text-xs">
+        {t('inReplyTo', { name: quote.author.displayName })}
+      </span>
+      {quote.excerpt === null ? (
+        <span className="text-muted-foreground italic">
+          {quote.state === 'deleted' ? t('quotedDeleted') : t('quotedHidden')}
+        </span>
+      ) : (
+        <span className="line-clamp-2 break-words">{quote.excerpt}</span>
+      )}
+    </a>
   );
 }

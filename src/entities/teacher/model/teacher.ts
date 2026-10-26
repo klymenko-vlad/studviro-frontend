@@ -1,4 +1,4 @@
-import type { TeacherProfileResponseDto } from '@/shared/api';
+import type { TeacherOfferingPageDto, TeacherProfileResponseDto } from '@/shared/api';
 
 export type TeacherProfile = TeacherProfileResponseDto;
-export type TeacherOffering = TeacherProfile['offerings'][number];
+export type TeacherOffering = TeacherOfferingPageDto['items'][number];

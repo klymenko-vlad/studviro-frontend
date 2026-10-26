@@ -1,15 +1,15 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { LoaderCircle } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
+import { LoaderCircle, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import {
   discussionMutations,
-  discussionQueries,
   type DiscussionAddress,
+  type DiscussionPost,
 } from '@/entities/discussion';
 import { useUploadErrorMessage } from '@/shared/api';
 import { useZodResolver } from '@/shared/lib';
@@ -33,16 +33,24 @@ import {
 import { useRefreshDiscussion } from '../model/use-refresh-discussion';
 import { AttachmentPicker } from './attachment-picker';
 
+/**
+ * Without `replyTo` it posts at the foot of the thread. With it, the post
+ * answers that one: under it if it is a top-level post, beside it and quoting
+ * it if it is itself a reply.
+ */
 export function ReplyForm({
   address,
   threadId,
+  replyTo,
+  onDone,
 }: {
   address: DiscussionAddress;
   threadId: string;
+  replyTo?: DiscussionPost;
+  onDone?: () => void;
 }) {
   const t = useTranslations('discussion');
-  const queryClient = useQueryClient();
-  const refresh = useRefreshDiscussion(address);
+  const refresh = useRefreshDiscussion();
   const form = useForm<ReplyFormValues>({
     resolver: useZodResolver(replyFormSchema),
     defaultValues: { body: '' },
@@ -67,14 +75,11 @@ export function ReplyForm({
 
   const mutation = useMutation({
     ...discussionMutations.reply(),
-    onSuccess: async thread => {
-      queryClient.setQueryData(
-        discussionQueries.threadKey({ path: { ...address, threadId } }),
-        thread,
-      );
+    onSuccess: async () => {
       form.reset({ body: '' });
       uploads.reset();
       toast.success(t('replied'));
+      onDone?.();
       await refresh();
     },
     onError: error => {
@@ -88,13 +93,48 @@ export function ReplyForm({
     if (attachments === null) return;
     mutation.mutate({
       path: { ...address, threadId },
-      body: { body: values.body.trim(), ...withFiles(attachments) },
+      body: {
+        body: values.body.trim(),
+        ...(replyTo === undefined ? {} : { replyToPostId: replyTo.id }),
+        ...withFiles(attachments),
+      },
     });
   });
 
   return (
     <Form {...form} schema={replyFormSchema}>
-      <form onSubmit={onSubmit} noValidate className="flex flex-col gap-3">
+      <form
+        onSubmit={onSubmit}
+        noValidate
+        className="flex flex-col gap-3"
+        aria-label={
+          replyTo === undefined
+            ? undefined
+            : t('replyingTo', { name: replyTo.author.displayName })
+        }
+      >
+        {replyTo === undefined ? null : (
+          <div className="border-primary/40 bg-muted/40 flex items-start gap-2 rounded-md border-l-2 px-3 py-2 text-sm">
+            <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+              <span className="text-muted-foreground text-xs">
+                {t('replyingTo', { name: replyTo.author.displayName })}
+              </span>
+              <span className="line-clamp-2 break-words">{replyTo.body}</span>
+            </div>
+            {onDone === undefined ? null : (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="size-7"
+                aria-label={t('cancelReply')}
+                onClick={onDone}
+              >
+                <X aria-hidden />
+              </Button>
+            )}
+          </div>
+        )}
         <FormField
           control={form.control}
           name="body"

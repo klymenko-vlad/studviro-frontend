@@ -1,15 +1,23 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useDeferredValue, useId, useState } from 'react';
+import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import { useFormatter, useTranslations } from 'next-intl';
 
-import { discussionQueries, type DiscussionAddress } from '@/entities/discussion';
+import {
+  discussionQueries,
+  type DiscussionAddress,
+  type DiscussionThreadSummary,
+} from '@/entities/discussion';
 import {
   Badge,
   EmptyState,
+  Input,
+  Label,
   LinkRow,
   LinkRowChevron,
   ListSkeleton,
+  LoadMore,
   QueryError,
 } from '@/shared/ui';
 
@@ -21,27 +29,84 @@ export function DiscussionThreadList({
   onOpen: (threadId: string) => void;
 }) {
   const t = useTranslations('discussion');
-  const format = useFormatter();
-  const { data, isPending, isError, refetch } = useQuery(
-    discussionQueries.threads({ path: address }),
-  );
+  const filterId = useId();
+  const [filter, setFilter] = useState('');
+  const q = useDeferredValue(filter.trim());
+  const threads = useInfiniteQuery({
+    ...discussionQueries.threads({
+      path: address,
+      query: q === '' ? {} : { q },
+    }),
+    placeholderData: keepPreviousData,
+  });
+  const items = threads.data?.pages.flatMap(page => page.items) ?? [];
 
-  if (isPending) return <ListSkeleton />;
-  if (isError) {
+  if (threads.isPending) return <ListSkeleton />;
+  if (threads.isError) {
     return (
       <QueryError
         title={t('error')}
         onRetry={() => {
-          void refetch();
+          void threads.refetch();
         }}
       />
     );
   }
-  if (data.threads.length === 0) return <EmptyState size="inline" title={t('empty')} />;
+  if (q === '' && filter === '' && items.length === 0) {
+    return <EmptyState size="inline" title={t('empty')} />;
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-1">
+        <Label htmlFor={filterId}>{t('filterThreads')}</Label>
+        <Input
+          id={filterId}
+          type="search"
+          autoComplete="off"
+          placeholder={t('filterThreadsPlaceholder')}
+          value={filter}
+          onChange={event => {
+            setFilter(event.target.value);
+          }}
+        />
+      </div>
+
+      {items.length === 0 ? (
+        <p className="text-muted-foreground text-sm">
+          {t('noThreadMatch', { query: q })}
+        </p>
+      ) : (
+        <ThreadRows items={items} onOpen={onOpen} />
+      )}
+
+      {threads.hasNextPage ? (
+        <LoadMore
+          shown={items.length}
+          hasMore={threads.hasNextPage}
+          pending={threads.isFetchingNextPage}
+          onLoadMore={() => {
+            void threads.fetchNextPage();
+          }}
+        />
+      ) : null}
+    </div>
+  );
+}
+
+function ThreadRows({
+  items,
+  onOpen,
+}: {
+  items: DiscussionThreadSummary[];
+  onOpen: (threadId: string) => void;
+}) {
+  const t = useTranslations('discussion');
+  const format = useFormatter();
 
   return (
     <ul className="-mx-2 flex flex-col" aria-label={t('title')}>
-      {data.threads.map(thread => (
+      {items.map(thread => (
         <li key={thread.id}>
           <LinkRow asChild className="items-start py-3 text-left">
             <button

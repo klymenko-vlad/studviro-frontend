@@ -1,18 +1,26 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { ArrowLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import {
-  DiscussionPostEntry,
   ReplyForm,
   ThreadTitle,
   ThreadVisibilityToggle,
 } from '@/features/discuss-course';
 import { discussionQueries, type DiscussionAddress } from '@/entities/discussion';
 import { toApiError } from '@/shared/api';
-import { Alert, AlertDescription, Button, ListSkeleton, QueryError } from '@/shared/ui';
+import {
+  Alert,
+  AlertDescription,
+  Button,
+  ListSkeleton,
+  LoadMore,
+  QueryError,
+} from '@/shared/ui';
+
+import { DiscussionPostGroup } from './offering-discussion-post-group';
 
 export function DiscussionThreadView({
   address,
@@ -27,6 +35,11 @@ export function DiscussionThreadView({
   const { data, isPending, error, refetch } = useQuery(
     discussionQueries.thread({ path: { ...address, threadId } }),
   );
+  const posts = useInfiniteQuery(
+    discussionQueries.posts({ path: { ...address, threadId } }),
+  );
+  const items = posts.data?.pages.flatMap(page => page.items) ?? [];
+  const opening = items[0];
 
   const back = (
     <div>
@@ -67,8 +80,7 @@ export function DiscussionThreadView({
           threadId={threadId}
           title={data.title}
           canRename={
-            !data.hidden &&
-            data.posts.some(post => post.mine && post.author.id === data.author.id)
+            !data.hidden && opening?.mine === true && opening.author.id === data.author.id
           }
         />
         {data.canModerate ? (
@@ -86,17 +98,39 @@ export function DiscussionThreadView({
         </Alert>
       ) : null}
 
-      <div className="flex flex-col">
-        {data.posts.map(post => (
-          <DiscussionPostEntry
-            key={post.id}
-            address={address}
-            threadId={threadId}
-            post={post}
-            canModerate={data.canModerate}
-          />
-        ))}
-      </div>
+      {posts.isPending ? (
+        <ListSkeleton />
+      ) : posts.isError ? (
+        <QueryError
+          title={t('error')}
+          onRetry={() => {
+            void posts.refetch();
+          }}
+        />
+      ) : (
+        <div className="flex flex-col">
+          {items.map(post => (
+            <DiscussionPostGroup
+              key={post.id}
+              address={address}
+              threadId={threadId}
+              post={post}
+              canModerate={data.canModerate}
+              canReply={!data.hidden}
+            />
+          ))}
+          {posts.hasNextPage ? (
+            <LoadMore
+              shown={items.length}
+              hasMore={posts.hasNextPage}
+              pending={posts.isFetchingNextPage}
+              onLoadMore={() => {
+                void posts.fetchNextPage();
+              }}
+            />
+          ) : null}
+        </div>
+      )}
 
       {data.hidden ? null : <ReplyForm address={address} threadId={threadId} />}
     </div>
