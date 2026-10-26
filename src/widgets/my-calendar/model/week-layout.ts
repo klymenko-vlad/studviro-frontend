@@ -47,13 +47,16 @@ export function layoutWeek(
     const column = byKey.get(at.date);
     if (column === undefined) continue;
 
-    if (item.kind === 'deadline') {
+    if (item.kind === 'deadline' || item.kind === 'task') {
       column.allDay.push(item);
       continue;
     }
 
     const start = minutesOf(at.time);
-    const endsAt = item.kind === 'event' ? item.event.endsAt : item.term.endsAt;
+    const endsAt =
+      item.kind === 'event' || item.kind === 'personal'
+        ? item.event.endsAt
+        : item.term.endsAt;
     const end =
       endsAt === null
         ? start + EXAM_WITHOUT_END_MINUTES

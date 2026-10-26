@@ -2575,6 +2575,68 @@ export const zDemoRequestAcceptedDto = z.object({
     status: z.enum(['accepted'])
 });
 
+export const zPersonalTaskState = z.enum([
+    'open',
+    'done',
+    'all'
+]);
+
+export const zPersonalTaskDto = z.object({
+    id: z.uuid(),
+    title: z.string(),
+    note: z.string().nullable(),
+    dueAt: z.iso.datetime().nullable(),
+    done: z.boolean(),
+    completedAt: z.iso.datetime().nullable(),
+    createdAt: z.iso.datetime(),
+    updatedAt: z.iso.datetime()
+});
+
+export const zPersonalTaskPageDto = z.object({
+    items: z.array(zPersonalTaskDto),
+    meta: zCursorPageMetaDto
+});
+
+export const zCreatePersonalTaskDto = z.object({
+    title: z.string().min(1).max(200),
+    note: z.string().max(2000).nullish(),
+    dueAt: z.iso.datetime().nullish()
+});
+
+export const zUpdatePersonalTaskDto = z.object({
+    title: z.string().min(1).max(200).optional(),
+    note: z.string().max(2000).nullish(),
+    dueAt: z.iso.datetime().nullish(),
+    done: z.boolean().optional()
+});
+
+export const zPersonalEventDto = z.object({
+    id: z.uuid(),
+    title: z.string(),
+    note: z.string().nullable(),
+    location: z.string().nullable(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+    createdAt: z.iso.datetime(),
+    updatedAt: z.iso.datetime()
+});
+
+export const zCreatePersonalEventDto = z.object({
+    title: z.string().min(1).max(200),
+    note: z.string().max(2000).nullish(),
+    location: z.string().max(200).nullish(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime()
+});
+
+export const zUpdatePersonalEventDto = z.object({
+    title: z.string().min(1).max(200).optional(),
+    note: z.string().max(2000).nullish(),
+    location: z.string().max(200).nullish(),
+    startsAt: z.iso.datetime().optional(),
+    endsAt: z.iso.datetime().optional()
+});
+
 export const zExportedAccountDto = z.object({
     id: z.uuid(),
     email: z.string(),
@@ -2846,6 +2908,25 @@ export const zExportedDiscussionPostDto = z.object({
     createdAt: z.iso.datetime()
 });
 
+export const zExportedPersonalTaskDto = z.object({
+    id: z.uuid(),
+    title: z.string(),
+    note: z.string().nullable(),
+    dueAt: z.iso.datetime().nullable(),
+    completedAt: z.iso.datetime().nullable(),
+    createdAt: z.iso.datetime()
+});
+
+export const zExportedPersonalEventDto = z.object({
+    id: z.uuid(),
+    title: z.string(),
+    note: z.string().nullable(),
+    location: z.string().nullable(),
+    startsAt: z.iso.datetime(),
+    endsAt: z.iso.datetime(),
+    createdAt: z.iso.datetime()
+});
+
 export const zExportedNotificationDto = z.object({
     type: z.enum([
         'exam_term_published',
@@ -2892,6 +2973,8 @@ export const zPersonalDataExportDto = z.object({
     activityCompletions: z.array(zExportedActivityCompletionDto),
     submissions: z.array(zExportedSubmissionDto),
     discussionPosts: z.array(zExportedDiscussionPostDto),
+    personalTasks: z.array(zExportedPersonalTaskDto),
+    personalEvents: z.array(zExportedPersonalEventDto),
     notifications: z.array(zExportedNotificationDto),
     files: z.array(zExportedFileDto)
 });
@@ -2910,7 +2993,9 @@ export const zErasureTallyDto = z.object({
     conflictNotes: z.number(),
     assessmentFeedback: z.number(),
     submissionNotes: z.number(),
-    discussionPosts: z.number()
+    discussionPosts: z.number(),
+    personalTasks: z.number(),
+    personalEvents: z.number()
 });
 
 export const zPersonalDataErasureResponseDto = z.object({
@@ -5089,6 +5174,89 @@ export const zImportCourseResponse = zCourseImportReportDto;
 export const zCreateDemoRequestBody = zCreateDemoRequestDtoWritable;
 
 export const zCreateDemoRequestResponse = zDemoRequestAcceptedDto;
+
+export const zListMyTasksPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyTasksQuery = z.object({
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    cursor: z.string().optional(),
+    status: zPersonalTaskState.optional(),
+    q: z.string().max(200).optional()
+});
+
+export const zListMyTasksResponse = zPersonalTaskPageDto;
+
+export const zCreateMyTaskBody = zCreatePersonalTaskDto;
+
+export const zCreateMyTaskPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateMyTaskResponse = zPersonalTaskDto;
+
+export const zListMyDueTasksPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyDueTasksQuery = z.object({
+    from: z.iso.datetime(),
+    to: z.iso.datetime()
+});
+
+export const zListMyDueTasksResponse = z.array(zPersonalTaskDto);
+
+export const zDeleteMyTaskPath = z.object({
+    institutionId: z.string(),
+    taskId: z.string()
+});
+
+export const zDeleteMyTaskResponse = z.void();
+
+export const zUpdateMyTaskBody = zUpdatePersonalTaskDto;
+
+export const zUpdateMyTaskPath = z.object({
+    institutionId: z.string(),
+    taskId: z.string()
+});
+
+export const zUpdateMyTaskResponse = zPersonalTaskDto;
+
+export const zListMyPersonalEventsPath = z.object({
+    institutionId: z.string()
+});
+
+export const zListMyPersonalEventsQuery = z.object({
+    from: z.iso.datetime(),
+    to: z.iso.datetime()
+});
+
+export const zListMyPersonalEventsResponse = z.array(zPersonalEventDto);
+
+export const zCreateMyPersonalEventBody = zCreatePersonalEventDto;
+
+export const zCreateMyPersonalEventPath = z.object({
+    institutionId: z.string()
+});
+
+export const zCreateMyPersonalEventResponse = zPersonalEventDto;
+
+export const zDeleteMyPersonalEventPath = z.object({
+    institutionId: z.string(),
+    eventId: z.string()
+});
+
+export const zDeleteMyPersonalEventResponse = z.void();
+
+export const zUpdateMyPersonalEventBody = zUpdatePersonalEventDto;
+
+export const zUpdateMyPersonalEventPath = z.object({
+    institutionId: z.string(),
+    eventId: z.string()
+});
+
+export const zUpdateMyPersonalEventResponse = zPersonalEventDto;
 
 export const zExportMyPersonalDataPath = z.object({
     institutionId: z.string()

@@ -56,6 +56,7 @@ import type {
   WaitingStudentResponseDto,
 } from '@/shared/api';
 
+import { plannerHandlers } from './planner-handlers';
 import { offeringQuizzes, quizHandlers } from './quiz-handlers';
 
 /**
@@ -1808,6 +1809,7 @@ export const studyProgress: StudyProgressResponseDto = {
 
 export const handlers = [
   ...quizHandlers,
+  ...plannerHandlers,
   /**
    * The BFF returns only the user; the tokens stay in httpOnly cookies the test
    * environment never sees. A handler that returned them would let a component
@@ -2441,6 +2443,8 @@ export const handlers = [
         passwordResetTokens: 0,
         calendarFeeds: 0,
         discussionPosts: 0,
+        personalTasks: 0,
+        personalEvents: 0,
         twoFactorCredentials: 0,
         recoveryCodes: 0,
         userEmails: 1,

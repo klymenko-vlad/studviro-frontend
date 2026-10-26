@@ -2,7 +2,13 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, it, vi } from 'vitest';
 
 import type * as SharedConfig from '@/shared/config';
-import { permissions, renderWithProviders, screen, server } from '@/shared/test';
+import {
+  permissions,
+  renderWithProviders,
+  screen,
+  server,
+  userEvent,
+} from '@/shared/test';
 
 import { MyCalendarView } from './my-calendar-view';
 
@@ -33,6 +39,15 @@ describe('MyCalendarView', () => {
     expect(
       await screen.findByRole('heading', { name: 'Use in another calendar' }),
     ).toBeInTheDocument();
+  });
+
+  it('keeps the person’s own tasks on a tab next to the calendar', async () => {
+    renderWithProviders(<MyCalendarView institutionId={INSTITUTION} />);
+
+    await userEvent.click(await screen.findByRole('tab', { name: 'My tasks' }));
+
+    expect(await screen.findByRole('heading', { name: 'My tasks' })).toBeInTheDocument();
+    expect(await screen.findByText('Pay the dorm fee')).toBeInTheDocument();
   });
 
   it('refuses a caller the server does not grant schedule:read', async () => {

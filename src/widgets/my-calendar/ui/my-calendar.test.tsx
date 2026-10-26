@@ -5,10 +5,13 @@ import type * as SharedConfig from '@/shared/config';
 import {
   errorResponse,
   examTerms as examTermFixtures,
+  personalEvents,
+  personalTasks,
   renderWithProviders,
   screen,
   server,
   userEvent,
+  waitFor,
   within,
 } from '@/shared/test';
 
@@ -300,5 +303,88 @@ describe('MyCalendar', () => {
     expect(
       await screen.findByText('The calendar could not be loaded'),
     ).toBeInTheDocument();
+  });
+
+  describe('the person’s own items', () => {
+    const PERSONAL_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/personal-events`;
+    const DUE_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/tasks/due`;
+
+    beforeEach(() => {
+      server.use(
+        http.get(PERSONAL_URL, () =>
+          HttpResponse.json([
+            {
+              ...personalEvents[0],
+              startsAt: '2026-03-05T16:00:00.000Z',
+              endsAt: '2026-03-05T18:00:00.000Z',
+            },
+          ]),
+        ),
+        http.get(DUE_URL, () =>
+          HttpResponse.json([{ ...personalTasks[0], dueAt: '2026-03-06T10:00:00.000Z' }]),
+        ),
+      );
+    });
+
+    it('shows a personal event and a task among the week', async () => {
+      renderCalendar();
+
+      expect(
+        await screen.findByRole('button', { name: 'Edit “Volleyball training”' }),
+      ).toBeInTheDocument();
+      expect(await screen.findByTestId('calendar-task')).toHaveTextContent(
+        'Pay the dorm fee',
+      );
+      expect(screen.getByText('Personal')).toBeInTheDocument();
+    });
+
+    it('opens a personal event for editing', async () => {
+      renderCalendar();
+
+      await userEvent.click(
+        await screen.findByRole('button', { name: 'Edit “Volleyball training”' }),
+      );
+
+      const dialog = await screen.findByRole('dialog', { name: 'Edit event' });
+      expect(within(dialog).getByLabelText('Title')).toHaveValue('Volleyball training');
+      expect(within(dialog).getByLabelText('Place')).toHaveValue('Sports hall');
+    });
+
+    it('hides them when the person turns the layer off', async () => {
+      renderCalendar();
+      await screen.findByTestId('calendar-task');
+
+      await userEvent.click(
+        screen.getByRole('switch', { name: 'Show my own events and tasks' }),
+      );
+
+      expect(screen.queryByTestId('calendar-task')).not.toBeInTheDocument();
+    });
+
+    it('adds a new task from the calendar', async () => {
+      let created: unknown;
+      server.use(
+        http.post(
+          `/api/proxy/api/v1/institutions/${INSTITUTION}/me/tasks`,
+          async ({ request }) => {
+            created = await request.json();
+            return HttpResponse.json(personalTasks[0], { status: 201 });
+          },
+        ),
+      );
+      renderCalendar();
+
+      await userEvent.click(await screen.findByRole('button', { name: 'New task' }));
+      const dialog = await screen.findByRole('dialog', { name: 'New task' });
+      await userEvent.type(within(dialog).getByLabelText('Title'), 'Buy a lab coat');
+      await userEvent.click(within(dialog).getByRole('button', { name: 'Add' }));
+
+      await waitFor(() => {
+        expect(created).toEqual({ title: 'Buy a lab coat', note: null, dueAt: null });
+      });
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      });
+    });
   });
 });

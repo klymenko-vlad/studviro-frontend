@@ -11,6 +11,7 @@ import { cn, toneStyle, toWallTime } from '@/shared/lib';
 import type { CalendarItem } from '../model/calendar-items';
 import { deadlineHref } from '../model/deadline-href';
 import type { WeekBlock, WeekLayout } from '../model/week-layout';
+import { PersonalBlock, TaskChip } from './personal-week-items';
 
 const HOUR_PX = 56;
 /** Past two side by side a block is too narrow to read; the rest fan out instead. */
@@ -27,11 +28,13 @@ export function CalendarWeekGrid({
   days,
   institutionId,
   timeZone,
+  onOpenPersonal,
 }: {
   layout: WeekLayout;
   days: Date[];
   institutionId: string;
   timeZone: string;
+  onOpenPersonal: (item: CalendarItem) => void;
 }) {
   const t = useTranslations('calendar');
   const format = useFormatter();
@@ -92,6 +95,7 @@ export function CalendarWeekGrid({
                       item={item}
                       institutionId={institutionId}
                       timeZone={timeZone}
+                      onOpenPersonal={onOpenPersonal}
                     />
                   </li>
                 ))}
@@ -134,6 +138,7 @@ export function CalendarWeekGrid({
                   firstHour={layout.firstHour}
                   institutionId={institutionId}
                   timeZone={timeZone}
+                  onOpenPersonal={onOpenPersonal}
                 />
               ))}
 
@@ -153,11 +158,13 @@ function Block({
   firstHour,
   institutionId,
   timeZone,
+  onOpenPersonal,
 }: {
   block: WeekBlock;
   firstHour: number;
   institutionId: string;
   timeZone: string;
+  onOpenPersonal: (item: CalendarItem) => void;
 }) {
   const t = useTranslations('calendar');
   const { item } = block;
@@ -175,6 +182,19 @@ function Block({
         left: `calc(${String(block.lane * width)}% + 2px)`,
         width: `calc(${String(width)}% - 4px)`,
       };
+
+  if (item.kind === 'personal') {
+    return (
+      <PersonalBlock
+        event={item.event}
+        style={{ top, height: blockHeight, ...placement }}
+        timeZone={timeZone}
+        onOpen={() => {
+          onOpenPersonal(item);
+        }}
+      />
+    );
+  }
 
   const course =
     item.kind === 'event'
@@ -254,11 +274,24 @@ function AllDayItem({
   item,
   institutionId,
   timeZone,
+  onOpenPersonal,
 }: {
   item: CalendarItem;
   institutionId: string;
   timeZone: string;
+  onOpenPersonal: (item: CalendarItem) => void;
 }) {
+  if (item.kind === 'task') {
+    return (
+      <TaskChip
+        task={item.task}
+        timeZone={timeZone}
+        onOpen={() => {
+          onOpenPersonal(item);
+        }}
+      />
+    );
+  }
   if (item.kind !== 'deadline') return null;
   const { deadline } = item;
 

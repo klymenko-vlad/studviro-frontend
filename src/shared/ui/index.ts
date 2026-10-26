@@ -47,6 +47,14 @@ export {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './dropdown-menu';
+export {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from './dialog';
 export { EmptyState } from './empty-state';
 export { Input } from './input';
 export { LoadMore } from './load-more';

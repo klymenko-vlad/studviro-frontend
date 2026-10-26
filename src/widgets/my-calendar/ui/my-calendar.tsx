@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { CalendarDays, ChevronLeft, ChevronRight, List } from 'lucide-react';
+import { CalendarDays, ChevronLeft, ChevronRight, List, Plus } from 'lucide-react';
 import { useFormatter, useTimeZone, useTranslations } from 'next-intl';
 
 import {
@@ -36,10 +36,12 @@ import {
   TooltipTrigger,
 } from '@/shared/ui';
 
-import { groupCalendarItems } from '../model/calendar-items';
+import { groupCalendarItems, type CalendarItem } from '../model/calendar-items';
+import { usePersonalLayer } from '../model/use-personal-layer';
 import { layoutWeek } from '../model/week-layout';
 import { CalendarDaySection } from './calendar-day-section';
 import { CalendarWeekGrid } from './calendar-week-grid';
+import { PersonalEditor, type PersonalEditing } from './personal-editor';
 
 type View = 'week' | 'list';
 
@@ -61,6 +63,7 @@ export function MyCalendar({
   today?: Date;
 }) {
   const t = useTranslations('calendar');
+  const tPlanner = useTranslations('planner');
   const format = useFormatter();
   const timeZone = useTimeZone() ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
   const [from, setFrom] = useState(() => startOfWeek(today));
@@ -68,6 +71,8 @@ export function MyCalendar({
   const [type, setType] = useState<string>(ALL_TYPES);
   const [showExams, setShowExams] = useState(true);
   const [showDeadlines, setShowDeadlines] = useState(true);
+  const [showPersonal, setShowPersonal] = useState(true);
+  const [editing, setEditing] = useState<PersonalEditing>(null);
   const to = addWeeks(from, 1);
 
   // The chosen view lives in `?view=`. Until somebody chooses, a wide screen
@@ -108,6 +113,12 @@ export function MyCalendar({
     enabled: showDeadlines,
   });
 
+  const personal = usePersonalLayer(institutionId, range, showPersonal);
+  const openPersonal = (item: CalendarItem) => {
+    if (item.kind === 'personal') setEditing({ kind: 'event', event: item.event });
+    if (item.kind === 'task') setEditing({ kind: 'task', task: item.task });
+  };
+
   const courses = useQuery({
     ...timetableEventQueries.list({ path: { institutionId }, query: range }),
     select: courseFilterOptions,
@@ -123,6 +134,7 @@ export function MyCalendar({
     showExams ? (exams.data ?? []) : [],
     showDeadlines ? (deadlines.data ?? []) : [],
     timeZone,
+    personal,
   );
   const eventCount = days.reduce((n, d) => n + d.items.length, 0);
   const weekDates = Array.from({ length: 7 }, (_, index) => addDays(from, index));
@@ -149,6 +161,29 @@ export function MyCalendar({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              setEditing({ kind: 'event' });
+            }}
+          >
+            <Plus aria-hidden />
+            {tPlanner('newEvent')}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="mr-2"
+            onClick={() => {
+              setEditing({ kind: 'task' });
+            }}
+          >
+            <Plus aria-hidden />
+            {tPlanner('newTask')}
+          </Button>
           <div
             role="group"
             aria-label={t('viewLabel')}
@@ -244,6 +279,11 @@ export function MyCalendar({
           checked={showDeadlines}
           onChange={setShowDeadlines}
         />
+        <ToggleFilter
+          label={tPlanner('showPersonal')}
+          checked={showPersonal}
+          onChange={setShowPersonal}
+        />
       </ScheduleFilters>
 
       {isPending ? (
@@ -263,6 +303,7 @@ export function MyCalendar({
                 days={weekDates}
                 institutionId={institutionId}
                 timeZone={timeZone}
+                onOpenPersonal={openPersonal}
               />
             </div>
           )}
@@ -281,6 +322,7 @@ export function MyCalendar({
                     institutionId={institutionId}
                     today={today}
                     timeZone={timeZone}
+                    onOpenPersonal={openPersonal}
                   />
                 ))
               )}
@@ -288,6 +330,13 @@ export function MyCalendar({
           )}
         </>
       )}
+      <PersonalEditor
+        institutionId={institutionId}
+        editing={editing}
+        onClose={() => {
+          setEditing(null);
+        }}
+      />
     </div>
   );
 }

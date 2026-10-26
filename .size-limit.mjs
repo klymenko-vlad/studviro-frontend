@@ -358,7 +358,17 @@ const budgets = [
     // **726.95 kB**, +8.95 kB: replies grouped under the post they answer with
     // quoting and paging, the teacher profile's paged course list, and the
     // student dashboard's at-a-glance strip and term header.
-    limit: '728 kB',
+    //
+    // Raised from 728 kB to 741 kB on 2026-10-26 for the personal planner
+    // (Product Plan W1): a student's own tasks and events, with the _My tasks_
+    // tab (paged, filtered list, done toggle), the task and event dialogs with
+    // their forms and delete confirmation, the personal layer in the week grid
+    // and the day list, the dashboard's own-task rows, and the generated client
+    // for nine operations. Measured at **739.67 kB**, +12.72 kB. The dialogs
+    // reuse the `Dialog` already shipped for the unscanned-download warning,
+    // the confirmation is inline rather than a second dialog, and no
+    // dependency was added.
+    limit: '741 kB',
     gzip: true,
   },
 ];

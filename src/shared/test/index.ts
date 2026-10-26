@@ -84,4 +84,10 @@ export {
   QUIZ_ID,
   quizSlots,
 } from './msw/quiz-handlers';
+export {
+  PERSONAL_EVENT_ID,
+  PERSONAL_TASK_ID,
+  personalEvents,
+  personalTasks,
+} from './msw/planner-handlers';
 export { server } from './msw/server';

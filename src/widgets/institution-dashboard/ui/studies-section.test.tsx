@@ -5,6 +5,7 @@ import {
   courseResults,
   deadlines,
   errorResponse,
+  personalTasks,
   renderWithProviders,
   screen,
   server,
@@ -19,6 +20,7 @@ const COURSES_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/courses`;
 const RESULTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/course-results`;
 const EVENTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/timetable-events`;
 const DEADLINES_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/deadlines`;
+const DUE_TASKS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/tasks/due`;
 
 function renderDashboard(props?: {
   canReadCourses?: boolean;
@@ -113,6 +115,36 @@ describe('StudiesSection', () => {
       '1 deadline in the next two weeks',
     );
     expect(screen.getByText(/Assignment 1/)).toBeInTheDocument();
+  });
+
+  it('lists the reader’s own dated tasks among the deadlines', async () => {
+    const dueAt = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString();
+    server.use(
+      http.get(DEADLINES_URL, () => HttpResponse.json(deadlines)),
+      http.get(DUE_TASKS_URL, () => HttpResponse.json([{ ...personalTasks[0], dueAt }])),
+    );
+
+    renderDashboard();
+
+    expect(await screen.findByTestId('dashboard-deadlines-summary')).toHaveTextContent(
+      '1 deadline and 1 task of your own in the next two weeks',
+    );
+    const row = (await screen.findByText(/Pay the dorm fee/)).closest('li')!;
+    expect(within(row).getByText('Personal')).toBeInTheDocument();
+  });
+
+  it('counts only own tasks when no coursework falls due', async () => {
+    const dueAt = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString();
+    server.use(
+      http.get(DEADLINES_URL, () => HttpResponse.json([])),
+      http.get(DUE_TASKS_URL, () => HttpResponse.json([{ ...personalTasks[0], dueAt }])),
+    );
+
+    renderDashboard();
+
+    expect(await screen.findByTestId('dashboard-deadlines-summary')).toHaveTextContent(
+      /^1 task of your own in the next two weeks$/,
+    );
   });
 
   it('says how soon each deadline falls due', async () => {

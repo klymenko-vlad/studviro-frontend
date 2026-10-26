@@ -2819,6 +2819,79 @@ export type DemoRequestAcceptedDto = {
     status: 'accepted';
 };
 
+export const PersonalTaskState = {
+    OPEN: 'open',
+    DONE: 'done',
+    ALL: 'all'
+} as const;
+
+export type PersonalTaskState = typeof PersonalTaskState[keyof typeof PersonalTaskState];
+
+export type PersonalTaskDto = {
+    id: string;
+    title: string;
+    note: string | null;
+    dueAt: string | null;
+    done: boolean;
+    completedAt: string | null;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type PersonalTaskPageDto = {
+    /**
+     * Soonest due first; tasks without a due time last.
+     */
+    items: Array<PersonalTaskDto>;
+    meta: CursorPageMetaDto;
+};
+
+export type CreatePersonalTaskDto = {
+    title: string;
+    note?: string | null;
+    dueAt?: string | null;
+};
+
+export type UpdatePersonalTaskDto = {
+    title?: string;
+    /**
+     * Null clears the note.
+     */
+    note?: string | null;
+    /**
+     * Null removes the due time.
+     */
+    dueAt?: string | null;
+    done?: boolean;
+};
+
+export type PersonalEventDto = {
+    id: string;
+    title: string;
+    note: string | null;
+    location: string | null;
+    startsAt: string;
+    endsAt: string;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type CreatePersonalEventDto = {
+    title: string;
+    note?: string | null;
+    location?: string | null;
+    startsAt: string;
+    endsAt: string;
+};
+
+export type UpdatePersonalEventDto = {
+    title?: string;
+    note?: string | null;
+    location?: string | null;
+    startsAt?: string;
+    endsAt?: string;
+};
+
 export type ExportedAccountDto = {
     id: string;
     email: string;
@@ -2985,6 +3058,25 @@ export type ExportedDiscussionPostDto = {
     createdAt: string;
 };
 
+export type ExportedPersonalTaskDto = {
+    id: string;
+    title: string;
+    note: string | null;
+    dueAt: string | null;
+    completedAt: string | null;
+    createdAt: string;
+};
+
+export type ExportedPersonalEventDto = {
+    id: string;
+    title: string;
+    note: string | null;
+    location: string | null;
+    startsAt: string;
+    endsAt: string;
+    createdAt: string;
+};
+
 export type ExportedNotificationDto = {
     type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free' | 'discussion_thread_started' | 'discussion_reply';
     occurredAt: string;
@@ -3014,6 +3106,8 @@ export type PersonalDataExportDto = {
     activityCompletions: Array<ExportedActivityCompletionDto>;
     submissions: Array<ExportedSubmissionDto>;
     discussionPosts: Array<ExportedDiscussionPostDto>;
+    personalTasks: Array<ExportedPersonalTaskDto>;
+    personalEvents: Array<ExportedPersonalEventDto>;
     notifications: Array<ExportedNotificationDto>;
     files: Array<ExportedFileDto>;
 };
@@ -3033,6 +3127,8 @@ export type ErasureTallyDto = {
     assessmentFeedback: number;
     submissionNotes: number;
     discussionPosts: number;
+    personalTasks: number;
+    personalEvents: number;
 };
 
 export type PersonalDataErasureResponseDto = {
@@ -9110,6 +9206,331 @@ export type CreateDemoRequestResponses = {
 };
 
 export type CreateDemoRequestResponse = CreateDemoRequestResponses[keyof CreateDemoRequestResponses];
+
+export type ListMyTasksData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query?: {
+        limit?: number;
+        /**
+         * Opaque cursor from a previous page
+         */
+        cursor?: string;
+        status?: PersonalTaskState;
+        /**
+         * Narrows to tasks whose title or note contains this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/me/tasks';
+};
+
+export type ListMyTasksErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyTasksError = ListMyTasksErrors[keyof ListMyTasksErrors];
+
+export type ListMyTasksResponses = {
+    200: PersonalTaskPageDto;
+};
+
+export type ListMyTasksResponse = ListMyTasksResponses[keyof ListMyTasksResponses];
+
+export type CreateMyTaskData = {
+    body: CreatePersonalTaskDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/tasks';
+};
+
+export type CreateMyTaskErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateMyTaskError = CreateMyTaskErrors[keyof CreateMyTaskErrors];
+
+export type CreateMyTaskResponses = {
+    201: PersonalTaskDto;
+};
+
+export type CreateMyTaskResponse = CreateMyTaskResponses[keyof CreateMyTaskResponses];
+
+export type ListMyDueTasksData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query: {
+        from: string;
+        to: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/me/tasks/due';
+};
+
+export type ListMyDueTasksErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyDueTasksError = ListMyDueTasksErrors[keyof ListMyDueTasksErrors];
+
+export type ListMyDueTasksResponses = {
+    200: Array<PersonalTaskDto>;
+};
+
+export type ListMyDueTasksResponse = ListMyDueTasksResponses[keyof ListMyDueTasksResponses];
+
+export type DeleteMyTaskData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        taskId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/tasks/{taskId}';
+};
+
+export type DeleteMyTaskErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type DeleteMyTaskError = DeleteMyTaskErrors[keyof DeleteMyTaskErrors];
+
+export type DeleteMyTaskResponses = {
+    204: void;
+};
+
+export type DeleteMyTaskResponse = DeleteMyTaskResponses[keyof DeleteMyTaskResponses];
+
+export type UpdateMyTaskData = {
+    body: UpdatePersonalTaskDto;
+    path: {
+        institutionId: string;
+        taskId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/tasks/{taskId}';
+};
+
+export type UpdateMyTaskErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateMyTaskError = UpdateMyTaskErrors[keyof UpdateMyTaskErrors];
+
+export type UpdateMyTaskResponses = {
+    200: PersonalTaskDto;
+};
+
+export type UpdateMyTaskResponse = UpdateMyTaskResponses[keyof UpdateMyTaskResponses];
+
+export type ListMyPersonalEventsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+    };
+    query: {
+        from: string;
+        to: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/me/personal-events';
+};
+
+export type ListMyPersonalEventsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListMyPersonalEventsError = ListMyPersonalEventsErrors[keyof ListMyPersonalEventsErrors];
+
+export type ListMyPersonalEventsResponses = {
+    200: Array<PersonalEventDto>;
+};
+
+export type ListMyPersonalEventsResponse = ListMyPersonalEventsResponses[keyof ListMyPersonalEventsResponses];
+
+export type CreateMyPersonalEventData = {
+    body: CreatePersonalEventDto;
+    path: {
+        institutionId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/personal-events';
+};
+
+export type CreateMyPersonalEventErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type CreateMyPersonalEventError = CreateMyPersonalEventErrors[keyof CreateMyPersonalEventErrors];
+
+export type CreateMyPersonalEventResponses = {
+    201: PersonalEventDto;
+};
+
+export type CreateMyPersonalEventResponse = CreateMyPersonalEventResponses[keyof CreateMyPersonalEventResponses];
+
+export type DeleteMyPersonalEventData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        eventId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/personal-events/{eventId}';
+};
+
+export type DeleteMyPersonalEventErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type DeleteMyPersonalEventError = DeleteMyPersonalEventErrors[keyof DeleteMyPersonalEventErrors];
+
+export type DeleteMyPersonalEventResponses = {
+    204: void;
+};
+
+export type DeleteMyPersonalEventResponse = DeleteMyPersonalEventResponses[keyof DeleteMyPersonalEventResponses];
+
+export type UpdateMyPersonalEventData = {
+    body: UpdatePersonalEventDto;
+    path: {
+        institutionId: string;
+        eventId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/personal-events/{eventId}';
+};
+
+export type UpdateMyPersonalEventErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type UpdateMyPersonalEventError = UpdateMyPersonalEventErrors[keyof UpdateMyPersonalEventErrors];
+
+export type UpdateMyPersonalEventResponses = {
+    200: PersonalEventDto;
+};
+
+export type UpdateMyPersonalEventResponse = UpdateMyPersonalEventResponses[keyof UpdateMyPersonalEventResponses];
 
 export type ExportMyPersonalDataData = {
     body?: never;

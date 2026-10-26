@@ -5,21 +5,25 @@ import { DeadlineCard } from '@/entities/deadline';
 import { ExamTermCard } from '@/entities/exam-term';
 import { dayKey, TimetableEventCard } from '@/entities/timetable-event';
 
-import type { CalendarDay } from '../model/calendar-items';
+import type { CalendarDay, CalendarItem } from '../model/calendar-items';
 import { deadlineHref } from '../model/deadline-href';
+import { PersonalEventCard, PersonalTaskCard } from './personal-item-card';
 
 export function CalendarDaySection({
   day,
   institutionId,
   today,
   timeZone,
+  onOpenPersonal,
 }: {
   day: CalendarDay;
   institutionId: string;
   today: Date;
   timeZone: string;
+  onOpenPersonal: (item: CalendarItem) => void;
 }) {
   const t = useTranslations('calendar');
+  const tPlanner = useTranslations('planner');
   const format = useFormatter();
 
   return (
@@ -41,6 +45,26 @@ export function CalendarDaySection({
                 event={item.event}
                 href={courseOfferingHref(institutionId, item.event.offering.id)}
               />
+            ) : item.kind === 'personal' ? (
+              <PersonalEventCard
+                event={item.event}
+                onOpen={() => {
+                  onOpenPersonal(item);
+                }}
+              />
+            ) : item.kind === 'task' ? (
+              <div className="flex flex-col gap-1.5" data-testid="calendar-task">
+                <p className="text-muted-foreground type-eyebrow">
+                  {tPlanner('taskLayer')}
+                </p>
+                <PersonalTaskCard
+                  institutionId={institutionId}
+                  task={item.task}
+                  onOpen={() => {
+                    onOpenPersonal(item);
+                  }}
+                />
+              </div>
             ) : item.kind === 'deadline' ? (
               <div className="flex flex-col gap-1.5" data-testid="calendar-deadline">
                 <p className="text-muted-foreground type-eyebrow">{t('deadlineLayer')}</p>
