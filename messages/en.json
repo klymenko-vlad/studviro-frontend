@@ -640,6 +640,31 @@
       "empty": "Nothing has been recorded yet.",
       "error": "Recent changes are unavailable right now.",
       "link": "Open the audit trail"
+    },
+    "greeting": "Welcome back, {name}",
+    "greetingAnonymous": "Welcome back",
+    "today": {
+      "week": "Week {week} of {weeks} · {term}",
+      "starts": "{term} starts {date}"
+    },
+    "glance": {
+      "label": "At a glance",
+      "term": "This term",
+      "courses": "{count, plural, one {# course} other {# courses}}",
+      "credits": "{count} credits",
+      "noCourses": "No courses",
+      "average": "Average grade",
+      "noAverage": "Not yet",
+      "earned": "{credits} credits earned",
+      "retake": "{count, plural, one {# course} other {# courses}} to retake",
+      "deadline": "Next deadline",
+      "nothingDue": "Nothing due",
+      "nothingDueDetail": "in the next two weeks",
+      "exam": "Next exam",
+      "examsOpen": "{count, plural, one {# date open} other {# dates open}}",
+      "register": "Register now",
+      "noExam": "None booked",
+      "unavailable": "Unavailable"
     }
   },
   "calendar": {
@@ -2341,6 +2366,10 @@
     "courses": "Courses",
     "departments": "Departments",
     "noCourses": "No courses on record.",
+    "filter": "Filter courses",
+    "filterPlaceholder": "Title or code",
+    "noMatch": "No course matches “{query}”.",
+    "coursesError": "The courses could not be loaded.",
     "notFoundTitle": "No such teacher",
     "notFoundDescription": "Nobody with this profile teaches at this institution.",
     "errorTitle": "The profile could not be loaded",
@@ -2572,6 +2601,18 @@
     }
   },
   "discussion": {
+    "replyAction": "Reply",
+    "replyTo": "Reply to {name}",
+    "replyCount": "{count, plural, one {# reply} other {# replies}}",
+    "replyingTo": "Replying to {name}",
+    "cancelReply": "Cancel reply",
+    "inReplyTo": "In reply to {name}",
+    "quotedDeleted": "Deleted message",
+    "quotedHidden": "Hidden message",
+    "repliesError": "The replies could not be loaded.",
+    "filterThreads": "Filter threads",
+    "filterThreadsPlaceholder": "Title",
+    "noThreadMatch": "No thread matches “{query}”.",
     "title": "Discussion",
     "description": "Questions and answers among the people of this course. Teachers can hide posts that do not belong here.",
     "empty": "Nobody has started a thread yet.",

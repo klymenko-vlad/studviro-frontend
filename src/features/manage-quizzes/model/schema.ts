@@ -87,7 +87,7 @@ export const quizFormSchema = z
 
 export type QuizFormValues = z.infer<typeof quizFormSchema>;
 
-export const DEFAULT_REVIEW: QuizFormValues['review'] = {
+const DEFAULT_REVIEW: QuizFormValues['review'] = {
   responses: 'immediately',
   correctness: 'immediately',
   correctAnswer: 'after_close',

@@ -353,7 +353,12 @@ const budgets = [
     // which landed on `dev` under its 605 kB entry without raising it.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '718 kB',
+    // Raised from 718 kB to 728 kB on 2026-10-26 when the course builder and
+    // the discussion-replies work were merged into `dev`. Measured at
+    // **726.95 kB**, +8.95 kB: replies grouped under the post they answer with
+    // quoting and paging, the teacher profile's paged course list, and the
+    // student dashboard's at-a-glance strip and term header.
+    limit: '728 kB',
     gzip: true,
   },
 ];

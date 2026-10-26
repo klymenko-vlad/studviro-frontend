@@ -20,13 +20,13 @@ export function ThreadVisibilityToggle({
   hidden: boolean;
 }) {
   const t = useTranslations('discussion');
-  const refresh = useRefreshDiscussion(address);
+  const refresh = useRefreshDiscussion();
 
   const mutation = useMutation({
     ...discussionMutations.setThreadVisibility(),
     onSuccess: async (_, { body }) => {
       toast.success(body.hidden ? t('hiddenDone') : t('restoredDone'));
-      await refresh(threadId);
+      await refresh();
     },
     onError: error => {
       toast.error(toApiError(error).message);

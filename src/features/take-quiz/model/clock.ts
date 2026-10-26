@@ -1,4 +1,4 @@
-export const WARNINGS = [600, 300, 60, 30] as const;
+const WARNINGS = [600, 300, 60, 30] as const;
 
 export function clockParts(total: number) {
   const whole = Math.max(0, Math.floor(total));

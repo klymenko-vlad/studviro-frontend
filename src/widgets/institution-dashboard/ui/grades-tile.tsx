@@ -4,9 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
 import { courseOfferingHref } from '@/entities/course-offering';
-import { courseResultQueries, isPublished } from '@/entities/course-result';
+import { courseResultQueries, hasFailed, isPublished } from '@/entities/course-result';
 import { Link } from '@/shared/config';
 import {
+  Badge,
   Button,
   Card,
   CardContent,
@@ -70,9 +71,13 @@ export function GradesTile({ institutionId }: { institutionId: string }) {
                   code={result.course.code}
                   title={result.course.title}
                   figure={
-                    result.effective === null
-                      ? t('grades.pending')
-                      : t(`grade.${result.effective.grade}`)
+                    result.effective === null ? (
+                      <Badge variant="outline">{t('grades.pending')}</Badge>
+                    ) : (
+                      <Badge variant={hasFailed(result) ? 'destructive' : 'secondary'}>
+                        {t(`grade.${result.effective.grade}`)}
+                      </Badge>
+                    )
                   }
                 />
               ))}

@@ -3614,7 +3614,8 @@ export const zDiscussionThreadSummaryDto = z.object({
 
 export const zDiscussionThreadListDto = z.object({
     canModerate: z.boolean(),
-    threads: z.array(zDiscussionThreadSummaryDto)
+    items: z.array(zDiscussionThreadSummaryDto),
+    meta: zCursorPageMetaDto
 });
 
 export const zDiscussionAttachmentClaimDto = z.object({
@@ -3626,6 +3627,17 @@ export const zCreateDiscussionThreadDto = z.object({
     attachments: z.array(zDiscussionAttachmentClaimDto).max(3).optional(),
     title: z.string().min(1).max(200),
     body: z.string().min(1).max(10000)
+});
+
+export const zDiscussionThreadDto = z.object({
+    id: z.uuid(),
+    title: z.string(),
+    author: zDiscussionAuthorDto,
+    createdAt: z.iso.datetime(),
+    lastActivityAt: z.iso.datetime(),
+    postCount: z.number(),
+    hidden: z.boolean(),
+    canModerate: z.boolean()
 });
 
 export const zDiscussionPostAuthorDto = z.object({
@@ -3647,6 +3659,17 @@ export const zDiscussionAttachmentDto = z.object({
     ])
 });
 
+export const zDiscussionQuoteDto = z.object({
+    postId: z.uuid(),
+    author: zDiscussionAuthorDto,
+    excerpt: z.string().nullable(),
+    state: z.enum([
+        'visible',
+        'hidden',
+        'deleted'
+    ])
+});
+
 export const zDiscussionPostDto = z.object({
     id: z.uuid(),
     author: zDiscussionPostAuthorDto,
@@ -3659,24 +3682,21 @@ export const zDiscussionPostDto = z.object({
     mine: z.boolean(),
     createdAt: z.iso.datetime(),
     editedAt: z.iso.datetime().nullable(),
-    attachments: z.array(zDiscussionAttachmentDto)
+    attachments: z.array(zDiscussionAttachmentDto),
+    parentPostId: z.uuid().nullable(),
+    replyCount: z.number(),
+    quote: zDiscussionQuoteDto.nullable()
 });
 
-export const zDiscussionThreadDto = z.object({
-    id: z.uuid(),
-    title: z.string(),
-    author: zDiscussionAuthorDto,
-    createdAt: z.iso.datetime(),
-    lastActivityAt: z.iso.datetime(),
-    postCount: z.number(),
-    hidden: z.boolean(),
-    canModerate: z.boolean(),
-    posts: z.array(zDiscussionPostDto)
+export const zDiscussionPostPageDto = z.object({
+    items: z.array(zDiscussionPostDto),
+    meta: zCursorPageMetaDto
 });
 
 export const zCreateDiscussionPostDto = z.object({
     attachments: z.array(zDiscussionAttachmentClaimDto).max(3).optional(),
-    body: z.string().min(1).max(10000)
+    body: z.string().min(1).max(10000),
+    replyToPostId: z.uuid().optional()
 });
 
 export const zEditDiscussionThreadDto = z.object({
@@ -3730,6 +3750,13 @@ export const zTeacherDepartmentDto = z.object({
     name: z.string()
 });
 
+export const zTeacherProfileResponseDto = z.object({
+    id: z.uuid(),
+    displayName: z.string(),
+    email: z.string(),
+    departments: z.array(zTeacherDepartmentDto)
+});
+
 export const zTeacherOfferingDto = z.object({
     offeringId: z.uuid(),
     courseTitle: z.string(),
@@ -3738,12 +3765,9 @@ export const zTeacherOfferingDto = z.object({
     viewerCanOpen: z.boolean()
 });
 
-export const zTeacherProfileResponseDto = z.object({
-    id: z.uuid(),
-    displayName: z.string(),
-    email: z.string(),
-    departments: z.array(zTeacherDepartmentDto),
-    offerings: z.array(zTeacherOfferingDto)
+export const zTeacherOfferingPageDto = z.object({
+    items: z.array(zTeacherOfferingDto),
+    meta: zCursorPageMetaDto
 });
 
 export const zCaptchaStateDto = z.object({
@@ -5511,6 +5535,13 @@ export const zListDiscussionThreadsPath = z.object({
     offeringId: z.string()
 });
 
+export const zListDiscussionThreadsQuery = z.object({
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    cursor: z.string().optional(),
+    order: zSortOrder.optional(),
+    q: z.string().max(200).optional()
+});
+
 export const zListDiscussionThreadsResponse = zDiscussionThreadListDto;
 
 export const zStartDiscussionThreadBody = zCreateDiscussionThreadDto;
@@ -5559,6 +5590,20 @@ export const zRenameDiscussionThreadPath = z.object({
 
 export const zRenameDiscussionThreadResponse = zDiscussionThreadDto;
 
+export const zListDiscussionPostsPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string()
+});
+
+export const zListDiscussionPostsQuery = z.object({
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    cursor: z.string().optional(),
+    order: zSortOrder.optional()
+});
+
+export const zListDiscussionPostsResponse = zDiscussionPostPageDto;
+
 export const zReplyToDiscussionThreadBody = zCreateDiscussionPostDto;
 
 export const zReplyToDiscussionThreadPath = z.object({
@@ -5567,7 +5612,22 @@ export const zReplyToDiscussionThreadPath = z.object({
     threadId: z.string()
 });
 
-export const zReplyToDiscussionThreadResponse = zDiscussionThreadDto;
+export const zReplyToDiscussionThreadResponse = zDiscussionPostDto;
+
+export const zListDiscussionRepliesPath = z.object({
+    institutionId: z.string(),
+    offeringId: z.string(),
+    threadId: z.string(),
+    postId: z.string()
+});
+
+export const zListDiscussionRepliesQuery = z.object({
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    cursor: z.string().optional(),
+    order: zSortOrder.optional()
+});
+
+export const zListDiscussionRepliesResponse = zDiscussionPostPageDto;
 
 export const zDeleteDiscussionPostPath = z.object({
     institutionId: z.string(),
@@ -5587,7 +5647,7 @@ export const zEditDiscussionPostPath = z.object({
     postId: z.string()
 });
 
-export const zEditDiscussionPostResponse = zDiscussionThreadDto;
+export const zEditDiscussionPostResponse = zDiscussionPostDto;
 
 export const zSetDiscussionThreadVisibilityBody = zDiscussionVisibilityDto;
 
@@ -5626,6 +5686,20 @@ export const zGetTeacherProfilePath = z.object({
 });
 
 export const zGetTeacherProfileResponse = zTeacherProfileResponseDto;
+
+export const zListTeacherOfferingsPath = z.object({
+    institutionId: z.string(),
+    userId: z.string()
+});
+
+export const zListTeacherOfferingsQuery = z.object({
+    limit: z.number().gte(1).lte(100).optional().default(20),
+    cursor: z.string().optional(),
+    order: zSortOrder.optional(),
+    q: z.string().max(200).optional()
+});
+
+export const zListTeacherOfferingsResponse = zTeacherOfferingPageDto;
 
 export const zGetCaptchaStateResponse = zCaptchaStateDto;
 

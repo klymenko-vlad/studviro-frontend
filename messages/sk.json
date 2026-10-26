@@ -640,6 +640,31 @@
       "empty": "Zatiaľ nebolo nič zaznamenané.",
       "error": "Posledné zmeny sú momentálne nedostupné.",
       "link": "Otvoriť audítorskú stopu"
+    },
+    "greeting": "Vitajte späť, {name}",
+    "greetingAnonymous": "Vitajte späť",
+    "today": {
+      "week": "{week}. týždeň z {weeks} · {term}",
+      "starts": "{term} začína {date}"
+    },
+    "glance": {
+      "label": "Na prvý pohľad",
+      "term": "Tento semester",
+      "courses": "{count, plural, one {# predmet} few {# predmety} other {# predmetov}}",
+      "credits": "{count} kreditov",
+      "noCourses": "Žiadne predmety",
+      "average": "Priemer známok",
+      "noAverage": "Zatiaľ nie",
+      "earned": "Získané kredity: {credits}",
+      "retake": "{count, plural, one {# predmet} few {# predmety} other {# predmetov}} na opakovanie",
+      "deadline": "Najbližší termín",
+      "nothingDue": "Nič na odovzdanie",
+      "nothingDueDetail": "v najbližších dvoch týždňoch",
+      "exam": "Najbližšia skúška",
+      "examsOpen": "{count, plural, one {# otvorený termín} few {# otvorené termíny} other {# otvorených termínov}}",
+      "register": "Prihlásiť sa",
+      "noExam": "Žiadna prihlásená",
+      "unavailable": "Nedostupné"
     }
   },
   "calendar": {
@@ -2341,6 +2366,10 @@
     "courses": "Predmety",
     "departments": "Katedry",
     "noCourses": "Nie sú evidované žiadne predmety.",
+    "filter": "Filtrovať predmety",
+    "filterPlaceholder": "Názov alebo kód",
+    "noMatch": "Žiadny predmet nezodpovedá „{query}“.",
+    "coursesError": "Predmety sa nepodarilo načítať.",
     "notFoundTitle": "Taký vyučujúci neexistuje",
     "notFoundDescription": "Nikto s týmto profilom v tejto inštitúcii neučí.",
     "errorTitle": "Profil sa nepodarilo načítať",
@@ -2572,6 +2601,18 @@
     }
   },
   "discussion": {
+    "replyAction": "Odpovedať",
+    "replyTo": "Odpovedať používateľovi {name}",
+    "replyCount": "{count, plural, one {# odpoveď} few {# odpovede} other {# odpovedí}}",
+    "replyingTo": "Odpoveď pre {name}",
+    "cancelReply": "Zrušiť odpoveď",
+    "inReplyTo": "V odpovedi na {name}",
+    "quotedDeleted": "Odstránená správa",
+    "quotedHidden": "Skrytá správa",
+    "repliesError": "Odpovede sa nepodarilo načítať.",
+    "filterThreads": "Filtrovať témy",
+    "filterThreadsPlaceholder": "Názov",
+    "noThreadMatch": "Žiadna téma nezodpovedá „{query}“.",
     "title": "Diskusia",
     "description": "Otázky a odpovede medzi ľuďmi tohto predmetu. Vyučujúci môže skryť príspevky, ktoré sem nepatria.",
     "empty": "Zatiaľ nikto nezačal tému.",

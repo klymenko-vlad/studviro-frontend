@@ -13,7 +13,7 @@ interface Paged {
   meta: { page: number; hasNextPage: boolean };
 }
 
-export const nextPage = (lastPage: Paged): number | undefined =>
+const nextPage = (lastPage: Paged): number | undefined =>
   lastPage.meta.hasNextPage ? lastPage.meta.page + 1 : undefined;
 
 export const quizQueries = {

@@ -1,6 +1,7 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useDeferredValue, useId, useState } from 'react';
+import { keepPreviousData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
 import { courseOfferingHref } from '@/entities/course-offering';
@@ -19,8 +20,12 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  Input,
+  Label,
   LinkRow,
   LinkRowChevron,
+  ListSkeleton,
+  LoadMore,
   Skeleton,
   ToneDot,
 } from '@/shared/ui';
@@ -81,25 +86,85 @@ export function TeacherProfile({
         </div>
       </header>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">{t('courses')}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {data.offerings.length === 0 ? (
-            <p className="text-muted-foreground text-sm">{t('noCourses')}</p>
-          ) : (
+      <TaughtCourses institutionId={institutionId} teacherId={teacherId} />
+    </div>
+  );
+}
+
+const PAGE = 20;
+
+function TaughtCourses({
+  institutionId,
+  teacherId,
+}: {
+  institutionId: string;
+  teacherId: string;
+}) {
+  const t = useTranslations('teacherProfile');
+  const filterId = useId();
+  const [filter, setFilter] = useState('');
+  const q = useDeferredValue(filter.trim());
+  const courses = useInfiniteQuery({
+    ...teacherQueries.offerings({
+      path: { institutionId, userId: teacherId },
+      query: { limit: PAGE, ...(q === '' ? {} : { q }) },
+    }),
+    placeholderData: keepPreviousData,
+  });
+  const offerings = courses.data?.pages.flatMap(page => page.items) ?? [];
+  const teachesNothing = q === '' && courses.isSuccess && offerings.length === 0;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-base">{t('courses')}</CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-4">
+        {teachesNothing ? null : (
+          <div className="flex flex-col gap-1">
+            <Label htmlFor={filterId}>{t('filter')}</Label>
+            <Input
+              id={filterId}
+              type="search"
+              autoComplete="off"
+              placeholder={t('filterPlaceholder')}
+              value={filter}
+              onChange={event => {
+                setFilter(event.target.value);
+              }}
+            />
+          </div>
+        )}
+
+        {courses.isPending ? (
+          <ListSkeleton items={4} data-testid="teacher-courses-loading" />
+        ) : courses.isError ? (
+          <p className="text-muted-foreground text-sm">{t('coursesError')}</p>
+        ) : teachesNothing ? (
+          <p className="text-muted-foreground text-sm">{t('noCourses')}</p>
+        ) : offerings.length === 0 ? (
+          <p className="text-muted-foreground text-sm">{t('noMatch', { query: q })}</p>
+        ) : (
+          <>
             <ul className="-mx-2 flex flex-col">
-              {data.offerings.map(offering => (
+              {offerings.map(offering => (
                 <li key={offering.offeringId}>
                   <OfferingRow institutionId={institutionId} offering={offering} />
                 </li>
               ))}
             </ul>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+            <LoadMore
+              shown={offerings.length}
+              hasMore={courses.hasNextPage}
+              pending={courses.isFetchingNextPage}
+              onLoadMore={() => {
+                void courses.fetchNextPage();
+              }}
+            />
+          </>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 

@@ -3575,7 +3575,11 @@ export type DiscussionThreadSummaryDto = {
 
 export type DiscussionThreadListDto = {
     canModerate: boolean;
-    threads: Array<DiscussionThreadSummaryDto>;
+    /**
+     * Most recently active first.
+     */
+    items: Array<DiscussionThreadSummaryDto>;
+    meta: CursorPageMetaDto;
 };
 
 export type DiscussionAttachmentClaimDto = {
@@ -3590,6 +3594,20 @@ export type CreateDiscussionThreadDto = {
     attachments?: Array<DiscussionAttachmentClaimDto>;
     title: string;
     body: string;
+};
+
+export type DiscussionThreadDto = {
+    id: string;
+    title: string;
+    author: DiscussionAuthorDto;
+    createdAt: string;
+    lastActivityAt: string;
+    postCount: number;
+    /**
+     * Hidden by a moderator.
+     */
+    hidden: boolean;
+    canModerate: boolean;
 };
 
 export type DiscussionPostAuthorDto = {
@@ -3612,6 +3630,16 @@ export type DiscussionAttachmentDto = {
     scanStatus: 'unscanned' | 'pending' | 'clean' | 'infected';
 };
 
+export type DiscussionQuoteDto = {
+    postId: string;
+    author: DiscussionAuthorDto;
+    /**
+     * The start of the quoted text; null when it is deleted or withheld.
+     */
+    excerpt: string | null;
+    state: 'visible' | 'hidden' | 'deleted';
+};
+
 export type DiscussionPostDto = {
     id: string;
     author: DiscussionPostAuthorDto;
@@ -3630,26 +3658,35 @@ export type DiscussionPostDto = {
      * Empty when the text is withheld from this reader.
      */
     attachments: Array<DiscussionAttachmentDto>;
+    /**
+     * The top-level post this reply is gathered under; null for a top-level post.
+     */
+    parentPostId: string | null;
+    /**
+     * Replies gathered under a top-level post; 0 for a reply.
+     */
+    replyCount: number;
+    /**
+     * The reply this one answers, inside the same group.
+     */
+    quote: DiscussionQuoteDto | null;
 };
 
-export type DiscussionThreadDto = {
-    id: string;
-    title: string;
-    author: DiscussionAuthorDto;
-    createdAt: string;
-    lastActivityAt: string;
-    postCount: number;
+export type DiscussionPostPageDto = {
     /**
-     * Hidden by a moderator.
+     * Oldest first.
      */
-    hidden: boolean;
-    canModerate: boolean;
-    posts: Array<DiscussionPostDto>;
+    items: Array<DiscussionPostDto>;
+    meta: CursorPageMetaDto;
 };
 
 export type CreateDiscussionPostDto = {
     attachments?: Array<DiscussionAttachmentClaimDto>;
     body: string;
+    /**
+     * Answer this post. A top-level post gathers the reply under it; a reply keeps the new one in the same group and quotes it.
+     */
+    replyToPostId?: string;
 };
 
 export type EditDiscussionThreadDto = {
@@ -3696,6 +3733,13 @@ export type TeacherDepartmentDto = {
     name: string;
 };
 
+export type TeacherProfileResponseDto = {
+    id: string;
+    displayName: string;
+    email: string;
+    departments: Array<TeacherDepartmentDto>;
+};
+
 export type TeacherOfferingDto = {
     offeringId: string;
     courseTitle: string;
@@ -3707,15 +3751,12 @@ export type TeacherOfferingDto = {
     viewerCanOpen: boolean;
 };
 
-export type TeacherProfileResponseDto = {
-    id: string;
-    displayName: string;
-    email: string;
-    departments: Array<TeacherDepartmentDto>;
+export type TeacherOfferingPageDto = {
     /**
      * Newest term first.
      */
-    offerings: Array<TeacherOfferingDto>;
+    items: Array<TeacherOfferingDto>;
+    meta: CursorPageMetaDto;
 };
 
 export type CaptchaStateDto = {
@@ -11128,7 +11169,18 @@ export type ListDiscussionThreadsData = {
         institutionId: string;
         offeringId: string;
     };
-    query?: never;
+    query?: {
+        limit?: number;
+        /**
+         * Opaque cursor from a previous page
+         */
+        cursor?: string;
+        order?: SortOrder;
+        /**
+         * Narrows to threads whose title contains this
+         */
+        q?: string;
+    };
     url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads';
 };
 
@@ -11357,6 +11409,51 @@ export type RenameDiscussionThreadResponses = {
 
 export type RenameDiscussionThreadResponse = RenameDiscussionThreadResponses[keyof RenameDiscussionThreadResponses];
 
+export type ListDiscussionPostsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+    };
+    query?: {
+        limit?: number;
+        /**
+         * Opaque cursor from a previous page
+         */
+        cursor?: string;
+        order?: SortOrder;
+    };
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts';
+};
+
+export type ListDiscussionPostsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListDiscussionPostsError = ListDiscussionPostsErrors[keyof ListDiscussionPostsErrors];
+
+export type ListDiscussionPostsResponses = {
+    200: DiscussionPostPageDto;
+};
+
+export type ListDiscussionPostsResponse = ListDiscussionPostsResponses[keyof ListDiscussionPostsResponses];
+
 export type ReplyToDiscussionThreadData = {
     body: CreateDiscussionPostDto;
     path: {
@@ -11394,10 +11491,56 @@ export type ReplyToDiscussionThreadErrors = {
 export type ReplyToDiscussionThreadError = ReplyToDiscussionThreadErrors[keyof ReplyToDiscussionThreadErrors];
 
 export type ReplyToDiscussionThreadResponses = {
-    201: DiscussionThreadDto;
+    201: DiscussionPostDto;
 };
 
 export type ReplyToDiscussionThreadResponse = ReplyToDiscussionThreadResponses[keyof ReplyToDiscussionThreadResponses];
+
+export type ListDiscussionRepliesData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        offeringId: string;
+        threadId: string;
+        postId: string;
+    };
+    query?: {
+        limit?: number;
+        /**
+         * Opaque cursor from a previous page
+         */
+        cursor?: string;
+        order?: SortOrder;
+    };
+    url: '/api/v1/institutions/{institutionId}/course-offerings/{offeringId}/discussion/threads/{threadId}/posts/{postId}/replies';
+};
+
+export type ListDiscussionRepliesErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListDiscussionRepliesError = ListDiscussionRepliesErrors[keyof ListDiscussionRepliesErrors];
+
+export type ListDiscussionRepliesResponses = {
+    200: DiscussionPostPageDto;
+};
+
+export type ListDiscussionRepliesResponse = ListDiscussionRepliesResponses[keyof ListDiscussionRepliesResponses];
 
 export type DeleteDiscussionPostData = {
     body?: never;
@@ -11476,7 +11619,7 @@ export type EditDiscussionPostErrors = {
 export type EditDiscussionPostError = EditDiscussionPostErrors[keyof EditDiscussionPostErrors];
 
 export type EditDiscussionPostResponses = {
-    200: DiscussionThreadDto;
+    200: DiscussionPostDto;
 };
 
 export type EditDiscussionPostResponse = EditDiscussionPostResponses[keyof EditDiscussionPostResponses];
@@ -11635,6 +11778,54 @@ export type GetTeacherProfileResponses = {
 };
 
 export type GetTeacherProfileResponse = GetTeacherProfileResponses[keyof GetTeacherProfileResponses];
+
+export type ListTeacherOfferingsData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        userId: string;
+    };
+    query?: {
+        limit?: number;
+        /**
+         * Opaque cursor from a previous page
+         */
+        cursor?: string;
+        order?: SortOrder;
+        /**
+         * Narrows to courses whose title or code contains this
+         */
+        q?: string;
+    };
+    url: '/api/v1/institutions/{institutionId}/teachers/{userId}/offerings';
+};
+
+export type ListTeacherOfferingsErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type ListTeacherOfferingsError = ListTeacherOfferingsErrors[keyof ListTeacherOfferingsErrors];
+
+export type ListTeacherOfferingsResponses = {
+    200: TeacherOfferingPageDto;
+};
+
+export type ListTeacherOfferingsResponse = ListTeacherOfferingsResponses[keyof ListTeacherOfferingsResponses];
 
 export type GetCaptchaStateData = {
     body?: never;

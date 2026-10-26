@@ -47,11 +47,13 @@ export function PageShell({
  * the tracking and leading for this step of the scale; no caller sets them.
  */
 export function PageHeader({
+  eyebrow,
   title,
   description,
   actions,
   children,
 }: {
+  eyebrow?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
   actions?: ReactNode;
@@ -59,6 +61,9 @@ export function PageHeader({
 }) {
   return (
     <header className="flex flex-col gap-2">
+      {eyebrow === undefined ? null : (
+        <p className="text-muted-foreground type-eyebrow">{eyebrow}</p>
+      )}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <h1 className="type-title">{title}</h1>
         {actions === undefined ? null : (

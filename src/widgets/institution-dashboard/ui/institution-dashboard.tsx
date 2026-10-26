@@ -65,6 +65,7 @@ export function InstitutionDashboard({
         canReadCourses={can('enrollment:read')}
         canReadGrades={can('grade:read') && features.isEnabled('grades')}
         canReadSchedule={canReadSchedule}
+        canReadExams={can('schedule:read') && features.isEnabled('examRegistration')}
         showWeek={weekIn === 'studies'}
       />
     ),

@@ -1,12 +1,15 @@
 'use client';
 
 import { useState } from 'react';
+import { Reply } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import {
   DiscussionPostItem,
   type DiscussionAddress,
   type DiscussionPost,
 } from '@/entities/discussion';
+import { Button } from '@/shared/ui';
 
 import { AttachmentLinks } from './attachment-links';
 import { EditPostForm } from './edit-post-form';
@@ -18,12 +21,15 @@ export function DiscussionPostEntry({
   threadId,
   post,
   canModerate,
+  onReply,
 }: {
   address: DiscussionAddress;
   threadId: string;
   post: DiscussionPost;
   canModerate: boolean;
+  onReply?: () => void;
 }) {
+  const t = useTranslations('discussion');
   const [editing, setEditing] = useState(false);
   const stopEditing = () => {
     setEditing(false);
@@ -45,15 +51,29 @@ export function DiscussionPostEntry({
       }
       actions={
         editing ? undefined : (
-          <PostActions
-            address={address}
-            threadId={threadId}
-            post={post}
-            canModerate={canModerate}
-            onEdit={() => {
-              setEditing(true);
-            }}
-          />
+          <>
+            {onReply === undefined || post.state !== 'visible' ? null : (
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
+                aria-label={t('replyTo', { name: post.author.displayName })}
+                onClick={onReply}
+              >
+                <Reply aria-hidden />
+                {t('replyAction')}
+              </Button>
+            )}
+            <PostActions
+              address={address}
+              threadId={threadId}
+              post={post}
+              canModerate={canModerate}
+              onEdit={() => {
+                setEditing(true);
+              }}
+            />
+          </>
         )
       }
     />

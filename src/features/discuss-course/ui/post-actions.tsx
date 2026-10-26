@@ -33,7 +33,7 @@ export function PostActions({
   onEdit?: () => void;
 }) {
   const t = useTranslations('discussion');
-  const refresh = useRefreshDiscussion(address);
+  const refresh = useRefreshDiscussion();
   const [confirming, setConfirming] = useState(false);
   const path = { ...address, threadId, postId: post.id };
   const fail = (error: unknown) => toast.error(toApiError(error).message);
@@ -42,7 +42,7 @@ export function PostActions({
     ...discussionMutations.deletePost(),
     onSuccess: async () => {
       toast.success(t('deleted'));
-      await refresh(threadId);
+      await refresh();
     },
     onError: fail,
   });
@@ -51,7 +51,7 @@ export function PostActions({
     ...discussionMutations.setPostVisibility(),
     onSuccess: async (_, { body }) => {
       toast.success(body.hidden ? t('hiddenDone') : t('restoredDone'));
-      await refresh(threadId);
+      await refresh();
     },
     onError: fail,
   });

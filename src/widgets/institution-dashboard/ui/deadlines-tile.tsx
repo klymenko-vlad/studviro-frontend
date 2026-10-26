@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useFormatter, useTranslations } from 'next-intl';
 
 import { deadlineQueries, nextDeadlines } from '@/entities/deadline';
-import { addDays } from '@/entities/timetable-event';
 import { Link } from '@/shared/config';
 import {
   Button,
@@ -19,10 +18,11 @@ import {
   QueryError,
 } from '@/shared/ui';
 
+import { deadlineHorizon } from '../model/deadline-horizon';
+import { useRelativeDue } from '../model/use-relative-due';
 import { useTileHeading } from './tile-heading';
 
 const SHOWN = 4;
-const HORIZON_DAYS = 14;
 
 export function DeadlinesTile({
   institutionId,
@@ -34,10 +34,8 @@ export function DeadlinesTile({
   const t = useTranslations('dashboard');
   const heading = useTileHeading();
   const format = useFormatter();
-  const [range] = useState(() => ({
-    from: now.toISOString(),
-    to: addDays(now, HORIZON_DAYS).toISOString(),
-  }));
+  const relative = useRelativeDue(now);
+  const [range] = useState(() => deadlineHorizon(now));
   const { data, isPending, isError, refetch } = useQuery(
     deadlineQueries.list({ path: { institutionId }, query: range }),
   );
@@ -70,14 +68,17 @@ export function DeadlinesTile({
                   <span className="truncate">
                     {deadline.name} · {deadline.course.code}
                   </span>
-                  <span className="text-muted-foreground text-xs whitespace-nowrap">
-                    {format.dateTime(new Date(deadline.dueAt), {
-                      weekday: 'short',
-                      day: 'numeric',
-                      month: 'short',
-                      hour: 'numeric',
-                      minute: 'numeric',
-                    })}
+                  <span className="flex flex-col items-end text-xs whitespace-nowrap">
+                    <span className="font-medium">{relative(deadline.dueAt)}</span>
+                    <time dateTime={deadline.dueAt} className="text-muted-foreground">
+                      {format.dateTime(new Date(deadline.dueAt), {
+                        weekday: 'short',
+                        day: 'numeric',
+                        month: 'short',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                      })}
+                    </time>
                   </span>
                 </li>
               ))}
