@@ -729,14 +729,26 @@
       "active": "Odkaz na odber je aktívny od {date}.",
       "replace": "Nahradiť odkaz",
       "turnOff": "Vypnúť",
-      "turnedOff": "Odkaz na odber prestal platiť"
+      "turnedOff": "Odkaz na odber prestal platiť",
+      "oneClick": "Odber jedným kliknutím",
+      "oneClickHint": "Otvorí vybraný kalendár s vyplneným odkazom. Odkaz dostane len táto služba. Kalendár Apple platí aj pre každú aplikáciu, ktorá otvára odkazy webcal.",
+      "service": {
+        "google": "Kalendár Google",
+        "outlook": "Outlook.com",
+        "office": "Microsoft 365",
+        "apple": "Kalendár Apple"
+      }
     },
     "viewLabel": "Zobraziť týždeň ako",
     "view": {
       "week": "Týždeň",
       "list": "Zoznam"
     },
-    "weekNavigation": "Prechod medzi týždňami"
+    "weekNavigation": "Prechod medzi týždňami",
+    "addToCalendar": {
+      "action": "Pridať do kalendára",
+      "label": "Pridať {title} do vášho kalendára"
+    }
   },
   "exams": {
     "title": "Skúšky",

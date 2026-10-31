@@ -11565,6 +11565,44 @@ export type IssueMyCalendarFeedResponses = {
 
 export type IssueMyCalendarFeedResponse = IssueMyCalendarFeedResponses[keyof IssueMyCalendarFeedResponses];
 
+export type DownloadMyCalendarEntryData = {
+    body?: never;
+    path: {
+        institutionId: string;
+        kind: 'class' | 'exam' | 'deadline';
+        entryId: string;
+    };
+    query?: never;
+    url: '/api/v1/institutions/{institutionId}/me/calendar-entries/{kind}/{entryId}';
+};
+
+export type DownloadMyCalendarEntryErrors = {
+    /**
+     * Validation failed or the payload was malformed.
+     */
+    400: ErrorResponseDto;
+    /**
+     * Not found.
+     */
+    404: ErrorResponseDto;
+    /**
+     * Rate limit exceeded.
+     */
+    429: ErrorResponseDto;
+    /**
+     * Unhandled server error.
+     */
+    500: ErrorResponseDto;
+};
+
+export type DownloadMyCalendarEntryError = DownloadMyCalendarEntryErrors[keyof DownloadMyCalendarEntryErrors];
+
+export type DownloadMyCalendarEntryResponses = {
+    200: string;
+};
+
+export type DownloadMyCalendarEntryResponse = DownloadMyCalendarEntryResponses[keyof DownloadMyCalendarEntryResponses];
+
 export type GetCalendarFeedData = {
     body?: never;
     path: {

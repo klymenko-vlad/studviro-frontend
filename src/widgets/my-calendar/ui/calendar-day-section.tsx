@@ -1,9 +1,10 @@
 import { useFormatter, useTranslations } from 'next-intl';
 
+import { AddToCalendarLink } from '@/features/add-to-calendar';
 import { courseOfferingHref } from '@/entities/course-offering';
 import { DeadlineCard } from '@/entities/deadline';
-import { ExamTermCard } from '@/entities/exam-term';
-import { dayKey, TimetableEventCard } from '@/entities/timetable-event';
+import { ExamTermCard, isRegistered } from '@/entities/exam-term';
+import { dayKey, eventTitle, TimetableEventCard } from '@/entities/timetable-event';
 
 import type { CalendarDay, CalendarItem } from '../model/calendar-items';
 import { deadlineHref } from '../model/deadline-href';
@@ -44,6 +45,14 @@ export function CalendarDaySection({
               <TimetableEventCard
                 event={item.event}
                 href={courseOfferingHref(institutionId, item.event.offering.id)}
+                action={
+                  <AddToCalendarLink
+                    institutionId={institutionId}
+                    kind="class"
+                    id={item.event.id}
+                    title={eventTitle(item.event)}
+                  />
+                }
               />
             ) : item.kind === 'personal' ? (
               <PersonalEventCard
@@ -71,6 +80,14 @@ export function CalendarDaySection({
                 <DeadlineCard
                   deadline={item.deadline}
                   href={deadlineHref(institutionId, item.deadline)}
+                  action={
+                    <AddToCalendarLink
+                      institutionId={institutionId}
+                      kind="deadline"
+                      id={item.deadline.id}
+                      title={item.deadline.name}
+                    />
+                  }
                 />
               </div>
             ) : (
@@ -82,6 +99,16 @@ export function CalendarDaySection({
                     section: 'schedule',
                     item: { kind: 'exam-term', id: item.term.id },
                   })}
+                  action={
+                    isRegistered(item.term) || item.term.attendance === 'teaching' ? (
+                      <AddToCalendarLink
+                        institutionId={institutionId}
+                        kind="exam"
+                        id={item.term.id}
+                        title={item.term.course.title}
+                      />
+                    ) : undefined
+                  }
                 />
               </div>
             )}

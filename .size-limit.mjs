@@ -375,7 +375,16 @@ const budgets = [
     // new notification type. Measured at **741.1 kB**. The confirmation reuses
     // the shipped `Dialog` and the generated correction mutation; no
     // dependency and no primitive added.
-    limit: '742 kB',
+    //
+    // Raised from 742 kB to 744 kB on 2026-10-31 for one-click calendar
+    // subscription and _Add to calendar_ (Product Plan W9, ADR 0057), merged
+    // with W3 and W4. W9 alone measured +1.41 kB: the four subscribe links on
+    // the subscription card, the `CalendarPlus` icon, and an _Add to calendar_
+    // link on each class, deadline and registered exam of the calendar's list.
+    // Both are plain anchors; the single-event file is written by the server,
+    // so no iCalendar code ships to the browser. W3, W4 and W9 together
+    // measure **742.74 kB**.
+    limit: '744 kB',
     gzip: true,
   },
 ];

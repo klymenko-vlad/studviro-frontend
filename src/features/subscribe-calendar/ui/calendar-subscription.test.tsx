@@ -53,6 +53,46 @@ describe('CalendarSubscription', () => {
       SUBSCRIPTION,
     );
     expect(screen.getByText(/shown only now/)).toBeInTheDocument();
+
+    const encoded = encodeURIComponent(SUBSCRIPTION);
+    const webcal = SUBSCRIPTION.replace('https:', 'webcal:');
+    expect(screen.getByRole('link', { name: 'Google Calendar' })).toHaveAttribute(
+      'href',
+      `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(webcal)}`,
+    );
+    expect(screen.getByRole('link', { name: 'Outlook.com' })).toHaveAttribute(
+      'href',
+      `https://outlook.live.com/calendar/0/addfromweb?url=${encoded}&name=StudViro`,
+    );
+    expect(screen.getByRole('link', { name: 'Microsoft 365' })).toHaveAttribute(
+      'href',
+      `https://outlook.office.com/calendar/0/addfromweb?url=${encoded}&name=StudViro`,
+    );
+    expect(screen.getByRole('link', { name: 'Apple Calendar' })).toHaveAttribute(
+      'href',
+      webcal,
+    );
+    for (const name of ['Google Calendar', 'Outlook.com', 'Microsoft 365']) {
+      expect(screen.getByRole('link', { name })).toHaveAttribute(
+        'rel',
+        'noopener noreferrer',
+      );
+    }
+  });
+
+  it('offers no one-click subscription while the link itself is not shown', async () => {
+    server.use(
+      http.get(FEED_URL, () =>
+        HttpResponse.json({ active: true, createdAt: '2026-10-18T10:00:00.000Z' }),
+      ),
+    );
+
+    renderSubscription();
+
+    expect(await screen.findByText(/A subscription link is active/)).toBeInTheDocument();
+    expect(
+      screen.queryByRole('link', { name: 'Google Calendar' }),
+    ).not.toBeInTheDocument();
   });
 
   it('says a link is live without showing it again, and can replace or turn it off', async () => {
