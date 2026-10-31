@@ -86,6 +86,12 @@ describe('notificationHref', () => {
     );
   });
 
+  it('opens a withdrawal on the enrolment screen, as the course may now refuse its student', () => {
+    expect(notificationHref(INSTITUTION, notification('enrollment_withdrawn'))).toBe(
+      `/institutions/${INSTITUTION}/courses?tab=find`,
+    );
+  });
+
   it('opens the section without an anchor when the item is not named', () => {
     expect(notificationHref(INSTITUTION, notification('exam_term_cancelled'))).toBe(
       `${COURSE}?section=schedule`,

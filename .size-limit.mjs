@@ -368,7 +368,14 @@ const budgets = [
     // reuse the `Dialog` already shipped for the unscanned-download warning,
     // the confirmation is inline rather than a second dialog, and no
     // dependency was added.
-    limit: '741 kB',
+    //
+    // Raised from 741 kB to 742 kB on 2026-10-31 for keeping a grade through a
+    // withdrawal (Product Plan W3, ADR 0056): the roster's _Withdraw_ action
+    // with its confirmation, the _Withdrawn_ mark on a kept result, and the
+    // new notification type. Measured at **741.1 kB**. The confirmation reuses
+    // the shipped `Dialog` and the generated correction mutation; no
+    // dependency and no primitive added.
+    limit: '742 kB',
     gzip: true,
   },
 ];

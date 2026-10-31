@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 
 import {
@@ -25,9 +26,11 @@ const STATUS_VARIANT = {
 export function RosterTable({
   students,
   caption,
+  actionFor,
 }: {
   students: RosterStudent[];
   caption: string;
+  actionFor?: (student: RosterStudent) => ReactNode;
 }) {
   const t = useTranslations('roster');
   const format = useFormatter();
@@ -40,6 +43,11 @@ export function RosterTable({
           <TableHead>{t('column.status')}</TableHead>
           <TableHead>{t('column.studyGroups')}</TableHead>
           <TableHead>{t('column.enrolledAt')}</TableHead>
+          {actionFor === undefined ? null : (
+            <TableHead>
+              <span className="sr-only">{t('column.actions')}</span>
+            </TableHead>
+          )}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -71,6 +79,9 @@ export function RosterTable({
                 ? t('notEnrolledYet')
                 : format.dateTime(new Date(student.enrolledAt), { dateStyle: 'medium' })}
             </TableCell>
+            {actionFor === undefined ? null : (
+              <TableCell className="text-right">{actionFor(student)}</TableCell>
+            )}
           </TableRow>
         ))}
       </TableBody>

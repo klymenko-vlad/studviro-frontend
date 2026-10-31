@@ -3,7 +3,7 @@ import type { NotificationResponseDto } from '@/shared/api';
 export type NotificationType = NotificationResponseDto['type'];
 
 /**
- * Eighteen switches would be a form nobody reads. The account offers five, one
+ * Nineteen switches would be a form nobody reads. The account offers five, one
  * per kind of news, and each switches every type in its group.
  */
 export const NOTIFICATION_MAIL_GROUPS = [
@@ -30,7 +30,12 @@ export const NOTIFICATION_MAIL_GROUPS = [
   },
   {
     key: 'enrolment',
-    types: ['enrollment_confirmed', 'enrollment_rejected', 'waitlist_place_free'],
+    types: [
+      'enrollment_confirmed',
+      'enrollment_rejected',
+      'enrollment_withdrawn',
+      'waitlist_place_free',
+    ],
   },
   {
     key: 'timetable',

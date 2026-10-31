@@ -460,6 +460,10 @@ export type MyCourseResultResponseDto = {
     proposed: ProposedCourseResultDto;
     official: OfficialCourseResultDto;
     enrollmentId: string;
+    /**
+     * A withdrawn enrolment keeps the results that were officially recorded.
+     */
+    enrollmentStatus: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected' | 'waitlisted';
     offering: MyCourseResultOfferingDto;
     course: MyCourseResultCourseDto;
     term: MyCourseResultTermDto;
@@ -579,7 +583,7 @@ export type RecordedGradeResponseDto = {
 
 export type NotificationResponseDto = {
     id: string;
-    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free' | 'discussion_thread_started' | 'discussion_reply';
+    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free' | 'discussion_thread_started' | 'discussion_reply' | 'enrollment_withdrawn';
     occurredAt: string;
     occurrenceCount: number;
     readAt: string | null;
@@ -610,14 +614,14 @@ export type UnreadNotificationsResponseDto = {
 };
 
 export type NotificationPreferencesResponseDto = {
-    emailTypes: Array<'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free' | 'discussion_thread_started' | 'discussion_reply'>;
+    emailTypes: Array<'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free' | 'discussion_thread_started' | 'discussion_reply' | 'enrollment_withdrawn'>;
 };
 
 export type UpdateNotificationPreferencesDto = {
     /**
      * Every notification type that should also arrive by e-mail. Types left out stay in the application only.
      */
-    emailTypes: Array<'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free' | 'discussion_thread_started' | 'discussion_reply'>;
+    emailTypes: Array<'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free' | 'discussion_thread_started' | 'discussion_reply' | 'enrollment_withdrawn'>;
 };
 
 export type ExternalIdentityResponseDto = {
@@ -3078,7 +3082,7 @@ export type ExportedPersonalEventDto = {
 };
 
 export type ExportedNotificationDto = {
-    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free' | 'discussion_thread_started' | 'discussion_reply';
+    type: 'exam_term_published' | 'exam_term_rescheduled' | 'exam_term_cancelled' | 'assignment_due_published' | 'assignment_due_rescheduled' | 'grade_published' | 'grade_corrected' | 'enrollment_confirmed' | 'enrollment_rejected' | 'timetable_event_rescheduled' | 'timetable_event_cancelled' | 'exam_registration_confirmed' | 'exam_registration_cancelled' | 'exam_registration_refused' | 'submission_marked' | 'waitlist_place_free' | 'discussion_thread_started' | 'discussion_reply' | 'enrollment_withdrawn';
     occurredAt: string;
     payload: {
         [key: string]: unknown;

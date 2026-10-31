@@ -418,6 +418,7 @@
     "notFoundDescription": "This course offering does not exist in this institution.",
     "errorTitle": "Course could not be loaded",
     "errorDescription": "The course is unavailable right now. Try again in a moment.",
+    "withdrawnStudent": "Withdrawn",
     "viewerRole": {
       "student": "Enrolled",
       "teacher": "Teaching",
@@ -519,6 +520,8 @@
     "awaitingRetake": "{courses, plural, one {# course is awaiting a resit} other {# courses are awaiting a resit}}",
     "annulledNote": "The registrar struck this result. It counts towards nothing.",
     "noStanding": "No standing",
+    "withdrawn": "Withdrawn",
+    "withdrawnNote": "You were withdrawn from this course after the grade was recorded. The grade stays on your record.",
     "standing": {
       "title": "Where you are in your programme",
       "year": "Year {year}",
@@ -853,7 +856,8 @@
       "submission_marked": "Assignment marked",
       "waitlist_place_free": "A place came free on a course you are waiting for",
       "discussion_thread_started": "New thread in your course",
-      "discussion_reply": "New reply in a discussion"
+      "discussion_reply": "New reply in a discussion",
+      "enrollment_withdrawn": "You were withdrawn from a course"
     },
     "dueAt": "Due {date}",
     "dueMovedTo": "Deadline moved from {from} to {to}",
@@ -905,7 +909,8 @@
       "student": "Student",
       "status": "Status",
       "studyGroups": "Study groups",
-      "enrolledAt": "Enrolled"
+      "enrolledAt": "Enrolled",
+      "actions": "Actions"
     },
     "status": {
       "requested": "Requested",
@@ -916,6 +921,15 @@
       "rejected": "Rejected",
       "waitlisted": "On the waiting list"
     }
+  },
+  "withdrawEnrollment": {
+    "action": "Withdraw",
+    "named": "Withdraw {student}",
+    "title": "Withdraw {student} from this course?",
+    "description": "They leave the roster and are told. An official grade already recorded stays on their record, and they can still open the course to see it.",
+    "cancel": "Cancel",
+    "confirm": "Withdraw",
+    "done": "{student} was withdrawn."
   },
   "marketing": {
     "nav": {
