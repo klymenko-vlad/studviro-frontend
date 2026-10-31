@@ -26,6 +26,26 @@ describe('CourseResultCard', () => {
     );
   });
 
+  it('keeps the grade of a withdrawn enrolment and says it was withdrawn', () => {
+    renderWithProviders(
+      <CourseResultCard result={{ ...official, enrollmentStatus: 'withdrawn' }} />,
+    );
+
+    expect(screen.getByText('Withdrawn')).toBeInTheDocument();
+    expect(screen.getByTestId('result-withdrawn-note')).toHaveTextContent(
+      /stays on your record/i,
+    );
+    expect(
+      screen.getByText('A', { selector: '[aria-label="A, Official"]' }),
+    ).toBeInTheDocument();
+  });
+
+  it('says nothing about withdrawal while the student is in the course', () => {
+    renderWithProviders(<CourseResultCard result={official} />);
+
+    expect(screen.queryByTestId('result-withdrawn-note')).not.toBeInTheDocument();
+  });
+
   it('does not fall back to “no grade yet” for a result that was struck', () => {
     renderWithProviders(
       <CourseResultCard

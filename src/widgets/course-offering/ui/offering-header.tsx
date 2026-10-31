@@ -26,7 +26,11 @@ export function OfferingHeader({ offering }: { offering: CourseOffering }) {
             </p>
           </div>
         </div>
-        <Badge variant="outline">{t(`viewerRole.${offering.viewerRole}`)}</Badge>
+        <Badge variant="outline">
+          {offering.enrollment?.status === 'withdrawn'
+            ? t('withdrawnStudent')
+            : t(`viewerRole.${offering.viewerRole}`)}
+        </Badge>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">

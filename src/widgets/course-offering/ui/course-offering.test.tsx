@@ -227,6 +227,26 @@ describe('CourseOffering', () => {
     expect(screen.queryByRole('tab', { name: 'Discussion' })).not.toBeInTheDocument();
   });
 
+  it('leaves a withdrawn student only the overview and their grades', async () => {
+    server.use(
+      http.get(OFFERING_URL, () =>
+        HttpResponse.json({
+          ...courseOffering,
+          viewerRole: 'student',
+          enrollment: { ...courseOffering.enrollment!, status: 'withdrawn' },
+        }),
+      ),
+    );
+
+    render();
+
+    await screen.findByRole('tab', { name: 'Grades' });
+    expect(screen.getAllByRole('tab').map(tab => tab.textContent)).toEqual([
+      'Overview',
+      'Grades',
+    ]);
+  });
+
   it('offers a teacher the sections a student does not get', async () => {
     server.use(
       http.get(OFFERING_URL, () =>

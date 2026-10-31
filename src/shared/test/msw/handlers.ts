@@ -310,6 +310,7 @@ export const courseResults: MyCourseResultResponseDto[] = [
     proposed: { grade: 'B', at: '2026-06-01T00:00:00.000Z' },
     official: { grade: 'A', recordedAt: '2026-06-10T00:00:00.000Z' },
     enrollmentId: '99999999-9999-4999-8999-999999999991',
+    enrollmentStatus: 'active',
     offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1' },
     course: {
       id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
@@ -336,6 +337,7 @@ export const courseResults: MyCourseResultResponseDto[] = [
     proposed: { grade: 'C', at: '2026-01-20T00:00:00.000Z' },
     official: { grade: null, recordedAt: null },
     enrollmentId: '99999999-9999-4999-8999-999999999992',
+    enrollmentStatus: 'active',
     offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa2' },
     course: {
       id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb2',

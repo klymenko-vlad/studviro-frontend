@@ -7,14 +7,20 @@ import { institutionRoutes } from '@/shared/config';
  * it is about, scrolled to that thing where the notification names it. A
  * class lives on the calendar, since a student's schedule tab lists only
  * exams. A queueing student holds no place, so the course page would refuse them; the
- * place that came free is taken from the enrolment screen.
+ * place that came free is taken from the enrolment screen, and so is a withdrawal, since
+ * the course page stays open after one only when a grade was already recorded.
  */
 export function notificationHref(
   institutionId: string,
   notification: Notification,
 ): string | undefined {
   const routes = institutionRoutes(institutionId);
-  if (notification.type === 'waitlist_place_free') return routes.enroll;
+  if (
+    notification.type === 'waitlist_place_free' ||
+    notification.type === 'enrollment_withdrawn'
+  ) {
+    return routes.enroll;
+  }
   if (
     notification.type === 'timetable_event_rescheduled' ||
     notification.type === 'timetable_event_cancelled'
@@ -69,6 +75,7 @@ function targetOf(notification: Notification): OfferingTarget | undefined {
     case 'timetable_event_rescheduled':
     case 'timetable_event_cancelled':
     case 'waitlist_place_free':
+    case 'enrollment_withdrawn':
       return undefined;
   }
 }

@@ -612,6 +612,15 @@ export const zMyCourseResultResponseDto = z.object({
     proposed: zProposedCourseResultDto,
     official: zOfficialCourseResultDto,
     enrollmentId: z.uuid(),
+    enrollmentStatus: z.enum([
+        'requested',
+        'provisioning',
+        'active',
+        'completed',
+        'withdrawn',
+        'rejected',
+        'waitlisted'
+    ]),
     offering: zMyCourseResultOfferingDto,
     course: zMyCourseResultCourseDto,
     term: zMyCourseResultTermDto
@@ -816,7 +825,8 @@ export const zNotificationResponseDto = z.object({
         'submission_marked',
         'waitlist_place_free',
         'discussion_thread_started',
-        'discussion_reply'
+        'discussion_reply',
+        'enrollment_withdrawn'
     ]),
     occurredAt: z.iso.datetime(),
     occurrenceCount: z.number(),
@@ -863,7 +873,8 @@ export const zNotificationPreferencesResponseDto = z.object({
         'submission_marked',
         'waitlist_place_free',
         'discussion_thread_started',
-        'discussion_reply'
+        'discussion_reply',
+        'enrollment_withdrawn'
     ]))
 });
 
@@ -886,7 +897,8 @@ export const zUpdateNotificationPreferencesDto = z.object({
         'submission_marked',
         'waitlist_place_free',
         'discussion_thread_started',
-        'discussion_reply'
+        'discussion_reply',
+        'enrollment_withdrawn'
     ]))
 });
 
@@ -2946,7 +2958,8 @@ export const zExportedNotificationDto = z.object({
         'submission_marked',
         'waitlist_place_free',
         'discussion_thread_started',
-        'discussion_reply'
+        'discussion_reply',
+        'enrollment_withdrawn'
     ]),
     occurredAt: z.iso.datetime(),
     payload: z.record(z.string(), z.unknown()),

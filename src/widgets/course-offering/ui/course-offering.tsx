@@ -57,6 +57,7 @@ export function CourseOffering({
   }
 
   const teaching = data.viewerRole !== 'student';
+  const withdrawn = !teaching && data.enrollment?.status === 'withdrawn';
 
   return (
     <div className="flex flex-col gap-6">
@@ -82,44 +83,51 @@ export function CourseOffering({
               </div>
             ),
           },
-          {
-            key: 'materials',
-            content: (
-              <OfferingLearning
-                institutionId={institutionId}
-                offeringId={offeringId}
-                courseTitle={data.course.title}
-                viewerRole={data.viewerRole}
-              />
-            ),
-          },
-          {
-            key: 'assignments',
-            content: (
-              <OfferingAssignmentsSection
-                institutionId={institutionId}
-                offeringId={offeringId}
-                viewerRole={data.viewerRole}
-              />
-            ),
-          },
-          {
-            key: 'schedule',
-            content: teaching ? (
-              <>
-                <OfferingTimetable
-                  institutionId={institutionId}
-                  offeringId={offeringId}
-                />
-                <OfferingExamTerms
-                  institutionId={institutionId}
-                  offeringId={offeringId}
-                />
-              </>
-            ) : (
-              <OfferingExams institutionId={institutionId} offeringId={offeringId} />
-            ),
-          },
+          ...(withdrawn
+            ? []
+            : ([
+                {
+                  key: 'materials',
+                  content: (
+                    <OfferingLearning
+                      institutionId={institutionId}
+                      offeringId={offeringId}
+                      courseTitle={data.course.title}
+                      viewerRole={data.viewerRole}
+                    />
+                  ),
+                },
+                {
+                  key: 'assignments',
+                  content: (
+                    <OfferingAssignmentsSection
+                      institutionId={institutionId}
+                      offeringId={offeringId}
+                      viewerRole={data.viewerRole}
+                    />
+                  ),
+                },
+                {
+                  key: 'schedule',
+                  content: teaching ? (
+                    <>
+                      <OfferingTimetable
+                        institutionId={institutionId}
+                        offeringId={offeringId}
+                      />
+                      <OfferingExamTerms
+                        institutionId={institutionId}
+                        offeringId={offeringId}
+                      />
+                    </>
+                  ) : (
+                    <OfferingExams
+                      institutionId={institutionId}
+                      offeringId={offeringId}
+                    />
+                  ),
+                },
+              ] as const)),
           {
             key: 'grades',
             content: (

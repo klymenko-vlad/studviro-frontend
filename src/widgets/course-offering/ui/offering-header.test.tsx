@@ -12,6 +12,27 @@ describe('OfferingHeader', () => {
     expect(screen.queryByText('Taught in sk')).not.toBeInTheDocument();
   });
 
+  it('calls a student withdrawn after their grade withdrawn rather than enrolled', () => {
+    renderWithProviders(
+      <OfferingHeader
+        offering={{
+          ...courseOffering,
+          viewerRole: 'student',
+          enrollment: {
+            enrollmentId: '99999999-9999-4999-8999-999999999991',
+            status: 'withdrawn',
+            requirementType: 'compulsory',
+            attempt: 1,
+            enrolledAt: '2026-02-10T00:00:00.000Z',
+          },
+        }}
+      />,
+    );
+
+    expect(screen.getByText('Withdrawn')).toBeInTheDocument();
+    expect(screen.queryByText('Enrolled')).not.toBeInTheDocument();
+  });
+
   it('shows a code it cannot name as it is', () => {
     renderWithProviders(
       <OfferingHeader
