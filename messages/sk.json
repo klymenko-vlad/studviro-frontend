@@ -758,7 +758,12 @@
     "seats": "Voľných miest: {seats} z {capacity}",
     "seatsFull": "Obsadené",
     "seatsUnknown": "Kapacita nie je uvedená",
-    "registered": "Ste prihlásení",
+    "seat": {
+      "registered": "Ste prihlásení",
+      "attended": "Skúšky ste sa zúčastnili",
+      "no_show": "Boli ste zapísaní ako neprítomní",
+      "excused": "Vaša neprítomnosť bola ospravedlnená"
+    },
     "cancelled": "Zrušené",
     "offeringPanel": "Skúškové termíny",
     "noOfferingExams": "Pre tento predmet nie sú vypísané žiadne skúškové termíny.",
@@ -1458,6 +1463,12 @@
     "sourcedHint": "Táto známka už má hodnotu. Jej zmena nahradí to, čo študent práve vidí.",
     "attemptNone": "Zatiaľ bez pokusu",
     "attemptNumber": "Pokus {attempt}",
+    "sitting": {
+      "registered": "Prihlásený na {date}",
+      "attended": "Zúčastnil sa skúšky {date}",
+      "no_show": "Neprišiel {date}",
+      "excused": "Ospravedlnený {date}"
+    },
     "gradeFor": "Známka pre študenta {student}",
     "column": {
       "student": "Študent",

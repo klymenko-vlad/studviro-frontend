@@ -4,6 +4,7 @@ import {
   examRegistrationLabel,
   examSeatsLabelKey,
   isRegistered,
+  recordedSeat,
   splitExamTerms,
   type ExamTerm,
 } from './exam-term';
@@ -109,6 +110,23 @@ describe('isRegistered', () => {
         }),
       ),
     ).toBe(false);
+  });
+});
+
+describe('recordedSeat', () => {
+  const holding = (status: NonNullable<ExamTerm['myRegistration']>['status']) =>
+    term({ myRegistration: { id: 'r1', status, registeredAt: null, cancelledAt: null } });
+
+  it('names the seat the reader took, whatever attendance says of it', () => {
+    expect(recordedSeat(holding('registered'))).toBe('registered');
+    expect(recordedSeat(holding('attended'))).toBe('attended');
+    expect(recordedSeat(holding('no_show'))).toBe('no_show');
+    expect(recordedSeat(holding('excused'))).toBe('excused');
+  });
+
+  it('is empty without a registration or after cancelling one', () => {
+    expect(recordedSeat(term())).toBeNull();
+    expect(recordedSeat(holding('cancelled'))).toBeNull();
   });
 });
 
