@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 
 import { Link } from '@/shared/config';
@@ -12,9 +13,11 @@ import {
 export function TimetableEventCard({
   event,
   href,
+  action,
 }: {
   event: TimetableEvent;
   href?: string;
+  action?: ReactNode;
 }) {
   const t = useTranslations('calendar');
   const format = useFormatter();
@@ -75,6 +78,8 @@ export function TimetableEventCard({
               ? t('room', { room: event.room.code })
               : t('roomIn', { room: event.room.code, building: event.room.building })}
         </p>
+
+        {action === undefined ? null : <div className="relative z-10">{action}</div>}
       </CardContent>
     </Card>
   );

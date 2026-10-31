@@ -5692,6 +5692,18 @@ export const zIssueMyCalendarFeedPath = z.object({
 
 export const zIssueMyCalendarFeedResponse = zIssuedCalendarFeedDto;
 
+export const zDownloadMyCalendarEntryPath = z.object({
+    institutionId: z.string(),
+    kind: z.enum([
+        'class',
+        'exam',
+        'deadline'
+    ]),
+    entryId: z.string()
+});
+
+export const zDownloadMyCalendarEntryResponse = z.string();
+
 export const zGetCalendarFeedPath = z.object({
     token: z.string()
 });

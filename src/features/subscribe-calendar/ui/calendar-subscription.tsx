@@ -21,6 +21,7 @@ import {
 } from '@/shared/ui';
 
 import { calendarFeedQueries, calendarFileHref } from '../model/queries';
+import { subscribeLinks, type SubscribeLinks } from '../model/subscribe-links';
 
 export function CalendarSubscription({ institutionId }: { institutionId: string }) {
   const t = useTranslations('calendar.subscription');
@@ -103,6 +104,7 @@ export function CalendarSubscription({ institutionId }: { institutionId: string 
                 {t('copy')}
               </Button>
             </div>
+            <OneClickSubscribe links={subscribeLinks(issuedUrl)} />
             <Alert>
               <AlertDescription>{t('shownOnce')}</AlertDescription>
             </Alert>
@@ -164,5 +166,35 @@ export function CalendarSubscription({ institutionId }: { institutionId: string 
         )}
       </CardContent>
     </Card>
+  );
+}
+
+const SERVICES = ['google', 'outlook', 'office', 'apple'] as const;
+
+function OneClickSubscribe({ links }: { links: SubscribeLinks }) {
+  const t = useTranslations('calendar.subscription');
+
+  return (
+    <div className="flex flex-col gap-2">
+      <p className="text-sm font-medium" id="calendar-one-click">
+        {t('oneClick')}
+      </p>
+      <ul aria-labelledby="calendar-one-click" className="flex flex-wrap gap-2">
+        {SERVICES.map(service => (
+          <li key={service}>
+            <Button asChild variant="outline" size="sm">
+              {service === 'apple' ? (
+                <a href={links.apple}>{t(`service.${service}`)}</a>
+              ) : (
+                <a href={links[service]} target="_blank" rel="noopener noreferrer">
+                  {t(`service.${service}`)}
+                </a>
+              )}
+            </Button>
+          </li>
+        ))}
+      </ul>
+      <p className="text-muted-foreground text-xs">{t('oneClickHint')}</p>
+    </div>
   );
 }

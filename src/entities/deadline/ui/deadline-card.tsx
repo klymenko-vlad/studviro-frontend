@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 
 import { Link } from '@/shared/config';
@@ -5,7 +6,15 @@ import { Badge, Card, CardContent } from '@/shared/ui';
 
 import { deadlineState, type Deadline } from '../model/deadline';
 
-export function DeadlineCard({ deadline, href }: { deadline: Deadline; href?: string }) {
+export function DeadlineCard({
+  deadline,
+  href,
+  action,
+}: {
+  deadline: Deadline;
+  href?: string;
+  action?: ReactNode;
+}) {
   const t = useTranslations('deadlines');
   const format = useFormatter();
   const state = deadlineState(deadline);
@@ -72,6 +81,8 @@ export function DeadlineCard({ deadline, href }: { deadline: Deadline; href?: st
         <p className="text-muted-foreground text-sm">
           {t('inSpace', { space: deadline.learningSpace.name })}
         </p>
+
+        {action === undefined ? null : <div className="relative z-10">{action}</div>}
       </CardContent>
     </Card>
   );

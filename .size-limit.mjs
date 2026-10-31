@@ -368,7 +368,17 @@ const budgets = [
     // reuse the `Dialog` already shipped for the unscanned-download warning,
     // the confirmation is inline rather than a second dialog, and no
     // dependency was added.
-    limit: '741 kB',
+    //
+    // Raised from 741 kB to 743 kB on 2026-10-31 for one-click calendar
+    // subscription and _Add to calendar_ (Product Plan W9, ADR 0056). Measured
+    // at **741.1 kB** against a 739.69 kB build of the W1 commit, +1.41 kB: the
+    // four subscribe links on the subscription card, the `CalendarPlus` icon,
+    // and an _Add to calendar_ link on each class, deadline and registered exam
+    // of the calendar's list. Both are plain anchors: the single-event file is
+    // written by the server, so no iCalendar code ships to the browser, and the
+    // Google and Outlook "create event" templates were left out partly to keep
+    // their text builders off the client. No dependency and no primitive added.
+    limit: '743 kB',
     gzip: true,
   },
 ];

@@ -726,14 +726,26 @@
       "active": "A subscription link is active since {date}.",
       "replace": "Replace link",
       "turnOff": "Turn off",
-      "turnedOff": "The subscription link no longer works"
+      "turnedOff": "The subscription link no longer works",
+      "oneClick": "Subscribe in one click",
+      "oneClickHint": "Opens the calendar you pick with this link filled in. Only that service receives the link. Apple Calendar also covers any app that opens webcal links.",
+      "service": {
+        "google": "Google Calendar",
+        "outlook": "Outlook.com",
+        "office": "Microsoft 365",
+        "apple": "Apple Calendar"
+      }
     },
     "viewLabel": "Show the week as",
     "view": {
       "week": "Week",
       "list": "List"
     },
-    "weekNavigation": "Move between weeks"
+    "weekNavigation": "Move between weeks",
+    "addToCalendar": {
+      "action": "Add to calendar",
+      "label": "Add {title} to your calendar"
+    }
   },
   "exams": {
     "title": "Exams",

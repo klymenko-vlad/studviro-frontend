@@ -784,6 +784,7 @@ export type {
   CreateAssignmentDto,
   CreateLearningMaterialDto,
   CreateLearningSpaceDto,
+  DownloadMyCalendarEntryData,
   DownloadUrlResponseDto,
   FolderFileResponseDto,
   LearningMaterialResponseDto,
