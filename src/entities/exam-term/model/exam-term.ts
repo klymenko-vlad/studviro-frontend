@@ -21,6 +21,17 @@ export function isRegistered(term: ExamTerm): boolean {
   return term.myRegistration?.status === 'registered';
 }
 
+export type RecordedSeat = Exclude<
+  NonNullable<ExamTerm['myRegistration']>['status'],
+  'cancelled'
+>;
+
+export function recordedSeat(term: ExamTerm): RecordedSeat | null {
+  const status = term.myRegistration?.status;
+
+  return status === undefined || status === 'cancelled' ? null : status;
+}
+
 export function examSeatsLabelKey(
   term: ExamTerm,
 ): 'seatsUnknown' | 'seatsFull' | 'seats' {

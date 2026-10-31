@@ -711,6 +711,17 @@ export const zOfferingResultAttemptDto = z.object({
     official: zOfferingOfficialStageDto
 });
 
+export const zOfferingExamSittingDto = z.object({
+    examTermId: z.uuid(),
+    startsAt: z.iso.datetime(),
+    status: z.enum([
+        'registered',
+        'attended',
+        'no_show',
+        'excused'
+    ])
+});
+
 export const zOfferingResultStudentDto = z.object({
     enrollmentId: z.uuid(),
     userId: z.uuid(),
@@ -726,7 +737,8 @@ export const zOfferingResultStudentDto = z.object({
         'waitlisted'
     ]),
     attempts: z.array(zOfferingResultAttemptDto),
-    nextAttempt: z.number()
+    nextAttempt: z.number(),
+    sitting: zOfferingExamSittingDto.nullable()
 });
 
 export const zOfferingResultsResponseDto = z.object({

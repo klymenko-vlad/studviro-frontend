@@ -531,6 +531,12 @@ export type OfferingResultAttemptDto = {
     official: OfferingOfficialStageDto;
 };
 
+export type OfferingExamSittingDto = {
+    examTermId: string;
+    startsAt: string;
+    status: 'registered' | 'attended' | 'no_show' | 'excused';
+};
+
 export type OfferingResultStudentDto = {
     enrollmentId: string;
     userId: string;
@@ -538,7 +544,14 @@ export type OfferingResultStudentDto = {
     email: string;
     enrollmentStatus: 'requested' | 'provisioning' | 'active' | 'completed' | 'withdrawn' | 'rejected' | 'waitlisted';
     attempts: Array<OfferingResultAttemptDto>;
+    /**
+     * The attempt a new grade would land on if the caller names none.
+     */
     nextAttempt: number;
+    /**
+     * The latest exam term of this offering the student took a seat on.
+     */
+    sitting: OfferingExamSittingDto | null;
 };
 
 export type OfferingResultsResponseDto = {

@@ -59,6 +59,46 @@ describe('MyExams', () => {
     expect(await screen.findByText('You are registered')).toBeInTheDocument();
   });
 
+  it.each([
+    ['attended', 'You sat this exam'],
+    ['no_show', 'You were recorded as absent'],
+    ['excused', 'Your absence was excused'],
+  ] as const)(
+    'keeps a sat seat on the card once it is recorded as %s',
+    async (status, text) => {
+      const sat = examTermFixtures[0]!;
+      server.use(
+        http.get(EXAMS_URL, () =>
+          HttpResponse.json([
+            {
+              ...sat,
+              startsAt: new Date(2026, 4, 2, 9).toISOString(),
+              endsAt: null,
+              registrationState: 'closed',
+              registrationAvailability: {
+                canRegister: false,
+                canCancel: false,
+                reason: 'closed',
+              },
+              registeredCount: 1,
+              seatsRemaining: 29,
+              myRegistration: {
+                id: 'ddddddd9-dddd-4ddd-8ddd-ddddddddddd9',
+                status,
+                registeredAt: new Date(2026, 3, 20, 9).toISOString(),
+                cancelledAt: null,
+              },
+            },
+          ]),
+        ),
+      );
+      renderExams();
+
+      expect(await screen.findByText(text)).toBeInTheDocument();
+      expect(screen.getByText('29 of 30 seats free')).toBeInTheDocument();
+    },
+  );
+
   it('reports the registration window in the reader’s terms', async () => {
     renderExams();
 

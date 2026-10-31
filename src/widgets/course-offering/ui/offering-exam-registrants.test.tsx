@@ -7,6 +7,7 @@ import {
   errorResponse,
   examRegistrants,
   offeringExamTerms,
+  offeringResults,
   renderWithProviders,
   screen,
   server,
@@ -16,6 +17,7 @@ import {
 } from '@/shared/test';
 
 import { OfferingExamRegistrants } from './offering-exam-registrants';
+import { OfferingGrades } from './offering-grades';
 
 vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 
@@ -88,6 +90,45 @@ describe('OfferingExamRegistrants', () => {
       expect(toast.success).toHaveBeenCalledWith('Ada Lovelace: did not come.');
     });
     expect(recorded).toEqual({ status: 'no_show' });
+  });
+
+  it('refreshes the grade table, which names the sitting', async () => {
+    let resultReads = 0;
+    server.use(
+      http.get(
+        `/api/proxy/api/v1/institutions/${INSTITUTION}/course-offerings/${OFFERING}/results`,
+        () => {
+          resultReads += 1;
+          return HttpResponse.json(offeringResults);
+        },
+      ),
+      http.put(`${REGISTRANTS}/:registrationId/attendance`, () =>
+        HttpResponse.json({ ...examRegistrants[0]!, status: 'attended' }),
+      ),
+    );
+
+    renderWithProviders(
+      <>
+        <OfferingExamRegistrants
+          institutionId={INSTITUTION}
+          offeringId={OFFERING}
+          term={sat}
+          label="Jan 12"
+        />
+        <OfferingGrades institutionId={INSTITUTION} offeringId={OFFERING} />
+      </>,
+    );
+    await screen.findByTestId('offering-grades');
+    await open();
+
+    await userEvent.selectOptions(
+      screen.getByLabelText('Attendance of Ada Lovelace'),
+      'Sat the exam',
+    );
+
+    await waitFor(() => {
+      expect(resultReads).toBe(2);
+    });
   });
 
   it('shows an absence already on the record and lets it be excused', async () => {

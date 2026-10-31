@@ -755,7 +755,12 @@
     "seats": "{seats} of {capacity} seats free",
     "seatsFull": "Full",
     "seatsUnknown": "No seat limit recorded",
-    "registered": "You are registered",
+    "seat": {
+      "registered": "You are registered",
+      "attended": "You sat this exam",
+      "no_show": "You were recorded as absent",
+      "excused": "Your absence was excused"
+    },
     "cancelled": "Cancelled",
     "offeringPanel": "Exam terms",
     "noOfferingExams": "No exam terms have been scheduled for this course.",
@@ -1444,6 +1449,12 @@
     "sourcedHint": "This grade already has a value. Changing it replaces what the student currently sees.",
     "attemptNone": "No sitting yet",
     "attemptNumber": "Attempt {attempt}",
+    "sitting": {
+      "registered": "Registered for {date}",
+      "attended": "Sat the exam on {date}",
+      "no_show": "Did not come on {date}",
+      "excused": "Excused on {date}"
+    },
     "gradeFor": "Grade for {student}",
     "column": {
       "student": "Student",

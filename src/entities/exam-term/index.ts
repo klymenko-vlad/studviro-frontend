@@ -9,11 +9,13 @@ export {
   examRegistrationLabel,
   examSeatsLabelKey,
   isRegistered,
+  recordedSeat,
   splitExamTerms,
   type ExamRegistrationLabel,
   type ExamRegistrationState,
   type ExamTerm,
   type ExamTermKind,
   type ExamTermSplit,
+  type RecordedSeat,
 } from './model/exam-term';
 export { ExamTermCard } from './ui/exam-term-card';

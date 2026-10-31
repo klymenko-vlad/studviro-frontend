@@ -39,6 +39,60 @@ describe('OfferingGrades', () => {
     expect(screen.getByText('No sitting yet')).toBeInTheDocument();
   });
 
+  it('says a student without a result sat the exam once attendance is recorded', async () => {
+    server.use(
+      http.get(URL, () =>
+        HttpResponse.json({
+          ...offeringResults,
+          students: offeringResults.students.map(student =>
+            student.attempts.length > 0
+              ? student
+              : {
+                  ...student,
+                  sitting: {
+                    examTermId: '99999999-9999-4999-8999-999999999999',
+                    startsAt: '2026-09-01T09:00:00.000Z',
+                    status: 'attended',
+                  },
+                },
+          ),
+        }),
+      ),
+    );
+    render();
+
+    expect(await screen.findByText('Sat the exam on Sep 1, 2026')).toBeInTheDocument();
+    expect(screen.queryByText('No sitting yet')).not.toBeInTheDocument();
+  });
+
+  it.each([
+    ['registered', 'Registered for Sep 1, 2026'],
+    ['no_show', 'Did not come on Sep 1, 2026'],
+    ['excused', 'Excused on Sep 1, 2026'],
+  ] as const)('names a %s sitting beside the attempt', async (status, text) => {
+    server.use(
+      http.get(URL, () =>
+        HttpResponse.json({
+          ...offeringResults,
+          students: [
+            {
+              ...offeringResults.students[0]!,
+              sitting: {
+                examTermId: '99999999-9999-4999-8999-999999999999',
+                startsAt: '2026-09-01T09:00:00.000Z',
+                status,
+              },
+            },
+          ],
+        }),
+      ),
+    );
+    render();
+
+    expect(await screen.findByText(text)).toBeInTheDocument();
+    expect(screen.getByText('Attempt 1')).toBeInTheDocument();
+  });
+
   it('says a student with no result is not graded rather than showing nothing', async () => {
     render();
 

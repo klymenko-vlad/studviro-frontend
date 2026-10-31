@@ -1759,6 +1759,11 @@ export const offeringResults: OfferingResultsResponseDto = {
       email: 'veronika@mocku.example',
       enrollmentStatus: 'active',
       nextAttempt: 2,
+      sitting: {
+        examTermId: '99999999-9999-4999-8999-999999999998',
+        startsAt: '2026-06-02T09:00:00.000Z',
+        status: 'attended',
+      },
       attempts: [
         {
           id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
@@ -1778,6 +1783,7 @@ export const offeringResults: OfferingResultsResponseDto = {
       email: 'marek@mocku.example',
       enrollmentStatus: 'active',
       nextAttempt: 1,
+      sitting: null,
       attempts: [],
     },
   ],
