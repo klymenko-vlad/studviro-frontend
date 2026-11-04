@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 
 import { Link } from '@/shared/config';
@@ -12,16 +13,21 @@ import {
 export function TimetableEventCard({
   event,
   href,
+  action,
 }: {
   event: TimetableEvent;
   href?: string;
+  action?: ReactNode;
 }) {
   const t = useTranslations('calendar');
   const format = useFormatter();
   const time = { timeStyle: 'short' } as const;
 
   return (
-    <Card className={event.isCancelled ? 'opacity-70' : undefined}>
+    <Card
+      interactive={href !== undefined}
+      className={event.isCancelled ? 'py-1 opacity-70' : 'py-1'}
+    >
       <CardContent className="flex flex-col gap-2 py-4">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
           <p className="font-medium">
@@ -39,7 +45,7 @@ export function TimetableEventCard({
           {href === undefined ? (
             eventTitle(event)
           ) : (
-            <Link href={href} className="hover:underline focus-visible:underline">
+            <Link href={href} className="stretched-link">
               {eventTitle(event)}
             </Link>
           )}
@@ -72,6 +78,8 @@ export function TimetableEventCard({
               ? t('room', { room: event.room.code })
               : t('roomIn', { room: event.room.code, building: event.room.building })}
         </p>
+
+        {action === undefined ? null : <div className="relative z-10">{action}</div>}
       </CardContent>
     </Card>
   );

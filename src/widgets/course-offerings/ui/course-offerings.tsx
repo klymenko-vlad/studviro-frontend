@@ -80,13 +80,13 @@ export function CourseOfferings({ institutionId }: { institutionId: string }) {
                     </TableCell>
                   </TableRow>
                   {term.offerings.map(offering => (
-                    <TableRow key={offering.id}>
+                    <TableRow key={offering.id} className="relative cursor-pointer">
                       <TableCell>
                         <Link
                           href={institutionRoutes(institutionId).courseOffering(
                             offering.id,
                           )}
-                          className="font-medium hover:underline focus-visible:underline"
+                          className="stretched-link font-medium"
                         >
                           {offering.courseTitle}
                         </Link>
@@ -114,7 +114,7 @@ export function CourseOfferings({ institutionId }: { institutionId: string }) {
                         ) : null}
                       </TableCell>
                       {manageable ? (
-                        <TableCell className="text-right">
+                        <TableCell className="relative z-10 text-right">
                           <RetireOfferingButton
                             institutionId={institutionId}
                             offeringId={offering.id}

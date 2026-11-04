@@ -84,14 +84,17 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
             const due = dueDate(space);
 
             return (
-              <TableRow key={space.id}>
+              <TableRow
+                key={space.id}
+                className={isUnlinked(space) ? undefined : 'relative cursor-pointer'}
+              >
                 <TableCell>
                   {space.name}
                   <span className="text-muted-foreground block text-xs">
                     {space.shortName ?? t('none')}
                   </span>
                 </TableCell>
-                <TableCell>
+                <TableCell label={t('column.offering')} wide>
                   {isUnlinked(space) ? (
                     <Badge variant="outline">{t('unlinkedBadge')}</Badge>
                   ) : (
@@ -100,7 +103,7 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
                         href={institutionRoutes(institutionId).courseOffering(
                           space.offeringId ?? '',
                         )}
-                        className="underline underline-offset-4"
+                        className="stretched-link font-medium"
                       >
                         {space.courseTitle ?? t('coursePage')}
                       </Link>
@@ -110,8 +113,10 @@ export function LearningSpaces({ institutionId }: { institutionId: string }) {
                     </>
                   )}
                 </TableCell>
-                <TableCell>{space.activityCount}</TableCell>
-                <TableCell>
+                <TableCell label={t('column.activities')}>
+                  {space.activityCount}
+                </TableCell>
+                <TableCell label={t('column.nextDue')}>
                   {due === null
                     ? t('none')
                     : format.dateTime(due, { dateStyle: 'medium', timeStyle: 'short' })}

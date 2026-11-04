@@ -17,9 +17,13 @@ export function RoleAssignmentRow({ assignment, institutionId }: RoleAssignmentR
   return (
     <TableRow>
       <TableCell className="font-mono text-xs">{assignment.userId}</TableCell>
-      <TableCell>{roleLabel}</TableCell>
-      <TableCell>{labels(`scope.${assignment.scopeType}`)}</TableCell>
-      <TableCell className="font-mono text-xs">{assignment.scopeId ?? '—'}</TableCell>
+      <TableCell label={t('role')}>{roleLabel}</TableCell>
+      <TableCell label={t('scopeType')}>
+        {labels(`scope.${assignment.scopeType}`)}
+      </TableCell>
+      <TableCell label={t('scopeId')} wide className="font-mono text-xs">
+        {assignment.scopeId ?? '—'}
+      </TableCell>
       <TableCell className="text-right">
         {assignment.revocable && assignment.id ? (
           <RevokeRoleButton

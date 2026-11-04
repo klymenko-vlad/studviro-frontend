@@ -7,7 +7,7 @@ import { Badge, ListingCard, ListingNote } from '@/shared/ui';
 import {
   examRegistrationLabel,
   examSeatsLabelKey,
-  isRegistered,
+  recordedSeat,
   type ExamTerm,
 } from '../model/exam-term';
 import { examTermBlockedNote } from '../model/exam-term-filter';
@@ -24,9 +24,11 @@ export function ExamTermCard({
   const t = useTranslations('exams');
   const format = useFormatter();
   const blocked = examTermBlockedNote(term);
+  const seat = recordedSeat(term);
 
   return (
     <ListingCard
+      interactive={href !== undefined}
       dimmed={term.isCancelled}
       action={action}
       code={term.course.code}
@@ -55,7 +57,7 @@ export function ExamTermCard({
         href === undefined ? (
           term.course.title
         ) : (
-          <Link href={href} className="hover:underline focus-visible:underline">
+          <Link href={href} className="stretched-link">
             {term.course.title}
           </Link>
         )
@@ -68,7 +70,11 @@ export function ExamTermCard({
             <Badge variant="outline">{t('attendance.teaching')}</Badge>
           ) : null}
 
-          {isRegistered(term) ? <Badge>{t('registered')}</Badge> : null}
+          {seat === null ? null : (
+            <Badge variant={seat === 'registered' ? 'default' : 'secondary'}>
+              {t(`seat.${seat}`)}
+            </Badge>
+          )}
 
           {term.myRegistration?.status === 'cancelled' ? (
             <Badge variant="outline">{t('cancelledRegistration')}</Badge>

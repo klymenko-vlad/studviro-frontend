@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import type { Deadline } from '@/entities/deadline';
 import type { ExamTerm } from '@/entities/exam-term';
+import type { PersonalEvent, PersonalTask } from '@/entities/planner';
 import type { TimetableEvent } from '@/entities/timetable-event';
 
 import { groupCalendarItems } from './calendar-items';
@@ -11,6 +12,8 @@ const KYIV = 'Europe/Kyiv';
 const event = (id: string, startsAt: string) => ({ id, startsAt }) as TimetableEvent;
 const exam = (id: string, startsAt: string) => ({ id, startsAt }) as ExamTerm;
 const deadline = (id: string, dueAt: string) => ({ id, dueAt }) as Deadline;
+const personal = (id: string, startsAt: string) => ({ id, startsAt }) as PersonalEvent;
+const task = (id: string, dueAt: string | null) => ({ id, dueAt }) as PersonalTask;
 
 describe('groupCalendarItems', () => {
   it('interleaves an exam term among the classes of its day by start time', () => {
@@ -90,5 +93,28 @@ describe('groupCalendarItems', () => {
     const second = groupCalendarItems([event('a', at)], [exam('x', at)], [], KYIV);
 
     expect(first[0]!.items.map(i => i.id)).toEqual(second[0]!.items.map(i => i.id));
+  });
+
+  it('places a person’s own events and dated tasks among the institution’s items', () => {
+    const [day] = groupCalendarItems(
+      [event('a', '2026-06-02T08:00:00.000Z')],
+      [],
+      [],
+      KYIV,
+      {
+        events: [personal('p', '2026-06-02T07:00:00.000Z')],
+        tasks: [task('t', '2026-06-02T09:00:00.000Z')],
+      },
+    );
+
+    expect(day!.items.map(item => item.id)).toEqual(['personal-p', 'event-a', 'task-t']);
+    expect(day!.items[0]).toMatchObject({ kind: 'personal', event: { id: 'p' } });
+    expect(day!.items[2]).toMatchObject({ kind: 'task', task: { id: 't' } });
+  });
+
+  it('leaves out a task that has no due time', () => {
+    expect(
+      groupCalendarItems([], [], [], KYIV, { events: [], tasks: [task('t', null)] }),
+    ).toEqual([]);
   });
 });

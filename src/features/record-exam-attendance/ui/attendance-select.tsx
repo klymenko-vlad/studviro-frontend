@@ -12,6 +12,7 @@ import {
   offeringExamTermQueries,
   type ExamRegistrant,
 } from '@/entities/offering-exam-term';
+import { offeringResultQueries } from '@/entities/offering-result';
 import { toApiError } from '@/shared/api';
 import { Label, Select, SelectItem } from '@/shared/ui';
 
@@ -47,6 +48,11 @@ export function AttendanceSelect({
         }),
         queryClient.invalidateQueries({
           queryKey: offeringExamTermQueries.listKey({
+            path: { institutionId, offeringId },
+          }),
+        }),
+        queryClient.invalidateQueries({
+          queryKey: offeringResultQueries.listKey({
             path: { institutionId, offeringId },
           }),
         }),

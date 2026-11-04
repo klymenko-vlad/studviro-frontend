@@ -6,6 +6,7 @@ import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
+import { invalidateMyProgress } from '@/entities/completion';
 import { submissionMutations, submissionQueries } from '@/entities/submission';
 import {
   toApiError,
@@ -91,9 +92,12 @@ export function SubmissionForm({
     setFiles([]);
     setNotes('');
     setPercent(null);
-    await queryClient.invalidateQueries({
-      queryKey: submissionQueries.mineKey({ path: { institutionId, assignmentId } }),
-    });
+    await Promise.all([
+      queryClient.invalidateQueries({
+        queryKey: submissionQueries.mineKey({ path: { institutionId, assignmentId } }),
+      }),
+      invalidateMyProgress(queryClient),
+    ]);
   };
 
   return (

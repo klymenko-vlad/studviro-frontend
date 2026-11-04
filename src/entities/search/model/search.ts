@@ -16,6 +16,7 @@ const ORDER: SearchHitKind[] = [
   'offering',
   'course',
   'program',
+  'teacher',
   'person',
   'orgUnit',
   'room',
@@ -43,6 +44,7 @@ export function hrefFor(
     catalogue: string;
     orgUnits: string;
     people: string;
+    teacher: (userId: string) => string;
   },
 ): string {
   switch (hit.kind) {
@@ -52,9 +54,12 @@ export function hrefFor(
       return routes.program(hit.programId ?? hit.id);
     case 'person':
       return routes.people;
+    case 'teacher':
+      return routes.teacher(hit.id);
     case 'orgUnit':
-    case 'room':
       return routes.orgUnits;
+    case 'room':
+      return `${routes.orgUnits}?tab=rooms`;
     case 'course':
       return routes.catalogue;
   }

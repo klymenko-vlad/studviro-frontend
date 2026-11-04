@@ -63,6 +63,8 @@ export function buildContentSecurityPolicy(options: {
      * to a presigned store URL (ADR 0027), so that origin has to be reachable.
      */
     `connect-src ${connectSources.join(' ')}`,
+    // The privacy embeds a video material is normalised to on the server (ADR 0049).
+    `frame-src https://www.youtube-nocookie.com https://player.vimeo.com`,
     `frame-ancestors 'none'`,
     `object-src 'none'`,
     `base-uri 'self'`,

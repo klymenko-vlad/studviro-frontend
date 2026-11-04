@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTimeZone, useTranslations } from 'next-intl';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import {
@@ -11,6 +11,8 @@ import {
   assignmentQueries,
   type Assignment,
 } from '@/entities/assignment';
+import { AvailabilityFields } from '@/entities/availability';
+import { ASSIGNMENT_COMPLETION_RULES } from '@/entities/completion';
 import { toApiError } from '@/shared/api';
 import { DEFAULT_TIME_ZONE } from '@/shared/config';
 import { useZodResolver } from '@/shared/lib';
@@ -24,6 +26,8 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  Select,
+  SelectItem,
   Switch,
   Textarea,
 } from '@/shared/ui';
@@ -40,14 +44,17 @@ export function AssignmentForm({
   institutionId,
   spaceId,
   assignment,
+  sectionId,
   onDone,
 }: {
   institutionId: string;
   spaceId: string;
   assignment?: Assignment;
+  sectionId?: string | null;
   onDone?: () => void;
 }) {
   const t = useTranslations('assignments');
+  const tCompletion = useTranslations('completion');
   const timeZone = useTimeZone() ?? DEFAULT_TIME_ZONE;
   const queryClient = useQueryClient();
   const editing = assignment !== undefined;
@@ -56,6 +63,7 @@ export function AssignmentForm({
     resolver: useZodResolver(assignmentFormSchema),
     defaultValues: editing ? toFormValues(assignment, timeZone) : EMPTY_ASSIGNMENT,
   });
+  const completionRule = useWatch({ control: form.control, name: 'completionRule' });
 
   const settle = async () => {
     await queryClient.invalidateQueries({
@@ -106,7 +114,10 @@ export function AssignmentForm({
       return;
     }
 
-    create.mutate({ path: { institutionId, spaceId }, body });
+    create.mutate({
+      path: { institutionId, spaceId },
+      body: sectionId === undefined ? body : { ...body, sectionId },
+    });
   });
 
   const pending = form.formState.isSubmitting || create.isPending || update.isPending;
@@ -170,6 +181,8 @@ export function AssignmentForm({
           ))}
         </div>
 
+        <AvailabilityFields />
+
         <div className="grid gap-4 sm:grid-cols-2">
           <FormField
             control={form.control}
@@ -212,6 +225,45 @@ export function AssignmentForm({
               </FormItem>
             )}
           />
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <FormField
+            control={form.control}
+            name="completionRule"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{tCompletion('field.rule')}</FormLabel>
+                <FormControl>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    {ASSIGNMENT_COMPLETION_RULES.map(rule => (
+                      <SelectItem key={rule} value={rule}>
+                        {tCompletion(`rule.${rule}`)}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormDescription>{tCompletion('field.ruleHint')}</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {completionRule === 'passed' ? (
+            <FormField
+              control={form.control}
+              name="completionPassPoints"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{tCompletion('field.passPoints')}</FormLabel>
+                  <FormControl>
+                    <Input type="number" min={0} inputMode="numeric" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ) : null}
         </div>
 
         {(

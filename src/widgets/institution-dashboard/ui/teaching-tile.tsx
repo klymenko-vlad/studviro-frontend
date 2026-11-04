@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { ChevronRight } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
 
 import {
@@ -26,6 +25,7 @@ import {
 
 import { currentOrNextTerm } from '../model/current-term';
 import { useTileHeading } from './tile-heading';
+import { TileLinkRow } from './tile-link-row';
 
 const SHOWN = 5;
 
@@ -92,28 +92,14 @@ export function TeachingTile({
 
             <ul className="-mx-2 flex flex-col">
               {group.offerings.slice(0, SHOWN).map(offering => (
-                <li key={offering.assignmentId}>
-                  <Link
-                    href={routes.courseOffering(offering.offering.id)}
-                    className="group hover:bg-secondary/60 focus-visible:ring-ring/50 flex items-center gap-3 rounded-md px-2 py-2 text-sm transition-colors outline-none focus-visible:ring-[3px]"
-                  >
-                    <span className="flex min-w-0 flex-1 flex-col">
-                      <span className="truncate font-medium">
-                        {offering.course.title}
-                      </span>
-                      <span className="text-muted-foreground truncate text-xs">
-                        {offering.course.code} · {tTeaching(`role.${offering.role}`)}
-                      </span>
-                    </span>
-                    <span className="text-muted-foreground text-xs whitespace-nowrap tabular-nums">
-                      {t('teaching.students', { count: offering.enrolledCount })}
-                    </span>
-                    <ChevronRight
-                      aria-hidden
-                      className="text-muted-foreground size-4 shrink-0 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none"
-                    />
-                  </Link>
-                </li>
+                <TileLinkRow
+                  key={offering.assignmentId}
+                  href={routes.courseOffering(offering.offering.id)}
+                  code={offering.course.code}
+                  title={offering.course.title}
+                  meta={`${offering.course.code} · ${tTeaching(`role.${offering.role}`)}`}
+                  figure={t('teaching.students', { count: offering.enrolledCount })}
+                />
               ))}
             </ul>
 

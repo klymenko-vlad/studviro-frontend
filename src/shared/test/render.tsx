@@ -6,6 +6,8 @@ import { render, type RenderOptions, type RenderResult } from '@testing-library/
 import userEvent from '@testing-library/user-event';
 import { NextIntlClientProvider } from 'next-intl';
 
+import { TooltipProvider } from '@/shared/ui';
+
 /**
  * Read rather than `import`: next-intl emits `messages/en.d.json.ts` to type the
  * catalogue, and Next's build-time type check resolves a JSON import to that
@@ -41,7 +43,9 @@ function AllProviders({ children }: { children: ReactNode }) {
 
   return (
     <NextIntlClientProvider locale="en" messages={messages} timeZone="Europe/Kyiv">
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>{children}</TooltipProvider>
+      </QueryClientProvider>
     </NextIntlClientProvider>
   );
 }

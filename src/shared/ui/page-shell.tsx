@@ -31,7 +31,7 @@ export function PageShell({
     <main
       id="main-content"
       className={cn(
-        'mx-auto flex w-full flex-1 flex-col gap-8 px-6 py-12',
+        'animate-rise mx-auto flex w-full flex-1 flex-col gap-6 px-4 py-6 sm:gap-8 sm:px-6 sm:py-12',
         WIDTHS[width],
         className,
       )}
@@ -47,11 +47,13 @@ export function PageShell({
  * the tracking and leading for this step of the scale; no caller sets them.
  */
 export function PageHeader({
+  eyebrow,
   title,
   description,
   actions,
   children,
 }: {
+  eyebrow?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
   actions?: ReactNode;
@@ -59,6 +61,9 @@ export function PageHeader({
 }) {
   return (
     <header className="flex flex-col gap-2">
+      {eyebrow === undefined ? null : (
+        <p className="text-muted-foreground type-eyebrow">{eyebrow}</p>
+      )}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <h1 className="type-title">{title}</h1>
         {actions === undefined ? null : (

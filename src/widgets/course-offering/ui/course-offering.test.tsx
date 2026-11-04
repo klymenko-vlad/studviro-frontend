@@ -123,7 +123,7 @@ describe('CourseOffering', () => {
       <CourseOffering institutionId={INSTITUTION} offeringId={OFFERING} />,
     );
 
-    await user.click(await screen.findByRole('tab', { name: 'Assessment' }));
+    await user.click(await screen.findByRole('tab', { name: 'Grades' }));
 
     expect(await screen.findByText('My result')).toBeInTheDocument();
     expect(await screen.findByText('B · 87.5 points')).toBeInTheDocument();
@@ -136,7 +136,7 @@ describe('CourseOffering', () => {
       <CourseOffering institutionId={INSTITUTION} offeringId={OFFERING} />,
     );
 
-    await user.click(await screen.findByRole('tab', { name: 'Assessment' }));
+    await user.click(await screen.findByRole('tab', { name: 'Grades' }));
 
     expect(
       await screen.findByText('No result has been recorded for this course yet.'),
@@ -203,6 +203,48 @@ describe('CourseOffering', () => {
     ).toBeInTheDocument();
     expect(screen.queryByRole('tab', { name: 'People' })).not.toBeInTheDocument();
     expect(screen.queryByText('Roster')).not.toBeInTheDocument();
+  });
+
+  it('opens the discussion to a student in the course now', async () => {
+    render();
+
+    expect(await screen.findByRole('tab', { name: 'Discussion' })).toBeInTheDocument();
+  });
+
+  it('leaves the discussion out of a course the student has finished', async () => {
+    server.use(
+      http.get(OFFERING_URL, () =>
+        HttpResponse.json({
+          ...courseOffering,
+          enrollment: { ...courseOffering.enrollment!, status: 'completed' },
+        }),
+      ),
+    );
+
+    render();
+
+    expect(await screen.findByRole('tab', { name: 'Grades' })).toBeInTheDocument();
+    expect(screen.queryByRole('tab', { name: 'Discussion' })).not.toBeInTheDocument();
+  });
+
+  it('leaves a withdrawn student only the overview and their grades', async () => {
+    server.use(
+      http.get(OFFERING_URL, () =>
+        HttpResponse.json({
+          ...courseOffering,
+          viewerRole: 'student',
+          enrollment: { ...courseOffering.enrollment!, status: 'withdrawn' },
+        }),
+      ),
+    );
+
+    render();
+
+    await screen.findByRole('tab', { name: 'Grades' });
+    expect(screen.getAllByRole('tab').map(tab => tab.textContent)).toEqual([
+      'Overview',
+      'Grades',
+    ]);
   });
 
   it('offers a teacher the sections a student does not get', async () => {

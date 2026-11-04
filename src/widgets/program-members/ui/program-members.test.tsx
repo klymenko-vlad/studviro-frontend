@@ -25,16 +25,16 @@ const MEMBERS = `${BASE}/programs/${PROGRAM}/members`;
 const render = () =>
   renderWithProviders(<ProgramMembers institutionId={INSTITUTION} programId={PROGRAM} />);
 
-const readOnly = () => {
+const actingAs = (roles: string[], granted: string[]) => {
   server.use(
     http.get(`${BASE}/me/permissions`, () =>
-      HttpResponse.json({
-        ...permissions,
-        roles: ['student'],
-        permissions: ['institution:read', 'program:read'],
-      }),
+      HttpResponse.json({ ...permissions, roles, permissions: granted }),
     ),
   );
+};
+
+const readOnly = () => {
+  actingAs(['registrar'], ['institution:read', 'program:read', 'role:read']);
 };
 
 async function choosePerson() {
@@ -120,6 +120,25 @@ describe('ProgramMembers', () => {
     expect(await screen.findByText('Studying')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Admit' })).not.toBeInTheDocument();
     expect(screen.queryByLabelText('Standing of Jana Nováková')).not.toBeInTheDocument();
+  });
+
+  it('keeps the roll from a student, without even asking for it', async () => {
+    const asked = vi.fn();
+    server.use(
+      http.get(MEMBERS, () => {
+        asked();
+        return HttpResponse.json([]);
+      }),
+    );
+    actingAs(['student'], ['institution:read', 'program:read']);
+
+    const { container } = render();
+
+    await waitFor(() => {
+      expect(container).toBeEmptyDOMElement();
+    });
+    expect(screen.queryByText('Jana Nováková')).not.toBeInTheDocument();
+    expect(asked).not.toHaveBeenCalled();
   });
 
   it('says so when nobody is on the programme', async () => {

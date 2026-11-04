@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 
 import {
@@ -25,9 +26,11 @@ const STATUS_VARIANT = {
 export function RosterTable({
   students,
   caption,
+  actionFor,
 }: {
   students: RosterStudent[];
   caption: string;
+  actionFor?: (student: RosterStudent) => ReactNode;
 }) {
   const t = useTranslations('roster');
   const format = useFormatter();
@@ -40,6 +43,11 @@ export function RosterTable({
           <TableHead>{t('column.status')}</TableHead>
           <TableHead>{t('column.studyGroups')}</TableHead>
           <TableHead>{t('column.enrolledAt')}</TableHead>
+          {actionFor === undefined ? null : (
+            <TableHead>
+              <span className="sr-only">{t('column.actions')}</span>
+            </TableHead>
+          )}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -49,7 +57,7 @@ export function RosterTable({
               <span className="font-medium">{student.displayName}</span>
               <span className="text-muted-foreground block text-xs">{student.email}</span>
             </TableCell>
-            <TableCell>
+            <TableCell label={t('column.status')}>
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant={STATUS_VARIANT[student.status]}>
                   {t(`status.${student.status}`)}
@@ -61,16 +69,19 @@ export function RosterTable({
                 ) : null}
               </div>
             </TableCell>
-            <TableCell className="text-muted-foreground">
+            <TableCell label={t('column.studyGroups')} className="text-muted-foreground">
               {student.studyGroups.length === 0
                 ? t('noStudyGroups')
                 : student.studyGroups.map(group => group.code).join(', ')}
             </TableCell>
-            <TableCell className="text-muted-foreground">
+            <TableCell label={t('column.enrolledAt')} className="text-muted-foreground">
               {student.enrolledAt === null
                 ? t('notEnrolledYet')
                 : format.dateTime(new Date(student.enrolledAt), { dateStyle: 'medium' })}
             </TableCell>
+            {actionFor === undefined ? null : (
+              <TableCell className="text-right">{actionFor(student)}</TableCell>
+            )}
           </TableRow>
         ))}
       </TableBody>

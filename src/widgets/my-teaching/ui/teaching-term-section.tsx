@@ -37,7 +37,7 @@ export function TeachingTermSection({
         </p>
       </div>
 
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {group.offerings.map(offering => (
           <li key={offering.assignmentId}>
             <TeachingOfferingCard

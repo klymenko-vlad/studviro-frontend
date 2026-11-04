@@ -3,9 +3,11 @@ import { useFormatter, useTranslations } from 'next-intl';
 import { courseOfferingHref } from '@/entities/course-offering';
 import {
   EnrolledCourseCard,
+  opensCoursePage,
   totalCredits,
   type TermCourses,
 } from '@/entities/enrolled-course';
+import { institutionRoutes } from '@/shared/config';
 
 export function TermSection({
   group,
@@ -34,12 +36,16 @@ export function TermSection({
         </p>
       </div>
 
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {group.courses.map(course => (
           <li key={course.enrollmentId}>
             <EnrolledCourseCard
               course={course}
-              href={courseOfferingHref(institutionId, course.offering.id)}
+              href={
+                opensCoursePage(course.status)
+                  ? courseOfferingHref(institutionId, course.offering.id)
+                  : institutionRoutes(institutionId).enroll
+              }
             />
           </li>
         ))}

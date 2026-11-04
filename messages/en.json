@@ -10,19 +10,20 @@
     "hidePassword": "Hide password",
     "skipToContent": "Skip to Content",
     "loadMore": "Load more",
-    "shownCount": "{count} shown"
+    "shownCount": "{count} shown",
+    "breadcrumb": "You are here"
   },
   "nav": {
     "account": "Account",
     "signIn": "Sign in",
     "signUp": "Sign up",
     "institutionLabel": "Institution sections",
-    "dashboard": "Dashboard",
-    "courses": "My courses",
+    "dashboard": "Home",
+    "courses": "Courses",
     "grades": "Grades",
     "calendar": "Calendar",
     "roles": "Roles",
-    "settings": "Settings",
+    "settings": "Institution",
     "exams": "Exams",
     "teaching": "My teaching",
     "notifications": "Notifications",
@@ -42,12 +43,21 @@
     "preferences": "Theme and language",
     "sections": "Sections",
     "sectionsDescription": "Every screen of this institution you can open.",
+    "more": "More",
+    "collapseSidebar": "Collapse sidebar",
+    "expandSidebar": "Expand sidebar",
+    "tabBarLabel": "Main sections",
     "groups": {
       "studies": "My studies",
       "teaching": "Teaching",
       "administration": "Administration"
     },
-    "accountSettings": "Account settings"
+    "accountSettings": "Account settings",
+    "openSearch": "Search this institution",
+    "searchPlaceholder": "Search…",
+    "notificationsUnread": "Notifications, {count, plural, one {# unread} other {# unread}}",
+    "structure": "Structure",
+    "offer": "Teaching offer"
   },
   "home": {
     "title": "One academic platform your institution runs itself",
@@ -181,17 +191,9 @@
   },
   "account": {
     "title": "Account",
-    "subtitle": "Your roles across institutions and the accounts linked to this profile.",
-    "roles": {
-      "title": "Roles",
-      "description": "What you are allowed to do, and where.",
-      "empty": "No roles have been assigned to you yet.",
-      "errorTitle": "Roles could not be loaded",
-      "errorDescription": "Try again in a moment."
-    },
     "linkedAccounts": {
-      "title": "Linked accounts",
-      "description": "University accounts that can sign in to this profile.",
+      "title": "University sign-in",
+      "description": "University accounts you can sign in with instead of a password.",
       "empty": "No university account is linked yet.",
       "errorTitle": "Linked accounts could not be loaded",
       "errorDescription": "Try again in a moment.",
@@ -205,16 +207,23 @@
       "lms": "Learning management system"
     },
     "institutions": {
-      "title": "Institutions",
-      "description": "Where you hold a role.",
+      "title": "Your institutions",
+      "description": "Open one to see your courses, grades and timetable.",
       "empty": "You do not belong to any institution yet.",
       "manageRoles": "Manage roles",
       "manageSettings": "Settings",
       "myCourses": "My courses",
       "myGrades": "My grades",
-      "dashboard": "Dashboard"
+      "dashboard": "Dashboard",
+      "emptyDescription": "Once a school adds you, it appears here.",
+      "open": "Open dashboard"
     },
-    "settingsLink": "Settings and security"
+    "settingsLink": "Settings and security",
+    "dataExport": {
+      "title": "Download your data",
+      "description": "A copy of everything an institution holds about you, as a file you can keep.",
+      "empty": "There is nothing to download until you join an institution."
+    }
   },
   "roles": {
     "role": {
@@ -354,8 +363,8 @@
     }
   },
   "myCourses": {
-    "title": "My courses",
-    "subtitle": "Every course you are enrolled in, newest term first.",
+    "title": "Courses",
+    "subtitle": "The courses you take, and the ones you can still enrol in.",
     "empty": "You are not enrolled in any course yet.",
     "noTeacher": "No teacher recorded",
     "errorTitle": "Courses could not be loaded",
@@ -378,11 +387,20 @@
       "compulsory": "Compulsory",
       "optional": "Optional",
       "elective": "Elective"
+    },
+    "tabs": {
+      "mine": "My courses",
+      "find": "Find courses"
+    },
+    "noCurrent": "You have no courses this term yet.",
+    "findCourses": "Find courses",
+    "earlier": {
+      "title": "Earlier courses",
+      "summary": "{courses, plural, one {# course} other {# courses}} from {terms, plural, one {# earlier term} other {# earlier terms}}"
     }
   },
   "courseOffering": {
     "title": "Course",
-    "backToCourses": "Back to my courses",
     "staff": "Teaching staff",
     "noStaff": "No teaching staff recorded.",
     "lead": "Course lead",
@@ -400,6 +418,7 @@
     "notFoundDescription": "This course offering does not exist in this institution.",
     "errorTitle": "Course could not be loaded",
     "errorDescription": "The course is unavailable right now. Try again in a moment.",
+    "withdrawnStudent": "Withdrawn",
     "viewerRole": {
       "student": "Enrolled",
       "teacher": "Teaching",
@@ -429,11 +448,19 @@
     "staffError": "Who teaches this could not be read.",
     "section": {
       "overview": "Overview",
-      "people": "People",
+      "materials": "Content",
+      "assignments": "Assignments",
       "schedule": "Schedule",
-      "materials": "Materials",
-      "work": "Assessment",
-      "discussion": "Discussion"
+      "grades": "Grades",
+      "discussion": "Discussion",
+      "people": "People",
+      "progress": "Progress"
+    },
+    "upNext": {
+      "title": "Up next",
+      "deadline": "Assignment due",
+      "exam": "Exam",
+      "nothing": "Nothing due and no exam ahead."
     }
   },
   "grades": {
@@ -493,6 +520,8 @@
     "awaitingRetake": "{courses, plural, one {# course is awaiting a resit} other {# courses are awaiting a resit}}",
     "annulledNote": "The registrar struck this result. It counts towards nothing.",
     "noStanding": "No standing",
+    "withdrawn": "Withdrawn",
+    "withdrawnNote": "You were withdrawn from this course after the grade was recorded. The grade stays on your record.",
     "standing": {
       "title": "Where you are in your programme",
       "year": "Year {year}",
@@ -551,6 +580,8 @@
       "title": "Deadlines",
       "description": "What falls due in your courses next.",
       "summary": "{deadlines, plural, one {# deadline} other {# deadlines}} in the next two weeks",
+      "summaryWithTasks": "{deadlines, plural, one {# deadline} other {# deadlines}} and {tasks, plural, one {# task} other {# tasks}} of your own in the next two weeks",
+      "summaryTasksOnly": "{tasks, plural, one {# task} other {# tasks}} of your own in the next two weeks",
       "empty": "Nothing falls due in the next two weeks.",
       "error": "Your deadlines are unavailable right now.",
       "link": "Open the calendar",
@@ -614,6 +645,31 @@
       "empty": "Nothing has been recorded yet.",
       "error": "Recent changes are unavailable right now.",
       "link": "Open the audit trail"
+    },
+    "greeting": "Welcome back, {name}",
+    "greetingAnonymous": "Welcome back",
+    "today": {
+      "week": "Week {week} of {weeks} · {term}",
+      "starts": "{term} starts {date}"
+    },
+    "glance": {
+      "label": "At a glance",
+      "term": "This term",
+      "courses": "{count, plural, one {# course} other {# courses}}",
+      "credits": "{count} credits",
+      "noCourses": "No courses",
+      "average": "Average grade",
+      "noAverage": "Not yet",
+      "earned": "{credits} credits earned",
+      "retake": "{count, plural, one {# course} other {# courses}} to retake",
+      "deadline": "Next deadline",
+      "nothingDue": "Nothing due",
+      "nothingDueDetail": "in the next two weeks",
+      "exam": "Next exam",
+      "examsOpen": "{count, plural, one {# date open} other {# dates open}}",
+      "register": "Register now",
+      "noExam": "None booked",
+      "unavailable": "Unavailable"
     }
   },
   "calendar": {
@@ -673,7 +729,25 @@
       "active": "A subscription link is active since {date}.",
       "replace": "Replace link",
       "turnOff": "Turn off",
-      "turnedOff": "The subscription link no longer works"
+      "turnedOff": "The subscription link no longer works",
+      "oneClick": "Subscribe in one click",
+      "oneClickHint": "Opens the calendar you pick with this link filled in. Only that service receives the link. Apple Calendar also covers any app that opens webcal links.",
+      "service": {
+        "google": "Google Calendar",
+        "outlook": "Outlook.com",
+        "office": "Microsoft 365",
+        "apple": "Apple Calendar"
+      }
+    },
+    "viewLabel": "Show the week as",
+    "view": {
+      "week": "Week",
+      "list": "List"
+    },
+    "weekNavigation": "Move between weeks",
+    "addToCalendar": {
+      "action": "Add to calendar",
+      "label": "Add {title} to your calendar"
     }
   },
   "exams": {
@@ -696,7 +770,12 @@
     "seats": "{seats} of {capacity} seats free",
     "seatsFull": "Full",
     "seatsUnknown": "No seat limit recorded",
-    "registered": "You are registered",
+    "seat": {
+      "registered": "You are registered",
+      "attended": "You sat this exam",
+      "no_show": "You were recorded as absent",
+      "excused": "Your absence was excused"
+    },
     "cancelled": "Cancelled",
     "offeringPanel": "Exam terms",
     "noOfferingExams": "No exam terms have been scheduled for this course.",
@@ -794,7 +873,8 @@
       "submission_marked": "Assignment marked",
       "waitlist_place_free": "A place came free on a course you are waiting for",
       "discussion_thread_started": "New thread in your course",
-      "discussion_reply": "New reply in a discussion"
+      "discussion_reply": "New reply in a discussion",
+      "enrollment_withdrawn": "You were withdrawn from a course"
     },
     "dueAt": "Due {date}",
     "dueMovedTo": "Deadline moved from {from} to {to}",
@@ -846,7 +926,8 @@
       "student": "Student",
       "status": "Status",
       "studyGroups": "Study groups",
-      "enrolledAt": "Enrolled"
+      "enrolledAt": "Enrolled",
+      "actions": "Actions"
     },
     "status": {
       "requested": "Requested",
@@ -857,6 +938,15 @@
       "rejected": "Rejected",
       "waitlisted": "On the waiting list"
     }
+  },
+  "withdrawEnrollment": {
+    "action": "Withdraw",
+    "named": "Withdraw {student}",
+    "title": "Withdraw {student} from this course?",
+    "description": "They leave the roster and are told. An official grade already recorded stays on their record, and they can still open the course to see it.",
+    "cancel": "Cancel",
+    "confirm": "Withdraw",
+    "done": "{student} was withdrawn."
   },
   "marketing": {
     "nav": {
@@ -1385,6 +1475,12 @@
     "sourcedHint": "This grade already has a value. Changing it replaces what the student currently sees.",
     "attemptNone": "No sitting yet",
     "attemptNumber": "Attempt {attempt}",
+    "sitting": {
+      "registered": "Registered for {date}",
+      "attended": "Sat the exam on {date}",
+      "no_show": "Did not come on {date}",
+      "excused": "Excused on {date}"
+    },
     "gradeFor": "Grade for {student}",
     "column": {
       "student": "Student",
@@ -1737,6 +1833,19 @@
       "code": "S1",
       "name": "Monday seminar",
       "capacity": "No limit"
+    },
+    "content": {
+      "title": "Only for {code}",
+      "empty": "Nothing on the course page is only for {code}.",
+      "error": "The content for this group could not be read.",
+      "inSection": "In {title}",
+      "general": "In General",
+      "audienceHidden": "Only this group · hidden from others",
+      "audienceLocked": "Only this group · locked for others",
+      "condition": "named in a condition",
+      "filter": "Find in what is only for {code}",
+      "filterPlaceholder": "Title",
+      "noMatch": "Nothing matches."
     }
   },
   "examTermAdmin": {
@@ -1918,13 +2027,11 @@
       "name": "Operating Systems",
       "shortName": "OS",
       "summary": "What the course covers, in a sentence or two."
-    }
+    },
+    "noAssignmentsYet": "No assignments yet.",
+    "openSpaceFirst": "Assignments live in the course page’s learning space. Open it on the Materials tab first."
   },
   "materials": {
-    "title": "Materials",
-    "description": "Files, links and notes, in the order students read them.",
-    "error": "Materials could not be loaded. Try again in a moment.",
-    "empty": "No materials yet.",
     "formLabel": "Add a material",
     "add": "Add the material",
     "added": "Material added",
@@ -1936,8 +2043,6 @@
     "show": "Show",
     "showNamed": "Show {title}",
     "hidden": "Hidden",
-    "moveUpNamed": "Move {title} up",
-    "moveDownNamed": "Move {title} down",
     "download": "Download",
     "downloadNamed": "Download {title}",
     "unnamedFile": "Unnamed file",
@@ -1945,7 +2050,11 @@
     "kind": {
       "file": "File",
       "link": "Link",
-      "text": "Text"
+      "text": "Text",
+      "page": "Page",
+      "label": "Label",
+      "video": "Video",
+      "folder": "Folder"
     },
     "field": {
       "kind": "Kind",
@@ -1955,7 +2064,15 @@
       "body": "Text",
       "file": "File",
       "fileHint": "The file is uploaded straight to the store; the server records it once it arrives.",
-      "visible": "Show this material to students"
+      "visible": "Show this material to students",
+      "page": "Page text",
+      "pageHint": "Markdown: # for a heading, - for a list, **bold**, *italic*, [a link](https://…) and `code`. Shown on a page of its own.",
+      "label": "Label text",
+      "labelHint": "A line or two shown between items, with no page of its own. Up to 1,000 characters.",
+      "video": "Video address",
+      "videoHint": "A YouTube or Vimeo address. It is shown in the course page through the provider's privacy-friendly player.",
+      "folderFiles": "Files",
+      "folderFilesHint": "Choose one or more files. You can add or remove files later."
     },
     "upload": {
       "pickFirst": "Choose a file first",
@@ -1967,8 +2084,207 @@
       "title": "Lecture 1: Processes",
       "description": "One line about what this is.",
       "url": "https://example.edu/lecture-1",
-      "body": "The text students will read here."
+      "body": "The text students will read here.",
+      "page": "## Week 1\n\nRead **chapter 4** before the seminar.",
+      "label": "Part two: graphs",
+      "video": "https://www.youtube.com/watch?v=…"
+    },
+    "page": {
+      "preview": "Preview",
+      "previewLabel": "Preview of the page",
+      "read": "Read the page",
+      "readNamed": "Read {title}",
+      "back": "Back to the course"
+    },
+    "video": {
+      "frameNamed": "Video: {title}"
+    },
+    "folder": {
+      "show": "Show files",
+      "hide": "Hide files",
+      "filter": "Find a file",
+      "filterPlaceholder": "Part of the file name",
+      "error": "The files could not be loaded. Try again in a moment.",
+      "empty": "There are no files in this folder yet.",
+      "noMatch": "No file matches that name.",
+      "listNamed": "Files in {title}",
+      "size": "{kilobytes} kB",
+      "remove": "Remove",
+      "removeNamed": "Remove {filename}",
+      "removed": "{filename} was removed",
+      "add": "Add files",
+      "added": "{count, plural, one {# file added} other {# files added}}",
+      "uploading": "Uploading…"
+    },
+    "edit": {
+      "open": "Edit",
+      "named": "Edit {title}",
+      "formNamed": "Edit {title}",
+      "save": "Save changes",
+      "saved": "Material saved",
+      "loadError": "The material could not be loaded. Try again in a moment."
     }
+  },
+  "outline": {
+    "general": "General",
+    "hidden": "Hidden",
+    "assignment": "Assignment",
+    "due": "Due {when}",
+    "noDueDate": "No due date",
+    "error": "The course content could not be loaded. Try again in a moment.",
+    "empty": "Nothing has been put on this course page yet.",
+    "emptySection": "Nothing here yet.",
+    "itemsOf": "In {title}",
+    "addMaterial": "Add material",
+    "addMaterialTo": "Add material to {title}",
+    "addAssignment": "Add assignment",
+    "addAssignmentTo": "Add assignment to {title}",
+    "cancel": "Cancel",
+    "addSection": "Add a section",
+    "addSectionDescription": "A week or a topic. Materials and assignments are placed inside it, in the order students work through them.",
+    "addSectionLabel": "Add a section",
+    "editSectionLabel": "Edit {title}",
+    "saveSection": "Save changes",
+    "sectionAdded": "Section added",
+    "sectionSaved": "Section saved",
+    "sectionRemoved": "{title} was removed. What it held is now under General.",
+    "moveUpNamed": "Move {title} up",
+    "moveDownNamed": "Move {title} down",
+    "sectionOfNamed": "Section for {title}",
+    "moved": "{title} was moved",
+    "edit": "Edit",
+    "editSectionNamed": "Edit {title}",
+    "hide": "Hide",
+    "show": "Show",
+    "hideSectionNamed": "Hide {title} and everything in it",
+    "showSectionNamed": "Show {title}",
+    "remove": "Remove",
+    "removeSectionNamed": "Remove {title}, keeping what it holds",
+    "field": {
+      "title": "Title",
+      "summary": "Summary"
+    },
+    "placeholder": {
+      "title": "Week 1: Processes",
+      "summary": "What this week covers, in a sentence."
+    },
+    "addQuiz": "Add quiz",
+    "addQuizTo": "Add quiz to {title}"
+  },
+  "availability": {
+    "legend": "Availability",
+    "field": {
+      "availableFrom": "Available from",
+      "availableUntil": "Available until",
+      "hiddenUntilAvailable": "Hide it completely until then",
+      "hint": "Leave both empty to show it as soon as it is visible. Before it opens, students see only the title and when it opens."
+    },
+    "badge": {
+      "scheduled": "Opens {when}",
+      "scheduledHidden": "Hidden until {when}",
+      "ended": "Ended {when}",
+      "until": "Until {when}"
+    },
+    "opensOn": "Opens on {when}",
+    "availableUntil": "Available until {when}",
+    "edit": "Availability",
+    "editNamed": "Availability of {title}",
+    "save": "Save availability",
+    "saved": "Availability saved"
+  },
+  "restriction": {
+    "locked": "Locked",
+    "badge": "Restricted",
+    "badgeHidden": "Restricted · hidden while locked",
+    "allOf": "All of these:",
+    "anyOf": "Any one of these:",
+    "completed": "Complete <em>{title}</em> first",
+    "completedMissing": "Complete an item that has been removed",
+    "mark": "Get at least {points} in <em>{title}</em>",
+    "markMissing": "Get at least {points} in an item that has been removed",
+    "date": "Available from {when}",
+    "group": "Only for group {name}",
+    "groupMissing": "Only for a group that has been removed",
+    "edit": "Access",
+    "editNamed": "Access to {title}",
+    "match": "Students need",
+    "matchAll": "all of these conditions",
+    "matchAny": "any one of these conditions",
+    "setMatch": "This group needs",
+    "conditionType": "Condition",
+    "type": {
+      "completed": "Another item is complete",
+      "mark": "A mark in an assignment or a quiz",
+      "date": "A date",
+      "group": "A study group",
+      "set": "A group of conditions"
+    },
+    "item": "Item",
+    "assignment": "Assignment",
+    "atLeast": "At least (points)",
+    "from": "From",
+    "studyGroup": "Study group",
+    "choose": "Choose…",
+    "addCondition": "Add a condition",
+    "addSet": "Add a group of conditions",
+    "addToSet": "Add a condition to this group",
+    "removeCondition": "Remove this condition",
+    "hideWhenLocked": "Hide it completely from students who do not meet it",
+    "save": "Save access",
+    "saved": "Access saved",
+    "clear": "Remove the restriction",
+    "cleared": "Restriction removed",
+    "cancel": "Cancel",
+    "incomplete": "Fill in every condition before saving.",
+    "noGroups": "This course has no study groups yet.",
+    "audience": {
+      "badge": "Group {names}",
+      "hidden": "Hidden from other groups",
+      "locked": "Other groups see it locked",
+      "missing": "a removed group",
+      "only": "Only for group {names}"
+    },
+    "groups": {
+      "button": "Groups",
+      "named": "Groups for {title}",
+      "legend": "Only students in these groups can open it",
+      "none": "This course has no study groups yet. Open some on the People tab.",
+      "others": "Students in other groups",
+      "othersHidden": "do not see it at all",
+      "othersLocked": "see it locked, with the groups it is for",
+      "hint": "This comes on top of any access conditions: students in these groups still need to meet them.",
+      "empty": "Choose at least one group.",
+      "save": "Save groups",
+      "saved": "Groups saved",
+      "clear": "Make it for everyone",
+      "cleared": "It is for every group again",
+      "cancel": "Cancel"
+    },
+    "sight": {
+      "button": "Who can see",
+      "named": "Who can see {title}",
+      "summary": "{canOpen} of {students} students can open it now",
+      "detail": "{seeTitle} see only its title · {seeNothing} see nothing",
+      "student": "Student",
+      "now": "Now",
+      "why": "Why",
+      "full": "Can open",
+      "title": "Sees the title",
+      "none": "Sees nothing",
+      "hidden": "Hidden from students",
+      "scheduled": "Opens on {when}",
+      "ended": "No longer available",
+      "viaSection": "Because of its section",
+      "filter": "Find a student",
+      "filterPlaceholder": "Name or email",
+      "empty": "No students match.",
+      "noStudents": "Nobody is enrolled on this course yet.",
+      "errorTitle": "Who can see this could not be worked out",
+      "errorDescription": "Try again in a moment.",
+      "close": "Close",
+      "tableLabel": "Students and what they see"
+    },
+    "markedItem": "Assignment or quiz"
   },
   "assignments": {
     "title": "Assignments",
@@ -2085,6 +2401,19 @@
       "feedback": "What they did well, and what to fix."
     }
   },
+  "teacherProfile": {
+    "courses": "Courses",
+    "departments": "Departments",
+    "noCourses": "No courses on record.",
+    "filter": "Filter courses",
+    "filterPlaceholder": "Title or code",
+    "noMatch": "No course matches “{query}”.",
+    "coursesError": "The courses could not be loaded.",
+    "notFoundTitle": "No such teacher",
+    "notFoundDescription": "Nobody with this profile teaches at this institution.",
+    "errorTitle": "The profile could not be loaded",
+    "errorDescription": "Try again in a moment."
+  },
   "search": {
     "title": "Search",
     "subtitle": "Courses, programmes, people, rooms: everything you are allowed to see.",
@@ -2096,10 +2425,16 @@
     "nothing": "Nothing matches “{query}”.",
     "truncated": "There are more matches than shown. Try a longer query.",
     "notSearched": "Not searched, because your role does not include reading them:",
+    "tip": "Try a course code like FEI-P106, a programme, a teacher or a room.",
+    "recentQueries": "Recent searches",
+    "clearRecent": "Clear history",
+    "recentlyOpened": "Recently opened",
+    "yourCourses": "Your courses this term",
     "kind": {
       "course": "Courses",
-      "offering": "On offer",
+      "offering": "Course pages",
       "program": "Programmes",
+      "teacher": "Teachers",
       "person": "People",
       "orgUnit": "Org units",
       "room": "Rooms"
@@ -2130,7 +2465,8 @@
       "examAttendanceRecorded": "Exam attendance recorded",
       "personalDataErased": "Personal data erased",
       "discussionHidden": "Discussion post hidden",
-      "discussionRestored": "Discussion post restored"
+      "discussionRestored": "Discussion post restored",
+      "learningSpaceImported": "Course page imported"
     }
   },
   "personalData": {
@@ -2304,6 +2640,18 @@
     }
   },
   "discussion": {
+    "replyAction": "Reply",
+    "replyTo": "Reply to {name}",
+    "replyCount": "{count, plural, one {# reply} other {# replies}}",
+    "replyingTo": "Replying to {name}",
+    "cancelReply": "Cancel reply",
+    "inReplyTo": "In reply to {name}",
+    "quotedDeleted": "Deleted message",
+    "quotedHidden": "Hidden message",
+    "repliesError": "The replies could not be loaded.",
+    "filterThreads": "Filter threads",
+    "filterThreadsPlaceholder": "Title",
+    "noThreadMatch": "No thread matches “{query}”.",
     "title": "Discussion",
     "description": "Questions and answers among the people of this course. Teachers can hide posts that do not belong here.",
     "empty": "Nobody has started a thread yet.",
@@ -2365,5 +2713,679 @@
     "confirmBody": "The antivirus has not scanned this file yet. Open it only if you trust the person who uploaded it.",
     "downloadAnyway": "Download anyway",
     "cancel": "Cancel"
+  },
+  "hubs": {
+    "structure": {
+      "title": "Structure",
+      "subtitle": "How the institution is built: its units, rooms and terms.",
+      "tabs": {
+        "units": "Org units",
+        "rooms": "Rooms",
+        "terms": "Terms"
+      }
+    },
+    "offer": {
+      "title": "Teaching offer",
+      "subtitle": "What the institution teaches: programmes and courses, their offerings each term, and the course pages behind them.",
+      "deniedTitle": "Not available to you",
+      "deniedDescription": "Your role does not include reading the teaching offer.",
+      "tabs": {
+        "catalogue": "Programmes & courses",
+        "offerings": "Offerings",
+        "learning": "Course pages"
+      }
+    },
+    "people": {
+      "title": "People",
+      "subtitle": "Everyone in the institution, bringing someone new in, and what each person may do.",
+      "tabs": {
+        "directory": "Directory",
+        "invite": "Invite",
+        "roles": "Roles"
+      }
+    },
+    "institution": {
+      "title": "Institution",
+      "subtitle": "The institution’s own settings, entering data in bulk, and the record of what changed.",
+      "tabs": {
+        "settings": "Settings",
+        "bulk": "Bulk entry",
+        "audit": "Audit trail"
+      }
+    }
+  },
+  "completion": {
+    "progress": "{done} of {total} done",
+    "courseProgress": "Your progress",
+    "sectionProgress": "Progress in {title}",
+    "markDone": "Mark as done",
+    "done": "Done",
+    "markDoneNamed": "Mark {title} as done",
+    "state": {
+      "done": "Done",
+      "passed": "Passed",
+      "failed": "Below the pass mark"
+    },
+    "todo": {
+      "viewed": "Done once you open it",
+      "submitted": "Done once you hand it in",
+      "marked": "Done once it is marked",
+      "passed": "Done once it is marked {points} or more"
+    },
+    "rule": {
+      "none": "Not tracked",
+      "manual": "The student marks it done",
+      "viewed": "When the student opens it",
+      "submitted": "When work is handed in",
+      "marked": "When it is marked",
+      "passed": "When the mark reaches a pass mark"
+    },
+    "ruleBadge": {
+      "manual": "Done: student ticks it",
+      "viewed": "Done: when opened",
+      "submitted": "Done: when handed in",
+      "marked": "Done: when marked"
+    },
+    "ruleBadgePassed": "Done: marked {points} or more",
+    "field": {
+      "rule": "Completion",
+      "passPoints": "Points to pass",
+      "ruleHint": "How a student's tick on this item is earned. Progress counts only items with a rule."
+    },
+    "ruleOfNamed": "Completion for {title}",
+    "saved": "Completion rule saved",
+    "passPointsRequired": "Say how many points pass",
+    "passPointsAboveMax": "The pass mark is above what the assignment is worth",
+    "report": {
+      "title": "Completion",
+      "description": "Which students have completed each tracked item. Hidden items are included; students see only what they can open.",
+      "filter": "Filter students",
+      "filterPlaceholder": "Name or email",
+      "tableLabel": "Completion by student and item",
+      "student": "Student",
+      "done": "Done",
+      "doneOf": "{done} of {total}",
+      "hidden": "Hidden",
+      "empty": "No student matches.",
+      "nothingTracked": "No item tracks completion yet. Choose a completion rule on a material or an assignment in Content.",
+      "noSpace": "Open a course page first; completion is tracked on its items.",
+      "errorTitle": "Completion could not be loaded",
+      "errorDescription": "Try again in a moment.",
+      "cell": {
+        "complete": "Done",
+        "complete_pass": "Passed",
+        "complete_fail": "Below the pass mark",
+        "incomplete": "Not done"
+      },
+      "completedOn": "on {when}"
+    }
+  },
+  "studentView": {
+    "open": "View as a student",
+    "pickerTitle": "View the page as",
+    "pickerDescription": "A read-only preview: hidden, scheduled, locked and group-only items exactly as that student sees them now.",
+    "newStudent": "A new student",
+    "newStudentHint": "No progress yet and in no group",
+    "filter": "Find a student",
+    "filterPlaceholder": "Name or email",
+    "empty": "No student matches.",
+    "studentsError": "The students could not be loaded. Try again in a moment.",
+    "close": "Close",
+    "viewingAs": "Viewing as {name}",
+    "viewingAsNew": "Viewing as a new student",
+    "readOnly": "Read-only. This is the page as they see it now; nothing you do here is recorded for them.",
+    "back": "Back to editing",
+    "another": "Choose another student",
+    "error": "The page could not be shown as this student."
+  },
+  "courseImport": {
+    "open": "Import from another course",
+    "title": "Import from another course",
+    "description": "Copy the outline of another course page you teach into this one: sections, materials and their files, assignments, quizzes and the question bank. Nothing students did is copied, and the copies go after what is already here.",
+    "close": "Close",
+    "filter": "Filter courses",
+    "filterPlaceholder": "Course, code or term",
+    "sourcesError": "The courses could not be loaded.",
+    "empty": "No other course page you teach matches.",
+    "sameCourse": "Same course",
+    "unpublished": "Unpublished",
+    "sourceTerm": "{term} · {code}",
+    "previewTitle": "Import from {name}",
+    "keepVisibility": "Keep each section and item shown or hidden as it was",
+    "confirm": "Import",
+    "importing": "Importing…",
+    "back": "Choose another course",
+    "done": "Course content imported",
+    "doneTitle": "Imported from {name}",
+    "nothing": "That course page has nothing to copy.",
+    "countsLabel": "What is copied",
+    "counts": {
+      "sections": "{count, plural, one {# section} other {# sections}}",
+      "materials": "{count, plural, one {# material} other {# materials}}",
+      "files": "{count, plural, one {# file} other {# files}}",
+      "assignments": "{count, plural, one {# assignment} other {# assignments}}",
+      "quizzes": "{count, plural, one {# quiz} other {# quizzes}}",
+      "questionCategories": "{count, plural, one {# question category} other {# question categories}}",
+      "questions": "{count, plural, one {# question} other {# questions}}"
+    },
+    "shiftLater": "Dates move {count, plural, one {{days} day} other {{days} days}} later, the gap between the two terms’ starts.",
+    "shiftEarlier": "Dates move {count, plural, one {{days} day} other {{days} days}} earlier, the gap between the two terms’ starts.",
+    "sameStart": "Dates stay as they are: both terms start on the same day.",
+    "noShift": "Dates stay as they are: one of the two courses has no term to count from.",
+    "shiftedDates": "{count, plural, one {# date moves.} other {# dates move.}}",
+    "remapped": "{count, plural, one {# access rule points at the copies.} other {# access rules point at the copies.}}",
+    "hiddenNote": "Every copied section, and anything outside a section, arrives hidden from students until you show it.",
+    "visibleNote": "Sections and items keep the visibility they had, so students may see them at once.",
+    "flagsLabel": "Worth checking",
+    "flags": {
+      "file_not_scanned": "Not copied: not yet checked for malware. Import again once it has been.",
+      "file_infected": "Not copied: found infected.",
+      "file_missing": "Not copied: the file is no longer stored.",
+      "group_dropped": "A study group is not in this course, so it was dropped and the item is hidden.",
+      "reference_missing": "Waits for something that was not copied, so it stays locked.",
+      "category_renamed": "Question category renamed: the name was already taken here.",
+      "slot_dropped": "A quiz question was dropped: its question was not copied."
+    },
+    "more": "and {count} more"
+  },
+  "quiz": {
+    "badge": "Quiz",
+    "noTimeLimit": "No time limit",
+    "timeLimit": "{minutes, plural, one {# minute} other {# minutes}}",
+    "attempts": "{count, plural, one {# attempt} other {# attempts}}",
+    "attemptsUnlimited": "Unlimited attempts",
+    "questions": {
+      "title": "Questions",
+      "description": "What an attempt asks, in order: questions picked from the bank, or a number drawn at random from a category for each attempt.",
+      "totals": "{count, plural, =0 {No questions yet} one {# question} other {# questions}} · {marks} marks in total",
+      "filter": "Find a question in this quiz",
+      "filterPlaceholder": "Question or category",
+      "error": "The questions could not be loaded. Try again in a moment.",
+      "empty": "No questions yet. Add some from the bank.",
+      "noMatch": "No question matches.",
+      "listLabel": "Questions in {name}",
+      "random": "{count, plural, one {# random question} other {# random questions}} from {category}",
+      "typeAndVersion": "{type} · version {version}",
+      "mark": "Mark",
+      "markEach": "Mark each",
+      "moveUpNamed": "Move {title} up",
+      "moveDownNamed": "Move {title} down",
+      "remove": "Take out",
+      "removeNamed": "Take {title} out of the quiz",
+      "addFromBank": "Add from the bank",
+      "addRandom": "Add random questions",
+      "cancel": "Close",
+      "bank": {
+        "label": "Questions in the bank",
+        "filter": "Find a question",
+        "filterPlaceholder": "Name or text",
+        "type": "Type",
+        "anyType": "Any type",
+        "empty": "No question matches. Write questions in the question bank first.",
+        "meta": "{type} · {category} · {mark, plural, one {# mark} other {# marks}}",
+        "add": "Add",
+        "addNamed": "Add {name} to the quiz",
+        "added": "Question added"
+      },
+      "randomDraw": {
+        "label": "Draw random questions",
+        "category": "From the category",
+        "count": "How many",
+        "mark": "Mark each",
+        "add": "Add the draw",
+        "added": "Random questions added"
+      }
+    },
+    "grading": {
+      "highest": "Highest grade counts",
+      "last": "Last attempt counts",
+      "average": "Average of attempts counts"
+    },
+    "opens": "Opens {when}",
+    "closes": "Closes {when}",
+    "form": {
+      "label": "Add a quiz",
+      "editLabel": "Settings of {name}",
+      "name": "Name",
+      "namePlaceholder": "Week 1 quiz",
+      "brief": "What students read before they start",
+      "opensAt": "Opens for attempts",
+      "closesAt": "Closes (the deadline)",
+      "timeLimitMinutes": "Time limit (minutes)",
+      "timeLimitMinutesHint": "Leave empty for no limit.",
+      "maxAttempts": "Attempts allowed",
+      "maxAttemptsHint": "Leave empty for unlimited attempts.",
+      "maxPoints": "Points in the gradebook",
+      "maxPointsHint": "Question marks are scaled to this.",
+      "gradingMethod": "With several attempts",
+      "shuffleQuestions": "Shuffle the order of the questions",
+      "shuffleChoices": "Shuffle the choices within a question",
+      "countsTowardFinalGrade": "Counts toward the final grade",
+      "visible": "Show this quiz to students",
+      "create": "Add the quiz",
+      "created": "Quiz added",
+      "save": "Save the settings",
+      "saved": "Quiz saved",
+      "layout": "Questions per page",
+      "layouts": {
+        "one_per_page": "One question per page",
+        "all_on_one": "All questions on one page"
+      }
+    },
+    "actions": {
+      "hide": "Hide from students",
+      "show": "Show to students",
+      "remove": "Remove the quiz",
+      "removed": "{name} was removed"
+    },
+    "editor": {
+      "title": "Quiz",
+      "description": "Its questions, and when and how students take it.",
+      "settings": "Settings",
+      "denied": "Only the course's teachers can edit its quizzes.",
+      "error": "This quiz could not be loaded. It may have been removed.",
+      "bank": "Question bank",
+      "back": "Back to the course"
+    },
+    "questionCount": "{count, plural, one {# question} other {# questions}}",
+    "new": {
+      "label": "Add a quiz",
+      "name": "Name",
+      "namePlaceholder": "Week 1 quiz",
+      "create": "Add the quiz",
+      "hint": "It starts hidden from students. Its settings and questions are set on a page of its own.",
+      "created": "{name} was added, hidden from students.",
+      "setUp": "Set up {name}: its questions and settings"
+    },
+    "take": {
+      "start": "Start attempt",
+      "continue": "Continue attempt",
+      "left": "{count, plural, one {# attempt left} other {# attempts left}}",
+      "open": "Attempts are open.",
+      "blocked": {
+        "upcoming": "Attempts open on {when}.",
+        "closed": "This quiz has closed.",
+        "no_attempts_left": "You have used every attempt.",
+        "no_questions": "This quiz has no questions yet."
+      },
+      "mine": {
+        "title": "Your attempts",
+        "filter": "Show",
+        "all": "All attempts",
+        "in_progress": "In progress",
+        "finished": "Submitted",
+        "label": "Your attempts at {name}",
+        "row": "Attempt {number}",
+        "started": "In progress since {when}",
+        "submitted": "Submitted {when}",
+        "noMatch": "No attempt matches.",
+        "error": "Your attempts could not be loaded.",
+        "review": "Review attempt {number}",
+        "score": "{points} of {max}",
+        "awaiting": "Waiting for marking"
+      },
+      "title": "Attempt {number}",
+      "timer": {
+        "label": "Time left",
+        "none": "No time limit",
+        "minutesLeft": "{count, plural, one {# minute left} other {# minutes left}}",
+        "secondsLeft": "{count, plural, one {# second left} other {# seconds left}}",
+        "expired": "Time is up. Your saved answers are being submitted."
+      },
+      "nav": {
+        "label": "Questions",
+        "item": "Question {number}, {state}",
+        "answered": "answered",
+        "unanswered": "not answered",
+        "progress": "{answered} of {total} answered"
+      },
+      "question": {
+        "heading": "Question {number}",
+        "marks": "{count, plural, one {# mark} other {# marks}}",
+        "answer": "Your answer",
+        "number": "Your answer, as a number",
+        "numberHint": "For example 3.5 or 3,5",
+        "essay": "Your answer",
+        "true": "True",
+        "false": "False",
+        "choose": "Choose an answer",
+        "pickAll": "Pick every answer that applies."
+      },
+      "save": {
+        "saving": "Saving…",
+        "saved": "Saved",
+        "error": "Not saved.",
+        "retry": "Try again"
+      },
+      "previous": "Previous question",
+      "next": "Next question",
+      "finish": "Finish the attempt",
+      "confirm": {
+        "title": "Submit your attempt?",
+        "allAnswered": "Every question has an answer.",
+        "unanswered": "{count, plural, one {# question has no answer:} other {# questions have no answer:}}",
+        "goTo": "Question {number}",
+        "note": "Once it is submitted, answers cannot be changed.",
+        "submit": "Submit the attempt",
+        "back": "Back to the questions"
+      },
+      "missing": "{count, plural, one {# question} other {# questions}} could not be drawn for this attempt, so it is marked out of the questions it asks.",
+      "end": {
+        "title": "Attempt {number} is submitted",
+        "student": "You submitted it {when}.",
+        "time_limit": "The time limit ran out {when}, and your saved answers were submitted.",
+        "quiz_close": "The quiz closed {when}, and your saved answers were submitted.",
+        "back": "Back to the course"
+      },
+      "error": "This attempt could not be loaded. It may not be yours, or the quiz may be hidden now.",
+      "submitError": "The attempt could not be submitted. Try again."
+    },
+    "attemptList": {
+      "title": "Attempts",
+      "description": "Every student's attempts, newest first. Show Needs marking for the essays waiting for you.",
+      "filter": "Find a student",
+      "filterPlaceholder": "Name or e-mail",
+      "state": "State",
+      "any": "Any state",
+      "in_progress": "In progress",
+      "finished": "Closed",
+      "label": "Attempts at {name}",
+      "student": "Student",
+      "attempt": "Attempt",
+      "started": "Started",
+      "status": "State",
+      "score": "Score",
+      "points": "{points} of {max}",
+      "provisional": "{points} of {max}, provisional",
+      "needsMarking": "An essay needs marking",
+      "closedBy": {
+        "student": "Submitted",
+        "time_limit": "Time ran out",
+        "quiz_close": "Quiz closed"
+      },
+      "running": "In progress",
+      "empty": "No attempts yet.",
+      "noMatch": "No attempt matches.",
+      "error": "The attempts could not be loaded.",
+      "needs_marking": "Needs marking",
+      "actions": "Actions",
+      "mark": "Mark",
+      "open": "Open",
+      "markLabel": "Mark attempt {number} by {name}",
+      "openLabel": "Open attempt {number} by {name}"
+    },
+    "review": {
+      "title": "Review",
+      "error": "The review could not be loaded.",
+      "mark": "Your mark: {points} of {max} ({raw} of {maxMarks} marks)",
+      "markHidden": "This quiz does not show your mark here.",
+      "awaitingMarking": "Your attempt waits for a teacher to mark it; the mark is shown once it is marked.",
+      "revealsAt": "More is shown once the quiz closes, {when}.",
+      "noQuestions": "This quiz does not show the questions with your answers.",
+      "awarded": "{awarded} of {mark} marks",
+      "outcome": {
+        "right": "Correct",
+        "partial": "Partly correct",
+        "wrong": "Incorrect",
+        "not_answered": "Not answered",
+        "needs_marking": "Waiting for marking"
+      },
+      "rightAnswer": "The right answer",
+      "comment": "Marker’s comment:"
+    },
+    "reviewOptions": {
+      "title": "What students see after an attempt",
+      "hint": "Each part is shown as soon as the attempt is submitted, once the quiz closes, or never. A quiz with no close never reaches “once the quiz closes”. A mark kept back stays out of the student’s grades until it may be shown.",
+      "option": {
+        "responses": "Their answers",
+        "correctness": "Right or wrong, and marks per question",
+        "correctAnswer": "The right answers",
+        "feedback": "Feedback and the marker’s comments",
+        "overallMark": "The mark for the attempt"
+      },
+      "timing": {
+        "immediately": "As soon as it is submitted",
+        "after_close": "Once the quiz closes",
+        "never": "Never"
+      }
+    },
+    "marking": {
+      "title": "Mark an attempt",
+      "error": "This attempt could not be loaded.",
+      "student": "{name}, attempt {number}",
+      "running": "This attempt is still running; it can be marked once it closes.",
+      "awaiting": "{count, plural, one {# question waits} other {# questions wait}} for your mark; the attempt is out of the gradebook until then.",
+      "total": "Total: {points} of {max} ({raw} of {maxMarks} marks)",
+      "answer": "Their answer",
+      "outcome": "Marked",
+      "automatic": "Automatic mark",
+      "none": "No answer",
+      "formLabel": "Mark question {number}",
+      "mark": "Mark",
+      "override": "Change the mark",
+      "outOf": "Out of {mark}",
+      "comment": "Comment for the student (optional)",
+      "reason": "Why the mark changes",
+      "range": "Give a mark from 0 to {mark}.",
+      "reasonRequired": "Say why the automatic mark changes.",
+      "save": "Save the mark",
+      "clearMark": "Take the mark away",
+      "clearOverride": "Go back to the automatic mark",
+      "saved": "Mark saved"
+    },
+    "regrade": {
+      "title": "Questions have changed since some attempts",
+      "outdated": "{count, plural, one {# closed attempt used} other {# closed attempts used}} an earlier version of a question.",
+      "preview": "Regrading marks them against the latest answer keys: {attempts, plural, one {# attempt changes its score} other {# attempts change their score}} and {students, plural, one {# student their grade} other {# students their grade}}.",
+      "range": "The largest rise is {rise} points, the largest fall {fall}.",
+      "incompatible": "{count, plural, one {# question cannot be regraded} other {# questions cannot be regraded}}: the new version has a different number of choices or pairs.",
+      "overrides": "A mark you changed by hand stands. Regrading again changes nothing.",
+      "start": "Regrade…",
+      "confirmLabel": "Confirm the regrade",
+      "confirm": "Regrade {count, plural, one {# attempt} other {# attempts}}?",
+      "apply": "Regrade now",
+      "cancel": "Cancel",
+      "done": "Regraded. {count, plural, one {# student's grade changed.} other {# students' grades changed.}}"
+    },
+    "results": {
+      "title": "Results by question",
+      "description": "How each question went across closed attempts.",
+      "filter": "Find a question",
+      "filterPlaceholder": "Name or text",
+      "label": "Results by question in {name}",
+      "question": "Question",
+      "attempts": "Attempts",
+      "fullyRight": "Fully right",
+      "average": "Average mark",
+      "chosen": "Answers picked",
+      "percent": "{value} %",
+      "awaiting": "{count} waiting for marking",
+      "averageOf": "{mark} of {outOf}",
+      "option": "{label}: {count}",
+      "right": "right",
+      "unanswered": "No answer: {count}",
+      "empty": "No closed attempts yet.",
+      "noMatch": "No question matches.",
+      "error": "The results could not be loaded."
+    }
+  },
+  "questionBank": {
+    "open": "Question bank",
+    "picker": {
+      "filter": "Find a category",
+      "category": "Category",
+      "choose": "Choose…",
+      "option": "{name} ({count, plural, one {# question} other {# questions}})",
+      "more": "Load more categories"
+    },
+    "type": {
+      "single_choice": "Single choice",
+      "multiple_choice": "Multiple choice",
+      "true_false": "True or false",
+      "short_answer": "Short answer",
+      "numerical": "Numerical",
+      "matching": "Matching",
+      "essay": "Essay"
+    },
+    "editor": {
+      "label": "Write a question",
+      "editLabel": "Edit {name}",
+      "type": "Type",
+      "typeFixed": "A question keeps its type. Write a new one to change it.",
+      "category": "Category",
+      "name": "Name in the bank",
+      "defaultMark": "Default mark",
+      "text": "Question",
+      "generalFeedback": "Feedback for everyone, shown after an attempt",
+      "choicesSingle": "Choices (exactly one is correct)",
+      "choicesMultiple": "Choices (one or more are correct)",
+      "choiceText": "Choice {number}",
+      "choiceFeedback": "Feedback for choice {number}",
+      "feedbackPlaceholder": "Feedback when this is chosen (optional)",
+      "correct": "Correct",
+      "remove": "Remove",
+      "removeChoice": "Remove choice {number}",
+      "addChoice": "Add a choice",
+      "statementIs": "The statement is",
+      "true": "True",
+      "false": "False",
+      "trueFeedback": "Feedback for answering true",
+      "falseFeedback": "Feedback for answering false",
+      "acceptedAnswers": "Accepted answers",
+      "acceptedAnswersHint": "One per line. Any of them earns the full mark.",
+      "caseSensitive": "Capital letters must match",
+      "value": "Answer",
+      "tolerance": "Accepted error (±)",
+      "pairs": "Pairs to match",
+      "pairPrompt": "Prompt {number}",
+      "pairAnswer": "Its match {number}",
+      "promptPlaceholder": "Stack",
+      "answerPlaceholder": "Last in, first out",
+      "removePair": "Remove pair {number}",
+      "addPair": "Add a pair",
+      "essayNote": "An essay has no answer key; a teacher marks it by hand.",
+      "versionNote": "Saving writes a new version. Attempts already made keep the version they were asked.",
+      "create": "Add the question",
+      "created": "Question added",
+      "save": "Save as a new version",
+      "saved": "Question saved",
+      "cancel": "Cancel",
+      "issue": {
+        "category": "Choose a category.",
+        "name": "Give the question a name.",
+        "text": "Write the question.",
+        "defaultMark": "The default mark must be more than zero.",
+        "choicesEmpty": "Give at least two choices, none of them empty.",
+        "oneCorrect": "Mark exactly one choice correct.",
+        "someCorrect": "Mark at least one choice correct.",
+        "acceptedAnswers": "Give at least one accepted answer.",
+        "value": "Give the answer as a number.",
+        "tolerance": "The accepted error is zero or more.",
+        "pairs": "Give at least two complete pairs."
+      }
+    },
+    "title": "Question bank",
+    "description": "The questions this course's quizzes draw on, kept in categories. Only the course's teachers see them.",
+    "back": "Back to the course",
+    "denied": "Only the course's teachers can open its question bank.",
+    "error": "The question bank could not be loaded. Try again in a moment.",
+    "categories": {
+      "title": "Categories",
+      "addLabel": "Add a category",
+      "newName": "New category",
+      "newNamePlaceholder": "Sorting",
+      "add": "Add",
+      "added": "Category added",
+      "filter": "Find a category",
+      "error": "The categories could not be loaded.",
+      "empty": "No categories yet. Add one to start writing questions.",
+      "noMatch": "No category matches.",
+      "listLabel": "Categories",
+      "row": "{name} ({count, plural, one {# question} other {# questions}})",
+      "rename": "Rename",
+      "renameNamed": "Rename {name}",
+      "save": "Save",
+      "cancel": "Cancel",
+      "remove": "Remove",
+      "removeNamed": "Remove {name}"
+    },
+    "questions": {
+      "title": "Questions",
+      "write": "Write a question",
+      "filter": "Find a question",
+      "filterPlaceholder": "Name or text",
+      "type": "Type",
+      "anyType": "Any type",
+      "inCategory": "In {name} · show all",
+      "error": "The questions could not be loaded.",
+      "empty": "No questions yet.",
+      "noMatch": "No question matches.",
+      "listLabel": "Questions",
+      "meta": "{category} · {mark, plural, one {# mark} other {# marks}} · version {version}",
+      "edit": "Edit",
+      "editNamed": "Edit {name}",
+      "close": "Close",
+      "remove": "Remove",
+      "removeNamed": "Remove {name}",
+      "removed": "{name} was removed"
+    }
+  },
+  "planner": {
+    "tabsLabel": "Calendar and tasks",
+    "tabCalendar": "Calendar",
+    "tabTasks": "My tasks",
+    "personal": "Personal",
+    "taskLayer": "Task",
+    "showPersonal": "Show my own events and tasks",
+    "newTask": "New task",
+    "newEvent": "New event",
+    "editTask": "Edit task",
+    "editEvent": "Edit event",
+    "editNamed": "Edit “{title}”",
+    "privateHint": "Only you can see this. It is not shared with your teachers or the institution.",
+    "titleLabel": "Title",
+    "noteLabel": "Note",
+    "dueAtLabel": "Due",
+    "dueAtHint": "Optional. A task with a due time also shows in your calendar.",
+    "locationLabel": "Place",
+    "startsAtLabel": "Starts",
+    "endsAtLabel": "Ends",
+    "create": "Add",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "confirmDeleteTask": "Delete this task? This cannot be undone.",
+    "confirmDeleteEvent": "Delete this event? This cannot be undone.",
+    "confirmDelete": "Yes, delete",
+    "keep": "Keep it",
+    "taskCreated": "Task added",
+    "taskSaved": "Task saved",
+    "taskDeleted": "Task deleted",
+    "taskDone": "Task done",
+    "taskReopened": "Task reopened",
+    "eventCreated": "Event added",
+    "eventSaved": "Event saved",
+    "eventDeleted": "Event deleted",
+    "markDone": "Mark “{title}” as done",
+    "markOpen": "Mark “{title}” as not done",
+    "tasks": {
+      "title": "My tasks",
+      "description": "Your own to-dos, private to you. A task with a due time also shows in your calendar and on the dashboard.",
+      "listLabel": "Tasks",
+      "filterLabel": "Search tasks",
+      "filterPlaceholder": "Title or note",
+      "statusLabel": "Show",
+      "status": {
+        "open": "Open",
+        "done": "Done",
+        "all": "All"
+      },
+      "empty": "No tasks here yet.",
+      "noMatch": "No task matches “{query}”.",
+      "error": "Your tasks could not be loaded.",
+      "due": "Due {date}",
+      "overdue": "Overdue",
+      "noDue": "No due time"
+    }
   }
 }

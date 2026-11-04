@@ -1,9 +1,24 @@
 import { http, HttpResponse } from 'msw';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
-import { permissions, renderWithProviders, screen, server } from '@/shared/test';
+import type * as SharedConfig from '@/shared/config';
+import {
+  permissions,
+  renderWithProviders,
+  screen,
+  server,
+  userEvent,
+} from '@/shared/test';
 
 import { MyCalendarView } from './my-calendar-view';
+
+// The calendar keeps its view in `?view=`, which needs the app router.
+vi.mock('@/shared/config', async importOriginal => ({
+  ...(await importOriginal<typeof SharedConfig>()),
+  useRouter: () => ({ replace: vi.fn(), push: vi.fn(), refresh: vi.fn() }),
+  usePathname: () => '/institutions/x/calendar',
+  useSearchParams: () => new URLSearchParams('view=list'),
+}));
 
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const PERMISSIONS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/permissions`;
@@ -24,6 +39,15 @@ describe('MyCalendarView', () => {
     expect(
       await screen.findByRole('heading', { name: 'Use in another calendar' }),
     ).toBeInTheDocument();
+  });
+
+  it('keeps the person’s own tasks on a tab next to the calendar', async () => {
+    renderWithProviders(<MyCalendarView institutionId={INSTITUTION} />);
+
+    await userEvent.click(await screen.findByRole('tab', { name: 'My tasks' }));
+
+    expect(await screen.findByRole('heading', { name: 'My tasks' })).toBeInTheDocument();
+    expect(await screen.findByText('Pay the dorm fee')).toBeInTheDocument();
   });
 
   it('refuses a caller the server does not grant schedule:read', async () => {

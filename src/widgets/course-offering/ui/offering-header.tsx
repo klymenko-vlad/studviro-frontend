@@ -1,6 +1,7 @@
 import { useFormatter, useLocale, useTranslations } from 'next-intl';
 
 import type { CourseOffering } from '@/entities/course-offering';
+import { toneStyle } from '@/shared/lib';
 import { Badge } from '@/shared/ui';
 
 export function OfferingHeader({ offering }: { offering: CourseOffering }) {
@@ -9,15 +10,27 @@ export function OfferingHeader({ offering }: { offering: CourseOffering }) {
   const locale = useLocale();
 
   return (
-    <header className="flex flex-col gap-3">
+    <header style={toneStyle(offering.course.code)} className="tone flex flex-col gap-3">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="flex flex-col gap-1">
-          <h1 className="type-title">{offering.course.title}</h1>
-          <p className="text-muted-foreground font-mono text-sm">
-            {offering.course.code}
-          </p>
+        <div className="flex items-center gap-4">
+          <div
+            aria-hidden
+            className="bg-tone-soft text-tone grid size-12 shrink-0 place-items-center rounded-xl border text-lg font-semibold"
+          >
+            {offering.course.title.charAt(0)}
+          </div>
+          <div className="flex flex-col gap-1">
+            <h1 className="type-title">{offering.course.title}</h1>
+            <p className="text-muted-foreground font-mono text-sm">
+              {offering.course.code}
+            </p>
+          </div>
         </div>
-        <Badge variant="outline">{t(`viewerRole.${offering.viewerRole}`)}</Badge>
+        <Badge variant="outline">
+          {offering.enrollment?.status === 'withdrawn'
+            ? t('withdrawnStudent')
+            : t(`viewerRole.${offering.viewerRole}`)}
+        </Badge>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">

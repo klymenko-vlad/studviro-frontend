@@ -5,9 +5,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useFormatter, useTranslations } from 'next-intl';
 
 import { deadlineQueries, nextDeadlines } from '@/entities/deadline';
-import { addDays } from '@/entities/timetable-event';
+import { plannerQueries } from '@/entities/planner';
 import { Link } from '@/shared/config';
 import {
+  Badge,
   Button,
   Card,
   CardContent,
@@ -19,10 +20,12 @@ import {
   QueryError,
 } from '@/shared/ui';
 
+import { deadlineHorizon } from '../model/deadline-horizon';
+import { upcomingDue } from '../model/upcoming-due';
+import { useRelativeDue } from '../model/use-relative-due';
 import { useTileHeading } from './tile-heading';
 
 const SHOWN = 4;
-const HORIZON_DAYS = 14;
 
 export function DeadlinesTile({
   institutionId,
@@ -34,15 +37,22 @@ export function DeadlinesTile({
   const t = useTranslations('dashboard');
   const heading = useTileHeading();
   const format = useFormatter();
-  const [range] = useState(() => ({
-    from: now.toISOString(),
-    to: addDays(now, HORIZON_DAYS).toISOString(),
-  }));
+  const relative = useRelativeDue(now);
+  const [range] = useState(() => deadlineHorizon(now));
   const { data, isPending, isError, refetch } = useQuery(
     deadlineQueries.list({ path: { institutionId }, query: range }),
   );
+  const tasks = useQuery(
+    plannerQueries.dueTasks({ path: { institutionId }, query: range }),
+  );
+  const own = tasks.data ?? [];
 
-  const due = data === undefined ? [] : nextDeadlines(data, SHOWN);
+  const due = upcomingDue(
+    data === undefined ? [] : nextDeadlines(data, SHOWN),
+    own,
+    SHOWN,
+  );
+  const tPlanner = useTranslations('planner');
 
   return (
     <Card>
@@ -61,23 +71,40 @@ export function DeadlinesTile({
         ) : (
           <>
             <p className="text-sm" data-testid="dashboard-deadlines-summary">
-              {t('deadlines.summary', { deadlines: data.length })}
+              {own.length === 0
+                ? t('deadlines.summary', { deadlines: data.length })
+                : data.length === 0
+                  ? t('deadlines.summaryTasksOnly', { tasks: own.length })
+                  : t('deadlines.summaryWithTasks', {
+                      deadlines: data.length,
+                      tasks: own.length,
+                    })}
             </p>
 
             <ul className="flex flex-col gap-1 text-sm">
-              {due.map(deadline => (
-                <li key={deadline.id} className="flex justify-between gap-4">
-                  <span className="truncate">
-                    {deadline.name} · {deadline.course.code}
+              {due.map(item => (
+                <li key={item.key} className="flex justify-between gap-4">
+                  <span className="flex min-w-0 items-center gap-2">
+                    <span className="truncate">
+                      {item.courseCode === null
+                        ? item.title
+                        : `${item.title} · ${item.courseCode}`}
+                    </span>
+                    {item.courseCode === null ? (
+                      <Badge variant="outline">{tPlanner('personal')}</Badge>
+                    ) : null}
                   </span>
-                  <span className="text-muted-foreground text-xs whitespace-nowrap">
-                    {format.dateTime(new Date(deadline.dueAt), {
-                      weekday: 'short',
-                      day: 'numeric',
-                      month: 'short',
-                      hour: 'numeric',
-                      minute: 'numeric',
-                    })}
+                  <span className="flex flex-col items-end text-xs whitespace-nowrap">
+                    <span className="font-medium">{relative(item.dueAt)}</span>
+                    <time dateTime={item.dueAt} className="text-muted-foreground">
+                      {format.dateTime(new Date(item.dueAt), {
+                        weekday: 'short',
+                        day: 'numeric',
+                        month: 'short',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                      })}
+                    </time>
                   </span>
                 </li>
               ))}

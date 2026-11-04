@@ -52,7 +52,7 @@ describe('TermTile', () => {
 
     expect(await screen.findByRole('link', { name: 'Manage terms' })).toHaveAttribute(
       'href',
-      `/institutions/${INSTITUTION}/catalogue`,
+      `/institutions/${INSTITUTION}/structure?tab=terms`,
     );
     unmount();
 

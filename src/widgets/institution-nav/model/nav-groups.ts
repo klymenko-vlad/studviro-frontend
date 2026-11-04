@@ -10,28 +10,24 @@ import {
 export type NavKey =
   | 'dashboard'
   | 'calendar'
-  | 'notifications'
-  | 'search'
   | 'courses'
-  | 'enroll'
   | 'grades'
   | 'exams'
   | 'teaching'
-  | 'catalogue'
-  | 'bulk'
-  | 'learning'
+  | 'structure'
+  | 'offer'
   | 'people'
-  | 'orgUnits'
-  | 'roles'
-  | 'audit'
   | 'settings';
 
 type NavGroupKey = 'general' | 'studies' | 'teaching' | 'administration';
 
 interface NavItem {
   key: NavKey;
-  /** The permission the screen's endpoint refuses without. `null`: none. */
-  gate: Permission | null;
+  /**
+   * The permission the screen's endpoint refuses without. `null`: none. A list
+   * is a hub of several screens, offered when any one of them would open.
+   */
+  gate: Permission | readonly Permission[] | null;
   /** A screen whose feature the institution turned off is not offered. */
   feature?: FeatureFlag;
 }
@@ -51,14 +47,14 @@ const EVERYONE = () => true;
  * server's own permission answer, so the nav never offers a door that refuses.
  */
 const GROUPS: NavGroup[] = [
+  // Search and notifications are not places: they live in the header, beside
+  // the account menu, on every screen. Finding a course is a tab of Courses.
   {
     key: 'general',
     for: EVERYONE,
     items: [
       { key: 'dashboard', gate: null },
       { key: 'calendar', gate: 'schedule:read', feature: 'timetable' },
-      { key: 'notifications', gate: 'notification:read' },
-      { key: 'search', gate: 'institution:read' },
     ],
   },
   {
@@ -66,9 +62,8 @@ const GROUPS: NavGroup[] = [
     for: studies,
     items: [
       { key: 'courses', gate: 'enrollment:read' },
-      { key: 'enroll', gate: 'course:enroll', feature: 'courseRegistration' },
-      { key: 'grades', gate: 'grade:read', feature: 'grades' },
       { key: 'exams', gate: 'schedule:read', feature: 'examRegistration' },
+      { key: 'grades', gate: 'grade:read', feature: 'grades' },
     ],
   },
   {
@@ -79,15 +74,16 @@ const GROUPS: NavGroup[] = [
   {
     key: 'administration',
     for: runsInstitution,
+    // Four hubs in the order an institution is set up: how it is built, what
+    // it teaches, who is in it, and the institution's own settings and tools.
     items: [
-      { key: 'catalogue', gate: 'course:manage' },
-      { key: 'bulk', gate: 'offering:manage' },
-      { key: 'learning', gate: 'offering:manage' },
+      { key: 'structure', gate: 'role:read' },
+      { key: 'offer', gate: ['course:manage', 'offering:manage'] },
       { key: 'people', gate: 'role:read' },
-      { key: 'orgUnits', gate: 'role:read' },
-      { key: 'roles', gate: 'role:assign' },
-      { key: 'audit', gate: 'audit:read' },
-      { key: 'settings', gate: 'institution:manage' },
+      {
+        key: 'settings',
+        gate: ['institution:manage', 'offering:manage', 'program:manage', 'audit:read'],
+      },
     ],
   },
 ];
@@ -110,9 +106,15 @@ export function visibleNavGroups({
     .map(group => ({
       key: group.key,
       items: group.items
-        .filter(item => item.gate === null || can(item.gate))
+        .filter(item => opens(item.gate, can))
         .filter(item => item.feature === undefined || isEnabled(item.feature))
         .map(item => item.key),
     }))
     .filter(group => group.items.length > 0);
+}
+
+function opens(gate: NavItem['gate'], can: (permission: Permission) => boolean): boolean {
+  if (gate === null) return true;
+  if (typeof gate === 'string') return can(gate);
+  return gate.some(permission => can(permission));
 }

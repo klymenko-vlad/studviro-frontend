@@ -1,11 +1,12 @@
-import { InstitutionOrgUnitsView } from '@/views/institution-org-units';
+import { institutionRoutes, redirect } from '@/shared/config';
 
-export default async function InstitutionOrgUnitsPage({
+/** This screen is a tab of an administration hub now; old links land there. */
+export default async function MovedPage({
   params,
 }: {
   params: Promise<{ institutionId: string }>;
 }) {
   const { institutionId } = await params;
 
-  return <InstitutionOrgUnitsView institutionId={institutionId} />;
+  redirect(institutionRoutes(institutionId).orgUnits);
 }

@@ -1,4 +1,4 @@
-export { courseRosterQueries } from './api/course-roster-queries';
+export { courseRosterMutations, courseRosterQueries } from './api/course-roster-queries';
 export {
   enrolledStudents,
   type CourseRoster,

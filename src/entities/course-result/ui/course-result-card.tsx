@@ -21,16 +21,17 @@ export function CourseResultCard({
   const t = useTranslations('grades');
   const format = useFormatter();
   const { effective, calculated, proposed, official } = result;
+  const withdrawn = result.enrollmentStatus === 'withdrawn';
 
   return (
-    <Card>
+    <Card interactive={href !== undefined}>
       <CardHeader className="gap-1">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <CardTitle as="h3" className="text-base">
             {href === undefined ? (
               result.course.title
             ) : (
-              <Link href={href} className="hover:underline focus-visible:underline">
+              <Link href={href} className="stretched-link">
                 {result.course.title}
               </Link>
             )}
@@ -62,8 +63,18 @@ export function CourseResultCard({
           </p>
         ) : null}
 
+        {withdrawn ? (
+          <p
+            className="text-muted-foreground text-sm"
+            data-testid="result-withdrawn-note"
+          >
+            {t('withdrawnNote')}
+          </p>
+        ) : null}
+
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline">{t(`status.${result.status}`)}</Badge>
+          {withdrawn ? <Badge variant="secondary">{t('withdrawn')}</Badge> : null}
           {result.course.credits === null ? null : (
             <Badge variant="outline">
               {t('credits', { count: result.course.credits })}

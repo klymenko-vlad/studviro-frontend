@@ -2,12 +2,23 @@ import * as React from 'react';
 
 import { cn } from '@/shared/lib';
 
-function Card({ className, ...props }: React.ComponentProps<'div'>) {
+/**
+ * Local deviation from upstream shadcn, kept on re-generation: `interactive`
+ * marks a card whose whole surface goes somewhere. Put a `stretched-link` on
+ * the one link inside it, and `relative z-10` on any other control so it stays
+ * clickable above the link.
+ */
+function Card({
+  className,
+  interactive = false,
+  ...props
+}: React.ComponentProps<'div'> & { interactive?: boolean }) {
   return (
     <div
       data-slot="card"
       className={cn(
-        'bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm',
+        'bg-card text-card-foreground relative flex flex-col gap-4 rounded-xl border py-5 shadow-sm sm:gap-6 sm:py-6',
+        interactive && 'card-interactive',
         className,
       )}
       {...props}
@@ -20,7 +31,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="card-header"
       className={cn(
-        '@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6',
+        '@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-5 has-data-[slot=card-action]:grid-cols-[1fr_auto] sm:px-6 [.border-b]:pb-6',
         className,
       )}
       {...props}
@@ -73,14 +84,16 @@ function CardAction({ className, ...props }: React.ComponentProps<'div'>) {
 }
 
 function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div data-slot="card-content" className={cn('px-6', className)} {...props} />;
+  return (
+    <div data-slot="card-content" className={cn('px-5 sm:px-6', className)} {...props} />
+  );
 }
 
 function CardFooter({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="card-footer"
-      className={cn('flex items-center px-6 [.border-t]:pt-6', className)}
+      className={cn('flex items-center px-5 sm:px-6 [.border-t]:pt-6', className)}
       {...props}
     />
   );

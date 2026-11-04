@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useFormatter, useTranslations } from 'next-intl';
 
+import { courseOfferingHref } from '@/entities/course-offering';
 import {
   enrolledCourseQueries,
   groupByTerm,
@@ -22,6 +23,7 @@ import {
 } from '@/shared/ui';
 
 import { useTileHeading } from './tile-heading';
+import { TileLinkRow } from './tile-link-row';
 
 const SHOWN = 4;
 
@@ -67,14 +69,15 @@ export function CoursesTile({ institutionId }: { institutionId: string }) {
               })}
             </p>
 
-            <ul className="flex flex-col gap-1 text-sm">
+            <ul className="-mx-2 flex flex-col">
               {term.courses.slice(0, SHOWN).map(course => (
-                <li key={course.enrollmentId} className="flex justify-between gap-4">
-                  <span className="truncate">{course.course.title}</span>
-                  <span className="text-muted-foreground font-mono text-xs">
-                    {course.course.code}
-                  </span>
-                </li>
+                <TileLinkRow
+                  key={course.enrollmentId}
+                  href={courseOfferingHref(institutionId, course.offering.id)}
+                  code={course.course.code}
+                  title={course.course.title}
+                  figure={course.course.code}
+                />
               ))}
             </ul>
 

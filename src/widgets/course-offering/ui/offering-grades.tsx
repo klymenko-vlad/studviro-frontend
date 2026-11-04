@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useTranslations } from 'next-intl';
+import { useFormatter, useTranslations } from 'next-intl';
 
 import { GradeEntryCell } from '@/features/record-grade';
 import { useTerminology } from '@/entities/institution-configuration';
@@ -88,7 +88,9 @@ function StudentRow({
   canPublish: boolean;
 }) {
   const t = useTranslations('gradeEntry');
+  const format = useFormatter();
   const attempt = currentAttempt(student);
+  const sitting = student.sitting;
   const standing = standingGrade(attempt);
 
   return (
@@ -98,13 +100,28 @@ function StudentRow({
         <span className="text-muted-foreground block text-xs">{student.email}</span>
       </TableCell>
 
-      <TableCell>
-        {attempt === null
-          ? t('attemptNone')
-          : t('attemptNumber', { attempt: attempt.attempt })}
+      <TableCell label={t('column.attempt')}>
+        {attempt !== null
+          ? t('attemptNumber', { attempt: attempt.attempt })
+          : sitting === null
+            ? t('attemptNone')
+            : null}
+        {sitting === null ? null : (
+          <span
+            className={attempt === null ? 'block' : 'text-muted-foreground block text-xs'}
+          >
+            {t(`sitting.${sitting.status}`, {
+              date: format.dateTime(new Date(sitting.startsAt), {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              }),
+            })}
+          </span>
+        )}
       </TableCell>
 
-      <TableCell className="flex flex-wrap items-center gap-2">
+      <TableCell label={t('column.standing')}>
         {attempt?.isVoided ? (
           <Badge variant="destructive">{t('annulled')}</Badge>
         ) : standing === null ? (
@@ -116,7 +133,7 @@ function StudentRow({
         )}
       </TableCell>
 
-      <TableCell>
+      <TableCell label={t('column.record')} wide>
         <GradeEntryCell
           institutionId={institutionId}
           offeringId={offeringId}

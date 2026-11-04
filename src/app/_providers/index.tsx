@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 import { SessionProvider } from '@/entities/session';
 import { getCurrentUser } from '@/shared/auth';
-import { Toaster } from '@/shared/ui';
+import { Toaster, TooltipProvider } from '@/shared/ui';
 
 import { QueryProvider } from './query-provider';
 import { WebVitals } from './web-vitals';
@@ -31,7 +31,7 @@ export async function AppProviders({ children }: { children: ReactNode }) {
   return (
     <QueryProvider>
       <SessionProvider value={user ?? null}>
-        {children}
+        <TooltipProvider>{children}</TooltipProvider>
         <Toaster position="top-right" richColors closeButton />
         <WebVitals />
       </SessionProvider>

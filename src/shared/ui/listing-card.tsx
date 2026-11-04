@@ -12,6 +12,9 @@ import { Card, CardContent } from './card';
  * Not a generic primitive — it is one recurring composition of `Card`, kept
  * here because two entity slices need it and an entity may not import another.
  * Everything domain-specific stays in the caller; this owns the frame.
+ *
+ * Laid out in a grid, cards in a row take the height of the tallest, and the
+ * action sits at the foot so the buttons line up whatever the notes above say.
  */
 export function ListingCard({
   title,
@@ -21,6 +24,7 @@ export function ListingCard({
   header,
   action,
   dimmed = false,
+  interactive = false,
   children,
 }: {
   title: ReactNode;
@@ -36,11 +40,13 @@ export function ListingCard({
   header?: ReactNode;
   action?: ReactNode;
   dimmed?: boolean;
+  /** The title holds a `stretched-link`, so the whole card follows it. */
+  interactive?: boolean;
   children?: ReactNode;
 }) {
   return (
-    <Card className={cn(dimmed && 'opacity-70')}>
-      <CardContent className="flex flex-col gap-2 py-4">
+    <Card interactive={interactive} className={cn('h-full py-1', dimmed && 'opacity-70')}>
+      <CardContent className="flex flex-1 flex-col gap-2 py-4">
         {header}
 
         <Heading className="text-base leading-tight font-semibold">{title}</Heading>
@@ -55,7 +61,9 @@ export function ListingCard({
 
         {children}
 
-        {action === undefined ? null : <div className="flex justify-end">{action}</div>}
+        {action === undefined ? null : (
+          <div className="relative z-10 mt-auto flex justify-end pt-2">{action}</div>
+        )}
       </CardContent>
     </Card>
   );

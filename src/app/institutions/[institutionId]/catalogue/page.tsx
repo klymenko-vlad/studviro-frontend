@@ -1,11 +1,12 @@
-import { InstitutionCatalogueView } from '@/views/institution-catalogue';
+import { institutionRoutes, redirect } from '@/shared/config';
 
-export default async function InstitutionCataloguePage({
+/** This screen is a tab of an administration hub now; old links land there. */
+export default async function MovedPage({
   params,
 }: {
   params: Promise<{ institutionId: string }>;
 }) {
   const { institutionId } = await params;
 
-  return <InstitutionCatalogueView institutionId={institutionId} />;
+  redirect(institutionRoutes(institutionId).catalogue);
 }

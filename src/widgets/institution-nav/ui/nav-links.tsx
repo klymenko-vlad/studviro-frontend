@@ -2,21 +2,14 @@
 
 import {
   Award,
-  Bell,
   BookOpen,
   CalendarDays,
   ClipboardCheck,
-  ClipboardPaste,
-  KeyRound,
   LayoutDashboard,
-  Library,
   LibraryBig,
   Network,
   Presentation,
-  ScrollText,
-  Search,
   Settings,
-  SquarePlus,
   Users,
   type LucideIcon,
 } from 'lucide-react';
@@ -24,26 +17,20 @@ import { useTranslations } from 'next-intl';
 
 import { institutionRoutes, Link, usePathname } from '@/shared/config';
 import { cn } from '@/shared/lib';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui';
 
 import type { NavKey, VisibleNavGroup } from '../model/nav-groups';
 
-const ICONS: Record<NavKey, LucideIcon> = {
+export const NAV_ICONS: Record<NavKey, LucideIcon> = {
   dashboard: LayoutDashboard,
   calendar: CalendarDays,
-  notifications: Bell,
-  search: Search,
   courses: BookOpen,
-  enroll: SquarePlus,
   grades: Award,
   exams: ClipboardCheck,
   teaching: Presentation,
-  catalogue: Library,
-  bulk: ClipboardPaste,
-  learning: LibraryBig,
+  structure: Network,
+  offer: LibraryBig,
   people: Users,
-  orgUnits: Network,
-  roles: KeyRound,
-  audit: ScrollText,
   settings: Settings,
 };
 
@@ -54,12 +41,16 @@ const ICONS: Record<NavKey, LucideIcon> = {
 export function currentNavKey(groups: VisibleNavGroup[], pathname: string, base: string) {
   const routes = institutionRoutes(base);
 
+  // A programme's page belongs to the teaching offer it is listed in.
+  const programmes = `${routes.dashboard}/programs`;
+
   return groups
     .flatMap(group => group.items)
     .find(key =>
       key === 'dashboard'
         ? pathname === routes.dashboard
-        : pathname.startsWith(routes[key]),
+        : pathname.startsWith(routes[key]) ||
+          (key === 'offer' && pathname.startsWith(programmes)),
     );
 }
 
@@ -67,10 +58,12 @@ export function NavLinks({
   institutionId,
   groups,
   onNavigate,
+  collapsed = false,
 }: {
   institutionId: string;
   groups: VisibleNavGroup[];
   onNavigate?: () => void;
+  collapsed?: boolean;
 }) {
   const t = useTranslations('nav');
   const pathname = usePathname();
@@ -85,12 +78,20 @@ export function NavLinks({
         return (
           <div key={group.key} className="flex flex-col gap-1">
             {group.key === 'general' ? null : (
-              <p
-                id={headingId}
-                className="text-muted-foreground px-3 pb-1 text-xs font-medium tracking-wide uppercase"
-              >
-                {t(`groups.${group.key}`)}
-              </p>
+              <>
+                <p
+                  id={headingId}
+                  className={cn(
+                    'text-muted-foreground px-3 pb-1 text-xs font-medium tracking-wide whitespace-nowrap uppercase',
+                    collapsed && 'sr-only',
+                  )}
+                >
+                  {t(`groups.${group.key}`)}
+                </p>
+                {collapsed ? (
+                  <span aria-hidden className="bg-border mx-3 mb-2 h-px" />
+                ) : null}
+              </>
             )}
 
             <ul
@@ -98,25 +99,38 @@ export function NavLinks({
               className="flex flex-col gap-0.5"
             >
               {group.items.map(key => {
-                const Icon = ICONS[key];
+                const Icon = NAV_ICONS[key];
                 const isCurrent = key === current;
+
+                const link = (
+                  <Link
+                    href={routes[key]}
+                    onClick={onNavigate}
+                    aria-current={isCurrent ? 'page' : undefined}
+                    className={cn(
+                      'focus-visible:ring-ring/50 flex items-center gap-3 rounded-md px-3 py-2 text-sm whitespace-nowrap transition-colors duration-300 outline-none focus-visible:ring-[3px] motion-reduce:transition-none',
+                      isCurrent
+                        ? 'bg-secondary text-foreground font-medium'
+                        : 'text-muted-foreground hover:bg-secondary hover:text-foreground',
+                    )}
+                  >
+                    <Icon aria-hidden className="size-4 shrink-0" />
+                    <span className={cn(collapsed && 'sr-only')}>{t(key)}</span>
+                  </Link>
+                );
 
                 return (
                   <li key={key}>
-                    <Link
-                      href={routes[key]}
-                      onClick={onNavigate}
-                      aria-current={isCurrent ? 'page' : undefined}
-                      className={cn(
-                        'focus-visible:ring-ring/50 flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors outline-none focus-visible:ring-[3px] motion-reduce:transition-none',
-                        isCurrent
-                          ? 'bg-secondary text-foreground font-medium'
-                          : 'text-muted-foreground hover:bg-secondary/50 hover:text-foreground',
-                      )}
-                    >
-                      <Icon aria-hidden className="size-4 shrink-0" />
-                      {t(key)}
-                    </Link>
+                    {collapsed ? (
+                      <Tooltip>
+                        <TooltipTrigger asChild>{link}</TooltipTrigger>
+                        <TooltipContent side="right" sideOffset={8}>
+                          {t(key)}
+                        </TooltipContent>
+                      </Tooltip>
+                    ) : (
+                      link
+                    )}
                   </li>
                 );
               })}

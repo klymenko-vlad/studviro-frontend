@@ -5,18 +5,23 @@ import type {
   AssignmentResponseDto,
   AuditEventPageDto,
   AuthTokensDto,
+  CompletionReportResponseDto,
   CourseOfferingListItemDto,
   CourseOfferingResponseDto,
   CourseResponseDto,
   CourseRosterResponseDto,
+  CourseStudentDto,
   EnrollableOfferingResponseDto,
   ErrorResponseDto,
   ExamRegistrantResponseDto,
   ExamTermAdminResponseDto,
   ExternalIdentityResponseDto,
+  GroupContentResponseDto,
   InstitutionConfigurationResponseDto,
   InstitutionResponseDto,
+  ItemProgressDto,
   LearningMaterialResponseDto,
+  LearningSectionResponseDto,
   LearningSpaceDto,
   LearningSpaceListResponseDto,
   MarkedSubmissionResponseDto,
@@ -32,10 +37,13 @@ import type {
   PersonDirectoryEntryDto,
   ProgramMemberResponseDto,
   ProgramResponseDto,
+  ProgressResponseDto,
   RoleAssignmentResponseDto,
   RoomResponseDto,
   SearchResultsDto,
   SessionDto,
+  SightReportResponseDto,
+  StudentViewResponseDto,
   StudyGroupResponseDto,
   StudyProgressResponseDto,
   SubmissionResponseDto,
@@ -47,6 +55,9 @@ import type {
   UserResponseDto,
   WaitingStudentResponseDto,
 } from '@/shared/api';
+
+import { plannerHandlers } from './planner-handlers';
+import { offeringQuizzes, quizHandlers } from './quiz-handlers';
 
 /**
  * The browser talks to the same-origin BFF, not to the API — so that is what
@@ -299,6 +310,7 @@ export const courseResults: MyCourseResultResponseDto[] = [
     proposed: { grade: 'B', at: '2026-06-01T00:00:00.000Z' },
     official: { grade: 'A', recordedAt: '2026-06-10T00:00:00.000Z' },
     enrollmentId: '99999999-9999-4999-8999-999999999991',
+    enrollmentStatus: 'active',
     offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa1' },
     course: {
       id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
@@ -325,6 +337,7 @@ export const courseResults: MyCourseResultResponseDto[] = [
     proposed: { grade: 'C', at: '2026-01-20T00:00:00.000Z' },
     official: { grade: null, recordedAt: null },
     enrollmentId: '99999999-9999-4999-8999-999999999992',
+    enrollmentStatus: 'active',
     offering: { id: 'aaaaaaa1-aaaa-4aaa-8aaa-aaaaaaaaaaa2' },
     course: {
       id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb2',
@@ -930,6 +943,27 @@ export const offeringLearningSpace: LearningSpaceDto = {
   nextDueAt: '2026-10-01T21:00:00.000Z',
 };
 
+export const LEARNING_SECTION_ID = '5ec70001-0001-4001-8001-000000000001';
+
+export const ALWAYS_AVAILABLE = {
+  availableFrom: null,
+  availableUntil: null,
+  hiddenUntilAvailable: false,
+  availability: 'open',
+  restriction: null,
+} as const;
+
+export const learningSections: LearningSectionResponseDto[] = [
+  {
+    id: LEARNING_SECTION_ID,
+    title: 'Week 1 — sorting',
+    summary: 'Insertion sort, merge sort and why one beats the other.',
+    position: 0,
+    visible: true,
+    ...ALWAYS_AVAILABLE,
+  },
+];
+
 export const learningMaterials: LearningMaterialResponseDto[] = [
   {
     id: 'ba5e0001-0001-4001-8001-000000000001',
@@ -944,6 +978,9 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     position: 0,
     visible: true,
     scanStatus: 'clean',
+    sectionId: LEARNING_SECTION_ID,
+    completionRule: 'viewed',
+    ...ALWAYS_AVAILABLE,
   },
   {
     id: 'ba5e0001-0001-4001-8001-000000000002',
@@ -955,9 +992,12 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     filename: null,
     contentType: null,
     sizeBytes: null,
-    position: 1,
+    position: 0,
     visible: false,
     scanStatus: 'clean',
+    sectionId: null,
+    completionRule: 'none',
+    ...ALWAYS_AVAILABLE,
   },
   {
     id: 'ba5e0001-0001-4001-8001-000000000003',
@@ -969,9 +1009,12 @@ export const learningMaterials: LearningMaterialResponseDto[] = [
     filename: null,
     contentType: null,
     sizeBytes: null,
-    position: 2,
+    position: 1,
     visible: true,
     scanStatus: 'clean',
+    sectionId: null,
+    completionRule: 'manual',
+    ...ALWAYS_AVAILABLE,
   },
 ];
 
@@ -989,10 +1032,153 @@ export const offeringAssignments: AssignmentResponseDto[] = [
     allowsLateSubmission: true,
     maxPoints: 100,
     countsTowardFinalGrade: true,
-    position: 0,
+    position: 1,
     visible: true,
+    sectionId: LEARNING_SECTION_ID,
+    completionRule: 'submitted',
+    completionPassPoints: null,
+    ...ALWAYS_AVAILABLE,
   },
 ];
+
+const MARKING_NOTE_ID = 'ba5e0001-0001-4001-8001-000000000003';
+const SLIDES_ID = 'ba5e0001-0001-4001-8001-000000000001';
+
+export const myProgress: ProgressResponseDto = {
+  done: 1,
+  total: 3,
+  sections: [
+    { sectionId: null, done: 0, total: 1 },
+    { sectionId: LEARNING_SECTION_ID, done: 1, total: 2 },
+  ],
+  items: [
+    {
+      kind: 'material',
+      id: MARKING_NOTE_ID,
+      sectionId: null,
+      rule: 'manual',
+      state: 'incomplete',
+      completedAt: null,
+    },
+    {
+      kind: 'material',
+      id: SLIDES_ID,
+      sectionId: LEARNING_SECTION_ID,
+      rule: 'viewed',
+      state: 'complete',
+      completedAt: '2026-09-25T09:00:00.000Z',
+    },
+    {
+      kind: 'assignment',
+      id: ASSIGNMENT_ID,
+      sectionId: LEARNING_SECTION_ID,
+      rule: 'submitted',
+      state: 'incomplete',
+      completedAt: null,
+    },
+  ],
+};
+
+export const courseStudents: CourseStudentDto[] = [
+  {
+    userId: '11111111-1111-4111-8111-111111111111',
+    displayName: 'Ada Lovelace',
+    email: 'ada@example.com',
+  },
+  {
+    userId: '22222222-2222-4222-8222-222222222222',
+    displayName: 'Alan Turing',
+    email: 'alan@example.com',
+  },
+];
+
+export const studentView: StudentViewResponseDto = {
+  student: null,
+  sections: learningSections,
+  materials: learningMaterials.filter(material => material.visible),
+  assignments: offeringAssignments,
+  quizzes: offeringQuizzes,
+  progress: myProgress,
+};
+
+export const completionReport: CompletionReportResponseDto = {
+  columns: [
+    {
+      kind: 'material',
+      id: MARKING_NOTE_ID,
+      title: 'How marking works',
+      sectionId: null,
+      rule: 'manual',
+      passPoints: null,
+      visible: true,
+    },
+    {
+      kind: 'material',
+      id: SLIDES_ID,
+      title: 'Lecture 1 — slides',
+      sectionId: LEARNING_SECTION_ID,
+      rule: 'viewed',
+      passPoints: null,
+      visible: true,
+    },
+    {
+      kind: 'assignment',
+      id: ASSIGNMENT_ID,
+      title: 'Assignment 1 — sorting',
+      sectionId: LEARNING_SECTION_ID,
+      rule: 'passed',
+      passPoints: 50,
+      visible: true,
+    },
+  ],
+  items: [
+    {
+      userId: '11111111-1111-4111-8111-111111111111',
+      displayName: 'Ada Lovelace',
+      email: 'ada@example.com',
+      done: 2,
+      cells: [
+        {
+          kind: 'material',
+          id: MARKING_NOTE_ID,
+          state: 'complete',
+          completedAt: '2026-09-22T09:00:00.000Z',
+        },
+        { kind: 'material', id: SLIDES_ID, state: 'incomplete', completedAt: null },
+        {
+          kind: 'assignment',
+          id: ASSIGNMENT_ID,
+          state: 'complete_pass',
+          completedAt: '2026-10-03T09:00:00.000Z',
+        },
+      ],
+    },
+    {
+      userId: '22222222-2222-4222-8222-222222222222',
+      displayName: 'Charles Babbage',
+      email: 'charles@example.com',
+      done: 0,
+      cells: [
+        { kind: 'material', id: MARKING_NOTE_ID, state: 'incomplete', completedAt: null },
+        { kind: 'material', id: SLIDES_ID, state: 'incomplete', completedAt: null },
+        {
+          kind: 'assignment',
+          id: ASSIGNMENT_ID,
+          state: 'complete_fail',
+          completedAt: '2026-10-03T09:00:00.000Z',
+        },
+      ],
+    },
+  ],
+  meta: {
+    page: 1,
+    limit: 25,
+    total: 2,
+    pageCount: 1,
+    hasNextPage: false,
+    hasPreviousPage: false,
+  },
+};
 
 export const uploadTicket: UploadTicketResponseDto = {
   url: 'https://store.example.test/studviro/upload-object',
@@ -1163,6 +1349,99 @@ export const waitingStudents: WaitingStudentResponseDto[] = [
     waitlistedAt: '2026-01-16T09:00:00.000Z',
   },
 ];
+
+export const itemSight: SightReportResponseDto = {
+  kind: 'material',
+  id: MARKING_NOTE_ID,
+  title: 'How marking works',
+  students: 2,
+  canOpen: 1,
+  seeTitle: 0,
+  seeNothing: 1,
+  items: [
+    {
+      userId: '11111111-1111-4111-8111-111111111111',
+      displayName: 'Ada Lovelace',
+      email: 'ada@example.com',
+      sight: 'full',
+      reason: null,
+      source: null,
+      availableFrom: null,
+      restriction: null,
+    },
+    {
+      userId: '22222222-2222-4222-8222-222222222222',
+      displayName: 'Bob Builder',
+      email: 'bob@example.com',
+      sight: 'none',
+      reason: 'locked',
+      source: 'item',
+      availableFrom: null,
+      restriction: {
+        match: 'all',
+        hideWhenLocked: false,
+        locked: true,
+        conditions: [],
+        audience: {
+          hideFromOthers: true,
+          groups: [
+            {
+              groupId: 'f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f1',
+              groupName: 'Monday seminar',
+              missing: false,
+            },
+          ],
+        },
+      },
+    },
+  ],
+  meta: {
+    page: 1,
+    limit: 25,
+    total: 2,
+    pageCount: 1,
+    hasNextPage: false,
+    hasPreviousPage: false,
+  },
+};
+
+export const studyGroupContent: GroupContentResponseDto = {
+  group: {
+    id: 'f1f1f1f1-f1f1-4f1f-8f1f-f1f1f1f1f1f1',
+    code: 'S1',
+    name: 'Monday seminar',
+  },
+  items: [
+    {
+      kind: 'material',
+      id: MARKING_NOTE_ID,
+      title: 'How marking works',
+      spaceId: LEARNING_SPACE_ID,
+      sectionId: null,
+      sectionTitle: null,
+      via: ['audience'],
+      hideFromOthers: true,
+    },
+    {
+      kind: 'assignment',
+      id: ASSIGNMENT_ID,
+      title: 'Assignment 1 — sorting',
+      spaceId: LEARNING_SPACE_ID,
+      sectionId: LEARNING_SECTION_ID,
+      sectionTitle: 'Week 1 — sorting',
+      via: ['condition'],
+      hideFromOthers: false,
+    },
+  ],
+  meta: {
+    page: 1,
+    limit: 25,
+    total: 2,
+    pageCount: 1,
+    hasNextPage: false,
+    hasPreviousPage: false,
+  },
+};
 
 export const studyGroups: StudyGroupResponseDto[] = [
   {
@@ -1482,6 +1761,11 @@ export const offeringResults: OfferingResultsResponseDto = {
       email: 'veronika@mocku.example',
       enrollmentStatus: 'active',
       nextAttempt: 2,
+      sitting: {
+        examTermId: '99999999-9999-4999-8999-999999999998',
+        startsAt: '2026-06-02T09:00:00.000Z',
+        status: 'attended',
+      },
       attempts: [
         {
           id: 'bbbbbbb1-bbbb-4bbb-8bbb-bbbbbbbbbbb1',
@@ -1501,6 +1785,7 @@ export const offeringResults: OfferingResultsResponseDto = {
       email: 'marek@mocku.example',
       enrollmentStatus: 'active',
       nextAttempt: 1,
+      sitting: null,
       attempts: [],
     },
   ],
@@ -1531,6 +1816,8 @@ export const studyProgress: StudyProgressResponseDto = {
 };
 
 export const handlers = [
+  ...quizHandlers,
+  ...plannerHandlers,
   /**
    * The BFF returns only the user; the tokens stay in httpOnly cookies the test
    * environment never sees. A handler that returned them would let a component
@@ -1807,6 +2094,42 @@ export const handlers = [
     } satisfies LearningSpaceListResponseDto);
   }),
 
+  http.get(`${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/sections`, () =>
+    HttpResponse.json(learningSections),
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/sections`,
+    async ({ request }) => {
+      const body = (await request.json()) as Partial<LearningSectionResponseDto>;
+
+      return HttpResponse.json(
+        {
+          ...learningSections[0]!,
+          id: '5ec70001-0001-4001-8001-00000000000f',
+          summary: null,
+          position: 1,
+          ...body,
+        } satisfies LearningSectionResponseDto,
+        { status: 201 },
+      );
+    },
+  ),
+
+  http.patch(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/sections/:sectionId`,
+    async ({ request }) => {
+      const body = (await request.json()) as Partial<LearningSectionResponseDto>;
+
+      return HttpResponse.json({ ...learningSections[0]!, ...body });
+    },
+  ),
+
+  http.delete(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/sections/:sectionId`,
+    () => new HttpResponse(null, { status: 204 }),
+  ),
+
   http.get(
     `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/materials`,
     () => HttpResponse.json(learningMaterials),
@@ -1856,6 +2179,96 @@ export const handlers = [
   http.get(
     `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/assignments`,
     () => HttpResponse.json(offeringAssignments),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/my-progress`,
+    () => HttpResponse.json(myProgress),
+  ),
+
+  http.put(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/my-completions/:kind/:itemId`,
+    async ({ request, params }) => {
+      const { done } = (await request.json()) as { done: boolean };
+      const item = myProgress.items.find(entry => entry.id === params['itemId']);
+
+      return HttpResponse.json({
+        ...item!,
+        state: done ? 'complete' : 'incomplete',
+        completedAt: done ? '2026-10-20T09:00:00.000Z' : null,
+      } satisfies ItemProgressDto);
+    },
+  ),
+
+  http.post(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/materials/:materialId/views`,
+    () => new HttpResponse(null, { status: 204 }),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/completions`,
+    () => HttpResponse.json(completionReport),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/sight/:kind/:itemId`,
+    () => HttpResponse.json(itemSight),
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/student-view`,
+    ({ request }) => {
+      const asStudent = new URL(request.url).searchParams.get('asStudent');
+      const student = courseStudents.find(row => row.userId === asStudent) ?? null;
+
+      return HttpResponse.json({ ...studentView, student });
+    },
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/learning-spaces/:spaceId/student-view/students`,
+    ({ request }) => {
+      const params = new URL(request.url).searchParams;
+      const q = params.get('q')?.toLowerCase() ?? '';
+      const page = Number(params.get('page') ?? 1);
+      const limit = Number(params.get('limit') ?? 25);
+      const matching = courseStudents.filter(student =>
+        `${student.displayName} ${student.email}`.toLowerCase().includes(q),
+      );
+
+      return HttpResponse.json({
+        items: matching.slice((page - 1) * limit, page * limit),
+        meta: {
+          page,
+          limit,
+          total: matching.length,
+          pageCount: Math.max(1, Math.ceil(matching.length / limit)),
+          hasNextPage: page * limit < matching.length,
+          hasPreviousPage: page > 1,
+        },
+      });
+    },
+  ),
+
+  http.get(
+    `${PROXY}/institutions/:institutionId/course-offerings/:offeringId/study-groups/:groupId/content`,
+    ({ params, request }) => {
+      const q = new URL(request.url).searchParams.get('q')?.toLowerCase() ?? '';
+      const items =
+        params['groupId'] === studyGroupContent.group.id
+          ? studyGroupContent.items.filter(item => item.title.toLowerCase().includes(q))
+          : [];
+
+      return HttpResponse.json({
+        ...studyGroupContent,
+        group:
+          params['groupId'] === studyGroupContent.group.id
+            ? studyGroupContent.group
+            : { id: params['groupId'], code: 'L1', name: null },
+        items,
+        meta: { ...studyGroupContent.meta, total: items.length },
+      });
+    },
   ),
 
   http.post(
@@ -2038,6 +2451,8 @@ export const handlers = [
         passwordResetTokens: 0,
         calendarFeeds: 0,
         discussionPosts: 0,
+        personalTasks: 0,
+        personalEvents: 0,
         twoFactorCredentials: 0,
         recoveryCodes: 0,
         userEmails: 1,

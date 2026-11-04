@@ -44,21 +44,25 @@ export const institutionRoutes = (institutionId: string) => {
     dashboard: base,
     courses: `${base}/courses`,
     courseOffering: (offeringId: string) => `${base}/courses/${offeringId}`,
-    enroll: `${base}/enroll`,
-    catalogue: `${base}/catalogue`,
+    enroll: `${base}/courses?tab=find`,
+    offer: `${base}/offer`,
+    catalogue: `${base}/offer?tab=catalogue`,
     program: (programId: string) => `${base}/programs/${programId}`,
     teaching: `${base}/teaching`,
     grades: `${base}/grades`,
     calendar: `${base}/calendar`,
     exams: `${base}/exams`,
     notifications: `${base}/notifications`,
-    learning: `${base}/learning`,
-    roles: `${base}/roles`,
-    orgUnits: `${base}/org-units`,
+    learning: `${base}/offer?tab=learning`,
+    roles: `${base}/people?tab=roles`,
+    structure: `${base}/structure`,
+    terms: `${base}/structure?tab=terms`,
+    orgUnits: `${base}/structure`,
     people: `${base}/people`,
+    teacher: (userId: string) => `${base}/teachers/${userId}`,
     search: `${base}/search`,
-    audit: `${base}/audit`,
-    bulk: `${base}/bulk`,
+    audit: `${base}/settings?tab=audit`,
+    bulk: `${base}/settings?tab=bulk`,
     settings: `${base}/settings`,
   } as const;
 };
@@ -76,3 +80,16 @@ export const QUERY_STALE_TIME = 60_000;
  * middleware bundle.
  */
 export const THEME_STORAGE_KEY = 'studviro-theme';
+
+/**
+ * Cookie the institution sidebar's collapsed state persists under. A cookie
+ * rather than localStorage so the server renders the sidebar the way it was
+ * left, instead of painting it open and snapping it shut after hydration.
+ */
+export const SIDEBAR_COOKIE = 'studviro-sidebar';
+
+/**
+ * Cookie naming the institution a person last worked in, so pages that belong
+ * to the person rather than an institution (`/account`) keep its sidebar.
+ */
+export const LAST_INSTITUTION_COOKIE = 'studviro-institution';

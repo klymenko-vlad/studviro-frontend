@@ -4,12 +4,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useFormatter, useTimeZone, useTranslations } from 'next-intl';
 
 import { ExamTermActions, ExamTermForm } from '@/features/manage-exam-terms';
+import { offeringItemAnchor } from '@/entities/course-offering';
 import {
   isCancelled,
   offeringExamTermQueries,
   type OfferingExamTerm,
 } from '@/entities/offering-exam-term';
 import { usePermissions } from '@/entities/permission';
+import { cn, revealTargetClassName, useRevealHashTarget } from '@/shared/lib';
 import {
   Badge,
   Card,
@@ -44,6 +46,7 @@ export function OfferingExamTerms({
     ...offeringExamTermQueries.list({ path: { institutionId, offeringId } }),
     enabled: readable,
   });
+  useRevealHashTarget(terms.isSuccess);
 
   if (!readable) return null;
 
@@ -87,7 +90,12 @@ export function OfferingExamTerms({
         ) : (
           <ul className="flex flex-col gap-5" aria-label={t('title')}>
             {terms.data.map(term => (
-              <li key={term.id} className="flex flex-col gap-2">
+              <li
+                key={term.id}
+                id={offeringItemAnchor({ kind: 'exam-term', id: term.id })}
+                tabIndex={-1}
+                className={cn('flex flex-col gap-2', revealTargetClassName)}
+              >
                 <div className="flex flex-wrap items-center gap-2">
                   <span
                     className={`font-medium ${

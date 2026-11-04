@@ -1,14 +1,13 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ArrowDown, ArrowUp, LoaderCircle } from 'lucide-react';
+import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import {
   learningMaterialMutations,
   learningMaterialQueries,
-  neighbour,
   type LearningMaterial,
 } from '@/entities/learning-material';
 import { toApiError } from '@/shared/api';
@@ -28,14 +27,21 @@ export function MaterialActions({
   institutionId,
   spaceId,
   material,
-  materials,
+  scheduling,
+  onSchedule,
+  editing,
+  onEdit,
 }: {
   institutionId: string;
   spaceId: string;
   material: LearningMaterial;
-  materials: readonly LearningMaterial[];
+  scheduling: boolean;
+  onSchedule: () => void;
+  editing: boolean;
+  onEdit: () => void;
 }) {
   const t = useTranslations('materials');
+  const tAvailability = useTranslations('availability');
   const refresh = useMaterialList(institutionId, spaceId);
 
   const update = useMutation({
@@ -56,23 +62,6 @@ export function MaterialActions({
     },
   });
 
-  const move = async (direction: -1 | 1) => {
-    const other = neighbour(materials, material.id, direction);
-    if (other === null) return;
-
-    // Positions are plain numbers the server stores as given, so a move is a
-    // swap of two of them rather than a reindex of the whole list.
-    await update.mutateAsync({
-      path: { institutionId, spaceId, materialId: material.id },
-      body: { position: other.position },
-    });
-    await update.mutateAsync({
-      path: { institutionId, spaceId, materialId: other.id },
-      body: { position: material.position },
-    });
-    await refresh();
-  };
-
   const busy = update.isPending || remove.isPending;
 
   return (
@@ -81,22 +70,22 @@ export function MaterialActions({
         type="button"
         variant="ghost"
         size="sm"
-        disabled={busy || neighbour(materials, material.id, -1) === null}
-        aria-label={t('moveUpNamed', { title: material.title })}
-        onClick={() => void move(-1)}
+        aria-expanded={editing}
+        aria-label={t('edit.named', { title: material.title })}
+        onClick={onEdit}
       >
-        <ArrowUp className="size-4" aria-hidden />
+        {t('edit.open')}
       </Button>
 
       <Button
         type="button"
         variant="ghost"
         size="sm"
-        disabled={busy || neighbour(materials, material.id, 1) === null}
-        aria-label={t('moveDownNamed', { title: material.title })}
-        onClick={() => void move(1)}
+        aria-expanded={scheduling}
+        aria-label={tAvailability('editNamed', { title: material.title })}
+        onClick={onSchedule}
       >
-        <ArrowDown className="size-4" aria-hidden />
+        {tAvailability('edit')}
       </Button>
 
       <Button

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 
 import { Link } from '@/shared/config';
@@ -5,7 +6,15 @@ import { Badge, Card, CardContent } from '@/shared/ui';
 
 import { deadlineState, type Deadline } from '../model/deadline';
 
-export function DeadlineCard({ deadline, href }: { deadline: Deadline; href?: string }) {
+export function DeadlineCard({
+  deadline,
+  href,
+  action,
+}: {
+  deadline: Deadline;
+  href?: string;
+  action?: ReactNode;
+}) {
   const t = useTranslations('deadlines');
   const format = useFormatter();
   const state = deadlineState(deadline);
@@ -13,7 +22,8 @@ export function DeadlineCard({ deadline, href }: { deadline: Deadline; href?: st
 
   return (
     <Card
-      className={state === 'overdue' || state === 'handedIn' ? 'opacity-70' : undefined}
+      interactive={href !== undefined}
+      className={state === 'overdue' || state === 'handedIn' ? 'py-1 opacity-70' : 'py-1'}
     >
       <CardContent className="flex flex-col gap-2 py-4">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
@@ -39,7 +49,7 @@ export function DeadlineCard({ deadline, href }: { deadline: Deadline; href?: st
           {href === undefined ? (
             deadline.course.title
           ) : (
-            <Link href={href} className="hover:underline focus-visible:underline">
+            <Link href={href} className="stretched-link">
               {deadline.course.title}
             </Link>
           )}
@@ -71,6 +81,8 @@ export function DeadlineCard({ deadline, href }: { deadline: Deadline; href?: st
         <p className="text-muted-foreground text-sm">
           {t('inSpace', { space: deadline.learningSpace.name })}
         </p>
+
+        {action === undefined ? null : <div className="relative z-10">{action}</div>}
       </CardContent>
     </Card>
   );

@@ -3,7 +3,7 @@ import 'server-only';
 import { cache } from 'react';
 import { cookies, headers } from 'next/headers';
 
-import type { AuthTokensDto } from '@/shared/api';
+import type { AuthTokensDto, InstitutionResponseDto } from '@/shared/api';
 import {
   ACCESS_TOKEN_COOKIE,
   REFRESH_COOKIE_MAX_AGE,
@@ -61,6 +61,25 @@ export const getCurrentUser = cache(async (): Promise<SessionUser | undefined> =
   if (!response.ok) return undefined;
 
   return (await response.json()) as SessionUser;
+});
+
+/**
+ * The institutions the signed-in person belongs to, for server renders that
+ * need to know before the browser asks — the account pages choose whose
+ * sidebar to show from it. Empty when signed out or when the read fails.
+ */
+export const getMyInstitutions = cache(async (): Promise<InstitutionResponseDto[]> => {
+  const accessToken = await getAccessToken();
+  if (!accessToken) return [];
+
+  const response = await fetch(`${apiOrigin()}/api/v1/institutions`, {
+    headers: { authorization: `Bearer ${accessToken}` },
+    cache: 'no-store',
+  });
+
+  if (!response.ok) return [];
+
+  return (await response.json()) as InstitutionResponseDto[];
 });
 
 /**

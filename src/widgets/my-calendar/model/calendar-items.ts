@@ -1,11 +1,21 @@
 import type { Deadline } from '@/entities/deadline';
 import type { ExamTerm } from '@/entities/exam-term';
+import type { PersonalEvent, PersonalTask } from '@/entities/planner';
 import { dayKey, type TimetableEvent } from '@/entities/timetable-event';
 
-type CalendarItem =
+export type CalendarItem =
   | { kind: 'event'; id: string; startsAt: string; event: TimetableEvent }
   | { kind: 'exam'; id: string; startsAt: string; term: ExamTerm }
-  | { kind: 'deadline'; id: string; startsAt: string; deadline: Deadline };
+  | { kind: 'deadline'; id: string; startsAt: string; deadline: Deadline }
+  | { kind: 'personal'; id: string; startsAt: string; event: PersonalEvent }
+  | { kind: 'task'; id: string; startsAt: string; task: PersonalTask };
+
+export interface PersonalLayer {
+  events: PersonalEvent[];
+  tasks: PersonalTask[];
+}
+
+const NO_PERSONAL: PersonalLayer = { events: [], tasks: [] };
 
 export interface CalendarDay {
   key: string;
@@ -25,6 +35,7 @@ export function groupCalendarItems(
   examTerms: ExamTerm[],
   deadlines: Deadline[],
   timeZone: string,
+  personal: PersonalLayer = NO_PERSONAL,
 ): CalendarDay[] {
   const items: CalendarItem[] = [
     ...events.map((event): CalendarItem => ({
@@ -45,6 +56,17 @@ export function groupCalendarItems(
       startsAt: deadline.dueAt,
       deadline,
     })),
+    ...personal.events.map((event): CalendarItem => ({
+      kind: 'personal',
+      id: `personal-${event.id}`,
+      startsAt: event.startsAt,
+      event,
+    })),
+    ...personal.tasks.flatMap((task): CalendarItem[] =>
+      task.dueAt === null
+        ? []
+        : [{ kind: 'task', id: `task-${task.id}`, startsAt: task.dueAt, task }],
+    ),
   ].sort(
     (left, right) =>
       left.startsAt.localeCompare(right.startsAt) || left.id.localeCompare(right.id),

@@ -1,21 +1,29 @@
-import type { LearningMaterialResponseDto } from '@/shared/api';
+import type { FolderFileResponseDto, LearningMaterialResponseDto } from '@/shared/api';
 
 export type LearningMaterial = LearningMaterialResponseDto;
 export type MaterialKind = LearningMaterial['kind'];
+export type FolderFile = FolderFileResponseDto;
 
-export const MATERIAL_KINDS: readonly MaterialKind[] = ['file', 'link', 'text'];
+export const MATERIAL_KINDS: readonly MaterialKind[] = [
+  'file',
+  'folder',
+  'link',
+  'text',
+  'page',
+  'label',
+  'video',
+];
 
-/** The server already orders by position; the neighbour lookups below rely on it. */
-export function neighbour(
-  materials: readonly LearningMaterial[],
-  id: string,
-  direction: -1 | 1,
-): LearningMaterial | null {
-  const index = materials.findIndex(material => material.id === id);
+const EMBED_ORIGINS = ['https://www.youtube-nocookie.com', 'https://player.vimeo.com'];
 
-  if (index === -1) return null;
+export function isEmbeddable(url: string): boolean {
+  try {
+    const parsed = new URL(url);
 
-  return materials[index + direction] ?? null;
+    return EMBED_ORIGINS.includes(parsed.origin) && parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
 }
 
 /**

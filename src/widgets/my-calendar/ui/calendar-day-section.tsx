@@ -1,24 +1,30 @@
 import { useFormatter, useTranslations } from 'next-intl';
 
+import { AddToCalendarLink } from '@/features/add-to-calendar';
 import { courseOfferingHref } from '@/entities/course-offering';
 import { DeadlineCard } from '@/entities/deadline';
-import { ExamTermCard } from '@/entities/exam-term';
-import { dayKey, TimetableEventCard } from '@/entities/timetable-event';
+import { ExamTermCard, isRegistered } from '@/entities/exam-term';
+import { dayKey, eventTitle, TimetableEventCard } from '@/entities/timetable-event';
 
-import type { CalendarDay } from '../model/calendar-items';
+import type { CalendarDay, CalendarItem } from '../model/calendar-items';
+import { deadlineHref } from '../model/deadline-href';
+import { PersonalEventCard, PersonalTaskCard } from './personal-item-card';
 
 export function CalendarDaySection({
   day,
   institutionId,
   today,
   timeZone,
+  onOpenPersonal,
 }: {
   day: CalendarDay;
   institutionId: string;
   today: Date;
   timeZone: string;
+  onOpenPersonal: (item: CalendarItem) => void;
 }) {
   const t = useTranslations('calendar');
+  const tPlanner = useTranslations('planner');
   const format = useFormatter();
 
   return (
@@ -32,20 +38,56 @@ export function CalendarDaySection({
         ) : null}
       </div>
 
-      <ul className="grid gap-3 md:grid-cols-2">
+      <ul className="stagger grid gap-3 md:grid-cols-2">
         {day.items.map(item => (
           <li key={item.id}>
             {item.kind === 'event' ? (
               <TimetableEventCard
                 event={item.event}
                 href={courseOfferingHref(institutionId, item.event.offering.id)}
+                action={
+                  <AddToCalendarLink
+                    institutionId={institutionId}
+                    kind="class"
+                    id={item.event.id}
+                    title={eventTitle(item.event)}
+                  />
+                }
               />
+            ) : item.kind === 'personal' ? (
+              <PersonalEventCard
+                event={item.event}
+                onOpen={() => {
+                  onOpenPersonal(item);
+                }}
+              />
+            ) : item.kind === 'task' ? (
+              <div className="flex flex-col gap-1.5" data-testid="calendar-task">
+                <p className="text-muted-foreground type-eyebrow">
+                  {tPlanner('taskLayer')}
+                </p>
+                <PersonalTaskCard
+                  institutionId={institutionId}
+                  task={item.task}
+                  onOpen={() => {
+                    onOpenPersonal(item);
+                  }}
+                />
+              </div>
             ) : item.kind === 'deadline' ? (
               <div className="flex flex-col gap-1.5" data-testid="calendar-deadline">
                 <p className="text-muted-foreground type-eyebrow">{t('deadlineLayer')}</p>
                 <DeadlineCard
                   deadline={item.deadline}
-                  href={courseOfferingHref(institutionId, item.deadline.offering.id)}
+                  href={deadlineHref(institutionId, item.deadline)}
+                  action={
+                    <AddToCalendarLink
+                      institutionId={institutionId}
+                      kind="deadline"
+                      id={item.deadline.id}
+                      title={item.deadline.name}
+                    />
+                  }
                 />
               </div>
             ) : (
@@ -53,7 +95,20 @@ export function CalendarDaySection({
                 <p className="text-muted-foreground type-eyebrow">{t('examLayer')}</p>
                 <ExamTermCard
                   term={item.term}
-                  href={courseOfferingHref(institutionId, item.term.offering.id)}
+                  href={courseOfferingHref(institutionId, item.term.offering.id, {
+                    section: 'schedule',
+                    item: { kind: 'exam-term', id: item.term.id },
+                  })}
+                  action={
+                    isRegistered(item.term) || item.term.attendance === 'teaching' ? (
+                      <AddToCalendarLink
+                        institutionId={institutionId}
+                        kind="exam"
+                        id={item.term.id}
+                        title={item.term.course.title}
+                      />
+                    ) : undefined
+                  }
                 />
               </div>
             )}

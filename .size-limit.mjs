@@ -206,9 +206,185 @@ const budgets = [
     // Measured at **585.04 kB**. The discussion adds no dependency and no
     // `shared/ui` primitive; lazy-loading its tab would move bytes between
     // chunks this glob already sums, not remove them. About 10 kB of headroom.
+    //
+    // Raised from 595 kB to 605 kB on 2026-10-22 at the product owner's request
+    // for an interface pass: notification and card links that open the item
+    // (+0.8 kB), whole-card links and the motion layer (class strings only — the
+    // animations themselves are CSS), the phone tab bar, and search that starts
+    // from the person's own courses and history (the enrolled and teaching
+    // queries now also load on `/search`, so their schemas count twice in this
+    // sum). Measured at **601.69 kB**. No dependency added. About 3 kB of
+    // headroom: the next step that adds client code must make room first.
+    //
+    // Raised from 605 kB to 615 kB on 2026-10-22 at the product owner's request
+    // for course sections (Course Builder Plan CB1): the outline that replaces
+    // the flat materials list, section add/edit/move/hide/remove, per-item move
+    // and section picker, and their generated schemas. Measured at
+    // **608.45 kB**. The old list and its move buttons were deleted, not kept
+    // beside the outline, and the section picker is the native `Select`. No
+    // dependency added. The plan's quiz steps (CB6–CB8) will need room of their
+    // own; budget for them when they land, do not pre-spend it.
+    //
+    // Raised from 615 kB to 620 kB on 2026-10-23 for completion and progress
+    // (Course Builder Plan CB3): the student's tick or status on each item, the
+    // course and section progress bars, the completion rule on the material and
+    // assignment forms and in the outline, the teacher's completion table, and
+    // their generated schemas. CB2 measured 611.39 kB; this measures
+    // **618.03 kB**, +6.64 kB. No dependency added; the table reuses `Table`,
+    // `LoadMore` and the native `Select`.
+    //
+    // Raised from 620 kB to 625 kB on 2026-10-23 for restrict access (Course
+    // Builder Plan CB4): the restriction editor on sections, materials and
+    // assignments (conditions, one level of grouping, all/any, hide while locked),
+    // the locked note for students and the author's badge, and their generated
+    // schemas. Measured at **624.4 kB**, +6.4 kB over CB3's 618.03 kB. About a third
+    // is generated Zod: the SDK validates responses, so the restriction view schema
+    // rides on every material, assignment and section read, and the input schema on
+    // every create and update. Lazy-loading the editor would not move this number,
+    // since the budget sums every chunk. The editor uses plain state and the native
+    // `Select` rather than react-hook-form, and adds no dependency.
+    //
+    // Raised from 625 kB to 632 kB on 2026-10-23 for content for one group
+    // (Course Builder Plan CB9): the Groups control on every section and item,
+    // the "who can see this" table with its filter and Load more, the group
+    // badge and sentence, the roster's per-group content list, and their
+    // generated schemas (the audience view now rides on every outline read).
+    // Measured at **630.48 kB**, +6.08 kB over CB4. The group picker reuses
+    // `Switch` and the native `Select` rather than adding a checkbox or radio
+    // primitive, and no dependency was added.
+    //
+    // Raised from 632 kB to 634 kB on 2026-10-23 for view as a student (Course
+    // Builder Plan CB11): the switch and banner on the Content tab, the paged and
+    // filtered student picker, the read-only outline, and their generated client
+    // (a request and response schema that reuse the outline's). Measured at
+    // **633.3 kB**, +2.82 kB over CB9. The preview renders the same outline
+    // components with a read-only flag rather than a second copy of them, and
+    // adds no dependency and no primitive; there was nothing left to cut that
+    // the feature does not use.
+    //
+    // Raised from 634 kB to 638 kB on 2026-10-24 for more things to put on a
+    // page (Course Builder Plan CB5): the page, label, video and folder kinds in
+    // the add form, an edit form for a material's title and content, the folder's
+    // paged and filtered file list with its add and remove actions, the video
+    // frame, and their generated client. Measured at **637.38 kB**, +4.08 kB over
+    // CB11. The Markdown renderer is not in that number: a page is rendered by a
+    // Server Component on its own route, and the form's preview by a Server
+    // Action, so the renderer never ships to the browser. No dependency added.
+    //
+    // Raised from 638 kB to 677 kB on 2026-10-24 for quiz authoring and the
+    // question bank (Course Builder Plan CB6, ADR 0050). Measured at
+    // **675.76 kB**, +38.38 kB over CB5's 637.38 kB — the largest single raise
+    // in this file, because the step adds two client-heavy routes of their own
+    // rather than a panel on an existing one. Measured piece by piece in a clean
+    // worktree of the CB5 commit:
+    //   - the regenerated client (quiz, slot and question schemas; the quiz rides
+    //     on the student view): +2.2 kB;
+    //   - the quiz row, the Add quiz form, quizzes in moves, restrictions and the
+    //     student view on the course page: about +4 kB;
+    //   - the question bank route (categories, the paged question list, one
+    //     editor that switches on seven types): +16 kB, of which 11.4 kB is its
+    //     own route chunk;
+    //   - the quiz editor route (the settings form, the paged question list with
+    //     marks and moves, adding by hand from the bank or drawn at random):
+    //     +16.3 kB.
+    // The full settings form was first also on the course page; moving it to
+    // the quiz's own route (adding a quiz on the course page is now a name only)
+    // was measured and bought nothing, since the route needs the form anyway —
+    // it is kept because it is the better flow. The route chunks are the
+    // features' own code, not duplicated libraries. No dependency and no `shared/ui` primitive
+    // was added; the type editors use plain state and the native `Select` and
+    // `Switch`, as the restriction editor does. CB7 (taking a quiz) will need
+    // room of its own.
+    //
+    // Raised from 677 kB to 693 kB on 2026-10-24 for taking a quiz (Course
+    // Builder Plan CB7). Measured at **692.02 kB**, +16.26 kB over CB6's
+    // 675.76 kB, against a clean build of the CB6 commit chunk by chunk:
+    //   - the attempt route (questions of seven types, the timer, the question
+    //     navigator, autosave, the submit check and the end state): +10.4 kB, its
+    //     own route chunk;
+    //   - Start / Continue and the student's paged attempts on the quiz row:
+    //     about +1.2 kB on the course page;
+    //   - the authors' paged, filtered attempts table on the quiz page: +1.3 kB;
+    //   - the regenerated client (attempt, answer and list schemas): +1 kB;
+    //   - the shared chunk (the native `Choice` radio/checkbox primitive and the
+    //     shared date formatter): +1.6 kB.
+    // The first build cost +26.7 kB: the course page imported the start button
+    // through the same barrel as the attempt runner and so shipped the runner
+    // too. Splitting `start-quiz` from `take-quiz` took 10.4 kB back. No
+    // dependency was added: choices are native inputs in a new `Choice`
+    // primitive rather than Radix radio group and checkbox, matching uses the
+    // native `Select`, and the submit check is an inline panel, not a dialog.
+    //
+    // Raised from 693 kB to 703 kB on 2026-10-24 for quiz review and marking
+    // (Course Builder Plan CB8, ADR 0052). Measured at **702.8 kB**, +10.78 kB
+    // over CB7's 692.02 kB, building the CB7 commit and then adding the step a
+    // slice at a time:
+    //   - the regenerated client (review, marking, regrade and results schemas;
+    //     the review options ride on every quiz read): +1.13 kB;
+    //   - the review options in the quiz settings form: +0.84 kB;
+    //   - the student's review on the attempt route, which reuses CB7's question
+    //     fields read-only, and the mark and _Review_ link on the quiz row:
+    //     +3.72 kB;
+    //   - the needs-marking filter and _Mark_ links, the regrade panel with its
+    //     preview and the results-by-question table on the quiz page: +2.4 kB;
+    //   - the marking screen: +2.69 kB.
+    // The marking screen first had a route of its own and cost +6.98 kB there:
+    // a new route chunk repeats the page shell, the trail and the quiz entity.
+    // It now lives on the attempt's own route, which opens as the marking
+    // screen for the course's authors; that took 4.29 kB back. The regrade
+    // confirmation is an inline panel rather than a dialog, the marking form
+    // uses plain state rather than react-hook-form, and no dependency or
+    // `shared/ui` primitive was added.
+    //
+    // Raised from 703 kB to 707 kB on 2026-10-24 for reusing last year's course
+    // (Course Builder Plan CB10): the Import from another course action on the
+    // Content tab, its paged and filtered picker of course pages, the preview
+    // with the date shift and what needs checking, the confirm and the report,
+    // and their generated client (three operations and the report schema).
+    // Measured at **706.56 kB**, +3.76 kB over CB8's 702.8 kB. The preview and
+    // the result are one report component, the visibility choice reuses
+    // `Switch`, and nothing is a dialog; no dependency and no primitive added.
+    //
+    // Raised from 707 kB to 718 kB on 2026-10-25 when `dev` was merged into the
+    // course builder branch. Measured at **717.36 kB**, +10.8 kB over CB10's
+    // 706.56 kB. None of it is course builder code: it is the five `dev` commits
+    // since `5dfccf9` (the collapsible sidebar and account page, the teacher
+    // profile, the programme roster and the phone-width tab and table fixes),
+    // which landed on `dev` under its 605 kB entry without raising it.
     name: 'All client JS (every route)',
     path: '.next/static/chunks/**/*.js',
-    limit: '595 kB',
+    // Raised from 718 kB to 728 kB on 2026-10-26 when the course builder and
+    // the discussion-replies work were merged into `dev`. Measured at
+    // **726.95 kB**, +8.95 kB: replies grouped under the post they answer with
+    // quoting and paging, the teacher profile's paged course list, and the
+    // student dashboard's at-a-glance strip and term header.
+    //
+    // Raised from 728 kB to 741 kB on 2026-10-26 for the personal planner
+    // (Product Plan W1): a student's own tasks and events, with the _My tasks_
+    // tab (paged, filtered list, done toggle), the task and event dialogs with
+    // their forms and delete confirmation, the personal layer in the week grid
+    // and the day list, the dashboard's own-task rows, and the generated client
+    // for nine operations. Measured at **739.67 kB**, +12.72 kB. The dialogs
+    // reuse the `Dialog` already shipped for the unscanned-download warning,
+    // the confirmation is inline rather than a second dialog, and no
+    // dependency was added.
+    //
+    // Raised from 741 kB to 742 kB on 2026-10-31 for keeping a grade through a
+    // withdrawal (Product Plan W3, ADR 0056): the roster's _Withdraw_ action
+    // with its confirmation, the _Withdrawn_ mark on a kept result, and the
+    // new notification type. Measured at **741.1 kB**. The confirmation reuses
+    // the shipped `Dialog` and the generated correction mutation; no
+    // dependency and no primitive added.
+    //
+    // Raised from 742 kB to 744 kB on 2026-10-31 for one-click calendar
+    // subscription and _Add to calendar_ (Product Plan W9, ADR 0057), merged
+    // with W3 and W4. W9 alone measured +1.41 kB: the four subscribe links on
+    // the subscription card, the `CalendarPlus` icon, and an _Add to calendar_
+    // link on each class, deadline and registered exam of the calendar's list.
+    // Both are plain anchors; the single-event file is written by the server,
+    // so no iCalendar code ships to the browser. W3, W4 and W9 together
+    // measure **742.74 kB**.
+    limit: '744 kB',
     gzip: true,
   },
 ];

@@ -63,6 +63,7 @@ const LABEL_KEYS: Readonly<Record<AuditAction, string>> = {
   'personal_data.erased': 'personalDataErased',
   'discussion.hidden': 'discussionHidden',
   'discussion.restored': 'discussionRestored',
+  'learning_space.imported': 'learningSpaceImported',
 };
 
 export function labelKeyFor(action: AuditAction): string {

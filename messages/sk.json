@@ -10,7 +10,8 @@
     "hidePassword": "Skryť heslo",
     "skipToContent": "Preskočiť na obsah",
     "loadMore": "Načítať ďalšie",
-    "shownCount": "Zobrazených: {count}"
+    "shownCount": "Zobrazených: {count}",
+    "breadcrumb": "Nachádzate sa tu"
   },
   "nav": {
     "account": "Účet",
@@ -42,12 +43,21 @@
     "preferences": "Motív a jazyk",
     "sections": "Sekcie",
     "sectionsDescription": "Všetky obrazovky tejto inštitúcie, ktoré môžete otvoriť.",
+    "more": "Viac",
+    "collapseSidebar": "Zbaliť bočný panel",
+    "expandSidebar": "Rozbaliť bočný panel",
+    "tabBarLabel": "Hlavné sekcie",
     "groups": {
       "studies": "Moje štúdium",
       "teaching": "Výučba",
       "administration": "Správa"
     },
-    "accountSettings": "Nastavenia účtu"
+    "accountSettings": "Nastavenia účtu",
+    "openSearch": "Hľadať v tejto inštitúcii",
+    "searchPlaceholder": "Hľadať…",
+    "notificationsUnread": "Oznámenia, {count, plural, one {# neprečítané} few {# neprečítané} other {# neprečítaných}}",
+    "structure": "Štruktúra",
+    "offer": "Ponuka výučby"
   },
   "home": {
     "title": "Jedna akademická platforma, ktorú si inštitúcia vedie sama",
@@ -181,14 +191,6 @@
   },
   "account": {
     "title": "Účet",
-    "subtitle": "Vaše roly v inštitúciách a účty prepojené s týmto profilom.",
-    "roles": {
-      "title": "Roly",
-      "description": "Čo smiete robiť a kde.",
-      "empty": "Zatiaľ vám nebola priradená žiadna rola.",
-      "errorTitle": "Roly sa nepodarilo načítať",
-      "errorDescription": "Skúste to o chvíľu znova."
-    },
     "linkedAccounts": {
       "title": "Prepojené účty",
       "description": "Univerzitné účty, ktorými sa dá prihlásiť do tohto profilu.",
@@ -212,9 +214,16 @@
       "manageSettings": "Nastavenia",
       "myCourses": "Moje predmety",
       "myGrades": "Moje známky",
-      "dashboard": "Prehľad"
+      "dashboard": "Prehľad",
+      "emptyDescription": "Keď vás škola pridá, zobrazí sa tu.",
+      "open": "Otvoriť prehľad"
     },
-    "settingsLink": "Nastavenia a zabezpečenie"
+    "settingsLink": "Nastavenia a zabezpečenie",
+    "dataExport": {
+      "title": "Stiahnuť vaše údaje",
+      "description": "Kópia všetkého, čo o vás inštitúcia uchováva, ako súbor, ktorý si môžete ponechať.",
+      "empty": "Kým sa nepridáte k inštitúcii, nie je čo stiahnuť."
+    }
   },
   "roles": {
     "role": {
@@ -378,11 +387,20 @@
       "compulsory": "Povinný",
       "optional": "Nepovinný",
       "elective": "Povinne voliteľný"
+    },
+    "tabs": {
+      "mine": "Moje predmety",
+      "find": "Nájsť predmety"
+    },
+    "noCurrent": "V tomto semestri zatiaľ nemáte žiadne predmety.",
+    "findCourses": "Nájsť predmety",
+    "earlier": {
+      "title": "Staršie predmety",
+      "summary": "{courses, plural, one {# predmet} few {# predmety} other {# predmetov}} z {terms, plural, one {# staršieho semestra} few {# starších semestrov} other {# starších semestrov}}"
     }
   },
   "courseOffering": {
     "title": "Predmet",
-    "backToCourses": "Späť na moje predmety",
     "staff": "Vyučujúci",
     "noStaff": "Nie sú zaznamenaní žiadni vyučujúci.",
     "lead": "Garant predmetu",
@@ -400,6 +418,7 @@
     "notFoundDescription": "Táto inštancia predmetu v tejto inštitúcii neexistuje.",
     "errorTitle": "Predmet sa nepodarilo načítať",
     "errorDescription": "Predmet je momentálne nedostupný. Skúste to o chvíľu znova.",
+    "withdrawnStudent": "Odhlásený",
     "viewerRole": {
       "student": "Zapísané",
       "teacher": "Učíte",
@@ -429,11 +448,19 @@
     "staffError": "Kto to učí, sa nepodarilo načítať.",
     "section": {
       "overview": "Prehľad",
-      "people": "Ľudia",
+      "materials": "Obsah",
+      "assignments": "Zadania",
       "schedule": "Rozvrh",
-      "materials": "Materiály",
-      "work": "Hodnotenie",
-      "discussion": "Diskusia"
+      "grades": "Hodnotenie",
+      "discussion": "Diskusia",
+      "people": "Ľudia",
+      "progress": "Postup"
+    },
+    "upNext": {
+      "title": "Čo vás čaká",
+      "deadline": "Termín odovzdania",
+      "exam": "Skúška",
+      "nothing": "Nič na odovzdanie a žiadna skúška pred vami."
     }
   },
   "grades": {
@@ -493,6 +520,8 @@
     "awaitingRetake": "{courses, plural, one {# predmet čaká na opravný termín} few {# predmety čakajú na opravný termín} other {# predmetov čaká na opravný termín}}",
     "annulledNote": "Študijné oddelenie tento výsledok zrušilo. Nezapočítava sa nikam.",
     "noStanding": "Bez stavu",
+    "withdrawn": "Odhlásený",
+    "withdrawnNote": "Z predmetu ste boli odhlásení po zapísaní známky. Známka zostáva vo vašom zázname.",
     "standing": {
       "title": "Kde ste vo svojom programe",
       "year": "Ročník {year}",
@@ -551,6 +580,8 @@
       "title": "Termíny odovzdania",
       "description": "Čo vás najbližšie čaká odovzdať.",
       "summary": "V najbližších dvoch týždňoch {deadlines, plural, one {# termín} few {# termíny} other {# termínov}}",
+      "summaryWithTasks": "{deadlines, plural, one {# deadline} other {# deadlines}} and {tasks, plural, one {# task} other {# tasks}} of your own in the next two weeks",
+      "summaryTasksOnly": "{tasks, plural, one {# task} other {# tasks}} of your own in the next two weeks",
       "empty": "V najbližších dvoch týždňoch nič nekončí.",
       "error": "Vaše termíny sú momentálne nedostupné.",
       "link": "Otvoriť kalendár",
@@ -614,6 +645,31 @@
       "empty": "Zatiaľ nebolo nič zaznamenané.",
       "error": "Posledné zmeny sú momentálne nedostupné.",
       "link": "Otvoriť audítorskú stopu"
+    },
+    "greeting": "Vitajte späť, {name}",
+    "greetingAnonymous": "Vitajte späť",
+    "today": {
+      "week": "{week}. týždeň z {weeks} · {term}",
+      "starts": "{term} začína {date}"
+    },
+    "glance": {
+      "label": "Na prvý pohľad",
+      "term": "Tento semester",
+      "courses": "{count, plural, one {# predmet} few {# predmety} other {# predmetov}}",
+      "credits": "{count} kreditov",
+      "noCourses": "Žiadne predmety",
+      "average": "Priemer známok",
+      "noAverage": "Zatiaľ nie",
+      "earned": "Získané kredity: {credits}",
+      "retake": "{count, plural, one {# predmet} few {# predmety} other {# predmetov}} na opakovanie",
+      "deadline": "Najbližší termín",
+      "nothingDue": "Nič na odovzdanie",
+      "nothingDueDetail": "v najbližších dvoch týždňoch",
+      "exam": "Najbližšia skúška",
+      "examsOpen": "{count, plural, one {# otvorený termín} few {# otvorené termíny} other {# otvorených termínov}}",
+      "register": "Prihlásiť sa",
+      "noExam": "Žiadna prihlásená",
+      "unavailable": "Nedostupné"
     }
   },
   "calendar": {
@@ -673,7 +729,25 @@
       "active": "Odkaz na odber je aktívny od {date}.",
       "replace": "Nahradiť odkaz",
       "turnOff": "Vypnúť",
-      "turnedOff": "Odkaz na odber prestal platiť"
+      "turnedOff": "Odkaz na odber prestal platiť",
+      "oneClick": "Odber jedným kliknutím",
+      "oneClickHint": "Otvorí vybraný kalendár s vyplneným odkazom. Odkaz dostane len táto služba. Kalendár Apple platí aj pre každú aplikáciu, ktorá otvára odkazy webcal.",
+      "service": {
+        "google": "Kalendár Google",
+        "outlook": "Outlook.com",
+        "office": "Microsoft 365",
+        "apple": "Kalendár Apple"
+      }
+    },
+    "viewLabel": "Zobraziť týždeň ako",
+    "view": {
+      "week": "Týždeň",
+      "list": "Zoznam"
+    },
+    "weekNavigation": "Prechod medzi týždňami",
+    "addToCalendar": {
+      "action": "Pridať do kalendára",
+      "label": "Pridať {title} do vášho kalendára"
     }
   },
   "exams": {
@@ -696,7 +770,12 @@
     "seats": "Voľných miest: {seats} z {capacity}",
     "seatsFull": "Obsadené",
     "seatsUnknown": "Kapacita nie je uvedená",
-    "registered": "Ste prihlásení",
+    "seat": {
+      "registered": "Ste prihlásení",
+      "attended": "Skúšky ste sa zúčastnili",
+      "no_show": "Boli ste zapísaní ako neprítomní",
+      "excused": "Vaša neprítomnosť bola ospravedlnená"
+    },
     "cancelled": "Zrušené",
     "offeringPanel": "Skúškové termíny",
     "noOfferingExams": "Pre tento predmet nie sú vypísané žiadne skúškové termíny.",
@@ -794,7 +873,8 @@
       "submission_marked": "Zadanie ohodnotené",
       "waitlist_place_free": "V predmete, na ktorý čakáte, sa uvoľnilo miesto",
       "discussion_thread_started": "Nová téma vo vašom predmete",
-      "discussion_reply": "Nová odpoveď v diskusii"
+      "discussion_reply": "Nová odpoveď v diskusii",
+      "enrollment_withdrawn": "Boli ste odhlásení z predmetu"
     },
     "dueAt": "Termín {date}",
     "dueMovedTo": "Termín presunutý z {from} na {to}",
@@ -846,7 +926,8 @@
       "student": "Študent",
       "status": "Stav",
       "studyGroups": "Študijné skupiny",
-      "enrolledAt": "Zapísaný"
+      "enrolledAt": "Zapísaný",
+      "actions": "Akcie"
     },
     "status": {
       "requested": "Požiadané",
@@ -857,6 +938,15 @@
       "rejected": "Odmietnutý",
       "waitlisted": "V poradovníku"
     }
+  },
+  "withdrawEnrollment": {
+    "action": "Odhlásiť",
+    "named": "Odhlásiť: {student}",
+    "title": "Odhlásiť študenta {student} z predmetu?",
+    "description": "Študent zmizne zo zoznamu a dostane oznámenie. Oficiálna známka, ktorá je už zapísaná, zostáva v jeho zázname a predmet si môže naďalej otvoriť, aby ju videl.",
+    "cancel": "Zrušiť",
+    "confirm": "Odhlásiť",
+    "done": "Študent {student} bol odhlásený."
   },
   "marketing": {
     "nav": {
@@ -1385,6 +1475,12 @@
     "sourcedHint": "Táto známka už má hodnotu. Jej zmena nahradí to, čo študent práve vidí.",
     "attemptNone": "Zatiaľ bez pokusu",
     "attemptNumber": "Pokus {attempt}",
+    "sitting": {
+      "registered": "Prihlásený na {date}",
+      "attended": "Zúčastnil sa skúšky {date}",
+      "no_show": "Neprišiel {date}",
+      "excused": "Ospravedlnený {date}"
+    },
     "gradeFor": "Známka pre študenta {student}",
     "column": {
       "student": "Študent",
@@ -1737,6 +1833,19 @@
       "code": "S1",
       "name": "Pondelkový seminár",
       "capacity": "Bez obmedzenia"
+    },
+    "content": {
+      "title": "Len pre {code}",
+      "empty": "Na stránke predmetu nie je nič len pre {code}.",
+      "error": "Obsah pre túto skupinu sa nepodarilo načítať.",
+      "inSection": "V sekcii {title}",
+      "general": "V sekcii Všeobecné",
+      "audienceHidden": "Len táto skupina · pred ostatnými skryté",
+      "audienceLocked": "Len táto skupina · pre ostatných zamknuté",
+      "condition": "uvedená v podmienke",
+      "filter": "Hľadať v obsahu len pre {code}",
+      "filterPlaceholder": "Názov",
+      "noMatch": "Nič nezodpovedá."
     }
   },
   "examTermAdmin": {
@@ -1918,13 +2027,11 @@
       "name": "Operačné systémy",
       "shortName": "OS",
       "summary": "Čo predmet pokrýva, vo vete či dvoch."
-    }
+    },
+    "noAssignmentsYet": "Zatiaľ žiadne zadania.",
+    "openSpaceFirst": "Zadania sú súčasťou stránky predmetu. Najprv ju otvorte na záložke Obsah."
   },
   "materials": {
-    "title": "Materiály",
-    "description": "Súbory, odkazy a poznámky v poradí, v akom ich študenti čítajú.",
-    "error": "Materiály sa nepodarilo načítať. Skúste to o chvíľu znova.",
-    "empty": "Zatiaľ žiadne materiály.",
     "formLabel": "Pridať materiál",
     "add": "Pridať materiál",
     "added": "Materiál bol pridaný",
@@ -1936,8 +2043,6 @@
     "show": "Zobraziť",
     "showNamed": "Zobraziť {title}",
     "hidden": "Skryté",
-    "moveUpNamed": "Posunúť {title} vyššie",
-    "moveDownNamed": "Posunúť {title} nižšie",
     "download": "Stiahnuť",
     "downloadNamed": "Stiahnuť {title}",
     "unnamedFile": "Súbor bez názvu",
@@ -1945,7 +2050,11 @@
     "kind": {
       "file": "Súbor",
       "link": "Odkaz",
-      "text": "Text"
+      "text": "Text",
+      "page": "Stránka",
+      "label": "Štítok",
+      "video": "Video",
+      "folder": "Priečinok"
     },
     "field": {
       "kind": "Druh",
@@ -1955,7 +2064,15 @@
       "body": "Text",
       "file": "Súbor",
       "fileHint": "Súbor sa nahráva priamo do úložiska; server ho zaeviduje, keď dorazí.",
-      "visible": "Zobraziť tento materiál študentom"
+      "visible": "Zobraziť tento materiál študentom",
+      "page": "Text stránky",
+      "pageHint": "Markdown: # pre nadpis, - pre zoznam, **tučné**, *kurzíva*, [odkaz](https://…) a `kód`. Zobrazí sa na samostatnej stránke.",
+      "label": "Text popisu",
+      "labelHint": "Riadok či dva zobrazené medzi položkami, bez vlastnej stránky. Najviac 1 000 znakov.",
+      "video": "Adresa videa",
+      "videoHint": "Adresa z YouTube alebo Vimeo. Na stránke predmetu sa zobrazí v prehrávači poskytovateľa, ktorý šetrí súkromie.",
+      "folderFiles": "Súbory",
+      "folderFilesHint": "Vyberte jeden alebo viac súborov. Súbory môžete neskôr pridať alebo odstrániť."
     },
     "upload": {
       "pickFirst": "Najprv vyberte súbor",
@@ -1967,8 +2084,207 @@
       "title": "Prednáška 1: Procesy",
       "description": "Jeden riadok o tom, čo to je.",
       "url": "https://example.edu/prednaska-1",
-      "body": "Text, ktorý tu študenti prečítajú."
+      "body": "Text, ktorý tu študenti prečítajú.",
+      "page": "## 1. týždeň\n\nPred seminárom si prečítajte **4. kapitolu**.",
+      "label": "Druhá časť: grafy",
+      "video": "https://www.youtube.com/watch?v=…"
+    },
+    "page": {
+      "preview": "Náhľad",
+      "previewLabel": "Náhľad stránky",
+      "read": "Prečítať stránku",
+      "readNamed": "Prečítať {title}",
+      "back": "Späť na predmet"
+    },
+    "video": {
+      "frameNamed": "Video: {title}"
+    },
+    "folder": {
+      "show": "Zobraziť súbory",
+      "hide": "Skryť súbory",
+      "filter": "Nájsť súbor",
+      "filterPlaceholder": "Časť názvu súboru",
+      "error": "Súbory sa nepodarilo načítať. Skúste to o chvíľu znova.",
+      "empty": "V tomto priečinku zatiaľ nie sú žiadne súbory.",
+      "noMatch": "Tomuto názvu nezodpovedá žiadny súbor.",
+      "listNamed": "Súbory v {title}",
+      "size": "{kilobytes} kB",
+      "remove": "Odstrániť",
+      "removeNamed": "Odstrániť {filename}",
+      "removed": "Súbor {filename} bol odstránený",
+      "add": "Pridať súbory",
+      "added": "{count, plural, one {Pridaný # súbor} few {Pridané # súbory} other {Pridaných # súborov}}",
+      "uploading": "Nahráva sa…"
+    },
+    "edit": {
+      "open": "Upraviť",
+      "named": "Upraviť {title}",
+      "formNamed": "Upraviť {title}",
+      "save": "Uložiť zmeny",
+      "saved": "Materiál bol uložený",
+      "loadError": "Materiál sa nepodarilo načítať. Skúste to o chvíľu znova."
     }
+  },
+  "outline": {
+    "general": "Všeobecné",
+    "hidden": "Skryté",
+    "assignment": "Zadanie",
+    "due": "Termín {when}",
+    "noDueDate": "Bez termínu",
+    "error": "Obsah predmetu sa nepodarilo načítať. Skúste to o chvíľu znova.",
+    "empty": "Na tejto stránke predmetu zatiaľ nič nie je.",
+    "emptySection": "Zatiaľ tu nič nie je.",
+    "itemsOf": "V sekcii {title}",
+    "addMaterial": "Pridať materiál",
+    "addMaterialTo": "Pridať materiál do {title}",
+    "addAssignment": "Pridať zadanie",
+    "addAssignmentTo": "Pridať zadanie do {title}",
+    "cancel": "Zrušiť",
+    "addSection": "Pridať sekciu",
+    "addSectionDescription": "Týždeň alebo téma. Materiály a zadania sa do nej vkladajú v poradí, v akom ich študenti prechádzajú.",
+    "addSectionLabel": "Pridať sekciu",
+    "editSectionLabel": "Upraviť {title}",
+    "saveSection": "Uložiť zmeny",
+    "sectionAdded": "Sekcia bola pridaná",
+    "sectionSaved": "Sekcia bola uložená",
+    "sectionRemoved": "Sekcia {title} bola odstránená. Jej obsah je teraz vo všeobecnej časti.",
+    "moveUpNamed": "Posunúť {title} vyššie",
+    "moveDownNamed": "Posunúť {title} nižšie",
+    "sectionOfNamed": "Sekcia pre {title}",
+    "moved": "{title} bolo presunuté",
+    "edit": "Upraviť",
+    "editSectionNamed": "Upraviť {title}",
+    "hide": "Skryť",
+    "show": "Zobraziť",
+    "hideSectionNamed": "Skryť {title} aj celý jej obsah",
+    "showSectionNamed": "Zobraziť {title}",
+    "remove": "Odstrániť",
+    "removeSectionNamed": "Odstrániť {title} a ponechať jej obsah",
+    "field": {
+      "title": "Názov",
+      "summary": "Zhrnutie"
+    },
+    "placeholder": {
+      "title": "1. týždeň: Procesy",
+      "summary": "Čo tento týždeň pokrýva, jednou vetou."
+    },
+    "addQuiz": "Pridať test",
+    "addQuizTo": "Pridať test do {title}"
+  },
+  "availability": {
+    "legend": "Dostupnosť",
+    "field": {
+      "availableFrom": "Dostupné od",
+      "availableUntil": "Dostupné do",
+      "hiddenUntilAvailable": "Dovtedy úplne skryť",
+      "hint": "Ak necháte obe polia prázdne, zobrazí sa hneď, ako bude viditeľné. Kým sa neotvorí, študenti vidia iba názov a dátum otvorenia."
+    },
+    "badge": {
+      "scheduled": "Otvorí sa {when}",
+      "scheduledHidden": "Skryté do {when}",
+      "ended": "Skončilo {when}",
+      "until": "Do {when}"
+    },
+    "opensOn": "Otvorí sa {when}",
+    "availableUntil": "Dostupné do {when}",
+    "edit": "Dostupnosť",
+    "editNamed": "Dostupnosť položky {title}",
+    "save": "Uložiť dostupnosť",
+    "saved": "Dostupnosť bola uložená"
+  },
+  "restriction": {
+    "locked": "Zamknuté",
+    "badge": "Obmedzené",
+    "badgeHidden": "Obmedzené · skryté, kým je zamknuté",
+    "allOf": "Všetky tieto:",
+    "anyOf": "Aspoň jedna z týchto:",
+    "completed": "Najprv dokončite <em>{title}</em>",
+    "completedMissing": "Dokončiť položku, ktorá bola odstránená",
+    "mark": "Získajte aspoň {points} b. v <em>{title}</em>",
+    "markMissing": "Získať aspoň {points} b. v položke, ktorá bola odstránená",
+    "date": "Dostupné od {when}",
+    "group": "Len pre skupinu {name}",
+    "groupMissing": "Len pre skupinu, ktorá bola odstránená",
+    "edit": "Prístup",
+    "editNamed": "Prístup k {title}",
+    "match": "Študenti musia splniť",
+    "matchAll": "všetky tieto podmienky",
+    "matchAny": "aspoň jednu z týchto podmienok",
+    "setMatch": "Táto skupina vyžaduje",
+    "conditionType": "Podmienka",
+    "type": {
+      "completed": "Iná položka je dokončená",
+      "mark": "Známka zo zadania alebo testu",
+      "date": "Dátum",
+      "group": "Študijná skupina",
+      "set": "Skupina podmienok"
+    },
+    "item": "Položka",
+    "assignment": "Zadanie",
+    "atLeast": "Aspoň (body)",
+    "from": "Od",
+    "studyGroup": "Študijná skupina",
+    "choose": "Vyberte…",
+    "addCondition": "Pridať podmienku",
+    "addSet": "Pridať skupinu podmienok",
+    "addToSet": "Pridať podmienku do tejto skupiny",
+    "removeCondition": "Odstrániť túto podmienku",
+    "hideWhenLocked": "Úplne skryť pred študentmi, ktorí ju nespĺňajú",
+    "save": "Uložiť prístup",
+    "saved": "Prístup bol uložený",
+    "clear": "Zrušiť obmedzenie prístupu",
+    "cleared": "Obmedzenie prístupu bolo zrušené",
+    "cancel": "Zrušiť",
+    "incomplete": "Pred uložením vyplňte každú podmienku.",
+    "noGroups": "Tento predmet zatiaľ nemá žiadne študijné skupiny.",
+    "audience": {
+      "badge": "Skupina {names}",
+      "hidden": "Skryté pred ostatnými skupinami",
+      "locked": "Ostatné skupiny to vidia zamknuté",
+      "missing": "odstránená skupina",
+      "only": "Len pre skupinu {names}"
+    },
+    "groups": {
+      "button": "Skupiny",
+      "named": "Skupiny pre {title}",
+      "legend": "Otvoriť to môžu len študenti v týchto skupinách",
+      "none": "Tento predmet zatiaľ nemá žiadne študijné skupiny. Vytvorte ich na karte Ľudia.",
+      "others": "Študenti v ostatných skupinách",
+      "othersHidden": "to vôbec nevidia",
+      "othersLocked": "to vidia zamknuté, aj so skupinami, pre ktoré je určené",
+      "hint": "Platí to popri podmienkach prístupu: študenti v týchto skupinách ich aj tak musia splniť.",
+      "empty": "Vyberte aspoň jednu skupinu.",
+      "save": "Uložiť skupiny",
+      "saved": "Skupiny boli uložené",
+      "clear": "Sprístupniť všetkým",
+      "cleared": "Opäť je to pre všetky skupiny",
+      "cancel": "Zrušiť"
+    },
+    "sight": {
+      "button": "Kto to vidí",
+      "named": "Kto vidí {title}",
+      "summary": "Otvoriť to teraz môže {canOpen} z {students} študentov",
+      "detail": "{seeTitle} vidí len názov · {seeNothing} nevidí nič",
+      "student": "Študent",
+      "now": "Teraz",
+      "why": "Prečo",
+      "full": "Môže otvoriť",
+      "title": "Vidí názov",
+      "none": "Nevidí nič",
+      "hidden": "Skryté pred študentmi",
+      "scheduled": "Otvorí sa {when}",
+      "ended": "Už nie je dostupné",
+      "viaSection": "Pre nastavenie sekcie",
+      "filter": "Nájsť študenta",
+      "filterPlaceholder": "Meno alebo e-mail",
+      "empty": "Žiadny študent nezodpovedá.",
+      "noStudents": "Na tento predmet zatiaľ nie je nikto zapísaný.",
+      "errorTitle": "Nepodarilo sa zistiť, kto to vidí",
+      "errorDescription": "Skúste to o chvíľu znova.",
+      "close": "Zavrieť",
+      "tableLabel": "Študenti a čo vidia"
+    },
+    "markedItem": "Zadanie alebo test"
   },
   "assignments": {
     "title": "Zadania",
@@ -2085,6 +2401,19 @@
       "feedback": "Čo sa podarilo a čo treba opraviť."
     }
   },
+  "teacherProfile": {
+    "courses": "Predmety",
+    "departments": "Katedry",
+    "noCourses": "Nie sú evidované žiadne predmety.",
+    "filter": "Filtrovať predmety",
+    "filterPlaceholder": "Názov alebo kód",
+    "noMatch": "Žiadny predmet nezodpovedá „{query}“.",
+    "coursesError": "Predmety sa nepodarilo načítať.",
+    "notFoundTitle": "Taký vyučujúci neexistuje",
+    "notFoundDescription": "Nikto s týmto profilom v tejto inštitúcii neučí.",
+    "errorTitle": "Profil sa nepodarilo načítať",
+    "errorDescription": "Skúste to o chvíľu znova."
+  },
   "search": {
     "title": "Vyhľadávanie",
     "subtitle": "Predmety, programy, ľudia, miestnosti – všetko, čo smiete vidieť.",
@@ -2096,10 +2425,16 @@
     "nothing": "Dopytu „{query}“ nič nezodpovedá.",
     "truncated": "Zhôd je viac, než sa zobrazuje. Skúste dlhší dopyt.",
     "notSearched": "Nevyhľadávalo sa v nich, lebo vaša rola nezahŕňa ich čítanie:",
+    "tip": "Skúste kód predmetu, napríklad FEI-P106, študijný program, vyučujúceho alebo miestnosť.",
+    "recentQueries": "Nedávne vyhľadávania",
+    "clearRecent": "Vymazať históriu",
+    "recentlyOpened": "Naposledy otvorené",
+    "yourCourses": "Vaše predmety v tomto semestri",
     "kind": {
       "course": "Predmety",
       "offering": "V ponuke",
       "program": "Programy",
+      "teacher": "Vyučujúci",
       "person": "Ľudia",
       "orgUnit": "Útvary",
       "room": "Miestnosti"
@@ -2130,7 +2465,8 @@
       "examAttendanceRecorded": "Zaznamenaná účasť na skúške",
       "personalDataErased": "Osobné údaje vymazané",
       "discussionHidden": "Skrytý príspevok v diskusii",
-      "discussionRestored": "Obnovený príspevok v diskusii"
+      "discussionRestored": "Obnovený príspevok v diskusii",
+      "learningSpaceImported": "Stránka predmetu importovaná"
     }
   },
   "personalData": {
@@ -2304,6 +2640,18 @@
     }
   },
   "discussion": {
+    "replyAction": "Odpovedať",
+    "replyTo": "Odpovedať používateľovi {name}",
+    "replyCount": "{count, plural, one {# odpoveď} few {# odpovede} other {# odpovedí}}",
+    "replyingTo": "Odpoveď pre {name}",
+    "cancelReply": "Zrušiť odpoveď",
+    "inReplyTo": "V odpovedi na {name}",
+    "quotedDeleted": "Odstránená správa",
+    "quotedHidden": "Skrytá správa",
+    "repliesError": "Odpovede sa nepodarilo načítať.",
+    "filterThreads": "Filtrovať témy",
+    "filterThreadsPlaceholder": "Názov",
+    "noThreadMatch": "Žiadna téma nezodpovedá „{query}“.",
     "title": "Diskusia",
     "description": "Otázky a odpovede medzi ľuďmi tohto predmetu. Vyučujúci môže skryť príspevky, ktoré sem nepatria.",
     "empty": "Zatiaľ nikto nezačal tému.",
@@ -2365,5 +2713,679 @@
     "confirmBody": "Antivírus tento súbor zatiaľ neskontroloval. Otvorte ho, len ak dôverujete tomu, kto ho nahral.",
     "downloadAnyway": "Stiahnuť aj tak",
     "cancel": "Zrušiť"
+  },
+  "hubs": {
+    "structure": {
+      "title": "Štruktúra",
+      "subtitle": "Ako je inštitúcia zložená: jej útvary, miestnosti a obdobia.",
+      "tabs": {
+        "units": "Útvary",
+        "rooms": "Miestnosti",
+        "terms": "Obdobia"
+      }
+    },
+    "offer": {
+      "title": "Ponuka výučby",
+      "subtitle": "Čo inštitúcia učí: programy a predmety, ich inštancie v každom semestri a stránky predmetov za nimi.",
+      "deniedTitle": "Nie je vám dostupné",
+      "deniedDescription": "Vaša rola nezahŕňa čítanie ponuky výučby.",
+      "tabs": {
+        "catalogue": "Programy a predmety",
+        "offerings": "Inštancie",
+        "learning": "Stránky predmetov"
+      }
+    },
+    "people": {
+      "title": "Ľudia",
+      "subtitle": "Všetci v inštitúcii, pozvanie niekoho nového a čo kto smie robiť.",
+      "tabs": {
+        "directory": "Adresár",
+        "invite": "Pozvať",
+        "roles": "Roly"
+      }
+    },
+    "institution": {
+      "title": "Inštitúcia",
+      "subtitle": "Vlastné nastavenia inštitúcie, hromadné zadávanie údajov a záznam o tom, čo sa zmenilo.",
+      "tabs": {
+        "settings": "Nastavenia",
+        "bulk": "Hromadné zadávanie",
+        "audit": "Audítorská stopa"
+      }
+    }
+  },
+  "completion": {
+    "progress": "Hotovo {done} z {total}",
+    "courseProgress": "Váš postup",
+    "sectionProgress": "Postup v {title}",
+    "markDone": "Označiť ako hotové",
+    "done": "Hotové",
+    "markDoneNamed": "Označiť {title} ako hotové",
+    "state": {
+      "done": "Hotové",
+      "passed": "Splnené",
+      "failed": "Pod hranicou úspešnosti"
+    },
+    "todo": {
+      "viewed": "Hotové, keď to otvoríte",
+      "submitted": "Hotové, keď to odovzdáte",
+      "marked": "Hotové, keď to bude ohodnotené",
+      "passed": "Hotové pri hodnotení aspoň {points} b."
+    },
+    "rule": {
+      "none": "Nesleduje sa",
+      "manual": "Študent to označí ako hotové",
+      "viewed": "Keď to študent otvorí",
+      "submitted": "Keď je práca odovzdaná",
+      "marked": "Keď je to ohodnotené",
+      "passed": "Keď hodnotenie dosiahne hranicu úspešnosti"
+    },
+    "ruleBadge": {
+      "manual": "Hotové: označí študent",
+      "viewed": "Hotové: po otvorení",
+      "submitted": "Hotové: po odovzdaní",
+      "marked": "Hotové: po ohodnotení"
+    },
+    "ruleBadgePassed": "Hotové: hodnotenie aspoň {points} b.",
+    "field": {
+      "rule": "Dokončenie",
+      "passPoints": "Body na splnenie",
+      "ruleHint": "Ako študent získa pri tejto položke označenie hotové. Postup počíta len položky s podmienkou dokončenia."
+    },
+    "ruleOfNamed": "Dokončenie pre {title}",
+    "saved": "Podmienka dokončenia bola uložená",
+    "passPointsRequired": "Uveďte, koľko bodov stačí na splnenie",
+    "passPointsAboveMax": "Hranica úspešnosti je vyššia, než koľko bodov zadanie má",
+    "report": {
+      "title": "Dokončenie",
+      "description": "Ktorí študenti dokončili jednotlivé sledované položky. Zahrnuté sú aj skryté položky; študenti vidia len to, čo môžu otvoriť.",
+      "filter": "Filtrovať študentov",
+      "filterPlaceholder": "Meno alebo e-mail",
+      "tableLabel": "Dokončenie podľa študenta a položky",
+      "student": "Študent",
+      "done": "Hotové",
+      "doneOf": "{done} z {total}",
+      "hidden": "Skryté",
+      "empty": "Žiadny študent nezodpovedá.",
+      "nothingTracked": "Zatiaľ žiadna položka nesleduje dokončenie. Nastavte podmienku dokončenia pri materiáli alebo zadaní v časti Obsah.",
+      "noSpace": "Najprv otvorte stránku predmetu; dokončenie sa sleduje pri jej položkách.",
+      "errorTitle": "Dokončenie sa nepodarilo načítať",
+      "errorDescription": "Skúste to o chvíľu znova.",
+      "cell": {
+        "complete": "Hotové",
+        "complete_pass": "Splnené",
+        "complete_fail": "Pod hranicou úspešnosti",
+        "incomplete": "Nehotové"
+      },
+      "completedOn": "{when}"
+    }
+  },
+  "studentView": {
+    "open": "Zobraziť ako študent",
+    "pickerTitle": "Zobraziť stránku ako",
+    "pickerDescription": "Náhľad iba na čítanie: skryté, naplánované, zamknuté a skupinové položky presne tak, ako ich daný študent vidí teraz.",
+    "newStudent": "Nový študent",
+    "newStudentHint": "Zatiaľ bez postupu a bez skupiny",
+    "filter": "Nájsť študenta",
+    "filterPlaceholder": "Meno alebo e-mail",
+    "empty": "Žiadny študent nezodpovedá.",
+    "studentsError": "Študentov sa nepodarilo načítať. Skúste to o chvíľu znova.",
+    "close": "Zavrieť",
+    "viewingAs": "Zobrazené ako {name}",
+    "viewingAsNew": "Zobrazené ako nový študent",
+    "readOnly": "Iba na čítanie. Takto stránku vidí teraz; nič, čo tu urobíte, sa mu nezaznamená.",
+    "back": "Späť na úpravy",
+    "another": "Vybrať iného študenta",
+    "error": "Stránku sa nepodarilo zobraziť ako tento študent."
+  },
+  "courseImport": {
+    "open": "Preniesť z iného predmetu",
+    "title": "Preniesť z iného predmetu",
+    "description": "Skopírujte do tejto stránky osnovu inej stránky predmetu, ktorý vyučujete: sekcie, materiály a ich súbory, zadania, testy a banku otázok. Nič z práce študentov sa nekopíruje a kópie sa pridajú za existujúci obsah.",
+    "close": "Zavrieť",
+    "filter": "Filtrovať predmety",
+    "filterPlaceholder": "Predmet, kód alebo obdobie",
+    "sourcesError": "Predmety sa nepodarilo načítať.",
+    "empty": "Žiadna iná stránka predmetu, ktorý vyučujete, nezodpovedá.",
+    "sameCourse": "Rovnaký predmet",
+    "unpublished": "Nezverejnené",
+    "sourceTerm": "{term} · {code}",
+    "previewTitle": "Preniesť z {name}",
+    "keepVisibility": "Ponechať každú sekciu a položku zobrazenú alebo skrytú ako predtým",
+    "confirm": "Preniesť",
+    "importing": "Prenáša sa…",
+    "back": "Vybrať iný predmet",
+    "done": "Obsah predmetu bol prenesený",
+    "doneTitle": "Prenesené z {name}",
+    "nothing": "Táto stránka predmetu nemá čo kopírovať.",
+    "countsLabel": "Čo sa skopíruje",
+    "counts": {
+      "sections": "{count, plural, one {# sekcia} few {# sekcie} other {# sekcií}}",
+      "materials": "{count, plural, one {# materiál} few {# materiály} other {# materiálov}}",
+      "files": "{count, plural, one {# súbor} few {# súbory} other {# súborov}}",
+      "assignments": "{count, plural, one {# zadanie} few {# zadania} other {# zadaní}}",
+      "quizzes": "{count, plural, one {# test} few {# testy} other {# testov}}",
+      "questionCategories": "{count, plural, one {# kategória otázok} few {# kategórie otázok} other {# kategórií otázok}}",
+      "questions": "{count, plural, one {# otázka} few {# otázky} other {# otázok}}"
+    },
+    "shiftLater": "Dátumy sa posunú o {count, plural, one {{days} deň} few {{days} dni} other {{days} dní}} neskôr – o rozdiel medzi začiatkami oboch období.",
+    "shiftEarlier": "Dátumy sa posunú o {count, plural, one {{days} deň} few {{days} dni} other {{days} dní}} skôr – o rozdiel medzi začiatkami oboch období.",
+    "sameStart": "Dátumy zostanú bez zmeny: obe obdobia sa začínajú v ten istý deň.",
+    "noShift": "Dátumy zostanú bez zmeny: jeden z predmetov nemá obdobie, od ktorého by sa dalo počítať.",
+    "shiftedDates": "{count, plural, one {Posunie sa # dátum.} few {Posunú sa # dátumy.} other {Posunie sa # dátumov.}}",
+    "remapped": "{count, plural, one {# pravidlo prístupu odkazuje na kópie.} few {# pravidlá prístupu odkazujú na kópie.} other {# pravidiel prístupu odkazuje na kópie.}}",
+    "hiddenNote": "Každá skopírovaná sekcia aj všetko mimo sekcií bude pred študentmi skryté, kým to nezobrazíte.",
+    "visibleNote": "Sekcie a položky si ponechajú pôvodnú viditeľnosť, takže ich študenti môžu vidieť hneď.",
+    "flagsLabel": "Oplatí sa skontrolovať",
+    "flags": {
+      "file_not_scanned": "Neskopírované: ešte nebolo skontrolované na malvér. Po kontrole ho preneste znova.",
+      "file_infected": "Neskopírované: zistená infekcia.",
+      "file_missing": "Neskopírované: súbor už nie je uložený.",
+      "group_dropped": "Študijná skupina v tomto predmete neexistuje, preto bola vynechaná a položka je skrytá.",
+      "reference_missing": "Čaká na niečo, čo sa neskopírovalo, preto zostáva zamknuté.",
+      "category_renamed": "Kategória otázok bola premenovaná: názov tu už existuje.",
+      "slot_dropped": "Otázka testu bola vynechaná: jej otázka sa neskopírovala."
+    },
+    "more": "a {count, plural, one {# ďalší} few {# ďalšie} other {# ďalších}}"
+  },
+  "quiz": {
+    "badge": "Test",
+    "noTimeLimit": "Bez časového limitu",
+    "timeLimit": "{minutes, plural, one {# minúta} few {# minúty} other {# minút}}",
+    "attempts": "{count, plural, one {# pokus} few {# pokusy} other {# pokusov}}",
+    "attemptsUnlimited": "Neobmedzený počet pokusov",
+    "questions": {
+      "title": "Otázky",
+      "description": "Čo pokus obsahuje a v akom poradí: otázky vybrané z banky alebo počet otázok náhodne vyžrebovaných z kategórie pre každý pokus.",
+      "totals": "{count, plural, =0 {Zatiaľ žiadne otázky} one {# otázka} few {# otázky} other {# otázok}} · spolu {marks} bodov",
+      "filter": "Hľadať otázku v tomto teste",
+      "filterPlaceholder": "Otázka alebo kategória",
+      "error": "Otázky sa nepodarilo načítať. Skúste to o chvíľu znova.",
+      "empty": "Zatiaľ žiadne otázky. Pridajte niektoré z banky.",
+      "noMatch": "Žiadna otázka nezodpovedá.",
+      "listLabel": "Otázky v teste {name}",
+      "random": "{count, plural, one {# náhodná otázka} few {# náhodné otázky} other {# náhodných otázok}} z kategórie {category}",
+      "typeAndVersion": "{type} · verzia {version}",
+      "mark": "Body",
+      "markEach": "Body za každú",
+      "moveUpNamed": "Posunúť {title} vyššie",
+      "moveDownNamed": "Posunúť {title} nižšie",
+      "remove": "Vybrať",
+      "removeNamed": "Vybrať {title} z testu",
+      "addFromBank": "Pridať z banky",
+      "addRandom": "Pridať náhodné otázky",
+      "cancel": "Zavrieť",
+      "bank": {
+        "label": "Otázky v banke",
+        "filter": "Hľadať otázku",
+        "filterPlaceholder": "Názov alebo text",
+        "type": "Typ",
+        "anyType": "Akýkoľvek typ",
+        "empty": "Žiadna otázka nezodpovedá. Najprv napíšte otázky v banke otázok.",
+        "meta": "{type} · {category} · {mark, plural, one {# bod} few {# body} other {# bodov}}",
+        "add": "Pridať",
+        "addNamed": "Pridať {name} do testu",
+        "added": "Otázka bola pridaná"
+      },
+      "randomDraw": {
+        "label": "Vyžrebovať náhodné otázky",
+        "category": "Z kategórie",
+        "count": "Koľko",
+        "mark": "Body za každú",
+        "add": "Pridať výber",
+        "added": "Náhodné otázky boli pridané"
+      }
+    },
+    "grading": {
+      "highest": "Platí najvyššie hodnotenie",
+      "last": "Platí posledný pokus",
+      "average": "Platí priemer pokusov"
+    },
+    "opens": "Otvára sa {when}",
+    "closes": "Zatvára sa {when}",
+    "form": {
+      "label": "Pridať test",
+      "editLabel": "Nastavenia testu {name}",
+      "name": "Názov",
+      "namePlaceholder": "Test – 1. týždeň",
+      "brief": "Čo si študenti prečítajú pred začatím",
+      "opensAt": "Otvára sa na pokusy",
+      "closesAt": "Zatvára sa (termín)",
+      "timeLimitMinutes": "Časový limit (minúty)",
+      "timeLimitMinutesHint": "Nechajte prázdne, ak bez limitu.",
+      "maxAttempts": "Povolený počet pokusov",
+      "maxAttemptsHint": "Nechajte prázdne pre neobmedzený počet pokusov.",
+      "maxPoints": "Body v hodnotení predmetu",
+      "maxPointsHint": "Body za otázky sa prepočítajú na túto hodnotu.",
+      "gradingMethod": "Pri viacerých pokusoch",
+      "shuffleQuestions": "Zamiešať poradie otázok",
+      "shuffleChoices": "Zamiešať možnosti v rámci otázky",
+      "countsTowardFinalGrade": "Započítava sa do výslednej známky",
+      "visible": "Zobraziť tento test študentom",
+      "create": "Pridať test",
+      "created": "Test bol pridaný",
+      "save": "Uložiť nastavenia",
+      "saved": "Test bol uložený",
+      "layout": "Otázky na stránku",
+      "layouts": {
+        "one_per_page": "Jedna otázka na stránku",
+        "all_on_one": "Všetky otázky na jednej stránke"
+      }
+    },
+    "actions": {
+      "hide": "Skryť pred študentmi",
+      "show": "Zobraziť študentom",
+      "remove": "Odstrániť test",
+      "removed": "{name} bol odstránený"
+    },
+    "editor": {
+      "title": "Test",
+      "description": "Jeho otázky a kedy a ako ho študenti píšu.",
+      "settings": "Nastavenia",
+      "denied": "Testy predmetu môžu upravovať iba jeho vyučujúci.",
+      "error": "Tento test sa nepodarilo načítať. Možno bol odstránený.",
+      "bank": "Banka otázok",
+      "back": "Späť na predmet"
+    },
+    "questionCount": "{count, plural, one {# otázka} few {# otázky} other {# otázok}}",
+    "new": {
+      "label": "Pridať test",
+      "name": "Názov",
+      "namePlaceholder": "Test – 1. týždeň",
+      "create": "Pridať test",
+      "hint": "Na začiatku je skrytý pred študentmi. Jeho nastavenia a otázky sa zadávajú na samostatnej stránke.",
+      "created": "Test {name} bol pridaný, skrytý pred študentmi.",
+      "setUp": "Nastaviť {name}: otázky a nastavenia"
+    },
+    "take": {
+      "start": "Začať pokus",
+      "continue": "Pokračovať v pokuse",
+      "left": "{count, plural, one {Zostáva # pokus} few {Zostávajú # pokusy} other {Zostáva # pokusov}}",
+      "open": "Pokusy sú otvorené.",
+      "blocked": {
+        "upcoming": "Pokusy sa otvoria {when}.",
+        "closed": "Tento test je už uzavretý.",
+        "no_attempts_left": "Využili ste všetky pokusy.",
+        "no_questions": "Tento test zatiaľ nemá žiadne otázky."
+      },
+      "mine": {
+        "title": "Vaše pokusy",
+        "filter": "Zobraziť",
+        "all": "Všetky pokusy",
+        "in_progress": "Prebieha",
+        "finished": "Odovzdané",
+        "label": "Vaše pokusy v teste {name}",
+        "row": "Pokus {number}",
+        "started": "Prebieha od {when}",
+        "submitted": "Odovzdané {when}",
+        "noMatch": "Žiadny pokus nezodpovedá.",
+        "error": "Vaše pokusy sa nepodarilo načítať.",
+        "review": "Prehľad pokusu {number}",
+        "score": "{points} z {max}",
+        "awaiting": "Čaká na hodnotenie"
+      },
+      "title": "Pokus {number}",
+      "timer": {
+        "label": "Zostávajúci čas",
+        "none": "Bez časového limitu",
+        "minutesLeft": "{count, plural, one {Zostáva # minúta} few {Zostávajú # minúty} other {Zostáva # minút}}",
+        "secondsLeft": "{count, plural, one {Zostáva # sekunda} few {Zostávajú # sekundy} other {Zostáva # sekúnd}}",
+        "expired": "Čas vypršal. Vaše uložené odpovede sa odovzdávajú."
+      },
+      "nav": {
+        "label": "Otázky",
+        "item": "Otázka {number}, {state}",
+        "answered": "zodpovedaná",
+        "unanswered": "nezodpovedaná",
+        "progress": "Zodpovedané {answered} z {total}"
+      },
+      "question": {
+        "heading": "Otázka {number}",
+        "marks": "{count, plural, one {# bod} few {# body} other {# bodov}}",
+        "answer": "Vaša odpoveď",
+        "number": "Vaša odpoveď ako číslo",
+        "numberHint": "Napríklad 3.5 alebo 3,5",
+        "essay": "Vaša odpoveď",
+        "true": "Pravda",
+        "false": "Nepravda",
+        "choose": "Vyberte odpoveď",
+        "pickAll": "Vyberte všetky odpovede, ktoré platia."
+      },
+      "save": {
+        "saving": "Ukladá sa…",
+        "saved": "Uložené",
+        "error": "Neuložené.",
+        "retry": "Skúsiť znova"
+      },
+      "previous": "Predchádzajúca otázka",
+      "next": "Ďalšia otázka",
+      "finish": "Dokončiť pokus",
+      "confirm": {
+        "title": "Odovzdať pokus?",
+        "allAnswered": "Všetky otázky majú odpoveď.",
+        "unanswered": "{count, plural, one {# otázka nemá odpoveď:} few {# otázky nemajú odpoveď:} other {# otázok nemá odpoveď:}}",
+        "goTo": "Otázka {number}",
+        "note": "Po odovzdaní už odpovede nemožno zmeniť.",
+        "submit": "Odovzdať pokus",
+        "back": "Späť na otázky"
+      },
+      "missing": "{count, plural, one {# otázku} few {# otázky} other {# otázok}} sa pre tento pokus nepodarilo vyžrebovať, preto sa hodnotí iba z otázok, ktoré obsahuje.",
+      "end": {
+        "title": "Pokus {number} je odovzdaný",
+        "student": "Odovzdali ste ho {when}.",
+        "time_limit": "Časový limit vypršal {when} a vaše uložené odpovede boli odovzdané.",
+        "quiz_close": "Test sa uzavrel {when} a vaše uložené odpovede boli odovzdané.",
+        "back": "Späť na predmet"
+      },
+      "error": "Tento pokus sa nepodarilo načítať. Možno nie je váš alebo je test teraz skrytý.",
+      "submitError": "Pokus sa nepodarilo odovzdať. Skúste to znova."
+    },
+    "attemptList": {
+      "title": "Pokusy",
+      "description": "Pokusy všetkých študentov, od najnovších. Filter Čaká na hodnotenie ukáže eseje, ktoré čakajú na vás.",
+      "filter": "Hľadať študenta",
+      "filterPlaceholder": "Meno alebo e-mail",
+      "state": "Stav",
+      "any": "Akýkoľvek stav",
+      "in_progress": "Prebieha",
+      "finished": "Uzavreté",
+      "label": "Pokusy v teste {name}",
+      "student": "Študent",
+      "attempt": "Pokus",
+      "started": "Začatý",
+      "status": "Stav",
+      "score": "Výsledok",
+      "points": "{points} z {max}",
+      "provisional": "{points} z {max}, predbežne",
+      "needsMarking": "Esej čaká na hodnotenie",
+      "closedBy": {
+        "student": "Odovzdané",
+        "time_limit": "Čas vypršal",
+        "quiz_close": "Test sa uzavrel"
+      },
+      "running": "Prebieha",
+      "empty": "Zatiaľ žiadne pokusy.",
+      "noMatch": "Žiadny pokus nezodpovedá.",
+      "error": "Pokusy sa nepodarilo načítať.",
+      "needs_marking": "Čaká na hodnotenie",
+      "actions": "Akcie",
+      "mark": "Ohodnotiť",
+      "open": "Otvoriť",
+      "markLabel": "Ohodnotiť pokus {number} – {name}",
+      "openLabel": "Otvoriť pokus {number} – {name}"
+    },
+    "review": {
+      "title": "Prehľad pokusu",
+      "error": "Prehľad pokusu sa nepodarilo načítať.",
+      "mark": "Vaše hodnotenie: {points} z {max} ({raw} z {maxMarks} bodov za otázky)",
+      "markHidden": "Tento test tu vaše hodnotenie nezobrazuje.",
+      "awaitingMarking": "Váš pokus čaká na hodnotenie vyučujúcim; hodnotenie sa zobrazí, keď bude ohodnotený.",
+      "revealsAt": "Viac sa zobrazí po uzavretí testu, {when}.",
+      "noQuestions": "Tento test nezobrazuje otázky s vašimi odpoveďami.",
+      "awarded": "{awarded} z {mark} bodov",
+      "outcome": {
+        "right": "Správne",
+        "partial": "Čiastočne správne",
+        "wrong": "Nesprávne",
+        "not_answered": "Bez odpovede",
+        "needs_marking": "Čaká na hodnotenie"
+      },
+      "rightAnswer": "Správna odpoveď",
+      "comment": "Komentár hodnotiteľa:"
+    },
+    "reviewOptions": {
+      "title": "Čo študenti uvidia po pokuse",
+      "hint": "Každá časť sa zobrazí hneď po odovzdaní pokusu, po uzavretí testu alebo nikdy. Test bez uzavretia nikdy nedosiahne „po uzavretí testu“. Zadržané hodnotenie sa nezapočíta do známok študenta, kým sa nemôže zobraziť.",
+      "option": {
+        "responses": "Ich odpovede",
+        "correctness": "Správne či nesprávne a body za každú otázku",
+        "correctAnswer": "Správne odpovede",
+        "feedback": "Spätná väzba a komentáre hodnotiteľa",
+        "overallMark": "Hodnotenie pokusu"
+      },
+      "timing": {
+        "immediately": "Hneď po odovzdaní",
+        "after_close": "Po uzavretí testu",
+        "never": "Nikdy"
+      }
+    },
+    "marking": {
+      "title": "Ohodnotiť pokus",
+      "error": "Tento pokus sa nepodarilo načítať.",
+      "student": "{name}, pokus {number}",
+      "running": "Tento pokus ešte prebieha; ohodnotiť ho možno po jeho uzavretí.",
+      "awaiting": "{count, plural, one {# otázka čaká} few {# otázky čakajú} other {# otázok čaká}} na vaše hodnotenie; dovtedy sa pokus nezapočíta do hodnotenia predmetu.",
+      "total": "Spolu: {points} z {max} ({raw} z {maxMarks} bodov za otázky)",
+      "answer": "Odpoveď študenta",
+      "outcome": "Hodnotenie",
+      "automatic": "Automatické hodnotenie",
+      "none": "Bez odpovede",
+      "formLabel": "Ohodnotiť otázku {number}",
+      "mark": "Body",
+      "override": "Zmeniť hodnotenie",
+      "outOf": "Z {mark}",
+      "comment": "Komentár pre študenta (nepovinné)",
+      "reason": "Prečo sa hodnotenie mení",
+      "range": "Zadajte body od 0 do {mark}.",
+      "reasonRequired": "Uveďte, prečo sa automatické hodnotenie mení.",
+      "save": "Uložiť hodnotenie",
+      "clearMark": "Odstrániť hodnotenie",
+      "clearOverride": "Vrátiť automatické hodnotenie",
+      "saved": "Hodnotenie bolo uložené"
+    },
+    "regrade": {
+      "title": "Od niektorých pokusov sa otázky zmenili",
+      "outdated": "{count, plural, one {# uzavretý pokus použil} few {# uzavreté pokusy použili} other {# uzavretých pokusov použilo}} staršiu verziu otázky.",
+      "preview": "Prehodnotenie ich porovná s najnovšími kľúčmi odpovedí: {attempts, plural, one {# pokusu sa zmení výsledok} few {# pokusom sa zmení výsledok} other {# pokusom sa zmení výsledok}} a {students, plural, one {# študentovi známka} few {# študentom známka} other {# študentom známka}}.",
+      "range": "Najväčší nárast je {rise} bodov, najväčší pokles {fall}.",
+      "incompatible": "{count, plural, one {# otázku nemožno prehodnotiť} few {# otázky nemožno prehodnotiť} other {# otázok nemožno prehodnotiť}}: nová verzia má iný počet možností alebo dvojíc.",
+      "overrides": "Ručne zmenené hodnotenie zostáva. Opakované prehodnotenie nič nezmení.",
+      "start": "Prehodnotiť…",
+      "confirmLabel": "Potvrdiť prehodnotenie",
+      "confirm": "Prehodnotiť {count, plural, one {# pokus} few {# pokusy} other {# pokusov}}?",
+      "apply": "Prehodnotiť teraz",
+      "cancel": "Zrušiť",
+      "done": "Prehodnotené. {count, plural, one {Zmenila sa známka # študenta.} few {Zmenili sa známky # študentov.} other {Zmenili sa známky # študentov.}}"
+    },
+    "results": {
+      "title": "Výsledky podľa otázok",
+      "description": "Ako dopadla každá otázka v uzavretých pokusoch.",
+      "filter": "Hľadať otázku",
+      "filterPlaceholder": "Názov alebo text",
+      "label": "Výsledky podľa otázok v teste {name}",
+      "question": "Otázka",
+      "attempts": "Pokusy",
+      "fullyRight": "Úplne správne",
+      "average": "Priemerné body",
+      "chosen": "Zvolené odpovede",
+      "percent": "{value} %",
+      "awaiting": "Čaká na hodnotenie: {count}",
+      "averageOf": "{mark} z {outOf}",
+      "option": "{label}: {count}",
+      "right": "správna",
+      "unanswered": "Bez odpovede: {count}",
+      "empty": "Zatiaľ žiadne uzavreté pokusy.",
+      "noMatch": "Žiadna otázka nezodpovedá.",
+      "error": "Výsledky sa nepodarilo načítať."
+    }
+  },
+  "questionBank": {
+    "open": "Banka otázok",
+    "picker": {
+      "filter": "Nájsť kategóriu",
+      "category": "Kategória",
+      "choose": "Vybrať…",
+      "option": "{name} ({count, plural, one {# otázka} few {# otázky} other {# otázok}})",
+      "more": "Načítať ďalšie kategórie"
+    },
+    "type": {
+      "single_choice": "Výber jednej odpovede",
+      "multiple_choice": "Výber viacerých odpovedí",
+      "true_false": "Pravda/nepravda",
+      "short_answer": "Krátka odpoveď",
+      "numerical": "Číselná odpoveď",
+      "matching": "Priraďovanie",
+      "essay": "Esej"
+    },
+    "editor": {
+      "label": "Napísať otázku",
+      "editLabel": "Upraviť {name}",
+      "type": "Typ",
+      "typeFixed": "Typ otázky sa nedá zmeniť. Ak ho chcete iný, napíšte novú otázku.",
+      "category": "Kategória",
+      "name": "Názov v banke",
+      "defaultMark": "Predvolené body",
+      "text": "Otázka",
+      "generalFeedback": "Spätná väzba pre všetkých, zobrazí sa po pokuse",
+      "choicesSingle": "Možnosti (správna je práve jedna)",
+      "choicesMultiple": "Možnosti (správna je jedna alebo viac)",
+      "choiceText": "Možnosť {number}",
+      "choiceFeedback": "Spätná väzba k možnosti {number}",
+      "feedbackPlaceholder": "Spätná väzba pri výbere tejto možnosti (nepovinné)",
+      "correct": "Správna",
+      "remove": "Odstrániť",
+      "removeChoice": "Odstrániť možnosť {number}",
+      "addChoice": "Pridať možnosť",
+      "statementIs": "Tvrdenie je",
+      "true": "Pravda",
+      "false": "Nepravda",
+      "trueFeedback": "Spätná väzba pri odpovedi pravda",
+      "falseFeedback": "Spätná väzba pri odpovedi nepravda",
+      "acceptedAnswers": "Akceptované odpovede",
+      "acceptedAnswersHint": "Jedna na riadok. Ktorákoľvek z nich získa plný počet bodov.",
+      "caseSensitive": "Rozlišovať veľké a malé písmená",
+      "value": "Odpoveď",
+      "tolerance": "Povolená odchýlka (±)",
+      "pairs": "Dvojice na priradenie",
+      "pairPrompt": "Výraz {number}",
+      "pairAnswer": "Jeho dvojica {number}",
+      "promptPlaceholder": "Zásobník",
+      "answerPlaceholder": "Posledný dnu, prvý von",
+      "removePair": "Odstrániť dvojicu {number}",
+      "addPair": "Pridať dvojicu",
+      "essayNote": "Esej nemá kľúč správnych odpovedí; hodnotí ju vyučujúci ručne.",
+      "versionNote": "Uložením vznikne nová verzia. Už vykonané pokusy si ponechajú verziu, ktorá v nich bola položená.",
+      "create": "Pridať otázku",
+      "created": "Otázka bola pridaná",
+      "save": "Uložiť ako novú verziu",
+      "saved": "Otázka bola uložená",
+      "cancel": "Zrušiť",
+      "issue": {
+        "category": "Vyberte kategóriu.",
+        "name": "Zadajte názov otázky.",
+        "text": "Napíšte otázku.",
+        "defaultMark": "Predvolené body musia byť viac ako nula.",
+        "choicesEmpty": "Zadajte aspoň dve možnosti, žiadnu prázdnu.",
+        "oneCorrect": "Označte ako správnu práve jednu možnosť.",
+        "someCorrect": "Označte ako správnu aspoň jednu možnosť.",
+        "acceptedAnswers": "Zadajte aspoň jednu akceptovanú odpoveď.",
+        "value": "Zadajte odpoveď ako číslo.",
+        "tolerance": "Povolená odchýlka musí byť nula alebo viac.",
+        "pairs": "Zadajte aspoň dve úplné dvojice."
+      }
+    },
+    "title": "Banka otázok",
+    "description": "Otázky, z ktorých čerpajú testy tohto predmetu, usporiadané do kategórií. Vidia ich iba vyučujúci predmetu.",
+    "back": "Späť na predmet",
+    "denied": "Banku otázok predmetu môžu otvoriť iba jeho vyučujúci.",
+    "error": "Banku otázok sa nepodarilo načítať. Skúste to o chvíľu znova.",
+    "categories": {
+      "title": "Kategórie",
+      "addLabel": "Pridať kategóriu",
+      "newName": "Nová kategória",
+      "newNamePlaceholder": "Triedenie",
+      "add": "Pridať",
+      "added": "Kategória bola pridaná",
+      "filter": "Nájsť kategóriu",
+      "error": "Kategórie sa nepodarilo načítať.",
+      "empty": "Zatiaľ žiadne kategórie. Pridajte jednu a začnite písať otázky.",
+      "noMatch": "Žiadna kategória nezodpovedá.",
+      "listLabel": "Kategórie",
+      "row": "{name} ({count, plural, one {# otázka} few {# otázky} other {# otázok}})",
+      "rename": "Premenovať",
+      "renameNamed": "Premenovať {name}",
+      "save": "Uložiť",
+      "cancel": "Zrušiť",
+      "remove": "Odstrániť",
+      "removeNamed": "Odstrániť {name}"
+    },
+    "questions": {
+      "title": "Otázky",
+      "write": "Napísať otázku",
+      "filter": "Nájsť otázku",
+      "filterPlaceholder": "Názov alebo text",
+      "type": "Typ",
+      "anyType": "Akýkoľvek typ",
+      "inCategory": "V kategórii {name} · zobraziť všetky",
+      "error": "Otázky sa nepodarilo načítať.",
+      "empty": "Zatiaľ žiadne otázky.",
+      "noMatch": "Žiadna otázka nezodpovedá.",
+      "listLabel": "Otázky",
+      "meta": "{category} · {mark, plural, one {# bod} few {# body} many {# bodu} other {# bodov}} · verzia {version}",
+      "edit": "Upraviť",
+      "editNamed": "Upraviť {name}",
+      "close": "Zavrieť",
+      "remove": "Odstrániť",
+      "removeNamed": "Odstrániť {name}",
+      "removed": "Otázka {name} bola odstránená"
+    }
+  },
+  "planner": {
+    "tabsLabel": "Calendar and tasks",
+    "tabCalendar": "Calendar",
+    "tabTasks": "My tasks",
+    "personal": "Personal",
+    "taskLayer": "Task",
+    "showPersonal": "Show my own events and tasks",
+    "newTask": "New task",
+    "newEvent": "New event",
+    "editTask": "Edit task",
+    "editEvent": "Edit event",
+    "editNamed": "Edit “{title}”",
+    "privateHint": "Only you can see this. It is not shared with your teachers or the institution.",
+    "titleLabel": "Title",
+    "noteLabel": "Note",
+    "dueAtLabel": "Due",
+    "dueAtHint": "Optional. A task with a due time also shows in your calendar.",
+    "locationLabel": "Place",
+    "startsAtLabel": "Starts",
+    "endsAtLabel": "Ends",
+    "create": "Add",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "confirmDeleteTask": "Delete this task? This cannot be undone.",
+    "confirmDeleteEvent": "Delete this event? This cannot be undone.",
+    "confirmDelete": "Yes, delete",
+    "keep": "Keep it",
+    "taskCreated": "Task added",
+    "taskSaved": "Task saved",
+    "taskDeleted": "Task deleted",
+    "taskDone": "Task done",
+    "taskReopened": "Task reopened",
+    "eventCreated": "Event added",
+    "eventSaved": "Event saved",
+    "eventDeleted": "Event deleted",
+    "markDone": "Mark “{title}” as done",
+    "markOpen": "Mark “{title}” as not done",
+    "tasks": {
+      "title": "My tasks",
+      "description": "Your own to-dos, private to you. A task with a due time also shows in your calendar and on the dashboard.",
+      "listLabel": "Tasks",
+      "filterLabel": "Search tasks",
+      "filterPlaceholder": "Title or note",
+      "statusLabel": "Show",
+      "status": {
+        "open": "Open",
+        "done": "Done",
+        "all": "All"
+      },
+      "empty": "No tasks here yet.",
+      "noMatch": "No task matches “{query}”.",
+      "error": "Your tasks could not be loaded.",
+      "due": "Due {date}",
+      "overdue": "Overdue",
+      "noDue": "No due time"
+    }
   }
 }

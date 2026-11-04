@@ -19,12 +19,15 @@ export function ExamTermSection({
         {heading}
       </h2>
 
-      <ul className="grid gap-3 md:grid-cols-2">
+      <ul className="stagger grid gap-3 md:grid-cols-2">
         {terms.map(term => (
           <li key={term.id}>
             <ExamTermCard
               term={term}
-              href={courseOfferingHref(institutionId, term.offering.id)}
+              href={courseOfferingHref(institutionId, term.offering.id, {
+                section: 'schedule',
+                item: { kind: 'exam-term', id: term.id },
+              })}
               action={
                 <ExamRegistrationButton institutionId={institutionId} term={term} />
               }

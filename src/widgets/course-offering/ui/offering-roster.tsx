@@ -1,11 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
+import { WithdrawStudentButton } from '@/features/withdraw-enrollment';
 import {
   courseRosterQueries,
   enrolledStudents,
   RosterTable,
 } from '@/entities/course-roster';
+import { usePermissions } from '@/entities/permission';
 import {
   Card,
   CardContent,
@@ -24,6 +26,7 @@ export function OfferingRoster({
   offeringId: string;
 }) {
   const t = useTranslations('roster');
+  const { can } = usePermissions(institutionId);
   const { data, isPending, isError, refetch } = useQuery(
     courseRosterQueries.detail({ path: { institutionId, offeringId } }),
   );
@@ -60,7 +63,22 @@ export function OfferingRoster({
         ) : data.students.length === 0 ? (
           <EmptyState size="inline" title={t('empty')} />
         ) : (
-          <RosterTable students={data.students} caption={t('tableCaption')} />
+          <RosterTable
+            students={data.students}
+            caption={t('tableCaption')}
+            actionFor={
+              can('enrollment:manage')
+                ? student => (
+                    <WithdrawStudentButton
+                      institutionId={institutionId}
+                      offeringId={offeringId}
+                      enrollmentId={student.enrollmentId}
+                      studentName={student.displayName}
+                    />
+                  )
+                : undefined
+            }
+          />
         )}
       </CardContent>
     </Card>

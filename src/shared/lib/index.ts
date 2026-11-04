@@ -1,5 +1,8 @@
+export { fromLocalInput, toLocalInput } from './time/local-input';
 export { toWallTime, wallTimeToInstant, type WallTime } from './time/zoned-time';
 export { cn } from './utils/cn';
+export { initials } from './utils/initials';
+export { swapPositions } from './utils/swap-positions';
 export {
   addLogSink,
   logger,
@@ -15,3 +18,5 @@ export {
   type ValidationMessageKey,
   type ValidationTranslator,
 } from './validation/validation-message';
+export { revealTargetClassName, useRevealHashTarget } from './dom/use-reveal-hash-target';
+export { TONE_HUES, toneOf, toneStyle, type ToneHue } from './tone/tone';

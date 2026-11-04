@@ -15,7 +15,15 @@
  */
 export { Alert, AlertDescription, AlertTitle } from './alert';
 export { Badge, badgeVariants } from './badge';
+export {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from './breadcrumb';
 export { Button, buttonVariants } from './button';
+export { Choice } from './choice';
 export { Card, CardContent, CardDescription, CardHeader, CardTitle } from './card';
 export {
   Form,
@@ -39,6 +47,14 @@ export {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './dropdown-menu';
+export {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from './dialog';
 export { EmptyState } from './empty-state';
 export { Input } from './input';
 export { LoadMore } from './load-more';
@@ -53,6 +69,7 @@ export {
   SheetTrigger,
 } from './sheet';
 export { Label } from './label';
+export { LinkRow, LinkRowChevron, ToneDot } from './link-row';
 export { ListingCard, ListingNote } from './listing-card';
 export { PageHeader, PageShell } from './page-shell';
 export { PasswordInput } from './password-input';
@@ -65,6 +82,7 @@ export { Toaster } from './sonner';
 export { Switch } from './switch';
 export { Textarea } from './textarea';
 export { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
 export { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './table';
 export {
   FileScanBadge,

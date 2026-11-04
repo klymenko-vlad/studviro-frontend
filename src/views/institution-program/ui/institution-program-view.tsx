@@ -3,9 +3,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 
+import { PageTrail } from '@/widgets/page-trail';
 import { ProgramMembers } from '@/widgets/program-members';
 import { catalogueQueries } from '@/entities/catalogue';
 import { useTerminology } from '@/entities/institution-configuration';
+import { institutionRoutes } from '@/shared/config';
 import {
   Alert,
   AlertDescription,
@@ -27,9 +29,20 @@ export function InstitutionProgramView({
   const term = useTerminology(institutionId);
   const programs = useQuery(catalogueQueries.programs({ path: { institutionId } }));
   const program = programs.data?.find(candidate => candidate.id === programId);
+  const nav = useTranslations('nav');
+  const hubs = useTranslations('hubs.offer');
+  const routes = institutionRoutes(institutionId);
 
   return (
     <PageShell width="detail">
+      <PageTrail
+        crumbs={[
+          { label: nav('offer'), href: routes.offer },
+          { label: hubs('tabs.catalogue'), href: routes.catalogue },
+        ]}
+        current={program?.name}
+      />
+
       {programs.isPending ? (
         <Skeleton className="h-16 w-full" data-testid="program-loading" />
       ) : program === undefined ? (

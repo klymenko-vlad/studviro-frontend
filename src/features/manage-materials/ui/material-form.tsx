@@ -3,16 +3,19 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTimeZone, useTranslations } from 'next-intl';
 import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { AvailabilityFields } from '@/entities/availability';
+import { MATERIAL_COMPLETION_RULES } from '@/entities/completion';
 import {
   learningMaterialMutations,
   learningMaterialQueries,
   MATERIAL_KINDS,
 } from '@/entities/learning-material';
 import { toApiError, uploadViaTicket, useUploadErrorMessage } from '@/shared/api';
+import { DEFAULT_TIME_ZONE } from '@/shared/config';
 import { useZodResolver } from '@/shared/lib';
 import {
   Button,
@@ -28,7 +31,6 @@ import {
   Select,
   SelectItem,
   Switch,
-  Textarea,
 } from '@/shared/ui';
 
 import {
@@ -37,18 +39,26 @@ import {
   toMaterialPayload,
   type MaterialFormValues,
 } from '../model/schema';
+import { MaterialContentFields } from './material-content-fields';
 
 export function MaterialForm({
   institutionId,
   spaceId,
+  sectionId = null,
+  onDone,
 }: {
   institutionId: string;
   spaceId: string;
+  sectionId?: string | null;
+  onDone?: () => void;
 }) {
   const t = useTranslations('materials');
+  const tCompletion = useTranslations('completion');
+  const timeZone = useTimeZone() ?? DEFAULT_TIME_ZONE;
   const queryClient = useQueryClient();
   const describeUploadError = useUploadErrorMessage();
   const [file, setFile] = useState<File | null>(null);
+  const [folderFiles, setFolderFiles] = useState<File[]>([]);
   const [percent, setPercent] = useState<number | null>(null);
 
   const form = useForm<MaterialFormValues>({
@@ -58,14 +68,23 @@ export function MaterialForm({
 
   const ticket = useMutation(learningMaterialMutations.uploadTicket());
   const create = useMutation(learningMaterialMutations.create());
+  const addFolderFile = useMutation(learningMaterialMutations.addFolderFile());
 
   const kind = useWatch({ control: form.control, name: 'kind' });
 
   const reset = () => {
     form.reset(EMPTY_MATERIAL);
     setFile(null);
+    setFolderFiles([]);
     setPercent(null);
   };
+
+  const upload = (chosen: File) =>
+    uploadViaTicket(
+      body => ticket.mutateAsync({ path: { institutionId, spaceId }, body }),
+      chosen,
+      setPercent,
+    );
 
   /**
    * Three steps, in this order and no other: ticket, `PUT` straight to the
@@ -84,11 +103,7 @@ export function MaterialForm({
       setPercent(0);
 
       try {
-        uploaded = await uploadViaTicket(
-          body => ticket.mutateAsync({ path: { institutionId, spaceId }, body }),
-          file,
-          setPercent,
-        );
+        uploaded = await upload(file);
       } catch (error) {
         const apiError = toApiError(error);
 
@@ -102,15 +117,30 @@ export function MaterialForm({
       }
     }
 
+    let materialId: string;
     try {
-      await create.mutateAsync({
+      ({ id: materialId } = await create.mutateAsync({
         path: { institutionId, spaceId },
-        body: toMaterialPayload(values, uploaded),
-      });
+        body: toMaterialPayload(values, uploaded, timeZone, sectionId),
+      }));
     } catch (error) {
       setPercent(null);
       toast.error(describeUploadError(error));
       return;
+    }
+
+    if (values.kind === 'folder') {
+      try {
+        for (const chosen of folderFiles) {
+          const stored = await upload(chosen);
+          await addFolderFile.mutateAsync({
+            path: { institutionId, spaceId, materialId },
+            body: stored,
+          });
+        }
+      } catch (error) {
+        toast.error(describeUploadError(error));
+      }
     }
 
     toast.success(t('added'));
@@ -118,9 +148,14 @@ export function MaterialForm({
     await queryClient.invalidateQueries({
       queryKey: learningMaterialQueries.listKey({ path: { institutionId, spaceId } }),
     });
+    onDone?.();
   });
 
-  const pending = form.formState.isSubmitting || ticket.isPending || create.isPending;
+  const pending =
+    form.formState.isSubmitting ||
+    ticket.isPending ||
+    create.isPending ||
+    addFolderFile.isPending;
 
   return (
     <Form {...form} schema={materialFormSchema}>
@@ -150,23 +185,7 @@ export function MaterialForm({
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t('field.title')}</FormLabel>
-              <FormControl>
-                <Input
-                  autoComplete="off"
-                  placeholder={t('placeholder.title')}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <MaterialContentFields kind={kind} control={form.control} />
 
         <FormField
           control={form.control}
@@ -186,43 +205,6 @@ export function MaterialForm({
           )}
         />
 
-        {kind === 'link' ? (
-          <FormField
-            control={form.control}
-            name="url"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('field.url')}</FormLabel>
-                <FormControl>
-                  <Input
-                    autoComplete="off"
-                    inputMode="url"
-                    placeholder={t('placeholder.url')}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ) : null}
-
-        {kind === 'text' ? (
-          <FormField
-            control={form.control}
-            name="body"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('field.body')}</FormLabel>
-                <FormControl>
-                  <Textarea rows={4} placeholder={t('placeholder.body')} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ) : null}
-
         {kind === 'file' ? (
           <FormItem>
             <FormLabel htmlFor="material-file">{t('field.file')}</FormLabel>
@@ -240,8 +222,52 @@ export function MaterialForm({
           </FormItem>
         ) : null}
 
+        {kind === 'folder' ? (
+          <FormItem>
+            <FormLabel htmlFor="material-folder-files">
+              {t('field.folderFiles')}
+            </FormLabel>
+            <FormControl>
+              <Input
+                id="material-folder-files"
+                type="file"
+                multiple
+                onChange={event => {
+                  setFolderFiles([...(event.target.files ?? [])]);
+                }}
+              />
+            </FormControl>
+            <FormDescription>{t('field.folderFilesHint')}</FormDescription>
+          </FormItem>
+        ) : null}
+
         {percent === null ? null : (
           <Progress value={percent} aria-label={t('upload.progressLabel')} />
+        )}
+
+        <AvailabilityFields />
+
+        {kind === 'label' ? null : (
+          <FormField
+            control={form.control}
+            name="completionRule"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{tCompletion('field.rule')}</FormLabel>
+                <FormControl>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    {MATERIAL_COMPLETION_RULES.map(rule => (
+                      <SelectItem key={rule} value={rule}>
+                        {tCompletion(`rule.${rule}`)}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormDescription>{tCompletion('field.ruleHint')}</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         )}
 
         <FormField

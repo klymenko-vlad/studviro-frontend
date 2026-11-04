@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
@@ -8,7 +8,6 @@ import { toast } from 'sonner';
 
 import {
   discussionMutations,
-  discussionQueries,
   type DiscussionAddress,
   type DiscussionPost,
 } from '@/entities/discussion';
@@ -26,6 +25,7 @@ import {
 } from '@/shared/ui';
 
 import { replyFormSchema, type ReplyFormValues } from '../model/schema';
+import { useRefreshDiscussion } from '../model/use-refresh-discussion';
 
 export function EditPostForm({
   address,
@@ -39,7 +39,7 @@ export function EditPostForm({
   onDone: () => void;
 }) {
   const t = useTranslations('discussion');
-  const queryClient = useQueryClient();
+  const refresh = useRefreshDiscussion();
   const form = useForm<ReplyFormValues>({
     resolver: useZodResolver(replyFormSchema),
     defaultValues: { body: post.body ?? '' },
@@ -47,13 +47,10 @@ export function EditPostForm({
 
   const mutation = useMutation({
     ...discussionMutations.editPost(),
-    onSuccess: thread => {
-      queryClient.setQueryData(
-        discussionQueries.threadKey({ path: { ...address, threadId } }),
-        thread,
-      );
+    onSuccess: async () => {
       toast.success(t('saved'));
       onDone();
+      await refresh();
     },
     onError: error => {
       toast.error(toApiError(error).message);

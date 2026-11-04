@@ -1,41 +1,60 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
-import { PanelLeft } from 'lucide-react';
+import { useEffect, useState, type ReactNode } from 'react';
+import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { useInstitutionFeatures } from '@/entities/institution-configuration';
 import { usePermissions } from '@/entities/permission';
-import { usePathname } from '@/shared/config';
+import {
+  institutionRoutes,
+  LAST_INSTITUTION_COOKIE,
+  Link,
+  SIDEBAR_COOKIE,
+  usePathname,
+} from '@/shared/config';
+import { cn } from '@/shared/lib';
 import {
   Button,
+  Logo,
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
   Skeleton,
 } from '@/shared/ui';
 
+import { bottomTabs } from '../model/bottom-tabs';
 import { visibleNavGroups } from '../model/nav-groups';
+import { BottomTabBar } from './bottom-tab-bar';
 import { currentNavKey, NavLinks } from './nav-links';
 
 /**
  * Every screen of an institution sits beside one grouped sidebar. A wide
- * screen keeps it in view; a narrow one gets a single bar that opens the same
- * groups in a sheet, rather than seventeen tabs wrapped onto four rows.
+ * screen keeps it in view; a phone gets a tab bar at the bottom with the four
+ * screens a person returns to most, and _More_ opens the full grouped list in
+ * a sheet rising from the same edge. The wide sidebar runs the full height of
+ * the window with the brand at its head, so the header begins where it ends;
+ * it folds down to its icons and stays that way across visits.
  */
 export function InstitutionFrame({
   institutionId,
+  defaultCollapsed = false,
   children,
 }: {
   institutionId: string;
+  defaultCollapsed?: boolean;
   children: ReactNode;
 }) {
   const t = useTranslations('nav');
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(defaultCollapsed);
+
+  useEffect(() => {
+    document.cookie = `${LAST_INSTITUTION_COOKIE}=${institutionId}; path=/; max-age=31536000; samesite=lax`;
+  }, [institutionId]);
   const { can, roles, isPending } = usePermissions(institutionId);
   const features = useInstitutionFeatures(institutionId);
 
@@ -51,61 +70,97 @@ export function InstitutionFrame({
       ))}
     </div>
   ) : (
-    <NavLinks institutionId={institutionId} groups={groups} />
+    <NavLinks institutionId={institutionId} groups={groups} collapsed={collapsed} />
   );
+
+  const toggleCollapsed = () => {
+    const next = !collapsed;
+    setCollapsed(next);
+    document.cookie = `${SIDEBAR_COOKIE}=${next ? 'collapsed' : 'expanded'}; path=/; max-age=31536000; samesite=lax`;
+  };
+  const ToggleIcon = collapsed ? PanelLeftOpen : PanelLeftClose;
 
   return (
     <div data-institution-frame className="flex flex-1">
-      <aside className="border-border/60 sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-60 shrink-0 overflow-y-auto overscroll-contain border-r lg:block">
-        <nav aria-label={t('institutionLabel')} className="px-3 py-6">
+      <aside
+        data-collapsed={collapsed || undefined}
+        className={cn(
+          'bg-background border-border/60 sticky top-0 z-[45] -mt-14 hidden h-dvh shrink-0 flex-col overflow-x-hidden border-r transition-[width] duration-300 ease-(--ease-premium) motion-reduce:transition-none lg:flex',
+          collapsed ? 'w-16' : 'w-60',
+        )}
+      >
+        <div
+          className={cn(
+            'flex shrink-0 px-3',
+            collapsed
+              ? 'flex-col items-start gap-3 pt-4'
+              : 'h-14 items-center justify-between',
+          )}
+        >
+          <Link
+            href={institutionRoutes(institutionId).dashboard}
+            aria-label={t('home')}
+            className="focus-visible:ring-ring/50 ml-2 rounded-md outline-none focus-visible:ring-[3px]"
+          >
+            <Logo variant={collapsed ? 'mark' : 'full'} />
+          </Link>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleCollapsed}
+            aria-label={collapsed ? t('expandSidebar') : t('collapseSidebar')}
+            className={cn('text-muted-foreground', collapsed && 'ml-0.5')}
+          >
+            <ToggleIcon aria-hidden />
+          </Button>
+        </div>
+        <nav
+          aria-label={t('institutionLabel')}
+          className="flex-1 overflow-y-auto overscroll-contain px-3 pt-4 pb-6"
+        >
           {links}
         </nav>
       </aside>
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        <div
-          data-translucent
-          className="chrome-edge bg-background/80 sticky top-14 z-30 backdrop-blur-md lg:hidden"
-        >
-          <div className="flex w-full items-center px-4 py-2">
-            <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" disabled={isPending}>
-                  <PanelLeft aria-hidden />
-                  <span>{t('sections')}</span>
-                  {current === undefined ? null : (
-                    <span className="text-muted-foreground font-normal">
-                      · {t(current)}
-                    </span>
-                  )}
-                </Button>
-              </SheetTrigger>
+      <div className="dashboard-backdrop flex min-w-0 flex-1 flex-col">
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetContent
+            side="bottom"
+            className="max-h-[80dvh] overflow-y-auto overscroll-contain rounded-t-2xl pb-[env(safe-area-inset-bottom)]"
+          >
+            <SheetHeader>
+              <SheetTitle>{t('sections')}</SheetTitle>
+              <SheetDescription className="sr-only">
+                {t('sectionsDescription')}
+              </SheetDescription>
+            </SheetHeader>
+            <nav aria-label={t('institutionLabel')} className="px-3 pb-6">
+              <NavLinks
+                institutionId={institutionId}
+                groups={groups}
+                onNavigate={() => {
+                  setOpen(false);
+                }}
+              />
+            </nav>
+          </SheetContent>
+        </Sheet>
 
-              <SheetContent
-                side="left"
-                className="w-72 overflow-y-auto overscroll-contain"
-              >
-                <SheetHeader>
-                  <SheetTitle>{t('sections')}</SheetTitle>
-                  <SheetDescription className="sr-only">
-                    {t('sectionsDescription')}
-                  </SheetDescription>
-                </SheetHeader>
-                <nav aria-label={t('institutionLabel')} className="px-3 pb-6">
-                  <NavLinks
-                    institutionId={institutionId}
-                    groups={groups}
-                    onNavigate={() => {
-                      setOpen(false);
-                    }}
-                  />
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
+        <div className="flex flex-1 flex-col pb-[calc(4.25rem+env(safe-area-inset-bottom))] lg:pb-0">
+          {children}
         </div>
 
-        {children}
+        {isPending ? null : (
+          <BottomTabBar
+            institutionId={institutionId}
+            {...bottomTabs(groups)}
+            current={current}
+            moreOpen={open}
+            onMore={() => {
+              setOpen(true);
+            }}
+          />
+        )}
       </div>
     </div>
   );

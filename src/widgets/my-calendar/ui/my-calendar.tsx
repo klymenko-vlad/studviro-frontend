@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { CalendarDays, ChevronLeft, ChevronRight, List, Plus } from 'lucide-react';
 import { useFormatter, useTimeZone, useTranslations } from 'next-intl';
 
 import {
@@ -18,14 +19,31 @@ import { examTermQueries } from '@/entities/exam-term';
 import {
   addDays,
   addWeeks,
+  dayKey,
   startOfWeek,
   timetableEventQueries,
   type TimetableEventType,
 } from '@/entities/timetable-event';
-import { Button, EmptyState, ListSkeleton, QueryError } from '@/shared/ui';
+import { usePathname, useRouter, useSearchParams } from '@/shared/config';
+import { cn } from '@/shared/lib';
+import {
+  Button,
+  EmptyState,
+  ListSkeleton,
+  QueryError,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/shared/ui';
 
-import { groupCalendarItems } from '../model/calendar-items';
+import { groupCalendarItems, type CalendarItem } from '../model/calendar-items';
+import { usePersonalLayer } from '../model/use-personal-layer';
+import { layoutWeek } from '../model/week-layout';
 import { CalendarDaySection } from './calendar-day-section';
+import { CalendarWeekGrid } from './calendar-week-grid';
+import { PersonalEditor, type PersonalEditing } from './personal-editor';
+
+type View = 'week' | 'list';
 
 const ALL_TYPES = 'all';
 const TYPES: TimetableEventType[] = [
@@ -45,6 +63,7 @@ export function MyCalendar({
   today?: Date;
 }) {
   const t = useTranslations('calendar');
+  const tPlanner = useTranslations('planner');
   const format = useFormatter();
   const timeZone = useTimeZone() ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
   const [from, setFrom] = useState(() => startOfWeek(today));
@@ -52,7 +71,23 @@ export function MyCalendar({
   const [type, setType] = useState<string>(ALL_TYPES);
   const [showExams, setShowExams] = useState(true);
   const [showDeadlines, setShowDeadlines] = useState(true);
+  const [showPersonal, setShowPersonal] = useState(true);
+  const [editing, setEditing] = useState<PersonalEditing>(null);
   const to = addWeeks(from, 1);
+
+  // The chosen view lives in `?view=`. Until somebody chooses, a wide screen
+  // gets the grid and a phone the list — seven columns do not fit a phone.
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useSearchParams();
+  const requested = params.get('view');
+  const view: View | null =
+    requested === 'week' || requested === 'list' ? requested : null;
+  const choose = (next: View) => {
+    const query = new URLSearchParams(params.toString());
+    query.set('view', next);
+    router.replace(`${pathname}?${query.toString()}`, { scroll: false });
+  };
 
   const range = { from: from.toISOString(), to: to.toISOString() };
   const offeringId = offeringFilterValue(offering);
@@ -78,6 +113,12 @@ export function MyCalendar({
     enabled: showDeadlines,
   });
 
+  const personal = usePersonalLayer(institutionId, range, showPersonal);
+  const openPersonal = (item: CalendarItem) => {
+    if (item.kind === 'personal') setEditing({ kind: 'event', event: item.event });
+    if (item.kind === 'task') setEditing({ kind: 'task', task: item.task });
+  };
+
   const courses = useQuery({
     ...timetableEventQueries.list({ path: { institutionId }, query: range }),
     select: courseFilterOptions,
@@ -93,8 +134,15 @@ export function MyCalendar({
     showExams ? (exams.data ?? []) : [],
     showDeadlines ? (deadlines.data ?? []) : [],
     timeZone,
+    personal,
   );
   const eventCount = days.reduce((n, d) => n + d.items.length, 0);
+  const weekDates = Array.from({ length: 7 }, (_, index) => addDays(from, index));
+  const week = layoutWeek(
+    days.flatMap(entry => entry.items),
+    weekDates.map(date => dayKey(date, timeZone)),
+    timeZone,
+  );
 
   return (
     <div className="flex flex-col gap-8">
@@ -114,32 +162,94 @@ export function MyCalendar({
 
         <div className="flex flex-wrap items-center gap-2">
           <Button
+            type="button"
             variant="outline"
             size="sm"
             onClick={() => {
-              setFrom(addWeeks(from, -1));
+              setEditing({ kind: 'event' });
             }}
           >
-            {t('previousWeek')}
+            <Plus aria-hidden />
+            {tPlanner('newEvent')}
           </Button>
           <Button
+            type="button"
             variant="outline"
             size="sm"
+            className="mr-2"
             onClick={() => {
-              setFrom(startOfWeek(today));
+              setEditing({ kind: 'task' });
             }}
           >
-            {t('thisWeek')}
+            <Plus aria-hidden />
+            {tPlanner('newTask')}
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setFrom(addWeeks(from, 1));
-            }}
+          <div
+            role="group"
+            aria-label={t('viewLabel')}
+            className="bg-muted mr-2 inline-flex rounded-lg p-[3px]"
           >
-            {t('nextWeek')}
-          </Button>
+            {(['week', 'list'] as const).map(option => {
+              const Icon = option === 'week' ? CalendarDays : List;
+              const active =
+                view === option
+                  ? 'bg-card text-foreground shadow-sm'
+                  : view === null
+                    ? option === 'week'
+                      ? 'md:bg-card md:text-foreground md:shadow-sm'
+                      : 'max-md:bg-card max-md:text-foreground max-md:shadow-sm'
+                    : '';
+
+              return (
+                <button
+                  key={option}
+                  type="button"
+                  aria-pressed={view === null ? undefined : view === option}
+                  onClick={() => {
+                    choose(option);
+                  }}
+                  className={cn(
+                    'text-muted-foreground hover:text-foreground focus-visible:ring-ring/50 inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-sm font-medium transition-[color,background-color,box-shadow] duration-300 outline-none focus-visible:ring-[3px]',
+                    active,
+                  )}
+                >
+                  <Icon aria-hidden className="size-4" />
+                  {t(`view.${option}`)}
+                </button>
+              );
+            })}
+          </div>
+          <div
+            role="group"
+            aria-label={t('weekNavigation')}
+            className="bg-card divide-border inline-flex items-center divide-x overflow-hidden rounded-lg border shadow-xs"
+          >
+            <WeekStep
+              label={t('previousWeek')}
+              icon={ChevronLeft}
+              onClick={() => {
+                setFrom(addWeeks(from, -1));
+              }}
+            />
+            <Button
+              variant="ghost"
+              size="sm"
+              disabled={isThisWeek}
+              onClick={() => {
+                setFrom(startOfWeek(today));
+              }}
+              className="disabled:text-muted-foreground rounded-none px-3 disabled:opacity-100"
+            >
+              {t('thisWeek')}
+            </Button>
+            <WeekStep
+              label={t('nextWeek')}
+              icon={ChevronRight}
+              onClick={() => {
+                setFrom(addWeeks(from, 1));
+              }}
+            />
+          </div>
         </div>
       </div>
 
@@ -169,6 +279,11 @@ export function MyCalendar({
           checked={showDeadlines}
           onChange={setShowDeadlines}
         />
+        <ToggleFilter
+          label={tPlanner('showPersonal')}
+          checked={showPersonal}
+          onChange={setShowPersonal}
+        />
       </ScheduleFilters>
 
       {isPending ? (
@@ -179,22 +294,77 @@ export function MyCalendar({
           title={t('errorTitle')}
           description={t('errorDescription')}
         />
-      ) : days.length === 0 ? (
-        <EmptyState
-          size="inline"
-          title={isThisWeek ? t('empty') : t('emptyWeek', dates)}
-        />
       ) : (
-        days.map(entry => (
-          <CalendarDaySection
-            key={entry.key}
-            day={entry}
-            institutionId={institutionId}
-            today={today}
-            timeZone={timeZone}
-          />
-        ))
+        <>
+          {view === 'list' ? null : (
+            <div className={cn(view === null && 'hidden md:block')}>
+              <CalendarWeekGrid
+                layout={week}
+                days={weekDates}
+                institutionId={institutionId}
+                timeZone={timeZone}
+                onOpenPersonal={openPersonal}
+              />
+            </div>
+          )}
+          {view === 'week' ? null : (
+            <div className={cn('flex flex-col gap-8', view === null && 'md:hidden')}>
+              {days.length === 0 ? (
+                <EmptyState
+                  size="inline"
+                  title={isThisWeek ? t('empty') : t('emptyWeek', dates)}
+                />
+              ) : (
+                days.map(entry => (
+                  <CalendarDaySection
+                    key={entry.key}
+                    day={entry}
+                    institutionId={institutionId}
+                    today={today}
+                    timeZone={timeZone}
+                    onOpenPersonal={openPersonal}
+                  />
+                ))
+              )}
+            </div>
+          )}
+        </>
       )}
+      <PersonalEditor
+        institutionId={institutionId}
+        editing={editing}
+        onClose={() => {
+          setEditing(null);
+        }}
+      />
     </div>
+  );
+}
+
+/** One step through the weeks: an arrow that names where it goes on hover and to a screen reader. */
+function WeekStep({
+  label,
+  icon: Icon,
+  onClick,
+}: {
+  label: string;
+  icon: typeof ChevronLeft;
+  onClick: () => void;
+}) {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label={label}
+          onClick={onClick}
+          className="rounded-none"
+        >
+          <Icon aria-hidden />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
   );
 }

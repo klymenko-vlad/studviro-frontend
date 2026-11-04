@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import {
   courseRoster,
   errorResponse,
+  permissions,
   renderWithProviders,
   screen,
   server,
@@ -38,6 +39,31 @@ describe('OfferingRoster', () => {
     render();
 
     expect(await screen.findByText(/2 enrolled of 2 listed/)).toBeInTheDocument();
+  });
+
+  it('offers a registrar a withdrawal for each student', async () => {
+    server.use(
+      http.get(`/api/proxy/api/v1/institutions/${INSTITUTION}/me/permissions`, () =>
+        HttpResponse.json({
+          ...permissions,
+          permissions: [...permissions.permissions, 'enrollment:manage'],
+        }),
+      ),
+    );
+    render();
+
+    expect(
+      await screen.findByRole('button', { name: 'Withdraw Ada Lovelace' }),
+    ).toBeInTheDocument();
+  });
+
+  it('offers no withdrawal to someone who may not correct enrolments', async () => {
+    render();
+
+    await screen.findByRole('table', {
+      name: 'Students enrolled in this course offering',
+    });
+    expect(screen.queryByRole('button', { name: /^Withdraw/ })).not.toBeInTheDocument();
   });
 
   it('says so when nobody is enrolled', async () => {

@@ -1,9 +1,17 @@
 import { http, HttpResponse } from 'msw';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
+import type * as SharedConfig from '@/shared/config';
 import { permissions, renderWithProviders, screen, server } from '@/shared/test';
 
 import { InstitutionSettingsView } from './institution-settings-view';
+
+vi.mock('@/shared/config', async importOriginal => ({
+  ...(await importOriginal<typeof SharedConfig>()),
+  useRouter: () => ({ replace: vi.fn(), push: vi.fn(), refresh: vi.fn() }),
+  usePathname: () => '/institutions/x/settings',
+  useSearchParams: () => new URLSearchParams(),
+}));
 
 const INSTITUTION = '55555555-5555-4555-8555-555555555555';
 const PERMISSIONS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/permissions`;
@@ -21,13 +29,12 @@ function readOnly(): void {
 }
 
 describe('InstitutionSettingsView', () => {
-  it('titles the page and names the institution it configures', async () => {
+  it('gathers the institution’s settings and tools under one page', async () => {
     renderWithProviders(<InstitutionSettingsView institutionId={INSTITUTION} />);
 
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'Institution settings',
-    );
-    expect(await screen.findByText('Pavol Jozef Šafárik University')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Institution');
+    expect(await screen.findByRole('tab', { name: 'Settings' })).toBeInTheDocument();
+    expect(screen.getAllByRole('tab').length).toBeGreaterThan(1);
   });
 
   it('offers the settings form to someone who may manage the institution', async () => {

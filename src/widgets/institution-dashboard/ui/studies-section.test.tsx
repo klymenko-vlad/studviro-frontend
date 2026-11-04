@@ -2,12 +2,15 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
 import {
+  courseResults,
   deadlines,
   errorResponse,
+  personalTasks,
   renderWithProviders,
   screen,
   server,
   timetableEvents,
+  within,
 } from '@/shared/test';
 
 import { StudiesSection } from './studies-section';
@@ -17,6 +20,7 @@ const COURSES_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/courses`;
 const RESULTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/course-results`;
 const EVENTS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/timetable-events`;
 const DEADLINES_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/deadlines`;
+const DUE_TASKS_URL = `/api/proxy/api/v1/institutions/${INSTITUTION}/me/tasks/due`;
 
 function renderDashboard(props?: {
   canReadCourses?: boolean;
@@ -34,20 +38,53 @@ function renderDashboard(props?: {
 }
 
 describe('StudiesSection', () => {
-  it('summarises the current term rather than every term enrolled', async () => {
+  it('leads with what is due and when, before courses and results', async () => {
     renderDashboard();
 
-    expect(await screen.findByTestId('dashboard-courses-summary')).toHaveTextContent(
-      /course.*credits/,
-    );
-    expect(screen.getByText('Current courses')).toBeInTheDocument();
+    await screen.findByText('Current courses');
+    const titles = screen
+      .getAllByRole('heading', { level: 2 })
+      .map(heading => heading.textContent);
+
+    expect(titles).toEqual(['Deadlines', 'This week', 'Current courses', 'Results']);
   });
 
-  it('summarises credits earned and the weighted average', async () => {
+  it('opens with the student’s figures at a glance', async () => {
     renderDashboard();
 
-    expect(await screen.findByTestId('dashboard-grades-summary')).toHaveTextContent(
-      '6 credits earned · weighted average 1.00',
+    expect(await screen.findByRole('link', { name: /^This term/ })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /^Next deadline/ })).toBeInTheDocument();
+  });
+
+  it('marks a failed result apart from a passed one', async () => {
+    server.use(
+      http.get(RESULTS_URL, () =>
+        HttpResponse.json([
+          {
+            ...courseResults[0],
+            effective: { kind: 'official', grade: 'FX', passed: false },
+          },
+        ]),
+      ),
+    );
+
+    renderDashboard();
+
+    expect(await screen.findByText('FX')).toHaveAttribute('data-variant', 'destructive');
+  });
+
+  it('marks a grade still awaited as pending', async () => {
+    server.use(
+      http.get(RESULTS_URL, () =>
+        HttpResponse.json([{ ...courseResults[0], effective: null }]),
+      ),
+    );
+
+    renderDashboard();
+
+    expect(await screen.findByText('Not graded')).toHaveAttribute(
+      'data-variant',
+      'outline',
     );
   });
 
@@ -78,6 +115,58 @@ describe('StudiesSection', () => {
       '1 deadline in the next two weeks',
     );
     expect(screen.getByText(/Assignment 1/)).toBeInTheDocument();
+  });
+
+  it('lists the reader’s own dated tasks among the deadlines', async () => {
+    const dueAt = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString();
+    server.use(
+      http.get(DEADLINES_URL, () => HttpResponse.json(deadlines)),
+      http.get(DUE_TASKS_URL, () => HttpResponse.json([{ ...personalTasks[0], dueAt }])),
+    );
+
+    renderDashboard();
+
+    expect(await screen.findByTestId('dashboard-deadlines-summary')).toHaveTextContent(
+      '1 deadline and 1 task of your own in the next two weeks',
+    );
+    const row = (await screen.findByText(/Pay the dorm fee/)).closest('li')!;
+    expect(within(row).getByText('Personal')).toBeInTheDocument();
+  });
+
+  it('counts only own tasks when no coursework falls due', async () => {
+    const dueAt = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString();
+    server.use(
+      http.get(DEADLINES_URL, () => HttpResponse.json([])),
+      http.get(DUE_TASKS_URL, () => HttpResponse.json([{ ...personalTasks[0], dueAt }])),
+    );
+
+    renderDashboard();
+
+    expect(await screen.findByTestId('dashboard-deadlines-summary')).toHaveTextContent(
+      /^1 task of your own in the next two weeks$/,
+    );
+  });
+
+  it('says how soon each deadline falls due', async () => {
+    server.use(http.get(DEADLINES_URL, () => HttpResponse.json(deadlines)));
+    const due = Date.parse(deadlines[0]!.dueAt);
+
+    renderWithProviders(
+      <StudiesSection
+        institutionId={INSTITUTION}
+        canReadCourses={false}
+        canReadGrades={false}
+        canReadSchedule
+        now={new Date(due - 26 * 60 * 60 * 1000)}
+      />,
+    );
+
+    const tile = within(
+      (await screen.findByRole('heading', { name: 'Deadlines' })).closest(
+        '[data-slot="card"]',
+      )!,
+    );
+    expect(await tile.findByText('tomorrow')).toBeInTheDocument();
   });
 
   it('leaves a deadline that has already passed out of the tile', async () => {
@@ -181,7 +270,8 @@ describe('StudiesSection', () => {
     expect(
       await screen.findByText('Your courses are unavailable right now.'),
     ).toBeInTheDocument();
-    expect(await screen.findByTestId('dashboard-grades-summary')).toBeInTheDocument();
+    expect(await screen.findByText('Results')).toBeInTheDocument();
+    expect(await screen.findByText('6 credits earned')).toBeInTheDocument();
   });
 });
 

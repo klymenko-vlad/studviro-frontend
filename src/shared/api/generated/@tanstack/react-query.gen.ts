@@ -3,8 +3,8 @@
 import { type DefaultError, type InfiniteData, infiniteQueryOptions, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { Audit, Auth, Catalogue, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, Privacy, RoleAssignments, Schedule, Scheduling, Search, Users } from '../sdk.gen';
-import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, AddStudyGroupMemberData, AddStudyGroupMemberError, AddStudyGroupMemberResponse, AdmitToProgramData, AdmitToProgramError, AssignTeacherData, AssignTeacherError, BeginTwoFactorSetupData, BeginTwoFactorSetupError, BeginTwoFactorSetupResponse, BulkImportCourseOfferingsData, BulkImportCourseOfferingsError, BulkImportCourseOfferingsResponse, BulkImportProgramMembersData, BulkImportProgramMembersError, BulkImportProgramMembersResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, CancelExamTermData, CancelExamTermError, CancelExamTermResponse, CancelTimetableEventData, CancelTimetableEventError, CancelTimetableEventResponse, ChangeMyPasswordData, ChangeMyPasswordError, ChangeMyPasswordResponse, CompleteTwoFactorLoginData, CompleteTwoFactorLoginError, CompleteTwoFactorLoginResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateAcademicTermData, CreateAcademicTermError, CreateAcademicTermResponse, CreateAssignmentData, CreateAssignmentError, CreateAssignmentResponse, CreateCaptchaChallengeData, CreateCaptchaChallengeError, CreateCaptchaChallengeResponse, CreateCourseData, CreateCourseError, CreateCourseOfferingData, CreateCourseOfferingError, CreateCourseOfferingResponse, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateDiscussionAttachmentTicketData, CreateDiscussionAttachmentTicketError, CreateDiscussionAttachmentTicketResponse, CreateError, CreateExamTermData, CreateExamTermError, CreateExamTermResponse, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateLearningMaterialData, CreateLearningMaterialError, CreateLearningMaterialResponse, CreateLearningSpaceData, CreateLearningSpaceError, CreateLearningSpaceResponse, CreateMaterialUploadTicketData, CreateMaterialUploadTicketError, CreateMaterialUploadTicketResponse, CreateOrgUnitData, CreateOrgUnitError, CreateOrgUnitResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateResponse, CreateRoomData, CreateRoomError, CreateRoomResponse, CreateStudyGroupData, CreateStudyGroupError, CreateSubmissionUploadTicketData, CreateSubmissionUploadTicketError, CreateSubmissionUploadTicketResponse, CreateTimetableEventData, CreateTimetableEventError, CreateTimetableEventResponse, DeactivateUserData, DeactivateUserError, DeactivateUserResponse, DeleteDiscussionPostData, DeleteDiscussionPostError, DeleteDiscussionPostResponse, DisableTwoFactorData, DisableTwoFactorError, DisableTwoFactorResponse, DownloadMyCalendarData, DownloadMyCalendarError, DownloadMyCalendarResponse, EditDiscussionPostData, EditDiscussionPostError, EditDiscussionPostResponse, EnableTwoFactorData, EnableTwoFactorError, EnableTwoFactorResponse, ErasePersonalDataData, ErasePersonalDataError, ErasePersonalDataResponse, ExportMyPersonalDataData, ExportMyPersonalDataError, ExportMyPersonalDataResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetAssignmentData, GetAssignmentError, GetAssignmentResponse, GetCalendarFeedData, GetCalendarFeedError, GetCalendarFeedResponse, GetCaptchaStateData, GetCaptchaStateError, GetCaptchaStateResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetDiscussionAttachmentDownloadUrlData, GetDiscussionAttachmentDownloadUrlError, GetDiscussionAttachmentDownloadUrlResponse, GetDiscussionThreadData, GetDiscussionThreadError, GetDiscussionThreadResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetLearningMaterialDownloadUrlData, GetLearningMaterialDownloadUrlError, GetLearningMaterialDownloadUrlResponse, GetLearningSpaceData, GetLearningSpaceError, GetLearningSpaceResponse, GetMyCalendarFeedData, GetMyCalendarFeedError, GetMyCalendarFeedResponse, GetMyNotificationPreferencesData, GetMyNotificationPreferencesError, GetMyNotificationPreferencesResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetMyTwoFactorStatusData, GetMyTwoFactorStatusError, GetMyTwoFactorStatusResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetSubmissionFileDownloadUrlData, GetSubmissionFileDownloadUrlError, GetSubmissionFileDownloadUrlResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, IssueMyCalendarFeedData, IssueMyCalendarFeedError, IssueMyCalendarFeedResponse, JoinCourseWaitlistData, JoinCourseWaitlistError, JoinCourseWaitlistResponse, ListAcademicTermsData, ListAcademicTermsError, ListAcademicTermsResponse, ListAssignmentsData, ListAssignmentsError, ListAssignmentsResponse, ListAssignmentSubmissionsData, ListAssignmentSubmissionsError, ListAssignmentSubmissionsResponse, ListAuditEventsData, ListAuditEventsError, ListAuditEventsResponse, ListCourseOfferingsData, ListCourseOfferingsError, ListCourseOfferingsResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListCourseWaitlistData, ListCourseWaitlistError, ListCourseWaitlistResponse, ListDiscussionThreadsData, ListDiscussionThreadsError, ListDiscussionThreadsResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListExamTermRegistrantsData, ListExamTermRegistrantsError, ListExamTermRegistrantsResponse, ListLearningMaterialsData, ListLearningMaterialsError, ListLearningMaterialsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMySessionsData, ListMySessionsError, ListMySessionsResponse, ListMySubmissionsData, ListMySubmissionsError, ListMySubmissionsResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingExamTermsData, ListOfferingExamTermsError, ListOfferingExamTermsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOfferingTimetableData, ListOfferingTimetableError, ListOfferingTimetableResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramMembersData, ListProgramMembersError, ListProgramMembersResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListRoomsData, ListRoomsError, ListRoomsResponse, ListStudyGroupsData, ListStudyGroupsError, ListStudyGroupsResponse, ListTeachingAssignmentsData, ListTeachingAssignmentsError, ListTeachingAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MarkSubmissionData, MarkSubmissionError, MarkSubmissionResponse, MeData, MeError, MeResponse, RecordExamAttendanceData, RecordExamAttendanceError, RecordExamAttendanceResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegenerateRecoveryCodesData, RegenerateRecoveryCodesError, RegenerateRecoveryCodesResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RemoveAcademicTermData, RemoveAcademicTermError, RemoveAcademicTermResponse, RemoveAssignmentData, RemoveAssignmentError, RemoveAssignmentResponse, RemoveCourseData, RemoveCourseError, RemoveCourseOfferingData, RemoveCourseOfferingError, RemoveCourseOfferingResponse, RemoveCourseResponse, RemoveExamTermData, RemoveExamTermError, RemoveExamTermResponse, RemoveLearningMaterialData, RemoveLearningMaterialError, RemoveLearningMaterialResponse, RemoveOrgUnitData, RemoveOrgUnitError, RemoveOrgUnitResponse, RemoveProgramData, RemoveProgramError, RemoveProgramMembershipData, RemoveProgramMembershipError, RemoveProgramMembershipResponse, RemoveProgramResponse, RemoveRoomData, RemoveRoomError, RemoveRoomResponse, RemoveStudyGroupData, RemoveStudyGroupError, RemoveStudyGroupMemberData, RemoveStudyGroupMemberError, RemoveStudyGroupMemberResponse, RemoveStudyGroupResponse, RemoveTimetableEventData, RemoveTimetableEventError, RemoveTimetableEventResponse, RenameDiscussionThreadData, RenameDiscussionThreadError, RenameDiscussionThreadResponse, ReplyToDiscussionThreadData, ReplyToDiscussionThreadError, ReplyToDiscussionThreadResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, RestoreTimetableEventData, RestoreTimetableEventError, RestoreTimetableEventResponse, RevokeMyCalendarFeedData, RevokeMyCalendarFeedError, RevokeMyCalendarFeedResponse, RevokeMyOtherSessionsData, RevokeMyOtherSessionsError, RevokeMyOtherSessionsResponse, RevokeMySessionData, RevokeMySessionError, RevokeMySessionResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SearchData, SearchError, SearchResponse, SetDiscussionPostVisibilityData, SetDiscussionPostVisibilityError, SetDiscussionPostVisibilityResponse, SetDiscussionThreadVisibilityData, SetDiscussionThreadVisibilityError, SetDiscussionThreadVisibilityResponse, StartDiscussionThreadData, StartDiscussionThreadError, StartDiscussionThreadResponse, SubmitAssignmentData, SubmitAssignmentError, SubmitAssignmentResponse, UnassignTeacherData, UnassignTeacherError, UnassignTeacherResponse, UpdateAcademicTermData, UpdateAcademicTermError, UpdateAcademicTermResponse, UpdateAssignmentData, UpdateAssignmentError, UpdateAssignmentResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateExamTermData, UpdateExamTermError, UpdateExamTermResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateLearningMaterialData, UpdateLearningMaterialError, UpdateLearningMaterialResponse, UpdateLearningSpaceData, UpdateLearningSpaceError, UpdateLearningSpaceResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateMyNotificationPreferencesData, UpdateMyNotificationPreferencesError, UpdateMyNotificationPreferencesResponse, UpdateOrgUnitData, UpdateOrgUnitError, UpdateOrgUnitResponse, UpdateProgramData, UpdateProgramError, UpdateProgramMembershipData, UpdateProgramMembershipError, UpdateProgramMembershipResponse, UpdateProgramResponse, UpdateRoomData, UpdateRoomError, UpdateRoomResponse, UpdateStudyGroupData, UpdateStudyGroupError, UpdateTimetableEventData, UpdateTimetableEventError, UpdateTimetableEventResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
+import { Audit, Auth, Catalogue, Courses, Grades, Identities, InstitutionConfiguration, Institutions, Invitations, Learning, Marketing, Notifications, type Options, OrgUnits, People, Privacy, RoleAssignments, Schedule, Scheduling, Search, Teachers, Users } from '../sdk.gen';
+import type { AcceptInvitationData, AcceptInvitationError, AcceptInvitationResponse, AddFolderFileData, AddFolderFileError, AddFolderFileResponse, AddQuizSlotsData, AddQuizSlotsError, AddQuizSlotsResponse, AddStudyGroupMemberData, AddStudyGroupMemberError, AddStudyGroupMemberResponse, AdmitToProgramData, AdmitToProgramError, AssignTeacherData, AssignTeacherError, BeginTwoFactorSetupData, BeginTwoFactorSetupError, BeginTwoFactorSetupResponse, BulkImportCourseOfferingsData, BulkImportCourseOfferingsError, BulkImportCourseOfferingsResponse, BulkImportProgramMembersData, BulkImportProgramMembersError, BulkImportProgramMembersResponse, CancelExamRegistrationData, CancelExamRegistrationError, CancelExamRegistrationResponse, CancelExamTermData, CancelExamTermError, CancelExamTermResponse, CancelTimetableEventData, CancelTimetableEventError, CancelTimetableEventResponse, ChangeMyPasswordData, ChangeMyPasswordError, ChangeMyPasswordResponse, CompleteTwoFactorLoginData, CompleteTwoFactorLoginError, CompleteTwoFactorLoginResponse, ConfirmPasswordResetData, ConfirmPasswordResetError, ConfirmPasswordResetResponse, CorrectEnrollmentData, CorrectEnrollmentError, CorrectEnrollmentResponse, CountMyUnreadNotificationsData, CountMyUnreadNotificationsError, CountMyUnreadNotificationsResponse, CreateAcademicTermData, CreateAcademicTermError, CreateAcademicTermResponse, CreateAssignmentData, CreateAssignmentError, CreateAssignmentResponse, CreateCaptchaChallengeData, CreateCaptchaChallengeError, CreateCaptchaChallengeResponse, CreateCourseData, CreateCourseError, CreateCourseOfferingData, CreateCourseOfferingError, CreateCourseOfferingResponse, CreateCourseResponse, CreateData, CreateDemoRequestData, CreateDemoRequestError, CreateDemoRequestResponse, CreateDiscussionAttachmentTicketData, CreateDiscussionAttachmentTicketError, CreateDiscussionAttachmentTicketResponse, CreateError, CreateExamTermData, CreateExamTermError, CreateExamTermResponse, CreateInstitutionData, CreateInstitutionError, CreateInstitutionResponse, CreateInvitationData, CreateInvitationError, CreateInvitationResponse, CreateLearningMaterialData, CreateLearningMaterialError, CreateLearningMaterialResponse, CreateLearningSectionData, CreateLearningSectionError, CreateLearningSectionResponse, CreateLearningSpaceData, CreateLearningSpaceError, CreateLearningSpaceResponse, CreateMaterialUploadTicketData, CreateMaterialUploadTicketError, CreateMaterialUploadTicketResponse, CreateMyPersonalEventData, CreateMyPersonalEventError, CreateMyPersonalEventResponse, CreateMyTaskData, CreateMyTaskError, CreateMyTaskResponse, CreateOrgUnitData, CreateOrgUnitError, CreateOrgUnitResponse, CreateProgramData, CreateProgramError, CreateProgramResponse, CreateQuestionCategoryData, CreateQuestionCategoryError, CreateQuestionCategoryResponse, CreateQuestionData, CreateQuestionError, CreateQuestionResponse, CreateQuizData, CreateQuizError, CreateQuizResponse, CreateResponse, CreateRoomData, CreateRoomError, CreateRoomResponse, CreateStudyGroupData, CreateStudyGroupError, CreateSubmissionUploadTicketData, CreateSubmissionUploadTicketError, CreateSubmissionUploadTicketResponse, CreateTimetableEventData, CreateTimetableEventError, CreateTimetableEventResponse, DeactivateUserData, DeactivateUserError, DeactivateUserResponse, DeleteDiscussionPostData, DeleteDiscussionPostError, DeleteDiscussionPostResponse, DeleteMyPersonalEventData, DeleteMyPersonalEventError, DeleteMyPersonalEventResponse, DeleteMyTaskData, DeleteMyTaskError, DeleteMyTaskResponse, DisableTwoFactorData, DisableTwoFactorError, DisableTwoFactorResponse, DownloadMyCalendarData, DownloadMyCalendarEntryData, DownloadMyCalendarEntryError, DownloadMyCalendarEntryResponse, DownloadMyCalendarError, DownloadMyCalendarResponse, EditDiscussionPostData, EditDiscussionPostError, EditDiscussionPostResponse, EnableTwoFactorData, EnableTwoFactorError, EnableTwoFactorResponse, ErasePersonalDataData, ErasePersonalDataError, ErasePersonalDataResponse, ExportMyPersonalDataData, ExportMyPersonalDataError, ExportMyPersonalDataResponse, FindAllData, FindAllError, FindAllResponse, FindMeData, FindMeError, FindMeResponse, FindOneData, FindOneError, FindOneResponse, GetAssignmentData, GetAssignmentError, GetAssignmentResponse, GetCalendarFeedData, GetCalendarFeedError, GetCalendarFeedResponse, GetCaptchaStateData, GetCaptchaStateError, GetCaptchaStateResponse, GetCourseOfferingData, GetCourseOfferingError, GetCourseOfferingResponse, GetCourseRosterData, GetCourseRosterError, GetCourseRosterResponse, GetDiscussionAttachmentDownloadUrlData, GetDiscussionAttachmentDownloadUrlError, GetDiscussionAttachmentDownloadUrlResponse, GetDiscussionThreadData, GetDiscussionThreadError, GetDiscussionThreadResponse, GetFolderFileDownloadUrlData, GetFolderFileDownloadUrlError, GetFolderFileDownloadUrlResponse, GetInstitutionConfigurationData, GetInstitutionConfigurationError, GetInstitutionConfigurationResponse, GetInstitutionData, GetInstitutionError, GetInstitutionResponse, GetLearningMaterialData, GetLearningMaterialDownloadUrlData, GetLearningMaterialDownloadUrlError, GetLearningMaterialDownloadUrlResponse, GetLearningMaterialError, GetLearningMaterialResponse, GetLearningSpaceData, GetLearningSpaceError, GetLearningSpaceResponse, GetLearningStudentViewData, GetLearningStudentViewError, GetLearningStudentViewResponse, GetMyCalendarFeedData, GetMyCalendarFeedError, GetMyCalendarFeedResponse, GetMyLearningProgressData, GetMyLearningProgressError, GetMyLearningProgressResponse, GetMyNotificationPreferencesData, GetMyNotificationPreferencesError, GetMyNotificationPreferencesResponse, GetMyStudyProgressData, GetMyStudyProgressError, GetMyStudyProgressResponse, GetMyTwoFactorStatusData, GetMyTwoFactorStatusError, GetMyTwoFactorStatusResponse, GetOrgUnitData, GetOrgUnitError, GetOrgUnitResponse, GetQuestionData, GetQuestionError, GetQuestionResponse, GetQuizAttemptData, GetQuizAttemptError, GetQuizAttemptForMarkingData, GetQuizAttemptForMarkingError, GetQuizAttemptForMarkingResponse, GetQuizAttemptResponse, GetQuizData, GetQuizError, GetQuizResponse, GetSubmissionFileDownloadUrlData, GetSubmissionFileDownloadUrlError, GetSubmissionFileDownloadUrlResponse, GetTeacherProfileData, GetTeacherProfileError, GetTeacherProfileResponse, GrantRoleData, GrantRoleError, GrantRoleResponse, ImportCourseData, ImportCourseError, ImportCourseResponse, IssueMyCalendarFeedData, IssueMyCalendarFeedError, IssueMyCalendarFeedResponse, JoinCourseWaitlistData, JoinCourseWaitlistError, JoinCourseWaitlistResponse, ListAcademicTermsData, ListAcademicTermsError, ListAcademicTermsResponse, ListAssignmentsData, ListAssignmentsError, ListAssignmentsResponse, ListAssignmentSubmissionsData, ListAssignmentSubmissionsError, ListAssignmentSubmissionsResponse, ListAuditEventsData, ListAuditEventsError, ListAuditEventsResponse, ListCourseImportSourcesData, ListCourseImportSourcesError, ListCourseImportSourcesResponse, ListCourseOfferingsData, ListCourseOfferingsError, ListCourseOfferingsResponse, ListCoursesData, ListCoursesError, ListCoursesResponse, ListCourseWaitlistData, ListCourseWaitlistError, ListCourseWaitlistResponse, ListDiscussionPostsData, ListDiscussionPostsError, ListDiscussionPostsResponse, ListDiscussionRepliesData, ListDiscussionRepliesError, ListDiscussionRepliesResponse, ListDiscussionThreadsData, ListDiscussionThreadsError, ListDiscussionThreadsResponse, ListEnrollableOfferingsData, ListEnrollableOfferingsError, ListEnrollableOfferingsResponse, ListExamTermRegistrantsData, ListExamTermRegistrantsError, ListExamTermRegistrantsResponse, ListFolderFilesData, ListFolderFilesError, ListFolderFilesResponse, ListLearningCompletionsData, ListLearningCompletionsError, ListLearningCompletionsResponse, ListLearningItemSightData, ListLearningItemSightError, ListLearningItemSightResponse, ListLearningMaterialsData, ListLearningMaterialsError, ListLearningMaterialsResponse, ListLearningSectionsData, ListLearningSectionsError, ListLearningSectionsResponse, ListLearningSpacesData, ListLearningSpacesError, ListLearningSpacesResponse, ListLearningStudentViewStudentsData, ListLearningStudentViewStudentsError, ListLearningStudentViewStudentsResponse, ListMyAssessmentResultsData, ListMyAssessmentResultsError, ListMyAssessmentResultsResponse, ListMyCourseResultsData, ListMyCourseResultsError, ListMyCourseResultsResponse, ListMyCoursesData, ListMyCoursesError, ListMyCoursesResponse, ListMyDeadlinesData, ListMyDeadlinesError, ListMyDeadlinesResponse, ListMyDueTasksData, ListMyDueTasksError, ListMyDueTasksResponse, ListMyExamTermsData, ListMyExamTermsError, ListMyExamTermsResponse, ListMyIdentitiesData, ListMyIdentitiesError, ListMyIdentitiesResponse, ListMyInstitutionsData, ListMyInstitutionsError, ListMyInstitutionsResponse, ListMyNotificationsData, ListMyNotificationsError, ListMyNotificationsResponse, ListMyPermissionsData, ListMyPermissionsError, ListMyPermissionsResponse, ListMyPersonalEventsData, ListMyPersonalEventsError, ListMyPersonalEventsResponse, ListMyQuizAttemptsData, ListMyQuizAttemptsError, ListMyQuizAttemptsResponse, ListMyRolesData, ListMyRolesError, ListMyRolesResponse, ListMySessionsData, ListMySessionsError, ListMySessionsResponse, ListMySubmissionsData, ListMySubmissionsError, ListMySubmissionsResponse, ListMyTasksData, ListMyTasksError, ListMyTasksResponse, ListMyTeachingOfferingsData, ListMyTeachingOfferingsError, ListMyTeachingOfferingsResponse, ListMyTimetableEventsData, ListMyTimetableEventsError, ListMyTimetableEventsResponse, ListOfferingExamTermsData, ListOfferingExamTermsError, ListOfferingExamTermsResponse, ListOfferingResultsData, ListOfferingResultsError, ListOfferingResultsResponse, ListOfferingTimetableData, ListOfferingTimetableError, ListOfferingTimetableResponse, ListOrgUnitsData, ListOrgUnitsError, ListOrgUnitsResponse, ListPeopleData, ListPeopleError, ListPeopleResponse, ListProgramMembersData, ListProgramMembersError, ListProgramMembersResponse, ListProgramsData, ListProgramsError, ListProgramsResponse, ListQuestionCategoriesData, ListQuestionCategoriesError, ListQuestionCategoriesResponse, ListQuestionsData, ListQuestionsError, ListQuestionsResponse, ListQuestionVersionsData, ListQuestionVersionsError, ListQuestionVersionsResponse, ListQuizAttemptsData, ListQuizAttemptsError, ListQuizAttemptsResponse, ListQuizQuestionResultsData, ListQuizQuestionResultsError, ListQuizQuestionResultsResponse, ListQuizSlotsData, ListQuizSlotsError, ListQuizSlotsResponse, ListQuizzesData, ListQuizzesError, ListQuizzesResponse, ListRoleAssignmentsData, ListRoleAssignmentsError, ListRoleAssignmentsResponse, ListRoomsData, ListRoomsError, ListRoomsResponse, ListStudyGroupContentData, ListStudyGroupContentError, ListStudyGroupContentResponse, ListStudyGroupsData, ListStudyGroupsError, ListStudyGroupsResponse, ListTeacherOfferingsData, ListTeacherOfferingsError, ListTeacherOfferingsResponse, ListTeachingAssignmentsData, ListTeachingAssignmentsError, ListTeachingAssignmentsResponse, LoginData, LoginError, LoginResponse, LogoutAllData, LogoutAllResponse, LogoutData, LogoutResponse, MarkAllMyNotificationsReadData, MarkAllMyNotificationsReadError, MarkAllMyNotificationsReadResponse, MarkLearningItemDoneData, MarkLearningItemDoneError, MarkLearningItemDoneResponse, MarkMyNotificationReadData, MarkMyNotificationReadError, MarkMyNotificationReadResponse, MarkQuizQuestionData, MarkQuizQuestionError, MarkQuizQuestionResponse, MarkSubmissionData, MarkSubmissionError, MarkSubmissionResponse, MeData, MeError, MeResponse, PreviewCourseImportData, PreviewCourseImportError, PreviewCourseImportResponse, PreviewQuizRegradeData, PreviewQuizRegradeError, PreviewQuizRegradeResponse, RecordExamAttendanceData, RecordExamAttendanceError, RecordExamAttendanceResponse, RecordLearningMaterialViewData, RecordLearningMaterialViewError, RecordLearningMaterialViewResponse, RecordOfferingResultData, RecordOfferingResultError, RecordOfferingResultResponse, RefreshData, RefreshError, RefreshResponse, RegenerateRecoveryCodesData, RegenerateRecoveryCodesError, RegenerateRecoveryCodesResponse, RegisterData, RegisterError, RegisterForExamTermData, RegisterForExamTermError, RegisterForExamTermResponse, RegisterResponse, RegradeQuizData, RegradeQuizError, RegradeQuizResponse, RemoveAcademicTermData, RemoveAcademicTermError, RemoveAcademicTermResponse, RemoveAssignmentData, RemoveAssignmentError, RemoveAssignmentResponse, RemoveCourseData, RemoveCourseError, RemoveCourseOfferingData, RemoveCourseOfferingError, RemoveCourseOfferingResponse, RemoveCourseResponse, RemoveExamTermData, RemoveExamTermError, RemoveExamTermResponse, RemoveFolderFileData, RemoveFolderFileError, RemoveFolderFileResponse, RemoveLearningMaterialData, RemoveLearningMaterialError, RemoveLearningMaterialResponse, RemoveLearningSectionData, RemoveLearningSectionError, RemoveLearningSectionResponse, RemoveOrgUnitData, RemoveOrgUnitError, RemoveOrgUnitResponse, RemoveProgramData, RemoveProgramError, RemoveProgramMembershipData, RemoveProgramMembershipError, RemoveProgramMembershipResponse, RemoveProgramResponse, RemoveQuestionCategoryData, RemoveQuestionCategoryError, RemoveQuestionCategoryResponse, RemoveQuestionData, RemoveQuestionError, RemoveQuestionResponse, RemoveQuizData, RemoveQuizError, RemoveQuizResponse, RemoveQuizSlotData, RemoveQuizSlotError, RemoveQuizSlotResponse, RemoveRoomData, RemoveRoomError, RemoveRoomResponse, RemoveStudyGroupData, RemoveStudyGroupError, RemoveStudyGroupMemberData, RemoveStudyGroupMemberError, RemoveStudyGroupMemberResponse, RemoveStudyGroupResponse, RemoveTimetableEventData, RemoveTimetableEventError, RemoveTimetableEventResponse, RenameDiscussionThreadData, RenameDiscussionThreadError, RenameDiscussionThreadResponse, RenameQuestionCategoryData, RenameQuestionCategoryError, RenameQuestionCategoryResponse, ReplyToDiscussionThreadData, ReplyToDiscussionThreadError, ReplyToDiscussionThreadResponse, RequestEnrollmentData, RequestEnrollmentError, RequestEnrollmentResponse, RequestPasswordResetData, RequestPasswordResetError, RequestPasswordResetResponse, RestoreTimetableEventData, RestoreTimetableEventError, RestoreTimetableEventResponse, ReviewQuizAttemptData, ReviewQuizAttemptError, ReviewQuizAttemptResponse, ReviseQuestionData, ReviseQuestionError, ReviseQuestionResponse, RevokeMyCalendarFeedData, RevokeMyCalendarFeedError, RevokeMyCalendarFeedResponse, RevokeMyOtherSessionsData, RevokeMyOtherSessionsError, RevokeMyOtherSessionsResponse, RevokeMySessionData, RevokeMySessionError, RevokeMySessionResponse, RevokeRoleData, RevokeRoleError, RevokeRoleResponse, SaveQuizAnswerData, SaveQuizAnswerError, SaveQuizAnswerResponse, SearchData, SearchError, SearchResponse, SetDiscussionPostVisibilityData, SetDiscussionPostVisibilityError, SetDiscussionPostVisibilityResponse, SetDiscussionThreadVisibilityData, SetDiscussionThreadVisibilityError, SetDiscussionThreadVisibilityResponse, StartDiscussionThreadData, StartDiscussionThreadError, StartDiscussionThreadResponse, StartQuizAttemptData, StartQuizAttemptError, StartQuizAttemptResponse, SubmitAssignmentData, SubmitAssignmentError, SubmitAssignmentResponse, SubmitQuizAttemptData, SubmitQuizAttemptError, SubmitQuizAttemptResponse, UnassignTeacherData, UnassignTeacherError, UnassignTeacherResponse, UpdateAcademicTermData, UpdateAcademicTermError, UpdateAcademicTermResponse, UpdateAssignmentData, UpdateAssignmentError, UpdateAssignmentResponse, UpdateCourseData, UpdateCourseError, UpdateCourseOfferingData, UpdateCourseOfferingError, UpdateCourseOfferingResponse, UpdateCourseResponse, UpdateExamTermData, UpdateExamTermError, UpdateExamTermResponse, UpdateInstitutionConfigurationData, UpdateInstitutionConfigurationError, UpdateInstitutionConfigurationResponse, UpdateLearningMaterialData, UpdateLearningMaterialError, UpdateLearningMaterialResponse, UpdateLearningSectionData, UpdateLearningSectionError, UpdateLearningSectionResponse, UpdateLearningSpaceData, UpdateLearningSpaceError, UpdateLearningSpaceResponse, UpdateMeData, UpdateMeError, UpdateMeResponse, UpdateMyNotificationPreferencesData, UpdateMyNotificationPreferencesError, UpdateMyNotificationPreferencesResponse, UpdateMyPersonalEventData, UpdateMyPersonalEventError, UpdateMyPersonalEventResponse, UpdateMyTaskData, UpdateMyTaskError, UpdateMyTaskResponse, UpdateOrgUnitData, UpdateOrgUnitError, UpdateOrgUnitResponse, UpdateProgramData, UpdateProgramError, UpdateProgramMembershipData, UpdateProgramMembershipError, UpdateProgramMembershipResponse, UpdateProgramResponse, UpdateQuizData, UpdateQuizError, UpdateQuizResponse, UpdateQuizSlotData, UpdateQuizSlotError, UpdateQuizSlotResponse, UpdateRoomData, UpdateRoomError, UpdateRoomResponse, UpdateStudyGroupData, UpdateStudyGroupError, UpdateTimetableEventData, UpdateTimetableEventError, UpdateTimetableEventResponse, WithdrawFromCourseData, WithdrawFromCourseError, WithdrawFromCourseResponse } from '../types.gen';
 
 /**
  * Create an account and start a session
@@ -1374,12 +1374,85 @@ export const updateLearningSpaceMutation = (options?: Partial<Options<UpdateLear
     return mutationOptions;
 };
 
+export const listLearningSectionsQueryKey = (options: Options<ListLearningSectionsData>) => createQueryKey('listLearningSections', options);
+
+/**
+ * The sections of a course page, in order
+ *
+ * A hidden or ended section is omitted for anybody who cannot unhide it, and so is everything placed in it. One that has not opened yet shows only its title, unless it is hidden until then.
+ */
+export const listLearningSectionsOptions = (options: Options<ListLearningSectionsData>) => queryOptions<ListLearningSectionsResponse, ListLearningSectionsError, ListLearningSectionsResponse, ReturnType<typeof listLearningSectionsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listLearningSections({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listLearningSectionsQueryKey(options)
+});
+
+/**
+ * Add a section — a week or a topic — at the end of the page
+ */
+export const createLearningSectionMutation = (options?: Partial<Options<CreateLearningSectionData>>): UseMutationOptions<CreateLearningSectionResponse, CreateLearningSectionError, Options<CreateLearningSectionData>> => {
+    const mutationOptions: UseMutationOptions<CreateLearningSectionResponse, CreateLearningSectionError, Options<CreateLearningSectionData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.createLearningSection({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Remove a section, keeping what was in it
+ *
+ * Its materials and assignments move to the end of the general area.
+ */
+export const removeLearningSectionMutation = (options?: Partial<Options<RemoveLearningSectionData>>): UseMutationOptions<RemoveLearningSectionResponse, RemoveLearningSectionError, Options<RemoveLearningSectionData>> => {
+    const mutationOptions: UseMutationOptions<RemoveLearningSectionResponse, RemoveLearningSectionError, Options<RemoveLearningSectionData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.removeLearningSection({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Retitle a section, move it, hide or show it
+ */
+export const updateLearningSectionMutation = (options?: Partial<Options<UpdateLearningSectionData>>): UseMutationOptions<UpdateLearningSectionResponse, UpdateLearningSectionError, Options<UpdateLearningSectionData>> => {
+    const mutationOptions: UseMutationOptions<UpdateLearningSectionResponse, UpdateLearningSectionError, Options<UpdateLearningSectionData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.updateLearningSection({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const listLearningMaterialsQueryKey = (options: Options<ListLearningMaterialsData>) => createQueryKey('listLearningMaterials', options);
 
 /**
- * The files, links and notes on a course page, in order
+ * Everything on a course page, in order
  *
- * A hidden material is omitted for anybody who cannot unhide it.
+ * A hidden or ended material is omitted for anybody who cannot unhide it. One that has not opened yet shows only its title, unless it is hidden until then.
  */
 export const listLearningMaterialsOptions = (options: Options<ListLearningMaterialsData>) => queryOptions<ListLearningMaterialsResponse, ListLearningMaterialsError, ListLearningMaterialsResponse, ReturnType<typeof listLearningMaterialsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -1395,7 +1468,7 @@ export const listLearningMaterialsOptions = (options: Options<ListLearningMateri
 });
 
 /**
- * Add a file, a link or a note to a course page
+ * Add a file, link, note, page, label, video or folder to a course page
  */
 export const createLearningMaterialMutation = (options?: Partial<Options<CreateLearningMaterialData>>): UseMutationOptions<CreateLearningMaterialResponse, CreateLearningMaterialError, Options<CreateLearningMaterialData>> => {
     const mutationOptions: UseMutationOptions<CreateLearningMaterialResponse, CreateLearningMaterialError, Options<CreateLearningMaterialData>> = {
@@ -1447,13 +1520,52 @@ export const removeLearningMaterialMutation = (options?: Partial<Options<RemoveL
     return mutationOptions;
 };
 
+export const getLearningMaterialQueryKey = (options: Options<GetLearningMaterialData>) => createQueryKey('getLearningMaterial', options);
+
 /**
- * Retitle a material, move it, hide or show it
+ * One material, whole — the way to read a page
+ *
+ * Answers 404 for anything the caller may not open. Reading it counts as opening it for a student on the course.
+ */
+export const getLearningMaterialOptions = (options: Options<GetLearningMaterialData>) => queryOptions<GetLearningMaterialResponse, GetLearningMaterialError, GetLearningMaterialResponse, ReturnType<typeof getLearningMaterialQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.getLearningMaterial({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getLearningMaterialQueryKey(options)
+});
+
+/**
+ * Retitle or rewrite a material, move it, hide or show it
  */
 export const updateLearningMaterialMutation = (options?: Partial<Options<UpdateLearningMaterialData>>): UseMutationOptions<UpdateLearningMaterialResponse, UpdateLearningMaterialError, Options<UpdateLearningMaterialData>> => {
     const mutationOptions: UseMutationOptions<UpdateLearningMaterialResponse, UpdateLearningMaterialError, Options<UpdateLearningMaterialData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await Learning.updateLearningMaterial({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Say that the caller opened a material
+ *
+ * Completes a material whose rule is to open it, for a student on the course. Downloading a file records this on its own; call it for a link or a note when the student opens it.
+ */
+export const recordLearningMaterialViewMutation = (options?: Partial<Options<RecordLearningMaterialViewData>>): UseMutationOptions<RecordLearningMaterialViewResponse, RecordLearningMaterialViewError, Options<RecordLearningMaterialViewData>> => {
+    const mutationOptions: UseMutationOptions<RecordLearningMaterialViewResponse, RecordLearningMaterialViewError, Options<RecordLearningMaterialViewData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.recordLearningMaterialView({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -1480,6 +1592,110 @@ export const getLearningMaterialDownloadUrlOptions = (options: Options<GetLearni
         return data;
     },
     queryKey: getLearningMaterialDownloadUrlQueryKey(options)
+});
+
+export const listFolderFilesQueryKey = (options: Options<ListFolderFilesData>) => createQueryKey('listFolderFiles', options);
+
+/**
+ * The files in a folder, a page at a time, by name
+ */
+export const listFolderFilesOptions = (options: Options<ListFolderFilesData>) => queryOptions<ListFolderFilesResponse, ListFolderFilesError, ListFolderFilesResponse, ReturnType<typeof listFolderFilesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listFolderFiles({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listFolderFilesQueryKey(options)
+});
+
+export const listFolderFilesInfiniteQueryKey = (options: Options<ListFolderFilesData>): QueryKey<Options<ListFolderFilesData>> => createQueryKey('listFolderFiles', options, true);
+
+/**
+ * The files in a folder, a page at a time, by name
+ */
+export const listFolderFilesInfiniteOptions = (options: Options<ListFolderFilesData>) => {
+    const opts = infiniteQueryOptions<ListFolderFilesResponse, ListFolderFilesError, InfiniteData<ListFolderFilesResponse>, QueryKey<Options<ListFolderFilesData>>, number | Pick<QueryKey<Options<ListFolderFilesData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListFolderFilesData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listFolderFiles({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listFolderFilesInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Put an uploaded file in a folder
+ *
+ * Upload it first with a material upload ticket; a folder holds up to 100 files.
+ */
+export const addFolderFileMutation = (options?: Partial<Options<AddFolderFileData>>): UseMutationOptions<AddFolderFileResponse, AddFolderFileError, Options<AddFolderFileData>> => {
+    const mutationOptions: UseMutationOptions<AddFolderFileResponse, AddFolderFileError, Options<AddFolderFileData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.addFolderFile({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Take a file out of a folder
+ */
+export const removeFolderFileMutation = (options?: Partial<Options<RemoveFolderFileData>>): UseMutationOptions<RemoveFolderFileResponse, RemoveFolderFileError, Options<RemoveFolderFileData>> => {
+    const mutationOptions: UseMutationOptions<RemoveFolderFileResponse, RemoveFolderFileError, Options<RemoveFolderFileData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.removeFolderFile({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getFolderFileDownloadUrlQueryKey = (options: Options<GetFolderFileDownloadUrlData>) => createQueryKey('getFolderFileDownloadUrl', options);
+
+/**
+ * A short-lived link to one file in a folder
+ *
+ * Counts as opening the folder for a student on the course.
+ */
+export const getFolderFileDownloadUrlOptions = (options: Options<GetFolderFileDownloadUrlData>) => queryOptions<GetFolderFileDownloadUrlResponse, GetFolderFileDownloadUrlError, GetFolderFileDownloadUrlResponse, ReturnType<typeof getFolderFileDownloadUrlQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.getFolderFileDownloadUrl({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getFolderFileDownloadUrlQueryKey(options)
 });
 
 export const listAssignmentsQueryKey = (options: Options<ListAssignmentsData>) => createQueryKey('listAssignments', options);
@@ -1720,6 +1936,1155 @@ export const listMyAssessmentResultsOptions = (options: Options<ListMyAssessment
     queryKey: listMyAssessmentResultsQueryKey(options)
 });
 
+export const getMyLearningProgressQueryKey = (options: Options<GetMyLearningProgressData>) => createQueryKey('getMyLearningProgress', options);
+
+/**
+ * How far the caller is through a course page
+ *
+ * Counts only items that have a completion rule and that the caller can open now, for the whole page and per section.
+ */
+export const getMyLearningProgressOptions = (options: Options<GetMyLearningProgressData>) => queryOptions<GetMyLearningProgressResponse, GetMyLearningProgressError, GetMyLearningProgressResponse, ReturnType<typeof getMyLearningProgressQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.getMyLearningProgress({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getMyLearningProgressQueryKey(options)
+});
+
+/**
+ * Tick an item as done, or untick it
+ *
+ * Only for a student on the course, and only on an item whose rule is the student’s own tick and which the student can open.
+ */
+export const markLearningItemDoneMutation = (options?: Partial<Options<MarkLearningItemDoneData>>): UseMutationOptions<MarkLearningItemDoneResponse, MarkLearningItemDoneError, Options<MarkLearningItemDoneData>> => {
+    const mutationOptions: UseMutationOptions<MarkLearningItemDoneResponse, MarkLearningItemDoneError, Options<MarkLearningItemDoneData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.markLearningItemDone({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listLearningCompletionsQueryKey = (options: Options<ListLearningCompletionsData>) => createQueryKey('listLearningCompletions', options);
+
+/**
+ * Which students have completed which items, a page of students at a time
+ *
+ * For whoever teaches the course or administers its offerings. Columns are every item with a completion rule, hidden ones included.
+ */
+export const listLearningCompletionsOptions = (options: Options<ListLearningCompletionsData>) => queryOptions<ListLearningCompletionsResponse, ListLearningCompletionsError, ListLearningCompletionsResponse, ReturnType<typeof listLearningCompletionsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listLearningCompletions({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listLearningCompletionsQueryKey(options)
+});
+
+export const listLearningCompletionsInfiniteQueryKey = (options: Options<ListLearningCompletionsData>): QueryKey<Options<ListLearningCompletionsData>> => createQueryKey('listLearningCompletions', options, true);
+
+/**
+ * Which students have completed which items, a page of students at a time
+ *
+ * For whoever teaches the course or administers its offerings. Columns are every item with a completion rule, hidden ones included.
+ */
+export const listLearningCompletionsInfiniteOptions = (options: Options<ListLearningCompletionsData>) => {
+    const opts = infiniteQueryOptions<ListLearningCompletionsResponse, ListLearningCompletionsError, InfiniteData<ListLearningCompletionsResponse>, QueryKey<Options<ListLearningCompletionsData>>, number | Pick<QueryKey<Options<ListLearningCompletionsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListLearningCompletionsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listLearningCompletions({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listLearningCompletionsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const listLearningItemSightQueryKey = (options: Options<ListLearningItemSightData>) => createQueryKey('listLearningItemSight', options);
+
+/**
+ * Which students can see a section or an item now, and why not the rest
+ *
+ * For whoever authors the course. Evaluated on the server clock for every enrolled student; a page of students at a time, with counts over all of them.
+ */
+export const listLearningItemSightOptions = (options: Options<ListLearningItemSightData>) => queryOptions<ListLearningItemSightResponse, ListLearningItemSightError, ListLearningItemSightResponse, ReturnType<typeof listLearningItemSightQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listLearningItemSight({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listLearningItemSightQueryKey(options)
+});
+
+export const listLearningItemSightInfiniteQueryKey = (options: Options<ListLearningItemSightData>): QueryKey<Options<ListLearningItemSightData>> => createQueryKey('listLearningItemSight', options, true);
+
+/**
+ * Which students can see a section or an item now, and why not the rest
+ *
+ * For whoever authors the course. Evaluated on the server clock for every enrolled student; a page of students at a time, with counts over all of them.
+ */
+export const listLearningItemSightInfiniteOptions = (options: Options<ListLearningItemSightData>) => {
+    const opts = infiniteQueryOptions<ListLearningItemSightResponse, ListLearningItemSightError, InfiniteData<ListLearningItemSightResponse>, QueryKey<Options<ListLearningItemSightData>>, number | Pick<QueryKey<Options<ListLearningItemSightData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListLearningItemSightData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listLearningItemSight({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listLearningItemSightInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const getLearningStudentViewQueryKey = (options: Options<GetLearningStudentViewData>) => createQueryKey('getLearningStudentView', options);
+
+/**
+ * The course page as a student sees it now, for whoever authors it
+ *
+ * Sections, materials, assignments and progress exactly as the student reads them, by the same evaluation. Read-only: nothing is recorded for the student. Refused to anyone who does not author the course; 404 for somebody not enrolled on it.
+ */
+export const getLearningStudentViewOptions = (options: Options<GetLearningStudentViewData>) => queryOptions<GetLearningStudentViewResponse, GetLearningStudentViewError, GetLearningStudentViewResponse, ReturnType<typeof getLearningStudentViewQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.getLearningStudentView({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getLearningStudentViewQueryKey(options)
+});
+
+export const listLearningStudentViewStudentsQueryKey = (options: Options<ListLearningStudentViewStudentsData>) => createQueryKey('listLearningStudentViewStudents', options);
+
+/**
+ * The students a course page can be viewed as, a page at a time
+ *
+ * Everyone enrolled on the offering, filtered by name or email. For authors.
+ */
+export const listLearningStudentViewStudentsOptions = (options: Options<ListLearningStudentViewStudentsData>) => queryOptions<ListLearningStudentViewStudentsResponse, ListLearningStudentViewStudentsError, ListLearningStudentViewStudentsResponse, ReturnType<typeof listLearningStudentViewStudentsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listLearningStudentViewStudents({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listLearningStudentViewStudentsQueryKey(options)
+});
+
+export const listLearningStudentViewStudentsInfiniteQueryKey = (options: Options<ListLearningStudentViewStudentsData>): QueryKey<Options<ListLearningStudentViewStudentsData>> => createQueryKey('listLearningStudentViewStudents', options, true);
+
+/**
+ * The students a course page can be viewed as, a page at a time
+ *
+ * Everyone enrolled on the offering, filtered by name or email. For authors.
+ */
+export const listLearningStudentViewStudentsInfiniteOptions = (options: Options<ListLearningStudentViewStudentsData>) => {
+    const opts = infiniteQueryOptions<ListLearningStudentViewStudentsResponse, ListLearningStudentViewStudentsError, InfiniteData<ListLearningStudentViewStudentsResponse>, QueryKey<Options<ListLearningStudentViewStudentsData>>, number | Pick<QueryKey<Options<ListLearningStudentViewStudentsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListLearningStudentViewStudentsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listLearningStudentViewStudents({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listLearningStudentViewStudentsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const listStudyGroupContentQueryKey = (options: Options<ListStudyGroupContentData>) => createQueryKey('listStudyGroupContent', options);
+
+/**
+ * The sections and items of the course page restricted to this group
+ *
+ * For whoever authors the course: everything only for this group, and everything with a condition naming it, in outline order, a page at a time, narrowed by title.
+ */
+export const listStudyGroupContentOptions = (options: Options<ListStudyGroupContentData>) => queryOptions<ListStudyGroupContentResponse, ListStudyGroupContentError, ListStudyGroupContentResponse, ReturnType<typeof listStudyGroupContentQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listStudyGroupContent({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listStudyGroupContentQueryKey(options)
+});
+
+export const listStudyGroupContentInfiniteQueryKey = (options: Options<ListStudyGroupContentData>): QueryKey<Options<ListStudyGroupContentData>> => createQueryKey('listStudyGroupContent', options, true);
+
+/**
+ * The sections and items of the course page restricted to this group
+ *
+ * For whoever authors the course: everything only for this group, and everything with a condition naming it, in outline order, a page at a time, narrowed by title.
+ */
+export const listStudyGroupContentInfiniteOptions = (options: Options<ListStudyGroupContentData>) => {
+    const opts = infiniteQueryOptions<ListStudyGroupContentResponse, ListStudyGroupContentError, InfiniteData<ListStudyGroupContentResponse>, QueryKey<Options<ListStudyGroupContentData>>, number | Pick<QueryKey<Options<ListStudyGroupContentData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListStudyGroupContentData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listStudyGroupContent({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listStudyGroupContentInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const listQuestionCategoriesQueryKey = (options: Options<ListQuestionCategoriesData>) => createQueryKey('listQuestionCategories', options);
+
+/**
+ * The categories of a course’s question bank, by name, a page at a time
+ *
+ * For the course’s authors only.
+ */
+export const listQuestionCategoriesOptions = (options: Options<ListQuestionCategoriesData>) => queryOptions<ListQuestionCategoriesResponse, ListQuestionCategoriesError, ListQuestionCategoriesResponse, ReturnType<typeof listQuestionCategoriesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listQuestionCategories({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listQuestionCategoriesQueryKey(options)
+});
+
+export const listQuestionCategoriesInfiniteQueryKey = (options: Options<ListQuestionCategoriesData>): QueryKey<Options<ListQuestionCategoriesData>> => createQueryKey('listQuestionCategories', options, true);
+
+/**
+ * The categories of a course’s question bank, by name, a page at a time
+ *
+ * For the course’s authors only.
+ */
+export const listQuestionCategoriesInfiniteOptions = (options: Options<ListQuestionCategoriesData>) => {
+    const opts = infiniteQueryOptions<ListQuestionCategoriesResponse, ListQuestionCategoriesError, InfiniteData<ListQuestionCategoriesResponse>, QueryKey<Options<ListQuestionCategoriesData>>, number | Pick<QueryKey<Options<ListQuestionCategoriesData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListQuestionCategoriesData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listQuestionCategories({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listQuestionCategoriesInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Open a category in the bank
+ */
+export const createQuestionCategoryMutation = (options?: Partial<Options<CreateQuestionCategoryData>>): UseMutationOptions<CreateQuestionCategoryResponse, CreateQuestionCategoryError, Options<CreateQuestionCategoryData>> => {
+    const mutationOptions: UseMutationOptions<CreateQuestionCategoryResponse, CreateQuestionCategoryError, Options<CreateQuestionCategoryData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.createQuestionCategory({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Remove an empty category that no quiz draws from
+ */
+export const removeQuestionCategoryMutation = (options?: Partial<Options<RemoveQuestionCategoryData>>): UseMutationOptions<RemoveQuestionCategoryResponse, RemoveQuestionCategoryError, Options<RemoveQuestionCategoryData>> => {
+    const mutationOptions: UseMutationOptions<RemoveQuestionCategoryResponse, RemoveQuestionCategoryError, Options<RemoveQuestionCategoryData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.removeQuestionCategory({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Rename a category
+ */
+export const renameQuestionCategoryMutation = (options?: Partial<Options<RenameQuestionCategoryData>>): UseMutationOptions<RenameQuestionCategoryResponse, RenameQuestionCategoryError, Options<RenameQuestionCategoryData>> => {
+    const mutationOptions: UseMutationOptions<RenameQuestionCategoryResponse, RenameQuestionCategoryError, Options<RenameQuestionCategoryData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.renameQuestionCategory({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listQuestionsQueryKey = (options: Options<ListQuestionsData>) => createQueryKey('listQuestions', options);
+
+/**
+ * The questions in a course’s bank, a page at a time
+ *
+ * For the course’s authors only. Filtered by category, type and the text of the latest version; no answer keys.
+ */
+export const listQuestionsOptions = (options: Options<ListQuestionsData>) => queryOptions<ListQuestionsResponse, ListQuestionsError, ListQuestionsResponse, ReturnType<typeof listQuestionsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listQuestions({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listQuestionsQueryKey(options)
+});
+
+export const listQuestionsInfiniteQueryKey = (options: Options<ListQuestionsData>): QueryKey<Options<ListQuestionsData>> => createQueryKey('listQuestions', options, true);
+
+/**
+ * The questions in a course’s bank, a page at a time
+ *
+ * For the course’s authors only. Filtered by category, type and the text of the latest version; no answer keys.
+ */
+export const listQuestionsInfiniteOptions = (options: Options<ListQuestionsData>) => {
+    const opts = infiniteQueryOptions<ListQuestionsResponse, ListQuestionsError, InfiniteData<ListQuestionsResponse>, QueryKey<Options<ListQuestionsData>>, number | Pick<QueryKey<Options<ListQuestionsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListQuestionsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listQuestions({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listQuestionsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Write a question into the bank
+ *
+ * Its answer key is checked against its type: a single choice has exactly one correct choice, a multiple choice at least one, both two to twenty; matching two to twenty pairs.
+ */
+export const createQuestionMutation = (options?: Partial<Options<CreateQuestionData>>): UseMutationOptions<CreateQuestionResponse, CreateQuestionError, Options<CreateQuestionData>> => {
+    const mutationOptions: UseMutationOptions<CreateQuestionResponse, CreateQuestionError, Options<CreateQuestionData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.createQuestion({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Remove a question no quiz holds
+ */
+export const removeQuestionMutation = (options?: Partial<Options<RemoveQuestionData>>): UseMutationOptions<RemoveQuestionResponse, RemoveQuestionError, Options<RemoveQuestionData>> => {
+    const mutationOptions: UseMutationOptions<RemoveQuestionResponse, RemoveQuestionError, Options<RemoveQuestionData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.removeQuestion({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getQuestionQueryKey = (options: Options<GetQuestionData>) => createQueryKey('getQuestion', options);
+
+/**
+ * The latest version of a question, with its answer key
+ */
+export const getQuestionOptions = (options: Options<GetQuestionData>) => queryOptions<GetQuestionResponse, GetQuestionError, GetQuestionResponse, ReturnType<typeof getQuestionQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.getQuestion({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getQuestionQueryKey(options)
+});
+
+/**
+ * Edit a question, which writes a new version of it
+ *
+ * Earlier versions are kept as they were. Moving it to another category alone writes no version. Its type cannot change.
+ */
+export const reviseQuestionMutation = (options?: Partial<Options<ReviseQuestionData>>): UseMutationOptions<ReviseQuestionResponse, ReviseQuestionError, Options<ReviseQuestionData>> => {
+    const mutationOptions: UseMutationOptions<ReviseQuestionResponse, ReviseQuestionError, Options<ReviseQuestionData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.reviseQuestion({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listQuestionVersionsQueryKey = (options: Options<ListQuestionVersionsData>) => createQueryKey('listQuestionVersions', options);
+
+/**
+ * Every version of a question, newest first
+ */
+export const listQuestionVersionsOptions = (options: Options<ListQuestionVersionsData>) => queryOptions<ListQuestionVersionsResponse, ListQuestionVersionsError, ListQuestionVersionsResponse, ReturnType<typeof listQuestionVersionsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listQuestionVersions({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listQuestionVersionsQueryKey(options)
+});
+
+export const listQuestionVersionsInfiniteQueryKey = (options: Options<ListQuestionVersionsData>): QueryKey<Options<ListQuestionVersionsData>> => createQueryKey('listQuestionVersions', options, true);
+
+/**
+ * Every version of a question, newest first
+ */
+export const listQuestionVersionsInfiniteOptions = (options: Options<ListQuestionVersionsData>) => {
+    const opts = infiniteQueryOptions<ListQuestionVersionsResponse, ListQuestionVersionsError, InfiniteData<ListQuestionVersionsResponse>, QueryKey<Options<ListQuestionVersionsData>>, number | Pick<QueryKey<Options<ListQuestionVersionsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListQuestionVersionsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listQuestionVersions({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listQuestionVersionsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const listQuizzesQueryKey = (options: Options<ListQuizzesData>) => createQueryKey('listQuizzes', options);
+
+/**
+ * The quizzes on a course page, in order
+ *
+ * Settings only: no question and no answer reaches anybody here. A student who may see only the title gets no settings.
+ */
+export const listQuizzesOptions = (options: Options<ListQuizzesData>) => queryOptions<ListQuizzesResponse, ListQuizzesError, ListQuizzesResponse, ReturnType<typeof listQuizzesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listQuizzes({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listQuizzesQueryKey(options)
+});
+
+/**
+ * Set a quiz: a window, a time limit, attempts and how they are graded
+ *
+ * Its close is its deadline. A gradebook column is opened alongside it, worth 10 points unless said otherwise.
+ */
+export const createQuizMutation = (options?: Partial<Options<CreateQuizData>>): UseMutationOptions<CreateQuizResponse, CreateQuizError, Options<CreateQuizData>> => {
+    const mutationOptions: UseMutationOptions<CreateQuizResponse, CreateQuizError, Options<CreateQuizData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.createQuiz({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Withdraw a quiz and its gradebook column
+ */
+export const removeQuizMutation = (options?: Partial<Options<RemoveQuizData>>): UseMutationOptions<RemoveQuizResponse, RemoveQuizError, Options<RemoveQuizData>> => {
+    const mutationOptions: UseMutationOptions<RemoveQuizResponse, RemoveQuizError, Options<RemoveQuizData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.removeQuiz({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getQuizQueryKey = (options: Options<GetQuizData>) => createQueryKey('getQuiz', options);
+
+/**
+ * One quiz, with its settings
+ */
+export const getQuizOptions = (options: Options<GetQuizData>) => queryOptions<GetQuizResponse, GetQuizError, GetQuizResponse, ReturnType<typeof getQuizQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.getQuiz({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getQuizQueryKey(options)
+});
+
+/**
+ * Change a quiz’s settings, its place or what it is worth
+ */
+export const updateQuizMutation = (options?: Partial<Options<UpdateQuizData>>): UseMutationOptions<UpdateQuizResponse, UpdateQuizError, Options<UpdateQuizData>> => {
+    const mutationOptions: UseMutationOptions<UpdateQuizResponse, UpdateQuizError, Options<UpdateQuizData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.updateQuiz({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listQuizSlotsQueryKey = (options: Options<ListQuizSlotsData>) => createQueryKey('listQuizSlots', options);
+
+/**
+ * The questions in a quiz, in order, a page at a time
+ *
+ * For the course’s authors only: a student never reads what a quiz asks here.
+ */
+export const listQuizSlotsOptions = (options: Options<ListQuizSlotsData>) => queryOptions<ListQuizSlotsResponse, ListQuizSlotsError, ListQuizSlotsResponse, ReturnType<typeof listQuizSlotsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listQuizSlots({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listQuizSlotsQueryKey(options)
+});
+
+export const listQuizSlotsInfiniteQueryKey = (options: Options<ListQuizSlotsData>): QueryKey<Options<ListQuizSlotsData>> => createQueryKey('listQuizSlots', options, true);
+
+/**
+ * The questions in a quiz, in order, a page at a time
+ *
+ * For the course’s authors only: a student never reads what a quiz asks here.
+ */
+export const listQuizSlotsInfiniteOptions = (options: Options<ListQuizSlotsData>) => {
+    const opts = infiniteQueryOptions<ListQuizSlotsResponse, ListQuizSlotsError, InfiniteData<ListQuizSlotsResponse>, QueryKey<Options<ListQuizSlotsData>>, number | Pick<QueryKey<Options<ListQuizSlotsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListQuizSlotsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listQuizSlots({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listQuizSlotsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Add questions from the bank by hand, or a number drawn at random from a category
+ */
+export const addQuizSlotsMutation = (options?: Partial<Options<AddQuizSlotsData>>): UseMutationOptions<AddQuizSlotsResponse, AddQuizSlotsError, Options<AddQuizSlotsData>> => {
+    const mutationOptions: UseMutationOptions<AddQuizSlotsResponse, AddQuizSlotsError, Options<AddQuizSlotsData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.addQuizSlots({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Take a question or a draw out
+ */
+export const removeQuizSlotMutation = (options?: Partial<Options<RemoveQuizSlotData>>): UseMutationOptions<RemoveQuizSlotResponse, RemoveQuizSlotError, Options<RemoveQuizSlotData>> => {
+    const mutationOptions: UseMutationOptions<RemoveQuizSlotResponse, RemoveQuizSlotError, Options<RemoveQuizSlotData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.removeQuizSlot({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Move a question in the quiz, change its mark or how many a draw picks
+ */
+export const updateQuizSlotMutation = (options?: Partial<Options<UpdateQuizSlotData>>): UseMutationOptions<UpdateQuizSlotResponse, UpdateQuizSlotError, Options<UpdateQuizSlotData>> => {
+    const mutationOptions: UseMutationOptions<UpdateQuizSlotResponse, UpdateQuizSlotError, Options<UpdateQuizSlotData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.updateQuizSlot({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listQuizAttemptsQueryKey = (options: Options<ListQuizAttemptsData>) => createQueryKey('listQuizAttempts', options);
+
+/**
+ * Every student’s attempts at a quiz, newest first, a page at a time
+ *
+ * For the course’s authors. Closes any attempt past its deadline first. `needsMarking=true` is the marking queue.
+ */
+export const listQuizAttemptsOptions = (options: Options<ListQuizAttemptsData>) => queryOptions<ListQuizAttemptsResponse, ListQuizAttemptsError, ListQuizAttemptsResponse, ReturnType<typeof listQuizAttemptsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listQuizAttempts({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listQuizAttemptsQueryKey(options)
+});
+
+export const listQuizAttemptsInfiniteQueryKey = (options: Options<ListQuizAttemptsData>): QueryKey<Options<ListQuizAttemptsData>> => createQueryKey('listQuizAttempts', options, true);
+
+/**
+ * Every student’s attempts at a quiz, newest first, a page at a time
+ *
+ * For the course’s authors. Closes any attempt past its deadline first. `needsMarking=true` is the marking queue.
+ */
+export const listQuizAttemptsInfiniteOptions = (options: Options<ListQuizAttemptsData>) => {
+    const opts = infiniteQueryOptions<ListQuizAttemptsResponse, ListQuizAttemptsError, InfiniteData<ListQuizAttemptsResponse>, QueryKey<Options<ListQuizAttemptsData>>, number | Pick<QueryKey<Options<ListQuizAttemptsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListQuizAttemptsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listQuizAttempts({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listQuizAttemptsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Start an attempt, or carry on with the one in progress
+ *
+ * The questions, random draws and shuffles are fixed now and kept for the attempt.
+ */
+export const startQuizAttemptMutation = (options?: Partial<Options<StartQuizAttemptData>>): UseMutationOptions<StartQuizAttemptResponse, StartQuizAttemptError, Options<StartQuizAttemptData>> => {
+    const mutationOptions: UseMutationOptions<StartQuizAttemptResponse, StartQuizAttemptError, Options<StartQuizAttemptData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.startQuizAttempt({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listMyQuizAttemptsQueryKey = (options: Options<ListMyQuizAttemptsData>) => createQueryKey('listMyQuizAttempts', options);
+
+/**
+ * The caller’s own attempts at a quiz, and whether another may start
+ *
+ * States, and the mark and whether it can be reviewed only as far as the quiz’s review options allow now.
+ */
+export const listMyQuizAttemptsOptions = (options: Options<ListMyQuizAttemptsData>) => queryOptions<ListMyQuizAttemptsResponse, ListMyQuizAttemptsError, ListMyQuizAttemptsResponse, ReturnType<typeof listMyQuizAttemptsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listMyQuizAttempts({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyQuizAttemptsQueryKey(options)
+});
+
+export const listMyQuizAttemptsInfiniteQueryKey = (options: Options<ListMyQuizAttemptsData>): QueryKey<Options<ListMyQuizAttemptsData>> => createQueryKey('listMyQuizAttempts', options, true);
+
+/**
+ * The caller’s own attempts at a quiz, and whether another may start
+ *
+ * States, and the mark and whether it can be reviewed only as far as the quiz’s review options allow now.
+ */
+export const listMyQuizAttemptsInfiniteOptions = (options: Options<ListMyQuizAttemptsData>) => {
+    const opts = infiniteQueryOptions<ListMyQuizAttemptsResponse, ListMyQuizAttemptsError, InfiniteData<ListMyQuizAttemptsResponse>, QueryKey<Options<ListMyQuizAttemptsData>>, number | Pick<QueryKey<Options<ListMyQuizAttemptsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListMyQuizAttemptsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listMyQuizAttempts({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listMyQuizAttemptsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const getQuizAttemptQueryKey = (options: Options<GetQuizAttemptData>) => createQueryKey('getQuizAttempt', options);
+
+/**
+ * One of the caller’s attempts, with its questions and saved answers while it runs
+ */
+export const getQuizAttemptOptions = (options: Options<GetQuizAttemptData>) => queryOptions<GetQuizAttemptResponse, GetQuizAttemptError, GetQuizAttemptResponse, ReturnType<typeof getQuizAttemptQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.getQuizAttempt({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getQuizAttemptQueryKey(options)
+});
+
+export const reviewQuizAttemptQueryKey = (options: Options<ReviewQuizAttemptData>) => createQueryKey('reviewQuizAttempt', options);
+
+/**
+ * One of the caller’s closed attempts, as much as the quiz’s review options show now
+ *
+ * Each option is shown immediately, once the quiz has closed, or never, on the server’s clock. Nothing kept back is sent. 409 while the attempt runs.
+ */
+export const reviewQuizAttemptOptions = (options: Options<ReviewQuizAttemptData>) => queryOptions<ReviewQuizAttemptResponse, ReviewQuizAttemptError, ReviewQuizAttemptResponse, ReturnType<typeof reviewQuizAttemptQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.reviewQuizAttempt({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: reviewQuizAttemptQueryKey(options)
+});
+
+/**
+ * Save the answer to one question; the last one saved stands
+ *
+ * Refused with 409 once the attempt has closed, on the server’s clock.
+ */
+export const saveQuizAnswerMutation = (options?: Partial<Options<SaveQuizAnswerData>>): UseMutationOptions<SaveQuizAnswerResponse, SaveQuizAnswerError, Options<SaveQuizAnswerData>> => {
+    const mutationOptions: UseMutationOptions<SaveQuizAnswerResponse, SaveQuizAnswerError, Options<SaveQuizAnswerData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.saveQuizAnswer({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Hand the attempt in; it is marked straight away
+ *
+ * Submitting a closed attempt answers it as it closed.
+ */
+export const submitQuizAttemptMutation = (options?: Partial<Options<SubmitQuizAttemptData>>): UseMutationOptions<SubmitQuizAttemptResponse, SubmitQuizAttemptError, Options<SubmitQuizAttemptData>> => {
+    const mutationOptions: UseMutationOptions<SubmitQuizAttemptResponse, SubmitQuizAttemptError, Options<SubmitQuizAttemptData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.submitQuizAttempt({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const getQuizAttemptForMarkingQueryKey = (options: Options<GetQuizAttemptForMarkingData>) => createQueryKey('getQuizAttemptForMarking', options);
+
+/**
+ * A student’s attempt with every answer, key and mark, for the course’s authors
+ */
+export const getQuizAttemptForMarkingOptions = (options: Options<GetQuizAttemptForMarkingData>) => queryOptions<GetQuizAttemptForMarkingResponse, GetQuizAttemptForMarkingError, GetQuizAttemptForMarkingResponse, ReturnType<typeof getQuizAttemptForMarkingQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.getQuizAttemptForMarking({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getQuizAttemptForMarkingQueryKey(options)
+});
+
+/**
+ * Mark an essay, or change an automatic mark with a reason
+ *
+ * The attempt’s total, the student’s quiz grade, completion and what unlocks after it follow. The marker and the time are kept.
+ */
+export const markQuizQuestionMutation = (options?: Partial<Options<MarkQuizQuestionData>>): UseMutationOptions<MarkQuizQuestionResponse, MarkQuizQuestionError, Options<MarkQuizQuestionData>> => {
+    const mutationOptions: UseMutationOptions<MarkQuizQuestionResponse, MarkQuizQuestionError, Options<MarkQuizQuestionData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.markQuizQuestion({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const previewQuizRegradeQueryKey = (options: Options<PreviewQuizRegradeData>) => createQueryKey('previewQuizRegrade', options);
+
+/**
+ * What regrading against the latest versions of the questions would change
+ */
+export const previewQuizRegradeOptions = (options: Options<PreviewQuizRegradeData>) => queryOptions<PreviewQuizRegradeResponse, PreviewQuizRegradeError, PreviewQuizRegradeResponse, ReturnType<typeof previewQuizRegradeQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.previewQuizRegrade({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: previewQuizRegradeQueryKey(options)
+});
+
+/**
+ * Move closed attempts to the latest versions of their questions and mark them again
+ *
+ * A teacher’s mark on a question stands. Running it again changes nothing.
+ */
+export const regradeQuizMutation = (options?: Partial<Options<RegradeQuizData>>): UseMutationOptions<RegradeQuizResponse, RegradeQuizError, Options<RegradeQuizData>> => {
+    const mutationOptions: UseMutationOptions<RegradeQuizResponse, RegradeQuizError, Options<RegradeQuizData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.regradeQuiz({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listQuizQuestionResultsQueryKey = (options: Options<ListQuizQuestionResultsData>) => createQueryKey('listQuizQuestionResults', options);
+
+/**
+ * How each question went across closed attempts, a page of questions at a time
+ */
+export const listQuizQuestionResultsOptions = (options: Options<ListQuizQuestionResultsData>) => queryOptions<ListQuizQuestionResultsResponse, ListQuizQuestionResultsError, ListQuizQuestionResultsResponse, ReturnType<typeof listQuizQuestionResultsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listQuizQuestionResults({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listQuizQuestionResultsQueryKey(options)
+});
+
+export const listQuizQuestionResultsInfiniteQueryKey = (options: Options<ListQuizQuestionResultsData>): QueryKey<Options<ListQuizQuestionResultsData>> => createQueryKey('listQuizQuestionResults', options, true);
+
+/**
+ * How each question went across closed attempts, a page of questions at a time
+ */
+export const listQuizQuestionResultsInfiniteOptions = (options: Options<ListQuizQuestionResultsData>) => {
+    const opts = infiniteQueryOptions<ListQuizQuestionResultsResponse, ListQuizQuestionResultsError, InfiniteData<ListQuizQuestionResultsResponse>, QueryKey<Options<ListQuizQuestionResultsData>>, number | Pick<QueryKey<Options<ListQuizQuestionResultsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListQuizQuestionResultsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listQuizQuestionResults({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listQuizQuestionResultsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const listCourseImportSourcesQueryKey = (options: Options<ListCourseImportSourcesData>) => createQueryKey('listCourseImportSources', options);
+
+/**
+ * The other course pages an author may copy into this one, a page at a time
+ *
+ * Pages of offerings the caller teaches (every page of the institution for whoever administers offerings), other offerings of the same course first, then the latest term first. Filtered by page name, course code or title, or term.
+ */
+export const listCourseImportSourcesOptions = (options: Options<ListCourseImportSourcesData>) => queryOptions<ListCourseImportSourcesResponse, ListCourseImportSourcesError, ListCourseImportSourcesResponse, ReturnType<typeof listCourseImportSourcesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listCourseImportSources({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listCourseImportSourcesQueryKey(options)
+});
+
+export const listCourseImportSourcesInfiniteQueryKey = (options: Options<ListCourseImportSourcesData>): QueryKey<Options<ListCourseImportSourcesData>> => createQueryKey('listCourseImportSources', options, true);
+
+/**
+ * The other course pages an author may copy into this one, a page at a time
+ *
+ * Pages of offerings the caller teaches (every page of the institution for whoever administers offerings), other offerings of the same course first, then the latest term first. Filtered by page name, course code or title, or term.
+ */
+export const listCourseImportSourcesInfiniteOptions = (options: Options<ListCourseImportSourcesData>) => {
+    const opts = infiniteQueryOptions<ListCourseImportSourcesResponse, ListCourseImportSourcesError, InfiniteData<ListCourseImportSourcesResponse>, QueryKey<Options<ListCourseImportSourcesData>>, number | Pick<QueryKey<Options<ListCourseImportSourcesData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListCourseImportSourcesData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    page: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listCourseImportSources({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listCourseImportSourcesInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const previewCourseImportQueryKey = (options: Options<PreviewCourseImportData>) => createQueryKey('previewCourseImport', options);
+
+/**
+ * What importing another course page would copy, and how far its dates move
+ *
+ * Exactly the report the import would give, with nothing written. For whoever authors both pages.
+ */
+export const previewCourseImportOptions = (options: Options<PreviewCourseImportData>) => queryOptions<PreviewCourseImportResponse, PreviewCourseImportError, PreviewCourseImportResponse, ReturnType<typeof previewCourseImportQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.previewCourseImport({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: previewCourseImportQueryKey(options)
+});
+
+/**
+ * Copy another course page’s outline into this one
+ *
+ * Sections, materials and their files, assignments, quizzes and the question bank are copied after what this page already holds, with every date moved by the gap between the two terms’ starts. Nothing a student did is copied. For whoever authors both pages.
+ */
+export const importCourseMutation = (options?: Partial<Options<ImportCourseData>>): UseMutationOptions<ImportCourseResponse, ImportCourseError, Options<ImportCourseData>> => {
+    const mutationOptions: UseMutationOptions<ImportCourseResponse, ImportCourseError, Options<ImportCourseData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Learning.importCourse({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 /**
  * Ask for a demonstration of the platform
  */
@@ -1727,6 +3092,192 @@ export const createDemoRequestMutation = (options?: Partial<Options<CreateDemoRe
     const mutationOptions: UseMutationOptions<CreateDemoRequestResponse, CreateDemoRequestError, Options<CreateDemoRequestData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await Marketing.createDemoRequest({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listMyTasksQueryKey = (options: Options<ListMyTasksData>) => createQueryKey('listMyTasks', options);
+
+/**
+ * The current user’s own tasks, soonest due first, a page at a time
+ */
+export const listMyTasksOptions = (options: Options<ListMyTasksData>) => queryOptions<ListMyTasksResponse, ListMyTasksError, ListMyTasksResponse, ReturnType<typeof listMyTasksQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Schedule.listMyTasks({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyTasksQueryKey(options)
+});
+
+export const listMyTasksInfiniteQueryKey = (options: Options<ListMyTasksData>): QueryKey<Options<ListMyTasksData>> => createQueryKey('listMyTasks', options, true);
+
+/**
+ * The current user’s own tasks, soonest due first, a page at a time
+ */
+export const listMyTasksInfiniteOptions = (options: Options<ListMyTasksData>) => {
+    const opts = infiniteQueryOptions<ListMyTasksResponse, ListMyTasksError, InfiniteData<ListMyTasksResponse>, QueryKey<Options<ListMyTasksData>>, string | Pick<QueryKey<Options<ListMyTasksData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListMyTasksData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    cursor: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Schedule.listMyTasks({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listMyTasksInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Add a task to the current user’s planner
+ */
+export const createMyTaskMutation = (options?: Partial<Options<CreateMyTaskData>>): UseMutationOptions<CreateMyTaskResponse, CreateMyTaskError, Options<CreateMyTaskData>> => {
+    const mutationOptions: UseMutationOptions<CreateMyTaskResponse, CreateMyTaskError, Options<CreateMyTaskData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Schedule.createMyTask({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listMyDueTasksQueryKey = (options: Options<ListMyDueTasksData>) => createQueryKey('listMyDueTasks', options);
+
+/**
+ * The current user’s open tasks falling due in a date range
+ */
+export const listMyDueTasksOptions = (options: Options<ListMyDueTasksData>) => queryOptions<ListMyDueTasksResponse, ListMyDueTasksError, ListMyDueTasksResponse, ReturnType<typeof listMyDueTasksQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Schedule.listMyDueTasks({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyDueTasksQueryKey(options)
+});
+
+/**
+ * Remove one of the current user’s tasks
+ */
+export const deleteMyTaskMutation = (options?: Partial<Options<DeleteMyTaskData>>): UseMutationOptions<DeleteMyTaskResponse, DeleteMyTaskError, Options<DeleteMyTaskData>> => {
+    const mutationOptions: UseMutationOptions<DeleteMyTaskResponse, DeleteMyTaskError, Options<DeleteMyTaskData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Schedule.deleteMyTask({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Edit, complete or reopen one of the current user’s tasks
+ */
+export const updateMyTaskMutation = (options?: Partial<Options<UpdateMyTaskData>>): UseMutationOptions<UpdateMyTaskResponse, UpdateMyTaskError, Options<UpdateMyTaskData>> => {
+    const mutationOptions: UseMutationOptions<UpdateMyTaskResponse, UpdateMyTaskError, Options<UpdateMyTaskData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Schedule.updateMyTask({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const listMyPersonalEventsQueryKey = (options: Options<ListMyPersonalEventsData>) => createQueryKey('listMyPersonalEvents', options);
+
+/**
+ * The current user’s own events overlapping a date range
+ */
+export const listMyPersonalEventsOptions = (options: Options<ListMyPersonalEventsData>) => queryOptions<ListMyPersonalEventsResponse, ListMyPersonalEventsError, ListMyPersonalEventsResponse, ReturnType<typeof listMyPersonalEventsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Schedule.listMyPersonalEvents({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listMyPersonalEventsQueryKey(options)
+});
+
+/**
+ * Add an event to the current user’s planner
+ */
+export const createMyPersonalEventMutation = (options?: Partial<Options<CreateMyPersonalEventData>>): UseMutationOptions<CreateMyPersonalEventResponse, CreateMyPersonalEventError, Options<CreateMyPersonalEventData>> => {
+    const mutationOptions: UseMutationOptions<CreateMyPersonalEventResponse, CreateMyPersonalEventError, Options<CreateMyPersonalEventData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Schedule.createMyPersonalEvent({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Remove one of the current user’s events
+ */
+export const deleteMyPersonalEventMutation = (options?: Partial<Options<DeleteMyPersonalEventData>>): UseMutationOptions<DeleteMyPersonalEventResponse, DeleteMyPersonalEventError, Options<DeleteMyPersonalEventData>> => {
+    const mutationOptions: UseMutationOptions<DeleteMyPersonalEventResponse, DeleteMyPersonalEventError, Options<DeleteMyPersonalEventData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Schedule.deleteMyPersonalEvent({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+/**
+ * Edit or move one of the current user’s events
+ */
+export const updateMyPersonalEventMutation = (options?: Partial<Options<UpdateMyPersonalEventData>>): UseMutationOptions<UpdateMyPersonalEventResponse, UpdateMyPersonalEventError, Options<UpdateMyPersonalEventData>> => {
+    const mutationOptions: UseMutationOptions<UpdateMyPersonalEventResponse, UpdateMyPersonalEventError, Options<UpdateMyPersonalEventData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await Schedule.updateMyPersonalEvent({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -2083,6 +3634,8 @@ export const listProgramMembersQueryKey = (options: Options<ListProgramMembersDa
 
 /**
  * Who is on this programme, and where they stand
+ *
+ * A list of named students with their addresses, so it needs the people-directory permission rather than `program:read`, which every student holds.
  */
 export const listProgramMembersOptions = (options: Options<ListProgramMembersData>) => queryOptions<ListProgramMembersResponse, ListProgramMembersError, ListProgramMembersResponse, ReturnType<typeof listProgramMembersQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -2697,6 +4250,24 @@ export const issueMyCalendarFeedMutation = (options?: Partial<Options<IssueMyCal
     return mutationOptions;
 };
 
+export const downloadMyCalendarEntryQueryKey = (options: Options<DownloadMyCalendarEntryData>) => createQueryKey('downloadMyCalendarEntry', options);
+
+/**
+ * Download one class, exam or deadline of the current user as an iCalendar file
+ */
+export const downloadMyCalendarEntryOptions = (options: Options<DownloadMyCalendarEntryData>) => queryOptions<DownloadMyCalendarEntryResponse, DownloadMyCalendarEntryError, DownloadMyCalendarEntryResponse, ReturnType<typeof downloadMyCalendarEntryQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Schedule.downloadMyCalendarEntry({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: downloadMyCalendarEntryQueryKey(options)
+});
+
 export const getCalendarFeedQueryKey = (options: Options<GetCalendarFeedData>) => createQueryKey('getCalendarFeed', options);
 
 /**
@@ -2718,7 +4289,7 @@ export const getCalendarFeedOptions = (options: Options<GetCalendarFeedData>) =>
 export const listDiscussionThreadsQueryKey = (options: Options<ListDiscussionThreadsData>) => createQueryKey('listDiscussionThreads', options);
 
 /**
- * The threads of a course’s discussion, most recently active first
+ * The threads of a course’s discussion, most recently active first, a page at a time
  */
 export const listDiscussionThreadsOptions = (options: Options<ListDiscussionThreadsData>) => queryOptions<ListDiscussionThreadsResponse, ListDiscussionThreadsError, ListDiscussionThreadsResponse, ReturnType<typeof listDiscussionThreadsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -2732,6 +4303,36 @@ export const listDiscussionThreadsOptions = (options: Options<ListDiscussionThre
     },
     queryKey: listDiscussionThreadsQueryKey(options)
 });
+
+export const listDiscussionThreadsInfiniteQueryKey = (options: Options<ListDiscussionThreadsData>): QueryKey<Options<ListDiscussionThreadsData>> => createQueryKey('listDiscussionThreads', options, true);
+
+/**
+ * The threads of a course’s discussion, most recently active first, a page at a time
+ */
+export const listDiscussionThreadsInfiniteOptions = (options: Options<ListDiscussionThreadsData>) => {
+    const opts = infiniteQueryOptions<ListDiscussionThreadsResponse, ListDiscussionThreadsError, InfiniteData<ListDiscussionThreadsResponse>, QueryKey<Options<ListDiscussionThreadsData>>, string | Pick<QueryKey<Options<ListDiscussionThreadsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListDiscussionThreadsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    cursor: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listDiscussionThreads({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listDiscussionThreadsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
 
 /**
  * Start a thread
@@ -2790,7 +4391,7 @@ export const getDiscussionAttachmentDownloadUrlOptions = (options: Options<GetDi
 export const getDiscussionThreadQueryKey = (options: Options<GetDiscussionThreadData>) => createQueryKey('getDiscussionThread', options);
 
 /**
- * A thread with its posts
+ * A thread, without its posts
  */
 export const getDiscussionThreadOptions = (options: Options<GetDiscussionThreadData>) => queryOptions<GetDiscussionThreadResponse, GetDiscussionThreadError, GetDiscussionThreadResponse, ReturnType<typeof getDiscussionThreadQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
@@ -2822,8 +4423,56 @@ export const renameDiscussionThreadMutation = (options?: Partial<Options<RenameD
     return mutationOptions;
 };
 
+export const listDiscussionPostsQueryKey = (options: Options<ListDiscussionPostsData>) => createQueryKey('listDiscussionPosts', options);
+
 /**
- * Reply in a thread
+ * The top-level posts of a thread, oldest first, each with its reply count
+ */
+export const listDiscussionPostsOptions = (options: Options<ListDiscussionPostsData>) => queryOptions<ListDiscussionPostsResponse, ListDiscussionPostsError, ListDiscussionPostsResponse, ReturnType<typeof listDiscussionPostsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listDiscussionPosts({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listDiscussionPostsQueryKey(options)
+});
+
+export const listDiscussionPostsInfiniteQueryKey = (options: Options<ListDiscussionPostsData>): QueryKey<Options<ListDiscussionPostsData>> => createQueryKey('listDiscussionPosts', options, true);
+
+/**
+ * The top-level posts of a thread, oldest first, each with its reply count
+ */
+export const listDiscussionPostsInfiniteOptions = (options: Options<ListDiscussionPostsData>) => {
+    const opts = infiniteQueryOptions<ListDiscussionPostsResponse, ListDiscussionPostsError, InfiniteData<ListDiscussionPostsResponse>, QueryKey<Options<ListDiscussionPostsData>>, string | Pick<QueryKey<Options<ListDiscussionPostsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListDiscussionPostsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    cursor: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listDiscussionPosts({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listDiscussionPostsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Post in a thread, or answer a post in it
  */
 export const replyToDiscussionThreadMutation = (options?: Partial<Options<ReplyToDiscussionThreadData>>): UseMutationOptions<ReplyToDiscussionThreadResponse, ReplyToDiscussionThreadError, Options<ReplyToDiscussionThreadData>> => {
     const mutationOptions: UseMutationOptions<ReplyToDiscussionThreadResponse, ReplyToDiscussionThreadError, Options<ReplyToDiscussionThreadData>> = {
@@ -2837,6 +4486,54 @@ export const replyToDiscussionThreadMutation = (options?: Partial<Options<ReplyT
         }
     };
     return mutationOptions;
+};
+
+export const listDiscussionRepliesQueryKey = (options: Options<ListDiscussionRepliesData>) => createQueryKey('listDiscussionReplies', options);
+
+/**
+ * The replies gathered under a top-level post, oldest first
+ */
+export const listDiscussionRepliesOptions = (options: Options<ListDiscussionRepliesData>) => queryOptions<ListDiscussionRepliesResponse, ListDiscussionRepliesError, ListDiscussionRepliesResponse, ReturnType<typeof listDiscussionRepliesQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Learning.listDiscussionReplies({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listDiscussionRepliesQueryKey(options)
+});
+
+export const listDiscussionRepliesInfiniteQueryKey = (options: Options<ListDiscussionRepliesData>): QueryKey<Options<ListDiscussionRepliesData>> => createQueryKey('listDiscussionReplies', options, true);
+
+/**
+ * The replies gathered under a top-level post, oldest first
+ */
+export const listDiscussionRepliesInfiniteOptions = (options: Options<ListDiscussionRepliesData>) => {
+    const opts = infiniteQueryOptions<ListDiscussionRepliesResponse, ListDiscussionRepliesError, InfiniteData<ListDiscussionRepliesResponse>, QueryKey<Options<ListDiscussionRepliesData>>, string | Pick<QueryKey<Options<ListDiscussionRepliesData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListDiscussionRepliesData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    cursor: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Learning.listDiscussionReplies({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listDiscussionRepliesInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
 };
 
 /**
@@ -2928,6 +4625,74 @@ export const searchOptions = (options: Options<SearchData>) => queryOptions<Sear
     },
     queryKey: searchQueryKey(options)
 });
+
+export const getTeacherProfileQueryKey = (options: Options<GetTeacherProfileData>) => createQueryKey('getTeacherProfile', options);
+
+/**
+ * Who a teacher of this institution is and where they work
+ *
+ * Answers 404 for anybody without a teaching assignment here, so it cannot be used to look up accounts that are not staff.
+ */
+export const getTeacherProfileOptions = (options: Options<GetTeacherProfileData>) => queryOptions<GetTeacherProfileResponse, GetTeacherProfileError, GetTeacherProfileResponse, ReturnType<typeof getTeacherProfileQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Teachers.getTeacherProfile({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: getTeacherProfileQueryKey(options)
+});
+
+export const listTeacherOfferingsQueryKey = (options: Options<ListTeacherOfferingsData>) => createQueryKey('listTeacherOfferings', options);
+
+/**
+ * The courses a teacher teaches, newest term first, a page at a time
+ */
+export const listTeacherOfferingsOptions = (options: Options<ListTeacherOfferingsData>) => queryOptions<ListTeacherOfferingsResponse, ListTeacherOfferingsError, ListTeacherOfferingsResponse, ReturnType<typeof listTeacherOfferingsQueryKey>>({
+    queryFn: async ({ queryKey, signal }) => {
+        const { data } = await Teachers.listTeacherOfferings({
+            ...options,
+            ...queryKey[0],
+            signal,
+            throwOnError: true
+        });
+        return data;
+    },
+    queryKey: listTeacherOfferingsQueryKey(options)
+});
+
+export const listTeacherOfferingsInfiniteQueryKey = (options: Options<ListTeacherOfferingsData>): QueryKey<Options<ListTeacherOfferingsData>> => createQueryKey('listTeacherOfferings', options, true);
+
+/**
+ * The courses a teacher teaches, newest term first, a page at a time
+ */
+export const listTeacherOfferingsInfiniteOptions = (options: Options<ListTeacherOfferingsData>) => {
+    const opts = infiniteQueryOptions<ListTeacherOfferingsResponse, ListTeacherOfferingsError, InfiniteData<ListTeacherOfferingsResponse>, QueryKey<Options<ListTeacherOfferingsData>>, string | Pick<QueryKey<Options<ListTeacherOfferingsData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+    // @ts-ignore
+    {
+        queryFn: async ({ pageParam, queryKey, signal }) => {
+            // @ts-ignore
+            const page: Pick<QueryKey<Options<ListTeacherOfferingsData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+                query: {
+                    cursor: pageParam
+                }
+            };
+            const params = createInfiniteParams(queryKey, page);
+            const { data } = await Teachers.listTeacherOfferings({
+                ...options,
+                ...params,
+                signal,
+                throwOnError: true
+            });
+            return data;
+        },
+        queryKey: listTeacherOfferingsInfiniteQueryKey(options)
+    });
+    return opts as Omit<typeof opts, 'initialData'>;
+};
 
 export const getCaptchaStateQueryKey = (options?: Options<GetCaptchaStateData>) => createQueryKey('getCaptchaState', options);
 
